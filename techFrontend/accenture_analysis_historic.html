@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta content="width=device-width, initial-scale=1.0" name="viewport">
+        <meta content="ie=edge" http-equiv="X-UA-Compatible">
+
+        <title>Tech Advisory Platform</title>
+        <link href="./assets/vendors/core/core.css" rel="stylesheet">
+        <link rel="stylesheet" href="./assets/vendors/select2/select2.min.css">
+        <link href="./assets/fonts/feather-font/css/iconfont.css" rel="stylesheet">
+        <link href="./assets/vendors/dropzone/dropzone.min.css" rel="stylesheet">
+        <link href="./assets/css/techadvisory/style.css" rel="stylesheet">
+        <link href="./assets/css/techadvisory/extra.css" rel="stylesheet">
+    </head>
+
+    <body>
+        <div class="main-wrapper">
+            <div class="horizontal-menu">
+                <nav class="navbar top-navbar">
+                    <div class="container">
+                        <div class="navbar-content">
+                            <a class="navbar-brand" href="./accenture_home.html"><img src="./assets/images/techadvisory-logo.png" style="max-height: 37px;"></a>
+
+                            <form class="search-form">
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <div class="input-group-text">
+                                            <i data-feather="search"></i>
+                                        </div>
+                                    </div>
+                                    <input class="form-control" id="navbarForm" placeholder="Search here..." type="text">
+                                </div>
+                            </form>
+
+
+                            <ul class="navbar-nav">
+                                
+
+
+                                <li class="nav-item dropdown nav-profile">
+                                    <a aria-expanded="false" aria-haspopup="true" class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" id="profileDropdown" role="button"><img alt="profile" src="./assets/images/user.png"></a>
+
+                                    <div aria-labelledby="profileDropdown" class="dropdown-menu">
+                                        <div class="dropdown-header d-flex flex-column align-items-center">
+                                            <div class="info text-center">
+                                                <p class="name font-weight-bold mb-0">Accenture Name</p>
+                                            </div>
+                                        </div>
+                                        <div class="dropdown-body">
+                                            <ul class="profile-nav p-0 pt-3">
+                                                <li class="nav-item">
+                                                    <a href="./login_accenture.html" class="nav-link">
+                                                        <i data-feather="log-out"></i>
+                                                        <span>Log Out</span>
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </li>
+                            </ul>
+                            <button class="navbar-toggler navbar-toggler-right d-lg-none align-self-center" data-toggle="horizontal-menu-toggle" type="button"><i data-feather="menu"></i></button>
+                        </div>
+                    </div>
+                </nav>
+
+
+                <nav class="bottom-navbar">
+                    <div class="container">
+                        <ul class="nav page-navigation">
+                            <li class="nav-item">
+                                <a class="nav-link" href="accenture_home.html">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-box link-icon"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path><polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline><line x1="12" y1="22.08" x2="12" y2="12"></line></svg>
+                                    <span class="menu-title">Home</span>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="#" class="nav-link">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-book link-icon"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path></svg>
+                                    <span class="menu-title">Projects</span>
+                                    <i class="link-arrow"></i>
+                                </a>
+                                <div class="submenu">
+                                    <ul class="submenu-item">
+                                        <li class="category-heading">Projects</li>
+                                        <li class="nav-item"><a class="nav-link" href="./accenture_home.html#preparation_phase">Preparation Phase</a></li>
+                                        <li class="nav-item"><a class="nav-link" href="./accenture_home.html#open_projects">Open Projects</a></li>
+                                        <li class="nav-item"><a class="nav-link" href="./accenture_home.html#closed_projects">Closed Projects</a></li>
+
+                                    </ul>
+                                </div>
+                            </li>
+
+
+                            <li class="nav-item">
+                                <a href="#" class="nav-link active">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-pie-chart link-icon"><path d="M21.21 15.89A10 10 0 1 1 8 2.83"></path><path d="M22 12A10 10 0 0 0 12 2v10z"></path></svg>
+                                    <span class="menu-title">Benchmark & Analytics</span>
+                                    <i class="link-arrow"></i>
+                                </a>
+                                <div class="submenu">
+                                    <ul class="submenu-item">
+                                        <li class="category-heading">Benchmark & Analytics</li>
+                                        <li class="nav-item"><a class="nav-link" href="accenture_analysis_vendor.html">By Vendor</a></li>
+                                        <li class="nav-item"><a class="nav-link" href="accenture_analysis_client.html">By Client</a></li>
+                                        <li class="nav-item"><a class="nav-link" href="accenture_analysis_historic.html">Historical</a></li>
+                                        <li class="nav-item"><a class="nav-link" href="accenture_analysis_other.html">Other queries</a></li>
+                                    </ul>
+                                </div>
+                            </li>
+
+
+
+
+
+
+                        </ul>
+                    </div>
+                </nav>
+            </div>
+
+
+            <div class="page-wrapper">
+                <div class="page-content">
+
+                    <div class="d-flex justify-content-between align-items-center flex-wrap grid-margin">
+                        <div>
+                            <h2>Accenture's <span class="badge badge-primary">Tech Advisory Platform</span></h2>
+                        </div>
+                    </div>
+
+
+
+                    <div class="row">
+                        <div class="col-12 col-xl-12 stretch-card">
+                            <div class="card">
+                                <div class="card-body">
+                                    <div style="float: left;">
+                                        <h3>Global Analysis & Analytics</h3>
+                                    </div>
+                                    <br><br>
+                                    <div class="welcome_text welcome_box" style="clear: both; margin-top: 20px;">
+                                        <div class="media d-block d-sm-flex">
+                                            <div class="media-body" style="padding: 20px;">
+                                                The first phase of the process is ipsum dolor sit amet, consectetur adipiscing elit. Donec aliquam ornare sapien, ut dictum nunc pharetra a. Phasellus vehicula suscipit mauris, et aliquet urna. Fusce sed ipsum eu nunc pellentesque luctus. ipsum dolor
+                                                sit amet, consectetur adipiscing elit. Donec aliquam ornare sapien, ut dictum nunc pharetra a.
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <br><br>
+
+
+                    <div class="row">
+                        <div class="col-lg-12 grid-margin stretch-card">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h3>Historical Benchmarking</h3>
+                                    <p class="welcome_text extra-top-15px">In order to start using the Tech Advisory Platform, you'll need to follow some steps to complete your profile and set up your first project. Please check below the timeline and click "Let's start" when you are ready.</p>
+                                    <br>
+                                    <br>
+                                    <div class="row">
+                                        <div class="col-xl-12 grid-margin stretch-card">
+                                            <div class="card">
+                                                <div class="card-body">
+                                                    <h4>TOTAL</h4>
+                                                    <br><br>
+                                                    <canvas id="chartjsLine1"></canvas>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                    <div class="row">
+                                        <div class="col-xl-12 grid-margin stretch-card">
+                                            <div class="card">
+                                                <div class="card-body">
+                                                    <h4>BY PRACTICE</h4>
+                                                    <br><br>
+                                                    <canvas id="chartjsLine2"></canvas>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                    <div class="row">
+                                        <div class="col-xl-12 grid-margin stretch-card">
+                                            <div class="card">
+                                                <div class="card-body">
+                                                    <h4>BY REGION</h4>
+                                                    <br><br>
+                                                    <canvas id="chartjsLine3"></canvas>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                    <div class="row">
+                                        <div class="col-xl-12 grid-margin stretch-card">
+                                            <div class="card">
+                                                <div class="card-body">
+                                                    <h4>BY INDUSTRY</h4>
+                                                    <br><br>
+                                                    <canvas id="chartjsLine4"></canvas>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+
+                                    <div style="float: right; margin-top: 20px;">
+                                        <a class="btn btn-primary btn-lg btn-icon-text" href="accenture_project_home.html">
+                                            <i data-feather="arrow-left"></i>
+                                            Go back to project
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                </div>
+
+
+
+                <footer class="footer d-flex flex-column flex-md-row align-items-center justify-content-between">
+                    <p class="text-muted text-center text-md-left" style="text-align: center; margin: 0 auto;">Copyright © 2020 Tech Advisory Platform.</p>
+                </footer>
+            </div>
+        </div>
+        <script src="./assets/vendors/core/core.js"></script>
+        <script src="./assets/vendors/select2/select2.min.js"></script>
+        <script src="./assets/vendors/chartjs/Chart.min.js"></script>
+        <script src="./assets/vendors/jquery.flot/jquery.flot.js"></script>
+        <script src="./assets/vendors/jquery.flot/jquery.flot.resize.js"></script>
+        <script src="./assets/vendors/bootstrap-datepicker/bootstrap-datepicker.min.js"></script>
+        <script src="./assets/vendors/chartjs/Chart.min.js"></script>
+        <script src="./assets/vendors/progressbar.js/progressbar.min.js"></script>
+        <script src="./assets/vendors/feather-icons/feather.min.js"></script>
+        <script src="./assets/js/template.js"></script>
+        <script src="./assets/js/dashboard.js"></script>
+        <script src="./assets/js/datepicker.js"></script>
+        <script src="./assets/js/chartsjs_techadvisory_historic.js"></script>
+        <script src="./assets/js/select2.js"></script>
+
+
+    </body>
+</html>

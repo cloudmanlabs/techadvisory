@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<meta content="width=device-width, initial-scale=1.0" name="viewport">
+		<meta content="ie=edge" http-equiv="X-UA-Compatible">
+
+		<title>Tech Advisory Platform</title>
+		<link href="./assets/vendors/core/core.css" rel="stylesheet">
+		<link href="./assets/vendors/bootstrap-datepicker/bootstrap-datepicker.min.css" rel="stylesheet">
+		<link href="./assets/fonts/feather-font/css/iconfont.css" rel="stylesheet">
+		<link href="./assets/css/techadvisory/style.css" rel="stylesheet">
+		<link href="./assets/css/techadvisory/extra.css" rel="stylesheet">
+	</head>
+
+	<body>
+		<div class="main-wrapper">
+			<div class="horizontal-menu">
+				<nav class="navbar top-navbar">
+					<div class="container">
+						<div class="navbar-content">
+							<a class="navbar-brand" href="./client_home.html"><img src="./assets/images/techadvisory-logo.png" style="max-height: 37px;"></a>
+
+							<form class="search-form">
+								<div class="input-group">
+									<div class="input-group-prepend">
+										<div class="input-group-text">
+											<i data-feather="search"></i>
+										</div>
+									</div>
+									<input class="form-control" id="navbarForm" placeholder="Search here..." type="text">
+								</div>
+							</form>
+
+
+							<ul class="navbar-nav">
+
+
+
+								<li class="nav-item dropdown nav-profile">
+									<a aria-expanded="false" aria-haspopup="true" class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" id="profileDropdown" role="button"><img alt="profile" src="./assets/images/user.png"></a>
+
+									<div aria-labelledby="profileDropdown" class="dropdown-menu">
+										<div class="dropdown-header d-flex flex-column align-items-center">
+											<div class="info text-center">
+												<p class="name font-weight-bold mb-0">Company Name</p>
+											</div>
+										</div>
+
+
+										<div class="dropdown-body">
+											<ul class="profile-nav p-0 pt-3">
+
+
+
+												<li class="nav-item">
+													<a class="nav-link" href="./login.html"><i data-feather="log-out"></i> <span>Log Out</span></a>
+												</li>
+											</ul>
+										</div>
+									</div>
+								</li>
+							</ul>
+							<button class="navbar-toggler navbar-toggler-right d-lg-none align-self-center" data-toggle="horizontal-menu-toggle" type="button"><i data-feather="menu"></i></button>
+						</div>
+					</div>
+				</nav>
+
+
+				<nav class="bottom-navbar">
+					<div class="container">
+						<ul class="nav page-navigation menu-client">
+							<li class="nav-item">
+								<a class="nav-link" href="client_home.html">
+									<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-box link-icon"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path><polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline><line x1="12" y1="22.08" x2="12" y2="12"></line></svg>
+									<span class="menu-title">Home</span>
+								</a>
+							</li>
+							<li class="nav-item">
+								<a href="#" class="nav-link">
+									<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-book link-icon"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path></svg>
+									<span class="menu-title">Projects</span>
+									<i class="link-arrow"></i>
+								</a>
+								<div class="submenu">
+									<ul class="submenu-item">
+										<li class="category-heading">Projects</li>
+										<li class="nav-item"><a class="nav-link" href="./client_home.html#preparation_phase">Preparation Phase</a></li>
+										<li class="nav-item"><a class="nav-link" href="./client_home.html#open_projects">Open Projects</a></li>
+										<li class="nav-item"><a class="nav-link" href="./client_home.html#closed_projects">Closed Projects</a></li>
+
+									</ul>
+								</div>
+							</li>
+
+
+
+
+
+
+
+
+
+						</ul>
+					</div>
+				</nav>
+			</div>
+
+
+			<div class="page-wrapper">
+				<div class="page-content">
+					<div class="d-flex justify-content-between align-items-center flex-wrap grid-margin">
+						<div>
+							<h2>Accenture's <span class="badge badge-primary">Tech Advisory Platform</span></h2>
+						</div>
+					</div>
+
+
+					<div class="row">
+						<div class="col-12 col-xl-12 stretch-card">
+							<div class="card">
+								<div class="card-body">
+									<h3>Welcome</h3>
+									<br>
+
+
+									<div class="welcome_text welcome_box">
+										<div class="media d-block d-sm-flex">
+											<div class="media-body" style="padding-top: 16px; padding-left: 20px; padding-right: 20px;">
+												Hello there. I'm Roger Foz, Lead of Accenture’s Capability Network Fulfillment Practice in Europe, and I'd like to welcome you to the Tech Advisory Platform. We've built this solution to help you overview, make decissions and take control over your projects within our network. Please take a minute to check out the video we've prepared for you.
+											</div>
+											<a data-target=".bd-example-modal-lg" data-thevideo="https://www.youtube.com/embed/IHjNcp_4QCs" data-toggle="modal" href="#"><img alt="..." class="wd-100p wd-sm-150 mb-3 mb-sm-0 ml-3" src="./assets/images/video_small.jpg"></a>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+
+
+					<div aria-hidden="true" aria-labelledby="myLargeModalLabel" class="modal fade bd-example-modal-lg" role="dialog" tabindex="-1">
+						<div class="modal-dialog modal-lg modal-dialog-centered">
+							<div class="modal-content">
+								<iframe height="450" src="" width="100%"></iframe>
+							</div>
+						</div>
+					</div>
+					<br>
+					<br>
+
+
+					<div class="row">
+						<div class="col-12 col-xl-12 stretch-card">
+							<div class="card">
+								<div class="card-body">
+									<h3>Registration Timeline</h3>
+
+
+									<p class="welcome_text extra-top-15px">In order to start using the Tech Advisory Platform, you'll need to follow some steps to complete your profile and set up your first project. Please check below the timeline and click "Let's start" when you are ready.</p>
+									<br>
+									<br>
+
+
+									<div id="content">
+										<ul class="timeline">
+											<li class="event" data-date="~ 15 minutes">
+												<h3>Registration</h3>
+
+
+												<p>Complete your profile and get ready to use the platform. It won't take you more than just a few minutes and you can do it today.</p>
+											</li>
+
+
+											<li class="event" data-date="~ 3-5 hours">
+												<h3>Complete your first project info</h3>
+
+
+												<p>We've divided the project setting process in 4 phases. Completing each one of them should not take more than one hour.</p>
+											</li>
+
+
+											<li class="event" data-date="15 days">
+												<h3>Open project for vendors</h3>
+
+
+												<p>Once the project is live, our fully reviewed Vendors Network will have 15 days to send their applications through the platform.</p>
+											</li>
+
+
+											<li class="event" data-date="~ 2 hours">
+												<h3>Closure meeting</h3>
+
+
+												<p>By the end of the process, Accenture will conduct a meeting to show you the results, benchmarks and analytics and help you make the right decission.</p>
+											</li>
+										</ul>
+
+
+										<div style="float: right; margin-top: 20px;">
+											<a class="btn btn-primary btn-lg btn-icon-text" href="client_home_profile_create.html"><i class="btn-icon-prepend" data-feather="check-square"></i> Let's start!</a>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+
+				<footer class="footer d-flex flex-column flex-md-row align-items-center justify-content-between">
+					<p class="text-muted text-center text-md-left" style="text-align: center; margin: 0 auto;">Copyright © 2020 Tech Advisory Platform.</p>
+				</footer>
+			</div>
+		</div>
+		<script src="./assets/vendors/core/core.js">
+	</script>
+		<script src="./assets/vendors/chartjs/Chart.min.js">
+	</script>
+		<script src="./assets/vendors/jquery.flot/jquery.flot.js">
+	</script>
+		<script src="./assets/vendors/jquery.flot/jquery.flot.resize.js">
+	</script>
+		<script src="./assets/vendors/bootstrap-datepicker/bootstrap-datepicker.min.js">
+	</script>
+		<script src="./assets/vendors/apexcharts/apexcharts.min.js">
+	</script>
+		<script src="./assets/vendors/progressbar.js/progressbar.min.js">
+	</script>
+		<script src="./assets/vendors/feather-icons/feather.min.js">
+	</script>
+		<script src="./assets/js/template.js">
+	</script>
+		<script src="./assets/js/dashboard.js">
+	</script>
+		<script src="./assets/js/datepicker.js">
+	</script>
+		<script>
+	       autoPlayYouTubeModal();
+
+	       //FUNCTION TO GET AND AUTO PLAY YOUTUBE VIDEO FROM DATATAG
+	       function autoPlayYouTubeModal() {
+	           var trigger = $("body").find('[data-toggle="modal"]');
+	           trigger.click(function () {
+	               var theModal = $(this).data("target"),
+	                   videoSRC = $(this).attr("data-theVideo"),
+	                   videoSRCauto = videoSRC + "?autoplay=1";
+	               $(theModal + ' iframe').attr('src', videoSRCauto);
+	               $(theModal + ' button.close').click(function () {
+	                   $(theModal + ' iframe').attr('src', videoSRC);
+	               });
+	           });
+	       }
+	</script>
+	</body>
+</html>
