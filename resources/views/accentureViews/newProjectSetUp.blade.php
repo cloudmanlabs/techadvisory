@@ -1,169 +1,15 @@
-<!DOCTYPE html>
-<html lang="en">
+@extends('accentureViews.layouts.forms')
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Tech Advisory Platform</title>
-    <link rel="stylesheet" href="./assets/vendors/core/core.css">
-    <link rel="stylesheet" href="./assets/vendors/select2/select2.min.css">
-    <link rel="stylesheet" href="./assets/vendors/bootstrap-datepicker/bootstrap-datepicker.min.css">
-    <link rel="stylesheet" href="./assets/vendors/jquery-steps/jquery.steps.css">
-    <link rel="stylesheet" href="./assets/fonts/feather-font/css/iconfont.css">
-    <link href="./assets/vendors/dropzone/dropzone.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="./assets/css/techadvisory/style.css">
-    <link rel="stylesheet" href="./assets/css/techadvisory/extra.css">
-</head>
-
-<body>
+@section('content')
     <div class="main-wrapper">
-        <div class="horizontal-menu">
-            <nav class="navbar top-navbar">
-                <div class="container">
-                    <div class="navbar-content">
-                        <a href="#" class="navbar-brand">
-                            <img src="./assets/images/techadvisory-logo.png" style="max-height: 37px;">
-                        </a>
-                        <form class="search-form">
-                            <div class="input-group">
-                                <div class="input-group-prepend">
-                                    <div class="input-group-text">
-                                        <i data-feather="search"></i>
-                                    </div>
-                                </div>
-                                <input type="text" class="form-control" id="navbarForm" placeholder="Search here...">
-                            </div>
-                        </form>
-                        <ul class="navbar-nav">
-
-
-
-                            <li class="nav-item dropdown nav-profile">
-                                <a class="nav-link dropdown-toggle" href="#" id="profileDropdown" role="button"
-                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    <img src="./assets/images/user.png" alt="profile">
-                                </a>
-                                <div class="dropdown-menu" aria-labelledby="profileDropdown">
-                                    <div class="dropdown-header d-flex flex-column align-items-center">
-                                        <div class="info text-center">
-                                            <p class="name font-weight-bold mb-0">Company Name</p>
-                                        </div>
-                                    </div>
-                                    <div class="dropdown-body">
-                                        <ul class="profile-nav p-0 pt-3">
-
-                                            <li class="nav-item">
-                                                <a href="./login.html" class="nav-link">
-                                                    <i data-feather="log-out"></i>
-                                                    <span>Log Out</span>
-                                                </a>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </li>
-                        </ul>
-                        <button class="navbar-toggler navbar-toggler-right d-lg-none align-self-center" type="button"
-                            data-toggle="horizontal-menu-toggle">
-                            <i data-feather="menu"></i>
-                        </button>
-                    </div>
-                </div>
-            </nav>
-            <nav class="bottom-navbar">
-                <div class="container">
-                    <ul class="nav page-navigation">
-                        <li class="nav-item">
-                            <a class="nav-link" href="accenture_home.html">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
-                                    fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                    stroke-linejoin="round" class="feather feather-box link-icon">
-                                    <path
-                                        d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z">
-                                    </path>
-                                    <polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline>
-                                    <line x1="12" y1="22.08" x2="12" y2="12"></line>
-                                </svg>
-                                <span class="menu-title">Home</span>
-                            </a>
-                        </li>
-                        <li class="nav-item active">
-                            <a href="#" class="nav-link">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
-                                    fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                    stroke-linejoin="round" class="feather feather-book link-icon">
-                                    <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
-                                    <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
-                                </svg>
-                                <span class="menu-title">Projects</span>
-                                <i class="link-arrow"></i>
-                            </a>
-                            <div class="submenu">
-                                <ul class="submenu-item">
-                                    <li class="category-heading">Sections</li>
-                                    <li class="nav-item"><a class="nav-link" href="./accenture_home.html">Projects</a>
-                                    </li>
-                                    <li class="nav-item"><a class="nav-link"
-                                            href="./accenture_client_list.html">Clients</a>
-                                    </li>
-                                    <li class="nav-item"><a class="nav-link"
-                                            href="./accenture_vendor_list.html">Vendors</a></li>
-
-                                </ul>
-                            </div>
-                        </li>
-
-
-
-
-                        <li class="nav-item">
-                            <a href="#" class="nav-link">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
-                                    fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                    stroke-linejoin="round" class="feather feather-pie-chart link-icon">
-                                    <path d="M21.21 15.89A10 10 0 1 1 8 2.83"></path>
-                                    <path d="M22 12A10 10 0 0 0 12 2v10z"></path>
-                                </svg>
-                                <span class="menu-title">Benchmark & Analytics</span>
-                                <i class="link-arrow"></i>
-                            </a>
-                            <div class="submenu">
-                                <ul class="submenu-item">
-                                    <li class="category-heading">Benchmark & Analytics</li>
-                                    <li class="nav-item"><a class="nav-link" href="accenture_analysis_vendor.html">By
-                                            Vendor</a></li>
-                                    <li class="nav-item"><a class="nav-link" href="accenture_analysis_client.html">By
-                                            Client</a></li>
-                                    <li class="nav-item"><a class="nav-link"
-                                            href="accenture_analysis_historic.html">Historical</a></li>
-                                    <li class="nav-item"><a class="nav-link" href="accenture_analysis_other.html">Other
-                                            queries</a></li>
-                                </ul>
-                            </div>
-                        </li>
-
-
-
-
-
-                    </ul>
-                </div>
-            </nav>
-
-        </div>
-
+        <x-accenture.navbar activeSection="sections" />
 
         <div class="page-wrapper">
-
             <div class="page-content">
-
-
                 <div class="d-flex justify-content-between align-items-center flex-wrap grid-margin">
                     <div>
                         <h2>Accenture's <span class="badge badge-primary">Tech Advisory Platform</span></h2>
                     </div>
-
                 </div>
 
                 <div class="row">
@@ -193,7 +39,6 @@
                 </div>
 
                 <br><br>
-
 
                 <div class="row">
                     <div class="col-md-12 grid-margin stretch-card">
@@ -1177,7 +1022,7 @@
                                                                 </div>
                                                                 <div class="modal-body">
                                                                     <iframe
-                                                                        src="./assets/vendors_techadvisory/jexcel-3.6.1/doc.html"
+                                                                        src="{{url('/assets/vendors_techadvisory/jexcel-3.6.1/doc.html')}}"
                                                                         style="width: 100%; min-height: 600px; border: none;"></iframe>
                                                                 </div>
                                                                 <div class="modal-footer">
@@ -1902,36 +1747,7 @@
 
 
             </div>
-
-            <footer class="footer d-flex flex-column flex-md-row align-items-center justify-content-between">
-                <p class="text-muted text-center text-md-left" style="text-align: center; margin: 0 auto;">Copyright ©
-                    2020 Tech Advisory Platform.</p>
-
-            </footer>
-
-
+            <x-accenture.footer />
         </div>
     </div>
-
-
-    <script src="./assets/vendors/core/core.js"></script>
-    <script src="./assets/vendors/select2/select2.min.js"></script>
-    <script src="./assets/vendors/bootstrap-datepicker/bootstrap-datepicker.min.js"></script>
-
-
-    <script src="./assets/vendors/jquery-steps/jquery.steps.min.js"></script>
-
-
-    <script src="./assets/vendors/feather-icons/feather.min.js"></script>
-    <script src="./assets/js/template.js"></script>
-    <script src="./assets/vendors/dropzone/dropzone.min.js"></script>
-    <script src="./assets/js/dropzone.js"></script>
-
-
-    <script src="./assets/js/wizard.js"></script>
-    <script src="./assets/js/select2.js"></script>
-    <script src="./assets/js/datepicker.js"></script>
-
-</body>
-
-</html>
+@endsection

@@ -1,0 +1,106 @@
+@extends('accentureViews.layouts.app')
+
+@section('content')
+    <div class="main-wrapper">
+        <x-accenture.navbar activeSection="sections" />
+
+
+        <div class="page-wrapper">
+            <div class="page-content">
+                <div class="d-flex justify-content-between align-items-center flex-wrap grid-margin">
+                    <div>
+                        <h2>Accenture's <span class="badge badge-primary">Tech Advisory Platform</span></h2>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-12 col-xl-12 stretch-card">
+                        <div class="card">
+                            <div class="card-body">
+                                <div style="float: left;">
+                                    <h3>Global Transport Management</h3>
+                                </div>
+
+                                <div style="float: right; width: 35%;">
+                                    Current status
+                                    <div class="progress">
+                                        <div class="progress-bar" role="progressbar" style="width: 65%;"
+                                            aria-valuenow="65" aria-valuemin="0" aria-valuemax="100">65%</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <x-accenture.projectNavbar section="projectOrals" />
+
+                <br>
+                <div class="row">
+                    <div class="col-12 col-xl-12 stretch-card">
+                        <div class="card">
+                            <div class="card-body">
+                                <div style="float: left;">
+                                    <h3>Project description</h3>
+                                </div>
+                                <br><br>
+                                <div class="welcome_text welcome_box" style="clear: both; margin-top: 20px;">
+                                    <div class="media d-block d-sm-flex">
+                                        <div class="media-body" style="padding: 20px;">
+                                            The project is about ipsum dolor sit amet, consectetur adipiscing elit.
+                                            Donec aliquam ornare sapien, ut dictum nunc pharetra a. Phasellus vehicula
+                                            suscipit mauris, et aliquet urna. Fusce sed ipsum eu nunc pellentesque
+                                            luctus. ipsum dolor
+                                            sit amet, consectetur adipiscing elit. Donec aliquam ornare sapien, ut
+                                            dictum nunc pharetra a.
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <br><br>
+
+                <div class="row">
+                    <div class="col-lg-12 grid-margin stretch-card">
+                        <div class="card">
+                            <div class="card-body">
+                                <h3>Session details</h3>
+                                <div class="form-group">
+                                    <div class="form-group">
+                                        <label for="exampleInputText1">Location</label>
+                                        <input type="text" class="form-control" id="exampleInputText1"
+                                            placeholder="Location" required>
+                                    </div>
+                                </div>
+                                <br> <br>
+                                <label for="exampleFormControlSelect1">Date</label>
+                                <div class="input-group date datepicker" id="datePicker1">
+                                    <input type="text" class="form-control"><span class="input-group-addon"><i
+                                            data-feather="calendar"></i></span>
+                                </div>
+                                <br><br><br>
+
+                                <h3>Oral Status</h3>
+
+
+                                <div style="float: right; margin-top: 20px;">
+                                    <a class="btn btn-primary btn-lg btn-icon-text" href="accenture_project_home.html">
+                                        <i data-feather="arrow-left"></i>
+                                        Go back to project
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <x-accenture.footer />
+        </div>
+    </div>
+@endsection
+

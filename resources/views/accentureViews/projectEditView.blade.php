@@ -1,207 +1,49 @@
-<!DOCTYPE html>
-<html lang="en">
+@extends('accentureViews.layouts.forms')
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Tech Advisory Platform</title>
-    <link rel="stylesheet" href="./assets/vendors/core/core.css">
-    <link rel="stylesheet" href="./assets/vendors/select2/select2.min.css">
-    <link rel="stylesheet" href="./assets/vendors/bootstrap-datepicker/bootstrap-datepicker.min.css">
-    <link rel="stylesheet" href="./assets/vendors/jquery-steps/jquery.steps.css">
-    <link rel="stylesheet" href="./assets/fonts/feather-font/css/iconfont.css">
-    <link href="./assets/vendors/dropzone/dropzone.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="./assets/css/techadvisory/style.css">
-    <link rel="stylesheet" href="./assets/css/techadvisory/extra.css">
-</head>
-
-<body>
+@section('content')
     <div class="main-wrapper">
-        <div class="horizontal-menu">
-            <nav class="navbar top-navbar">
-                <div class="container">
-                    <div class="navbar-content">
-                        <a href="#" class="navbar-brand">
-                            <img src="./assets/images/techadvisory-logo.png" style="max-height: 37px;">
-                        </a>
-                        <form class="search-form">
-                            <div class="input-group">
-                                <div class="input-group-prepend">
-                                    <div class="input-group-text">
-                                        <i data-feather="search"></i>
-                                    </div>
-                                </div>
-                                <input type="text" class="form-control" id="navbarForm" placeholder="Search here...">
-                            </div>
-                        </form>
-                        <ul class="navbar-nav">
-
-
-
-                            <li class="nav-item dropdown nav-profile">
-                                <a class="nav-link dropdown-toggle" href="#" id="profileDropdown" role="button"
-                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    <img src="./assets/images/user.png" alt="profile">
-                                </a>
-                                <div class="dropdown-menu" aria-labelledby="profileDropdown">
-                                    <div class="dropdown-header d-flex flex-column align-items-center">
-                                        <div class="info text-center">
-                                            <p class="name font-weight-bold mb-0">Company Name</p>
-                                        </div>
-                                    </div>
-                                    <div class="dropdown-body">
-                                        <ul class="profile-nav p-0 pt-3">
-
-                                            <li class="nav-item">
-                                                <a href="./login.html" class="nav-link">
-                                                    <i data-feather="log-out"></i>
-                                                    <span>Log Out</span>
-                                                </a>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </li>
-                        </ul>
-                        <button class="navbar-toggler navbar-toggler-right d-lg-none align-self-center" type="button"
-                            data-toggle="horizontal-menu-toggle">
-                            <i data-feather="menu"></i>
-                        </button>
-                    </div>
-                </div>
-            </nav>
-            <nav class="bottom-navbar">
-                <div class="container">
-                    <ul class="nav page-navigation">
-                        <li class="nav-item">
-                            <a class="nav-link" href="accenture_home.html">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
-                                    fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                    stroke-linejoin="round" class="feather feather-box link-icon">
-                                    <path
-                                        d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z">
-                                    </path>
-                                    <polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline>
-                                    <line x1="12" y1="22.08" x2="12" y2="12"></line>
-                                </svg>
-                                <span class="menu-title">Home</span>
-                            </a>
-                        </li>
-                        <li class="nav-item active">
-                            <a href="#" class="nav-link">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
-                                    fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                    stroke-linejoin="round" class="feather feather-book link-icon">
-                                    <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
-                                    <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
-                                </svg>
-                                <span class="menu-title">Projects</span>
-                                <i class="link-arrow"></i>
-                            </a>
-                            <div class="submenu">
-                                <ul class="submenu-item">
-                                    <li class="category-heading">Sections</li>
-                                    <li class="nav-item"><a class="nav-link" href="./accenture_home.html">Projects</a>
-                                    </li>
-                                    <li class="nav-item"><a class="nav-link"
-                                            href="./accenture_client_list.html">Clients</a>
-                                    </li>
-                                    <li class="nav-item"><a class="nav-link"
-                                            href="./accenture_vendor_list.html">Vendors</a></li>
-
-                                </ul>
-                            </div>
-                        </li>
-
-
-
-
-                        <li class="nav-item">
-                            <a href="#" class="nav-link">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
-                                    fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                    stroke-linejoin="round" class="feather feather-pie-chart link-icon">
-                                    <path d="M21.21 15.89A10 10 0 1 1 8 2.83"></path>
-                                    <path d="M22 12A10 10 0 0 0 12 2v10z"></path>
-                                </svg>
-                                <span class="menu-title">Benchmark & Analytics</span>
-                                <i class="link-arrow"></i>
-                            </a>
-                            <div class="submenu">
-                                <ul class="submenu-item">
-                                    <li class="category-heading">Benchmark & Analytics</li>
-                                    <li class="nav-item"><a class="nav-link" href="accenture_analysis_vendor.html">By
-                                            Vendor</a></li>
-                                    <li class="nav-item"><a class="nav-link" href="accenture_analysis_client.html">By
-                                            Client</a></li>
-                                    <li class="nav-item"><a class="nav-link"
-                                            href="accenture_analysis_historic.html">Historical</a></li>
-                                    <li class="nav-item"><a class="nav-link" href="accenture_analysis_other.html">Other
-                                            queries</a></li>
-                                </ul>
-                            </div>
-                        </li>
-
-
-
-
-
-                    </ul>
-                </div>
-            </nav>
-
-        </div>
-
+        <x-accenture.navbar activeSection="sections" />
 
         <div class="page-wrapper">
-
             <div class="page-content">
-
-
                 <div class="d-flex justify-content-between align-items-center flex-wrap grid-margin">
                     <div>
                         <h2>Accenture's <span class="badge badge-primary">Tech Advisory Platform</span></h2>
                     </div>
-
                 </div>
-
                 <div class="row">
                     <div class="col-12 col-xl-12 stretch-card">
                         <div class="card">
                             <div class="card-body">
                                 <div style="float: left;">
-                                    <h3>New project creation</h3>
-                                </div>
-                                <br><br>
-                                <div class="welcome_text welcome_box" style="clear: both; margin-top: 20px;">
-                                    <div class="media d-block d-sm-flex">
-                                        <div class="media-body" style="padding: 20px;">
-                                            The first phase of the process is ipsum dolor sit amet, consectetur
-                                            adipiscing elit. Donec aliquam ornare sapien, ut dictum nunc pharetra a.
-                                            Phasellus vehicula suscipit mauris, et aliquet urna. Fusce sed ipsum eu nunc
-                                            pellentesque luctus. ipsum dolor
-                                            sit amet, consectetur adipiscing elit. Donec aliquam ornare sapien, ut
-                                            dictum nunc pharetra a.
-                                        </div>
-                                    </div>
+                                    <h3>Global Transport Management</h3>
+
                                 </div>
 
+                                <div style="float: right; width: 35%;">
+                                    Current status
+                                    <div class="progress">
+                                        <div class="progress-bar" role="progressbar" style="width: 65%;"
+                                            aria-valuenow="65" aria-valuemin="0" aria-valuemax="100">65%</div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <br><br>
+                <x-accenture.projectNavbar section="projectEditView" />
 
+                <br>
 
                 <div class="row">
                     <div class="col-md-12 grid-margin stretch-card">
                         <div class="card">
                             <div class="card-body">
-                                <h3>Project Set up</h3>
-
-                                <p class="welcome_text extra-top-15px">Please complete all fields marked with an *</p>
+                                <h3>Edit project information</h3>
+                                <br>
+                                <div class="alert alert-warning" role="alert">Please note that this project is currently
+                                    live and receiving applications from vendors. Edit it at your own discretion.</div>
 
                                 <br>
                                 <div id="wizard_accenture">
@@ -211,25 +53,9 @@
                                         <br>
 
                                         <div class="form-group">
-                                            <label for="exampleInputText1">Project Name*</label>
+                                            <label for="exampleInputText1">Project Name</label>
                                             <input type="text" class="form-control" id="exampleInputText1"
                                                 placeholder="Project Name" required>
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="exampleFormControlTextarea1">Short description*</label>
-                                            <textarea class="form-control" id="exampleFormControlTextarea1" rows="14"
-                                                required></textarea>
-                                        </div>
-
-                                        <div class="form-group">
-                                            <label for="exampleFormControlSelect1">Client name*</label>
-                                            <select class="form-control" id="exampleFormControlSelect1" required>
-                                                <option selected="" disabled="">Please select the Client Name</option>
-                                                <option>Client Name 1</option>
-                                                <option>Client Name 2</option>
-                                                <option>Client Name 3</option>
-                                                <option>Client Name 4</option>
-                                            </select>
                                         </div>
 
                                         <div class="form-group">
@@ -239,9 +65,9 @@
                                         </div>
 
                                         <div class="form-group">
-                                            <label for="exampleInputText1">Client contact phone</label>
+                                            <label for="exampleInputText1">Client telefono</label>
                                             <input type="text" class="form-control" id="exampleInputText1"
-                                                placeholder="Client contact phone">
+                                                placeholder="Client telefono">
                                         </div>
 
                                         <div class="form-group">
@@ -251,94 +77,32 @@
                                         </div>
 
                                         <div class="form-group">
-                                            <label for="exampleInputText1">Accenture contact phone</label>
+                                            <label for="exampleInputText1">Accenure telefono</label>
                                             <input type="text" class="form-control" id="exampleInputText1"
-                                                placeholder="Accenture contact phone">
+                                                placeholder="Accenure telefono">
                                         </div>
 
                                         <div class="form-group">
-                                            <label for="exampleFormControlSelect1">Project Type*</label>
+                                            <label for="exampleFormControlSelect1">Project Type</label>
                                             <select class="form-control" id="exampleFormControlSelect1" required>
                                                 <option selected="" disabled="">Please select the Project Type</option>
-                                                <option>Business Case</option>
+                                                <option>Transportation Business Case</option>
                                                 <option>Software selection</option>
                                                 <option>Value Based Software Selection</option>
                                                 <option>Client Satisfaction Survey</option>
                                             </select>
                                         </div>
-
                                         <div class="form-group">
-                                            <label for="exampleFormControlSelect1">Value Targeting*</label>
-                                            <select class="form-control" id="exampleFormControlSelect1" required>
-                                                <option selected="" disabled="">Please select the Project Type</option>
-                                                <option>Yes</option>
-                                                <option>No</option>
-                                            </select>
-                                        </div>
-
-                                        <div class="form-group">
-                                            <label for="exampleFormControlSelect1">Project Currency*</label>
-                                            <select class="form-control" id="exampleFormControlSelect1" required>
-                                                <option selected="" disabled="">Please select the Project Type</option>
-                                                <option>€</option>
-                                                <option>$</option>
-                                            </select>
-                                        </div>
-
-                                        <div class="form-group">
-                                            <label for="exampleFormControlSelect1">Binding/Non-binding*</label>
-                                            <select class="form-control" id="exampleFormControlSelect1" required>
-                                                <option selected="" disabled="">Please select the Project Type</option>
-                                                <option>Binding</option>
-                                                <option>Non-binding</option>
-                                            </select>
-                                        </div>
-
-                                        <div class="form-group">
-                                            <label for="exampleFormControlTextarea1">Detailed description</label>
+                                            <label for="exampleFormControlTextarea1">Project description</label>
                                             <textarea class="form-control" id="exampleFormControlTextarea1" rows="14"
                                                 required></textarea>
                                         </div>
-
                                         <br>
 
-                                        <h4>1.2. Practice</h4>
+                                        <h4>1.2. Scope</h4>
                                         <br>
 
-                                        <div class="form-group">
-                                            <label for="practiceSelect">Practice*</label>
-                                            <select class="form-control" id="practiceSelect" required>
-                                                <option selected="" disabled="">Please select your Transport Mode
-                                                </option>
-                                                <option>Transport </option>
-                                                <option>Planning</option>
-                                                <option>Manufacturing</option>
-                                                <option>Warehousing</option>
-                                                <option>Sourcing</option>
-                                            </select>
-                                        </div>
 
-
-                                        <div class="form-group">
-                                            <label for="exampleFormControlSelect1">Subpractice*</label>
-                                            <select class="js-example-basic-multiple w-100" multiple="multiple"
-                                                required>
-                                                <option>Logistics Procurement</option>
-                                                <option>Tactical Planning</option>
-                                                <option>Order Management</option>
-                                                <option>Transport Planning</option>
-                                                <option>Tendering & Spot buying</option>
-                                                <option>Execution & Visbility</option>
-                                                <option>Document management</option>
-                                                <option>Trade complaince</option>
-                                                <option>FBA</option>
-                                                <option>Reporting and Analytics </option>
-                                            </select>
-
-                                        </div>
-                                        <br>
-                                        <h4>1.3. Scope</h4>
-                                        <br>
                                         <div class="form-group">
                                             <label>Region Served</label>
                                             <select class="js-example-basic-multiple w-100" multiple="multiple"
@@ -595,13 +359,13 @@
                                         </div>
 
                                         <div class="form-group">
-                                            <label for="exampleFormControlSelect1">Transport Flows</label>
+                                            <label for="exampleFormControlSelect1">Flows</label>
                                             <select class="js-example-basic-multiple w-100" multiple="multiple"
                                                 required>
                                                 <option>International Trade</option>
                                                 <option>Domestic</option>
                                                 <option>Inbound</option>
-                                                <option>Last Mile</option>
+                                                <option>Last Mille</option>
                                             </select>
                                         </div>
 
@@ -633,7 +397,7 @@
 
                                         <br>
 
-                                        <h4>1.4. Timeline</h4>
+                                        <h4>1.3. Timeline</h4>
                                         <br>
 
                                         <label for="exampleFormControlSelect1">Tentative date for project set - up
@@ -678,6 +442,40 @@
 
                                         <br>
 
+                                        <h4>1.4. Solution Type</h4>
+                                        <br>
+
+                                        <div class="form-group">
+                                            <label for="exampleFormControlSelect1">Business Process Level 1</label>
+                                            <select class="form-control" id="exampleFormControlSelect1" required>
+                                                <option selected="" disabled="">Please select your Transport Mode
+                                                </option>
+                                                <option>Transport </option>
+                                                <option>Planning</option>
+                                                <option>Manufacturing</option>
+                                                <option>Warehousing</option>
+                                                <option>Sourcing</option>
+                                            </select>
+                                        </div>
+
+
+                                        <div class="form-group">
+                                            <label for="exampleFormControlSelect1">Business Process Level 2</label>
+                                            <select class="js-example-basic-multiple w-100" multiple="multiple"
+                                                required>
+                                                <option>Logistics Procurement</option>
+                                                <option>Tactical Planning</option>
+                                                <option>Order Management</option>
+                                                <option>Transport Planning</option>
+                                                <option>Tendering & Spot buying</option>
+                                                <option>Execution & Visbility</option>
+                                                <option>Document management</option>
+                                                <option>Trade complaince</option>
+                                                <option>FBA</option>
+                                                <option>Reporting and Analytics </option>
+                                            </select>
+
+                                        </div>
                                     </section>
 
                                     <h2>RFP Upload</h2>
@@ -693,12 +491,6 @@
                                                 </form>
                                             </div>
 
-                                            <div class="form-group">
-                                                <label for="exampleFormControlTextarea1">Other information</label>
-                                                <textarea class="form-control" id="exampleFormControlTextarea1"
-                                                    rows="14" required></textarea>
-                                            </div>
-
                                         </div>
                                     </section>
 
@@ -707,27 +499,13 @@
                                         <h4>3.1. Sizing Info</h4>
                                         <br>
                                         <div class="form-group">
-                                            <label for="exampleInputText1">Maximum number of concurrent users
-                                            </label>
-                                            <input type="number" class="form-control" id="exampleInputText1"
-                                                placeholder="Maximum number of concurrent users">
-                                        </div>
-
-                                        <div class="form-group">
-                                            <label for="exampleInputText1">Number of named users
-                                            </label>
-                                            <input type="number" class="form-control" id="exampleInputText1"
-                                                placeholder="Number of named users">
-                                        </div>
-
-                                        <div class="form-group">
-                                            <label for="exampleInputText1">Annual number shipments
+                                            <label for="exampleInputText1">Annual # shipments
                                             </label>
                                             <input type="number" class="form-control" id="exampleInputText1"
                                                 placeholder="Annual # shipments">
                                         </div>
                                         <div class="form-group">
-                                            <label for="exampleInputText1">Average number of shipments per month valley
+                                            <label for="exampleInputText1">Average number of shimpments per month valley
                                                 season
                                             </label>
                                             <input type="number" class="form-control" id="exampleInputText1"
@@ -735,7 +513,7 @@
                                         </div>
 
                                         <div class="form-group">
-                                            <label for="exampleInputText1">Average number of shipments per month peak
+                                            <label for="exampleInputText1">Average number of shimpments per month peak
                                                 season
                                             </label>
                                             <input type="number" class="form-control" id="exampleInputText1"
@@ -1129,515 +907,499 @@
                                             <input type="text" class="form-control" id="exampleInputText1"
                                                 placeholder="% FTL vs parcial">
                                         </div>
+                                        <div class="form-group">
+                                            <label for="exampleInputText1">Maximum number of concurrent users
+                                            </label>
+                                            <input type="number" class="form-control" id="exampleInputText1"
+                                                placeholder="Maximum number of concurrent users">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="exampleInputText1">Number of named users
+                                            </label>
+                                            <input type="number" class="form-control" id="exampleInputText1"
+                                                placeholder="Number of named users">
+                                        </div>
                                     </section>
+
 
 
                                     <h2>Selection Criteria</h2>
                                     <section>
-                                        <div id="subwizard">
-                                            <h3>Fit gap</h3>
-                                            <div>
+                                        <h4>4.1. Fit Gap</h4>
+                                        <br>
+                                        Phasellus vehicula suscipit mauris, et aliquet urna. Fusce sed ipsum eu nunc
+                                        pellentesque luctus. ipsum dolor sit amet, consectetur adipiscing elit. Donec
+                                        aliquam ornare sapien, ut dictum nunc pharetra a.Phasellus vehicula suscipit
+                                        mauris, et aliquet urna. Fusce sed ipsum eu nunc pellentesque luctus. ipsum
+                                        dolor sit amet.
+                                        <br><br>
+                                        <div style="text-align: center;">
+                                            <button type="button" class="btn btn-primary btn-lg btn-icon-text"
+                                                data-toggle="modal" data-target=".bd-example-modal-xl"><svg
+                                                    xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                                    viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                                    class="feather feather-check-square btn-icon-prepend">
+                                                    <polyline points="9 11 12 14 22 4"></polyline>
+                                                    <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11">
+                                                    </path>
+                                                </svg> Open Fit Gap table</button>
 
-                                                <h4>4.1. Fit Gap</h4>
-                                                <br>
-                                                Phasellus vehicula suscipit mauris, et aliquet urna. Fusce sed ipsum eu
-                                                nunc
-                                                pellentesque luctus. ipsum dolor sit amet, consectetur adipiscing elit.
-                                                Donec
-                                                aliquam ornare sapien, ut dictum nunc pharetra a.Phasellus vehicula
-                                                suscipit
-                                                mauris, et aliquet urna. Fusce sed ipsum eu nunc pellentesque luctus.
-                                                ipsum
-                                                dolor sit amet.
-                                                <br><br>
-                                                <div style="text-align: center;">
-                                                    <div class="input-group col-xs-12">
-                                                        <input class="form-control file-upload-info"
-                                                            placeholder="Upload Fit Gap model in CSV format"
-                                                            type="text">
-                                                        <span class="input-group-append"><button
-                                                                class="file-upload-browse btn btn-primary"
-                                                                type="button"><span
-                                                                    class="input-group-append">Upload</span></button></span>
-                                                    </div>
-
-                                                    <div class="modal fade bd-example-modal-xl" tabindex="-1"
-                                                        role="dialog" aria-labelledby="myExtraLargeModalLabel"
-                                                        aria-hidden="true">
-                                                        <div class="modal-dialog modal-xl">
-                                                            <div class="modal-content">
-                                                                <div class="modal-header">
-                                                                    <h5 class="modal-title" id="exampleModalLabel">
-                                                                        Please
-                                                                        complete the Fit Gap table</h5>
-                                                                    <button type="button" class="close"
-                                                                        data-dismiss="modal" aria-label="Close">
-                                                                        <span aria-hidden="true">&times;</span>
-                                                                    </button>
-                                                                </div>
-                                                                <div class="modal-body">
-                                                                    <iframe
-                                                                        src="./assets/vendors_techadvisory/jexcel-3.6.1/doc.html"
-                                                                        style="width: 100%; min-height: 600px; border: none;"></iframe>
-                                                                </div>
-                                                                <div class="modal-footer">
-                                                                    <button type="button"
-                                                                        class="btn btn-primary btn-lg btn-icon-text"
-                                                                        data-toggle="modal"
-                                                                        data-target=".bd-example-modal-xl"><svg
-                                                                            xmlns="http://www.w3.org/2000/svg"
-                                                                            width="24" height="24" viewBox="0 0 24 24"
-                                                                            fill="none" stroke="currentColor"
-                                                                            stroke-width="2" stroke-linecap="round"
-                                                                            stroke-linejoin="round"
-                                                                            class="feather feather-check-square btn-icon-prepend">
-                                                                            <polyline points="9 11 12 14 22 4">
-                                                                            </polyline>
-                                                                            <path
-                                                                                d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11">
-                                                                            </path>
-                                                                        </svg> Done</button>
-                                                                </div>
-                                                            </div>
+                                            <div class="modal fade bd-example-modal-xl" tabindex="-1" role="dialog"
+                                                aria-labelledby="myExtraLargeModalLabel" aria-hidden="true">
+                                                <div class="modal-dialog modal-xl">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h5 class="modal-title" id="exampleModalLabel">Please
+                                                                complete the Fit Gap table</h5>
+                                                            <button type="button" class="close" data-dismiss="modal"
+                                                                aria-label="Close">
+                                                                <span aria-hidden="true">&times;</span>
+                                                            </button>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <iframe
+                                                                src="{{url('/assets/vendors_techadvisory/jexcel-3.6.1/doc.html')}}"
+                                                                style="width: 100%; min-height: 600px; border: none;"></iframe>
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button type="button"
+                                                                class="btn btn-primary btn-lg btn-icon-text"
+                                                                data-toggle="modal"
+                                                                data-target=".bd-example-modal-xl"><svg
+                                                                    xmlns="http://www.w3.org/2000/svg" width="24"
+                                                                    height="24" viewBox="0 0 24 24" fill="none"
+                                                                    stroke="currentColor" stroke-width="2"
+                                                                    stroke-linecap="round" stroke-linejoin="round"
+                                                                    class="feather feather-check-square btn-icon-prepend">
+                                                                    <polyline points="9 11 12 14 22 4"></polyline>
+                                                                    <path
+                                                                        d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11">
+                                                                    </path>
+                                                                </svg> Done</button>
                                                         </div>
                                                     </div>
-
                                                 </div>
-                                                <br><br>
-                                                <h4>4.2. Corporate</h4>
-                                                <br>
-                                                <div class="table-responsive">
-                                                    <table class="table table-hover">
-                                                        <thead>
-                                                            <tr class="table-dark">
-                                                                <th>ID</th>
-                                                                <th>Question</th>
-                                                            </tr>
-                                                        </thead>
-                                                        <tbody>
-                                                            <tr>
-                                                                <th>1</th>
-                                                                <td>Lorem ipsum dolor sit amet, consectetur adipiscing
-                                                                    elit?
-                                                                </td>
-                                                            </tr>
-                                                            <tr>
-                                                                <th>2</th>
-                                                                <td>Donec sapien purus, mollis ut leo eget, sodales
-                                                                    tincidunt
-                                                                    elit. Vestibulum varius congue blandit. Vestibulum
-                                                                    pulvinar
-                                                                    volutpat ultrices?</td>
-                                                            </tr>
-                                                            <tr>
-                                                                <th>3</th>
-                                                                <td>Integer ornare feugiat libero, non consectetur odio
-                                                                    imperdiet rutrum?</td>
-                                                            </tr>
-                                                            <tr>
-                                                                <th>4</th>
-                                                                <td>Phasellus non sagittis dolor. Duis in suscipit ante.
-                                                                    Vestibulum eu consequat augue?</td>
-                                                            </tr>
-                                                            <tr>
-                                                                <th>5</th>
-                                                                <td>Vivamus semper magna ac nulla interdum, vitae
-                                                                    placerat
-                                                                    erat
-                                                                    viverra?</td>
-                                                            </tr>
+                                            </div>
 
-                                                        </tbody>
-                                                    </table>
-                                                </div>
+                                        </div>
+                                        <br><br>
+                                        <h4>4.2. Corporate</h4>
+                                        <br>
+                                        <div class="table-responsive">
+                                            <table class="table table-hover">
+                                                <thead>
+                                                    <tr class="table-dark">
+                                                        <th>ID</th>
+                                                        <th>Question</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <th>1</th>
+                                                        <td>Lorem ipsum dolor sit amet, consectetur adipiscing elit?
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th>2</th>
+                                                        <td>Donec sapien purus, mollis ut leo eget, sodales tincidunt
+                                                            elit. Vestibulum varius congue blandit. Vestibulum pulvinar
+                                                            volutpat ultrices?</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th>3</th>
+                                                        <td>Integer ornare feugiat libero, non consectetur odio
+                                                            imperdiet rutrum?</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th>4</th>
+                                                        <td>Phasellus non sagittis dolor. Duis in suscipit ante.
+                                                            Vestibulum eu consequat augue?</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th>5</th>
+                                                        <td>Vivamus semper magna ac nulla interdum, vitae placerat erat
+                                                            viverra?</td>
+                                                    </tr>
 
-                                                <br><br>
-                                                <h4>4.3. Market presence</h4>
-                                                <br>
-                                                <div class="table-responsive">
-                                                    <table class="table table-hover">
-                                                        <thead>
-                                                            <tr class="table-dark">
-                                                                <th>ID</th>
-                                                                <th>Question</th>
-                                                            </tr>
-                                                        </thead>
-                                                        <tbody>
-                                                            <tr>
-                                                                <th>1</th>
-                                                                <td>Headquarters</td>
-                                                            </tr>
-                                                            <tr>
-                                                                <th>2</th>
-                                                                <td>Commercial Offices</td>
-                                                            </tr>
-                                                            <tr>
-                                                                <th>3</th>
-                                                                <td>Service Team Offices</td>
-                                                            </tr>
-                                                            <tr>
-                                                                <th>4</th>
-                                                                <td>Geographies with solution implementations</td>
-                                                            </tr>
-                                                        </tbody>
-                                                    </table>
-                                                </div>
+                                                </tbody>
+                                            </table>
+                                        </div>
+
+                                        <br><br>
+                                        <h4>4.3. Market presence</h4>
+                                        <br>
+                                        <div class="table-responsive">
+                                            <table class="table table-hover">
+                                                <thead>
+                                                    <tr class="table-dark">
+                                                        <th>ID</th>
+                                                        <th>Question</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <th>1</th>
+                                                        <td>Headquarters</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th>2</th>
+                                                        <td>Commercial Offices</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th>3</th>
+                                                        <td>Service Team Offices</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th>4</th>
+                                                        <td>Geographies with solution implementations</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
 
 
 
-                                                <br><br>
-                                                <h4>4.4. Experience</h4>
-                                                <br>
-                                                <div class="table-responsive">
-                                                    <table class="table table-hover">
-                                                        <thead>
-                                                            <tr class="table-dark">
-                                                                <th>ID</th>
-                                                                <th>Question</th>
-                                                            </tr>
-                                                        </thead>
-                                                        <tbody>
-                                                            <tr>
-                                                                <th>1</th>
-                                                                <td>Industry Experience</td>
-                                                            </tr>
-                                                            <tr>
-                                                                <th>2</th>
-                                                                <td>List all active clients</td>
-                                                            </tr>
-                                                            <tr>
-                                                                <th>3</th>
-                                                                <td>List how many successful implementations you
-                                                                    performed
-                                                                    within last 4 years</td>
-                                                            </tr>
-                                                            <tr>
-                                                                <th>4</th>
-                                                                <td>Share 3 customer references for implementation with
-                                                                    similar
-                                                                    size & scope (same industry preferred)</td>
-                                                            </tr>
-                                                        </tbody>
-                                                    </table>
-                                                </div>
+                                        <br><br>
+                                        <h4>4.4. Experience</h4>
+                                        <br>
+                                        <div class="table-responsive">
+                                            <table class="table table-hover">
+                                                <thead>
+                                                    <tr class="table-dark">
+                                                        <th>ID</th>
+                                                        <th>Question</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <th>1</th>
+                                                        <td>Industry Experience</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th>2</th>
+                                                        <td>List all active clients</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th>3</th>
+                                                        <td>List how many successful implementations you performed
+                                                            within last 4 years</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th>4</th>
+                                                        <td>Share 3 customer references for implementation with similar
+                                                            size & scope (same industry preferred)</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
 
 
 
-                                                <br><br>
-                                                <h4>4.5. IT Enablers</h4>
-                                                <br>
-                                                <div class="table-responsive">
-                                                    <table class="table table-hover">
-                                                        <thead>
-                                                            <tr class="table-dark">
-                                                                <th>ID</th>
-                                                                <th>Question</th>
-                                                            </tr>
-                                                        </thead>
-                                                        <tbody>
-                                                            <tr>
-                                                                <th>1</th>
-                                                                <td>List your IT Enablers</td>
-                                                            </tr>
-                                                        </tbody>
-                                                    </table>
-                                                </div>
+                                        <br><br>
+                                        <h4>4.5. IT Enablers</h4>
+                                        <br>
+                                        <div class="table-responsive">
+                                            <table class="table table-hover">
+                                                <thead>
+                                                    <tr class="table-dark">
+                                                        <th>ID</th>
+                                                        <th>Question</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <th>1</th>
+                                                        <td>List your IT Enablers</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
 
 
 
 
-                                                <br><br>
-                                                <h4>4.6. Alliances</h4>
-                                                <br>
-                                                <div class="table-responsive">
-                                                    <table class="table table-hover">
-                                                        <thead>
-                                                            <tr class="table-dark">
-                                                                <th>ID</th>
-                                                                <th>Question</th>
-                                                            </tr>
-                                                        </thead>
-                                                        <tbody>
-                                                            <tr>
-                                                                <th>1</th>
-                                                                <td>Partnership 1</td>
-                                                            </tr>
-                                                            <tr>
-                                                                <th>2</th>
-                                                                <td>Partnership 2</td>
-                                                            </tr>
-                                                            <tr>
-                                                                <th>3</th>
-                                                                <td>Partnership 3</td>
-                                                            </tr>
-                                                        </tbody>
-                                                    </table>
-                                                </div>
+                                        <br><br>
+                                        <h4>4.6. Alliances</h4>
+                                        <br>
+                                        <div class="table-responsive">
+                                            <table class="table table-hover">
+                                                <thead>
+                                                    <tr class="table-dark">
+                                                        <th>ID</th>
+                                                        <th>Question</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <th>1</th>
+                                                        <td>Partnership 1</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th>2</th>
+                                                        <td>Partnership 2</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th>3</th>
+                                                        <td>Partnership 3</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
 
 
-                                                <br><br>
-                                                <h4>4.7. Product</h4>
-                                                <br>
-                                                <div class="table-responsive">
-                                                    <table class="table table-hover">
-                                                        <thead>
-                                                            <tr class="table-dark">
-                                                                <th>ID</th>
-                                                                <th>Question</th>
-                                                            </tr>
-                                                        </thead>
-                                                        <tbody>
-                                                            <tr>
-                                                                <th>1</th>
-                                                                <td>Lorem ipsum dolor sit amet, consectetur adipiscing
-                                                                    elit?
-                                                                </td>
-                                                            </tr>
-                                                            <tr>
-                                                                <th>2</th>
-                                                                <td>Donec sapien purus, mollis ut leo eget, sodales
-                                                                    tincidunt
-                                                                    elit. Vestibulum varius congue blandit. Vestibulum
-                                                                    pulvinar
-                                                                    volutpat ultrices?</td>
-                                                            </tr>
-                                                            <tr>
-                                                                <th>3</th>
-                                                                <td>Integer ornare feugiat libero, non consectetur odio
-                                                                    imperdiet rutrum?</td>
-                                                            </tr>
-                                                            <tr>
-                                                                <th>4</th>
-                                                                <td>Phasellus non sagittis dolor. Duis in suscipit ante.
-                                                                    Vestibulum eu consequat augue?</td>
-                                                            </tr>
-                                                        </tbody>
-                                                    </table>
-                                                </div>
+                                        <br><br>
+                                        <h4>4.7. Product</h4>
+                                        <br>
+                                        <div class="table-responsive">
+                                            <table class="table table-hover">
+                                                <thead>
+                                                    <tr class="table-dark">
+                                                        <th>ID</th>
+                                                        <th>Question</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <th>1</th>
+                                                        <td>Lorem ipsum dolor sit amet, consectetur adipiscing elit?
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th>2</th>
+                                                        <td>Donec sapien purus, mollis ut leo eget, sodales tincidunt
+                                                            elit. Vestibulum varius congue blandit. Vestibulum pulvinar
+                                                            volutpat ultrices?</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th>3</th>
+                                                        <td>Integer ornare feugiat libero, non consectetur odio
+                                                            imperdiet rutrum?</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th>4</th>
+                                                        <td>Phasellus non sagittis dolor. Duis in suscipit ante.
+                                                            Vestibulum eu consequat augue?</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
 
-                                                <br><br>
-                                                <h4>4.8. Sustainability</h4>
-                                                <br>
-                                                <div class="table-responsive">
-                                                    <table class="table table-hover">
-                                                        <thead>
-                                                            <tr class="table-dark">
-                                                                <th>ID</th>
-                                                                <th>Question</th>
-                                                            </tr>
-                                                        </thead>
-                                                        <tbody>
-                                                            <tr>
-                                                                <th>1</th>
-                                                                <td>Lorem ipsum dolor sit amet, consectetur adipiscing
-                                                                    elit?
-                                                                </td>
-                                                            </tr>
-                                                            <tr>
-                                                                <th>2</th>
-                                                                <td>Donec sapien purus, mollis ut leo eget, sodales
-                                                                    tincidunt
-                                                                    elit. Vestibulum varius congue blandit. Vestibulum
-                                                                    pulvinar
-                                                                    volutpat ultrices?</td>
-                                                            </tr>
-                                                            <tr>
-                                                                <th>3</th>
-                                                                <td>Integer ornare feugiat libero, non consectetur odio
-                                                                    imperdiet rutrum?</td>
-                                                            </tr>
-                                                            <tr>
-                                                                <th>4</th>
-                                                                <td>Phasellus non sagittis dolor. Duis in suscipit ante.
-                                                                    Vestibulum eu consequat augue?</td>
-                                                            </tr>
-                                                        </tbody>
-                                                    </table>
-                                                </div>
+                                        <br><br>
+                                        <h4>4.8. Sustainability</h4>
+                                        <br>
+                                        <div class="table-responsive">
+                                            <table class="table table-hover">
+                                                <thead>
+                                                    <tr class="table-dark">
+                                                        <th>ID</th>
+                                                        <th>Question</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <th>1</th>
+                                                        <td>Lorem ipsum dolor sit amet, consectetur adipiscing elit?
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th>2</th>
+                                                        <td>Donec sapien purus, mollis ut leo eget, sodales tincidunt
+                                                            elit. Vestibulum varius congue blandit. Vestibulum pulvinar
+                                                            volutpat ultrices?</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th>3</th>
+                                                        <td>Integer ornare feugiat libero, non consectetur odio
+                                                            imperdiet rutrum?</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th>4</th>
+                                                        <td>Phasellus non sagittis dolor. Duis in suscipit ante.
+                                                            Vestibulum eu consequat augue?</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
 
 
-                                                <br><br>
-                                                <h4>4.9. Implementation</h4>
-                                                <br>
-                                                <h6>Deliverables per phase</h6>
-                                                <div class="table-responsive">
-                                                    <table class="table table-hover">
-                                                        <thead>
-                                                            <tr class="table-dark">
-                                                                <th>Phase</th>
-                                                                <th>Deliverables</th>
-                                                            </tr>
-                                                        </thead>
-                                                    </table>
-                                                </div>
+                                        <br><br>
+                                        <h4>4.9. Implementation</h4>
+                                        <br>
+                                        <h6>Deliverables per phase</h6>
+                                        <div class="table-responsive">
+                                            <table class="table table-hover">
+                                                <thead>
+                                                    <tr class="table-dark">
+                                                        <th>Phase</th>
+                                                        <th>Deliverables</th>
+                                                    </tr>
+                                                </thead>
+                                            </table>
+                                        </div>
 
-                                                <br>
-                                                <h6>RACI Matrix</h6>
-                                                <div class="table-responsive">
-                                                    <table class="table table-hover">
-                                                        <thead>
-                                                            <tr class="table-dark">
-                                                                <th>Task</th>
-                                                                <th>Client</th>
-                                                                <th>Vendor</th>
-                                                                <th>Accenture</th>
-                                                            </tr>
-                                                        </thead>
-                                                    </table>
-                                                </div>
-
-
-                                                <br>
-                                                <h6>Implementation Cost</h6>
-                                                <div class="table-responsive">
-                                                    <table class="table table-hover">
-                                                        <thead>
-                                                            <tr class="table-dark">
-                                                                <th>Staffing Cost</th>
-                                                                <th>Role</th>
-                                                                <th>Estimated number of hours</th>
-                                                                <th>Hourly rate</th>
-                                                                <th>Staffing Cost</th>
-                                                            </tr>
-                                                        </thead>
-                                                    </table>
-                                                </div>
-                                                <br>
-
-                                                <div class="table-responsive">
-                                                    <table class="table table-hover">
-                                                        <thead>
-                                                            <tr class="table-dark">
-                                                                <th>Travel Cost</th>
-                                                                <th>Month</th>
-                                                                <th>Monthly Travel Cost</th>
-                                                            </tr>
-                                                        </thead>
-                                                    </table>
-                                                </div>
-                                                <br>
-
-                                                <div class="table-responsive">
-                                                    <table class="table table-hover">
-                                                        <thead>
-                                                            <tr class="table-dark">
-                                                                <th>Additional Cost</th>
-                                                                <th>Item</th>
-                                                                <th>Cost</th>
-                                                            </tr>
-                                                        </thead>
-                                                    </table>
-                                                </div>
+                                        <br>
+                                        <h6>RACI Matrix</h6>
+                                        <div class="table-responsive">
+                                            <table class="table table-hover">
+                                                <thead>
+                                                    <tr class="table-dark">
+                                                        <th>Task</th>
+                                                        <th>Client</th>
+                                                        <th>Vendor</th>
+                                                        <th>Accenture</th>
+                                                    </tr>
+                                                </thead>
+                                            </table>
+                                        </div>
 
 
-                                                <br><br>
-                                                <h4>4.10. Run</h4>
-                                                <br>
-                                                <h6>Pricing Model</h6>
-                                                <div class="table-responsive">
-                                                    <table class="table table-hover">
-                                                        <thead>
-                                                            <tr class="table-dark">
-                                                                <th>Description</th>
-                                                            </tr>
-                                                        </thead>
-                                                    </table>
-                                                </div>
-                                                <br>
-                                                <h6>Estimate first 5 years billing plan</h6>
-                                                <div class="table-responsive">
-                                                    <table class="table table-hover">
-                                                        <thead>
-                                                            <tr class="table-dark">
-                                                                <th>Yearly cost</th>
-                                                            </tr>
-                                                        </thead>
-                                                        <tbody>
-                                                            <tr>
-                                                                <th>Year 0 (Total Implementation Cost)</th>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>Year 1</td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>Year 2</td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>Year 3</td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>Year 4</td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>Year 5</td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>Total cost</td>
-                                                            </tr>
-                                                        </tbody>
-                                                    </table>
-                                                </div>
+                                        <br>
+                                        <h6>Implementation Cost</h6>
+                                        <div class="table-responsive">
+                                            <table class="table table-hover">
+                                                <thead>
+                                                    <tr class="table-dark">
+                                                        <th>Staffing Cost</th>
+                                                        <th>Role</th>
+                                                        <th>Estimated number of hours</th>
+                                                        <th>Hourly rate</th>
+                                                        <th>Staffing Cost</th>
+                                                    </tr>
+                                                </thead>
+                                            </table>
+                                        </div>
+                                        <br>
 
-                                                <br><br>
-                                                <h4>4.11. Scoring Criteria</h4>
-                                                <br>
-                                                <div class="table-responsive">
-                                                    <table class="table table-striped">
-                                                        <thead>
-                                                            <tr>
-                                                                <th>Selection Criteria</th>
-                                                                <th>Year Cost Vendor</th>
-                                                            </tr>
-                                                        </thead>
+                                        <div class="table-responsive">
+                                            <table class="table table-hover">
+                                                <thead>
+                                                    <tr class="table-dark">
+                                                        <th>Travel Cost</th>
+                                                        <th>Month</th>
+                                                        <th>Monthly Travel Cost</th>
+                                                    </tr>
+                                                </thead>
+                                            </table>
+                                        </div>
+                                        <br>
+
+                                        <div class="table-responsive">
+                                            <table class="table table-hover">
+                                                <thead>
+                                                    <tr class="table-dark">
+                                                        <th>Additional Cost</th>
+                                                        <th>Item</th>
+                                                        <th>Cost</th>
+                                                    </tr>
+                                                </thead>
+                                            </table>
+                                        </div>
 
 
-                                                        <tbody>
-                                                            <tr>
-                                                                <td>1. Fitgap</td>
-                                                                <td>
-                                                                    <input type="text" class="form-control"
-                                                                        placeholder="%">
-                                                                </td>
-                                                            </tr>
+                                        <br><br>
+                                        <h4>4.10. Run</h4>
+                                        <br>
+                                        <h6>Pricing Model</h6>
+                                        <div class="table-responsive">
+                                            <table class="table table-hover">
+                                                <thead>
+                                                    <tr class="table-dark">
+                                                        <th>Description</th>
+                                                    </tr>
+                                                </thead>
+                                            </table>
+                                        </div>
+                                        <br>
+                                        <h6>Estimate first 5 years billing plan</h6>
+                                        <div class="table-responsive">
+                                            <table class="table table-hover">
+                                                <thead>
+                                                    <tr class="table-dark">
+                                                        <th>Yearly cost</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <th>Year 0 (Total Implementation Cost)</th>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Year 1</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Year 2</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Year 3</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Year 4</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Year 5</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Total cost</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
 
-                                                            <tr>
-                                                                <td>2. Vendor</td>
-                                                                <td>
-                                                                    <input type="text" class="form-control"
-                                                                        placeholder="%">
-                                                                </td>
-                                                            </tr>
-
-                                                            <tr>
-                                                                <td>3. Experience</td>
-                                                                <td>
-                                                                    <input type="text" class="form-control"
-                                                                        placeholder="%">
-                                                                </td>
-                                                            </tr>
-
-                                                            <tr>
-                                                                <td>4. Innovation & Vision</td>
-                                                                <td>
-                                                                    <input type="text" class="form-control"
-                                                                        placeholder="%">
-                                                                </td>
-                                                            </tr>
-
-                                                            <tr>
-                                                                <td>5. Implementation & Commercials</td>
-                                                                <td>
-                                                                    <input type="text" class="form-control"
-                                                                        placeholder="%">
-                                                                </td>
-                                                            </tr>
+                                        <br><br>
+                                        <h4>4.11. Scoring Criteria</h4>
+                                        <br>
+                                        <div class="table-responsive">
+                                            <table class="table table-striped">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Selection Criteria</th>
+                                                        <th>Year Cost Vendor</th>
+                                                    </tr>
+                                                </thead>
 
 
-                                                        </tbody>
-                                                    </table>
-                                                </div>
+                                                <tbody>
+                                                    <tr>
+                                                        <td>1. Fitgap</td>
+                                                        <td>
+                                                            <input type="text" class="form-control" placeholder="%">
+                                                        </td>
+                                                    </tr>
 
-                                                <!--
+                                                    <tr>
+                                                        <td>2. Vendor</td>
+                                                        <td>
+                                                            <input type="text" class="form-control" placeholder="%">
+                                                        </td>
+                                                    </tr>
+
+                                                    <tr>
+                                                        <td>3. Experience</td>
+                                                        <td>
+                                                            <input type="text" class="form-control" placeholder="%">
+                                                        </td>
+                                                    </tr>
+
+                                                    <tr>
+                                                        <td>4. Innovation & Vision</td>
+                                                        <td>
+                                                            <input type="text" class="form-control" placeholder="%">
+                                                        </td>
+                                                    </tr>
+
+                                                    <tr>
+                                                        <td>5. Implementation & Commercials</td>
+                                                        <td>
+                                                            <input type="text" class="form-control" placeholder="%">
+                                                        </td>
+                                                    </tr>
+
+
+                                                </tbody>
+                                            </table>
+                                        </div>
+
+                                        <!--
                                             <h4>4.2. Market Presence</h4>
                                             <br>
                                             <div class="table-responsive">
@@ -1848,90 +1610,15 @@
                                                 </table>
 
 -->
-                                            </div>
-
-                                            <h3>Vendor</h3>
-                                            <div>
-                                                <div class="form-group">
-                                                    <label for="exampleInputText1">Maximum number of concurrent users
-                                                    </label>
-                                                    <input type="number" class="form-control" id="exampleInputText1"
-                                                        placeholder="Maximum number of concurrent users">
-                                                </div>
-                                            </div>
-                                            <h3>Experience</h3>
-                                            <div>
-                                                <div class="form-group">
-                                                    <label for="exampleInputText1">Maximum number of concurrent users
-                                                    </label>
-                                                    <input type="number" class="form-control" id="exampleInputText1"
-                                                        placeholder="Maximum number of concurrent users">
-                                                </div>
-                                            </div>
-                                            <h3>Innovation & Vision</h3>
-                                            <div>
-                                                <div class="form-group">
-                                                    <label for="exampleInputText1">Maximum number of concurrent users
-                                                    </label>
-                                                    <input type="number" class="form-control" id="exampleInputText1"
-                                                        placeholder="Maximum number of concurrent users">
-                                                </div>
-                                            </div>
-                                            <h3>Implementation & Commercials</h3>
-                                            <div>
-                                                <div class="form-group">
-                                                    <label for="exampleInputText1">Maximum number of concurrent users
-                                                    </label>
-                                                    <input type="number" class="form-control" id="exampleInputText1"
-                                                        placeholder="Maximum number of concurrent users">
-                                                </div>
-                                            </div>
-                                        </div>
                                     </section>
-
-
-
                                 </div>
-
                             </div>
-
                         </div>
                     </div>
                 </div>
-
-
-
             </div>
 
-            <footer class="footer d-flex flex-column flex-md-row align-items-center justify-content-between">
-                <p class="text-muted text-center text-md-left" style="text-align: center; margin: 0 auto;">Copyright ©
-                    2020 Tech Advisory Platform.</p>
-
-            </footer>
-
-
+            <x-accenture.footer />
         </div>
     </div>
-
-
-    <script src="./assets/vendors/core/core.js"></script>
-    <script src="./assets/vendors/select2/select2.min.js"></script>
-    <script src="./assets/vendors/bootstrap-datepicker/bootstrap-datepicker.min.js"></script>
-
-
-    <script src="./assets/vendors/jquery-steps/jquery.steps.min.js"></script>
-
-
-    <script src="./assets/vendors/feather-icons/feather.min.js"></script>
-    <script src="./assets/js/template.js"></script>
-    <script src="./assets/vendors/dropzone/dropzone.min.js"></script>
-    <script src="./assets/js/dropzone.js"></script>
-
-
-    <script src="./assets/js/wizard.js"></script>
-    <script src="./assets/js/select2.js"></script>
-    <script src="./assets/js/datepicker.js"></script>
-
-</body>
-
-</html>
+@endsection
