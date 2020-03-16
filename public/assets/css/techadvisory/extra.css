@@ -1,0 +1,95 @@
+.horizontal-menu .bottom-navbar .page-navigation {
+    width: 40%;
+    float: right;
+}
+
+@media (max-width: 991px) {
+    .horizontal-menu .bottom-navbar .page-navigation {
+        width: 35%;
+        float: left;
+    }
+}
+
+.horizontal-menu .navbar .navbar-content .search-form .input-group .form-control, .horizontal-menu .navbar .navbar-content .search-form .input-group select, .horizontal-menu .navbar .navbar-content .search-form .input-group .email-compose-fields .select2-container--default .select2-selection--multiple, .email-compose-fields .select2-container--default .horizontal-menu .navbar .navbar-content .search-form .input-group .select2-selection--multiple, .horizontal-menu .navbar .navbar-content .search-form .input-group .select2-container--default .select2-selection--single, .select2-container--default .horizontal-menu .navbar .navbar-content .search-form .input-group .select2-selection--single, .horizontal-menu .navbar .navbar-content .search-form .input-group .select2-container--default .select2-selection--single .select2-search__field, .select2-container--default .select2-selection--single .horizontal-menu .navbar .navbar-content .search-form .input-group .select2-search__field, .horizontal-menu .navbar .navbar-content .search-form .input-group .typeahead, .horizontal-menu .navbar .navbar-content .search-form .input-group .tt-query, .horizontal-menu .navbar .navbar-content .search-form .input-group .tt-hint {
+    margin-top: 11px;
+}
+@media (min-width: 576px) {
+    .wd-sm-150 {
+        width: 250px;
+    }
+}
+
+body {
+    font-family: "Overpass", sans-serif;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased; 
+}
+.welcome_box {
+    padding: 10px;
+    background-color: #fff;
+    border: 4px solid #e8ebf1;
+    position: relative;
+}
+.welcome_text {
+    font-size: 18px;
+}
+.extra-top-15px{
+    margin-top: 15px;
+}
+.welcome_title {
+    font-size: 20px !important;
+}
+.auth-page .auth-left-wrapper {
+    width: 100%;
+    height: 100%;
+    background-image: url("../../images/loginbg.jpg");
+    background-size: cover;
+}
+
+.horizontal-menu .bottom-navbar .page-navigation > .nav-item > .nav-link .link-arrow:before {
+    line-height: 17px;
+}
+.wizard > .content {
+    min-height: 35rem;
+}
+.wizard > .steps ul li.done a {
+    background: #38005a;
+}
+
+.select2-container--default .select2-search--inline .select2-search__field {
+    border: none !important;
+}
+.w-100 {
+    width:100% !important;
+}
+.card-shadow {
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+.table-dark, .table-dark, .table-dark > th, .table-dark > td {
+    color: #fff !important;
+    background-color: #343a40 !important;
+}
+.apexcharts-yaxis {
+    color: yellow !important;
+}
+.apexcharts-datalabels text,.apexcharts-legend-text{
+    font-size: 15px !important; 
+}
+
+h5, .h5 {
+    font-size: 1.1rem;
+}
+.horizontal-menu .navbar .navbar-content .search-form {
+    display: none !important;
+}
+.profile-page .profile-header .header-links ul li a {
+    -webkit-transition: none;
+    transition: none; 
+}
+
+.menu-client {
+    width: 20% !important;
+  }
+  
