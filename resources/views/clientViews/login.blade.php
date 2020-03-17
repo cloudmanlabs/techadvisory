@@ -1,19 +1,6 @@
-<!DOCTYPE html>
+@extends('clientViews.layouts.app')
 
-<html lang="en">
-  <head>
-    <meta charset="UTF-8">
-    <meta content="width=device-width, initial-scale=1.0" name="viewport">
-    <meta content="ie=edge" http-equiv="X-UA-Compatible">
-
-    <title>Tech Advisory Platform</title>
-    <link href="./assets/vendors/core/core.css" rel="stylesheet">
-    <link href="./assets/fonts/feather-font/css/iconfont.css" rel="stylesheet">
-    <link href="./assets/css/techadvisory/style.css" rel="stylesheet">
-    <link href="./assets/css/techadvisory/extra.css" rel="stylesheet">
-  </head>
-
-  <body>
+@section('content')
     <div class="main-wrapper" style="margin-top: 10vh;">
       <div class="page-wrapper full-page">
         <div class="page-content d-flex align-items-center justify-content-center">
@@ -27,28 +14,27 @@
                   </div>
                   <div class="col-md-8 pl-md-0">
                     <div class="auth-form-wrapper px-4 py-5">
-                      <div style="text-align: center;"><img src="./assets/images/techadvisory-logo.png" style="max-height: 80px; margin-bottom: 50px;">
+                      <div style="text-align: center;"><img src="@logo" style="max-height: 80px; margin-bottom: 50px;">
                       </div>
-
 
                       <form class="forms-sample">
                         <div class="form-group">
                           <label for="exampleInputEmail1">Email address</label> <input class="form-control" id="exampleInputEmail1" placeholder="Email" type="email">
                         </div>
 
-
                         <div class="form-group">
                           <label for="exampleInputPassword1">Password</label> <input autocomplete="current-password" class="form-control" id="exampleInputPassword1" placeholder="Password" type="password">
                         </div>
-
 
                         <div class="form-check form-check-flat form-check-primary">
                           <label class="form-check-label"><input class="form-check-input" type="checkbox"> Remember me</label>
                         </div>
 
+                        <a href="#" class="purpleColor">I forgot my password</a>
+
                         <div style="margin-top: 30px; float: right; margin-bottom: 20px;">
                           <div class="mt-3">
-                            <a class="btn btn-primary btn-lg btn-icon-text" href="client_first_login_registration.html"><i class="btn-icon-prepend" data-feather="arrow-right"></i> Log in</a>
+                            <a class="btn btn-primary btn-lg btn-icon-text" href="{{route('client.firstLoginRegistration')}}"><i class="btn-icon-prepend" data-feather="arrow-right"></i> Log in</a>
                           </div>
                         </div>
                       </form>
@@ -61,11 +47,4 @@
         </div>
       </div>
     </div>
-    <script src="./assets/vendors/core/core.js">
-	</script>
-    <script src="./assets/vendors/feather-icons/feather.min.js">
-	</script>
-    <script src="./assets/js/template.js">
-	</script>
-  </body>
-</html>
+@endsection

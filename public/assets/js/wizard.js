@@ -6,7 +6,7 @@ $(function () {
         bodyTag: "section",
         transitionEffect: "slideLeft",
         onFinishing: function (event, currentIndex) {
-            window.location.replace("./client_home.html");
+            window.location.replace("/client/home");
         }
     });
 

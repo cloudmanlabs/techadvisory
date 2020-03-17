@@ -96,12 +96,39 @@ Route::prefix('client')
             }
         });
 
+        Route::view('login', 'clientViews.login')
+            ->name('login');
+        Route::view('firstLoginRegistration', 'clientViews.firstLoginRegistration')
+            ->name('firstLoginRegistration');
+        Route::view('homeProfileCreate', 'clientViews.homeProfileCreate')
+            ->name('homeProfileCreate');
+        Route::view('newProjectSetUp', 'clientViews.newProjectSetUp')
+            ->name('newProjectSetUp');
+
         Route::view('home', 'clientViews.home')
             ->name('home');
 
+        Route::view('project/home', 'clientViews.projectHome')
+            ->name('projectHome');
+        Route::view('project/edit', 'clientViews.projectEdit')
+            ->name('projectEdit');
+        Route::view('project/discovery', 'clientViews.projectDiscovery')
+            ->name('projectDiscovery');
+        Route::view('project/conclusions', 'clientViews.projectConclusions')
+            ->name('projectConclusions');
 
-        Route::view('login', 'clientViews.login')
-            ->name('login');
+        Route::view('project/benchmark', 'clientViews.projectBenchmark')
+            ->name('projectBenchmark');
+        Route::view('project/benchmark/fitgap', 'clientViews.projectBenchmarkFitgap')
+            ->name('projectBenchmarkFitgap');
+        Route::view('project/benchmark/vendor', 'clientViews.projectBenchmarkVendor')
+            ->name('projectBenchmarkVendor');
+        Route::view('project/benchmark/experience', 'clientViews.projectBenchmarkExperience')
+            ->name('projectBenchmarkExperience');
+        Route::view('project/benchmark/innovation', 'clientViews.projectBenchmarkInnovation')
+            ->name('projectBenchmarkInnovation');
+        Route::view('project/benchmark/implementation', 'clientViews.projectBenchmarkImplementation')
+            ->name('projectBenchmarkImplementation');
     });
 
 
