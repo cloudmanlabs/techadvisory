@@ -13,26 +13,6 @@
                     </div>
                 </div>
 
-                <div class="row">
-                    <div class="col-12 col-xl-12 stretch-card">
-                        <div class="card">
-                            <div class="card-body">
-                                <div style="float: left;">
-                                    <h3>Global Transport Management</h3>
-                                </div>
-
-                                <div style="float: right; width: 35%;">
-                                    Current status
-                                    <div class="progress">
-                                        <div class="progress-bar" role="progressbar" style="width: 65%;"
-                                            aria-valuenow="65" aria-valuemin="0" aria-valuemax="100">65%</div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
                 <x-accenture.projectNavbar section="projectOrals" />
 
                 <br>
