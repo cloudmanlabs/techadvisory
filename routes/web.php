@@ -14,9 +14,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return redirect('/accenture');
-});
+Route::view('/', 'welcome');
 
 
 
@@ -31,12 +29,15 @@ Route::
             } else {
                 return redirect()->route('accenture.login');
             }
-        });
+        })
+            ->name('main');
 
         Route::view('home', 'accentureViews.home')
             ->name('home');
         Route::view('login', 'accentureViews.login')
             ->name('login');
+        Route::view('forgotPassword', 'accentureViews.forgotPassword')
+            ->name('forgotPassword');
         Route::view('newProjectSetUp', 'accentureViews.newProjectSetUp')
             ->name('newProjectSetUp');
         Route::view('clientList', 'accentureViews.clientList')
@@ -94,10 +95,13 @@ Route::prefix('client')
             } else {
                 return redirect()->route('client.login');
             }
-        });
+        })
+            ->name('main');
 
         Route::view('login', 'clientViews.login')
             ->name('login');
+        Route::view('forgotPassword', 'clientViews.forgotPassword')
+            ->name('forgotPassword');
         Route::view('firstLoginRegistration', 'clientViews.firstLoginRegistration')
             ->name('firstLoginRegistration');
         Route::view('homeProfileCreate', 'clientViews.homeProfileCreate')
@@ -143,10 +147,13 @@ Route::prefix('vendor')
             } else {
                 return redirect()->route('vendor.login');
             }
-        });
+        })
+            ->name('main');
 
         Route::view('login', 'vendorViews.login')
             ->name('login');
+        Route::view('forgotPassword', 'vendorViews.forgotPassword')
+            ->name('forgotPassword');
         Route::view('firstLoginRegistration', 'vendorViews.firstLoginRegistration')
             ->name('firstLoginRegistration');
         Route::view('homeProfileCreate', 'vendorViews.homeProfileCreate')

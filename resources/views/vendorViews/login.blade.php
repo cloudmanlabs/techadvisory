@@ -34,6 +34,8 @@
                           <label class="form-check-label"><input class="form-check-input" type="checkbox"> Remember me</label>
                         </div>
 
+                        <a href="{{route('vendor.forgotPassword')}}" class="purpleColor">I forgot my password</a>
+
 
                         <div style="margin-top: 30px; float: right; margin-bottom: 20px;">
                           <div class="mt-3">
