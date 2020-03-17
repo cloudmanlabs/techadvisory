@@ -145,10 +145,21 @@ Route::prefix('vendor')
             }
         });
 
-        Route::view('home', 'vendorViews.home')
-            ->name('home');
-
-
         Route::view('login', 'vendorViews.login')
             ->name('login');
+        Route::view('firstLoginRegistration', 'vendorViews.firstLoginRegistration')
+            ->name('firstLoginRegistration');
+        Route::view('homeProfileCreate', 'vendorViews.homeProfileCreate')
+            ->name('homeProfileCreate');
+        Route::view('newSolutionSetUp', 'vendorViews.newSolutionSetUp')
+            ->name('newSolutionSetUp');
+        Route::view('newApplication', 'vendorViews.newApplication')
+            ->name('newApplication');
+        Route::view('newApplicationApply', 'vendorViews.newApplicationApply')
+            ->name('newApplicationApply');
+
+        Route::view('home', 'vendorViews.home')
+            ->name('home');
+        Route::view('solutionsHome', 'vendorViews.solutionsHome')
+            ->name('solutionsHome');
     });

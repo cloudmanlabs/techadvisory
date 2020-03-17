@@ -752,7 +752,7 @@
             </div>
 
 
-        <x-accenture.footer />
+        <x-footer />
     </div>
 </div>
 @endsection

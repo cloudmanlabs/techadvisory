@@ -126,7 +126,7 @@
                 </div>
             </div>
 
-            <x-client.footer />
+            <x-footer />
         </div>
     </div>
 @endsection

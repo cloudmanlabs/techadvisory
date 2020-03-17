@@ -16,7 +16,7 @@ $(function () {
         bodyTag: "section",
         transitionEffect: "slideLeft",
         onFinishing: function (event, currentIndex) {
-            window.location.replace("./vendor_new_solution_set_up.html");
+            window.location.replace("/vendor/newSolutionSetUp");
         }
     });
 
@@ -26,7 +26,7 @@ $(function () {
         bodyTag: "section",
         transitionEffect: "slideLeft",
         onFinishing: function (event, currentIndex) {
-            window.location.replace("./vendor_home.html");
+            window.location.replace("/vendor/home");
         }
     });
 
