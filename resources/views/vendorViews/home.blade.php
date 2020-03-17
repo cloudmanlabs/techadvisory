@@ -30,7 +30,7 @@
                                             <h6>Solution type</h6>
                                         </div>
                                         <div style="float: right; text-align: right; width: 17%;">
-                                            <a class="btn btn-primary btn-lg btn-icon-text" href="{{route('vendor.newApplication')}}">Apply <i class="btn-icon-prepend" data-feather="arrow-right"></i></a>
+                                            <a class="btn btn-primary btn-lg btn-icon-text" href="{{route('vendor.createNewApplication')}}">Apply <i class="btn-icon-prepend" data-feather="arrow-right"></i></a>
                                         </div>
                                         <!--<div style="float: right; width: 35%; margin-right: 5%; margin-left: 5%;">
                                             Current status
@@ -54,7 +54,6 @@
                                 <br>
                                 <br>
 
-
                                 <div class="card" style="margin-bottom: 30px;">
                                     <div class="card-body">
                                         <div style="float: left; max-width: 40%;">
@@ -62,7 +61,7 @@
                                             <h6>Solution type</h6>
                                         </div>
                                         <div style="float: right; text-align: right; width: 15%;">
-                                            <a class="btn btn-primary btn-lg btn-icon-text" href="vendor_application_home.html">View <i class="btn-icon-prepend" data-feather="arrow-right"></i></a>
+                                            <a class="btn btn-primary btn-lg btn-icon-text" href="{{route('vendor.newApplicationApply')}}">View <i class="btn-icon-prepend" data-feather="arrow-right"></i></a>
                                         </div>
                                         <div style="float: right; width: 35%; margin-right: 10%;">
                                             Current status
@@ -81,7 +80,7 @@
                                             <h6>Solution type</h6>
                                         </div>
                                         <div style="float: right; text-align: right; width: 15%;">
-                                            <a class="btn btn-primary btn-lg btn-icon-text" href="vendor_application_home.html">View <i class="btn-icon-prepend" data-feather="arrow-right"></i></a>
+                                            <a class="btn btn-primary btn-lg btn-icon-text" href="{{route('vendor.newApplicationApply')}}">View <i class="btn-icon-prepend" data-feather="arrow-right"></i></a>
                                         </div>
                                         <div style="float: right; width: 35%; margin-right: 10%;">
                                             Current status
@@ -113,7 +112,7 @@
                                             <h6>Solution type</h6>
                                         </div>
                                         <div style="float: right; text-align: right; width: 15%;">
-                                            <a class="btn btn-primary btn-lg btn-icon-text" href="vendor_application_home.html">View <i class="btn-icon-prepend" data-feather="arrow-right"></i></a>
+                                            <a class="btn btn-primary btn-lg btn-icon-text" href="{{route('vendor.newApplicationApply')}}">View <i class="btn-icon-prepend" data-feather="arrow-right"></i></a>
                                         </div>
                                         <div style="float: right; width: 35%; margin-right: 10%;">
                                             Current status
@@ -132,7 +131,7 @@
                                             <h6>Solution type</h6>
                                         </div>
                                         <div style="float: right; text-align: right; width: 15%;">
-                                            <a class="btn btn-primary btn-lg btn-icon-text" href="vendor_application_home.html">View <i class="btn-icon-prepend" data-feather="arrow-right"></i></a>
+                                            <a class="btn btn-primary btn-lg btn-icon-text" href="{{route('vendor.newApplicationApply')}}">View <i class="btn-icon-prepend" data-feather="arrow-right"></i></a>
                                         </div>
                                         <div style="float: right; width: 35%; margin-right: 10%;">
                                             Current status
@@ -142,11 +141,6 @@
                                         </div>
                                     </div>
                                 </div>
-
-
-
-
-
                             </div>
                         </div>
                     </div>

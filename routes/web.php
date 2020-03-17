@@ -153,6 +153,9 @@ Route::prefix('vendor')
             ->name('homeProfileCreate');
         Route::view('newSolutionSetUp', 'vendorViews.newSolutionSetUp')
             ->name('newSolutionSetUp');
+
+        Route::redirect('createNewApplication', '/vendor/newApplication') // TODO Here we should accept the  stuff and go to the newApplication to fill the data
+            ->name('createNewApplication');
         Route::view('newApplication', 'vendorViews.newApplication')
             ->name('newApplication');
         Route::view('newApplicationApply', 'vendorViews.newApplicationApply')

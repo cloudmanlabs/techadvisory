@@ -2,7 +2,7 @@
 
 @section('content')
     <div class="main-wrapper">
-        <x-vendor.navbar activeSection="home" />
+        <x-vendor.navbar activeSection="solutions" />
 
         <div class="page-wrapper">
             <div class="page-content">
