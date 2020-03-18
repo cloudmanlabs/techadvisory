@@ -20,6 +20,14 @@ $(function () {
         }
     });
 
+    $("#wizardVendorAccenture").steps({
+        headerTag: "h2",
+        bodyTag: "section",
+        transitionEffect: "slideLeft",
+        onFinishing: function (event, currentIndex) {
+            window.location.replace("/accenture/vendorList");
+        }
+    });
 
     $("#wizard_vendor_go_to_home").steps({
         headerTag: "h2",
@@ -40,5 +48,12 @@ $(function () {
         }
     });
 
-
+    $("#subwizard").steps({
+        headerTag: "h3",
+        bodyTag: "div",
+        transitionEffect: "slideLeft",
+        onFinishing: function (event, currentIndex) {
+            window.location.replace("./accenture_home.html");
+        }
+    });
 });

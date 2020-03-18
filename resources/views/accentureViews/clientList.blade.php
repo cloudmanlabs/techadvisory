@@ -29,7 +29,7 @@
                                         </div>
                                         <div style="float: right; text-align: right; width: 15%;">
                                             <a class="btn btn-primary btn-lg btn-icon-text"
-                                                href="./client_home_profile_create.html">View <i
+                                                href="{{route('accenture.clientHomeProfileCreate')}}">View <i
                                                     class="btn-icon-prepend" data-feather="arrow-right"></i></a>
                                         </div>
                                         <div style="float: right; width: 20%; margin-right: 10%;">
@@ -40,6 +40,22 @@
                                         </div>
                                     </div>
                                 </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row" id="startnew">
+                    <div class="col-lg-12 grid-margin stretch-card">
+                        <div class="card">
+                            <div class="card-body">
+                                <h3>Create new Client</h3>
+                                <br>
+                                <br>
+
+                                <a class="btn btn-primary btn-lg btn-icon-text" href="{{route('accenture.createNewClient')}}">Create and
+                                    do
+                                    initial set-up <i class="btn-icon-prepend" data-feather="arrow-right"></i></a>
                             </div>
                         </div>
                     </div>

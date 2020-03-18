@@ -20,12 +20,13 @@
         <link rel="stylesheet" href="{{url('assets/vendors/select2/select2.min.css')}}">
     @show
 </head>
-
 <body>
     @yield('content')
 
     @section('scripts')
         <script src="{{url('/assets/vendors/core/core.js')}}"></script>
+        <script src="{{url('assets/js/select2.js')}}"></script>
+        <script src="{{url('assets/vendors/select2/select2.min.js')}}"></script>
         <script src="{{url('/assets/vendors/chartjs/Chart.min.js')}}"></script>
         <script src="{{url('/assets/vendors/jquery.flot/jquery.flot.js')}}"></script>
         <script src="{{url('/assets/vendors/jquery.flot/jquery.flot.resize.js')}}"></script>

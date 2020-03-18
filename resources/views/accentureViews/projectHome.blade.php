@@ -167,9 +167,7 @@
                         <div class="card">
                             <div class="card-body">
                                 <h3>Disqualified Vendors</h3>
-                                <p class="welcome_text extra-top-15px">The following vendors have submitted the
-                                    selection criteria section for this project. In order to allow them to continue the
-                                    process, please evaluate vendor response for each area.</p>
+                                <p class="welcome_text extra-top-15px">The following vendors have been marked as disqualified from  this project.</p>
                                 <br>
                                 <br>
 

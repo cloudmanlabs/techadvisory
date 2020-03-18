@@ -30,7 +30,7 @@
                                         </div>
                                         <div style="float: right; text-align: right; width: 15%;">
                                             <a class="btn btn-primary btn-lg btn-icon-text"
-                                                href="./vendor_home_profile_create.html">View <i
+                                                href="{{route('accenture.vendorHomeProfileCreate')}}">View <i
                                                     class="btn-icon-prepend" data-feather="arrow-right"></i></a>
                                         </div>
                                         <div style="float: right; width: 20%; margin-right: 10%;">
@@ -61,7 +61,7 @@
                                         <h4>Vendor Name</h4>
                                     </div>
                                     <div style="float: right; text-align: right; width: 15%;">
-                                        <a class="btn btn-primary btn-lg btn-icon-text" href="#">Validate</a>
+                                        <a class="btn btn-primary btn-lg btn-icon-text" href="{{route('accenture.vendorValidateResponses')}}">Validate</a>
                                     </div>
                                     <div style="float: right; width: 20%; margin-right: 10%;">
                                         <h5>Segment name</h5>
@@ -71,6 +71,22 @@
                                         <img alt="profile" src="@profilePic" style="height: 20px">
                                     </div>
                                 </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row" id="startnew">
+                    <div class="col-lg-12 grid-margin stretch-card">
+                        <div class="card">
+                            <div class="card-body">
+                                <h3>Create new Vendor</h3>
+                                <br>
+                                <br>
+
+                                <a class="btn btn-primary btn-lg btn-icon-text" href="{{route('accenture.createNewVendor')}}">Create and
+                                    do
+                                    initial set-up <i class="btn-icon-prepend" data-feather="arrow-right"></i></a>
                             </div>
                         </div>
                     </div>

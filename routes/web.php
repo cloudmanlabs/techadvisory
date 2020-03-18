@@ -44,6 +44,16 @@ Route::
             ->name('clientList');
         Route::view('vendorList', 'accentureViews.vendorList')
             ->name('vendorList');
+        Route::view('vendorHomeProfileCreate', 'accentureViews.vendorHomeProfileCreate')
+            ->name('vendorHomeProfileCreate');
+        Route::redirect('createNewVendor', '/accenture/vendorHomeProfileCreate') // TODO Here we should create the new vendor and stuff
+            ->name('createNewVendor');
+        Route::view('vendorValidateResponses', 'accentureViews.vendorValidateResponses')
+            ->name('vendorValidateResponses');
+        Route::view('clientHomeProfileCreate', 'accentureViews.clientHomeProfileCreate')
+            ->name('clientHomeProfileCreate');
+        Route::redirect('createNewClient', '/accenture/clientHomeProfileCreate') // TODO Here we should create the new client and stuff
+            ->name('createNewClient');
 
         Route::view('project/home', 'accentureViews.projectHome')
             ->name('projectHome');
