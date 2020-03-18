@@ -28,7 +28,7 @@
                                 <br>
 
                                 <x-vendorCard>
-                                    <div style="float: right; text-align: right; width: 15%;">
+                                    <div style=" text-align: right; width: 15%;">
                                         <a class="btn btn-primary btn-lg btn-icon-text" href="{{route('accenture.viewVendorProposal')}}">View/Edit
                                         </a>
                                     </div>
@@ -50,12 +50,8 @@
                                 <br>
 
                                 <x-vendorCard>
-                                    <div style="float: right; text-align: right; width: 10%; ">
-                                        <a style="padding: .5rem .5rem .4rem;" class="btn btn-primary btn-lg btn-icon-text" href="{{route('accenture.projectHome')}}">Disqualify vendor
-                                        </a>
-                                    </div>
-                                    <div style="float: right; text-align: right; width: 10%; margin-right: 1rem;">
-                                        <a style="padding: .5rem .5rem .4rem;" class="btn btn-primary btn-lg btn-icon-text"
+                                    <div style="text-align: right; width: 15%;">
+                                        <a class="btn btn-primary btn-lg btn-icon-text"
                                             href="{{route('accenture.viewVendorProposalEvaluation')}}">Evaluate Response
                                         </a>
                                     </div>
@@ -75,7 +71,11 @@
                                 <br>
 
                                 <x-vendorCard :showProgressBar="false">
-                                    <div style="float: right; text-align: right; width: 15%;">
+                                    <div style="text-align: right; width: 10%; ">
+                                        <a class="btn btn-primary btn-lg btn-icon-text" href="{{route('accenture.projectHome')}}">Disqualify vendor
+                                        </a>
+                                    </div>
+                                    <div style="text-align: right; width: 10%;">
                                         <a class="btn btn-primary btn-lg btn-icon-text"
                                             href="{{route('accenture.projectHome')}}">Release Response</a>
                                     </div>

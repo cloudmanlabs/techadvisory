@@ -57,8 +57,10 @@ Route::
 
         Route::view('project/home', 'accentureViews.projectHome')
             ->name('projectHome');
-        Route::view('project/editView', 'accentureViews.projectEditView')
-            ->name('projectEditView');
+        Route::view('project/edit', 'accentureViews.projectEdit')
+            ->name('projectEdit');
+        Route::view('project/view', 'accentureViews.projectView')
+            ->name('projectView');
         Route::view('project/valueTargeting', 'accentureViews.projectValueTargeting')
             ->name('projectValueTargeting');
         Route::view('project/orals', 'accentureViews.projectOrals')

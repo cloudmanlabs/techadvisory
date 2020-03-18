@@ -1,0 +1,26 @@
+.formItemContainer {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center
+}
+
+.form-group {
+    width: 100%
+}
+
+.evalDiv {
+    width: 10rem;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+.evalDiv>input {
+    width: 7rem;
+}
+
+select:disabled {
+    color: #495057
+}

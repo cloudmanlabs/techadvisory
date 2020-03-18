@@ -64,7 +64,7 @@
                                     today. Note that, if you do not currently have the info for some specific fields,
                                     you can leave them blank and fill up them later.</p>
                                 <br>
-                                <div id="wizard_accenture">
+                                <div id="viewVendorProposalEvaluationWizard">
                                     <h2>Fit Gap</h2>
                                     <section>
                                         <br>
@@ -133,16 +133,21 @@
                                                 1. Lorem ipsum dolor sit amet, consectetur adipiscing elit?
                                             </h6>
                                             <div style="margin-left: 20px; margin-top: 20px;">
-                                                <label for="exampleInputText1">
-                                                    Response
-                                                </label>
-                                                <textarea class="form-control" id="exampleFormControlTextarea1" rows="5"
-                                                    required></textarea>
-                                                <label for="exampleInputText1">
-                                                    Comments
-                                                </label>
-                                                <textarea class="form-control" id="exampleFormControlTextarea1" rows="5"
-                                                    required></textarea>
+                                                <x-accenture.evaluateInputGroup>
+                                                    <label for="exampleInputText1">
+                                                        Response
+                                                    </label>
+                                                    <textarea class="form-control" id="exampleFormControlTextarea1" rows="5" style="width: 100%"
+                                                        disabled>Response here</textarea>
+                                                </x-accenture.evaluateInputGroup>
+
+                                                <x-accenture.evaluateInputGroup>
+                                                    <label for="exampleInputText1">
+                                                        Comments
+                                                    </label>
+                                                    <textarea class="form-control" id="exampleFormControlTextarea1" rows="5"
+                                                        disabled>Response here</textarea>
+                                                </x-accenture.evaluateInputGroup>
                                             </div>
                                             <br>
 
@@ -151,16 +156,21 @@
                                                 2. Lorem ipsum dolor sit amet, consectetur adipiscing elit?
                                             </h6>
                                             <div style="margin-left: 20px; margin-top: 20px;">
-                                                <label for="exampleInputText1">
-                                                    Response
-                                                </label>
-                                                <textarea class="form-control" id="exampleFormControlTextarea1" rows="5"
-                                                    required></textarea>
-                                                <label for="exampleInputText1">
-                                                    Comments
-                                                </label>
-                                                <textarea class="form-control" id="exampleFormControlTextarea1" rows="5"
-                                                    required></textarea>
+                                                <x-accenture.evaluateInputGroup>
+                                                    <label for="exampleInputText1">
+                                                        Response
+                                                    </label>
+                                                    <textarea class="form-control" id="exampleFormControlTextarea1" rows="5"
+                                                        disabled>Response here</textarea>
+                                                </x-accenture.evaluateInputGroup>
+
+                                                <x-accenture.evaluateInputGroup>
+                                                    <label for="exampleInputText1">
+                                                        Comments
+                                                    </label>
+                                                    <textarea class="form-control" id="exampleFormControlTextarea1" rows="5"
+                                                        disabled>Response here</textarea>
+                                                </x-accenture.evaluateInputGroup>
                                             </div>
                                             <br>
 
@@ -169,16 +179,21 @@
                                                 3. Lorem ipsum dolor sit amet, consectetur adipiscing elit?
                                             </h6>
                                             <div style="margin-left: 20px; margin-top: 20px;">
-                                                <label for="exampleInputText1">
-                                                    Response
-                                                </label>
-                                                <textarea class="form-control" id="exampleFormControlTextarea1" rows="5"
-                                                    required></textarea>
-                                                <label for="exampleInputText1">
-                                                    Comments
-                                                </label>
-                                                <textarea class="form-control" id="exampleFormControlTextarea1" rows="5"
-                                                    required></textarea>
+                                                <x-accenture.evaluateInputGroup>
+                                                    <label for="exampleInputText1">
+                                                        Response
+                                                    </label>
+                                                    <textarea class="form-control" id="exampleFormControlTextarea1" rows="5"
+                                                        disabled>Response here</textarea>
+                                                </x-accenture.evaluateInputGroup>
+
+                                                <x-accenture.evaluateInputGroup>
+                                                    <label for="exampleInputText1">
+                                                        Comments
+                                                    </label>
+                                                    <textarea class="form-control" id="exampleFormControlTextarea1" rows="5"
+                                                        disabled>Response here</textarea>
+                                                </x-accenture.evaluateInputGroup>
                                             </div>
                                             <br>
 
@@ -187,16 +202,20 @@
                                                 4. Lorem ipsum dolor sit amet, consectetur adipiscing elit?
                                             </h6>
                                             <div style="margin-left: 20px; margin-top: 20px;">
-                                                <label for="exampleInputText1">
-                                                    Response
-                                                </label>
-                                                <textarea class="form-control" id="exampleFormControlTextarea1" rows="5"
-                                                    required></textarea>
-                                                <label for="exampleInputText1">
-                                                    Comments
-                                                </label>
-                                                <textarea class="form-control" id="exampleFormControlTextarea1" rows="5"
-                                                    required></textarea>
+                                                <x-accenture.evaluateInputGroup>
+                                                    <label for="exampleInputText1">
+                                                        Response
+                                                    </label>
+                                                    <textarea class="form-control" id="exampleFormControlTextarea1" rows="5"
+                                                        disabled>Response here</textarea>
+                                                </x-accenture.evaluateInputGroup>
+                                                <x-accenture.evaluateInputGroup>
+                                                    <label for="exampleInputText1">
+                                                        Comments
+                                                    </label>
+                                                    <textarea class="form-control" id="exampleFormControlTextarea1" rows="5"
+                                                        disabled>Response here</textarea>
+                                                </x-accenture.evaluateInputGroup>
                                             </div>
                                             <br>
 
@@ -205,16 +224,20 @@
                                                 5. Lorem ipsum dolor sit amet, consectetur adipiscing elit?
                                             </h6>
                                             <div style="margin-left: 20px; margin-top: 20px;">
-                                                <label for="exampleInputText1">
-                                                    Response
-                                                </label>
-                                                <textarea class="form-control" id="exampleFormControlTextarea1" rows="5"
-                                                    required></textarea>
-                                                <label for="exampleInputText1">
-                                                    Comments
-                                                </label>
-                                                <textarea class="form-control" id="exampleFormControlTextarea1" rows="5"
-                                                    required></textarea>
+                                                <x-accenture.evaluateInputGroup>
+                                                    <label for="exampleInputText1">
+                                                        Response
+                                                    </label>
+                                                    <textarea class="form-control" id="exampleFormControlTextarea1" rows="5"
+                                                        disabled>Response here</textarea>
+                                                </x-accenture.evaluateInputGroup>
+                                                <x-accenture.evaluateInputGroup>
+                                                    <label for="exampleInputText1">
+                                                        Comments
+                                                    </label>
+                                                    <textarea class="form-control" id="exampleFormControlTextarea1" rows="5"
+                                                        disabled>Response here</textarea>
+                                                </x-accenture.evaluateInputGroup>
                                             </div>
                                             <br>
 
@@ -225,75 +248,89 @@
                                                 1. Headquarters
                                             </h6>
                                             <div style="margin-left: 20px; margin-top: 20px;">
-                                                <label for="exampleInputText1">
-                                                    Response
-                                                </label>
-                                                <textarea class="form-control" id="exampleFormControlTextarea1" rows="5"
-                                                    required></textarea>
-                                                <label for="exampleInputText1">
-                                                    Comments
-                                                </label>
-                                                <textarea class="form-control" id="exampleFormControlTextarea1" rows="5"
-                                                    required></textarea>
+                                                <x-accenture.evaluateInputGroup>
+                                                    <label for="exampleInputText1">
+                                                        Response
+                                                    </label>
+                                                    <textarea class="form-control" id="exampleFormControlTextarea1" rows="5"
+                                                        disabled>Response here</textarea>
+                                                </x-accenture.evaluateInputGroup>
+                                                <x-accenture.evaluateInputGroup>
+                                                    <label for="exampleInputText1">
+                                                        Comments
+                                                    </label>
+                                                    <textarea class="form-control" id="exampleFormControlTextarea1" rows="5"
+                                                        disabled>Response here</textarea>
+                                                </x-accenture.evaluateInputGroup>
                                             </div>
                                             <br>
                                             <h6>
                                                 2. Commercial Offices
                                             </h6>
                                             <div style="margin-left: 20px; margin-top: 20px;">
-                                                <label for="exampleInputText1">
-                                                    Response
-                                                </label>
-                                                <textarea class="form-control" id="exampleFormControlTextarea1" rows="5"
-                                                    required></textarea>
-                                                <label for="exampleInputText1">
-                                                    Comments
-                                                </label>
-                                                <textarea class="form-control" id="exampleFormControlTextarea1" rows="5"
-                                                    required></textarea>
+                                                <x-accenture.evaluateInputGroup>
+                                                    <label for="exampleInputText1">
+                                                        Response
+                                                    </label>
+                                                    <textarea class="form-control" id="exampleFormControlTextarea1" rows="5"
+                                                        disabled>Response here</textarea>
+                                                </x-accenture.evaluateInputGroup>
+                                                <x-accenture.evaluateInputGroup>
+                                                    <label for="exampleInputText1">
+                                                        Comments
+                                                    </label>
+                                                    <textarea class="form-control" id="exampleFormControlTextarea1" rows="5"
+                                                        disabled>Response here</textarea>
+                                                </x-accenture.evaluateInputGroup>
                                             </div>
                                             <br>
                                             <h6>
                                                 3. Service Team Offices
                                             </h6>
                                             <div style="margin-left: 20px; margin-top: 20px;">
-                                                <label for="exampleInputText1">
-                                                    Response
-                                                </label>
-                                                <textarea class="form-control" id="exampleFormControlTextarea1" rows="5"
-                                                    required></textarea>
-                                                <label for="exampleInputText1">
-                                                    Comments
-                                                </label>
-                                                <textarea class="form-control" id="exampleFormControlTextarea1" rows="5"
-                                                    required></textarea>
+                                                <x-accenture.evaluateInputGroup>
+                                                    <label for="exampleInputText1">
+                                                        Response
+                                                    </label>
+                                                    <textarea class="form-control" id="exampleFormControlTextarea1" rows="5"
+                                                        disabled>Response here</textarea>
+                                                </x-accenture.evaluateInputGroup>
+                                                <x-accenture.evaluateInputGroup>
+                                                    <label for="exampleInputText1">
+                                                        Comments
+                                                    </label>
+                                                    <textarea class="form-control" id="exampleFormControlTextarea1" rows="5"
+                                                        disabled>Response here</textarea>
+                                                </x-accenture.evaluateInputGroup>
                                             </div>
                                             <br>
                                             <h6>
                                                 4. Geographies with solution implementations
                                             </h6>
                                             <div style="margin-left: 20px; margin-top: 20px;">
-                                                <label for="exampleInputText1">
-                                                    Response
-                                                </label>
-                                                <textarea class="form-control" id="exampleFormControlTextarea1" rows="5"
-                                                    required></textarea>
-                                                <label for="exampleInputText1">
-                                                    Comments
-                                                </label>
-                                                <textarea class="form-control" id="exampleFormControlTextarea1" rows="5"
-                                                    required></textarea>
+                                                <x-accenture.evaluateInputGroup>
+                                                    <label for="exampleInputText1">
+                                                        Response
+                                                    </label>
+                                                    <textarea class="form-control" id="exampleFormControlTextarea1" rows="5"
+                                                        disabled>Response here</textarea>
+                                                </x-accenture.evaluateInputGroup>
+                                                <x-accenture.evaluateInputGroup>
+                                                    <label for="exampleInputText1">
+                                                        Comments
+                                                    </label>
+                                                    <textarea class="form-control" id="exampleFormControlTextarea1" rows="5"
+                                                        disabled>Response here</textarea>
+                                                </x-accenture.evaluateInputGroup>
                                             </div>
                                             <br>
 
 
                                         </div>
-
                                     </section>
 
                                     <h2>Experience</h2>
                                     <section>
-
                                         <h4>3.1 Questions</h4>
                                         <br>
                                         <div class="form-group">
@@ -301,16 +338,20 @@
                                                 1. Industry Experience
                                             </h6>
                                             <div style="margin-left: 20px; margin-top: 20px;">
-                                                <label for="exampleInputText1">
-                                                    Response
-                                                </label>
-                                                <textarea class="form-control" id="exampleFormControlTextarea1" rows="5"
-                                                    required></textarea>
-                                                <label for="exampleInputText1">
-                                                    Comments
-                                                </label>
-                                                <textarea class="form-control" id="exampleFormControlTextarea1" rows="5"
-                                                    required></textarea>
+                                                <x-accenture.evaluateInputGroup>
+                                                    <label for="exampleInputText1">
+                                                        Response
+                                                    </label>
+                                                    <textarea class="form-control" id="exampleFormControlTextarea1" rows="5"
+                                                        disabled>Response here</textarea>
+                                                </x-accenture.evaluateInputGroup>
+                                                <x-accenture.evaluateInputGroup>
+                                                        <label for="exampleInputText1">
+                                                        Comments
+                                                    </label>
+                                                    <textarea class="form-control" id="exampleFormControlTextarea1" rows="5"
+                                                        disabled>Response here</textarea>
+                                                </x-accenture.evaluateInputGroup>
                                             </div>
                                             <br>
 
@@ -319,16 +360,20 @@
                                                 2. List all active clients
                                             </h6>
                                             <div style="margin-left: 20px; margin-top: 20px;">
-                                                <label for="exampleInputText1">
-                                                    Response
-                                                </label>
-                                                <textarea class="form-control" id="exampleFormControlTextarea1" rows="5"
-                                                    required></textarea>
-                                                <label for="exampleInputText1">
-                                                    Comments
-                                                </label>
-                                                <textarea class="form-control" id="exampleFormControlTextarea1" rows="5"
-                                                    required></textarea>
+                                                <x-accenture.evaluateInputGroup>
+                                                    <label for="exampleInputText1">
+                                                        Response
+                                                    </label>
+                                                    <textarea class="form-control" id="exampleFormControlTextarea1" rows="5"
+                                                        disabled>Response here</textarea>
+                                                </x-accenture.evaluateInputGroup>
+                                                <x-accenture.evaluateInputGroup>
+                                                        <label for="exampleInputText1">
+                                                        Comments
+                                                    </label>
+                                                    <textarea class="form-control" id="exampleFormControlTextarea1" rows="5"
+                                                        disabled>Response here</textarea>
+                                                </x-accenture.evaluateInputGroup>
                                             </div>
                                             <br>
 
@@ -338,16 +383,20 @@
                                                 years
                                             </h6>
                                             <div style="margin-left: 20px; margin-top: 20px;">
-                                                <label for="exampleInputText1">
-                                                    Response
-                                                </label>
-                                                <textarea class="form-control" id="exampleFormControlTextarea1" rows="5"
-                                                    required></textarea>
-                                                <label for="exampleInputText1">
-                                                    Comments
-                                                </label>
-                                                <textarea class="form-control" id="exampleFormControlTextarea1" rows="5"
-                                                    required></textarea>
+                                                <x-accenture.evaluateInputGroup>
+                                                    <label for="exampleInputText1">
+                                                        Response
+                                                    </label>
+                                                    <textarea class="form-control" id="exampleFormControlTextarea1" rows="5"
+                                                        disabled>Response here</textarea>
+                                                </x-accenture.evaluateInputGroup>
+                                                <x-accenture.evaluateInputGroup>
+                                                        <label for="exampleInputText1">
+                                                        Comments
+                                                    </label>
+                                                    <textarea class="form-control" id="exampleFormControlTextarea1" rows="5"
+                                                        disabled>Response here</textarea>
+                                                </x-accenture.evaluateInputGroup>
                                             </div>
                                             <br>
 
@@ -357,16 +406,20 @@
                                                 years
                                             </h6>
                                             <div style="margin-left: 20px; margin-top: 20px;">
-                                                <label for="exampleInputText1">
-                                                    Response
-                                                </label>
-                                                <textarea class="form-control" id="exampleFormControlTextarea1" rows="5"
-                                                    required></textarea>
-                                                <label for="exampleInputText1">
-                                                    Comments
-                                                </label>
-                                                <textarea class="form-control" id="exampleFormControlTextarea1" rows="5"
-                                                    required></textarea>
+                                                <x-accenture.evaluateInputGroup>
+                                                    <label for="exampleInputText1">
+                                                        Response
+                                                    </label>
+                                                    <textarea class="form-control" id="exampleFormControlTextarea1" rows="5"
+                                                        disabled>Response here</textarea>
+                                                </x-accenture.evaluateInputGroup>
+                                                <x-accenture.evaluateInputGroup>
+                                                        <label for="exampleInputText1">
+                                                        Comments
+                                                    </label>
+                                                    <textarea class="form-control" id="exampleFormControlTextarea1" rows="5"
+                                                        disabled>Response here</textarea>
+                                                </x-accenture.evaluateInputGroup>
                                             </div>
                                             <br>
 
@@ -377,136 +430,167 @@
                                                 scope (same industry preferred)
                                             </h6>
                                             <div style="margin-left: 20px; margin-top: 20px;">
-
-                                                <label for="exampleInputText1">
-                                                    Customer 1
-                                                </label>
-                                                <input type="number" class="form-control" id="exampleInputText1"
-                                                    placeholder="">
-                                                <label for="exampleInputText1">
-                                                    Contact Name 1
-                                                </label>
-                                                <input type="number" class="form-control" id="exampleInputText1"
-                                                    placeholder="">
-                                                <label for="exampleInputText1">
-                                                    Contact Role 1
-                                                </label>
-                                                <input type="number" class="form-control" id="exampleInputText1"
-                                                    placeholder="">
-                                                <label for="exampleInputText1">
-                                                    Contact E-mail 1
-                                                </label>
-                                                <input type="number" class="form-control" id="exampleInputText1"
-                                                    placeholder="">
-                                                <label for="exampleInputText1">
-                                                    Comments 1
-                                                </label>
-                                                <textarea class="form-control" id="exampleFormControlTextarea1" rows="5"
-                                                    required></textarea>
-                                                <label for="exampleInputText1">
-                                                    Upload any extra info 1
-                                                </label>
-                                                <div class="form-group">
-                                                    <form action="/file-upload" class="dropzone" id="exampleDropzone"
-                                                        name="exampleDropzone">
-                                                    </form>
-                                                </div>
-
-                                                <br><br>
-
-                                                <label for="exampleInputText1">
-                                                    Customer 2
-                                                </label>
-                                                <input type="number" class="form-control" id="exampleInputText1"
-                                                    placeholder="">
-                                                <label for="exampleInputText1">
-                                                    Contact Name 2
-                                                </label>
-                                                <input type="number" class="form-control" id="exampleInputText1"
-                                                    placeholder="">
-                                                <label for="exampleInputText1">
-                                                    Contact Role 2
-                                                </label>
-                                                <input type="number" class="form-control" id="exampleInputText1"
-                                                    placeholder="">
-                                                <label for="exampleInputText1">
-                                                    Contact E-mail 2
-                                                </label>
-                                                <input type="number" class="form-control" id="exampleInputText1"
-                                                    placeholder="">
-                                                <label for="exampleInputText1">
-                                                    Comments 2
-                                                </label>
-                                                <textarea class="form-control" id="exampleFormControlTextarea1" rows="5"
-                                                    required></textarea>
-                                                <label for="exampleInputText1">
-                                                    Upload any extra info 2
-                                                </label>
-                                                <div class="form-group">
-                                                    <form action="/file-upload" class="dropzone" id="exampleDropzone"
-                                                        name="exampleDropzone">
-                                                    </form>
-                                                </div>
+                                                <x-accenture.evaluateInputGroup>
+                                                    <label for="exampleInputText1">
+                                                        Customer 1
+                                                    </label>
+                                                    <input type="text" class="form-control" id="exampleInputText1"
+                                                        disabled>
+                                                </x-accenture.evaluateInputGroup>
+                                                <x-accenture.evaluateInputGroup>
+                                                    <label for="exampleInputText1">
+                                                        Contact Name 1
+                                                    </label>
+                                                    <input type="text" class="form-control" id="exampleInputText1"
+                                                        value="Response here" disabled>
+                                                </x-accenture.evaluateInputGroup>
+                                                <x-accenture.evaluateInputGroup>
+                                                        <label for="exampleInputText1">
+                                                        Contact Role 1
+                                                    </label>
+                                                    <input type="text" class="form-control" id="exampleInputText1"
+                                                        value="Response here" disabled>
+                                                </x-accenture.evaluateInputGroup>
+                                                <x-accenture.evaluateInputGroup>
+                                                        <label for="exampleInputText1">
+                                                        Contact E-mail 1
+                                                    </label>
+                                                    <input type="text" class="form-control" id="exampleInputText1"
+                                                        value="Response here" disabled>
+                                                </x-accenture.evaluateInputGroup>
+                                                <x-accenture.evaluateInputGroup>
+                                                        <label for="exampleInputText1">
+                                                        Comments 1
+                                                    </label>
+                                                    <textarea class="form-control" id="exampleFormControlTextarea1" rows="5"
+                                                        disabled>Response here</textarea>
+                                                </x-accenture.evaluateInputGroup>
+                                                <x-accenture.evaluateInputGroup>
+                                                    <label for="exampleInputText1">
+                                                        Upload any extra info 1
+                                                    </label>
+                                                    <div class="form-group">
+                                                        <form action="/file-upload" class="dropzone" id="exampleDropzone"
+                                                            name="exampleDropzone">
+                                                        </form>
+                                                    </div>
+                                                </x-accenture.evaluateInputGroup>
 
                                                 <br><br>
 
-                                                <label for="exampleInputText1">
-                                                    Customer 3
-                                                </label>
-                                                <input type="number" class="form-control" id="exampleInputText1"
-                                                    placeholder="">
-                                                <label for="exampleInputText1">
-                                                    Contact Name 3
-                                                </label>
-                                                <input type="number" class="form-control" id="exampleInputText1"
-                                                    placeholder="">
-                                                <label for="exampleInputText1">
-                                                    Contact Role 3
-                                                </label>
-                                                <input type="number" class="form-control" id="exampleInputText1"
-                                                    placeholder="">
-                                                <label for="exampleInputText1">
-                                                    Contact E-mail 3
-                                                </label>
-                                                <input type="number" class="form-control" id="exampleInputText1"
-                                                    placeholder="">
-                                                <label for="exampleInputText1">
-                                                    Comments 3
-                                                </label>
-                                                <textarea class="form-control" id="exampleFormControlTextarea1" rows="5"
-                                                    required></textarea>
-                                                <label for="exampleInputText1">
-                                                    Upload any extra info 3
-                                                </label>
-                                                <div class="form-group">
-                                                    <form action="/file-upload" class="dropzone" id="exampleDropzone"
-                                                        name="exampleDropzone">
-                                                    </form>
-                                                </div>
+                                                <x-accenture.evaluateInputGroup>
+                                                    <label for="exampleInputText1">
+                                                        Customer 2
+                                                    </label>
+                                                    <input type="text" class="form-control" id="exampleInputText1"
+                                                        value="Response here" disabled>
+                                                </x-accenture.evaluateInputGroup>
+                                                <x-accenture.evaluateInputGroup>
+                                                        <label for="exampleInputText1">
+                                                        Contact Name 2
+                                                    </label>
+                                                    <input type="text" class="form-control" id="exampleInputText1"
+                                                        value="Response here" disabled>
+                                                </x-accenture.evaluateInputGroup>
+                                                <x-accenture.evaluateInputGroup>
+                                                        <label for="exampleInputText1">
+                                                        Contact Role 2
+                                                    </label>
+                                                    <input type="text" class="form-control" id="exampleInputText1"
+                                                        value="Response here" disabled>
+                                                </x-accenture.evaluateInputGroup>
+                                                <x-accenture.evaluateInputGroup>
+                                                        <label for="exampleInputText1">
+                                                        Contact E-mail 2
+                                                    </label>
+                                                    <input type="text" class="form-control" id="exampleInputText1"
+                                                        value="Response here" disabled>
+                                                </x-accenture.evaluateInputGroup>
+                                                <x-accenture.evaluateInputGroup>
+                                                        <label for="exampleInputText1">
+                                                        Comments 2
+                                                    </label>
+                                                    <textarea class="form-control" id="exampleFormControlTextarea1" rows="5"
+                                                        disabled></textarea>
+                                                </x-accenture.evaluateInputGroup>
+                                                <x-accenture.evaluateInputGroup>
+                                                    <label for="exampleInputText1">
+                                                        Upload any extra info 2
+                                                    </label>
+                                                    <div class="form-group">
+                                                        <form action="/file-upload" class="dropzone" id="exampleDropzone"
+                                                            name="exampleDropzone">
+                                                        </form>
+                                                    </div>
+                                                </x-accenture.evaluateInputGroup>
 
                                                 <br><br>
+
+                                                <x-accenture.evaluateInputGroup>
+                                                    <label for="exampleInputText1">
+                                                        Customer 3
+                                                    </label>
+                                                    <input type="text" class="form-control" id="exampleInputText1"
+                                                        value="Response here" disabled>
+                                                </x-accenture.evaluateInputGroup>
+                                                <x-accenture.evaluateInputGroup>
+                                                        <label for="exampleInputText1">
+                                                        Contact Name 3
+                                                    </label>
+                                                    <input type="text" class="form-control" id="exampleInputText1"
+                                                        value="Response here" disabled>
+                                                </x-accenture.evaluateInputGroup>
+                                                <x-accenture.evaluateInputGroup>
+                                                        <label for="exampleInputText1">
+                                                        Contact Role 3
+                                                    </label>
+                                                    <input type="text" class="form-control" id="exampleInputText1"
+                                                        value="Response here" disabled>
+                                                </x-accenture.evaluateInputGroup>
+                                                <x-accenture.evaluateInputGroup>
+                                                        <label for="exampleInputText1">
+                                                        Contact E-mail 3
+                                                    </label>
+                                                    <input type="text" class="form-control" id="exampleInputText1"
+                                                        value="Response here" disabled>
+                                                </x-accenture.evaluateInputGroup>
+                                                <x-accenture.evaluateInputGroup>
+                                                        <label for="exampleInputText1">
+                                                        Comments 3
+                                                    </label>
+                                                    <textarea class="form-control" id="exampleFormControlTextarea1" rows="5"
+                                                        disabled></textarea>
+                                                </x-accenture.evaluateInputGroup>
+                                                <x-accenture.evaluateInputGroup>
+                                                    <label for="exampleInputText1">
+                                                        Upload any extra info 3
+                                                    </label>
+                                                    <div class="form-group">
+                                                        <form action="/file-upload" class="dropzone" id="exampleDropzone"
+                                                            name="exampleDropzone">
+                                                        </form>
+                                                    </div>
+                                                </x-accenture.evaluateInputGroup>
                                             </div>
                                             <br>
                                         </div>
-
                                     </section>
 
                                     <h2>Innovation & Vision</h2>
                                     <section>
-
                                         <h4>4.1. IT Enablers</h4>
                                         <br>
                                         <div class="form-group">
                                             <div style="margin-left: 20px; margin-top: 20px;">
-                                                <label for="exampleInputText1">
-                                                    Response
-                                                </label>
-                                                <textarea class="form-control" id="exampleFormControlTextarea1" rows="5"
-                                                    required></textarea>
-
+                                                <x-accenture.evaluateInputGroup>
+                                                    <label for="exampleInputText1">
+                                                        Response
+                                                    </label>
+                                                    <textarea class="form-control" id="exampleFormControlTextarea1" rows="5"
+                                                        disabled></textarea>
+                                                </x-accenture.evaluateInputGroup>
                                             </div>
                                         </div>
-
 
                                         <h4>4.2. Alliances</h4>
                                         <div class="form-group">
@@ -515,53 +599,63 @@
                                                 Partnership 1
                                             </h6>
                                             <div style="margin-left: 20px; margin-top: 20px;">
-                                                <label for="exampleInputText1">
-                                                    Response
-                                                </label>
-                                                <textarea class="form-control" id="exampleFormControlTextarea1" rows="5"
-                                                    required></textarea>
-                                                <label for="exampleInputText1">
-                                                    Partnership Functionalities Vendor
-                                                </label>
-                                                <textarea class="form-control" id="exampleFormControlTextarea1" rows="5"
-                                                    required></textarea>
+                                                <x-accenture.evaluateInputGroup>
+                                                    <label for="exampleInputText1">
+                                                        Response
+                                                    </label>
+                                                    <textarea class="form-control" id="exampleFormControlTextarea1" rows="5"
+                                                        disabled></textarea>
+                                                </x-accenture.evaluateInputGroup>
+                                                <x-accenture.evaluateInputGroup>
+                                                        <label for="exampleInputText1">
+                                                        Partnership Functionalities Vendor
+                                                    </label>
+                                                    <textarea class="form-control" id="exampleFormControlTextarea1" rows="5"
+                                                        disabled></textarea>
+                                                </x-accenture.evaluateInputGroup>
                                             </div>
                                             <br><br>
                                             <h6>
                                                 Partnership 2
                                             </h6>
                                             <div style="margin-left: 20px; margin-top: 20px;">
-                                                <label for="exampleInputText1">
-                                                    Response
-                                                </label>
-                                                <textarea class="form-control" id="exampleFormControlTextarea1" rows="5"
-                                                    required></textarea>
-                                                <label for="exampleInputText1">
-                                                    Partnership Functionalities Vendor
-                                                </label>
-                                                <textarea class="form-control" id="exampleFormControlTextarea1" rows="5"
-                                                    required></textarea>
+                                                <x-accenture.evaluateInputGroup>
+                                                    <label for="exampleInputText1">
+                                                        Response
+                                                    </label>
+                                                    <textarea class="form-control" id="exampleFormControlTextarea1" rows="5"
+                                                        disabled></textarea>
+                                                </x-accenture.evaluateInputGroup>
+                                                <x-accenture.evaluateInputGroup>
+                                                        <label for="exampleInputText1">
+                                                        Partnership Functionalities Vendor
+                                                    </label>
+                                                    <textarea class="form-control" id="exampleFormControlTextarea1" rows="5"
+                                                        disabled></textarea>
+                                                </x-accenture.evaluateInputGroup>
                                             </div>
                                             <br><br>
                                             <h6>
                                                 Partnership 3
                                             </h6>
                                             <div style="margin-left: 20px; margin-top: 20px;">
-                                                <label for="exampleInputText1">
-                                                    Response
-                                                </label>
-                                                <textarea class="form-control" id="exampleFormControlTextarea1" rows="5"
-                                                    required></textarea>
-                                                <label for="exampleInputText1">
-                                                    Partnership Functionalities Vendor
-                                                </label>
-                                                <textarea class="form-control" id="exampleFormControlTextarea1" rows="5"
-                                                    required></textarea>
+                                                <x-accenture.evaluateInputGroup>
+                                                    <label for="exampleInputText1">
+                                                        Response
+                                                    </label>
+                                                    <textarea class="form-control" id="exampleFormControlTextarea1" rows="5"
+                                                        disabled></textarea>
+                                                </x-accenture.evaluateInputGroup>
+                                                <x-accenture.evaluateInputGroup>
+                                                        <label for="exampleInputText1">
+                                                        Partnership Functionalities Vendor
+                                                    </label>
+                                                    <textarea class="form-control" id="exampleFormControlTextarea1" rows="5"
+                                                        disabled></textarea>
+                                                </x-accenture.evaluateInputGroup>
                                                 <br><br>
                                             </div>
                                         </div>
-
-
 
                                         <h4>4.3. Product</h4>
                                         <div class="form-group">
@@ -570,54 +664,63 @@
                                                 Question 1
                                             </h6>
                                             <div style="margin-left: 20px; margin-top: 20px;">
-                                                <label for="exampleInputText1">
-                                                    Response
-                                                </label>
-                                                <textarea class="form-control" id="exampleFormControlTextarea1" rows="5"
-                                                    required></textarea>
-                                                <label for="exampleInputText1">
-                                                    Comment
-                                                </label>
-                                                <textarea class="form-control" id="exampleFormControlTextarea1" rows="5"
-                                                    required></textarea>
+                                                <x-accenture.evaluateInputGroup>
+                                                    <label for="exampleInputText1">
+                                                        Response
+                                                    </label>
+                                                    <textarea class="form-control" id="exampleFormControlTextarea1" rows="5"
+                                                        disabled></textarea>
+                                                </x-accenture.evaluateInputGroup>
+                                                <x-accenture.evaluateInputGroup>
+                                                        <label for="exampleInputText1">
+                                                        Comment
+                                                    </label>
+                                                    <textarea class="form-control" id="exampleFormControlTextarea1" rows="5"
+                                                        disabled></textarea>
+                                                </x-accenture.evaluateInputGroup>
                                             </div>
                                             <br><br>
                                             <h6>
                                                 Question 2
                                             </h6>
                                             <div style="margin-left: 20px; margin-top: 20px;">
-                                                <label for="exampleInputText1">
-                                                    Response
-                                                </label>
-                                                <textarea class="form-control" id="exampleFormControlTextarea1" rows="5"
-                                                    required></textarea>
-                                                <label for="exampleInputText1">
-                                                    Comment
-                                                </label>
-                                                <textarea class="form-control" id="exampleFormControlTextarea1" rows="5"
-                                                    required></textarea>
+                                                <x-accenture.evaluateInputGroup>
+                                                    <label for="exampleInputText1">
+                                                        Response
+                                                    </label>
+                                                    <textarea class="form-control" id="exampleFormControlTextarea1" rows="5"
+                                                        disabled></textarea>
+                                                </x-accenture.evaluateInputGroup>
+                                                <x-accenture.evaluateInputGroup>
+                                                        <label for="exampleInputText1">
+                                                        Comment
+                                                    </label>
+                                                    <textarea class="form-control" id="exampleFormControlTextarea1" rows="5"
+                                                        disabled></textarea>
+                                                </x-accenture.evaluateInputGroup>
                                             </div>
                                             <br><br>
                                             <h6>
                                                 Question 3
                                             </h6>
                                             <div style="margin-left: 20px; margin-top: 20px;">
-                                                <label for="exampleInputText1">
-                                                    Response
-                                                </label>
-                                                <textarea class="form-control" id="exampleFormControlTextarea1" rows="5"
-                                                    required></textarea>
-                                                <label for="exampleInputText1">
-                                                    Comment
-                                                </label>
-                                                <textarea class="form-control" id="exampleFormControlTextarea1" rows="5"
-                                                    required></textarea>
+                                                <x-accenture.evaluateInputGroup>
+                                                    <label for="exampleInputText1">
+                                                        Response
+                                                    </label>
+                                                    <textarea class="form-control" id="exampleFormControlTextarea1" rows="5"
+                                                        disabled></textarea>
+                                                </x-accenture.evaluateInputGroup>
+                                                <x-accenture.evaluateInputGroup>
+                                                        <label for="exampleInputText1">
+                                                        Comment
+                                                    </label>
+                                                    <textarea class="form-control" id="exampleFormControlTextarea1" rows="5"
+                                                        disabled></textarea>
+                                                </x-accenture.evaluateInputGroup>
                                                 <br><br>
                                             </div>
                                         </div>
-
-
-
 
                                         <h4>4.4. Sustainability</h4>
                                         <div class="form-group">
@@ -626,67 +729,79 @@
                                                 Question 1
                                             </h6>
                                             <div style="margin-left: 20px; margin-top: 20px;">
-                                                <label for="exampleInputText1">
-                                                    Response
-                                                </label>
-                                                <textarea class="form-control" id="exampleFormControlTextarea1" rows="5"
-                                                    required></textarea>
-                                                <label for="exampleInputText1">
-                                                    Comment
-                                                </label>
-                                                <textarea class="form-control" id="exampleFormControlTextarea1" rows="5"
-                                                    required></textarea>
+                                                <x-accenture.evaluateInputGroup>
+                                                    <label for="exampleInputText1">
+                                                        Response
+                                                    </label>
+                                                    <textarea class="form-control" id="exampleFormControlTextarea1" rows="5"
+                                                        disabled></textarea>
+                                                </x-accenture.evaluateInputGroup>
+                                                <x-accenture.evaluateInputGroup>
+                                                        <label for="exampleInputText1">
+                                                        Comment
+                                                    </label>
+                                                    <textarea class="form-control" id="exampleFormControlTextarea1" rows="5"
+                                                        disabled></textarea>
+                                                </x-accenture.evaluateInputGroup>
                                             </div>
                                             <br><br>
                                             <h6>
                                                 Question 2
                                             </h6>
                                             <div style="margin-left: 20px; margin-top: 20px;">
-                                                <label for="exampleInputText1">
-                                                    Response
-                                                </label>
-                                                <textarea class="form-control" id="exampleFormControlTextarea1" rows="5"
-                                                    required></textarea>
-                                                <label for="exampleInputText1">
-                                                    Comment
-                                                </label>
-                                                <textarea class="form-control" id="exampleFormControlTextarea1" rows="5"
-                                                    required></textarea>
+                                                <x-accenture.evaluateInputGroup>
+                                                    <label for="exampleInputText1">
+                                                        Response
+                                                    </label>
+                                                    <textarea class="form-control" id="exampleFormControlTextarea1" rows="5"
+                                                        disabled></textarea>
+                                                </x-accenture.evaluateInputGroup>
+                                                <x-accenture.evaluateInputGroup>
+                                                        <label for="exampleInputText1">
+                                                        Comment
+                                                    </label>
+                                                    <textarea class="form-control" id="exampleFormControlTextarea1" rows="5"
+                                                        disabled></textarea>
+                                                </x-accenture.evaluateInputGroup>
                                             </div>
                                             <br><br>
                                             <h6>
                                                 Question 3
                                             </h6>
                                             <div style="margin-left: 20px; margin-top: 20px;">
-                                                <label for="exampleInputText1">
-                                                    Response
-                                                </label>
-                                                <textarea class="form-control" id="exampleFormControlTextarea1" rows="5"
-                                                    required></textarea>
-                                                <label for="exampleInputText1">
-                                                    Comment
-                                                </label>
-                                                <textarea class="form-control" id="exampleFormControlTextarea1" rows="5"
-                                                    required></textarea>
+                                                <x-accenture.evaluateInputGroup>
+                                                    <label for="exampleInputText1">
+                                                        Response
+                                                    </label>
+                                                    <textarea class="form-control" id="exampleFormControlTextarea1" rows="5"
+                                                        disabled></textarea>
+                                                </x-accenture.evaluateInputGroup>
+                                                <x-accenture.evaluateInputGroup>
+                                                        <label for="exampleInputText1">
+                                                        Comment
+                                                    </label>
+                                                    <textarea class="form-control" id="exampleFormControlTextarea1" rows="5"
+                                                        disabled></textarea>
+                                                </x-accenture.evaluateInputGroup>
                                                 <br><br>
                                             </div>
                                         </div>
-
-
                                     </section>
 
                                     <h2>Implementation & Commercials</h2>
                                     <section>
                                         <h4>5.1. Implementation</h4>
                                         <br>
-                                        <label for="exampleInputText1">
-                                            Project plan upload
-                                        </label>
-                                        <div class="form-group">
-                                            <form action="/file-upload" class="dropzone" id="exampleDropzone"
-                                                name="exampleDropzone">
-                                            </form>
-                                        </div>
+                                        <x-accenture.evaluateInputGroup>
+                                            <label for="exampleInputText1">
+                                                Project plan upload
+                                            </label>
+                                            <div class="form-group">
+                                                <form action="/file-upload" class="dropzone" id="exampleDropzone"
+                                                    name="exampleDropzone">
+                                                </form>
+                                            </div>
+                                        </x-accenture.evaluateInputGroup>
 
                                         <h4>5.2. Deliverables per phase</h4>
                                         <div class="form-group">
@@ -695,55 +810,63 @@
                                                 Phase 1
                                             </h6>
                                             <div style="margin-left: 20px; margin-top: 20px;">
-                                                <label for="exampleInputText1">
-                                                    Response
-                                                </label>
-                                                <textarea class="form-control" id="exampleFormControlTextarea1" rows="5"
-                                                    required></textarea>
-                                                <label for="exampleInputText1">
-                                                    Deliverables
-                                                </label>
-                                                <textarea class="form-control" id="exampleFormControlTextarea1" rows="5"
-                                                    required></textarea>
+                                                <x-accenture.evaluateInputGroup>
+                                                    <label for="exampleInputText1">
+                                                        Response
+                                                    </label>
+                                                    <textarea class="form-control" id="exampleFormControlTextarea1" rows="5"
+                                                        disabled></textarea>
+                                                </x-accenture.evaluateInputGroup>
+                                                <x-accenture.evaluateInputGroup>
+                                                        <label for="exampleInputText1">
+                                                        Deliverables
+                                                    </label>
+                                                    <textarea class="form-control" id="exampleFormControlTextarea1" rows="5"
+                                                        disabled></textarea>
+                                                </x-accenture.evaluateInputGroup>
                                             </div>
                                             <br><br>
                                             <h6>
                                                 Phase 2
                                             </h6>
                                             <div style="margin-left: 20px; margin-top: 20px;">
-                                                <label for="exampleInputText1">
-                                                    Response
-                                                </label>
-                                                <textarea class="form-control" id="exampleFormControlTextarea1" rows="5"
-                                                    required></textarea>
-                                                <label for="exampleInputText1">
-                                                    Deliverables
-                                                </label>
-                                                <textarea class="form-control" id="exampleFormControlTextarea1" rows="5"
-                                                    required></textarea>
+                                                <x-accenture.evaluateInputGroup>
+                                                    <label for="exampleInputText1">
+                                                        Response
+                                                    </label>
+                                                    <textarea class="form-control" id="exampleFormControlTextarea1" rows="5"
+                                                        disabled></textarea>
+                                                </x-accenture.evaluateInputGroup>
+                                                <x-accenture.evaluateInputGroup>
+                                                        <label for="exampleInputText1">
+                                                        Deliverables
+                                                    </label>
+                                                    <textarea class="form-control" id="exampleFormControlTextarea1" rows="5"
+                                                        disabled></textarea>
+                                                </x-accenture.evaluateInputGroup>
                                             </div>
                                             <br><br>
                                             <h6>
                                                 Phase 3
                                             </h6>
                                             <div style="margin-left: 20px; margin-top: 20px;">
-                                                <label for="exampleInputText1">
-                                                    Response
-                                                </label>
-                                                <textarea class="form-control" id="exampleFormControlTextarea1" rows="5"
-                                                    required></textarea>
-                                                <label for="exampleInputText1">
-                                                    Deliverables
-                                                </label>
-                                                <textarea class="form-control" id="exampleFormControlTextarea1" rows="5"
-                                                    required></textarea>
-                                                <br><br>
+                                                <x-accenture.evaluateInputGroup>
+                                                    <label for="exampleInputText1">
+                                                        Response
+                                                    </label>
+                                                    <textarea class="form-control" id="exampleFormControlTextarea1" rows="5"
+                                                        disabled></textarea>
+                                                </x-accenture.evaluateInputGroup>
+                                                <x-accenture.evaluateInputGroup>
+                                                        <label for="exampleInputText1">
+                                                        Deliverables
+                                                    </label>
+                                                    <textarea class="form-control" id="exampleFormControlTextarea1" rows="5"
+                                                        disabled></textarea>
+                                                </x-accenture.evaluateInputGroup>
                                             </div>
                                         </div>
-
                                     </section>
-
-
                                 </div>
                             </div>
                         </div>
@@ -755,4 +878,10 @@
         <x-footer />
     </div>
 </div>
+@endsection
+
+
+@section('head')
+@parent
+<link rel="stylesheet" href="{{url('/assets/css/techadvisory/viewVendorProposalEvaluation.css')}}">
 @endsection

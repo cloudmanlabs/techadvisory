@@ -55,7 +55,7 @@
                                     ready.</p>
                                 <br>
                                 <div class="form-group">
-                                    <label for="exampleInputText1">Upload Value Leavers</label>
+                                    <label for="exampleInputText1">Upload Value Levers</label>
 
                                     <form action="/file-upload" class="dropzone" id="exampleDropzone"
                                         name="exampleDropzone">

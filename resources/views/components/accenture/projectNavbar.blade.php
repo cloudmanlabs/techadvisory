@@ -33,7 +33,7 @@
                                 <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z">
                                 </path>
                             </svg>
-                            <a class="pt-1px d-none d-md-block" href="{{route('accenture.projectEditView')}}">View/Edit project</a>
+                            <a class="pt-1px d-none d-md-block" href="{{route('accenture.projectView')}}">View/Edit project</a>
                         </li>
                         <li class="header-link-item ml-3 pl-3 border-left d-flex align-items-center {{$section == 'projectValueTargeting' ? 'active' : ''}}">
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"

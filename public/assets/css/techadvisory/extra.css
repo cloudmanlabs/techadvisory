@@ -127,3 +127,7 @@ h5, .h5 {
     min-height: 35rem;
     max-height: 35rem;
 }
+
+select:disabled {
+    color: #495057
+}

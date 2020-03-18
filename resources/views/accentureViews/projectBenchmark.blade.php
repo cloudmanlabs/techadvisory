@@ -59,6 +59,50 @@
                 <div class="col-lg-12 grid-margin stretch-card">
                     <div class="card">
                         <div class="card-body">
+                            <h3>Overall vendor ranking</h3>
+                            <br>
+                            <div class="table-responsive">
+                                <table class="table table-hover">
+                                    <thead>
+                                        <tr class="table-dark">
+                                            <th>Vendor name</th>
+                                            <th>Total Score</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <th>Vendor 1</th>
+                                            <td>7</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Vendor 2</th>
+                                            <td>5</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Vendor 3</th>
+                                            <td>4</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Vendor 4</th>
+                                            <td>3</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Vendor 5</th>
+                                            <td>2</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="row">
+                <div class="col-lg-12 grid-margin stretch-card">
+                    <div class="card">
+                        <div class="card-body">
                             <h3>Overall score table</h3>
                             <p class="welcome_text extra-top-15px">In order to start using the Tech Advisory
                                 Platform, you'll need to follow some steps to complete your profile and set up your
@@ -187,6 +231,12 @@
                                         </div>
                                     </div>
                                 </div>
+                            </div>
+
+                            <div style="float: left; margin-top: 20px;">
+                                <a class="btn btn-primary btn-lg btn-icon-text" href="{{route('accenture.projectBenchmark')}}">
+                                    Publish Analytics
+                                </a>
                             </div>
 
                             <div style="float: right; margin-top: 20px;">

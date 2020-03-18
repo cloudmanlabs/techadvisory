@@ -38,6 +38,64 @@ $(async function () {
         }
     });
 
+    $("#viewVendorProposalEvaluationWizard").steps({
+        headerTag: "h2",
+        bodyTag: "section",
+        transitionEffect: "slideLeft",
+        labels: {
+            finish: 'Submit validation'
+        },
+        onFinishing: function (event, currentIndex) {
+            // TODO Here check if all thingies have a value
+            window.location.replace("/accenture/project/home");
+        },
+        // HACK Cause otherwise subwizards don't work
+        onStepChanged: function (e, c, p) {
+            for (let i = 0; i < 10; i++) {
+                $('#viewVendorProposalEvaluationWizard-p-' + i).css('display', 'none')
+            }
+
+            $('#viewVendorProposalEvaluationWizard-p-' + c).css('display', 'block')
+        }
+    });
+
+    $("#projectViewWizard").steps({
+        headerTag: "h2",
+        bodyTag: "section",
+        transitionEffect: "slideLeft",
+        showFinishButtonAlways: false,
+        enableFinishButton: false,
+        // HACK Cause otherwise subwizards don't work
+        onStepChanged: function (e, c, p) {
+            for (let i = 0; i < 10; i++) {
+                $('#projectViewWizard-p-' + i).css('display', 'none')
+            }
+
+            $('#projectViewWizard-p-' + c).css('display', 'block')
+        }
+    });
+
+    $("#projectEditWizard").steps({
+        headerTag: "h2",
+        bodyTag: "section",
+        transitionEffect: "slideLeft",
+        labels: {
+            finish: 'Save'
+        },
+        onFinishing: function (event, currentIndex) {
+            // TODO Here check if all thingies have a value
+            window.location.replace("/accenture/project/view");
+        },
+        // HACK Cause otherwise subwizards don't work
+        onStepChanged: function (e, c, p) {
+            for (let i = 0; i < 10; i++) {
+                $('#projectEditWizard-p-' + i).css('display', 'none')
+            }
+
+            $('#projectEditWizard-p-' + c).css('display', 'block')
+        }
+    });
+
     $("#wizard_accenture").steps({
         headerTag: "h2",
         bodyTag: "section",
