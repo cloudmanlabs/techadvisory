@@ -6,13 +6,8 @@
                 <div style="float: left;">
                     <h3>Global Transport Management</h3>
                 </div>
-                <div style="float: right; width: 35%;">
-                    Current status
-                    <div class="progress">
-                        <div class="progress-bar" role="progressbar" style="width: 65%;" aria-valuenow="65"
-                            aria-valuemin="0" aria-valuemax="100">65%</div>
-                    </div>
-                </div>
+                <x-projectProgressBar progressSetUp="20" progressValue="10" progressResponse="0" progressAnalytics="0"
+                    progressConclusions="0" />
             </div>
         </div>
     </div>

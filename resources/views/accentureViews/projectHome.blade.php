@@ -27,26 +27,12 @@
                                 <br>
                                 <br>
 
-                                <div class="card" style="margin-bottom: 30px;">
-                                    <div class="card-body">
-                                        <div style="float: left; max-width: 40%; padding-top: 8px;">
-                                            <h4>Vendix Solutions S.L.</h4>
-                                        </div>
-                                        <div style="float: right; text-align: right; width: 15%;">
-                                            <a class="btn btn-primary btn-lg btn-icon-text"
-                                                href="{{route('accenture.viewVendorProposal')}}">View <i
-                                                    class="btn-icon-prepend" data-feather="arrow-right"></i></a>
-                                        </div>
-                                        <div style="float: right; width: 35%; margin-right: 10%;">
-                                            Application status
-                                            <div class="progress">
-                                                <div class="progress-bar bg-success" role="progressbar"
-                                                    style="width: 25%;" aria-valuenow="25" aria-valuemin="0"
-                                                    aria-valuemax="100">25%</div>
-                                            </div>
-                                        </div>
+                                <x-vendorCard>
+                                    <div style="float: right; text-align: right; width: 15%;">
+                                        <a class="btn btn-primary btn-lg btn-icon-text" href="{{route('accenture.viewVendorProposal')}}">View/Edit
+                                        </a>
                                     </div>
-                                </div>
+                                </x-vendorCard>
                             </div>
                         </div>
                     </div>
@@ -63,30 +49,42 @@
                                 <br>
                                 <br>
 
-                                <div class="card" style="margin-bottom: 30px;">
-                                    <div class="card-body">
-                                        <div style="float: left; max-width: 40%; padding-top: 8px;">
-                                            <h4>Solutions S.L.</h4>
-                                        </div>
-                                        <div style="float: right; text-align: right; width: 15%;">
-                                            <a class="btn btn-primary btn-lg btn-icon-text"
-                                                href="{{route('accenture.viewVendorProposalEvaluation')}}">Evaluate Response
-                                                <i class="btn-icon-prepend" data-feather="arrow-right"></i></a>
-                                        </div>
-                                        <div style="float: right; width: 35%; margin-right: 10%;">
-                                            Application status
-                                            <div class="progress">
-                                                <div class="progress-bar bg-success" role="progressbar"
-                                                    style="width: 100%;" aria-valuenow="25" aria-valuemin="0"
-                                                    aria-valuemax="100">100%</div>
-                                            </div>
-                                        </div>
+                                <x-vendorCard>
+                                    <div style="float: right; text-align: right; width: 10%; ">
+                                        <a style="padding: .5rem .5rem .4rem;" class="btn btn-primary btn-lg btn-icon-text" href="{{route('accenture.projectHome')}}">Disqualify vendor
+                                        </a>
                                     </div>
-                                </div>
+                                    <div style="float: right; text-align: right; width: 10%; margin-right: 1rem;">
+                                        <a style="padding: .5rem .5rem .4rem;" class="btn btn-primary btn-lg btn-icon-text"
+                                            href="{{route('accenture.viewVendorProposalEvaluation')}}">Evaluate Response
+                                        </a>
+                                    </div>
+                                </x-vendorCard>
                             </div>
                         </div>
                     </div>
                 </div>
+
+                <div class="row">
+                    <div class="col-lg-12 grid-margin stretch-card">
+                        <div class="card">
+                            <div class="card-body">
+                                <h3>Release vendor responses</h3>
+                                <p class="welcome_text extra-top-15px">The following vendors have already been evaluated by Accenture.</p>
+                                <br>
+                                <br>
+
+                                <x-vendorCard :showProgressBar="false">
+                                    <div style="float: right; text-align: right; width: 15%;">
+                                        <a class="btn btn-primary btn-lg btn-icon-text"
+                                            href="{{route('accenture.projectHome')}}">Release Response</a>
+                                    </div>
+                                </x-vendorCard>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
                 <div class="row">
                     <div class="col-lg-12 grid-margin stretch-card">
                         <div class="card">
@@ -99,32 +97,12 @@
                                 <br>
                                 <br>
 
-                                <div class="card" style="margin-bottom: 30px;">
-                                    <div class="card-body">
-                                        <div style="float: left; max-width: 40%; padding-top: 8px;">
-                                            <h4>Newex Solutions S.L.</h4>
-                                        </div>
-                                        <div style="float: right; text-align: right; width: 25%;">
-                                            <a class="btn btn-primary btn-lg btn-icon-text" href="#" data-toggle="modal"
-                                                data-target="#resend_invite_modal">Resend invite <i
-                                                    class="btn-icon-prepend" data-feather="mail"></i></a>
-                                        </div>
+                                <x-vendorCard :showProgressBar="false">
+                                    <div style="float: right; text-align: right; width: 25%;">
+                                        <a class="btn btn-primary btn-lg btn-icon-text" href="#" data-toggle="modal"
+                                            data-target="#resend_invite_modal">Resend invite <i class="btn-icon-prepend" data-feather="mail"></i></a>
                                     </div>
-                                </div>
-
-
-                                <div class="card" style="margin-bottom: 30px;">
-                                    <div class="card-body">
-                                        <div style="float: left; max-width: 40%; padding-top: 8px;">
-                                            <h4>Supra Corp Gmbh.</h4>
-                                        </div>
-                                        <div style="float: right; text-align: right; width: 25%;">
-                                            <a class="btn btn-primary btn-lg btn-icon-text" href="#" data-toggle="modal"
-                                                data-target="#resend_invite_modal">Resend invite <i
-                                                    class="btn-icon-prepend" data-feather="mail"></i></a>
-                                        </div>
-                                    </div>
-                                </div>
+                                </x-vendorCard>
 
                                 <div class="modal fade" id="resend_invite_modal" tabindex="-1" role="dialog"
                                     aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -152,7 +130,7 @@
                                             <div class="modal-footer">
                                                 <button type="button" class="btn btn-secondary"
                                                     data-dismiss="modal">Close</button>
-                                                <button type="button" class="btn btn-primary">Save changes</button>
+                                                <button type="button" class="btn btn-primary">Resend invitation</button>
                                             </div>
                                         </div>
                                     </div>
@@ -171,30 +149,14 @@
                                 <br>
                                 <br>
 
-                                <div class="card" style="margin-bottom: 30px;">
-                                    <div class="card-body">
-                                        <div style="float: left; max-width: 40%; padding-top: 8px;">
-                                            <h4>Solutions S.L.</h4>
-                                        </div>
-                                        <div style="float: right; text-align: right; width: 15%;">
-                                            <a class="btn btn-primary btn-lg btn-icon-text"
-                                                href="{{route('accenture.viewVendorProposal')}}">View Response <i
-                                                    class="btn-icon-prepend" data-feather="arrow-right"></i></a>
-                                        </div>
-                                        <div style="float: right; width: 35%; margin-right: 10%;">
-                                            Application status
-                                            <div class="progress">
-                                                <div class="progress-bar bg-success" role="progressbar"
-                                                    style="width: 100%;" aria-valuenow="25" aria-valuemin="0"
-                                                    aria-valuemax="100">100%</div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+                                <x-vendorCard>
+                                    <a class="btn btn-primary btn-lg btn-icon-text" href="{{route('accenture.viewVendorProposal')}}">View Response</a>
+                                </x-vendorCard>
                             </div>
                         </div>
                     </div>
                 </div>
+
                 <div class="row">
                     <div class="col-lg-12 grid-margin stretch-card">
                         <div class="card">
@@ -205,7 +167,6 @@
                                 <div class="card" style="margin-bottom: 30px;">
                                     <div class="card-body">
                                         <div style="text-align: center;">
-
                                             <div id="clockdiv">
                                                 <div>
                                                     <span class="days">83</span>
@@ -224,7 +185,6 @@
                                                     <div class="smalltext">Seconds</div>
                                                 </div>
                                             </div>
-
                                         </div>
                                     </div>
                                 </div>

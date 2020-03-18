@@ -12,9 +12,9 @@
 
     @section('head')
         <link rel="stylesheet" href="{{url('assets/vendors/core/core.css')}}">
+        <link rel="stylesheet" href="{{url('assets/vendors/jquery-steps/jquery.steps.css')}}">
         <link rel="stylesheet" href="{{url('assets/vendors/select2/select2.min.css')}}">
         <link rel="stylesheet" href="{{url('assets/vendors/bootstrap-datepicker/bootstrap-datepicker.min.css')}}">
-        <link rel="stylesheet" href="{{url('assets/vendors/jquery-steps/jquery.steps.css')}}">
         <link rel="stylesheet" href="{{url('assets/fonts/feather-font/css/iconfont.css')}}">
         <link rel="stylesheet" href="{{url('assets/vendors/dropzone/dropzone.min.css')}}">
         <link rel="stylesheet" href="{{url('assets/css/techadvisory/style.css')}}">

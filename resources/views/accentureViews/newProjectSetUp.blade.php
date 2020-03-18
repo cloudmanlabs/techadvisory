@@ -46,7 +46,12 @@
                             <div class="card-body">
                                 <h3>Project Set up</h3>
 
-                                <p class="welcome_text extra-top-15px">Please complete all fields marked with an *</p>
+                                <p class="welcome_text extra-top-15px">
+                                    Please complete all fields marked with an *.
+                                    <br>
+                                    Note: Finishing this form will not publish the project.
+                                    To publish please press the Publish button on the last screen.
+                                </p>
 
                                 <br>
                                 <div id="wizard_accenture">
@@ -976,36 +981,38 @@
                                         </div>
                                     </section>
 
-
                                     <h2>Selection Criteria</h2>
                                     <section>
                                         <div id="subwizard">
                                             <h3>Fit gap</h3>
                                             <div>
-
                                                 <h4>4.1. Fit Gap</h4>
                                                 <br>
-                                                Phasellus vehicula suscipit mauris, et aliquet urna. Fusce sed ipsum eu
-                                                nunc
-                                                pellentesque luctus. ipsum dolor sit amet, consectetur adipiscing elit.
-                                                Donec
-                                                aliquam ornare sapien, ut dictum nunc pharetra a.Phasellus vehicula
-                                                suscipit
-                                                mauris, et aliquet urna. Fusce sed ipsum eu nunc pellentesque luctus.
-                                                ipsum
-                                                dolor sit amet.
+                                                <p>
+                                                    Phasellus vehicula suscipit mauris, et aliquet urna. Fusce sed ipsum eu
+                                                    nunc
+                                                    pellentesque luctus. ipsum dolor sit amet, consectetur adipiscing elit.
+                                                    Donec
+                                                    aliquam ornare sapien, ut dictum nunc pharetra a.Phasellus vehicula
+                                                    suscipit
+                                                    mauris, et aliquet urna. Fusce sed ipsum eu nunc pellentesque luctus.
+                                                    ipsum
+                                                    dolor sit amet.
+                                                </p>
                                                 <br><br>
                                                 <div style="text-align: center;">
                                                     <div class="input-group col-xs-12">
                                                         <input class="form-control file-upload-info"
                                                             placeholder="Upload Fit Gap model in CSV format"
                                                             type="text">
-                                                        <span class="input-group-append"><button
+                                                        <span class="input-group-append">
+                                                            <button
                                                                 class="file-upload-browse btn btn-primary"
-                                                                type="button"><span
-                                                                    class="input-group-append">Upload</span></button></span>
+                                                                type="button">
+                                                                <span class="input-group-append">Upload</span>
+                                                            </button>
+                                                        </span>
                                                     </div>
-
                                                     <div class="modal fade bd-example-modal-xl" tabindex="-1"
                                                         role="dialog" aria-labelledby="myExtraLargeModalLabel"
                                                         aria-hidden="true">
@@ -1046,9 +1053,11 @@
                                                             </div>
                                                         </div>
                                                     </div>
-
                                                 </div>
-                                                <br><br>
+                                            </div>
+
+                                            <h3>Vendor</h3>
+                                            <div>
                                                 <h4>4.2. Corporate</h4>
                                                 <br>
                                                 <div class="table-responsive">
@@ -1095,8 +1104,10 @@
                                                         </tbody>
                                                     </table>
                                                 </div>
+                                            </div>
 
-                                                <br><br>
+                                            <h3>Experience</h3>
+                                            <div>
                                                 <h4>4.3. Market presence</h4>
                                                 <br>
                                                 <div class="table-responsive">
@@ -1127,8 +1138,57 @@
                                                         </tbody>
                                                     </table>
                                                 </div>
+                                            </div>
 
 
+                                            <h3>Innovation & Vision</h3>
+                                            <div>
+                                                <h4>4.5. IT Enablers</h4>
+                                                <br>
+                                                <div class="table-responsive">
+                                                    <table class="table table-hover">
+                                                        <thead>
+                                                            <tr class="table-dark">
+                                                                <th>ID</th>
+                                                                <th>Question</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <tr>
+                                                                <th>1</th>
+                                                                <td>List your IT Enablers</td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+
+                                                <br><br>
+                                                <h4>4.6. Alliances</h4>
+                                                <br>
+                                                <div class="table-responsive">
+                                                    <table class="table table-hover">
+                                                        <thead>
+                                                            <tr class="table-dark">
+                                                                <th>ID</th>
+                                                                <th>Question</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <tr>
+                                                                <th>1</th>
+                                                                <td>Partnership 1</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <th>2</th>
+                                                                <td>Partnership 2</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <th>3</th>
+                                                                <td>Partnership 3</td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
 
                                                 <br><br>
                                                 <h4>4.4. Experience</h4>
@@ -1165,60 +1225,6 @@
                                                         </tbody>
                                                     </table>
                                                 </div>
-
-
-
-                                                <br><br>
-                                                <h4>4.5. IT Enablers</h4>
-                                                <br>
-                                                <div class="table-responsive">
-                                                    <table class="table table-hover">
-                                                        <thead>
-                                                            <tr class="table-dark">
-                                                                <th>ID</th>
-                                                                <th>Question</th>
-                                                            </tr>
-                                                        </thead>
-                                                        <tbody>
-                                                            <tr>
-                                                                <th>1</th>
-                                                                <td>List your IT Enablers</td>
-                                                            </tr>
-                                                        </tbody>
-                                                    </table>
-                                                </div>
-
-
-
-
-                                                <br><br>
-                                                <h4>4.6. Alliances</h4>
-                                                <br>
-                                                <div class="table-responsive">
-                                                    <table class="table table-hover">
-                                                        <thead>
-                                                            <tr class="table-dark">
-                                                                <th>ID</th>
-                                                                <th>Question</th>
-                                                            </tr>
-                                                        </thead>
-                                                        <tbody>
-                                                            <tr>
-                                                                <th>1</th>
-                                                                <td>Partnership 1</td>
-                                                            </tr>
-                                                            <tr>
-                                                                <th>2</th>
-                                                                <td>Partnership 2</td>
-                                                            </tr>
-                                                            <tr>
-                                                                <th>3</th>
-                                                                <td>Partnership 3</td>
-                                                            </tr>
-                                                        </tbody>
-                                                    </table>
-                                                </div>
-
 
                                                 <br><br>
                                                 <h4>4.7. Product</h4>
@@ -1299,9 +1305,11 @@
                                                         </tbody>
                                                     </table>
                                                 </div>
+                                            </div>
 
 
-                                                <br><br>
+                                            <h3>Implementation & Commercials</h3>
+                                            <div>
                                                 <h4>4.9. Implementation</h4>
                                                 <br>
                                                 <h6>Deliverables per phase</h6>
@@ -1422,10 +1430,10 @@
                                                         </tbody>
                                                     </table>
                                                 </div>
+                                            </div>
 
-                                                <br><br>
-                                                <h4>4.11. Scoring Criteria</h4>
-                                                <br>
+                                            <h3>Scoring criteria</h3>
+                                            <div>
                                                 <div class="table-responsive">
                                                     <table class="table table-striped">
                                                         <thead>
@@ -1481,265 +1489,38 @@
                                                         </tbody>
                                                     </table>
                                                 </div>
-
-                                                <!--
-                                            <h4>4.2. Market Presence</h4>
-                                            <br>
-                                            <div class="table-responsive">
-                                                <table class="table table-striped">
-                                                    <thead>
-                                                        <tr>
-                                                            <th> </th>
-
-                                                            <th>Country / Region</th>
-
-                                                            <th>Comments</th>
-
-                                                            <th>Match 1</th>
-                                                        </tr>
-                                                    </thead>
-
-
-                                                    <tbody>
-                                                        <tr>
-                                                            <td>Headquarters</td>
-
-                                                            <td>
-                                                                <input type="text" class="form-control">
-                                                            </td>
-
-                                                            <td>
-                                                                <input type="text" class="form-control">
-                                                            </td>
-
-                                                            <td>
-                                                                <select required>
-                                                                    <option>1</option>
-                                                                    <option>2</option>
-                                                                    <option>3</option>
-                                                                    <option>4</option>
-                                                                </select>
-                                                            </td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>Comercial Offices</td>
-
-                                                            <td>
-                                                                <input type="text" class="form-control">
-                                                            </td>
-
-                                                            <td>
-                                                                <input type="text" class="form-control">
-                                                            </td>
-
-                                                            <td>
-                                                                <select required>
-                                                                    <option>1</option>
-                                                                    <option>2</option>
-                                                                    <option>3</option>
-                                                                    <option>4</option>
-                                                                </select>
-                                                            </td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>Comercial Offices</td>
-
-                                                            <td>
-                                                                <input type="text" class="form-control">
-                                                            </td>
-
-                                                            <td>
-                                                                <input type="text" class="form-control">
-                                                            </td>
-
-                                                            <td>
-                                                                <select required>
-                                                                    <option>1</option>
-                                                                    <option>2</option>
-                                                                    <option>3</option>
-                                                                    <option>4</option>
-                                                                </select>
-                                                            </td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>Geographies with solution implementations</td>
-
-                                                            <td>
-                                                                <input type="text" class="form-control">
-                                                            </td>
-
-                                                            <td>
-                                                                <input type="text" class="form-control">
-                                                            </td>
-
-                                                            <td>
-                                                                <select required>
-                                                                    <option>1</option>
-                                                                    <option>2</option>
-                                                                    <option>3</option>
-                                                                    <option>4</option>
-                                                                </select>
-                                                            </td>
-                                                        </tr>
-
-
-                                                    </tbody>
-                                                </table>
-                                            </div>
-
-                                            <br><br>
-                                            <h4>4.3. Experience</h4>
-                                            <br>
-                                            <div class="table-responsive">
-                                                <table class="table table-striped">
-                                                    <thead>
-                                                        <tr>
-                                                            <th> </th>
-
-                                                            <th>Response</th>
-
-                                                            <th>Comments</th>
-
-                                                            <th>Match 1</th>
-                                                        </tr>
-                                                    </thead>
-
-
-                                                    <tbody>
-                                                        <tr>
-                                                            <td>Industry Experience</td>
-
-                                                            <td>
-                                                                <textarea class="form-control" rows="3"></textarea>
-                                                            </td>
-
-                                                            <td>
-                                                                <textarea class="form-control" rows="3"></textarea>
-                                                            </td>
-
-                                                            <td>
-                                                                <select required>
-                                                                    <option>1</option>
-                                                                    <option>2</option>
-                                                                    <option>3</option>
-                                                                    <option>4</option>
-                                                                </select>
-                                                            </td>
-                                                        </tr>
-
-                                                        <tr>
-                                                            <td>List all active clients</td>
-
-                                                            <td>
-                                                                <textarea class="form-control" rows="3"></textarea>
-                                                            </td>
-
-                                                            <td>
-                                                                <textarea class="form-control" rows="3"></textarea>
-                                                            </td>
-
-                                                            <td>
-                                                                <select required>
-                                                                    <option>1</option>
-                                                                    <option>2</option>
-                                                                    <option>3</option>
-                                                                    <option>4</option>
-                                                                </select>
-                                                            </td>
-                                                        </tr>
-
-                                                        <tr>
-                                                            <td>List how many successful implementations you performed within last 4 years</td>
-
-                                                            <td>
-                                                                <textarea class="form-control" rows="3"></textarea>
-                                                            </td>
-
-                                                            <td>
-                                                                <textarea class="form-control" rows="3"></textarea>
-                                                            </td>
-
-                                                            <td>
-                                                                <select required>
-                                                                    <option>1</option>
-                                                                    <option>2</option>
-                                                                    <option>3</option>
-                                                                    <option>4</option>
-                                                                </select>
-                                                            </td>
-                                                        </tr>
-
-                                                        <tr>
-                                                            <td>Share 3 customer references for implementation with similar size & scope (same industry preferred)</td>
-
-                                                            <td>
-                                                                <textarea class="form-control" rows="3"></textarea>
-                                                            </td>
-
-                                                            <td>
-                                                                <textarea class="form-control" rows="3"></textarea>
-                                                            </td>
-
-                                                            <td>
-                                                                <select required>
-                                                                    <option>1</option>
-                                                                    <option>2</option>
-                                                                    <option>3</option>
-                                                                    <option>4</option>
-                                                                </select>
-                                                            </td>
-                                                        </tr>
-                                                    </tbody>
-                                                </table>
-
--->
-                                            </div>
-
-                                            <h3>Vendor</h3>
-                                            <div>
-                                                <div class="form-group">
-                                                    <label for="exampleInputText1">Maximum number of concurrent users
-                                                    </label>
-                                                    <input type="number" class="form-control" id="exampleInputText1"
-                                                        placeholder="Maximum number of concurrent users">
-                                                </div>
-                                            </div>
-                                            <h3>Experience</h3>
-                                            <div>
-                                                <div class="form-group">
-                                                    <label for="exampleInputText1">Maximum number of concurrent users
-                                                    </label>
-                                                    <input type="number" class="form-control" id="exampleInputText1"
-                                                        placeholder="Maximum number of concurrent users">
-                                                </div>
-                                            </div>
-                                            <h3>Innovation & Vision</h3>
-                                            <div>
-                                                <div class="form-group">
-                                                    <label for="exampleInputText1">Maximum number of concurrent users
-                                                    </label>
-                                                    <input type="number" class="form-control" id="exampleInputText1"
-                                                        placeholder="Maximum number of concurrent users">
-                                                </div>
-                                            </div>
-                                            <h3>Implementation & Commercials</h3>
-                                            <div>
-                                                <div class="form-group">
-                                                    <label for="exampleInputText1">Maximum number of concurrent users
-                                                    </label>
-                                                    <input type="number" class="form-control" id="exampleInputText1"
-                                                        placeholder="Maximum number of concurrent users">
-                                                </div>
                                             </div>
                                         </div>
                                     </section>
 
+                                    <h2>Publish / Invite vendors</h2>
+                                    <section>
+                                        <p>Project Description</p>
+                                        <textarea name="projectDescription" id="projectDescription" cols="80" rows="10"></textarea>
 
+                                        <br>
+                                        <br>
 
+                                        <h4>Vendor invite</h4>
+                                        <br>
+                                        <div class="form-group">
+                                            <label>Select vendors to be invited to this project</label><br>
+                                            <select class="js-example-basic-multiple w-100" multiple="multiple" required style="width: 100%;">
+                                                {{-- Selected is the ids of the vendors --}}
+                                                <x-options.vendorList :selected="['1', '3']" />
+                                            </select>
+                                        </div>
+
+                                        <br>
+                                        <br>
+                                        <a href="#" class="btn btn-primary btn-lg btn-icon-text">Publish project</a>
+                                        <br><br>
+                                        <p>
+                                            Please make sure everything is correct before publishing this project.
+                                        </p>
+                                    </section>
                                 </div>
-
                             </div>
-
                         </div>
                     </div>
                 </div>

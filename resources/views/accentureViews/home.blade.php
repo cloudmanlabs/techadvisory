@@ -45,7 +45,7 @@
                                             View <i class="btn-icon-prepend" data-feather="arrow-right"></i>
                                         </a>
                                     </div>
-                                    <x-progressBar progressSetUp="20" progressValue="10" progressResponse="0" progressAnalytics="0" progressConclusions="0" />
+                                    <x-projectProgressBar progressSetUp="20" progressValue="10" progressResponse="0" progressAnalytics="0" progressConclusions="0" />
                                 </div>
                             </div>
                         </div>
@@ -85,7 +85,7 @@
                                         <a href="{{route('accenture.projectValueTargeting')}}">Value
                                             targeting</a>
                                     </div>
-                                    <x-progressBar progressSetUp="20" progressValue="10" progressResponse="0" progressAnalytics="0"
+                                    <x-projectProgressBar progressSetUp="20" progressValue="10" progressResponse="0" progressAnalytics="0"
                                                                             progressConclusions="0" />
                                 </div>
                             </div>
@@ -125,7 +125,7 @@
                                             href="{{route('accenture.newProjectSetUp')}}">View<i class="btn-icon-prepend"
                                                 data-feather="arrow-right"></i></a>
                                     </div>
-                                    <x-progressBar progressSetUp="40" progressValue="20" progressResponse="25" progressAnalytics="10"
+                                    <x-projectProgressBar progressSetUp="40" progressValue="20" progressResponse="25" progressAnalytics="10"
                                         progressConclusions="5" />
                                 </div>
                             </div>
@@ -141,7 +141,7 @@
                                             href="{{route('accenture.newProjectSetUp')}}">View<i class="btn-icon-prepend"
                                                 data-feather="arrow-right"></i></a>
                                     </div>
-                                    <x-progressBar progressSetUp="40" progressValue="20" progressResponse="25" progressAnalytics="10"
+                                    <x-projectProgressBar progressSetUp="40" progressValue="20" progressResponse="25" progressAnalytics="10"
                                         progressConclusions="5" />
                                 </div>
                             </div>
