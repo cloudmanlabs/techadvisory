@@ -66,6 +66,60 @@
 
                                 <h3>Oral Status</h3>
 
+                                <div class="table-responsive">
+                                    <table class="table table-hover" style="text-align: center">
+                                        <thead>
+                                            <tr class="table-dark">
+                                                <th>Vendor name</th>
+                                                <th>Vendor segment</th>
+                                                <th>Invited to orals</th>
+                                                <th>Orals completed</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>Vendor 1</td>
+                                                <td>Segment 1</td>
+                                                <td>
+                                                    <input type="checkbox" name="dfas" id="afs" checked>
+                                                </td>
+                                                <td>
+                                                    <input type="checkbox" name="dfas" id="afs">
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>Vendor 2</td>
+                                                <td>Segment 1</td>
+                                                <td>
+                                                    <input type="checkbox" name="dfas" id="afs" checked>
+                                                </td>
+                                                <td>
+                                                    <input type="checkbox" name="dfas" id="afs">
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>Vendor 3</td>
+                                                <td>Segment 1</td>
+                                                <td>
+                                                    <input type="checkbox" name="dfas" id="afs" checked>
+                                                </td>
+                                                <td>
+                                                    <input type="checkbox" name="dfas" id="afs" checked>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>Vendor 4</td>
+                                                <td>Segment 1</td>
+                                                <td>
+                                                    <input type="checkbox" name="dfas" id="afs">
+                                                </td>
+                                                <td>
+                                                    <input type="checkbox" name="dfas" id="afs">
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
 
                                 <div style="float: right; margin-top: 20px;">
                                     <a class="btn btn-primary btn-lg btn-icon-text" href="accenture_project_home.html">

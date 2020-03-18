@@ -143,7 +143,19 @@
                                         <div class="card">
                                             <div class="card-body">
                                                 <h4>DETAILED FIT GAP SCORE PER REQUIREMENT TYPE</h4>
-                                                <br><br>
+                                                <br>
+                                                <div class="media-body" style="padding: 20px;">
+                                                    <p class="welcome_text">
+                                                        Please choose the Requirement Types you'd like to see:
+                                                    </p>
+                                                    <select class="js-example-basic-multiple w-100" multiple="multiple" required>
+                                                        <option selected>Requirement 1</option>
+                                                        <option selected>Requirement 2</option>
+                                                        <option>Requirement 3</option>
+                                                        <option>Requirement 4</option>
+                                                        <option>Requirement 5</option>
+                                                    </select>
+                                                </div>
                                                 <div class="table-responsive">
                                                     <table class="table table-hover">
                                                         <thead>
