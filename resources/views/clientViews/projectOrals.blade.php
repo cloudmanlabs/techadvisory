@@ -1,8 +1,8 @@
-@extends('accentureViews.layouts.app')
+@extends('clientViews.layouts.app')
 
 @section('content')
     <div class="main-wrapper">
-        <x-accenture.navbar activeSection="sections" />
+        <x-client.navbar activeSection="sections" />
 
 
         <div class="page-wrapper">
@@ -13,7 +13,7 @@
                     </div>
                 </div>
 
-                <x-accenture.projectNavbar section="projectOrals" />
+                <x-client.projectNavbar section="projectOrals" />
 
                 <br>
                 <div class="row">
@@ -53,13 +53,13 @@
                                     <div class="form-group">
                                         <label for="exampleInputText1">Location</label>
                                         <input type="text" class="form-control" id="exampleInputText1"
-                                            placeholder="Location" required>
+                                            value="Barcelona" disabled>
                                     </div>
                                 </div>
                                 <br> <br>
                                 <label for="exampleFormControlSelect1">Date</label>
                                 <div class="input-group date datepicker" id="datePicker1">
-                                    <input type="text" class="form-control"><span class="input-group-addon"><i
+                                    <input type="text" class="form-control" disabled><span class="input-group-addon"><i
                                             data-feather="calendar"></i></span>
                                 </div>
                                 <br><br><br>
@@ -81,40 +81,40 @@
                                                 <td>Vendor 1</td>
                                                 <td>Segment 1</td>
                                                 <td>
-                                                    <input type="checkbox" name="dfas" id="afs" checked>
+                                                    <input disabled type="checkbox" name="dfas" id="afs" checked>
                                                 </td>
                                                 <td>
-                                                    <input type="checkbox" name="dfas" id="afs">
+                                                    <input disabled type="checkbox" name="dfas" id="afs">
                                                 </td>
                                             </tr>
                                             <tr>
                                                 <td>Vendor 2</td>
                                                 <td>Segment 1</td>
                                                 <td>
-                                                    <input type="checkbox" name="dfas" id="afs" checked>
+                                                    <input disabled type="checkbox" name="dfas" id="afs" checked>
                                                 </td>
                                                 <td>
-                                                    <input type="checkbox" name="dfas" id="afs">
+                                                    <input disabled type="checkbox" name="dfas" id="afs">
                                                 </td>
                                             </tr>
                                             <tr>
                                                 <td>Vendor 3</td>
                                                 <td>Segment 1</td>
                                                 <td>
-                                                    <input type="checkbox" name="dfas" id="afs" checked>
+                                                    <input disabled type="checkbox" name="dfas" id="afs" checked>
                                                 </td>
                                                 <td>
-                                                    <input type="checkbox" name="dfas" id="afs" checked>
+                                                    <input disabled type="checkbox" name="dfas" id="afs" checked>
                                                 </td>
                                             </tr>
                                             <tr>
                                                 <td>Vendor 4</td>
                                                 <td>Segment 1</td>
                                                 <td>
-                                                    <input type="checkbox" name="dfas" id="afs">
+                                                    <input disabled type="checkbox" name="dfas" id="afs">
                                                 </td>
                                                 <td>
-                                                    <input type="checkbox" name="dfas" id="afs">
+                                                    <input disabled type="checkbox" name="dfas" id="afs">
                                                 </td>
                                             </tr>
                                         </tbody>
@@ -122,7 +122,7 @@
                                 </div>
 
                                 <div style="float: right; margin-top: 20px;">
-                                    <a class="btn btn-primary btn-lg btn-icon-text" href="{{route('accenture.projectHome')}}">
+                                    <a class="btn btn-primary btn-lg btn-icon-text" href="{{route('client.projectHome')}}">
                                         <i data-feather="arrow-left"></i>
                                         Go back to project
                                     </a>

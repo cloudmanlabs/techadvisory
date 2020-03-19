@@ -12,23 +12,15 @@
                     </div>
                 </div>
 
-                <x-client.video />
-
-                <div aria-hidden="true" aria-labelledby="myLargeModalLabel" class="modal fade bd-example-modal-lg" role="dialog" tabindex="-1">
-                    <div class="modal-dialog modal-lg modal-dialog-centered">
-                        <div class="modal-content">
-                            <iframe height="450" src="" width="100%"></iframe>
-                        </div>
-                    </div>
-                </div>
-                <br>
-                <br>
-
                 <div class="row" style="margin-top: 25px;">
                     <div class="col-md-12 grid-margin stretch-card">
                         <div class="card">
                             <div class="card-body">
-                                <h3>Complete your profile</h3>
+                                <div style="display:flex; justify-content: space-between">
+                                    <h3>Edit your profile</h3>
+                                    <a class="btn btn-primary btn-lg btn-icon-text" href="{{route('client.profile')}}"><i class="btn-icon-prepend"
+                                                                                data-feather="check-square"></i> Save profile</a>
+                                </div>
 
 
                                 <p class="welcome_text extra-top-15px">Please complete your profile and get ready to use the platform. It won't take you more than just a few minutes and you can do it today. Note that, if you do not currently have the info for some specific fields, you can leave them blank and fill up them later.</p>
@@ -233,7 +225,7 @@
 
 
                                 <div style="float: right; margin-top: 20px;">
-                                    <a class="btn btn-primary btn-lg btn-icon-text" href="{{route('client.newProjectSetUp')}}"><i class="btn-icon-prepend" data-feather="check-square"></i> Save profile</a>
+                                    <a class="btn btn-primary btn-lg btn-icon-text" href="{{route('client.profile')}}"><i class="btn-icon-prepend" data-feather="check-square"></i> Save profile</a>
                                 </div>
                             </div>
                         </div>

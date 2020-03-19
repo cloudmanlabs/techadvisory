@@ -1,9 +1,8 @@
 @extends('clientViews.layouts.benchmark')
 
 @section('content')
-    <div class="main-wrapper">
-        <x-client.navbar activeSection="sections" />
-
+<div class="main-wrapper">
+    <x-client.navbar activeSection="sections" />
 
         <div class="page-wrapper">
             <div class="page-content">
@@ -13,7 +12,6 @@
                         <h2>Accenture's <span class="badge badge-primary">Tech Advisory Platform</span></h2>
                     </div>
                 </div>
-
 
                 <x-client.projectNavbar section="projectBenchmark" subsection="vendor" />
 
@@ -142,7 +140,7 @@
 
                                 <div style="float: right; margin-top: 20px;">
                                     <a class="btn btn-primary btn-lg btn-icon-text"
-                                        href="accenture_project_benchmarks_view.html">
+                                        href="{{route('client.projectBenchmark')}}">
                                         <i data-feather="arrow-left"></i>
                                         Go back to Benchmark & Analytics
                                     </a>

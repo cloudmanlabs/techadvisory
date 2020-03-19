@@ -12,6 +12,9 @@
                     </div>
                 </div>
 
+                <x-client.video />
+                <br><br>
+
                 <div class="row">
                     <div class="col-lg-12 grid-margin stretch-card" id="open_projects">
                         <div class="card">
@@ -25,80 +28,17 @@
                                     <div class="card-body">
                                         <div style="float: left; max-width: 40%;">
                                             <h4>Global Transport Management</h4>
-                                            <h6>Solution type</h6>
+                                            <h6>Practice: Transport</h6>
+                                            <h6>Last updated: 11/11/1111</h6>
                                         </div>
                                         <div style="float: right; text-align: right; width: 15%;">
-                                            <a class="btn btn-primary btn-lg btn-icon-text" href="{{route('client.projectHome')}}">View <i class="btn-icon-prepend" data-feather="arrow-right"></i></a>
+                                            <a class="btn btn-primary btn-lg btn-icon-text" href="{{route('client.projectHome')}}">
+                                                View <i class="btn-icon-prepend" data-feather="arrow-right"></i>
+                                            </a>
                                         </div>
-                                        <div style="float: right; width: 35%; margin-right: 10%;">
-                                            Current status
-                                            <div class="progress">
-                                                <div class="progress-bar" role="progressbar" style="width: 65%;" aria-valuenow="65" aria-valuemin="0" aria-valuemax="100">65%</div>
-                                            </div>
-                                        </div>
+                                        <x-projectProgressBar progressSetUp="20" progressValue="10" progressResponse="0" progressAnalytics="0" progressConclusions="0" />
                                     </div>
                                 </div>
-
-
-                                <div class="card" style="margin-bottom: 30px;">
-                                    <div class="card-body">
-                                        <div style="float: left; max-width: 40%;">
-                                            <h4>Future of leadership</h4>
-                                            <h6>Solution type</h6>
-                                        </div>
-                                        <div style="float: right; text-align: right; width: 15%;">
-                                            <a class="btn btn-primary btn-lg btn-icon-text" href="client_project_home.html">View <i class="btn-icon-prepend" data-feather="arrow-right"></i></a>
-                                        </div>
-                                        <div style="float: right; width: 35%; margin-right: 10%;">
-                                            Current status
-                                            <div class="progress">
-                                                <div class="progress-bar" role="progressbar" style="width: 15%;" aria-valuenow="15" aria-valuemin="0" aria-valuemax="100">15%</div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-
-                                <div class="card" style="margin-bottom: 30px;">
-                                    <div class="card-body">
-                                        <div style="float: left; max-width: 40%;">
-                                            <h4>Another project title</h4>
-                                            <h6>Solution type</h6>
-                                        </div>
-                                        <div style="float: right; text-align: right; width: 15%;">
-                                            <a class="btn btn-primary btn-lg btn-icon-text" href="client_project_home.html">View <i class="btn-icon-prepend" data-feather="arrow-right"></i></a>
-                                        </div>
-                                        <div style="float: right; width: 35%; margin-right: 10%;">
-                                            Current status
-                                            <div class="progress">
-                                                <div class="progress-bar" role="progressbar" style="width: 90%;" aria-valuenow="90" aria-valuemin="0" aria-valuemax="100">90%</div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-
-                                <div class="card" style="margin-bottom: 30px;">
-                                    <div class="card-body">
-                                        <div style="float: left; max-width: 40%;">
-                                            <h4>Last of latest projects title</h4>
-                                            <h6>Solution type</h6>
-                                        </div>
-                                        <div style="float: right; text-align: right; width: 15%;">
-                                            <a class="btn btn-primary btn-lg btn-icon-text" href="client_project_home.html">View <i class="btn-icon-prepend" data-feather="arrow-right"></i></a>
-                                        </div>
-                                        <div style="float: right; width: 35%; margin-right: 10%;">
-                                            Current status
-                                            <div class="progress">
-                                                <div class="progress-bar" role="progressbar" style="width: 55%;" aria-valuenow="55" aria-valuemin="0" aria-valuemax="100">55%</div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-
-
-
                             </div>
                         </div>
                     </div>
@@ -115,26 +55,54 @@
                                 <div class="card" style="margin-bottom: 30px;">
                                     <div class="card-body">
                                         <div style="float: left; max-width: 40%;">
-                                            <h4>Redistribution of processes at Nestlé</h4>
-                                            <h6>Solution type</h6>
+                                            <h4>Global Transport Management</h4>
+                                            <h6>Practice: Transport</h6>
+                                            <h6>Last updated: 11/11/1111</h6>
                                         </div>
-                                        <div style="float: right; text-align: right; width: 17%;">
-                                            <a class="btn btn-primary btn-lg btn-icon-text" href="client_new_project_set_up.html">Complete <i class="btn-icon-prepend" data-feather="arrow-right"></i></a>
+                                        <div style="float: right; text-align: right; width: 15%;">
+                                            <a class="btn btn-primary btn-lg btn-icon-text" href="{{route('client.newProjectSetUp')}}">
+                                                Complete <i class="btn-icon-prepend" data-feather="arrow-right"></i>
+                                            </a>
+                                            <br>
+                                            <a href="{{route('client.projectDiscovery')}}">Value
+                                                targeting</a>
                                         </div>
-                                        <!--<div style="float: right; width: 35%; margin-right: 5%; margin-left: 5%;">
-                                            Current status
-                                            <div class="progress">
-                                                <div class="progress-bar" role="progressbar" style="width: 5%;" aria-valuenow="5" aria-valuemin="0" aria-valuemax="100">5%</div>
-                                            </div>
-                                        </div>-->
+                                        <x-projectProgressBar progressSetUp="20" progressValue="10" progressResponse="0" progressAnalytics="0"
+                                            progressConclusions="0" />
                                     </div>
                                 </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
+                <div class="row" id="oldProjects">
+                    <div class="col-lg-12 grid-margin stretch-card">
+                        <div class="card">
+                            <div class="card-body">
+                                <h3>Finished projects</h3>
+                                <p class="welcome_text extra-top-15px">In order to start using the Tech Advisory Platform, you'll need
+                                    to follow some steps to complete your profile and set up your first project. Please check below the
+                                    timeline and click "Let's start" when you are ready.</p>
+                                <br>
+                                <br>
 
-
-
-
-
+                                <div class="card" style="margin-bottom: 30px;">
+                                    <div class="card-body">
+                                        <div style="float: left; max-width: 40%;">
+                                            <h4>Global Transport Management</h4>
+                                            <h6>Practice: Transport</h6>
+                                            <h6>Last updated: 11/11/1111</h6>
+                                        </div>
+                                        <div style="float: right; text-align: right; width: 15%;">
+                                            <a class="btn btn-primary btn-lg btn-icon-text" href="{{route('accenture.projectHome')}}">
+                                                View <i class="btn-icon-prepend" data-feather="arrow-right"></i>
+                                            </a>
+                                        </div>
+                                        <x-projectProgressBar progressSetUp="40" progressValue="20" progressResponse="25"
+                                            progressAnalytics="10" progressConclusions="5" />
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>

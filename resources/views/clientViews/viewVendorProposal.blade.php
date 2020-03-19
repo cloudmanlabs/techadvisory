@@ -1,8 +1,8 @@
-@extends('accentureViews.layouts.forms')
+@extends('clientViews.layouts.forms')
 
 @section('content')
 <div class="main-wrapper">
-    <x-accenture.navbar activeSection="sections" />
+    <x-client.navbar activeSection="sections" />
 
     <div class="page-wrapper">
         <div class="page-content">
@@ -71,7 +71,7 @@
                                 today. Note that, if you do not currently have the info for some specific fields,
                                 you can leave them blank and fill up them later.</p>
                             <br>
-                            <div id="wizard_accenture">
+                            <div id="viewVendorProposalClient">
                                 <h2>Fit Gap</h2>
                                 <section>
                                     <br>
@@ -389,22 +389,22 @@
                                                 Customer 1
                                             </label>
                                             <input type="number" class="form-control" id="exampleInputText1"
-                                                disabled value="">
+                                                disabled value="Response">
                                             <label for="exampleInputText1">
                                                 Contact Name 1
                                             </label>
                                             <input type="number" class="form-control" id="exampleInputText1"
-                                                disabled value="">
+                                                disabled value="Response">
                                             <label for="exampleInputText1">
                                                 Contact Role 1
                                             </label>
                                             <input type="number" class="form-control" id="exampleInputText1"
-                                                disabled value="">
+                                                disabled value="Response">
                                             <label for="exampleInputText1">
                                                 Contact E-mail 1
                                             </label>
                                             <input type="number" class="form-control" id="exampleInputText1"
-                                                disabled value="">
+                                                disabled value="Response">
                                             <label for="exampleInputText1">
                                                 Comments 1
                                             </label>
@@ -425,22 +425,22 @@
                                                 Customer 2
                                             </label>
                                             <input type="number" class="form-control" id="exampleInputText1"
-                                                disabled value="">
+                                                disabled value="Response">
                                             <label for="exampleInputText1">
                                                 Contact Name 2
                                             </label>
                                             <input type="number" class="form-control" id="exampleInputText1"
-                                                disabled value="">
+                                                disabled value="Response">
                                             <label for="exampleInputText1">
                                                 Contact Role 2
                                             </label>
                                             <input type="number" class="form-control" id="exampleInputText1"
-                                                disabled value="">
+                                                disabled value="Response">
                                             <label for="exampleInputText1">
                                                 Contact E-mail 2
                                             </label>
                                             <input type="number" class="form-control" id="exampleInputText1"
-                                                disabled value="">
+                                                disabled value="Response">
                                             <label for="exampleInputText1">
                                                 Comments 2
                                             </label>
@@ -461,22 +461,22 @@
                                                 Customer 3
                                             </label>
                                             <input type="number" class="form-control" id="exampleInputText1"
-                                                disabled value="">
+                                                disabled value="Response">
                                             <label for="exampleInputText1">
                                                 Contact Name 3
                                             </label>
                                             <input type="number" class="form-control" id="exampleInputText1"
-                                                disabled value="">
+                                                disabled value="Response">
                                             <label for="exampleInputText1">
                                                 Contact Role 3
                                             </label>
                                             <input type="number" class="form-control" id="exampleInputText1"
-                                                disabled value="">
+                                                disabled value="Response">
                                             <label for="exampleInputText1">
                                                 Contact E-mail 3
                                             </label>
                                             <input type="number" class="form-control" id="exampleInputText1"
-                                                disabled value="">
+                                                disabled value="Response">
                                             <label for="exampleInputText1">
                                                 Comments 3
                                             </label>

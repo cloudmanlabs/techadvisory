@@ -9,12 +9,8 @@
 
                 </div>
 
-                <div style="float: right; width: 35%;">
-                    Current status
-                    <div class="progress">
-                        <div class="progress-bar" role="progressbar" style="width: 65%;" aria-valuenow="65" aria-valuemin="0" aria-valuemax="100">65%</div>
-                    </div>
-                </div>
+                <x-projectProgressBar progressSetUp="20" progressValue="10" progressResponse="0" progressAnalytics="0"
+                    progressConclusions="0" />
             </div>
         </div>
     </div>
@@ -30,7 +26,7 @@
                             <i data-feather="bookmark" style="max-width: 18px; margin-right: 3px; margin-top: -2px"></i>
                             <a class="pt-1px d-none d-md-block" href="{{route('client.projectHome')}}">Project home</a>
                         </li>
-                        <li class="header-link-item ml-3 pl-3 border-left d-flex align-items-center {{$section == 'projectEdit' ? 'active' : ''}}">
+                        <li class="header-link-item ml-3 pl-3 border-left d-flex align-items-center {{$section == 'projectView' ? 'active' : ''}}">
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
                                 fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
                                 stroke-linejoin="round" class="feather feather-edit"
@@ -40,7 +36,7 @@
                                 <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z">
                                 </path>
                             </svg>
-                            <a class="pt-1px d-none d-md-block" href="{{route('client.projectEdit')}}">Edit project</a>
+                            <a class="pt-1px d-none d-md-block" href="{{route('client.projectView')}}">View project</a>
                         </li>
                         <li class="header-link-item ml-3 pl-3 border-left d-flex align-items-center {{$section == 'projectDiscovery' ? 'active' : ''}}">
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
@@ -53,7 +49,7 @@
                                 <line x1="3" y1="10" x2="21" y2="10"></line>
                             </svg>
                             <a class="pt-1px d-none d-md-block" href="{{route('client.projectDiscovery')}}">
-                                Discover Week content
+                                Value Targeting Outcomes
                             </a>
                         </li>
                         <li class="header-link-item ml-3 pl-3 border-left d-flex align-items-center {{$section == 'projectBenchmark' ? 'active' : ''}}">
@@ -65,7 +61,21 @@
                                 <path d="M22 12A10 10 0 0 0 12 2v10z"></path>
                             </svg>
                             <a class="pt-1px d-none d-md-block" href="{{route('client.projectBenchmark')}}">
-                                Benchmark and Analytics
+                                Project Analytics
+                            </a>
+                        </li>
+                        <li class="header-link-item ml-3 pl-3 border-left d-flex align-items-center {{$section == 'projectOrals' ? 'active' : ''}}">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round" style="max-width: 18px; margin-right: 3px; margin-top: -2px"
+                                class="feather feather-smile link-icon">
+                                <circle cx="12" cy="12" r="10"></circle>
+                                <path d="M8 14s1.5 2 4 2 4-2 4-2"></path>
+                                <line x1="9" y1="9" x2="9.01" y2="9"></line>
+                                <line x1="15" y1="9" x2="15.01" y2="9"></line>
+                            </svg>
+                            <a class="pt-1px d-none d-md-block" href="{{route('client.projectOrals')}}">
+                                Orals
                             </a>
                         </li>
                         <li class="header-link-item ml-3 pl-3 border-left d-flex align-items-center {{$section == 'projectConclusions' ? 'active' : ''}}">
@@ -77,7 +87,7 @@
                                 <polyline points="22 4 12 14.01 9 11.01"></polyline>
                             </svg>
                             <a class="pt-1px d-none d-md-block" href="{{route('client.projectConclusions')}}">
-                                Conclusions
+                                Conclusions & Recommendations
                             </a>
                         </li>
                     </ul>

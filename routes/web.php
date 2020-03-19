@@ -123,13 +123,20 @@ Route::prefix('client')
 
         Route::view('home', 'clientViews.home')
             ->name('home');
+        Route::view('profile', 'clientViews.profile')
+            ->name('profile');
+        Route::view('profileEdit', 'clientViews.profileEdit')
+            ->name('profileEdit');
+
 
         Route::view('project/home', 'clientViews.projectHome')
             ->name('projectHome');
-        Route::view('project/edit', 'clientViews.projectEdit')
-            ->name('projectEdit');
+        Route::view('project/view', 'clientViews.projectView')
+            ->name('projectView');
         Route::view('project/discovery', 'clientViews.projectDiscovery')
             ->name('projectDiscovery');
+        Route::view('project/orals', 'clientViews.projectOrals')
+            ->name('projectOrals');
         Route::view('project/conclusions', 'clientViews.projectConclusions')
             ->name('projectConclusions');
 
@@ -145,6 +152,9 @@ Route::prefix('client')
             ->name('projectBenchmarkInnovation');
         Route::view('project/benchmark/implementation', 'clientViews.projectBenchmarkImplementation')
             ->name('projectBenchmarkImplementation');
+
+        Route::view('viewVendorProposal', 'clientViews.viewVendorProposal')
+            ->name('viewVendorProposal');
     });
 
 
