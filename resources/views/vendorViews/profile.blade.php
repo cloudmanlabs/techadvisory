@@ -212,15 +212,13 @@
                                     </select>
                                 </div>
 
-
+                                <br>
                                 <div class="form-group">
-                                    <label>Upload your logo</label> <input class="file-upload-default" name="img[]" type="file">
+                                    <label>Logo</label> <input class="file-upload-default" name="img[]" type="file">
 
-                                    <div class="input-group col-xs-12">
-                                        <input class="form-control file-upload-info" disabled disabled value="Upload Image" type="text"> <span class="input-group-append"><button class="file-upload-browse btn btn-primary" type="button"><span class="input-group-append">Upload</span></button></span>
-                                    </div>
+                                    <img src="@logo" alt="" style="max-height: 5rem">
                                 </div>
-
+                                <br>
 
                                 <div class="form-group">
                                     <label for="exampleInputText1">Link to your website</label> <input class="form-control" id="exampleInputText1" disabled value="https://..." type="text">

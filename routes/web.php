@@ -190,6 +190,9 @@ Route::prefix('vendor')
             ->name('newApplication');
         Route::view('newApplicationApply', 'vendorViews.newApplicationApply')
             ->name('newApplicationApply');
+        Route::view('projectOrals', 'vendorViews.projectOrals')
+            ->name('projectOrals');
+
 
         Route::view('home', 'vendorViews.home')
             ->name('home');

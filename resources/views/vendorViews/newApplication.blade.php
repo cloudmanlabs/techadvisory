@@ -12,43 +12,7 @@
                     </div>
                 </div>
 
-                <div class="row">
-                    <div class="col-12 col-xl-12 stretch-card">
-                        <div class="card">
-                            <div class="card-body">
-                                <div style="float: left;">
-                                    <h3>Redistribution of processes at Nestlé</h3>
-                                </div>
-
-                                <div style="float: right; width: 35%;">
-                                    Application status
-                                    <div class="progress">
-                                        <div class="progress-bar" role="progressbar" style="width: 10%;" aria-valuenow="10" aria-valuemin="0" aria-valuemax="100">10%</div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="profile-page">
-                    <div class="row">
-                        <div class="col-12 grid-margin">
-                            <div class="profile-header">
-                                <div class="header-links">
-                                    <ul class="links d-flex align-items-center mt-3 mt-md-0">
-                                        <li class="header-link-item d-flex align-items-center active">
-                                            <i data-feather="bookmark" style="max-width: 18px; margin-right: 3px; margin-top: -2px"></i> <a class="pt-1px d-none d-md-block" href="{{route('vendor.newApplication')}}">Project information</a>
-                                        </li>
-                                        <li class="header-link-item ml-3 pl-3 border-left d-flex align-items-center">
-                                            <i data-feather="check-circle" style="max-width: 18px; margin-right: 3px; margin-top: -2px"></i> <a class="pt-1px d-none d-md-block" href="{{route('vendor.newApplicationApply')}}">Apply to project</a>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                <x-vendor.projectNavbar section="info" />
 
                 <div class="row" style="margin-top: 25px;">
                     <div class="col-md-12 grid-margin stretch-card">
