@@ -21,7 +21,14 @@ $(function () {
                     yAxes: [{
                         ticks: {
                             beginAtZero: true,
-                            max: 7
+                            max: 7,
+                            fontSize: 17
+                        }
+                    }],
+                    xAxes: [{
+                        ticks: {
+                            stacked: true,
+                            fontSize: 17,
                         }
                     }]
                 }
@@ -57,12 +64,12 @@ $(function () {
                         ticks: {
                             beginAtZero: true,
                             max: 9,
-                            fontSize: 20
+                            fontSize: 17
                         }
                     }],
                     xAxes: [{
                         ticks: {
-                            fontSize: 20
+                            fontSize: 17
                         }
                     }]
                 }
@@ -113,26 +120,26 @@ $(function () {
                         scaleLabel: {
                             display: true,
                             labelString: "Av. Score",
-                            fontSize: 20
+                            fontSize: 17
                         },
                         ticks: {
                             beginAtZero: false,
                             min: 1,
                             max: 10,
-                            fontSize: 20
+                            fontSize: 17
                         }
                     }],
                     xAxes: [{
                         scaleLabel: {
                             display: true,
                             labelString: "Av. Ranking",
-                            fontSize: 20
+                            fontSize: 17
                         },
                         ticks: {
                             beginAtZero: false,
                             min: 1,
                             max: 10,
-                            fontSize: 20,
+                            fontSize: 17,
                             callback: function (tick, index, ticks) {
                                 console.log(tick)
                                 return (11 - tick).toString();

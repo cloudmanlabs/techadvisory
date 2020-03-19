@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="main-wrapper">
-    <x-accenture.navbar activeSection="sections" />
+    <x-accenture.navbar activeSection="benchmark" />
 
         <div class="page-wrapper">
             <div class="page-content">
@@ -109,4 +109,9 @@
         <x-footer />
     </div>
 </div>
+@endsection
+
+@section('scripts')
+@parent
+<script src="{{url('assets/js/chartsjs_techadvisory_historic.js')}}"></script>
 @endsection

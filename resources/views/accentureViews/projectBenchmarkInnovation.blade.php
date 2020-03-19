@@ -154,3 +154,8 @@
         </div>
     </div>
 @endsection
+
+@section('scripts')
+@parent
+<script src="{{url('assets/js/chartsjs_techadvisory_client_benchmarks_view_innovation.js')}}"></script>
+@endsection

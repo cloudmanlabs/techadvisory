@@ -37,14 +37,6 @@
         <script src="{{url('assets/js/select2.js')}}"></script>
         <script src="{{url('assets/js/apexcharts_techadvisory_demo.js')}}"></script>
         <script src="{{url('assets/vendors/chartjs/Chart.min.js')}}"></script>
-        <script src="{{url('assets/js/chartsjs_techadvisory_client_benchmarks_view_fitgap.js')}}"></script>
-        <script src="{{url('assets/js/chartsjs_techadvisory_client_benchmarks_view_vendor.js')}}"></script>
-        <script src="{{url('assets/js/chartsjs_techadvisory_client_benchmarks_view_experience.js')}}"></script>
-        <script src="{{url('assets/js/chartsjs_techadvisory_client_benchmarks_view_innovation.js')}}"></script>
-        <script src="{{url('assets/js/chartsjs_techadvisory_client_benchmarks_view_implementation.js')}}"></script>
-        <script src="{{url('assets/js/chartsjs_techadvisory_vendor.js')}}"></script>
-        <script src="{{url('assets/js/chartsjs_techadvisory_client.js')}}"></script>
-        <script src="{{url('assets/js/chartsjs_techadvisory_historic.js')}}"></script>
     @show
 </body>
 
