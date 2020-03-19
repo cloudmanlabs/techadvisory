@@ -9,8 +9,8 @@
 
                 </div>
 
-                <x-projectProgressBar progressSetUp="20" progressValue="10" progressResponse="0" progressAnalytics="0"
-                    progressConclusions="0" />
+                <x-applicationProgressBar progressFitgap="20" progressVendor="10" progressExperience="0" progressInnovation="0"
+                    progressImplementation="0" progressSubmit="0" />
             </div>
         </div>
     </div>
@@ -22,6 +22,7 @@
             <div class="profile-header">
                 <div class="header-links">
                     <ul class="links d-flex align-items-center mt-3 mt-md-0">
+                        @if($section != 'preview')
                         <li class="header-link-item d-flex align-items-center {{$section == 'info' ? 'active' : ''}}">
                             <i data-feather="bookmark" style="max-width: 18px; margin-right: 3px; margin-top: -2px"></i>
                             <a class="pt-1px d-none d-md-block" href="{{route('vendor.newApplication')}}">Project
@@ -45,6 +46,13 @@
                             <a
                                 class="pt-1px d-none d-md-block" href="{{route('vendor.projectOrals')}}">Orals</a>
                         </li>
+                        @else
+                        <li class="header-link-item d-flex align-items-center active">
+                            <i data-feather="bookmark" style="max-width: 18px; margin-right: 3px; margin-top: -2px"></i>
+                            <a class="pt-1px d-none d-md-block" href="{{route('vendor.previewProject')}}">Project
+                                information</a>
+                        </li>
+                        @endif
                     </ul>
                 </div>
             </div>

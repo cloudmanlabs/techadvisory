@@ -12,7 +12,7 @@
                     </div>
                 </div>
 
-                <x-vendor.projectNavbar section="info" />
+                <x-vendor.projectNavbar section="preview" />
 
                 <div class="row">
                     <div class="col-md-12 grid-margin stretch-card">
@@ -403,6 +403,22 @@
                                     </section>
                                 </div>
                             </div>
+
+                            {{-- TODO Here we should mark the project as either rejected or accepted --}}
+                            <div style="display:flex; justify-content:space-evenly; padding: 1.5rem 1.5rem;">
+                                <div style="text-align: right; width: 17%;">
+                                    <a class="btn btn-primary btn-lg btn-icon-text" href="{{route('vendor.home')}}">
+                                        Reject
+                                    </a>
+                                </div>
+                                <div style="text-align: right; width: 17%;">
+                                    <a class="btn btn-primary btn-lg btn-icon-text" href="{{route('vendor.home')}}">
+                                        Accept
+                                    </a>
+                                </div>
+                            </div>
+
+                            <br><br>
                         </div>
                     </div>
                 </div>

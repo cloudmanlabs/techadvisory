@@ -25,7 +25,7 @@
                                     <h2>General Information</h2>
                                     <section>
                                         <div class="form-group">
-                                            <label for="exampleInputText1">Vendor Name</label> <input class="form-control" id="exampleInputText1" placeholder="Enter Name" type="text" value="Ventix Pro Corp." disabled>
+                                            <label for="exampleInputText1">Vendor Name*</label> <input class="form-control" id="exampleInputText1" placeholder="Enter Name" type="text" required>
                                         </div>
                                         <div class="form-group">
                                             <label for="exampleInputText1">Vendor contact email</label> <input class="form-control" id="exampleInputText1" placeholder="Enter E-mail" type="email">

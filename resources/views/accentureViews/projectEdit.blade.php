@@ -474,6 +474,11 @@
                                                 </form>
                                             </div>
 
+                                            <div class="form-group">
+                                                <label for="exampleFormControlTextarea1">Other information</label>
+                                                <textarea class="form-control" id="exampleFormControlTextarea1" rows="14" required></textarea>
+                                            </div>
+
                                         </div>
                                     </section>
 
@@ -902,6 +907,10 @@
                                             <input type="number" class="form-control" id="exampleInputText1"
                                                 placeholder="Number of named users">
                                         </div>
+
+                                        <br><br>
+                                        <a class="btn btn-primary btn-lg btn-icon-text" href="{{route('accenture.projectView')}}">Submit</a>
+                                        <br><br>
                                     </section>
 
 

@@ -186,6 +186,8 @@ Route::prefix('vendor')
 
         Route::redirect('createNewApplication', '/vendor/newApplication') // TODO Here we should accept the  stuff and go to the newApplication to fill the data
             ->name('createNewApplication');
+        Route::view('previewProject', 'vendorViews.previewProject')
+            ->name('previewProject');
         Route::view('newApplication', 'vendorViews.newApplication')
             ->name('newApplication');
         Route::view('newApplicationApply', 'vendorViews.newApplicationApply')

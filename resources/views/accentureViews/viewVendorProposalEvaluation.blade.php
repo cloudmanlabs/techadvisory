@@ -21,13 +21,8 @@
 
                                 </div>
 
-                                <div style="float: right; width: 35%;">
-                                    Application status
-                                    <div class="progress">
-                                        <div class="progress-bar" role="progressbar" style="width: 10%;" aria-valuenow="10"
-                                            aria-valuemin="0" aria-valuemax="100">10%</div>
-                                    </div>
-                                </div>
+                                <x-applicationProgressBar progressFitgap="20" progressVendor="10" progressExperience="0" progressInnovation="0"
+                                    progressImplementation="0" progressSubmit="0" />
                             </div>
                         </div>
                     </div>

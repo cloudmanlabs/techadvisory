@@ -226,6 +226,13 @@
                                                 </form>
                                             </div>
 
+                                            <div class="form-group">
+                                                <label for="exampleFormControlTextarea1">Other information</label>
+                                                <textarea class="form-control" id="exampleFormControlTextarea1"
+                                                    rows="14" disabled>Response</textarea>
+                                            </div>
+
+
                                         </div>
                                     </section>
 

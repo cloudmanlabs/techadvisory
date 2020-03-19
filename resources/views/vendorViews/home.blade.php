@@ -30,10 +30,15 @@
                                             <h4>Redistribution of processes at Nestlé</h4>
                                             <h6>Solution type</h6>
                                         </div>
+                                        <div style="float: right; text-align: right; width: 20%;">
+                                            <a class="btn btn-primary btn-lg btn-icon-text" href="{{route('vendor.previewProject')}}">
+                                                Preview <i class="btn-icon-prepend" data-feather="arrow-right"></i>
+                                            </a>
+                                        </div>
                                         {{-- TODO Here we should mark the project as either rejected or accepted --}}
                                         <div style="float: right; text-align: right; width: 17%;">
                                             <a class="btn btn-primary btn-lg btn-icon-text" href="{{route('vendor.home')}}">
-                                                Accept <i class="btn-icon-prepend" data-feather="arrow-right"></i>
+                                                Accept
                                             </a>
                                         </div>
                                         <div style="float: right; text-align: right; width: 17%;">
@@ -66,12 +71,8 @@
                                         <div style="float: right; text-align: right; width: 15%;">
                                             <a class="btn btn-primary btn-lg btn-icon-text" href="{{route('vendor.newApplicationApply')}}">View <i class="btn-icon-prepend" data-feather="arrow-right"></i></a>
                                         </div>
-                                        <div style="float: right; width: 35%; margin-right: 10%;">
-                                            Current status
-                                            <div class="progress">
-                                                <div class="progress-bar" role="progressbar" style="width: 65%;" aria-valuenow="65" aria-valuemin="0" aria-valuemax="100">65%</div>
-                                            </div>
-                                        </div>
+                                        <x-applicationProgressBar progressFitgap="20" progressVendor="10" progressExperience="0" progressInnovation="0"
+                                            progressImplementation="0" progressSubmit="0" />
                                     </div>
                                 </div>
 
@@ -85,12 +86,8 @@
                                         <div style="float: right; text-align: right; width: 15%;">
                                             <a class="btn btn-primary btn-lg btn-icon-text" href="{{route('vendor.newApplicationApply')}}">View <i class="btn-icon-prepend" data-feather="arrow-right"></i></a>
                                         </div>
-                                        <div style="float: right; width: 35%; margin-right: 10%;">
-                                            Current status
-                                            <div class="progress">
-                                                <div class="progress-bar" role="progressbar" style="width: 15%;" aria-valuenow="15" aria-valuemin="0" aria-valuemax="100">15%</div>
-                                            </div>
-                                        </div>
+                                        <x-applicationProgressBar progressFitgap="20" progressVendor="10" progressExperience="0" progressInnovation="0"
+                                            progressImplementation="0" progressSubmit="0" />
                                     </div>
                                 </div>
                             </div>
@@ -107,7 +104,6 @@
                                 <br>
                                 <br>
 
-
                                 <div class="card" style="margin-bottom: 30px;">
                                     <div class="card-body">
                                         <div style="float: left; max-width: 40%;">
@@ -117,15 +113,10 @@
                                         <div style="float: right; text-align: right; width: 15%;">
                                             <a class="btn btn-primary btn-lg btn-icon-text" href="{{route('vendor.newApplicationApply')}}">View <i class="btn-icon-prepend" data-feather="arrow-right"></i></a>
                                         </div>
-                                        <div style="float: right; width: 35%; margin-right: 10%;">
-                                            Current status
-                                            <div class="progress">
-                                                <div class="progress-bar" role="progressbar" style="width: 100%;" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">100%</div>
-                                            </div>
-                                        </div>
+                                        <x-applicationProgressBar progressFitgap="30" progressVendor="10" progressExperience="10" progressInnovation="10"
+                                            progressImplementation="30" progressSubmit="10" />
                                     </div>
                                 </div>
-
 
                                 <div class="card" style="margin-bottom: 30px;">
                                     <div class="card-body">
@@ -136,12 +127,8 @@
                                         <div style="float: right; text-align: right; width: 15%;">
                                             <a class="btn btn-primary btn-lg btn-icon-text" href="{{route('vendor.newApplicationApply')}}">View <i class="btn-icon-prepend" data-feather="arrow-right"></i></a>
                                         </div>
-                                        <div style="float: right; width: 35%; margin-right: 10%;">
-                                            Current status
-                                            <div class="progress">
-                                                <div class="progress-bar" role="progressbar" style="width: 100%;" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">100%</div>
-                                            </div>
-                                        </div>
+                                        <x-applicationProgressBar progressFitgap="30" progressVendor="10" progressExperience="10" progressInnovation="10"
+                                            progressImplementation="30" progressSubmit="10" />
                                     </div>
                                 </div>
                             </div>

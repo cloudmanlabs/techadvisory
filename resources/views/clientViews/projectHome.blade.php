@@ -56,19 +56,19 @@
 
                                             <div id="clockdiv">
                                                 <div>
-                                                    <span class="days"></span>
+                                                    <span class="days">83</span>
                                                     <div class="smalltext">Days</div>
                                                 </div>
                                                 <div>
-                                                    <span class="hours"></span>
+                                                    <span class="hours">05</span>
                                                     <div class="smalltext">Hours</div>
                                                 </div>
                                                 <div>
-                                                    <span class="minutes"></span>
+                                                    <span class="minutes">47</span>
                                                     <div class="smalltext">Minutes</div>
                                                 </div>
                                                 <div>
-                                                    <span class="seconds"></span>
+                                                    <span class="seconds">19</span>
                                                     <div class="smalltext">Seconds</div>
                                                 </div>
                                             </div>

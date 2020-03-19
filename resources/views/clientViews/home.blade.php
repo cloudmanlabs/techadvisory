@@ -96,7 +96,7 @@
                                             <h6>Last updated: 11/11/1111</h6>
                                         </div>
                                         <div style="float: right; text-align: right; width: 15%;">
-                                            <a class="btn btn-primary btn-lg btn-icon-text" href="{{route('accenture.projectHome')}}">
+                                            <a class="btn btn-primary btn-lg btn-icon-text" href="{{route('client.projectHome')}}">
                                                 View <i class="btn-icon-prepend" data-feather="arrow-right"></i>
                                             </a>
                                         </div>
