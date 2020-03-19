@@ -122,7 +122,7 @@
                                     </div>
                                     <div style="float: right; text-align: right; width: 17%;">
                                         <a class="btn btn-primary btn-lg btn-icon-text"
-                                            href="{{route('accenture.newProjectSetUp')}}">View<i class="btn-icon-prepend"
+                                            href="{{route('accenture.projectHome')}}">View<i class="btn-icon-prepend"
                                                 data-feather="arrow-right"></i></a>
                                     </div>
                                     <x-projectProgressBar progressSetUp="40" progressValue="20" progressResponse="25" progressAnalytics="10"

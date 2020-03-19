@@ -13,6 +13,7 @@
                 </div>
 
                 <x-client.video />
+
                 <br><br>
 
                 <div class="row">

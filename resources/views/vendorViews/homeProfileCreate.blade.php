@@ -14,14 +14,6 @@
 
                 <x-client.video />
 
-
-                <div aria-hidden="true" aria-labelledby="myLargeModalLabel" class="modal fade bd-example-modal-lg" role="dialog" tabindex="-1">
-                    <div class="modal-dialog modal-lg modal-dialog-centered">
-                        <div class="modal-content">
-                            <iframe height="450" src="" width="100%"></iframe>
-                        </div>
-                    </div>
-                </div>
                 <br>
                 <br>
 
@@ -388,26 +380,5 @@
             <x-footer />
         </div>
     </div>
-@endsection
-
-@section('scripts')
-    @parent
-    <script>
-        autoPlayYouTubeModal();
-
-        //FUNCTION TO GET AND AUTO PLAY YOUTUBE VIDEO FROM DATATAG
-        function autoPlayYouTubeModal() {
-            var trigger = $("body").find('[data-toggle="modal"]');
-            trigger.click(function () {
-                var theModal = $(this).data("target"),
-                    videoSRC = $(this).attr("data-theVideo"),
-                    videoSRCauto = videoSRC + "?autoplay=1";
-                $(theModal + ' iframe').attr('src', videoSRCauto);
-                $(theModal + ' button.close').click(function () {
-                    $(theModal + ' iframe').attr('src', videoSRC);
-                });
-            });
-        }
-    </script>
 @endsection
 

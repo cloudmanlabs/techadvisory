@@ -125,8 +125,9 @@ Route::prefix('client')
             ->name('home');
         Route::view('profile', 'clientViews.profile')
             ->name('profile');
-        Route::view('profileEdit', 'clientViews.profileEdit')
-            ->name('profileEdit');
+        // They have decided to remove profile editing, but I'm keeping this for when they eventually decide to change their mind
+        // Route::view('profileEdit', 'clientViews.profileEdit')
+        //     ->name('profileEdit');
 
 
         Route::view('project/home', 'clientViews.projectHome')
@@ -192,6 +193,10 @@ Route::prefix('vendor')
 
         Route::view('home', 'vendorViews.home')
             ->name('home');
+        Route::view('profile', 'vendorViews.profile')
+            ->name('profile');
         Route::view('solutionsHome', 'vendorViews.solutionsHome')
             ->name('solutionsHome');
+        Route::view('solutionEdit', 'vendorViews.solutionEdit')
+            ->name('solutionEdit');
     });

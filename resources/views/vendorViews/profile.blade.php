@@ -1,8 +1,8 @@
-@extends('clientViews.layouts.forms')
+@extends('vendorViews.layouts.forms')
 
 @section('content')
     <div class="main-wrapper">
-        <x-client.navbar activeSection="home" />
+        <x-vendor.navbar activeSection="home" />
 
         <div class="page-wrapper">
             <div class="page-content">
@@ -12,7 +12,7 @@
                     </div>
                 </div>
 
-                <x-client.video />
+                <x-vendor.video />
 
                 <br>
                 <br>
@@ -21,22 +21,27 @@
                     <div class="col-md-12 grid-margin stretch-card">
                         <div class="card">
                             <div class="card-body">
-                                <h3>Complete your profile</h3>
+                                <div style="display:flex; justify-content: space-between">
+                                    <h3>View your profile</h3>
+                                </div>
 
-
-                                <p class="welcome_text extra-top-15px">Please complete your profile and get ready to use the platform. It won't take you more than just a few minutes and you can do it today. Note that, if you do not currently have the info for some specific fields, you can leave them blank and fill up them later.</p>
+                                <p class="welcome_text extra-top-15px">
+                                    If any modifications are needed please contact the Accenture team.
+                                </p>
                                 <br>
                                 <br>
 
 
                                 <div class="form-group">
-                                    <label for="exampleInputText1">Client name</label> <input class="form-control" id="exampleInputText1" placeholder="Enter Name" value="Nestlé" type="text" disabled>
+                                    <label for="exampleInputText1">Vendor name</label>
+                                    <input class="form-control" id="exampleInputText1" disabled value="Name" value="Nestlé" type="text">
                                 </div>
 
 
                                 <div class="form-group">
-                                    <label for="exampleFormControlSelect1">Industry Experience</label> <select class="form-control" id="exampleFormControlSelect1" disabled>
-                                        <option disabled selected>
+                                    <label for="exampleFormControlSelect1">Industry Experience</label>
+                                    <select class="form-control" id="exampleFormControlSelect1" disabled>
+                                        <option disabled>
                                             Please select your industry
                                         </option>
 
@@ -120,17 +125,19 @@
 
 
                                 <div class="form-group">
-                                    <label for="exampleInputText1">Revenue for last exercise</label> <input class="form-control" id="exampleInputText1" placeholder="Enter amount" type="text">
+                                    <label for="exampleInputText1">Revenue for last exercise</label>
+                                    <input class="form-control" id="exampleInputText1" disabled value="Enter amount" type="text">
                                 </div>
 
 
                                 <div class="form-group">
-                                    <label for="exampleFormControlSelect1">Revenue currency</label> <select class="form-control" id="exampleFormControlSelect1">
-                                        <option disabled selected>
+                                    <label for="exampleFormControlSelect1">Revenue currency</label>
+                                    <select class="form-control" id="exampleFormControlSelect1" disabled>
+                                        <option disabled>
                                             Please select your currency
                                         </option>
 
-                                        <option>
+                                        <option selected>
                                             Euro
                                         </option>
 
@@ -146,11 +153,13 @@
 
 
                                 <div class="form-group">
-                                    <label for="exampleFormControlSelect1">Number of employees</label> <select class="form-control" id="exampleFormControlSelect1">
-                                        <option disabled selected>
+                                    <label for="exampleFormControlSelect1">Number of employees</label>
+                                    <select class="form-control" id="exampleFormControlSelect1" disabled>
+                                        <option disabled>
                                             Please select the range
                                         </option>
 
+                                        <option selected>
                                         <option>
                                             0-50
                                         </option>
@@ -175,12 +184,13 @@
 
 
                                 <div class="form-group">
-                                    <label for="exampleFormControlSelect1">Area served</label> <select class="form-control" id="exampleFormControlSelect1">
-                                        <option disabled selected>
+                                    <label for="exampleFormControlSelect1">Area served</label>
+                                    <select class="form-control" id="exampleFormControlSelect1" disabled>
+                                        <option disabled>
                                             Please select the area served
                                         </option>
 
-                                        <option>
+                                        <option selected>
                                             Worldwide
                                         </option>
 
@@ -207,26 +217,21 @@
                                     <label>Upload your logo</label> <input class="file-upload-default" name="img[]" type="file">
 
                                     <div class="input-group col-xs-12">
-                                        <input class="form-control file-upload-info" disabled placeholder="Upload Image" type="text"> <span class="input-group-append"><button class="file-upload-browse btn btn-primary" type="button"><span class="input-group-append">Upload</span></button></span>
+                                        <input class="form-control file-upload-info" disabled disabled value="Upload Image" type="text"> <span class="input-group-append"><button class="file-upload-browse btn btn-primary" type="button"><span class="input-group-append">Upload</span></button></span>
                                     </div>
                                 </div>
 
 
                                 <div class="form-group">
-                                    <label for="exampleInputText1">Link to your website</label> <input class="form-control" id="exampleInputText1" placeholder="https://..." type="text">
+                                    <label for="exampleInputText1">Link to your website</label> <input class="form-control" id="exampleInputText1" disabled value="https://..." type="text">
                                 </div>
 
 
                                 <div class="form-group">
                                     <label for="exampleInputText1">Upload any extra files</label>
 
-                                    <form action="/file-upload" class="dropzone" id="exampleDropzone" name="exampleDropzone">
+                                    <form action="/file-upload" class="dropzone" id="exampleDropzone" name="exampleDropzone" disabled aria-disabled="true">
                                     </form>
-                                </div>
-
-
-                                <div style="float: right; margin-top: 20px;">
-                                    <a class="btn btn-primary btn-lg btn-icon-text" href="{{route('client.newProjectSetUp')}}"><i class="btn-icon-prepend" data-feather="check-square"></i> Save profile</a>
                                 </div>
                             </div>
                         </div>

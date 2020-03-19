@@ -29,12 +29,14 @@
 
 
                                 <div class="form-group">
-                                    <label for="exampleInputText1">Client name</label> <input class="form-control" id="exampleInputText1" placeholder="Enter Name" value="Nestlé" type="text" disabled>
+                                    <label for="exampleInputText1">Client name</label>
+                                    <input class="form-control" id="exampleInputText1" placeholder="Enter Name" type="text">
                                 </div>
 
 
                                 <div class="form-group">
-                                    <label for="exampleFormControlSelect1">Industry Experience</label> <select class="form-control" id="exampleFormControlSelect1" disabled>
+                                    <label for="exampleFormControlSelect1">Industry Experience</label>
+                                    <select class="form-control" id="exampleFormControlSelect1">
                                         <option disabled selected>
                                             Please select your industry
                                         </option>
@@ -43,7 +45,7 @@
                                             Automative
                                         </option>
 
-                                        <option selected>
+                                        <option>
                                             Consumer goods & services
                                         </option>
 

@@ -12,13 +12,8 @@
                     </div>
                 </div>
 
-                <div aria-hidden="true" aria-labelledby="myLargeModalLabel" class="modal fade bd-example-modal-lg" role="dialog" tabindex="-1">
-                    <div class="modal-dialog modal-lg modal-dialog-centered">
-                        <div class="modal-content">
-                            <iframe height="450" src="" width="100%"></iframe>
-                        </div>
-                    </div>
-                </div>
+                <x-client.video />
+
                 <br>
                 <br>
 
@@ -28,7 +23,7 @@
                             <div class="card-body">
                                 <div style="display:flex; justify-content: space-between">
                                     <h3>View your profile</h3>
-                                    <a class="btn btn-primary btn-lg btn-icon-text" href="{{route('client.profileEdit')}}">Edit</a>
+                                    {{-- <a class="btn btn-primary btn-lg btn-icon-text" href="{{route('client.profileEdit')}}">Edit</a> --}}
                                 </div>
 
                                 <p class="welcome_text extra-top-15px">Please complete your profile and get ready to use the platform. It won't take you more than just a few minutes and you can do it today. Note that, if you do not currently have the info for some specific fields, you can leave them blank and fill up them later.</p>
@@ -246,25 +241,4 @@
             <x-footer />
         </div>
     </div>
-@endsection
-
-@section('scripts')
-    @parent
-    <script>
-        autoPlayYouTubeModal();
-
-        //FUNCTION TO GET AND AUTO PLAY YOUTUBE VIDEO FROM DATATAG
-        function autoPlayYouTubeModal() {
-            var trigger = $("body").find('[data-toggle="modal"]');
-            trigger.click(function () {
-                var theModal = $(this).data("target"),
-                    videoSRC = $(this).attr("data-theVideo"),
-                    videoSRCauto = videoSRC + "?autoplay=1";
-                $(theModal + ' iframe').attr('src', videoSRCauto);
-                $(theModal + ' button.close').click(function () {
-                    $(theModal + ' iframe').attr('src', videoSRC);
-                });
-            });
-        }
-    </script>
 @endsection

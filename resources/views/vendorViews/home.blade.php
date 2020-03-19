@@ -13,7 +13,8 @@
                     </div>
                 </div>
 
-
+                <x-vendor.video />
+                <br><br>
 
                 <div class="row">
                     <div class="col-lg-12 grid-margin stretch-card" id="open_projects">
@@ -29,15 +30,17 @@
                                             <h4>Redistribution of processes at Nestlé</h4>
                                             <h6>Solution type</h6>
                                         </div>
+                                        {{-- TODO Here we should mark the project as either rejected or accepted --}}
                                         <div style="float: right; text-align: right; width: 17%;">
-                                            <a class="btn btn-primary btn-lg btn-icon-text" href="{{route('vendor.createNewApplication')}}">Apply <i class="btn-icon-prepend" data-feather="arrow-right"></i></a>
+                                            <a class="btn btn-primary btn-lg btn-icon-text" href="{{route('vendor.home')}}">
+                                                Accept <i class="btn-icon-prepend" data-feather="arrow-right"></i>
+                                            </a>
                                         </div>
-                                        <!--<div style="float: right; width: 35%; margin-right: 5%; margin-left: 5%;">
-                                            Current status
-                                            <div class="progress">
-                                                <div class="progress-bar" role="progressbar" style="width: 5%;" aria-valuenow="5" aria-valuemin="0" aria-valuemax="100">5%</div>
-                                            </div>
-                                        </div>-->
+                                        <div style="float: right; text-align: right; width: 17%;">
+                                            <a class="btn btn-primary btn-lg btn-icon-text" href="{{route('vendor.home')}}">
+                                                Reject
+                                            </a>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -138,6 +141,29 @@
                                             <div class="progress">
                                                 <div class="progress-bar" role="progressbar" style="width: 100%;" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">100%</div>
                                             </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-lg-12 grid-margin stretch-card" id="open_projects">
+                        <div class="card">
+                            <div class="card-body">
+                                <h3>Rejected Projects</h3>
+                                <p class="welcome_text extra-top-15px">In order to start using the Tech Advisory Platform, you'll need
+                                    to follow some steps to complete your profile and set up your first project. Please check below the
+                                    timeline and click "Let's start" when you are ready.</p>
+                                <br>
+                                <br>
+                                <div class="card" style="margin-bottom: 30px;">
+                                    <div class="card-body">
+                                        <div style="float: left; max-width: 40%;">
+                                            <h4>Redistribution of processes at Nestlé</h4>
+                                            <h6>Solution type</h6>
                                         </div>
                                     </div>
                                 </div>

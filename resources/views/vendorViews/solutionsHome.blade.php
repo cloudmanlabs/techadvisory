@@ -13,6 +13,9 @@
                     </div>
                 </div>
 
+                <x-vendor.video />
+                <br><br>
+
                 <div class="row">
                     <div class="col-lg-12 grid-margin stretch-card" id="open_projects">
                         <div class="card">
@@ -28,14 +31,8 @@
                                             <h6>Solution type</h6>
                                         </div>
                                         <div style="float: right; text-align: right; width: 17%;">
-                                            <a class="btn btn-primary btn-lg btn-icon-text" href="{{route('vendor.newApplication')}}">Apply <i class="btn-icon-prepend" data-feather="arrow-right"></i></a>
+                                            <a class="btn btn-primary btn-lg btn-icon-text" href="{{route('vendor.solutionEdit')}}">View/Edit <i class="btn-icon-prepend" data-feather="arrow-right"></i></a>
                                         </div>
-                                        <!--<div style="float: right; width: 35%; margin-right: 5%; margin-left: 5%;">
-                                            Current status
-                                            <div class="progress">
-                                                <div class="progress-bar" role="progressbar" style="width: 5%;" aria-valuenow="5" aria-valuemin="0" aria-valuemax="100">5%</div>
-                                            </div>
-                                        </div>-->
                                     </div>
                                 </div>
                             </div>

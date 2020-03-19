@@ -12,14 +12,11 @@
                     </div>
                 </div>
 
-
-
                 <div class="row" style="margin-top: 25px;">
                     <div class="col-md-12 grid-margin stretch-card">
                         <div class="card">
                             <div class="card-body">
-                                <h3>Add a solution</h3>
-
+                                <h3>Edit solution</h3>
 
                                 <p class="welcome_text extra-top-15px">Please add your solutions to complete your
                                     profile and get ready to use the platform. It won't take you more than just a few
@@ -166,11 +163,8 @@
 
                                 <div style="float: right; margin-top: 20px;">
                                     <a class="btn btn-primary btn-lg btn-icon-text"
-                                        href="{{route('vendor.newSolutionSetUp')}}"><i class="btn-icon-prepend"
-                                            data-feather="check-square"></i> Save and add another</a>
-                                    <a class="btn btn-primary btn-lg btn-icon-text" href="{{route('vendor.home')}}"><i
-                                            class="btn-icon-prepend" data-feather="check-square"></i> Save and go to
-                                        Dashboard</a>
+                                        href="{{route('vendor.solutionsHome')}}"><i class="btn-icon-prepend"
+                                            data-feather="check-square"></i>Save</a>
                                 </div>
                             </div>
                         </div>
@@ -182,3 +176,4 @@
         </div>
     </div>
 @endsection
+

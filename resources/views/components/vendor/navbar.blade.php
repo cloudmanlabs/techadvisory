@@ -36,7 +36,12 @@
 
                             <div class="dropdown-body">
                                 <ul class="profile-nav p-0 pt-3">
-                                    <li class="nav-item">
+                                    <li class="nav-item" style="display: flex; justify-content: center">
+                                        <a class="nav-link" href="{{route('vendor.profile')}}">
+                                            <span>My Profile</span>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item" style="display: flex; justify-content: center">
                                         {{-- TODO Change this to logout --}}
                                         <a class="nav-link" href="{{route('vendor.login')}}">
                                             <i data-feather="log-out"></i>

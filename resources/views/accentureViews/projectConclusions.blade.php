@@ -33,13 +33,12 @@
                                 <br>
                                 <div class="row">
                                     <div class="col-12 col-md-12 col-xl-12">
-                                        <div class="card">
-                                            <img src="{{url("/assets/images/ConclusionsDemo/conclusions.jpg")}}"
-                                                class="card-img-top card-shadow">
-                                            <div class="card-body">
-                                                <div style="text-align: center; margin-top: 5px;"><a href="#"
-                                                        class="btn btn-primary">View / Download</a></div>
-                                            </div>
+                                        <div class="form-group">
+                                            <label for="exampleInputText1">Upload files</label>
+
+                                            <form action="/file-upload" class="dropzone" id="exampleDropzone" name="exampleDropzone" disabled
+                                                aria-disabled="true">
+                                            </form>
                                         </div>
                                     </div>
                                 </div>
