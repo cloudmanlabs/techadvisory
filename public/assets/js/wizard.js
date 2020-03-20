@@ -86,6 +86,38 @@ $(async function () {
     });
 
 
+
+    $("#wizard_accenture_newProjectSetUp").steps({
+        headerTag: "h2",
+        bodyTag: "section",
+        transitionEffect: "slideLeft",
+        labels: {
+            finish: 'Submit general set up'
+        },
+        onFinishing: function (event, currentIndex) {
+            // TODO Only let the client submit if all the fields are full
+
+            window.location.replace("/accenture/home");
+        },
+        onStepChanging: function (e, c, n) {
+            if (n == 2) {
+                $('#wizard_accenture_newProjectSetUp-next').html('Submit')
+            } else {
+                $('#wizard_accenture_newProjectSetUp-next').html('Next')
+            }
+
+            return true
+        },
+        onStepChanged: function (e, c, p) {
+            for (let i = 0; i < 10; i++) {
+                $('#wizard_accenture_newProjectSetUp-p-' + i).css('display', 'none')
+            }
+            $('#wizard_accenture_newProjectSetUp-p-' + c).css('display', 'block')
+        }
+    });
+
+
+
     $("#wizard_vendor").steps({
         headerTag: "h2",
         bodyTag: "section",

@@ -54,7 +54,7 @@
                                 </p>
 
                                 <br>
-                                <div id="wizard_accenture">
+                                <div id="wizard_accenture_newProjectSetUp">
                                     <h2>General Info</h2>
                                     <section>
                                         <h4>1.1. Project Info</h4>
