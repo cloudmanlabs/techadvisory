@@ -205,3 +205,9 @@ Route::prefix('vendor')
         Route::view('solutionEdit', 'vendorViews.solutionEdit')
             ->name('solutionEdit');
     });
+
+
+
+// Auth::routes();
+
+// Route::get('/home', 'HomeController@index')->name('home');
