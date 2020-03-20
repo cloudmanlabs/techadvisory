@@ -188,7 +188,7 @@ $(async function () {
             }
 
             $('#projectViewWizard-p-' + c).css('display', 'block')
-        }
+        },
     });
 
     $("#projectEditWizard").steps({
@@ -201,6 +201,16 @@ $(async function () {
         onFinishing: function (event, currentIndex) {
             // TODO Here check if all thingies have a value
             window.location.replace("/accenture/project/view");
+        },
+        onStepChanging: function (e, c, n) {
+            console.log(n)
+            if (n == 2) {
+                $('#projectEditWizard-next').html('Submit')
+            } else {
+                $('#projectEditWizard-next').html('Next')
+            }
+
+            return true
         },
         // HACK Cause otherwise subwizards don't work
         onStepChanged: function (e, c, p) {

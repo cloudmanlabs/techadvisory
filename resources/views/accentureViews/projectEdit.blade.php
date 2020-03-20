@@ -907,10 +907,6 @@
                                             <input type="number" class="form-control" id="exampleInputText1"
                                                 placeholder="Number of named users">
                                         </div>
-
-                                        <br><br>
-                                        <a class="btn btn-primary btn-lg btn-icon-text" href="{{route('accenture.projectView')}}">Submit</a>
-                                        <br><br>
                                     </section>
 
 
