@@ -1352,56 +1352,7 @@
 
                                             <h3>Scoring criteria</h3>
                                             <div>
-                                                <div class="table-responsive">
-                                                    <table class="table table-striped">
-                                                        <thead>
-                                                            <tr>
-                                                                <th>Selection Criteria</th>
-                                                                <th>Year Cost Vendor</th>
-                                                            </tr>
-                                                        </thead>
-
-
-                                                        <tbody>
-                                                            <tr>
-                                                                <td>1. Fitgap</td>
-                                                                <td>
-                                                                    <input type="text" class="form-control" placeholder="%">
-                                                                </td>
-                                                            </tr>
-
-                                                            <tr>
-                                                                <td>2. Vendor</td>
-                                                                <td>
-                                                                    <input type="text" class="form-control" placeholder="%">
-                                                                </td>
-                                                            </tr>
-
-                                                            <tr>
-                                                                <td>3. Experience</td>
-                                                                <td>
-                                                                    <input type="text" class="form-control" placeholder="%">
-                                                                </td>
-                                                            </tr>
-
-                                                            <tr>
-                                                                <td>4. Innovation & Vision</td>
-                                                                <td>
-                                                                    <input type="text" class="form-control" placeholder="%">
-                                                                </td>
-                                                            </tr>
-
-                                                            <tr>
-                                                                <td>5. Implementation & Commercials</td>
-                                                                <td>
-                                                                    <input type="text" class="form-control" placeholder="%">
-                                                                </td>
-                                                            </tr>
-
-
-                                                        </tbody>
-                                                    </table>
-                                                </div>
+                                                <x-scoringCriteriaBricks />
                                             </div>
                                         </div>
                                     </section>
@@ -1425,7 +1376,16 @@
                 </div>
             </div>
 
+
             <x-footer />
         </div>
     </div>
+@endsection
+
+
+@section('scripts')
+    @parent
+
+    <script src="https://cdn.jsdelivr.net/npm/sortablejs@latest/Sortable.min.js"></script>
+    <script src="{{url('assets/js/bricks.js')}}"></script>
 @endsection

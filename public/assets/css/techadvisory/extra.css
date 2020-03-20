@@ -131,3 +131,34 @@ h5, .h5 {
 select:disabled {
     color: #495057
 }
+
+.brickList {
+    display: flex;
+    flex-wrap: wrap;
+    list-style: none;
+    border: 1px solid lightgrey;
+    min-height: 3rem;
+}
+
+ul.brickList li {
+    margin: .5rem;
+    padding: .5rem 1rem;
+    background: white;
+    border: 1px solid lightgrey;
+    cursor: grab;
+}
+
+.brickListView {
+    display: flex;
+    flex-wrap: wrap;
+    list-style: none;
+    border: 1px solid lightgrey;
+    min-height: 3rem;
+}
+
+ul.brickListView li {
+    margin: .5rem;
+    padding: .5rem 1rem;
+    background: white;
+    border: 1px solid lightgrey;
+}

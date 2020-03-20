@@ -64,7 +64,13 @@
                                 </div>
                                 <br><br><br>
 
-                                <h3>Oral Status</h3>
+                                <div style="display: flex; justify-content: space-between">
+                                    <h3>Oral Status</h3>
+                                    <a class="btn btn-primary btn-lg btn-icon-text" href="#">
+                                        Save
+                                    </a>
+                                </div>
+                                <br>
 
                                 <div class="table-responsive">
                                     <table class="table table-hover" style="text-align: center">

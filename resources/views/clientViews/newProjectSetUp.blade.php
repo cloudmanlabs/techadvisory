@@ -399,59 +399,46 @@
                                                     dolor sit amet.
                                                 </p>
                                                 <br><br>
+
                                                 <div style="text-align: center;">
-                                                    <div class="input-group col-xs-12">
-                                                        <input class="form-control file-upload-info"
-                                                            placeholder="Upload Fit Gap model in CSV format"
-                                                            type="text">
-                                                        <span class="input-group-append">
-                                                            <button
-                                                                class="file-upload-browse btn btn-primary"
-                                                                type="button">
-                                                                <span class="input-group-append">Upload</span>
-                                                            </button>
-                                                        </span>
-                                                    </div>
-                                                    <div class="modal fade bd-example-modal-xl" tabindex="-1"
-                                                        role="dialog" aria-labelledby="myExtraLargeModalLabel"
+                                                    <button type="button" class="btn btn-primary btn-lg btn-icon-text" data-toggle="modal"
+                                                        data-target=".bd-example-modal-xl"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                                            viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                                            stroke-linejoin="round" class="feather feather-check-square btn-icon-prepend">
+                                                            <polyline points="9 11 12 14 22 4"></polyline>
+                                                            <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path>
+                                                        </svg> Open Fit Gap table</button>
+
+                                                    <div class="modal fade bd-example-modal-xl" tabindex="-1" role="dialog" aria-labelledby="myExtraLargeModalLabel"
                                                         aria-hidden="true">
                                                         <div class="modal-dialog modal-xl">
                                                             <div class="modal-content">
                                                                 <div class="modal-header">
-                                                                    <h5 class="modal-title" id="exampleModalLabel">
-                                                                        Please
-                                                                        complete the Fit Gap table</h5>
-                                                                    <button type="button" class="close"
-                                                                        data-dismiss="modal" aria-label="Close">
+                                                                    <h5 class="modal-title" id="exampleModalLabel">Please complete the Fit Gap table</h5>
+                                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                                                         <span aria-hidden="true">&times;</span>
                                                                     </button>
                                                                 </div>
                                                                 <div class="modal-body">
-                                                                    <iframe
-                                                                        src="{{url('/assets/vendors_techadvisory/jexcel-3.6.1/doc.html')}}"
+                                                                    <iframe src="{{url("/assets/vendors_techadvisory/jexcel-3.6.1/doc.html")}}"
                                                                         style="width: 100%; min-height: 600px; border: none;"></iframe>
                                                                 </div>
                                                                 <div class="modal-footer">
-                                                                    <button type="button"
-                                                                        class="btn btn-primary btn-lg btn-icon-text"
-                                                                        data-toggle="modal"
-                                                                        data-target=".bd-example-modal-xl"><svg
-                                                                            xmlns="http://www.w3.org/2000/svg"
-                                                                            width="24" height="24" viewBox="0 0 24 24"
-                                                                            fill="none" stroke="currentColor"
-                                                                            stroke-width="2" stroke-linecap="round"
-                                                                            stroke-linejoin="round"
+                                                                    <button type="button" class="btn btn-primary btn-lg btn-icon-text" data-toggle="modal"
+                                                                        data-target=".bd-example-modal-xl"><svg xmlns="http://www.w3.org/2000/svg" width="24"
+                                                                            height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                                                            stroke-linecap="round" stroke-linejoin="round"
                                                                             class="feather feather-check-square btn-icon-prepend">
-                                                                            <polyline points="9 11 12 14 22 4">
-                                                                            </polyline>
-                                                                            <path
-                                                                                d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11">
-                                                                            </path>
-                                                                        </svg> Done</button>
+                                                                            <polyline points="9 11 12 14 22 4"></polyline>
+                                                                            <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path>
+                                                                        </svg>
+                                                                        Done
+                                                                    </button>
                                                                 </div>
                                                             </div>
                                                         </div>
                                                     </div>
+
                                                 </div>
                                             </div>
 
@@ -833,61 +820,7 @@
 
                                             <h3>Scoring criteria</h3>
                                             <div>
-                                                <div class="table-responsive">
-                                                    <table class="table table-striped">
-                                                        <thead>
-                                                            <tr>
-                                                                <th>Selection Criteria</th>
-                                                                <th>Year Cost Vendor</th>
-                                                            </tr>
-                                                        </thead>
-
-
-                                                        <tbody>
-                                                            <tr>
-                                                                <td>1. Fitgap</td>
-                                                                <td>
-                                                                    <input type="text" class="form-control"
-                                                                        placeholder="%">
-                                                                </td>
-                                                            </tr>
-
-                                                            <tr>
-                                                                <td>2. Vendor</td>
-                                                                <td>
-                                                                    <input type="text" class="form-control"
-                                                                        placeholder="%">
-                                                                </td>
-                                                            </tr>
-
-                                                            <tr>
-                                                                <td>3. Experience</td>
-                                                                <td>
-                                                                    <input type="text" class="form-control"
-                                                                        placeholder="%">
-                                                                </td>
-                                                            </tr>
-
-                                                            <tr>
-                                                                <td>4. Innovation & Vision</td>
-                                                                <td>
-                                                                    <input type="text" class="form-control"
-                                                                        placeholder="%">
-                                                                </td>
-                                                            </tr>
-
-                                                            <tr>
-                                                                <td>5. Implementation & Commercials</td>
-                                                                <td>
-                                                                    <input type="text" class="form-control"
-                                                                        placeholder="%">
-                                                                </td>
-                                                            </tr>
-
-
-                                                        </tbody>
-                                                    </table>
-                                                </div>
+                                                <x-scoringCriteriaBricksView />
                                             </div>
                                         </div>
                                     </section>
@@ -906,7 +839,8 @@
                                     </section>
                                 </div>
                             </div>
-                        </div>
+
+             </div>
                     </div>
                 </div>
             </div>
@@ -915,3 +849,11 @@
         </div>
     </div>
 @endsection
+
+{{-- NOT SURE IF THE CLIENT CAN EDIT THIS --}}
+{{-- @section('scripts')
+@parent
+
+<script src="https://cdn.jsdelivr.net/npm/sortablejs@latest/Sortable.min.js"></script>
+<script src="{{url('assets/js/bricks.js')}}"></script>
+@endsection --}}

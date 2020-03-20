@@ -58,33 +58,31 @@
                                             <div class="card-body">
                                                 <h4>AVERAGE RESPONSE PER PRACTICE</h4>
                                                 <br><br>
-                                                <canvas id="chartjsBar"></canvas>
+                                                <canvas id="chartPractice"></canvas>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
 
-
                                 <div class="row">
                                     <div class="col-xl-12 grid-margin stretch-card">
                                         <div class="card">
                                             <div class="card-body">
-                                                <h4>PROJECTS ANSWERED BY VENDOR</h4>
+                                                <h4>PROJECTS ANSWERED PER INDUSTRY</h4>
                                                 <br><br>
-                                                <canvas id="chartjsGroupedBar"></canvas>
+                                                <canvas id="chartIndustry"></canvas>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
 
-
                                 <div class="row">
                                     <div class="col-xl-12 grid-margin stretch-card">
                                         <div class="card">
                                             <div class="card-body">
-                                                <h4>VENDOR PERFOMANCE OVERVIEW</h4>
+                                                <h4>PROJECTS ANSWERED PER REGION</h4>
                                                 <br><br>
-                                                <canvas id="chartjsBubble"></canvas>
+                                                <canvas id="chartRegion"></canvas>
                                             </div>
                                         </div>
                                     </div>
@@ -102,5 +100,5 @@
 
 @section('scripts')
 @parent
-<script src="{{url('assets/js/chartsjs_techadvisory_vendor.js')}}"></script>
+<script src="{{url('assets/js/chartsjs_techadvisory_other.js')}}"></script>
 @endsection

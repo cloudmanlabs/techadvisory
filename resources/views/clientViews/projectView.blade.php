@@ -854,56 +854,7 @@
 
                                             <h3>Scoring criteria</h3>
                                             <div>
-                                                <div class="table-responsive">
-                                                    <table class="table table-striped">
-                                                        <thead>
-                                                            <tr>
-                                                                <th>Selection Criteria</th>
-                                                                <th>Year Cost Vendor</th>
-                                                            </tr>
-                                                        </thead>
-
-
-                                                        <tbody>
-                                                            <tr>
-                                                                <td>1. Fitgap</td>
-                                                                <td>
-                                                                    <input type="text" class="form-control" disabled value="%">
-                                                                </td>
-                                                            </tr>
-
-                                                            <tr>
-                                                                <td>2. Vendor</td>
-                                                                <td>
-                                                                    <input type="text" class="form-control" disabled value="%">
-                                                                </td>
-                                                            </tr>
-
-                                                            <tr>
-                                                                <td>3. Experience</td>
-                                                                <td>
-                                                                    <input type="text" class="form-control" disabled value="%">
-                                                                </td>
-                                                            </tr>
-
-                                                            <tr>
-                                                                <td>4. Innovation & Vision</td>
-                                                                <td>
-                                                                    <input type="text" class="form-control" disabled value="%">
-                                                                </td>
-                                                            </tr>
-
-                                                            <tr>
-                                                                <td>5. Implementation & Commercials</td>
-                                                                <td>
-                                                                    <input type="text" class="form-control" disabled value="%">
-                                                                </td>
-                                                            </tr>
-
-
-                                                        </tbody>
-                                                    </table>
-                                                </div>
+                                                <x-scoringCriteriaBricksView />
                                             </div>
                                         </div>
                                     </section>
