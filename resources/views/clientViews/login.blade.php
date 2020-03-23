@@ -26,7 +26,7 @@
 
                                     <br>
 
-                                    <form class="forms-sample">
+                                    <form method="POST" action="{{route('client.loginPost')}}" class="forms-sample">
                                         <div class="form-group">
                                             <label for="exampleInputEmail1">Email address</label> <input
                                                 class="form-control" id="exampleInputEmail1" placeholder="Email"
@@ -49,10 +49,10 @@
 
                                         <div style="margin-top: 30px; float: right; margin-bottom: 20px;">
                                             <div class="mt-3">
-                                                <a class="btn btn-primary btn-lg btn-icon-text"
-                                                    href="{{route('client.firstLoginRegistration')}}"><i
-                                                        class="btn-icon-prepend" data-feather="arrow-right"></i> Log
-                                                    in</a>
+                                                <button class="btn btn-primary btn-lg btn-icon-text" type="submit">
+                                                    <i class="btn-icon-prepend" data-feather="arrow-right"></i>
+                                                    Log in
+                                                </button>
                                             </div>
                                         </div>
                                     </form>

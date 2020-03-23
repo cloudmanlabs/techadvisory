@@ -26,8 +26,7 @@
 
                                     <br>
 
-                                    <form method="POST" action="{{route('accenture.loginPost')}}"
-                                    class="forms-sample">
+                                    <form method="POST" action="{{route('accenture.loginPost')}}" class="forms-sample">
                                         @csrf
                                         <div class="form-group">
                                             <label for="exampleInputEmail1">Email address</label>
@@ -61,12 +60,11 @@
 
                                         <div style="margin-top: 30px; float: right; margin-bottom: 20px;">
                                             <div class="mt-3">
-
-                                            {{-- TODO Change to actual login --}}
-                                            <button class="btn btn-primary btn-lg btn-icon-text" type="submit">
-                                                <i class="btn-icon-prepend" data-feather="arrow-right"></i>
-                                                Log in
-                                            </button>
+                                                <button class="btn btn-primary btn-lg btn-icon-text" type="submit">
+                                                    <i class="btn-icon-prepend" data-feather="arrow-right"></i>
+                                                    Log in
+                                                </button>
+                                            </div>
                                         </div>
                                     </form>
                                 </div>

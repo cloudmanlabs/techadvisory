@@ -12,17 +12,24 @@ class UserSeeder extends Seeder
      */
     public function run()
     {
-        $user = new User([
+        $user = factory(User::class)->states('admin')->create([
             'name' => 'admin',
             'email' => 'admin@admin.com',
-            'email_verified_at' => now(),
-            'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
-            'remember_token' => Str::random(10),
-
-            'userType' => 'admin',
         ]);
-        $user->save();
+        $user = factory(User::class)->states('accenture')->create([
+            'name' => 'accenture',
+            'email' => 'accenture@accenture.com',
+        ]);
+        $user = factory(User::class)->states('client')->create([
+            'name' => 'client',
+            'email' => 'client@client.com',
+        ]);
+        $user = factory(User::class)->states('vendor')->create([
+            'name' => 'vendor',
+            'email' => 'vendor@vendor.com',
+        ]);
 
-        error_log('Admin created successfully');
+
+        error_log('Users created successfully');
     }
 }

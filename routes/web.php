@@ -2,6 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -176,12 +177,12 @@ Route::prefix('client')
     });
 
 
-
-Route::prefix('vendor')
+Route::prefix('vendors')
     ->name('vendor.')
     ->namespace('Vendor')
     ->group(function () {
         Route::get('/', function(){
+            Log::debug('message');
             if(Auth::check()){
                 return redirect()->route('vendor.home');
             } else {

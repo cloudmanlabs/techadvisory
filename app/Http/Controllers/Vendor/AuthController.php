@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Accenture;
+namespace App\Http\Controllers\Vendor;
 
 use App\Http\Controllers\Controller;
 use App\User;
