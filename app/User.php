@@ -6,6 +6,9 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
+/**
+ * @property string $userType Should be one of [admin, accenture, accentureAdmin, client, vendor]
+ */
 class User extends Authenticatable
 {
     use Notifiable;
@@ -16,7 +19,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        'name', 'email', 'password', 'userType'
     ];
 
     /**
@@ -36,4 +39,26 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+
+
+    /**
+     * Returns true if the user is admin
+     *
+     * @return boolean
+     */
+    public function isAdmin() : bool
+    {
+        return $this->userType == 'admin';
+    }
+
+    /**
+     * Returns true if the user is Accenture
+     *
+     * @return boolean
+     */
+    public function isAccenture(): bool
+    {
+        return $this->userType == 'accenture' || $this->userType == 'accentureAdmin';
+    }
 }
