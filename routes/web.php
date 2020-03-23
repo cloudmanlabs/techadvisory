@@ -14,7 +14,8 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::view('/', 'welcome');
+Route::view('/', 'welcome')
+    ->name('welcome');
 
 
 
@@ -24,76 +25,78 @@ Route::
     ->namespace('Accenture')
     ->group(function () {
         Route::get('/', function(){
-            if(Auth::check()){
+            if(Auth::check() && Auth::user()->isAccenture()){
                 return redirect()->route('accenture.home');
             } else {
                 return redirect()->route('accenture.login');
             }
         })
             ->name('main');
-
-        Route::view('home', 'accentureViews.home')
-            ->name('home');
         Route::view('login', 'accentureViews.login')
             ->name('login');
         Route::view('forgotPassword', 'accentureViews.forgotPassword')
             ->name('forgotPassword');
-        Route::view('newProjectSetUp', 'accentureViews.newProjectSetUp')
-            ->name('newProjectSetUp');
-        Route::view('clientList', 'accentureViews.clientList')
-            ->name('clientList');
-        Route::view('vendorList', 'accentureViews.vendorList')
-            ->name('vendorList');
-        Route::view('vendorHomeProfileCreate', 'accentureViews.vendorHomeProfileCreate')
-            ->name('vendorHomeProfileCreate');
-        Route::redirect('createNewVendor', '/accenture/vendorHomeProfileCreate') // TODO Here we should create the new vendor and stuff
-            ->name('createNewVendor');
-        Route::view('vendorValidateResponses', 'accentureViews.vendorValidateResponses')
-            ->name('vendorValidateResponses');
-        Route::view('clientHomeProfileCreate', 'accentureViews.clientHomeProfileCreate')
-            ->name('clientHomeProfileCreate');
-        Route::redirect('createNewClient', '/accenture/clientHomeProfileCreate') // TODO Here we should create the new client and stuff
-            ->name('createNewClient');
 
-        Route::view('project/home', 'accentureViews.projectHome')
-            ->name('projectHome');
-        Route::view('project/edit', 'accentureViews.projectEdit')
-            ->name('projectEdit');
-        Route::view('project/view', 'accentureViews.projectView')
-            ->name('projectView');
-        Route::view('project/valueTargeting', 'accentureViews.projectValueTargeting')
-            ->name('projectValueTargeting');
-        Route::view('project/orals', 'accentureViews.projectOrals')
-            ->name('projectOrals');
-        Route::view('project/conclusions', 'accentureViews.projectConclusions')
-            ->name('projectConclusions');
+        Route::middleware(['auth', 'checkAccenture'])->group(function () {
+            Route::view('home', 'accentureViews.home')
+                ->name('home');
+            Route::view('newProjectSetUp', 'accentureViews.newProjectSetUp')
+                ->name('newProjectSetUp');
+            Route::view('clientList', 'accentureViews.clientList')
+                ->name('clientList');
+            Route::view('vendorList', 'accentureViews.vendorList')
+                ->name('vendorList');
+            Route::view('vendorHomeProfileCreate', 'accentureViews.vendorHomeProfileCreate')
+                ->name('vendorHomeProfileCreate');
+            Route::redirect('createNewVendor', '/accenture/vendorHomeProfileCreate') // TODO Here we should create the new vendor and stuff
+                ->name('createNewVendor');
+            Route::view('vendorValidateResponses', 'accentureViews.vendorValidateResponses')
+                ->name('vendorValidateResponses');
+            Route::view('clientHomeProfileCreate', 'accentureViews.clientHomeProfileCreate')
+                ->name('clientHomeProfileCreate');
+            Route::redirect('createNewClient', '/accenture/clientHomeProfileCreate') // TODO Here we should create the new client and stuff
+                ->name('createNewClient');
 
-        Route::view('project/benchmark', 'accentureViews.projectBenchmark')
-            ->name('projectBenchmark');
-        Route::view('project/benchmark/fitgap', 'accentureViews.projectBenchmarkFitgap')
-            ->name('projectBenchmarkFitgap');
-        Route::view('project/benchmark/vendor', 'accentureViews.projectBenchmarkVendor')
-            ->name('projectBenchmarkVendor');
-        Route::view('project/benchmark/experience', 'accentureViews.projectBenchmarkExperience')
-            ->name('projectBenchmarkExperience');
-        Route::view('project/benchmark/innovation', 'accentureViews.projectBenchmarkInnovation')
-            ->name('projectBenchmarkInnovation');
-        Route::view('project/benchmark/implementation', 'accentureViews.projectBenchmarkImplementation')
-            ->name('projectBenchmarkImplementation');
+            Route::view('project/home', 'accentureViews.projectHome')
+                ->name('projectHome');
+            Route::view('project/edit', 'accentureViews.projectEdit')
+                ->name('projectEdit');
+            Route::view('project/view', 'accentureViews.projectView')
+                ->name('projectView');
+            Route::view('project/valueTargeting', 'accentureViews.projectValueTargeting')
+                ->name('projectValueTargeting');
+            Route::view('project/orals', 'accentureViews.projectOrals')
+                ->name('projectOrals');
+            Route::view('project/conclusions', 'accentureViews.projectConclusions')
+                ->name('projectConclusions');
 
-        Route::view('viewVendorProposal', 'accentureViews.viewVendorProposal')
-            ->name('viewVendorProposal');
-        Route::view('viewVendorProposalEvaluation', 'accentureViews.viewVendorProposalEvaluation')
-            ->name('viewVendorProposalEvaluation');
+            Route::view('project/benchmark', 'accentureViews.projectBenchmark')
+                ->name('projectBenchmark');
+            Route::view('project/benchmark/fitgap', 'accentureViews.projectBenchmarkFitgap')
+                ->name('projectBenchmarkFitgap');
+            Route::view('project/benchmark/vendor', 'accentureViews.projectBenchmarkVendor')
+                ->name('projectBenchmarkVendor');
+            Route::view('project/benchmark/experience', 'accentureViews.projectBenchmarkExperience')
+                ->name('projectBenchmarkExperience');
+            Route::view('project/benchmark/innovation', 'accentureViews.projectBenchmarkInnovation')
+                ->name('projectBenchmarkInnovation');
+            Route::view('project/benchmark/implementation', 'accentureViews.projectBenchmarkImplementation')
+                ->name('projectBenchmarkImplementation');
 
-        Route::view('analysis/vendor', 'accentureViews.analysisVendor')
-            ->name('analysisVendor');
-        Route::view('analysis/client', 'accentureViews.analysisClient')
-            ->name('analysisClient');
-        Route::view('analysis/historical', 'accentureViews.analysisHistorical')
-            ->name('analysisHistorical');
-        Route::view('analysis/other', 'accentureViews.analysisOther')
-            ->name('analysisOther');
+            Route::view('viewVendorProposal', 'accentureViews.viewVendorProposal')
+                ->name('viewVendorProposal');
+            Route::view('viewVendorProposalEvaluation', 'accentureViews.viewVendorProposalEvaluation')
+                ->name('viewVendorProposalEvaluation');
+
+            Route::view('analysis/vendor', 'accentureViews.analysisVendor')
+                ->name('analysisVendor');
+            Route::view('analysis/client', 'accentureViews.analysisClient')
+                ->name('analysisClient');
+            Route::view('analysis/historical', 'accentureViews.analysisHistorical')
+                ->name('analysisHistorical');
+            Route::view('analysis/other', 'accentureViews.analysisOther')
+                ->name('analysisOther');
+        });
     });
 
 
@@ -114,48 +117,51 @@ Route::prefix('client')
             ->name('login');
         Route::view('forgotPassword', 'clientViews.forgotPassword')
             ->name('forgotPassword');
-        Route::view('firstLoginRegistration', 'clientViews.firstLoginRegistration')
-            ->name('firstLoginRegistration');
-        Route::view('homeProfileCreate', 'clientViews.homeProfileCreate')
-            ->name('homeProfileCreate');
-        Route::view('newProjectSetUp', 'clientViews.newProjectSetUp')
-            ->name('newProjectSetUp');
 
-        Route::view('home', 'clientViews.home')
-            ->name('home');
-        Route::view('profile', 'clientViews.profile')
-            ->name('profile');
-        // They have decided to remove profile editing, but I'm keeping this for when they eventually decide to change their mind
-        // Route::view('profileEdit', 'clientViews.profileEdit')
-        //     ->name('profileEdit');
+        Route::middleware(['auth', 'checkClient'])->group(function () {
+            Route::view('firstLoginRegistration', 'clientViews.firstLoginRegistration')
+                ->name('firstLoginRegistration');
+            Route::view('homeProfileCreate', 'clientViews.homeProfileCreate')
+                ->name('homeProfileCreate');
+            Route::view('newProjectSetUp', 'clientViews.newProjectSetUp')
+                ->name('newProjectSetUp');
+
+            Route::view('home', 'clientViews.home')
+                ->name('home');
+            Route::view('profile', 'clientViews.profile')
+                ->name('profile');
+            // They have decided to remove profile editing, but I'm keeping this for when they eventually decide to change their mind
+            // Route::view('profileEdit', 'clientViews.profileEdit')
+            //     ->name('profileEdit');
 
 
-        Route::view('project/home', 'clientViews.projectHome')
-            ->name('projectHome');
-        Route::view('project/view', 'clientViews.projectView')
-            ->name('projectView');
-        Route::view('project/discovery', 'clientViews.projectDiscovery')
-            ->name('projectDiscovery');
-        Route::view('project/orals', 'clientViews.projectOrals')
-            ->name('projectOrals');
-        Route::view('project/conclusions', 'clientViews.projectConclusions')
-            ->name('projectConclusions');
+            Route::view('project/home', 'clientViews.projectHome')
+                ->name('projectHome');
+            Route::view('project/view', 'clientViews.projectView')
+                ->name('projectView');
+            Route::view('project/discovery', 'clientViews.projectDiscovery')
+                ->name('projectDiscovery');
+            Route::view('project/orals', 'clientViews.projectOrals')
+                ->name('projectOrals');
+            Route::view('project/conclusions', 'clientViews.projectConclusions')
+                ->name('projectConclusions');
 
-        Route::view('project/benchmark', 'clientViews.projectBenchmark')
-            ->name('projectBenchmark');
-        Route::view('project/benchmark/fitgap', 'clientViews.projectBenchmarkFitgap')
-            ->name('projectBenchmarkFitgap');
-        Route::view('project/benchmark/vendor', 'clientViews.projectBenchmarkVendor')
-            ->name('projectBenchmarkVendor');
-        Route::view('project/benchmark/experience', 'clientViews.projectBenchmarkExperience')
-            ->name('projectBenchmarkExperience');
-        Route::view('project/benchmark/innovation', 'clientViews.projectBenchmarkInnovation')
-            ->name('projectBenchmarkInnovation');
-        Route::view('project/benchmark/implementation', 'clientViews.projectBenchmarkImplementation')
-            ->name('projectBenchmarkImplementation');
+            Route::view('project/benchmark', 'clientViews.projectBenchmark')
+                ->name('projectBenchmark');
+            Route::view('project/benchmark/fitgap', 'clientViews.projectBenchmarkFitgap')
+                ->name('projectBenchmarkFitgap');
+            Route::view('project/benchmark/vendor', 'clientViews.projectBenchmarkVendor')
+                ->name('projectBenchmarkVendor');
+            Route::view('project/benchmark/experience', 'clientViews.projectBenchmarkExperience')
+                ->name('projectBenchmarkExperience');
+            Route::view('project/benchmark/innovation', 'clientViews.projectBenchmarkInnovation')
+                ->name('projectBenchmarkInnovation');
+            Route::view('project/benchmark/implementation', 'clientViews.projectBenchmarkImplementation')
+                ->name('projectBenchmarkImplementation');
 
-        Route::view('viewVendorProposal', 'clientViews.viewVendorProposal')
-            ->name('viewVendorProposal');
+            Route::view('viewVendorProposal', 'clientViews.viewVendorProposal')
+                ->name('viewVendorProposal');
+        });
     });
 
 
@@ -177,37 +183,38 @@ Route::prefix('vendor')
             ->name('login');
         Route::view('forgotPassword', 'vendorViews.forgotPassword')
             ->name('forgotPassword');
-        Route::view('firstLoginRegistration', 'vendorViews.firstLoginRegistration')
-            ->name('firstLoginRegistration');
-        Route::view('homeProfileCreate', 'vendorViews.homeProfileCreate')
-            ->name('homeProfileCreate');
-        Route::view('newSolutionSetUp', 'vendorViews.newSolutionSetUp')
-            ->name('newSolutionSetUp');
 
-        Route::redirect('createNewApplication', '/vendor/newApplication') // TODO Here we should accept the  stuff and go to the newApplication to fill the data
-            ->name('createNewApplication');
-        Route::view('previewProject', 'vendorViews.previewProject')
-            ->name('previewProject');
-        Route::view('newApplication', 'vendorViews.newApplication')
-            ->name('newApplication');
-        Route::view('newApplicationApply', 'vendorViews.newApplicationApply')
-            ->name('newApplicationApply');
-        Route::view('projectOrals', 'vendorViews.projectOrals')
-            ->name('projectOrals');
+        Route::middleware(['auth', 'checkVendor'])->group(function () {
+            Route::view('firstLoginRegistration', 'vendorViews.firstLoginRegistration')
+                ->name('firstLoginRegistration');
+            Route::view('homeProfileCreate', 'vendorViews.homeProfileCreate')
+                ->name('homeProfileCreate');
+            Route::view('newSolutionSetUp', 'vendorViews.newSolutionSetUp')
+                ->name('newSolutionSetUp');
+
+            Route::redirect('createNewApplication', '/vendor/newApplication') // TODO Here we should accept the  stuff and go to the newApplication to fill the data
+                ->name('createNewApplication');
+            Route::view('previewProject', 'vendorViews.previewProject')
+                ->name('previewProject');
+            Route::view('newApplication', 'vendorViews.newApplication')
+                ->name('newApplication');
+            Route::view('newApplicationApply', 'vendorViews.newApplicationApply')
+                ->name('newApplicationApply');
+            Route::view('projectOrals', 'vendorViews.projectOrals')
+                ->name('projectOrals');
 
 
-        Route::view('home', 'vendorViews.home')
-            ->name('home');
-        Route::view('profile', 'vendorViews.profile')
-            ->name('profile');
-        Route::view('solutionsHome', 'vendorViews.solutionsHome')
-            ->name('solutionsHome');
-        Route::view('solutionEdit', 'vendorViews.solutionEdit')
-            ->name('solutionEdit');
+            Route::view('home', 'vendorViews.home')
+                ->name('home');
+            Route::view('profile', 'vendorViews.profile')
+                ->name('profile');
+            Route::view('solutionsHome', 'vendorViews.solutionsHome')
+                ->name('solutionsHome');
+            Route::view('solutionEdit', 'vendorViews.solutionEdit')
+                ->name('solutionEdit');
+        });
     });
 
 
 
-// Auth::routes();
-
-// Route::get('/home', 'HomeController@index')->name('home');
+Auth::routes();

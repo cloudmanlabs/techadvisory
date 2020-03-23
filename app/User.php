@@ -42,6 +42,9 @@ class User extends Authenticatable
 
 
 
+
+
+
     /**
      * Returns true if the user is admin
      *
@@ -60,5 +63,25 @@ class User extends Authenticatable
     public function isAccenture(): bool
     {
         return $this->userType == 'accenture' || $this->userType == 'accentureAdmin';
+    }
+
+    /**
+     * Returns true if the user is a client
+     *
+     * @return boolean
+     */
+    public function isClient(): bool
+    {
+        return $this->userType == 'client';
+    }
+
+    /**
+     * Returns true if the user is a vendor
+     *
+     * @return boolean
+     */
+    public function isVendor(): bool
+    {
+        return $this->userType == 'vendor';
     }
 }
