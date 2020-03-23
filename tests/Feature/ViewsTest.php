@@ -97,4 +97,19 @@ class ViewsTest extends TestCase
             ->get('/accenture/home');
         $response->assertStatus(302);
     }
+
+    public function testAdminCanNotAccessOtherViews()
+    {
+        $user = factory(User::class)->states('admin')->make();
+
+        $response = $this->actingAs($user)
+            ->get('/client/home');
+        $response->assertStatus(302);
+        $response = $this->actingAs($user)
+            ->get('/accenture/home');
+        $response->assertStatus(302);
+        $response = $this->actingAs($user)
+            ->get('/vendors/home');
+        $response->assertStatus(302);
+    }
 }

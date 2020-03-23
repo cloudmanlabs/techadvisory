@@ -26,7 +26,7 @@
                                         <br><br>
                                         <a href="{{route('vendor.main')}}">Vendor</a>
                                         <br><br><br><br>
-                                        <p>{{ auth()->check() ? 'You are logged in' : 'You\'re not logged in'}}</p>
+                                        <p>{{ auth()->check() ? 'You are logged in' : 'You are not logged in'}}</p>
                                         <a href="{{route('logout')}}">Logout</a>
                                     </div>
                                 </div>

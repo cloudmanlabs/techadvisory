@@ -29,7 +29,6 @@ class UserSeeder extends Seeder
             'email' => 'vendor@vendor.com',
         ]);
 
-
         error_log('Users created successfully');
     }
 }
