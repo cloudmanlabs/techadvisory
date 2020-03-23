@@ -43,7 +43,30 @@ class User extends Authenticatable
 
 
 
-
+    /**
+     * Available Admin types
+     *
+     * @var array
+     */
+    const adminTypes = ['admin'];
+    /**
+     * Available Accenture types
+     *
+     * @var array
+     */
+    const accentureTypes = ['accenture', 'accentureAdmin'];
+    /**
+     * Available Client types
+     *
+     * @var array
+     */
+    const clientTypes = ['client'];
+    /**
+     * Available Vendor types
+     *
+     * @var array
+     */
+    const vendorTypes = ['vendor'];
 
     /**
      * Returns true if the user is admin

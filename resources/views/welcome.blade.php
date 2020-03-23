@@ -25,6 +25,9 @@
                                         <a href="{{route('client.main')}}">Client</a>
                                         <br><br>
                                         <a href="{{route('vendor.main')}}">Vendor</a>
+                                        <br><br><br><br>
+                                        <p>{{ auth()->check() ? 'You are logged in' : 'You\'re not logged in'}}</p>
+                                        <a href="{{route('logout')}}">Logout</a>
                                     </div>
                                 </div>
                             </div>

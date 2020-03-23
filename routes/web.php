@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -17,6 +18,11 @@ use Illuminate\Support\Facades\Route;
 Route::view('/', 'welcome')
     ->name('welcome');
 
+Route::get('logout', function(Request $request){
+    Auth::logout();
+    $request->session()->invalidate();
+    return redirect()->route('welcome');
+})->name('logout');
 
 
 Route::
@@ -32,8 +38,11 @@ Route::
             }
         })
             ->name('main');
+
         Route::view('login', 'accentureViews.login')
             ->name('login');
+        Route::post('login', 'AuthController@login')
+            ->name('loginPost');
         Route::view('forgotPassword', 'accentureViews.forgotPassword')
             ->name('forgotPassword');
 
@@ -115,6 +124,8 @@ Route::prefix('client')
 
         Route::view('login', 'clientViews.login')
             ->name('login');
+        Route::post('login', 'AuthController@login')
+            ->name('loginPost');
         Route::view('forgotPassword', 'clientViews.forgotPassword')
             ->name('forgotPassword');
 
@@ -181,6 +192,8 @@ Route::prefix('vendor')
 
         Route::view('login', 'vendorViews.login')
             ->name('login');
+        Route::post('login', 'AuthController@login')
+            ->name('loginPost');
         Route::view('forgotPassword', 'vendorViews.forgotPassword')
             ->name('forgotPassword');
 
@@ -214,7 +227,3 @@ Route::prefix('vendor')
                 ->name('solutionEdit');
         });
     });
-
-
-
-Auth::routes();
