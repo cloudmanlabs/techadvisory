@@ -51,6 +51,9 @@ class UserTest extends TestCase
         $this->assertDatabaseHas('users', [
             'email' => 'client@client.com',
         ]);
+
+        $user = User::where('email', 'client@client.com')->first();
+        $this->assertTrue($user->isClient());
     }
 
     public function testCanCreateAccenture()
@@ -63,6 +66,9 @@ class UserTest extends TestCase
         $this->assertDatabaseHas('users', [
             'email' => 'accenture@accenture.com',
         ]);
+
+        $user = User::where('email', 'accenture@accenture.com')->first();
+        $this->assertTrue($user->isAccenture());
     }
 
     public function testCanCreateVendor()
@@ -75,5 +81,8 @@ class UserTest extends TestCase
         $this->assertDatabaseHas('users', [
             'email' => 'vendor@vendor.com',
         ]);
+
+        $user = User::where('email', 'vendor@vendor.com')->first();
+        $this->assertTrue($user->isVendor());
     }
 }

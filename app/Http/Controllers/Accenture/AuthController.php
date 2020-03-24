@@ -37,7 +37,7 @@ class AuthController extends Controller
         $remember = $request->input('remember') ?? false;
 
         if (Auth::attempt($credentials, $remember)) {
-            return redirect()->intended('/accenture/home');
+            return redirect()->intended(route('accenture.home'));
         }
     }
 }

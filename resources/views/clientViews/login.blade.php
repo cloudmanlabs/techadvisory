@@ -27,16 +27,24 @@
                                     <br>
 
                                     <form method="POST" action="{{route('client.loginPost')}}" class="forms-sample">
+                                        @csrf
                                         <div class="form-group">
-                                            <label for="exampleInputEmail1">Email address</label> <input
-                                                class="form-control" id="exampleInputEmail1" placeholder="Email"
-                                                type="email">
+                                            <label for="exampleInputEmail1">Email address</label>
+                                            <input class="form-control" name="email" placeholder="Email" type="email">
+                                            @if ($errors->has('email'))
+                                                <span class="invalid-feedback" style="display: block;" role="alert">
+                                                    <strong>{{ $errors->first('email') }}</strong>
+                                                </span>
+                                            @endif
                                         </div>
 
                                         <div class="form-group">
-                                            <label for="exampleInputPassword1">Password</label> <input
-                                                autocomplete="current-password" class="form-control"
-                                                id="exampleInputPassword1" placeholder="Password" type="password">
+                                            <label for="exampleInputPassword1">Password</label> <input autocomplete="current-password" class="form-control" name="password" placeholder="Password" type="password">
+                                            @if ($errors->has('password'))
+                                            <span class="invalid-feedback" style="display: block;" role="alert">
+                                                <strong>{{ $errors->first('password') }}</strong>
+                                            </span>
+                                            @endif
                                         </div>
 
                                         <div class="form-check form-check-flat form-check-primary">

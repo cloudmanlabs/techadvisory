@@ -42,9 +42,23 @@ abstract class DuskTestCase extends BaseTestCase
         );
     }
 
-    public function browse(\Closure $callback)
+    /**
+     * Temporal solution for cleaning up session
+     */
+    protected function setUp() : void
     {
-        parent::browse($callback);
-        static::$browsers->first()->driver->manage()->deleteAllCookies();
+        parent::setUp();
+        foreach (static::$browsers as $browser) {
+            $browser->driver->manage()->deleteAllCookies();
+        }
+    }
+
+    // Your tests
+
+    public function tearDown() : void
+    {
+        session()->flush();
+
+        parent::tearDown();
     }
 }

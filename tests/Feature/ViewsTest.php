@@ -23,16 +23,6 @@ class ViewsTest extends TestCase
         $response->assertStatus(200);
     }
 
-    public function testLinksInMainPage()
-    {
-        // visit('/')
-        //     ->see('Accenture')
-        //     ->see('Client')
-        //     ->see('Vendor');
-
-        $this->assertTrue(true);
-    }
-
     public function testAccentureCanAccessAccentureViews()
     {
         $user = factory(User::class)->states('accenture')->make();
