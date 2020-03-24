@@ -9,23 +9,34 @@ class UserPolicy
 {
     use HandlesAuthorization;
 
-    public function view(User $user)
+    public function viewAny(User $user)
     {
+        return true;
+    }
+
+    public function view(User $user, User $object)
+    {
+        if ($object->isAdmin()) return false;
+
         return true;
     }
 
     public function create(User $user)
     {
-        return $user->isAdmin();
+        return $user->isAdmin() || $user->isAccenture();
     }
 
     public function update(User $user, User $object)
     {
-        return $user->isAdmin();
+        if($object->isAdmin()) return false;
+
+        return $user->isAdmin() || $user->isAccenture();
     }
 
     public function delete(User $user, User $object)
     {
-        return $user->isAdmin();
+        if ($object->isAdmin()) return false;
+
+        return $user->isAdmin() || $user->isAccenture();
     }
 }

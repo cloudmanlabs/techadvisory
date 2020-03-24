@@ -2,8 +2,12 @@
 
 namespace App\Providers;
 
-use App\User;
+use App\Nova\Accenture;
+use App\Nova\Client;
+use App\Nova\Vendor;
+use App\Nova\User;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Log;
 use Laravel\Nova\Cards\Help;
 use Laravel\Nova\Nova;
 use Laravel\Nova\NovaApplicationServiceProvider;
@@ -18,6 +22,24 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
     public function boot()
     {
         parent::boot();
+    }
+
+    protected function resources()
+    {
+        if (auth()->user()->isAdmin()) {
+            return Nova::resources([
+                Accenture::class,
+                Client::class,
+                Vendor::class,
+                User::class
+            ]);
+        } else if(auth()->user()->isAccenture()){
+            return Nova::resources([
+                Accenture::class,
+                Client::class,
+                Vendor::class,
+            ]);
+        }
     }
 
     /**
@@ -42,8 +64,22 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
      */
     protected function gate()
     {
-        Gate::define('viewNova', function (User $user) {
+        Gate::define('viewNova', function ($user) {
             return $user->isAdmin() || $user->isAccenture();
+        });
+    }
+
+    /**
+     * Configure the Nova authorization services.
+     *
+     * @return void
+     */
+    protected function authorization()
+    {
+        $this->gate();
+
+        Nova::auth(function ($request) {
+            return Gate::check('viewNova', [$request->user()]);
         });
     }
 
