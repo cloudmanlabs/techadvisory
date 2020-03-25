@@ -4,6 +4,10 @@ namespace App\Providers;
 
 use App\Nova\Accenture;
 use App\Nova\Client;
+use App\Nova\Metrics\NumberOfAccentureUsers;
+use App\Nova\Metrics\NumberOfClients;
+use App\Nova\Metrics\NumberOfVendors;
+use App\Nova\Metrics\TotalNumberOfUsers;
 use App\Nova\Vendor;
 use App\Nova\User;
 use Illuminate\Support\Facades\Gate;
@@ -91,7 +95,10 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
     protected function cards()
     {
         return [
-            // new Help,
+            new TotalNumberOfUsers,
+            new NumberOfAccentureUsers,
+            new NumberOfClients,
+            new NumberOfVendors,
         ];
     }
 

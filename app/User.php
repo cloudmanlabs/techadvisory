@@ -5,6 +5,7 @@ namespace App;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use \Illuminate\Database\Eloquent\Builder;
 
 /**
  * @property string $userType Should be one of [admin, accenture, accentureAdmin, client, vendor]
@@ -106,5 +107,35 @@ class User extends Authenticatable
     public function isVendor(): bool
     {
         return $this->userType == 'vendor';
+    }
+
+    /**
+     * Returns all the Accenture users
+     *
+     * @return Builder
+     */
+    public static function accentureUsers() : Builder
+    {
+        return User::whereIn('userType', User::accentureTypes);
+    }
+
+    /**
+     * Returns all the Client Users
+     *
+     * @return Builder
+     */
+    public static function clientUsers() : Builder
+    {
+        return User::whereIn('userType', User::clientTypes);
+    }
+
+    /**
+     * Returns all the Vendor Users
+     *
+     * @return Builder
+     */
+    public static function vendorUsers() : Builder
+    {
+        return User::whereIn('userType', User::vendorTypes);
     }
 }
