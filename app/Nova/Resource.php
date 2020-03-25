@@ -8,6 +8,31 @@ use Laravel\Nova\Resource as NovaResource;
 abstract class Resource extends NovaResource
 {
     /**
+     * Return the location to redirect the user after creation.
+     *
+     * @param \Laravel\Nova\Http\Requests\NovaRequest $request
+     * @param \App\Nova\Resource $resource
+     * @return string
+     */
+    public static function redirectAfterCreate(NovaRequest $request, $resource)
+    {
+        if ($request->viaResource) {
+            return "/resources/{$request->viaResource}/{$request->viaResourceId}";
+        }
+
+        return parent::redirectAfterCreate($request, $resource);
+    }
+
+    public static function redirectAfterUpdate(NovaRequest $request, $resource)
+    {
+        if ($request->viaResource) {
+            return "/resources/{$request->viaResource}/{$request->viaResourceId}";
+        }
+
+        return parent::redirectAfterUpdate($request, $resource);
+    }
+
+    /**
      * Build an "index" query for the given resource.
      *
      * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request

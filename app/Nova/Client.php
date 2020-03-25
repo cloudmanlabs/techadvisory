@@ -61,16 +61,20 @@ class Client extends Resource
                 ->creationRules('unique:users,email')
                 ->updateRules('unique:users,email,{{resourceId}}'),
 
-            Select::make('Type', 'userType')->options([
-                'accenture' => 'Accenture',
-                'vendor' => 'Vendor',
-                'client' => 'Client'
-            ])->displayUsingLabels(),
-
             Password::make('Password')
                 ->onlyOnForms()
                 ->creationRules('required', 'string', 'min:8')
                 ->updateRules('nullable', 'string', 'min:8'),
+
+
+
+            // This sets the correct value for userType
+            Text::make('userType')
+                ->hideFromIndex()
+                ->hideWhenCreating()
+                ->hideWhenUpdating()
+                ->hideFromDetail()
+                ->withMeta(['value' => 'client']),
         ];
     }
 
