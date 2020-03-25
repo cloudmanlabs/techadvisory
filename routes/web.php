@@ -25,6 +25,11 @@ Route::get('logout', function(Request $request){
     return redirect()->route('welcome');
 })->name('logout');
 
+// Password Reset Routes...
+Route::get('password/reset', 'Auth\ForgotPasswordController@showLinkRequestForm')->name('password.request');
+Route::post('password/email', 'Auth\ForgotPasswordController@sendResetLinkEmail')->name('password.email');
+Route::get('password/reset/{token}', 'Auth\ResetPasswordController@showResetForm')->name('password.reset');
+Route::post('password/reset', 'Auth\ResetPasswordController@reset')->name('password.update');
 
 Route::
     prefix('accenture')
@@ -44,8 +49,6 @@ Route::
             ->name('login');
         Route::post('login', 'AuthController@login')
             ->name('loginPost');
-        Route::view('forgotPassword', 'accentureViews.forgotPassword')
-            ->name('forgotPassword');
 
         Route::middleware(['auth', 'checkAccenture'])->group(function () {
             Route::view('home', 'accentureViews.home')
@@ -127,8 +130,6 @@ Route::prefix('client')
             ->name('login');
         Route::post('login', 'AuthController@login')
             ->name('loginPost');
-        Route::view('forgotPassword', 'clientViews.forgotPassword')
-            ->name('forgotPassword');
 
         Route::middleware(['auth', 'checkClient'])->group(function () {
             Route::view('firstLoginRegistration', 'clientViews.firstLoginRegistration')
@@ -195,8 +196,6 @@ Route::prefix('vendors')
             ->name('login');
         Route::post('login', 'AuthController@login')
             ->name('loginPost');
-        Route::view('forgotPassword', 'vendorViews.forgotPassword')
-            ->name('forgotPassword');
 
         Route::middleware(['auth', 'checkVendor'])->group(function () {
             Route::view('firstLoginRegistration', 'vendorViews.firstLoginRegistration')

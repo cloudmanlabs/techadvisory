@@ -55,7 +55,7 @@
                                             </label>
                                         </div>
 
-                                        <a href="{{route('accenture.forgotPassword')}}" class="purpleColor">I forgot my password</a>
+                                        <a href="{{route('password.request')}}" class="purpleColor">I forgot my password</a>
 
 
                                         <div style="margin-top: 30px; float: right; margin-bottom: 20px;">

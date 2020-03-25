@@ -58,7 +58,7 @@
                                                     type="checkbox"> Remember me</label>
                                         </div>
 
-                                        <a href="{{route('vendor.forgotPassword')}}" class="purpleColor">I forgot my
+                                        <a href="{{route('password.request')}}" class="purpleColor">I forgot my
                                             password</a>
 
 

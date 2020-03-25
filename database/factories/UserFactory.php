@@ -43,3 +43,9 @@ $factory->state(App\User::class, 'accenture', [
 $factory->state(App\User::class, 'vendor', [
     'userType' => 'vendor',
 ]);
+
+
+
+$factory->state(App\User::class, 'guimEmail', [
+    'email' => 'guim@caballerocoll.com',
+]);

@@ -116,7 +116,7 @@ class User extends Authenticatable
      */
     public static function accentureUsers() : Builder
     {
-        return User::whereIn('userType', User::accentureTypes);
+        return self::whereIn('userType', self::accentureTypes);
     }
 
     /**
@@ -126,7 +126,7 @@ class User extends Authenticatable
      */
     public static function clientUsers() : Builder
     {
-        return User::whereIn('userType', User::clientTypes);
+        return self::whereIn('userType', self::clientTypes);
     }
 
     /**
@@ -136,6 +136,6 @@ class User extends Authenticatable
      */
     public static function vendorUsers() : Builder
     {
-        return User::whereIn('userType', User::vendorTypes);
+        return self::whereIn('userType', self::vendorTypes);
     }
 }
