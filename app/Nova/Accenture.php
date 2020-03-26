@@ -33,6 +33,11 @@ class Accenture extends Resource
      */
     public static $title = 'name';
 
+    public static function label()
+    {
+        return 'Accenture Users';
+    }
+
     /**
      * The columns that should be searched.
      *
