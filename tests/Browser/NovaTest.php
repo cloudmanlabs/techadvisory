@@ -59,4 +59,48 @@ class NovaTest extends DuskTestCase
         $this->assertCount(2, User::all());
         $this->assertCount(1, User::where('userType', 'accenture')->get());
     }
+
+    public function testAdminCanCreateClient()
+    {
+        $this->assertCount(0, User::all());
+
+        $admin = factory(User::class)->states('admin')->create();
+
+        $this->browse(function ($browser) use ($admin) {
+            $browser->loginAs($admin)
+                ->visit('/admin/resources/clients/new')
+                ->pause(500)
+                ->type('@name', 'name')
+                ->type('@email', 'email@email.com')
+                ->type('@password', 'password')
+                ->press('@create-button')
+                ->pause(500)
+                ->assertPathBeginsWith('/admin/resources/clients');
+        });
+
+        $this->assertCount(2, User::all());
+        $this->assertCount(1, User::where('userType', 'client')->get());
+    }
+
+    public function testAdminCanCreateVendor()
+    {
+        $this->assertCount(0, User::all());
+
+        $admin = factory(User::class)->states('admin')->create();
+
+        $this->browse(function ($browser) use ($admin) {
+            $browser->loginAs($admin)
+                ->visit('/admin/resources/vendors/new')
+                ->pause(500)
+                ->type('@name', 'name')
+                ->type('@email', 'email@email.com')
+                ->type('@password', 'password')
+                ->press('@create-button')
+                ->pause(500)
+                ->assertPathBeginsWith('/admin/resources/vendors');
+        });
+
+        $this->assertCount(2, User::all());
+        $this->assertCount(1, User::where('userType', 'vendor')->get());
+    }
 }

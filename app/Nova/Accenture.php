@@ -16,6 +16,7 @@ use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Panel;
+use Outhebox\NovaHiddenField\HiddenField;
 
 class Accenture extends Resource
 {
@@ -73,12 +74,10 @@ class Accenture extends Resource
 
 
             // This sets the correct value for userType
-            Text::make('userType')
+            HiddenField::make('userType')
                 ->hideFromIndex()
-                ->hideWhenCreating()
-                ->hideWhenUpdating()
                 ->hideFromDetail()
-                ->withMeta(['value' => 'accenture']),
+                ->default('accenture'),
         ];
     }
 

@@ -13,8 +13,7 @@ class UserSeeder extends Seeder
     public function run()
     {
         factory(User::class)
-            ->states('admin')
-            ->states('guimEmail')
+            ->states(['admin','guimEmail'])
             ->create([
                 'name' => 'guim',
             ]);
