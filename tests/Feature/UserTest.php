@@ -110,12 +110,19 @@ class UserTest extends TestCase
         $this->assertInstanceOf(\Illuminate\Database\Eloquent\Builder::class, $col);
     }
 
-    public function testUserAccentureUsersWorks()
+
+
+    private function generateSomeUsers()
     {
         factory(User::class, 3)->states('accenture')->create();
         factory(User::class, 5)->states('vendor')->create();
         factory(User::class, 7)->states('client')->create();
         factory(User::class, 11)->states('admin')->create();
+    }
+
+    public function testUserAccentureUsersWorks()
+    {
+        $this->generateSomeUsers();
 
         $count = User::accentureUsers()->count();
         $this->assertEquals(3, $count);
@@ -123,10 +130,7 @@ class UserTest extends TestCase
 
     public function testUserClientUsersWorks()
     {
-        factory(User::class, 3)->states('accenture')->create();
-        factory(User::class, 5)->states('vendor')->create();
-        factory(User::class, 7)->states('client')->create();
-        factory(User::class, 11)->states('admin')->create();
+        $this->generateSomeUsers();
 
         $count = User::clientUsers()->count();
         $this->assertEquals(7, $count);
@@ -134,10 +138,7 @@ class UserTest extends TestCase
 
     public function testUserVendorUsersWorks()
     {
-        factory(User::class, 3)->states('accenture')->create();
-        factory(User::class, 5)->states('vendor')->create();
-        factory(User::class, 7)->states('client')->create();
-        factory(User::class, 11)->states('admin')->create();
+        $this->generateSomeUsers();
 
         $count = User::vendorUsers()->count();
         $this->assertEquals(5, $count);

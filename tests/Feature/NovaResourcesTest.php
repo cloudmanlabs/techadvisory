@@ -69,33 +69,39 @@ class NovaResourcesTest extends TestCase
         $response->assertJsonCount(3, 'resources');
     }
 
-    public function testUserSearchWorks()
+
+
+    private function generateUsersForSearch(string $type)
     {
-        $admin = factory(User::class)->states('admin')->create();
-
         // We change the emails to make sure it doesn't interfere
-
-        factory(User::class)->states('accenture')->create([
+        factory(User::class)->states($type)->create([
             'name' => 'someString',
             'email' => 'email1@email.com'
         ]);
-        factory(User::class)->states('accenture')->create([
+        factory(User::class)->states($type)->create([
             'name' => 'someOther',
             'email' => 'email2@email.com'
         ]);
 
-        factory(User::class)->states('accenture')->create([
+        factory(User::class)->states($type)->create([
             'name' => 'asdf',
             'email' => 'email3@email.com'
         ]);
-        factory(User::class)->states('accenture')->create([
+        factory(User::class)->states($type)->create([
             'name' => 'qwer',
             'email' => 'email4@email.com'
         ]);
-        factory(User::class)->states('accenture')->create([
+        factory(User::class)->states($type)->create([
             'name' => 'hjgfghj',
             'email' => 'email5@email.com'
         ]);
+    }
+
+    public function testUserSearchWorks()
+    {
+        $admin = factory(User::class)->states('admin')->create();
+
+        $this->generateUsersForSearch('accenture');
 
         $response = $this->actingAs($admin)
             ->get('/nova-api/accentures?search=some&filters=W10%3D&orderBy=&perPage=100&trashed=&page=1&relationshipType=');
@@ -107,29 +113,7 @@ class NovaResourcesTest extends TestCase
     {
         $admin = factory(User::class)->states('admin')->create();
 
-        // We change the emails to make sure it doesn't interfere
-
-        factory(User::class)->states('client')->create([
-            'name' => 'someString',
-            'email' => 'email1@email.com'
-        ]);
-        factory(User::class)->states('client')->create([
-            'name' => 'someOther',
-            'email' => 'email2@email.com'
-        ]);
-
-        factory(User::class)->states('client')->create([
-            'name' => 'asdf',
-            'email' => 'email3@email.com'
-        ]);
-        factory(User::class)->states('client')->create([
-            'name' => 'qwer',
-            'email' => 'email4@email.com'
-        ]);
-        factory(User::class)->states('client')->create([
-            'name' => 'hjgfghj',
-            'email' => 'emai5l@email.com'
-        ]);
+        $this->generateUsersForSearch('client');
 
         $response = $this->actingAs($admin)
             ->get('/nova-api/clients?search=some&filters=W10%3D&orderBy=&perPage=100&trashed=&page=1&relationshipType=');
@@ -141,29 +125,7 @@ class NovaResourcesTest extends TestCase
     {
         $admin = factory(User::class)->states('admin')->create();
 
-        // We change the emails to make sure it doesn't interfere
-
-        factory(User::class)->states('vendor')->create([
-            'name' => 'someString',
-            'email' => 'email1@email.com'
-        ]);
-        factory(User::class)->states('vendor')->create([
-            'name' => 'someOther',
-            'email' => 'email2@email.com'
-        ]);
-
-        factory(User::class)->states('vendor')->create([
-            'name' => 'asdf',
-            'email' => 'email3@email.com'
-        ]);
-        factory(User::class)->states('vendor')->create([
-            'name' => 'qwer',
-            'email' => 'email4@email.com'
-        ]);
-        factory(User::class)->states('vendor')->create([
-            'name' => 'hjgfghj',
-            'email' => 'email5@email.com'
-        ]);
+        $this->generateUsersForSearch('vendor');
 
         $response = $this->actingAs($admin)
             ->get('/nova-api/vendors?search=some&filters=W10%3D&orderBy=&perPage=100&trashed=&page=1&relationshipType=');

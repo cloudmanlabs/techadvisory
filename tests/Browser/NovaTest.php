@@ -12,6 +12,9 @@ class NovaTest extends DuskTestCase
 {
     use DatabaseMigrations;
 
+    /**
+     * @group nova
+     */
     public function testAdminCanLogin()
     {
         $user = factory(User::class)->states('admin')->create();
@@ -25,6 +28,9 @@ class NovaTest extends DuskTestCase
         });
     }
 
+    /**
+     * @group nova
+     */
     public function testAccentureCanLogin()
     {
         $user = factory(User::class)->states('accenture')->create();
@@ -38,6 +44,9 @@ class NovaTest extends DuskTestCase
         });
     }
 
+    /**
+     * @group nova
+     */
     public function testAdminCanCreateAccenture()
     {
         $this->assertCount(0, User::all());
@@ -60,6 +69,9 @@ class NovaTest extends DuskTestCase
         $this->assertCount(1, User::where('userType', 'accenture')->get());
     }
 
+    /**
+     * @group nova
+     */
     public function testAdminCanCreateClient()
     {
         $this->assertCount(0, User::all());
@@ -82,6 +94,9 @@ class NovaTest extends DuskTestCase
         $this->assertCount(1, User::where('userType', 'client')->get());
     }
 
+    /**
+     * @group nova
+     */
     public function testAdminCanCreateVendor()
     {
         $this->assertCount(0, User::all());
