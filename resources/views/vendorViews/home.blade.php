@@ -13,7 +13,7 @@
                     </div>
                 </div>
 
-                <x-vendor.video />
+                <x-video />
                 <br><br>
 
                 <div class="row">

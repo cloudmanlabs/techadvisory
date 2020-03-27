@@ -5,6 +5,7 @@ namespace App\Nova\Metrics;
 use App\User;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Metrics\Value;
+use Laravel\Nova\Metrics\ValueResult;
 
 class TotalNumberOfUsers extends Value
 {
@@ -16,7 +17,7 @@ class TotalNumberOfUsers extends Value
      */
     public function calculate(NovaRequest $request)
     {
-        return $this->count($request, User::class);
+        return new ValueResult(User::count());
     }
 
     /**
