@@ -85,4 +85,28 @@
             </div>
         </div>
     </div>
+
+    @php
+        $finishedPhases = [];
+
+        if($progressSetUp == 40 ){
+            $finishedPhases[] = 'Set Up';
+        }
+        if($progressValue == 20 ){
+            $finishedPhases[] = 'Value';
+        }
+        if($progressResponse == 25 ){
+            $finishedPhases[] = 'Response';
+        }
+        if($progressAnalytics == 10 ){
+            $finishedPhases[] = 'Analytics';
+        }
+        if($progressConclusions == 5){
+            $finishedPhases[] = 'Conclusions';
+        }
+
+        if(count($finishedPhases)  > 0){
+            echo 'Finished phases: ' . implode(', ', $finishedPhases);
+        }
+    @endphp
 </div>

@@ -1,6 +1,6 @@
 @props(['progressFitgap', 'progressVendor','progressExperience','progressInnovation','progressImplementation', 'progressSubmit', 'title'])
 
-<div style="float: right; width: 35%; margin-right: 10%;">
+<div style="float: right; width: 35%; margin-right: 5%;">
     {{$title ?? 'Application status'}}: {{
                     $progressFitgap +
                     $progressVendor +

@@ -22,7 +22,7 @@
                                 <br>
 
                                 <div id="wizardVendorAccenture">
-                                    <h2>General Information</h2>
+                                    <h2>Contact information</h2>
                                     <section>
                                         <div class="form-group">
                                             <label for="exampleInputText1">Vendor Name*</label> <input class="form-control" id="exampleInputText1" placeholder="Enter Name" type="text" required>
@@ -253,7 +253,7 @@
                                     </section>
 
 
-                                    <h2>Economic information</h2>
+                                    <h2>Company information</h2>
                                     <section>
 
                                         <div class="form-group">
@@ -345,7 +345,7 @@
                                     </section>
 
 
-                                    <h2>Legal Info</h2>
+                                    <h2>Economic information</h2>
                                     <section>
 
                                         <div class="form-group">

@@ -28,8 +28,14 @@
                                 <br>
 
                                 <x-vendorCard>
+                                    <div style=" text-align: right; width: 7%;">
+                                        <a class="btn btn-primary btn-lg btn-icon-text" href="{{route('accenture.viewVendorProposal')}}">
+                                            View
+                                        </a>
+                                    </div>
                                     <div style=" text-align: right; width: 15%;">
-                                        <a class="btn btn-primary btn-lg btn-icon-text" href="{{route('accenture.viewVendorProposal')}}">View/Edit
+                                        <a class="btn btn-primary btn-lg btn-icon-text" href="{{route('accenture.viewVendorProposal')}}">
+                                            Support on responses
                                         </a>
                                     </div>
                                 </x-vendorCard>
@@ -96,6 +102,11 @@
                                 <br>
 
                                 <x-vendorCard :showProgressBar="false">
+                                    <div style="text-align: right; width: 15%;">
+                                        <a class="btn btn-primary btn-lg btn-icon-text"
+                                            href="{{route('accenture.viewVendorProposal')}}">View response
+                                        </a>
+                                    </div>
                                     <div style="text-align: right; width: 15%;">
                                         <a class="btn btn-primary btn-lg btn-icon-text"
                                             href="#">Download response

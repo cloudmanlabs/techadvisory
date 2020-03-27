@@ -57,10 +57,15 @@
                                     </div>
                                 </div>
                                 <br> <br>
-                                <label for="exampleFormControlSelect1">Date</label>
+                                <label for="exampleFormControlSelect1">From Date</label>
                                 <div class="input-group date datepicker" id="datePicker1">
                                     <input type="text" class="form-control"><span class="input-group-addon"><i
                                             data-feather="calendar"></i></span>
+                                </div>
+                                <br> <br>
+                                <label for="exampleFormControlSelect1">To Date</label>
+                                <div class="input-group date datepicker" id="datePicker2">
+                                    <input type="text" class="form-control"><span class="input-group-addon"><i data-feather="calendar"></i></span>
                                 </div>
                                 <br><br><br>
 

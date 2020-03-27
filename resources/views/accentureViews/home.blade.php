@@ -34,6 +34,19 @@
                                 </select>
                             </div>
 
+                            <div class="media-body" style="padding: 20px;">
+                                <p class="welcome_text">
+                                    Please choose the Clients you'd like to see:
+                                </p>
+                                <select class="js-example-basic-multiple w-100" multiple="multiple" required>
+                                    <option selected>Client 1</option>
+                                    <option selected>Client 2</option>
+                                    <option>Client 3</option>
+                                    <option>Client 4</option>
+                                    <option>Client 5</option>
+                                </select>
+                            </div>
+
                             <div class="card" style="margin-bottom: 30px;">
                                 <div class="card-body">
                                     <div style="float: left; max-width: 40%;">
@@ -45,7 +58,7 @@
                                             View <i class="btn-icon-prepend" data-feather="arrow-right"></i>
                                         </a>
                                     </div>
-                                    <x-projectProgressBar progressSetUp="20" progressValue="10" progressResponse="0" progressAnalytics="0" progressConclusions="0" />
+                                    <x-projectProgressBar progressSetUp="40" progressValue="20" progressResponse="0" progressAnalytics="10" progressConclusions="0" />
                                 </div>
                             </div>
                         </div>
@@ -70,6 +83,19 @@
                                     <option>Manufacturing</option>
                                     <option>Wharehousing</option>
                                     <option>Sourcing</option>
+                                </select>
+                            </div>
+
+                            <div class="media-body" style="padding: 20px;">
+                                <p class="welcome_text">
+                                    Please choose the Clients you'd like to see:
+                                </p>
+                                <select class="js-example-basic-multiple w-100" multiple="multiple" required>
+                                    <option selected>Client 1</option>
+                                    <option selected>Client 2</option>
+                                    <option>Client 3</option>
+                                    <option>Client 4</option>
+                                    <option>Client 5</option>
                                 </select>
                             </div>
 
@@ -111,6 +137,19 @@
                                     <option>Manufacturing</option>
                                     <option>Wharehousing</option>
                                     <option>Sourcing</option>
+                                </select>
+                            </div>
+
+                            <div class="media-body" style="padding: 20px;">
+                                <p class="welcome_text">
+                                    Please choose the Clients you'd like to see:
+                                </p>
+                                <select class="js-example-basic-multiple w-100" multiple="multiple" required>
+                                    <option selected>Client 1</option>
+                                    <option selected>Client 2</option>
+                                    <option>Client 3</option>
+                                    <option>Client 4</option>
+                                    <option>Client 5</option>
                                 </select>
                             </div>
 
