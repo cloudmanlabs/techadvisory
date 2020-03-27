@@ -37,7 +37,8 @@ class AuthController extends Controller
         $remember = $request->input('remember') ?? false;
 
         if (Auth::attempt($credentials, $remember)) {
-            return redirect()->intended(route('client.home'));
+            return redirect()->route('client.home');
+            // return redirect()->intended(route('client.home'));
         }
     }
 }
