@@ -59,18 +59,18 @@ class ProjectsTest extends TestCase
         $this->assertNotNull($project->vtConclusionsFolder);
     }
 
-    public function testCanAddVendorsToProject()
-    {
-        // $project = factory(Project::class)->create();
+    // public function testCanAddVendorsToProject()
+    // {
+    //     $project = factory(Project::class)->create();
 
-        // $vendors = factory(Vendor::class, 5)->create();
+    //     $vendors = factory(Vendor::class, 5)->create();
 
-        // foreach ($vendors as $key => $vendor) {
-        //     $project->vendors()->syncWithoutDetaching([$vendor->id]);
-        // }
+    //     foreach ($vendors as $key => $vendor) {
+    //         $project->vendors()->syncWithoutDetaching([$vendor->id]);
+    //     }
 
-        // $this->assertCount(5, $project->vendors);
-    }
+    //     $this->assertCount(5, $project->vendors);
+    // }
 
     public function testCanAddPracticesToProject()
     {
