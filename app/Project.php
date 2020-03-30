@@ -36,4 +36,9 @@ class Project extends Model
     {
         return $this->morphTo(Folder::class, 'folderable');
     }
+
+    public function practices()
+    {
+        return $this->belongsToMany(Practice::class);
+    }
 }

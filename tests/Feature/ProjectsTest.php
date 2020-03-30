@@ -3,6 +3,7 @@
 namespace Tests\Feature;
 
 use App\Folder;
+use App\Practice;
 use App\Project;
 use App\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -60,15 +61,25 @@ class ProjectsTest extends TestCase
 
     public function testCanAddVendorsToProject()
     {
-        $project = factory(Project::class)->create();
+        // $project = factory(Project::class)->create();
 
         // $vendors = factory(Vendor::class, 5)->create();
 
+        // foreach ($vendors as $key => $vendor) {
+        //     $project->vendors()->syncWithoutDetaching([$vendor->id]);
+        // }
 
+        // $this->assertCount(5, $project->vendors);
     }
 
     public function testCanAddPracticesToProject()
     {
+        $practices = factory(Practice::class, 5)->create();
 
+        $project = factory(Project::class)->create();
+
+        $project->practices()->syncWithoutDetaching($practices->pluck('id'));
+
+        $this->assertCount(5, $project->practices);
     }
 }
