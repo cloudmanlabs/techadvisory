@@ -8,6 +8,8 @@ use App\Nova\Metrics\NumberOfAccentureUsers;
 use App\Nova\Metrics\NumberOfClients;
 use App\Nova\Metrics\NumberOfVendors;
 use App\Nova\Metrics\TotalNumberOfUsers;
+use App\Nova\Practice;
+use App\Nova\Project;
 use App\Nova\Vendor;
 use App\Nova\User;
 use Illuminate\Support\Facades\Gate;
@@ -35,13 +37,17 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
                 Accenture::class,
                 Client::class,
                 Vendor::class,
-                User::class
+                User::class,
+                Practice::class,
+                Project::class
             ]);
         } else if(auth()->user()->isAccenture()){
             return Nova::resources([
                 Accenture::class,
                 Client::class,
                 Vendor::class,
+                Practice::class,
+                Project::class
             ]);
         }
     }

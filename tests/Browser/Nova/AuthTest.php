@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Log;
 use Laravel\Dusk\Browser;
 use Tests\DuskTestCase;
 
-class LoginTest extends DuskTestCase
+class AuthTest extends DuskTestCase
 {
     use DatabaseMigrations;
 
