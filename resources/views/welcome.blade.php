@@ -27,7 +27,12 @@
                                         <a href="{{route('vendor.main')}}">Vendor</a>
                                         <br><br><br><br>
                                         <p>{{ auth()->check() ? 'You are logged in' : 'You are not logged in'}}</p>
-                                        <a href="{{route('logout')}}">Logout</a>
+                                        <a href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                                            Logout
+                                        </a>
+                                        <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                                            @csrf
+                                        </form>
                                     </div>
                                 </div>
                             </div>

@@ -42,11 +42,14 @@
                                         </a>
                                     </li>
                                     <li class="nav-item" style="display: flex; justify-content: center">
-                                        {{-- TODO Change this to logout --}}
-                                        <a class="nav-link" href="{{route('vendor.login')}}">
+                                        <a class="nav-link" href="{{ route('logout') }}"
+                                            onclick="event.preventDefault(); document.getElementById('logout-form').submit();" id="logout-button">
                                             <i data-feather="log-out"></i>
                                             <span>Log Out</span>
                                         </a>
+                                        <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                                            @csrf
+                                        </form>
                                     </li>
                                 </ul>
                             </div>

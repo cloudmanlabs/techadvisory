@@ -35,11 +35,17 @@
                             <div class="dropdown-body">
                                 <ul class="profile-nav p-0 pt-3">
                                     <li class="nav-item">
-                                        {{-- TODO Change to Logout --}}
-                                        <a class="nav-link" href="{{route('accenture.login')}}">
+                                        <a
+                                            class="nav-link"
+                                            href="{{ route('logout') }}"
+                                            onclick="event.preventDefault(); document.getElementById('logout-form').submit();"
+                                            id="logout-button">
                                             <i data-feather="log-out"></i>
                                             <span>Log Out</span>
                                         </a>
+                                        <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                                            @csrf
+                                        </form>
                                     </li>
                                 </ul>
                             </div>

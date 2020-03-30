@@ -19,7 +19,7 @@ use Illuminate\Support\Facades\Route;
 Route::view('/', 'welcome')
     ->name('welcome');
 
-Route::get('logout', function(Request $request){
+Route::post('logout', function(Request $request){
     Auth::logout();
     $request->session()->invalidate();
     return redirect()->route('welcome');

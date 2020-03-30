@@ -55,6 +55,20 @@ class ViewsTest extends DuskTestCase
         });
     }
 
+    public function testAccentureCanLogout()
+    {
+        $user = factory(User::class)->states('accenture')->create();
+
+        $this->browse(function ($browser) use ($user) {
+            $browser->loginAs($user)
+                ->visit('/accenture/home')
+                ->click('#profileDropdown')
+                ->pause(200)
+                ->click('#logout-button')
+                ->assertPathIs('/');
+        });
+    }
+
     public function testClientCanLoginInToClient()
     {
         $user = factory(User::class)->states('client')->create();
@@ -91,6 +105,20 @@ class ViewsTest extends DuskTestCase
         });
     }
 
+    public function testClientCanLogout()
+    {
+        $user = factory(User::class)->states('client')->create();
+
+        $this->browse(function ($browser) use ($user) {
+            $browser->loginAs($user)
+                ->visit('/client/home')
+                ->click('#profileDropdown')
+                ->pause(200)
+                ->click('#logout-button')
+                ->assertPathIs('/');
+        });
+    }
+
     public function testVendorCanLoginInToVendor()
     {
         $user = factory(User::class)->states('vendor')->create();
@@ -124,6 +152,20 @@ class ViewsTest extends DuskTestCase
                 ->press('Log in')
                 ->assertPathIs('/client/login')
                 ->assertSee('please use your corresponding login page');
+        });
+    }
+
+    public function testVendorCanLogout()
+    {
+        $user = factory(User::class)->states('vendor')->create();
+
+        $this->browse(function ($browser) use ($user) {
+            $browser->loginAs($user)
+                ->visit('/vendors/home')
+                ->click('#profileDropdown')
+                ->pause(200)
+                ->click('#logout-button')
+                ->assertPathIs('/');
         });
     }
 }
