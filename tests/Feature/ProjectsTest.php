@@ -18,6 +18,8 @@ class ProjectsTest extends TestCase
     {
         $this->assertCount(0, Project::all());
 
+        factory(Practice::class)->create();
+
         $project = new Project([
             'name' => 'New Project',
             'hasOrals' => false,
@@ -28,10 +30,34 @@ class ProjectsTest extends TestCase
             'progressResponse' => 0,
             'progressAnalytics' => 0,
             'progressConclusions' => 0,
+
+            'currentPhase' => 'open',
+
+            'practice_id' => 1
         ]);
         $project->save();
 
         $this->assertCount(1, Project::all());
+    }
+
+    public function testProjectDefaultPhaseIsPreparation()
+    {
+        $this->assertCount(0, Project::all());
+
+        factory(Practice::class)->create();
+
+        $project = new Project([
+            'name' => 'New Project',
+            'hasOrals' => false,
+            'hasValueTargeting' => false,
+
+            'practice_id' => 1
+        ]);
+        $project->save();
+
+        $this->assertCount(1, Project::preparationProjects()->get());
+        $this->assertCount(0, Project::openProjects()->get());
+        $this->assertCount(0, Project::oldProjects()->get());
     }
 
     public function testCanAddFoldersToProject()
@@ -41,7 +67,12 @@ class ProjectsTest extends TestCase
         $folder2 = Folder::createNewRandomFolder();
         $folder3 = Folder::createNewRandomFolder();
 
-        $project = factory(Project::class)->create();
+        factory(Practice::class)
+            ->create()
+            ->each(function ($practice) {
+                $practice->projects()->save(factory(Project::class)->make());
+            });
+        $project = Project::first();
 
         $this->assertNull($project->conclusionsFolder);
         $this->assertNull($project->selectedValueLeversFolder);
@@ -74,12 +105,15 @@ class ProjectsTest extends TestCase
 
     public function testCanAddPracticesToProject()
     {
-        $practices = factory(Practice::class, 5)->create();
+        $practice = factory(Practice::class)->create();
 
-        $project = factory(Project::class)->create();
+        $project = factory(Project::class)->make();
 
-        $project->practices()->syncWithoutDetaching($practices->pluck('id'));
+        $this->assertNull($project->practice);
 
-        $this->assertCount(5, $project->practices);
+        $project->practice()->associate($practice);
+        $project->save();
+
+        $this->assertNotNull($project->practice);
     }
 }

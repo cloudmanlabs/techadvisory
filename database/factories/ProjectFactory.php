@@ -19,3 +19,16 @@ $factory->define(Project::class, function (Faker $faker) {
         'progressConclusions' => 0,
     ];
 });
+
+
+$factory->state(Project::class, 'open', [
+    'currentPhase' => 'open',
+]);
+
+$factory->state(Project::class, 'preparation', [
+    'currentPhase' => 'preparation',
+]);
+
+$factory->state(Project::class, 'old', [
+    'currentPhase' => 'old',
+]);

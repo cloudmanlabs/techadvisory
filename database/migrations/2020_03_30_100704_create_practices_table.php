@@ -19,14 +19,6 @@ class CreatePracticesTable extends Migration
 
             $table->string('name');
         });
-
-        Schema::create('practice_project', function (Blueprint $table) {
-            $table->id();
-            $table->timestamps();
-
-            $table->unsignedBigInteger('practice_id');
-            $table->unsignedBigInteger('project_id');
-        });
     }
 
     /**

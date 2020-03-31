@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use \Illuminate\Database\Eloquent\Builder;
 
 /**
  * @property string $name
@@ -15,6 +16,8 @@ use Illuminate\Database\Eloquent\Model;
  * @property integer $progressResponse
  * @property integer $progressAnalytics
  * @property integer $progressConclusions
+ *
+ * @property string $currentPhase
  */
 class Project extends Model
 {
@@ -37,8 +40,41 @@ class Project extends Model
         return $this->morphTo(Folder::class, 'folderable');
     }
 
-    public function practices()
+    public function practice()
     {
-        return $this->belongsToMany(Practice::class);
+        return $this->belongsTo(Practice::class);
+    }
+
+
+
+
+    /**
+     * Returns all projects in Open Phase
+     *
+     * @return Builder
+     */
+    public static function openProjects(): Builder
+    {
+        return self::where('currentPhase', 'open');
+    }
+
+    /**
+     * Returns all projects in Preparation Phase
+     *
+     * @return Builder
+     */
+    public static function preparationProjects(): Builder
+    {
+        return self::where('currentPhase', 'preparation');
+    }
+
+    /**
+     * Returns all projects in Old Phase
+     *
+     * @return Builder
+     */
+    public static function oldProjects(): Builder
+    {
+        return self::where('currentPhase', 'old');
     }
 }

@@ -57,6 +57,11 @@ class Project extends Resource
                 ->rules('required')
                 ->required(),
 
+
+            Text::make('Current Phase', 'currentPhase')
+                ->exceptOnForms(),
+
+
             Boolean::make('Orals', 'hasOrals'),
             Boolean::make('Value Targeting', 'hasValueTargeting'),
 

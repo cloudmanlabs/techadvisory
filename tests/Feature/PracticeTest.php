@@ -26,9 +26,11 @@ class PracticeTest extends TestCase
     public function testCanAttachProject()
     {
         $practice = factory(Practice::class)->create();
-        $projects = factory(Project::class, 5)->create();
+        $projects = factory(Project::class, 5)->make();
 
-        $practice->projects()->syncWithoutDetaching($projects->pluck('id'));
+        foreach ($projects as $key => $project) {
+            $practice->projects()->save($project);
+        }
 
         $this->assertCount(5, $practice->projects);
     }

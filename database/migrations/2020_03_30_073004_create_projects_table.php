@@ -27,6 +27,10 @@ class CreateProjectsTable extends Migration
             $table->integer('progressResponse')->default(0);
             $table->integer('progressAnalytics')->default(0);
             $table->integer('progressConclusions')->default(0);
+
+            $table->string('currentPhase')->default('preparation');
+
+            $table->unsignedBigInteger('practice_id');
         });
     }
 
