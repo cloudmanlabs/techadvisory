@@ -1,10 +1,10 @@
-@props(['section', 'subsection'])
+@props(['section', 'subsection', 'project'])
 <div class="row">
     <div class="col-12 col-xl-12 stretch-card">
         <div class="card">
             <div class="card-body">
                 <div style="float: left;">
-                    <h3>Global Transport Management</h3>
+                    <h3>{{$project->name}}</h3>
                 </div>
                 <x-projectProgressBar progressSetUp="20" progressValue="10" progressResponse="0" progressAnalytics="0"
                     progressConclusions="0" />
@@ -21,7 +21,7 @@
                     <ul class="links d-flex align-items-center mt-3 mt-md-0">
                         <li class="header-link-item d-flex align-items-center {{$section == 'projectHome' ? 'active' : ''}}">
                             <i data-feather="bookmark" style="max-width: 18px; margin-right: 3px; margin-top: -2px"></i>
-                            <a class="pt-1px d-none d-md-block" href="{{route('accenture.projectHome')}}">Project home</a>
+                            <a class="pt-1px d-none d-md-block" href="{{route('accenture.projectHome', ['project' => $project])}}">Project home</a>
                         </li>
                         <li class="header-link-item ml-3 pl-3 border-left d-flex align-items-center {{$section == 'projectEditView' ? 'active' : ''}}">
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"

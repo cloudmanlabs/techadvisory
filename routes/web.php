@@ -51,7 +51,7 @@ Route::
             ->name('loginPost');
 
         Route::middleware(['auth', 'checkAccenture'])->group(function () {
-            Route::view('home', 'accentureViews.home')
+            Route::get('home', 'HomeController@home')
                 ->name('home');
             Route::view('newProjectSetUp', 'accentureViews.newProjectSetUp')
                 ->name('newProjectSetUp');
@@ -70,7 +70,7 @@ Route::
             Route::redirect('createNewClient', '/accenture/clientHomeProfileCreate') // TODO Here we should create the new client and stuff
                 ->name('createNewClient');
 
-            Route::get('project/home', 'ProjectController@home')
+            Route::get('project/home/{project}', 'ProjectController@home')
                 ->name('projectHome');
             Route::get('project/edit', 'ProjectController@edit')
                 ->name('projectEdit');

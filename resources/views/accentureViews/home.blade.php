@@ -12,8 +12,6 @@
                 </div>
             </div>
 
-
-
             <div class="row">
                 <div class="col-lg-12 grid-margin stretch-card" id="open_projects">
                     <div class="card">
@@ -28,11 +26,9 @@
                                     Please choose the Practices you'd like to see:
                                 </p>
                                 <select id="openProjectsPracticeSelect" class="w-100" multiple="multiple" required>
-                                    <option selected>Transport</option>
-                                    <option selected>Planning</option>
-                                    <option>Manufacturing</option>
-                                    <option>Wharehousing</option>
-                                    <option>Sourcing</option>
+                                    @foreach ($practices as $practice)
+                                    <option selected>{{$practice}}</option>
+                                    @endforeach
                                 </select>
                             </div>
 
@@ -41,31 +37,31 @@
                                     Please choose the Clients you'd like to see:
                                 </p>
                                 <select id="openProjectsClientSelect" class="w-100" multiple="multiple" required>
-                                    <option selected>Client 1</option>
-                                    <option selected>Client 2</option>
-                                    <option>Client 3</option>
-                                    <option>Client 4</option>
-                                    <option>Client 5</option>
+                                    @foreach ($clients as $client)
+                                    <option selected>{{$client}}</option>
+                                    @endforeach
                                 </select>
                             </div>
 
-                            <div class="card"
-                                style="margin-bottom: 30px;"
-                                data-client="clientName"
-                                data-practice="practiceName">
+                            @foreach ($openProjects as $project)
+                            <div class="card" style="margin-bottom: 30px;"
+                                data-client="{{$project->client->name}}"
+                                data-practice="{{$project->practice->name}}">
                                 <div class="card-body">
                                     <div style="float: left; max-width: 40%;">
-                                        <h4>Global Transport Management</h4>
-                                        <h6>Client Name - Practice</h6>
+                                        <h4>{{$project->name}}</h4>
+                                        <h6>{{$project->client->name}} - {{$project->practice->name}}</h6>
                                     </div>
                                     <div style="float: right; text-align: right; width: 15%;">
-                                        <a class="btn btn-primary btn-lg btn-icon-text" href="{{route('accenture.projectHome')}}">
+                                        <a class="btn btn-primary btn-lg btn-icon-text" href="{{route('accenture.projectHome', ['project' => $project])}}">
                                             View <i class="btn-icon-prepend" data-feather="arrow-right"></i>
                                         </a>
                                     </div>
-                                    <x-projectProgressBar progressSetUp="40" progressValue="20" progressResponse="0" progressAnalytics="10" progressConclusions="0" />
+                                    <x-projectProgressBar progressSetUp="40" progressValue="20" progressResponse="0" progressAnalytics="10"
+                                        progressConclusions="0" />
                                 </div>
                             </div>
+                            @endforeach
                         </div>
                     </div>
                 </div>
@@ -84,11 +80,9 @@
                                     Please choose the Practices you'd like to see:
                                 </p>
                                 <select class="js-example-basic-multiple w-100" multiple="multiple" required>
-                                    <option selected>Transport</option>
-                                    <option selected>Planning</option>
-                                    <option>Manufacturing</option>
-                                    <option>Wharehousing</option>
-                                    <option>Sourcing</option>
+                                    @foreach ($practices as $practice)
+                                    <option selected>{{$practice}}</option>
+                                    @endforeach
                                 </select>
                             </div>
 
@@ -97,19 +91,20 @@
                                     Please choose the Clients you'd like to see:
                                 </p>
                                 <select class="js-example-basic-multiple w-100" multiple="multiple" required>
-                                    <option selected>Client 1</option>
-                                    <option selected>Client 2</option>
-                                    <option>Client 3</option>
-                                    <option>Client 4</option>
-                                    <option>Client 5</option>
+                                    @foreach ($clients as $client)
+                                    <option selected>{{$client}}</option>
+                                    @endforeach
                                 </select>
                             </div>
 
-                            <div class="card" style="margin-bottom: 30px;">
+                            @foreach ($preparationProjects as $project)
+                            <div class="card" style="margin-bottom: 30px;"
+                                data-client="{{$project->client->name}}"
+                                data-practice="{{$project->practice->name}}">
                                 <div class="card-body">
                                     <div style="float: left; max-width: 40%;">
-                                        <h4>Redistribution of processes at Nestlé</h4>
-                                        <h6>Client Name - Practice</h6>
+                                        <h4>{{$project->name}}</h4>
+                                        <h6>{{$project->client->name}} - {{$project->practice->name}}</h6>
                                     </div>
                                     <div style="float: right; text-align: right; width: 17%;">
                                         <a class="btn btn-primary btn-lg btn-icon-text" href="{{route('accenture.newProjectSetUp')}}">Complete <i class="btn-icon-prepend" data-feather="arrow-right"></i></a>
@@ -121,6 +116,7 @@
                                                                             progressConclusions="0" />
                                 </div>
                             </div>
+                            @endforeach
                         </div>
                     </div>
                 </div>
@@ -138,11 +134,9 @@
                                     Please choose the Practices you'd like to see:
                                 </p>
                                 <select class="js-example-basic-multiple w-100" multiple="multiple" required>
-                                    <option selected>Transport</option>
-                                    <option selected>Planning</option>
-                                    <option>Manufacturing</option>
-                                    <option>Wharehousing</option>
-                                    <option>Sourcing</option>
+                                    @foreach ($practices as $practice)
+                                    <option selected>{{$practice}}</option>
+                                    @endforeach
                                 </select>
                             </div>
 
@@ -151,45 +145,31 @@
                                     Please choose the Clients you'd like to see:
                                 </p>
                                 <select class="js-example-basic-multiple w-100" multiple="multiple" required>
-                                    <option selected>Client 1</option>
-                                    <option selected>Client 2</option>
-                                    <option>Client 3</option>
-                                    <option>Client 4</option>
-                                    <option>Client 5</option>
+                                    @foreach ($clients as $client)
+                                    <option selected>{{$client}}</option>
+                                    @endforeach
                                 </select>
                             </div>
 
-                            <div class="card" style="margin-bottom: 30px;">
+                            @foreach ($oldProjects as $project)
+                            <div class="card" style="margin-bottom: 30px;"
+                                data-client="{{$project->client->name}}"
+                                data-practice="{{$project->practice->name}}">
                                 <div class="card-body">
                                     <div style="float: left; max-width: 40%;">
-                                        <h4>Finished project 1</h4>
-                                        <h6>Client Name - Practice</h6>
+                                        <h4>{{$project->name}}</h4>
+                                        <h6>{{$project->client->name}} - {{$project->practice->name}}</h6>
                                     </div>
                                     <div style="float: right; text-align: right; width: 17%;">
                                         <a class="btn btn-primary btn-lg btn-icon-text"
-                                            href="{{route('accenture.projectHome')}}">View<i class="btn-icon-prepend"
-                                                data-feather="arrow-right"></i></a>
+                                        href="{{route('accenture.projectHome', ['project' => $project])}}">View<i class="btn-icon-prepend"
+                                        data-feather="arrow-right"></i></a>
                                     </div>
                                     <x-projectProgressBar progressSetUp="40" progressValue="20" progressResponse="25" progressAnalytics="10"
-                                        progressConclusions="5" />
+                                    progressConclusions="5" />
                                 </div>
                             </div>
-
-                            <div class="card" style="margin-bottom: 30px;">
-                                <div class="card-body">
-                                    <div style="float: left; max-width: 40%;">
-                                        <h4>Finished project 2</h4>
-                                        <h6>Client Name - Practice</h6>
-                                    </div>
-                                    <div style="float: right; text-align: right; width: 17%;">
-                                        <a class="btn btn-primary btn-lg btn-icon-text"
-                                            href="{{route('accenture.newProjectSetUp')}}">View<i class="btn-icon-prepend"
-                                                data-feather="arrow-right"></i></a>
-                                    </div>
-                                    <x-projectProgressBar progressSetUp="40" progressValue="20" progressResponse="25" progressAnalytics="10"
-                                        progressConclusions="5" />
-                                </div>
-                            </div>
+                            @endforeach
                         </div>
                     </div>
                 </div>

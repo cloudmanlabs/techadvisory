@@ -12,7 +12,7 @@
                     </div>
                 </div>
 
-                <x-accenture.projectNavbar section="projectHome" />
+                <x-accenture.projectNavbar section="projectHome" :project="$project" />
 
                 <br>
                 <div class="row">
@@ -78,12 +78,12 @@
 
                                 <x-vendorCard :showProgressBar="false">
                                     <div style="text-align: right; width: 15%; ">
-                                        <a class="btn btn-primary btn-lg btn-icon-text" href="{{route('accenture.projectHome')}}">Disqualify vendor
+                                        <a class="btn btn-primary btn-lg btn-icon-text" href="{{route('accenture.projectHome', ['project' => $project])}}">Disqualify vendor
                                         </a>
                                     </div>
                                     <div style="text-align: right; width: 15%;">
                                         <a class="btn btn-primary btn-lg btn-icon-text"
-                                            href="{{route('accenture.projectHome')}}">Release Response</a>
+                                            href="{{route('accenture.projectHome', ['project' => $project])}}">Release Response</a>
                                     </div>
                                 </x-vendorCard>
                             </div>
