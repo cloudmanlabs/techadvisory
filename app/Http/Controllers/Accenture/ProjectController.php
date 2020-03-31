@@ -4,12 +4,20 @@ namespace App\Http\Controllers\Accenture;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Project;
 
 class ProjectController extends Controller
 {
     public function home()
     {
-        return view('accentureViews.projectHome');
+        // Get projects
+        $openProjects = Project::openProjects()->get();
+        $preparationProjects = Project::preparationProjects()->get();
+        $oldProjects = Project::oldProjects()->get();
+
+        return view('accentureViews.projectHome', [
+            'openProjects' => $openProjects,
+        ]);
     }
 
     public function edit()
