@@ -70,30 +70,30 @@ Route::
             Route::redirect('createNewClient', '/accenture/clientHomeProfileCreate') // TODO Here we should create the new client and stuff
                 ->name('createNewClient');
 
-            Route::view('project/home', 'accentureViews.projectHome')
+            Route::get('project/home', 'ProjectController@home')
                 ->name('projectHome');
-            Route::view('project/edit', 'accentureViews.projectEdit')
+            Route::get('project/edit', 'ProjectController@edit')
                 ->name('projectEdit');
-            Route::view('project/view', 'accentureViews.projectView')
+            Route::get('project/view', 'ProjectController@view')
                 ->name('projectView');
-            Route::view('project/valueTargeting', 'accentureViews.projectValueTargeting')
+            Route::get('project/valueTargeting', 'ProjectController@valueTargeting')
                 ->name('projectValueTargeting');
-            Route::view('project/orals', 'accentureViews.projectOrals')
+            Route::get('project/orals', 'ProjectController@orals')
                 ->name('projectOrals');
-            Route::view('project/conclusions', 'accentureViews.projectConclusions')
+            Route::get('project/conclusions', 'ProjectController@conclusions')
                 ->name('projectConclusions');
 
-            Route::view('project/benchmark', 'accentureViews.projectBenchmark')
+            Route::get('project/benchmark', 'ProjectController@benchmark')
                 ->name('projectBenchmark');
-            Route::view('project/benchmark/fitgap', 'accentureViews.projectBenchmarkFitgap')
+            Route::get('project/benchmark/fitgap', 'ProjectController@benchmarkFitgap')
                 ->name('projectBenchmarkFitgap');
-            Route::view('project/benchmark/vendor', 'accentureViews.projectBenchmarkVendor')
+            Route::get('project/benchmark/vendor', 'ProjectController@benchmarkVendor')
                 ->name('projectBenchmarkVendor');
-            Route::view('project/benchmark/experience', 'accentureViews.projectBenchmarkExperience')
+            Route::get('project/benchmark/experience', 'ProjectController@benchmarkExperience')
                 ->name('projectBenchmarkExperience');
-            Route::view('project/benchmark/innovation', 'accentureViews.projectBenchmarkInnovation')
+            Route::get('project/benchmark/innovation', 'ProjectController@benchmarkInnovation')
                 ->name('projectBenchmarkInnovation');
-            Route::view('project/benchmark/implementation', 'accentureViews.projectBenchmarkImplementation')
+            Route::get('project/benchmark/implementation', 'ProjectController@benchmarkImplementation')
                 ->name('projectBenchmarkImplementation');
 
             Route::view('viewVendorProposal', 'accentureViews.viewVendorProposal')
@@ -148,16 +148,30 @@ Route::prefix('client')
             //     ->name('profileEdit');
 
 
-            Route::view('project/home', 'clientViews.projectHome')
+            Route::get('project/home', 'ProjectController@home')
                 ->name('projectHome');
-            Route::view('project/view', 'clientViews.projectView')
+            Route::get('project/view', 'ProjectController@view')
                 ->name('projectView');
-            Route::view('project/discovery', 'clientViews.projectDiscovery')
+            Route::get('project/valueTargeting', 'ProjectController@discovery')
                 ->name('projectDiscovery');
-            Route::view('project/orals', 'clientViews.projectOrals')
+            Route::get('project/orals', 'ProjectController@orals')
                 ->name('projectOrals');
-            Route::view('project/conclusions', 'clientViews.projectConclusions')
+            Route::get('project/conclusions', 'ProjectController@conclusions')
                 ->name('projectConclusions');
+
+            Route::get('project/benchmark', 'ProjectController@benchmark')
+                ->name('projectBenchmark');
+            Route::get('project/benchmark/fitgap', 'ProjectController@benchmarkFitgap')
+                ->name('projectBenchmarkFitgap');
+            Route::get('project/benchmark/vendor', 'ProjectController@benchmarkVendor')
+                ->name('projectBenchmarkVendor');
+            Route::get('project/benchmark/experience', 'ProjectController@benchmarkExperience')
+                ->name('projectBenchmarkExperience');
+            Route::get('project/benchmark/innovation', 'ProjectController@benchmarkInnovation')
+                ->name('projectBenchmarkInnovation');
+            Route::get('project/benchmark/implementation', 'ProjectController@benchmarkImplementation')
+                ->name('projectBenchmarkImplementation');
+
 
             Route::view('project/benchmark', 'clientViews.projectBenchmark')
                 ->name('projectBenchmark');
