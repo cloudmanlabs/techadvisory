@@ -24,6 +24,7 @@ class UserSeeder extends Seeder
                 'email' => 'admin@admin.com',
             ]);
 
+        // Create the default to be able to login and stuff
         factory(User::class)
             ->states('accenture')
             ->create([
@@ -42,6 +43,14 @@ class UserSeeder extends Seeder
                 'name' => 'vendor',
                 'email' => 'vendor@vendor.com',
             ]);
+
+        // Create some other randoms
+        factory(User::class, 4)
+            ->states('client')
+            ->create();
+        factory(User::class, 4)
+            ->states('vendor')
+            ->create();
 
         error_log('Users created successfully');
     }

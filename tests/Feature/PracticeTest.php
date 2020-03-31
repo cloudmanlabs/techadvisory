@@ -23,10 +23,10 @@ class PracticeTest extends TestCase
         $this->assertCount(1, Practice::all());
     }
 
-    public function testCanAttachProject()
+    public function testCanAttachProjects()
     {
         $practice = factory(Practice::class)->create();
-        $projects = factory(Project::class, 5)->make();
+        $projects = factory(Project::class, 5)->states('withClient')->make();
 
         foreach ($projects as $key => $project) {
             $practice->projects()->save($project);

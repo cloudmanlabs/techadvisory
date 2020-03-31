@@ -2,6 +2,7 @@
 
 namespace App\Nova;
 
+use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Laravel\Nova\Fields\BelongsTo;
@@ -76,9 +77,14 @@ class Project extends Resource
             Number::make('Conclusions Progress', 'progressConclusions')
                 ->exceptOnForms(),
 
-
-            BelongsToMany::make('Practices', 'practices', 'App\Nova\Practice')
+            BelongsTo::make('Client', 'client', 'App\Nova\User'),
+            BelongsTo::make('Practice', 'practice', 'App\Nova\Practice')
         ];
+    }
+
+    public static function relatableUsers(NovaRequest $request, $query)
+    {
+        return $query->whereIn('userType', User::clientTypes);
     }
 
     /**

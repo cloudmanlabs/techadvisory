@@ -54,7 +54,7 @@ class Practice extends Resource
 
             Text::make('Name', 'name'),
 
-            BelongsToMany::make('Projects with this Practice', 'projects', 'App\Nova\Project')
+            HasMany::make('Projects with this Practice', 'projects', 'App\Nova\Project')
         ];
     }
 

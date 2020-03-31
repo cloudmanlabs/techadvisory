@@ -2,6 +2,7 @@
 
 namespace Tests\Browser\Nova;
 
+use App\Practice;
 use App\User;
 use App\Project;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
@@ -20,6 +21,10 @@ class ProjectTest extends DuskTestCase
         $this->assertCount(0, Project::all());
 
         $admin = factory(User::class)->states('admin')->create();
+        factory(Practice::class, 5)->create();
+        factory(User::class, 4)
+            ->states('client')
+            ->create();
 
         $this->browse(function ($browser) use ($admin) {
             $browser->loginAs($admin)
@@ -28,6 +33,8 @@ class ProjectTest extends DuskTestCase
                 ->type('@name', 'practiceName')
                 ->check('Orals')
                 ->check('Value Targeting')
+                ->select('@client') // Select a random client
+                ->select('@practice')
 
                 ->press('@create-button')
                 ->pause(500)
@@ -45,6 +52,10 @@ class ProjectTest extends DuskTestCase
         $this->assertCount(0, Project::all());
 
         $admin = factory(User::class)->states('accenture')->create();
+        factory(Practice::class, 5)->create();
+        factory(User::class, 4)
+            ->states('client')
+            ->create();
 
         $this->browse(function ($browser) use ($admin) {
             $browser->loginAs($admin)
@@ -53,6 +64,8 @@ class ProjectTest extends DuskTestCase
                 ->type('@name', 'practiceName')
                 ->check('Orals')
                 ->check('Value Targeting')
+                ->select('@client') // Select a random client
+                ->select('@practice')
 
                 ->press('@create-button')
                 ->pause(500)
@@ -60,5 +73,65 @@ class ProjectTest extends DuskTestCase
         });
 
         $this->assertCount(1, Project::all());
+    }
+
+    /**
+     * @group nova
+     */
+    public function testCanNotCreateProjectWithoutClient()
+    {
+        $this->assertCount(0, Project::all());
+
+        $admin = factory(User::class)->states('accenture')->create();
+        factory(Practice::class, 5)->create();
+        factory(User::class, 4)
+            ->states('client')
+            ->create();
+
+        $this->browse(function ($browser) use ($admin) {
+            $browser->loginAs($admin)
+                ->visit('/admin/resources/projects/new')
+                ->pause(500)
+                ->type('@name', 'practiceName')
+                ->check('Orals')
+                ->check('Value Targeting')
+                 ->select('@practice')
+
+                ->press('@create-button')
+                ->pause(500)
+                ->assertPathBeginsWith('/admin/resources/projects/new');
+        });
+
+        $this->assertCount(0, Project::all());
+    }
+
+    /**
+     * @group nova
+     */
+    public function testCanNotCreateProjectWithoutPractice()
+    {
+        $this->assertCount(0, Project::all());
+
+        $admin = factory(User::class)->states('accenture')->create();
+        factory(Practice::class, 5)->create();
+        factory(User::class, 4)
+            ->states('client')
+            ->create();
+
+        $this->browse(function ($browser) use ($admin) {
+            $browser->loginAs($admin)
+                ->visit('/admin/resources/projects/new')
+                ->pause(500)
+                ->type('@name', 'practiceName')
+                ->check('Orals')
+                ->check('Value Targeting')
+                ->select('@client')
+
+                ->press('@create-button')
+                ->pause(500)
+                ->assertPathBeginsWith('/admin/resources/projects/new');
+        });
+
+        $this->assertCount(0, Project::all());
     }
 }

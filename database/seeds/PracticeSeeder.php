@@ -1,5 +1,6 @@
 <?php
 
+use App\Practice;
 use Illuminate\Database\Seeder;
 
 class PracticeSeeder extends Seeder
@@ -11,6 +12,6 @@ class PracticeSeeder extends Seeder
      */
     public function run()
     {
-        //
+        factory(Practice::class, 5)->create();
     }
 }

@@ -33,7 +33,8 @@ class ProjectsTest extends TestCase
 
             'currentPhase' => 'open',
 
-            'practice_id' => 1
+            'practice_id' => 1,
+            'client_id' => 1,
         ]);
         $project->save();
 
@@ -51,7 +52,8 @@ class ProjectsTest extends TestCase
             'hasOrals' => false,
             'hasValueTargeting' => false,
 
-            'practice_id' => 1
+            'practice_id' => 1,
+            'client_id' => 1,
         ]);
         $project->save();
 
@@ -70,7 +72,7 @@ class ProjectsTest extends TestCase
         factory(Practice::class)
             ->create()
             ->each(function ($practice) {
-                $practice->projects()->save(factory(Project::class)->make());
+                $practice->projects()->save(factory(Project::class)->states(['withClient'])->make());
             });
         $project = Project::first();
 
@@ -107,7 +109,7 @@ class ProjectsTest extends TestCase
     {
         $practice = factory(Practice::class)->create();
 
-        $project = factory(Project::class)->make();
+        $project = factory(Project::class)->states(['withClient'])->make();
 
         $this->assertNull($project->practice);
 
@@ -115,5 +117,19 @@ class ProjectsTest extends TestCase
         $project->save();
 
         $this->assertNotNull($project->practice);
+    }
+
+    public function testCanAddClientToProject()
+    {
+        $client = factory(User::class)->states('client')->create();
+
+        $project = factory(Project::class)->states(['withPractice'])->make();
+
+        $this->assertNull($project->client);
+
+        $project->client()->associate($client);
+        $project->save();
+
+        $this->assertNotNull($project->client);
     }
 }

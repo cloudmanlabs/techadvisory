@@ -20,6 +20,13 @@ $factory->define(Project::class, function (Faker $faker) {
     ];
 });
 
+$factory->state(Project::class, 'withPractice', [
+    'practice_id' => 1,
+]);
+$factory->state(Project::class, 'withClient', [
+    'client_id' => 1,
+]);
+
 
 $factory->state(Project::class, 'open', [
     'currentPhase' => 'open',
