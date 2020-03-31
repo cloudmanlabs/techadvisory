@@ -27,7 +27,7 @@
                                 <p class="welcome_text">
                                     Please choose the Practices you'd like to see:
                                 </p>
-                                <select class="js-example-basic-multiple w-100" multiple="multiple" required>
+                                <select id="openProjectsPracticeSelect" class="w-100" multiple="multiple" required>
                                     <option selected>Transport</option>
                                     <option selected>Planning</option>
                                     <option>Manufacturing</option>
@@ -40,7 +40,7 @@
                                 <p class="welcome_text">
                                     Please choose the Clients you'd like to see:
                                 </p>
-                                <select class="js-example-basic-multiple w-100" multiple="multiple" required>
+                                <select id="openProjectsClientSelect" class="w-100" multiple="multiple" required>
                                     <option selected>Client 1</option>
                                     <option selected>Client 2</option>
                                     <option>Client 3</option>
@@ -49,7 +49,10 @@
                                 </select>
                             </div>
 
-                            <div class="card" style="margin-bottom: 30px;">
+                            <div class="card"
+                                style="margin-bottom: 30px;"
+                                data-client="clientName"
+                                data-practice="practiceName">
                                 <div class="card-body">
                                     <div style="float: left; max-width: 40%;">
                                         <h4>Global Transport Management</h4>
@@ -67,6 +70,7 @@
                     </div>
                 </div>
             </div>
+
             <div class="row" id="preparation_phase">
                 <div class="col-lg-12 grid-margin stretch-card">
                     <div class="card">
