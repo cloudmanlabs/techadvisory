@@ -10,8 +10,8 @@ use Faker\Generator as Faker;
 $factory->define(Project::class, function (Faker $faker) {
     return [
         'name' => $faker->domainWord,
-        'hasOrals' => false,
-        'hasValueTargeting' => false,
+        'hasOrals' => $faker->boolean,
+        'hasValueTargeting' => $faker->boolean,
 
         'progressSetUp' => 0,
         'progressValue' => 0,

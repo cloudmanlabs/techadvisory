@@ -32,6 +32,10 @@ class ProjectController extends Controller
 
     public function valueTargeting(Project $project)
     {
+        if (!$project->hasValueTargeting) {
+            abort(404);
+        }
+
         return view('accentureViews.projectValueTargeting', [
             'project' => $project
         ]);
@@ -39,6 +43,10 @@ class ProjectController extends Controller
 
     public function orals(Project $project)
     {
+        if(! $project->hasOrals){
+            abort(404);
+        }
+
         return view('accentureViews.projectOrals', [
             'project' => $project
         ]);

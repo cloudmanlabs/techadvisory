@@ -12,8 +12,8 @@ class ProjectSeeder extends Seeder
      */
     public function run()
     {
-        factory(Project::class, 3)->states(['withClient', 'withPractice', 'preparation'])->create();
-        factory(Project::class, 2)->states(['withClient', 'withPractice', 'open'])->create();
-        factory(Project::class, 1)->states(['withClient', 'withPractice', 'old'])->create();
+        factory(Project::class, 6)->states(['withClient', 'withPractice', 'preparation'])->create();
+        factory(Project::class, 4)->states(['withClient', 'withPractice', 'open'])->create();
+        factory(Project::class, 3)->states(['withClient', 'withPractice', 'old'])->create();
     }
 }

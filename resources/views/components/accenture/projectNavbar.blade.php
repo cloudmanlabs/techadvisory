@@ -36,6 +36,7 @@
                             </svg>
                             <a class="pt-1px d-none d-md-block" href="{{route('accenture.projectView', ['project' => $project])}}">View/Edit project</a>
                         </li>
+                        @if ($project->hasValueTargeting)
                         <li class="header-link-item ml-3 pl-3 border-left d-flex align-items-center {{$section == 'projectValueTargeting' ? 'active' : ''}}">
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
                                 fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
@@ -50,6 +51,7 @@
                                 Value Targeting Outcomes
                             </a>
                         </li>
+                        @endif
                         <li class="header-link-item ml-3 pl-3 border-left d-flex align-items-center {{$section == 'projectBenchmark' ? 'active' : ''}}">
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
                                 fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
@@ -62,20 +64,22 @@
                                 Project Analytics
                             </a>
                         </li>
-                        <li class="header-link-item ml-3 pl-3 border-left d-flex align-items-center {{$section == 'projectOrals' ? 'active' : ''}}">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        @if ($project->hasOrals)
+                            <li class="header-link-item ml-3 pl-3 border-left d-flex align-items-center {{$section == 'projectOrals' ? 'active' : ''}}">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
                                 fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
                                 stroke-linejoin="round" style="max-width: 18px; margin-right: 3px; margin-top: -2px"
                                 class="feather feather-smile link-icon">
-                                <circle cx="12" cy="12" r="10"></circle>
-                                <path d="M8 14s1.5 2 4 2 4-2 4-2"></path>
-                                <line x1="9" y1="9" x2="9.01" y2="9"></line>
-                                <line x1="15" y1="9" x2="15.01" y2="9"></line>
-                            </svg>
-                            <a class="pt-1px d-none d-md-block" href="{{route('accenture.projectOrals', ['project' => $project])}}">
-                                Orals
-                            </a>
-                        </li>
+                                    <circle cx="12" cy="12" r="10"></circle>
+                                    <path d="M8 14s1.5 2 4 2 4-2 4-2"></path>
+                                    <line x1="9" y1="9" x2="9.01" y2="9"></line>
+                                    <line x1="15" y1="9" x2="15.01" y2="9"></line>
+                                </svg>
+                                <a class="pt-1px d-none d-md-block" href="{{route('accenture.projectOrals', ['project' => $project])}}">
+                                    Orals
+                                </a>
+                            </li>
+                        @endif
                         <li class="header-link-item ml-3 pl-3 border-left d-flex align-items-center {{$section == 'projectConclusions' ? 'active' : ''}}">
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
                                 fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"

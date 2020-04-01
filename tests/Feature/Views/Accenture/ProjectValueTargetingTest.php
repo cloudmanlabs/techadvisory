@@ -24,7 +24,7 @@ class ProjectValueTargetingTest extends TestCase
         $response->assertStatus(404);
     }
 
-    public function testAccentureProjectValueTargetingWithProject()
+    private function createProject(array $data)
     {
         $user = factory(User::class)->states('accenture')->create();
         $practice = factory(Practice::class)->create([
@@ -33,12 +33,21 @@ class ProjectValueTargetingTest extends TestCase
         $client = factory(User::class)->states('client')->create([
             'name' => 'SOme Clieneet nameee'
         ]);
-        $project = factory(Project::class)->create([
+        $project = factory(Project::class)->create(array_merge([
             'name' => 'Project name',
             'currentPhase' => 'preparation',
 
             'practice_id' => $practice->id,
             'client_id' => $client->id,
+        ], $data));
+
+        return [$user, $practice, $project];
+    }
+
+    public function testAccentureProjectValueTargetingWithProject()
+    {
+        list($user, $practice, $project) = $this->createProject([
+            'hasValueTargeting' => true,
         ]);
 
         $response = $this
@@ -49,5 +58,18 @@ class ProjectValueTargetingTest extends TestCase
             ->assertSee('Project name')
             ->assertSee('praaacticeeeee')
             ->assertSee('SOme Clieneet nameee');
+    }
+
+    public function testCantAccessValueTargetingIfValueTargetingIsFalse()
+    {
+        list($user, $practice, $project) = $this->createProject([
+            'hasValueTargeting' => false,
+        ]);
+
+        $response = $this
+            ->actingAs($user)
+            ->get('/accenture/project/valueTargeting/' . $project->id);
+
+        $response->assertStatus(404);
     }
 }

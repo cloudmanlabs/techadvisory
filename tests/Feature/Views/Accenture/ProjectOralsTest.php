@@ -24,7 +24,9 @@ class ProjectOralsTest extends TestCase
         $response->assertStatus(404);
     }
 
-    public function testAccentureProjectOralsWithProject()
+
+
+    private function createProject(array $data)
     {
         $user = factory(User::class)->states('accenture')->create();
         $practice = factory(Practice::class)->create([
@@ -33,12 +35,21 @@ class ProjectOralsTest extends TestCase
         $client = factory(User::class)->states('client')->create([
             'name' => 'SOme Clieneet nameee'
         ]);
-        $project = factory(Project::class)->create([
+        $project = factory(Project::class)->create(array_merge([
             'name' => 'Project name',
             'currentPhase' => 'preparation',
 
             'practice_id' => $practice->id,
             'client_id' => $client->id,
+        ], $data));
+
+        return [$user, $practice, $project];
+    }
+
+    public function testAccentureProjectOralsWithProject()
+    {
+        list($user, $practice, $project) = $this->createProject([
+            'hasOrals' => true,
         ]);
 
         $response = $this
@@ -49,5 +60,18 @@ class ProjectOralsTest extends TestCase
             ->assertSee('Project name')
             ->assertSee('praaacticeeeee')
             ->assertSee('SOme Clieneet nameee');
+    }
+
+    public function testCantAccessOralsIfOralsIsFalse()
+    {
+        list($user, $practice, $project) = $this->createProject([
+            'hasOrals' => false,
+        ]);
+
+        $response = $this
+            ->actingAs($user)
+            ->get('/accenture/project/orals/' . $project->id);
+
+        $response->assertStatus(404);
     }
 }
