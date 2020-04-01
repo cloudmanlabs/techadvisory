@@ -195,14 +195,15 @@
                         <div class="card">
                             <div class="card-body">
                                 <h3>Project deadline</h3>
+                                <h5>{{$project->deadline->format('F j Y, \a\t H:i')}}</h5>
                                 <br>
 
                                 <div class="card" style="margin-bottom: 30px;">
                                     <div class="card-body">
                                         <div style="text-align: center;">
-                                            <div id="clockdiv">
+                                            <div id="clockdiv" data-enddate="{{$project->deadline->format('F j Y H:i')}}">
                                                 <div>
-                                                    <span class="days">83</span>
+                                                    <span class="days">{{$project->deadline->days()}}</span>
                                                     <div class="smalltext">Days</div>
                                                 </div>
                                                 <div>
