@@ -30,6 +30,8 @@ class CreateProjectsTable extends Migration
 
             $table->string('currentPhase')->default('preparation');
 
+            $table->dateTime('deadline');
+
             $table->unsignedBigInteger('practice_id');
             $table->unsignedBigInteger('client_id');
         });

@@ -4,6 +4,7 @@
 
 use App\Model;
 use App\Project;
+use Carbon\Carbon;
 use Faker\Generator as Faker;
 
 $factory->define(Project::class, function (Faker $faker) {
@@ -17,6 +18,8 @@ $factory->define(Project::class, function (Faker $faker) {
         'progressResponse' => 0,
         'progressAnalytics' => 0,
         'progressConclusions' => 0,
+
+        'deadline' => $faker->dateTimeBetween('now', '+30 months')
     ];
 });
 

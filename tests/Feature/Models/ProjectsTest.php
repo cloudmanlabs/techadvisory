@@ -6,6 +6,7 @@ use App\Folder;
 use App\Practice;
 use App\Project;
 use App\User;
+use Carbon\Carbon;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
@@ -33,6 +34,11 @@ class ProjectsTest extends TestCase
 
             'currentPhase' => 'open',
 
+            'deadline' => Carbon::now()
+                                ->addMonth()
+                                ->addWeek()
+                                ->toDateTimeString(),
+
             'practice_id' => 1,
             'client_id' => 1,
         ]);
@@ -51,6 +57,11 @@ class ProjectsTest extends TestCase
             'name' => 'New Project',
             'hasOrals' => false,
             'hasValueTargeting' => false,
+
+            'deadline' => Carbon::now()
+                ->addMonth()
+                ->addWeek()
+                ->toDateTimeString(),
 
             'practice_id' => 1,
             'client_id' => 1,

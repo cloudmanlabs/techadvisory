@@ -23,6 +23,10 @@ class Project extends Model
 {
     public $guarded = [];
 
+    protected $dates = [
+        'deadline'
+    ];
+
     public function conclusionsFolder()
     {
         return $this->morphTo(Folder::class, 'folderable');
