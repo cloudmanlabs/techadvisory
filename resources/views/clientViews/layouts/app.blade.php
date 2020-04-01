@@ -18,6 +18,7 @@
         <link href="{{url('/assets/css/techadvisory/extra.css')}}" rel="stylesheet">
         <link href="{{url('/assets/vendors_techadvisory/countdown/countdown.css')}}" rel="stylesheet">
 		<link href="{{url('assets/vendors/bootstrap-datepicker/bootstrap-datepicker.min.css')}}" rel="stylesheet">
+        <link rel="stylesheet" href="{{url('css/custom.css')}}">
     @show
 </head>
 

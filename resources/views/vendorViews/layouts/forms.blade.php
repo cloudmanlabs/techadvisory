@@ -19,6 +19,7 @@
         <link rel="stylesheet" href="{{url('assets/vendors/dropzone/dropzone.min.css')}}">
         <link rel="stylesheet" href="{{url('assets/css/techadvisory/style.css')}}">
         <link rel="stylesheet" href="{{url('assets/css/techadvisory/extra.css')}}">
+        <link rel="stylesheet" href="{{url('css/custom.css')}}">
     @show
 </head>
 

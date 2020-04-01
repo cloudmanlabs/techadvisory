@@ -24,7 +24,7 @@
                                     <p class="welcome_text">
                                         Please choose the Practices you'd like to see:
                                     </p>
-                                    <select id="homePracticeSelect" class="w-100" multiple="multiple" required>
+                                    <select id="homePracticeSelect" class="w-100" multiple="multiple">
                                         @foreach ($practices as $practice)
                                         <option selected>{{$practice}}</option>
                                         @endforeach
@@ -35,7 +35,7 @@
                                     <p class="welcome_text">
                                         Please choose the Clients you'd like to see:
                                     </p>
-                                    <select id="homeClientSelect" class="w-100" multiple="multiple" required>
+                                    <select id="homeClientSelect" class="w-100" multiple="multiple">
                                         @foreach ($clients as $client)
                                         <option selected>{{$client}}</option>
                                         @endforeach
