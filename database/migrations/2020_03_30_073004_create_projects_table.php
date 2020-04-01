@@ -17,7 +17,7 @@ class CreateProjectsTable extends Migration
             $table->id();
             $table->timestamps();
 
-            $table->string('name');
+            $table->string('name')->default('New project');
 
             $table->boolean('hasOrals')->default(false);
             $table->boolean('hasValueTargeting')->default(false);
@@ -30,10 +30,10 @@ class CreateProjectsTable extends Migration
 
             $table->string('currentPhase')->default('preparation');
 
-            $table->dateTime('deadline');
+            $table->dateTime('deadline')->nullable();
 
-            $table->unsignedBigInteger('practice_id');
-            $table->unsignedBigInteger('client_id');
+            $table->unsignedBigInteger('practice_id')->nullable();
+            $table->unsignedBigInteger('client_id')->nullable();
         });
     }
 

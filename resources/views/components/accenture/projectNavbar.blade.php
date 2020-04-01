@@ -7,8 +7,9 @@
                     <h3>{{$project->name}}</h3>
                     <h5>{{$project->client->name}} - {{$project->practice->name}}</h5>
                 </div>
-                <x-projectProgressBar progressSetUp="20" progressValue="10" progressResponse="0" progressAnalytics="0"
-                    progressConclusions="0" />
+                <x-projectProgressBar
+                    :project="$project"
+                />
             </div>
         </div>
     </div>
@@ -20,10 +21,13 @@
             <div class="profile-header">
                 <div class="header-links">
                     <ul class="links d-flex align-items-center mt-3 mt-md-0">
+                        @if ($project->currentPhase != 'preparation')
                         <li class="header-link-item d-flex align-items-center {{$section == 'projectHome' ? 'active' : ''}}">
                             <i data-feather="bookmark" style="max-width: 18px; margin-right: 3px; margin-top: -2px"></i>
                             <a class="pt-1px d-none d-md-block" href="{{route('accenture.projectHome', ['project' => $project])}}">Project home</a>
                         </li>
+                        @endif
+                        @if ($project->currentPhase != 'preparation')
                         <li class="header-link-item ml-3 pl-3 border-left d-flex align-items-center {{$section == 'projectEditView' ? 'active' : ''}}">
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
                                 fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
@@ -36,6 +40,7 @@
                             </svg>
                             <a class="pt-1px d-none d-md-block" href="{{route('accenture.projectView', ['project' => $project])}}">View/Edit project</a>
                         </li>
+                        @endif
                         @if ($project->hasValueTargeting)
                         <li class="header-link-item ml-3 pl-3 border-left d-flex align-items-center {{$section == 'projectValueTargeting' ? 'active' : ''}}">
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
@@ -52,6 +57,7 @@
                             </a>
                         </li>
                         @endif
+                        @if ($project->currentPhase != 'preparation')
                         <li class="header-link-item ml-3 pl-3 border-left d-flex align-items-center {{$section == 'projectBenchmark' ? 'active' : ''}}">
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
                                 fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
@@ -64,7 +70,8 @@
                                 Project Analytics
                             </a>
                         </li>
-                        @if ($project->hasOrals)
+                        @endif
+                        @if ($project->hasOrals || $project->currentPhase != 'preparation')
                             <li class="header-link-item ml-3 pl-3 border-left d-flex align-items-center {{$section == 'projectOrals' ? 'active' : ''}}">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
                                 fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
@@ -80,6 +87,7 @@
                                 </a>
                             </li>
                         @endif
+                        @if ($project->currentPhase!= 'preparation')
                         <li class="header-link-item ml-3 pl-3 border-left d-flex align-items-center {{$section == 'projectConclusions' ? 'active' : ''}}">
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
                                 fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
@@ -92,6 +100,7 @@
                                 Conclusions & Recommendations
                             </a>
                         </li>
+                        @endif
                     </ul>
                 </div>
             </div>

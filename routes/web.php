@@ -53,7 +53,9 @@ Route::
         Route::middleware(['auth', 'checkAccenture'])->group(function () {
             Route::get('home', 'HomeController@home')
                 ->name('home');
-            Route::view('newProjectSetUp', 'accentureViews.newProjectSetUp')
+            Route::post('createProject', 'ProjectController@createPost')
+                ->name('createProject');
+            Route::get('newProjectSetUp/{project}', 'ProjectController@newProjectSetUp')
                 ->name('newProjectSetUp');
             Route::view('clientList', 'accentureViews.clientList')
                 ->name('clientList');

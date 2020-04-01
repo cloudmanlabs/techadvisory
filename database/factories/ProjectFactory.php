@@ -25,13 +25,13 @@ $factory->define(Project::class, function (Faker $faker) {
         'hasOrals' => $faker->boolean,
         'hasValueTargeting' => $faker->boolean,
 
-        'progressSetUp' => 0,
-        'progressValue' => 0,
-        'progressResponse' => 0,
-        'progressAnalytics' => 0,
-        'progressConclusions' => 0,
+        'progressSetUp' => $faker->numberBetween(0, 40),
+        'progressValue' => $faker->numberBetween(0, 20),
+        'progressResponse' => $faker->numberBetween(0, 25),
+        'progressAnalytics' => $faker->numberBetween(0, 10),
+        'progressConclusions' => $faker->numberBetween(0, 5),
 
-        'deadline' => $faker->dateTimeBetween('now', '+30 months'),
+        'deadline' => $faker->dateTimeBetween('+1 month', '+30 months'),
 
         'client_id' => $faker->randomElement($clientIds),
         'practice_id' => $faker->randomElement($practiceIds),

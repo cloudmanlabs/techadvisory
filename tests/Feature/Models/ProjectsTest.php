@@ -142,4 +142,21 @@ class ProjectsTest extends TestCase
 
         $this->assertNotNull($project->client);
     }
+
+    public function testCanCreateProjectFromRoute()
+    {
+        $this->assertCount(0, Project::all());
+
+        $user = factory(User::class)->states('accenture')->create();
+        $request = $this
+                        ->actingAs($user)
+                        ->post('accenture/createProject');
+
+        $this->assertCount(1, Project::all());
+
+        $project = Project::first();
+
+        $request->assertStatus(302)
+                ->assertRedirect(route('accenture.newProjectSetUp', ['project'=> $project]));
+    }
 }

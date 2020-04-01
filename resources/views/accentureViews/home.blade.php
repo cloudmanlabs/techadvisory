@@ -16,10 +16,10 @@
                 <div class="col-lg-12 grid-margin stretch-card" id="open_projects">
                     <div class="card">
                         <div class="card-body">
-                            <h3 style="cursor: pointer" id="filterH3" title="Click to maximize/minimize">Filters</h3>
-                            <br>
+                            <h3 style="cursor: pointer" id="filterH3" title="Click to maximize/minimize">Filters +</h3>
 
-                            <div id="filterContainer">
+                            <div id="filterContainer" style="display: none">
+                                <br>
                                 <div class="media-body" style="padding: 20px;">
                                     <p class="welcome_text">
                                         Please choose the Practices you'd like to see:
@@ -71,8 +71,9 @@
                                                 View <i class="btn-icon-prepend" data-feather="arrow-right"></i>
                                             </a>
                                         </div>
-                                        <x-projectProgressBar progressSetUp="40" progressValue="20" progressResponse="0" progressAnalytics="10"
-                                            progressConclusions="0" />
+                                        <x-projectProgressBar
+                                            :project="$project"
+                                            />
                                     </div>
                                 </div>
                                 @endforeach
@@ -93,23 +94,24 @@
                             <div id="preparationPhaseContainer">
                                 @foreach ($preparationProjects as $project)
                                 <div class="card" style="margin-bottom: 30px;"
-                                    data-client="{{$project->client->name}}"
-                                    data-practice="{{$project->practice->name}}">
+                                    data-client="{{$project->client->name ?? ''}}"
+                                    data-practice="{{$project->practice->name ?? ''}}">
                                     <div class="card-body">
                                         <div style="float: left; max-width: 40%;">
                                             <h4>{{$project->name}}</h4>
-                                            <h6>{{$project->client->name}} - {{$project->practice->name}}</h6>
+                                            <h6>{{$project->client->name ?? 'No client'}} - {{$project->practice->name ?? 'No practice'}}</h6>
                                         </div>
                                         <div style="float: right; text-align: right; width: 17%;">
-                                            <a class="btn btn-primary btn-lg btn-icon-text" href="{{route('accenture.newProjectSetUp')}}">Complete <i class="btn-icon-prepend" data-feather="arrow-right"></i></a>
+                                            <a class="btn btn-primary btn-lg btn-icon-text" href="{{route('accenture.newProjectSetUp', ['project' => $project])}}">Complete <i class="btn-icon-prepend" data-feather="arrow-right"></i></a>
                                             <br>
                                             @if ($project->hasValueTargeting)
                                                 <a href="{{route('accenture.projectValueTargeting', ['project' => $project])}}">Value
                                                     targeting</a>
                                             @endif
                                         </div>
-                                        <x-projectProgressBar progressSetUp="20" progressValue="10" progressResponse="0" progressAnalytics="0"
-                                                                                progressConclusions="0" />
+                                        <x-projectProgressBar
+                                            :project="$project"
+                                            />
                                     </div>
                                 </div>
                                 @endforeach
@@ -123,10 +125,10 @@
                 <div class="col-lg-12 grid-margin stretch-card">
                     <div class="card">
                         <div class="card-body">
-                            <h3>Old Projects</h3>
-                            <br>
+                            <h3 id="oldProjectsH3" title="Click to maximize/minimize">Old Projects +</h3>
 
-                            <div id="oldPhaseContainer">
+                            <br id="plsHideMeTooBr" style="display: none">
+                            <div id="oldPhaseContainer" style="display: none">
                                 @foreach ($oldProjects as $project)
                                 <div class="card" style="margin-bottom: 30px;"
                                     data-client="{{$project->client->name}}"
@@ -141,8 +143,9 @@
                                             href="{{route('accenture.projectHome', ['project' => $project])}}">View<i class="btn-icon-prepend"
                                             data-feather="arrow-right"></i></a>
                                         </div>
-                                        <x-projectProgressBar progressSetUp="40" progressValue="20" progressResponse="25" progressAnalytics="10"
-                                        progressConclusions="5" />
+                                        <x-projectProgressBar
+                                            :project="$project"
+                                            />
                                     </div>
                                 </div>
                                 @endforeach
@@ -164,8 +167,14 @@
                             <br>
                             <br>
 
-                            <a class="btn btn-primary btn-lg btn-icon-text" href="{{route('accenture.newProjectSetUp')}}">Create and do
-                                initial set-up <i class="btn-icon-prepend" data-feather="arrow-right"></i></a>
+                            <a class="btn btn-primary btn-lg btn-icon-text" href="{{ route('accenture.createProject') }}" onclick="event.preventDefault(); document.getElementById('create-project-form').submit();">
+                                Create and do
+                                initial set-up
+                                <i class="btn-icon-prepend" data-feather="arrow-right"></i>
+                            </a>
+                            <form id="create-project-form" action="{{ route('accenture.createProject') }}" method="POST" style="display: none;">
+                                @csrf
+                            </form>
                         </div>
                     </div>
                 </div>
@@ -183,8 +192,22 @@
         $('#filterH3').click(function(){
             if($('#filterContainer').css('display') === 'none'){
                 $('#filterContainer').css('display', 'initial')
+                $('#filterH3').text('Filters -')
             } else {
                 $('#filterContainer').css('display', 'none')
+                $('#filterH3').text('Filters +')
+            }
+        })
+
+        $('#oldProjectsH3').click(function(){
+            if($('#oldPhaseContainer').css('display') === 'none'){
+                $('#oldPhaseContainer').css('display', 'initial')
+                $('#plsHideMeTooBr').css('display', 'initial')
+                $('#oldProjectsH3').text('Old Projects -')
+            } else {
+                $('#oldPhaseContainer').css('display', 'none')
+                $('#plsHideMeTooBr').css('display', 'none')
+                $('#oldProjectsH3').text('Old Projects +')
             }
         })
     </script>

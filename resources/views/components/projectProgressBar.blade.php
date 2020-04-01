@@ -1,4 +1,12 @@
-@props(['progressSetUp', 'progressValue','progressResponse','progressAnalytics','progressConclusions', 'title'])
+@props(['project', 'title'])
+
+@php
+    $progressSetUp = $project->progressSetUp;
+    $progressValue = $project->progressValue;
+    $progressResponse = $project->progressResponse;
+    $progressAnalytics = $project->progressAnalytics;
+    $progressConclusions = $project->progressConclusions;
+@endphp
 
 <div style="float: right; width: 35%; margin-right: 10%;">
     {{$title ?? 'Current status'}}: {{

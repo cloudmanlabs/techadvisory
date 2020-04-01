@@ -9,6 +9,23 @@ use App\User;
 
 class ProjectController extends Controller
 {
+    public function createPost(Request $request)
+    {
+        $project = new Project();
+        $project->save();
+
+        return redirect()->route('accenture.newProjectSetUp', ['project' => $project]);
+    }
+
+    public function newProjectSetUp(Project $project)
+    {
+        return view('accentureViews.newProjectSetUp', [
+            'project' => $project
+        ]);
+    }
+
+
+
     public function home(Project $project)
     {
         return view('accentureViews.projectHome', [

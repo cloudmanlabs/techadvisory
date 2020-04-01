@@ -9,8 +9,8 @@
 
                 </div>
 
-                <x-projectProgressBar progressSetUp="20" progressValue="10" progressResponse="0" progressAnalytics="0"
-                    progressConclusions="0" />
+                {{-- <x-projectProgressBar progressSetUp="20" progressValue="10" progressResponse="0" progressAnalytics="0"
+                    progressConclusions="0" /> --}}
             </div>
         </div>
     </div>

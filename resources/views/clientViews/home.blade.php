@@ -37,7 +37,7 @@
                                                 View <i class="btn-icon-prepend" data-feather="arrow-right"></i>
                                             </a>
                                         </div>
-                                        <x-projectProgressBar progressSetUp="20" progressValue="10" progressResponse="0" progressAnalytics="0" progressConclusions="0" />
+                                        {{-- <x-projectProgressBar progressSetUp="20" progressValue="10" progressResponse="0" progressAnalytics="0" progressConclusions="0" /> --}}
                                     </div>
                                 </div>
                             </div>
@@ -68,8 +68,8 @@
                                             <a href="{{route('client.projectDiscovery')}}">Value
                                                 targeting</a>
                                         </div>
-                                        <x-projectProgressBar progressSetUp="20" progressValue="10" progressResponse="0" progressAnalytics="0"
-                                            progressConclusions="0" />
+                                        {{-- <x-projectProgressBar progressSetUp="20" progressValue="10" progressResponse="0" progressAnalytics="0"
+                                            progressConclusions="0" /> --}}
                                     </div>
                                 </div>
                             </div>
@@ -100,8 +100,8 @@
                                                 View <i class="btn-icon-prepend" data-feather="arrow-right"></i>
                                             </a>
                                         </div>
-                                        <x-projectProgressBar progressSetUp="40" progressValue="20" progressResponse="25"
-                                            progressAnalytics="10" progressConclusions="5" />
+                                        {{-- <x-projectProgressBar progressSetUp="40" progressValue="20" progressResponse="25"
+                                            progressAnalytics="10" progressConclusions="5" /> --}}
                                     </div>
                                 </div>
                             </div>
