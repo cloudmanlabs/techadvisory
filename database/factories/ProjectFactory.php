@@ -3,11 +3,23 @@
 /** @var \Illuminate\Database\Eloquent\Factory $factory */
 
 use App\Model;
+use App\Practice;
 use App\Project;
+use App\User;
 use Carbon\Carbon;
 use Faker\Generator as Faker;
 
 $factory->define(Project::class, function (Faker $faker) {
+    if(User::clientUsers()->count() == 0){
+        factory(User::class)->state('client')->create();
+    }
+    if (Practice::all()->count() == 0) {
+        factory(Practice::class)->create();
+    }
+
+    $clientIds = User::clientUsers()->pluck('id')->toArray();
+    $practiceIds = Practice::all()->pluck('id')->toArray();
+
     return [
         'name' => $faker->domainWord,
         'hasOrals' => $faker->boolean,
@@ -19,16 +31,12 @@ $factory->define(Project::class, function (Faker $faker) {
         'progressAnalytics' => 0,
         'progressConclusions' => 0,
 
-        'deadline' => $faker->dateTimeBetween('now', '+30 months')
+        'deadline' => $faker->dateTimeBetween('now', '+30 months'),
+
+        'client_id' => $faker->randomElement($clientIds),
+        'practice_id' => $faker->randomElement($practiceIds),
     ];
 });
-
-$factory->state(Project::class, 'withPractice', [
-    'practice_id' => 1,
-]);
-$factory->state(Project::class, 'withClient', [
-    'client_id' => 1,
-]);
 
 
 $factory->state(Project::class, 'open', [

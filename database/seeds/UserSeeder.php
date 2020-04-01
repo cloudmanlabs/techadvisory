@@ -45,7 +45,7 @@ class UserSeeder extends Seeder
             ]);
 
         // Create some other randoms
-        factory(User::class, 4)
+        factory(User::class, 3)
             ->states('client')
             ->create();
         factory(User::class, 4)

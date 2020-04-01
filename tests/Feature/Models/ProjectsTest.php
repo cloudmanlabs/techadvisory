@@ -80,12 +80,7 @@ class ProjectsTest extends TestCase
         $folder2 = Folder::createNewRandomFolder();
         $folder3 = Folder::createNewRandomFolder();
 
-        factory(Practice::class)
-            ->create()
-            ->each(function ($practice) {
-                $practice->projects()->save(factory(Project::class)->states(['withClient'])->make());
-            });
-        $project = Project::first();
+        $project = factory(Project::class)->create();
 
         $this->assertNull($project->conclusionsFolder);
         $this->assertNull($project->selectedValueLeversFolder);
@@ -120,7 +115,9 @@ class ProjectsTest extends TestCase
     {
         $practice = factory(Practice::class)->create();
 
-        $project = factory(Project::class)->states(['withClient'])->make();
+        $project = factory(Project::class)->make([
+            'practice_id' => null
+        ]);
 
         $this->assertNull($project->practice);
 
@@ -134,7 +131,9 @@ class ProjectsTest extends TestCase
     {
         $client = factory(User::class)->states('client')->create();
 
-        $project = factory(Project::class)->states(['withPractice'])->make();
+        $project = factory(Project::class)->make([
+            'client_id' => null
+        ]);
 
         $this->assertNull($project->client);
 

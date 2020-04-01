@@ -12,6 +12,20 @@ class PracticeSeeder extends Seeder
      */
     public function run()
     {
-        factory(Practice::class, 5)->create();
+        factory(Practice::class)->create([
+            'name' => 'Transport'
+        ]);
+        factory(Practice::class)->create([
+            'name' => 'Planning'
+        ]);
+        factory(Practice::class)->create([
+            'name' => 'Manufacturing'
+        ]);
+        factory(Practice::class)->create([
+            'name' => 'Wharehousing'
+        ]);
+        factory(Practice::class)->create([
+            'name' => 'Sourcing'
+        ]);
     }
 }

@@ -11,23 +11,55 @@ $(function () {
 
     // TODO Implement this
     function updateOpenProjects() {
-        var selectedClients = $('#openProjectsClientSelect').select2('data').map((el) => {
+        var selectedPractices = $('#homePracticeSelect').select2('data').map((el) => {
             return el.text
         });
-        var selectedPractices = $('#openProjectsPracticeSelect').select2('data').map((el) => {
+        var selectedClients = $('#homeClientSelect').select2('data').map((el) => {
             return el.text
         });
 
-        // TODO If one is empty display all of them
+        console.log(selectedClients)
+        console.log(selectedPractices)
 
-        // TODO Add a display none to the one which don't have this tags
+        // Add a display none to the one which don't have this tags
+        $('#openPhaseContainer').children().each(function () {
+            let practice = $(this).data('practice');
+            let client = $(this).data('client');
+
+            if ($.inArray(practice, selectedPractices) !== -1 && $.inArray(client, selectedClients) !== -1) {
+                $(this).css('display', 'flex')
+            } else {
+                $(this).css('display', 'none')
+            }
+        });
+        $('#preparationPhaseContainer').children().each(function () {
+            let practice = $(this).data('practice');
+            let client = $(this).data('client');
+
+            if ($.inArray(practice, selectedPractices) !== -1 && $.inArray(client, selectedClients) !== -1) {
+                $(this).css('display', 'flex')
+            } else {
+                $(this).css('display', 'none')
+            }
+        });
+        $('#oldPhaseContainer').children().each(function () {
+            let practice = $(this).data('practice');
+            let client = $(this).data('client');
+
+            if ($.inArray(practice, selectedPractices) !== -1 && $.inArray(client, selectedClients) !== -1) {
+                $(this).css('display', 'flex')
+            } else {
+                $(this).css('display', 'none')
+            }
+        });
     }
-    $('#openProjectsClientSelect').select2();
-    $('#openProjectsClientSelect').on('change', function (e) {
+
+    $('#homePracticeSelect').select2();
+    $('#homePracticeSelect').on('change', function (e) {
         updateOpenProjects();
     });
-    $('#openProjectsPracticeSelect').select2();
-    $('#openProjectsPracticeSelect').on('change', function (e) {
+    $('#homeClientSelect').select2();
+    $('#homeClientSelect').on('change', function (e) {
         updateOpenProjects();
     });
 });

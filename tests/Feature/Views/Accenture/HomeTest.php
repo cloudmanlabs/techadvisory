@@ -97,12 +97,8 @@ class HomeTest extends TestCase
         $response = $this->actingAs($user)
             ->get('/accenture/home');
         $response->assertStatus(200)
-            ->assertSeeInOrder( // We have to see each practice in order three times
-                array_merge(
+            ->assertSeeInOrder(
                     $practices->pluck('name')->toArray(),
-                    $practices->pluck('name')->toArray(),
-                    $practices->pluck('name')->toArray(),
-                )
             );
     }
 
@@ -114,12 +110,8 @@ class HomeTest extends TestCase
         $response = $this->actingAs($user)
             ->get('/accenture/home');
         $response->assertStatus(200)
-            ->assertSeeInOrder( // We have to see each practice in order three times
-                array_merge(
-                    $clients->pluck('name')->toArray(),
-                    $clients->pluck('name')->toArray(),
-                    $clients->pluck('name')->toArray(),
-                )
+            ->assertSeeInOrder(
+                    $clients->pluck('name')->toArray()
             );
     }
 }

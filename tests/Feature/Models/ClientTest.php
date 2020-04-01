@@ -15,8 +15,7 @@ class ClientTest extends TestCase
     public function testCanAttachProjects()
     {
         $client = factory(User::class)->states('client')->create();
-
-        $projects = factory(Project::class, 5)->states('withPractice')->make();
+        $projects = factory(Project::class, 5)->make();
 
         foreach ($projects as $key => $project) {
             $client->projectsClient()->save($project);

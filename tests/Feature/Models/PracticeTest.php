@@ -26,7 +26,7 @@ class PracticeTest extends TestCase
     public function testCanAttachProjects()
     {
         $practice = factory(Practice::class)->create();
-        $projects = factory(Project::class, 5)->states('withClient')->make();
+        $projects = factory(Project::class, 5)->make();
 
         foreach ($projects as $key => $project) {
             $practice->projects()->save($project);

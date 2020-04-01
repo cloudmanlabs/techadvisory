@@ -1,6 +1,7 @@
 <?php
 
 use App\Project;
+use App\User;
 use Illuminate\Database\Seeder;
 
 class ProjectSeeder extends Seeder
@@ -12,8 +13,8 @@ class ProjectSeeder extends Seeder
      */
     public function run()
     {
-        factory(Project::class, 6)->states(['withClient', 'withPractice', 'preparation'])->create();
-        factory(Project::class, 4)->states(['withClient', 'withPractice', 'open'])->create();
-        factory(Project::class, 3)->states(['withClient', 'withPractice', 'old'])->create();
+        factory(Project::class, 6)->states(['preparation'])->create();
+        factory(Project::class, 4)->states(['open'])->create();
+        factory(Project::class, 3)->states(['old'])->create();
     }
 }
