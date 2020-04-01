@@ -14,7 +14,7 @@
             </div>
 
 
-            <x-accenture.projectNavbar section="projectBenchmark" subsection="overall" />
+            <x-accenture.projectNavbar section="projectBenchmark" subsection="overall" :project="$project" />
 
             <br>
             <div class="row">
@@ -223,7 +223,7 @@
                                             <h4>DOWNLOAD EXTRACTION DATA</h4>
                                             <div style="text-align: center; margin-top: 30px;">
                                                 <a class="btn btn-primary btn-lg btn-icon-text"
-                                                    href="{{route('accenture.projectHome')}}">
+                                                    href="{{route('accenture.projectHome', ['project' => $project])}}">
                                                     <i data-feather="download"></i> &nbsp;
                                                     Extract vendor replies for all RFP questions
                                                 </a>
@@ -234,13 +234,13 @@
                             </div>
 
                             <div style="float: left; margin-top: 20px;">
-                                <a class="btn btn-primary btn-lg btn-icon-text" href="{{route('accenture.projectBenchmark')}}">
+                                <a class="btn btn-primary btn-lg btn-icon-text" href="{{route('accenture.projectBenchmark', ['project' => $project])}}">
                                     Publish Analytics
                                 </a>
                             </div>
 
                             <div style="float: right; margin-top: 20px;">
-                                <a class="btn btn-primary btn-lg btn-icon-text" href="{{route('accenture.projectHome')}}">
+                                <a class="btn btn-primary btn-lg btn-icon-text" href="{{route('accenture.projectHome', ['project' => $project])}}">
                                     <i data-feather="arrow-left"></i>
                                     Go back to project
                                 </a>

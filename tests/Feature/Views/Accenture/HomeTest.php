@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Feature\Views;
+namespace Tests\Feature\Views\Accenture;
 
 use App\Practice;
 use App\Project;
@@ -9,7 +9,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
-class AccentureHomeTest extends TestCase
+class HomeTest extends TestCase
 {
     use RefreshDatabase;
 

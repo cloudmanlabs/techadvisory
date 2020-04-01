@@ -16,59 +16,82 @@ class ProjectController extends Controller
         ]);
     }
 
-    public function edit()
+    public function view(Project $project)
     {
-        return view('accentureViews.projectEdit');
+        return view('accentureViews.projectView', [
+            'project' => $project
+        ]);
     }
 
-    public function view()
+    public function edit(Project $project)
     {
-        return view('accentureViews.projectView');
+        return view('accentureViews.projectEdit', [
+            'project' => $project
+        ]);
     }
 
-    public function valueTargeting()
+    public function valueTargeting(Project $project)
     {
-        return view('accentureViews.projectValueTargeting');
+        return view('accentureViews.projectValueTargeting', [
+            'project' => $project
+        ]);
     }
 
-    public function orals()
+    public function orals(Project $project)
     {
-        return view('accentureViews.projectOrals');
+        return view('accentureViews.projectOrals', [
+            'project' => $project
+        ]);
     }
 
-    public function conclusions()
+    public function conclusions(Project $project)
     {
-        return view('accentureViews.projectConclusions');
+        return view('accentureViews.projectConclusions', [
+            'project' => $project
+        ]);
     }
 
-    public function benchmark()
+
+
+    public function benchmark(Project $project)
     {
-        return view('accentureViews.projectBenchmark');
+        return view('accentureViews.projectBenchmark', [
+            'project' => $project
+        ]);
     }
 
-    public function benchmarkFitgap()
+    public function benchmarkFitgap(Project $project)
     {
-        return view('accentureViews.projectBenchmarkFitgap');
+        return view('accentureViews.projectBenchmarkFitgap', [
+            'project' => $project
+        ]);
     }
 
-    public function benchmarkVendor()
+    public function benchmarkVendor(Project $project)
     {
-        return view('accentureViews.projectBenchmarkVendor');
+        return view('accentureViews.projectBenchmarkVendor', [
+            'project' => $project
+        ]);
     }
 
-    public function benchmarkExperience()
+    public function benchmarkExperience(Project $project)
     {
-        return view('accentureViews.projectBenchmarkExperience');
+        return view('accentureViews.projectBenchmarkExperience', [
+            'project' => $project
+        ]);
     }
 
-    public function benchmarkInnovation()
+    public function benchmarkInnovation(Project $project)
     {
-        return view('accentureViews.projectBenchmarkInnovation');
+        return view('accentureViews.projectBenchmarkInnovation', [
+            'project' => $project
+        ]);
     }
 
-    public function benchmarkImplementation()
+    public function benchmarkImplementation(Project $project)
     {
-        return view('accentureViews.projectBenchmarkImplementation');
+        return view('accentureViews.projectBenchmarkImplementation', [
+            'project' => $project
+        ]);
     }
-
 }

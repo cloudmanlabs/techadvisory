@@ -15,12 +15,12 @@ class UserSeeder extends Seeder
         factory(User::class)
             ->states(['admin','guimEmail'])
             ->create([
-                'name' => 'guim',
+                'name' => 'Guim',
             ]);
         factory(User::class)
             ->states('admin')
             ->create([
-                'name' => 'admin',
+                'name' => 'Admin',
                 'email' => 'admin@admin.com',
             ]);
 
@@ -28,19 +28,19 @@ class UserSeeder extends Seeder
         factory(User::class)
             ->states('accenture')
             ->create([
-                'name' => 'accenture',
+                'name' => 'Accenture',
                 'email' => 'accenture@accenture.com',
             ]);
         factory(User::class)
             ->states('client')
             ->create([
-                'name' => 'client',
+                'name' => 'Client',
                 'email' => 'client@client.com',
             ]);
         factory(User::class)
             ->states('vendor')
             ->create([
-                'name' => 'vendor',
+                'name' => 'Vendor',
                 'email' => 'vendor@vendor.com',
             ]);
 

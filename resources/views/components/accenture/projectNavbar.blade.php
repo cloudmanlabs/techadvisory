@@ -5,6 +5,7 @@
             <div class="card-body">
                 <div style="float: left;">
                     <h3>{{$project->name}}</h3>
+                    <h5>{{$project->client->name}} - {{$project->practice->name}}</h5>
                 </div>
                 <x-projectProgressBar progressSetUp="20" progressValue="10" progressResponse="0" progressAnalytics="0"
                     progressConclusions="0" />
@@ -33,7 +34,7 @@
                                 <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z">
                                 </path>
                             </svg>
-                            <a class="pt-1px d-none d-md-block" href="{{route('accenture.projectView')}}">View/Edit project</a>
+                            <a class="pt-1px d-none d-md-block" href="{{route('accenture.projectView', ['project' => $project])}}">View/Edit project</a>
                         </li>
                         <li class="header-link-item ml-3 pl-3 border-left d-flex align-items-center {{$section == 'projectValueTargeting' ? 'active' : ''}}">
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
@@ -45,7 +46,7 @@
                                 <line x1="8" y1="2" x2="8" y2="6"></line>
                                 <line x1="3" y1="10" x2="21" y2="10"></line>
                             </svg>
-                            <a class="pt-1px d-none d-md-block" href="{{route('accenture.projectValueTargeting')}}">
+                            <a class="pt-1px d-none d-md-block" href="{{route('accenture.projectValueTargeting', ['project' => $project])}}">
                                 Value Targeting Outcomes
                             </a>
                         </li>
@@ -57,7 +58,7 @@
                                 <path d="M21.21 15.89A10 10 0 1 1 8 2.83"></path>
                                 <path d="M22 12A10 10 0 0 0 12 2v10z"></path>
                             </svg>
-                            <a class="pt-1px d-none d-md-block" href="{{route('accenture.projectBenchmark')}}">
+                            <a class="pt-1px d-none d-md-block" href="{{route('accenture.projectBenchmark', ['project' => $project])}}">
                                 Project Analytics
                             </a>
                         </li>
@@ -71,7 +72,7 @@
                                 <line x1="9" y1="9" x2="9.01" y2="9"></line>
                                 <line x1="15" y1="9" x2="15.01" y2="9"></line>
                             </svg>
-                            <a class="pt-1px d-none d-md-block" href="{{route('accenture.projectOrals')}}">
+                            <a class="pt-1px d-none d-md-block" href="{{route('accenture.projectOrals', ['project' => $project])}}">
                                 Orals
                             </a>
                         </li>
@@ -83,7 +84,7 @@
                                 <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
                                 <polyline points="22 4 12 14.01 9 11.01"></polyline>
                             </svg>
-                            <a class="pt-1px d-none d-md-block" href="{{route('accenture.projectConclusions')}}">
+                            <a class="pt-1px d-none d-md-block" href="{{route('accenture.projectConclusions', ['project' => $project])}}">
                                 Conclusions & Recommendations
                             </a>
                         </li>
@@ -97,28 +98,28 @@
                     <ul class="links d-flex align-items-center mt-3 mt-md-0">
                         <li class="header-link-item d-flex align-items-center {{$subsection == 'overall' ? 'active' : ''}}">
                             <a class="pt-1px d-none d-md-block"
-                                href="{{route('accenture.projectBenchmark')}}">Overall</a>
+                                href="{{route('accenture.projectBenchmark', ['project' => $project])}}">Overall</a>
                         </li>
                         <li class="header-link-item ml-3 pl-3 border-left d-flex align-items-center {{$subsection == 'fitgap' ? 'active' : ''}}">
                             <a class="pt-1px d-none d-md-block"
-                                href="{{route('accenture.projectBenchmarkFitgap')}}">Fit Gap</a>
+                                href="{{route('accenture.projectBenchmarkFitgap', ['project' => $project])}}">Fit Gap</a>
                         </li>
                         <li class="header-link-item ml-3 pl-3 border-left d-flex align-items-center {{$subsection == 'vendor' ? 'active' : ''}}">
                             <a class="pt-1px d-none d-md-block"
-                                href="{{route('accenture.projectBenchmarkVendor')}}">Vendor</a>
+                                href="{{route('accenture.projectBenchmarkVendor', ['project' => $project])}}">Vendor</a>
                         </li>
                         <li class="header-link-item ml-3 pl-3 border-left d-flex align-items-center {{$subsection == 'experience' ? 'active' : ''}}">
                             <a class="pt-1px d-none d-md-block"
-                                href="{{route('accenture.projectBenchmarkExperience')}}">Experience</a>
+                                href="{{route('accenture.projectBenchmarkExperience', ['project' => $project])}}">Experience</a>
                         </li>
                         <li class="header-link-item ml-3 pl-3 border-left d-flex align-items-center {{$subsection == 'innovation' ? 'active' : ''}}">
                             <a class="pt-1px d-none d-md-block"
-                                href="{{route('accenture.projectBenchmarkInnovation')}}">Innovation &
+                                href="{{route('accenture.projectBenchmarkInnovation', ['project' => $project])}}">Innovation &
                                 Vision</a>
                         </li>
                         <li class="header-link-item ml-3 pl-3 border-left d-flex align-items-center {{$subsection == 'implementation' ? 'active' : ''}}">
                             <a class="pt-1px d-none d-md-block"
-                                href="{{route('accenture.projectBenchmarkImplementation')}}">Implementation
+                                href="{{route('accenture.projectBenchmarkImplementation', ['project' => $project])}}">Implementation
                                 & Commercials</a>
                         </li>
                     </ul>

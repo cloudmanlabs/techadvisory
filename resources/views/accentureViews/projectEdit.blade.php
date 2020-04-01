@@ -12,7 +12,7 @@
                     </div>
                 </div>
 
-                <x-accenture.projectNavbar section="projectEditView" />
+                <x-accenture.projectNavbar section="projectEditView" :project="$project" />
 
                 <br>
 
@@ -22,7 +22,7 @@
                             <div class="card-body">
                                 <div style="display: flex; justify-content: space-between">
                                     <h3>Edit project information</h3>
-                                    <a class="btn btn-primary btn-lg btn-icon-text" href="{{route('accenture.projectView')}}">View</a>
+                                    <a class="btn btn-primary btn-lg btn-icon-text" href="{{route('accenture.projectView', ['project' => $project])}}">View</a>
                                 </div>
                                 <br>
                                 <div class="alert alert-warning" role="alert">Please note that this project is currently

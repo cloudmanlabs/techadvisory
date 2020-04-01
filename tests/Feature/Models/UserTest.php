@@ -11,24 +11,6 @@ class UserTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function testSeederWorks()
-    {
-        $this->seed();
-
-        $this->assertDatabaseHas('users', [
-            'email' => 'admin@admin.com',
-        ]);
-        $this->assertDatabaseHas('users', [
-            'email' => 'accenture@accenture.com',
-        ]);
-        $this->assertDatabaseHas('users', [
-            'email' => 'client@client.com',
-        ]);
-        $this->assertDatabaseHas('users', [
-            'email' => 'vendor@vendor.com',
-        ]);
-    }
-
     public function testCanCreateAdmin()
     {
         $user = factory(User::class)->states('admin')->create([

@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Feature\Views;
+namespace Tests\Feature\Views\Accenture;
 
 use App\Practice;
 use App\Project;
@@ -9,7 +9,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
-class AccentureProjectHomeTest extends TestCase
+class ProjectViewTest extends TestCase
 {
     use RefreshDatabase;
 
@@ -19,7 +19,7 @@ class AccentureProjectHomeTest extends TestCase
 
         $response = $this
             ->actingAs($user)
-            ->get('/accenture/project/home');
+            ->get('/accenture/project/view');
 
         $response->assertStatus(404);
     }
@@ -28,10 +28,10 @@ class AccentureProjectHomeTest extends TestCase
     {
         $user = factory(User::class)->states('accenture')->create();
         $practice = factory(Practice::class)->create([
-            'name' => 'praaactice'
+            'name' => 'praaacticeeeee'
         ]);
         $client = factory(User::class)->states('client')->create([
-            'name' => 'SOme Client nameee'
+            'name' => 'SOme Clieneet nameee'
         ]);
         $project = factory(Project::class)->create([
             'name' => 'Project name',
@@ -43,9 +43,11 @@ class AccentureProjectHomeTest extends TestCase
 
         $response = $this
             ->actingAs($user)
-            ->get('/accenture/project/home/' . $project->id);
+            ->get('/accenture/project/view/' . $project->id);
 
         $response->assertStatus(200)
-                ->assertSee('Project name');
+            ->assertSee('Project name')
+            ->assertSee('praaacticeeeee')
+            ->assertSee('SOme Clieneet nameee');
     }
 }

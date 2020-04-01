@@ -109,7 +109,7 @@
                                     <div style="float: right; text-align: right; width: 17%;">
                                         <a class="btn btn-primary btn-lg btn-icon-text" href="{{route('accenture.newProjectSetUp')}}">Complete <i class="btn-icon-prepend" data-feather="arrow-right"></i></a>
                                         <br>
-                                        <a href="{{route('accenture.projectValueTargeting')}}">Value
+                                        <a href="{{route('accenture.projectValueTargeting', ['project' => $project])}}">Value
                                             targeting</a>
                                     </div>
                                     <x-projectProgressBar progressSetUp="20" progressValue="10" progressResponse="0" progressAnalytics="0"

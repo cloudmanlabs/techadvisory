@@ -13,7 +13,7 @@
                     </div>
                 </div>
 
-                <x-accenture.projectNavbar section="projectConclusions" />
+                <x-accenture.projectNavbar section="projectConclusions" :project="$project" />
 
                 <br>
                 <div class="row">

@@ -14,7 +14,7 @@
                 </div>
 
 
-                <x-accenture.projectNavbar section="projectBenchmark" subsection="experience" />
+                <x-accenture.projectNavbar section="projectBenchmark" subsection="experience" :project="$project" />
 
                 <br>
                 <div class="row">
@@ -141,7 +141,7 @@
 
                                 <div style="float: right; margin-top: 20px;">
                                     <a class="btn btn-primary btn-lg btn-icon-text"
-                                        href="{{route('accenture.projectBenchmark')}}">
+                                        href="{{route('accenture.projectBenchmark', ['project' => $project])}}">
                                         <i data-feather="arrow-left"></i>
                                         Go back to Benchmark & Analytics
                                     </a>
