@@ -13,7 +13,7 @@
                 </div>
             </div>
 
-            <x-client.projectNavbar section="projectConclusions" />
+            <x-client.projectNavbar section="projectConclusions" :project="$project" />
 
             <br>
             <div class="row">

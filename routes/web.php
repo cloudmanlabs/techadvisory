@@ -141,7 +141,7 @@ Route::prefix('client')
             Route::view('newProjectSetUp', 'clientViews.newProjectSetUp')
                 ->name('newProjectSetUp');
 
-            Route::view('home', 'clientViews.home')
+            Route::get('home', 'HomeController@home')
                 ->name('home');
             Route::view('profile', 'clientViews.profile')
                 ->name('profile');
@@ -150,46 +150,34 @@ Route::prefix('client')
             //     ->name('profileEdit');
 
 
-            Route::get('project/home', 'ProjectController@home')
-                ->name('projectHome');
-            Route::get('project/view', 'ProjectController@view')
-                ->name('projectView');
-            Route::get('project/valueTargeting', 'ProjectController@discovery')
-                ->name('projectDiscovery');
-            Route::get('project/orals', 'ProjectController@orals')
-                ->name('projectOrals');
-            Route::get('project/conclusions', 'ProjectController@conclusions')
-                ->name('projectConclusions');
+            Route::middleware(['checkClientOwnsProject'])->group(function(){
+                Route::get('project/home/{project}', 'ProjectController@home')
+                    ->name('projectHome');
+                Route::get('project/view/{project}', 'ProjectController@view')
+                    ->name('projectView');
+                Route::get('project/valueTargeting/{project}', 'ProjectController@valueTargeting')
+                    ->name('projectValueTargeting');
+                Route::get('project/orals/{project}', 'ProjectController@orals')
+                    ->name('projectOrals');
+                Route::get('project/conclusions/{project}', 'ProjectController@conclusions')
+                    ->name('projectConclusions');
 
-            Route::get('project/benchmark', 'ProjectController@benchmark')
-                ->name('projectBenchmark');
-            Route::get('project/benchmark/fitgap', 'ProjectController@benchmarkFitgap')
-                ->name('projectBenchmarkFitgap');
-            Route::get('project/benchmark/vendor', 'ProjectController@benchmarkVendor')
-                ->name('projectBenchmarkVendor');
-            Route::get('project/benchmark/experience', 'ProjectController@benchmarkExperience')
-                ->name('projectBenchmarkExperience');
-            Route::get('project/benchmark/innovation', 'ProjectController@benchmarkInnovation')
-                ->name('projectBenchmarkInnovation');
-            Route::get('project/benchmark/implementation', 'ProjectController@benchmarkImplementation')
-                ->name('projectBenchmarkImplementation');
+                Route::get('project/benchmark/{project}', 'ProjectController@benchmark')
+                    ->name('projectBenchmark');
+                Route::get('project/benchmark/fitgap/{project}', 'ProjectController@benchmarkFitgap')
+                    ->name('projectBenchmarkFitgap');
+                Route::get('project/benchmark/vendor/{project}', 'ProjectController@benchmarkVendor')
+                    ->name('projectBenchmarkVendor');
+                Route::get('project/benchmark/experience/{project}', 'ProjectController@benchmarkExperience')
+                    ->name('projectBenchmarkExperience');
+                Route::get('project/benchmark/innovation/{project}', 'ProjectController@benchmarkInnovation')
+                    ->name('projectBenchmarkInnovation');
+                Route::get('project/benchmark/implementation/{project}', 'ProjectController@benchmarkImplementation')
+                    ->name('projectBenchmarkImplementation');
 
-
-            Route::view('project/benchmark', 'clientViews.projectBenchmark')
-                ->name('projectBenchmark');
-            Route::view('project/benchmark/fitgap', 'clientViews.projectBenchmarkFitgap')
-                ->name('projectBenchmarkFitgap');
-            Route::view('project/benchmark/vendor', 'clientViews.projectBenchmarkVendor')
-                ->name('projectBenchmarkVendor');
-            Route::view('project/benchmark/experience', 'clientViews.projectBenchmarkExperience')
-                ->name('projectBenchmarkExperience');
-            Route::view('project/benchmark/innovation', 'clientViews.projectBenchmarkInnovation')
-                ->name('projectBenchmarkInnovation');
-            Route::view('project/benchmark/implementation', 'clientViews.projectBenchmarkImplementation')
-                ->name('projectBenchmarkImplementation');
-
-            Route::view('viewVendorProposal', 'clientViews.viewVendorProposal')
-                ->name('viewVendorProposal');
+                Route::view('viewVendorProposal', 'clientViews.viewVendorProposal')
+                    ->name('viewVendorProposal');
+            });
         });
     });
 

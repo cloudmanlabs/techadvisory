@@ -125,7 +125,7 @@
                 <div class="col-lg-12 grid-margin stretch-card">
                     <div class="card">
                         <div class="card-body">
-                            <h3 id="oldProjectsH3" title="Click to maximize/minimize">Old Projects +</h3>
+                            <h3 id="oldProjectsH3" title="Click to maximize/minimize" style="cursor: pointer">Old Projects +</h3>
 
                             <br id="plsHideMeTooBr" style="display: none">
                             <div id="oldPhaseContainer" style="display: none">
@@ -189,26 +189,82 @@
 @section('scripts')
 @parent
     <script>
-        $('#filterH3').click(function(){
-            if($('#filterContainer').css('display') === 'none'){
-                $('#filterContainer').css('display', 'initial')
-                $('#filterH3').text('Filters -')
-            } else {
-                $('#filterContainer').css('display', 'none')
-                $('#filterH3').text('Filters +')
-            }
-        })
+        $(document).ready(function(){
+            $('#filterH3').click(function(){
+                if($('#filterContainer').css('display') === 'none'){
+                    $('#filterContainer').css('display', 'initial')
+                    $('#filterH3').text('Filters -')
+                } else {
+                    $('#filterContainer').css('display', 'none')
+                    $('#filterH3').text('Filters +')
+                }
+            })
 
-        $('#oldProjectsH3').click(function(){
-            if($('#oldPhaseContainer').css('display') === 'none'){
-                $('#oldPhaseContainer').css('display', 'initial')
-                $('#plsHideMeTooBr').css('display', 'initial')
-                $('#oldProjectsH3').text('Old Projects -')
-            } else {
-                $('#oldPhaseContainer').css('display', 'none')
-                $('#plsHideMeTooBr').css('display', 'none')
-                $('#oldProjectsH3').text('Old Projects +')
+            $('#oldProjectsH3').click(function(){
+                if($('#oldPhaseContainer').css('display') === 'none'){
+                    $('#oldPhaseContainer').css('display', 'initial')
+                    $('#plsHideMeTooBr').css('display', 'initial')
+                    $('#oldProjectsH3').text('Old Projects -')
+                } else {
+                    $('#oldPhaseContainer').css('display', 'none')
+                    $('#plsHideMeTooBr').css('display', 'none')
+                    $('#oldProjectsH3').text('Old Projects +')
+                }
+            })
+
+
+            function updateOpenProjects() {
+                var selectedPractices = $('#homePracticeSelect').select2('data').map((el) => {
+                    return el.text
+                });
+                var selectedClients = $('#homeClientSelect').select2('data').map((el) => {
+                    return el.text
+                });
+
+                console.log(selectedClients)
+                console.log(selectedPractices)
+
+                // Add a display none to the one which don't have this tags
+                $('#openPhaseContainer').children().each(function () {
+                    let practice = $(this).data('practice');
+                    let client = $(this).data('client');
+
+                    if ($.inArray(practice, selectedPractices) !== -1 && $.inArray(client, selectedClients) !== -1) {
+                        $(this).css('display', 'flex')
+                    } else {
+                        $(this).css('display', 'none')
+                    }
+                });
+                $('#preparationPhaseContainer').children().each(function () {
+                    let practice = $(this).data('practice');
+                    let client = $(this).data('client');
+
+                    if ($.inArray(practice, selectedPractices) !== -1 && $.inArray(client, selectedClients) !== -1) {
+                        $(this).css('display', 'flex')
+                    } else {
+                        $(this).css('display', 'none')
+                    }
+                });
+                $('#oldPhaseContainer').children().each(function () {
+                    let practice = $(this).data('practice');
+                    let client = $(this).data('client');
+
+                    if ($.inArray(practice, selectedPractices) !== -1 && $.inArray(client, selectedClients) !== -1) {
+                        $(this).css('display', 'flex')
+                    } else {
+                        $(this).css('display', 'none')
+                    }
+                });
             }
-        })
+
+            $('#homePracticeSelect').select2();
+            $('#homePracticeSelect').on('change', function (e) {
+                updateOpenProjects();
+            });
+            $('#homeClientSelect').select2();
+            $('#homeClientSelect').on('change', function (e) {
+                updateOpenProjects();
+            });
+        });
     </script>
 @endsection

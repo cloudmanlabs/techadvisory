@@ -61,26 +61,35 @@ class Project extends Resource
 
 
             Text::make('Current Phase', 'currentPhase')
+                ->sortable()
                 ->exceptOnForms(),
 
-            DateTime::make('Deadline', 'deadline'),
+            DateTime::make('Deadline', 'deadline')
+                ->sortable(),
 
             Boolean::make('Orals', 'hasOrals'),
             Boolean::make('Value Targeting', 'hasValueTargeting'),
 
             Number::make('Set Up Progress', 'progressSetUp')
-                ->exceptOnForms(),
+                ->exceptOnForms()
+                ->hideFromIndex(),
             Number::make('Value Progress', 'progressValue')
-                ->exceptOnForms(),
+                ->exceptOnForms()
+                ->hideFromIndex(),
             Number::make('Response Progress', 'progressResponse')
-                ->exceptOnForms(),
+                ->exceptOnForms()
+                ->hideFromIndex(),
             Number::make('Analytics Progress', 'progressAnalytics')
-                ->exceptOnForms(),
+                ->exceptOnForms()
+                ->hideFromIndex(),
             Number::make('Conclusions Progress', 'progressConclusions')
-                ->exceptOnForms(),
+                ->exceptOnForms()
+                ->hideFromIndex(),
 
-            BelongsTo::make('Client', 'client', 'App\Nova\User'),
+            BelongsTo::make('Client', 'client', 'App\Nova\User')
+                ->sortable(),
             BelongsTo::make('Practice', 'practice', 'App\Nova\Practice')
+                ->sortable()
         ];
     }
 

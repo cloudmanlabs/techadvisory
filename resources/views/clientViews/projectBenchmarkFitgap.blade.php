@@ -13,7 +13,7 @@
                     </div>
                 </div>
 
-                <x-client.projectNavbar section="projectBenchmark" subsection="fitgap" />
+                <x-client.projectNavbar section="projectBenchmark" subsection="fitgap" :project="$project" />
 
                 <br>
                 <div class="row">
@@ -215,7 +215,7 @@
 
                                 <div style="float: right; margin-top: 20px;">
                                     <a class="btn btn-primary btn-lg btn-icon-text"
-                                        href="{{route('client.projectBenchmark')}}">
+                                        href="{{route('client.projectBenchmark', ['project' => $project])}}">
                                         <i data-feather="arrow-left"></i>
                                         Go back to Benchmark & Analytics
                                     </a>

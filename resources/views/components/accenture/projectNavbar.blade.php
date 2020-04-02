@@ -1,4 +1,5 @@
 @props(['section', 'subsection', 'project'])
+
 <div class="row">
     <div class="col-12 col-xl-12 stretch-card">
         <div class="card">
@@ -71,7 +72,7 @@
                             </a>
                         </li>
                         @endif
-                        @if ($project->hasOrals || $project->currentPhase != 'preparation')
+                        @if ($project->hasOrals && $project->currentPhase != 'preparation')
                             <li class="header-link-item ml-3 pl-3 border-left d-flex align-items-center {{$section == 'projectOrals' ? 'active' : ''}}">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
                                 fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
@@ -87,7 +88,7 @@
                                 </a>
                             </li>
                         @endif
-                        @if ($project->currentPhase!= 'preparation')
+                        @if ($project->currentPhase != 'preparation')
                         <li class="header-link-item ml-3 pl-3 border-left d-flex align-items-center {{$section == 'projectConclusions' ? 'active' : ''}}">
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
                                 fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"

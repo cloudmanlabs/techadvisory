@@ -25,20 +25,24 @@
                                 <br>
                                 <br>
 
-                                <div class="card" style="margin-bottom: 30px;">
-                                    <div class="card-body">
-                                        <div style="float: left; max-width: 40%;">
-                                            <h4>Global Transport Management</h4>
-                                            <h6>Practice: Transport</h6>
-                                            <h6>Last updated: 11/11/1111</h6>
+                                <div id="openPhaseContainer">
+                                    @foreach ($openProjects as $project)
+                                    <div class="card" style="margin-bottom: 30px;" data-practice="{{$project->practice->name ?? ''}}">
+                                        <div class="card-body">
+                                            <div style="float: left; max-width: 40%;">
+                                                <h4>{{$project->name}}</h4>
+                                                <h6>Practice: {{$project->practice->name ?? 'No practice'}}</h6>
+                                                <h6>Last updated: {{$project->updated_at->format('d/m/Y')}}</h6>
+                                            </div>
+                                            <div style="float: right; text-align: right; width: 17%;">
+                                                <a class="btn btn-primary btn-lg btn-icon-text" href="{{route('client.projectHome', ['project' => $project])}}">
+                                                    View <i class="btn-icon-prepend" data-feather="arrow-right"></i>
+                                                </a>
+                                            </div>
+                                            <x-projectProgressBar :project="$project" />
                                         </div>
-                                        <div style="float: right; text-align: right; width: 15%;">
-                                            <a class="btn btn-primary btn-lg btn-icon-text" href="{{route('client.projectHome')}}">
-                                                View <i class="btn-icon-prepend" data-feather="arrow-right"></i>
-                                            </a>
-                                        </div>
-                                        {{-- <x-projectProgressBar progressSetUp="20" progressValue="10" progressResponse="0" progressAnalytics="0" progressConclusions="0" /> --}}
                                     </div>
+                                    @endforeach
                                 </div>
                             </div>
                         </div>
@@ -53,24 +57,30 @@
                                 <br>
                                 <br>
 
-                                <div class="card" style="margin-bottom: 30px;">
-                                    <div class="card-body">
-                                        <div style="float: left; max-width: 40%;">
-                                            <h4>Global Transport Management</h4>
-                                            <h6>Practice: Transport</h6>
-                                            <h6>Last updated: 11/11/1111</h6>
+                                <div id="preparationPhaseContainer">
+                                    @foreach ($preparationProjects as $project)
+                                    <div class="card" style="margin-bottom: 30px;"
+                                        data-practice="{{$project->practice->name ?? ''}}">
+                                        <div class="card-body">
+                                            <div style="float: left; max-width: 40%;">
+                                                <h4>{{$project->name}}</h4>
+                                                <h6>Practice: {{$project->practice->name ?? 'No practice'}}</h6>
+                                                <h6>Last updated: {{$project->updated_at->format('d/m/Y')}}</h6>
+                                            </div>
+                                            <div style="float: right; text-align: right; width: 17%;">
+                                                <a class="btn btn-primary btn-lg btn-icon-text"
+                                                    href="{{route('client.newProjectSetUp', ['project' => $project])}}">Complete <i
+                                                        class="btn-icon-prepend" data-feather="arrow-right"></i></a>
+                                                <br>
+                                                @if ($project->hasValueTargeting)
+                                                <a href="{{route('client.projectValueTargeting', ['project' => $project])}}">Value
+                                                    targeting</a>
+                                                @endif
+                                            </div>
+                                            <x-projectProgressBar :project="$project" />
                                         </div>
-                                        <div style="float: right; text-align: right; width: 15%;">
-                                            <a class="btn btn-primary btn-lg btn-icon-text" href="{{route('client.newProjectSetUp')}}">
-                                                Complete <i class="btn-icon-prepend" data-feather="arrow-right"></i>
-                                            </a>
-                                            <br>
-                                            <a href="{{route('client.projectDiscovery')}}">Value
-                                                targeting</a>
-                                        </div>
-                                        {{-- <x-projectProgressBar progressSetUp="20" progressValue="10" progressResponse="0" progressAnalytics="0"
-                                            progressConclusions="0" /> --}}
                                     </div>
+                                    @endforeach
                                 </div>
                             </div>
                         </div>
@@ -81,28 +91,26 @@
                     <div class="col-lg-12 grid-margin stretch-card">
                         <div class="card">
                             <div class="card-body">
-                                <h3>Finished projects</h3>
-                                <p class="welcome_text extra-top-15px">In order to start using the Tech Advisory Platform, you'll need
-                                    to follow some steps to complete your profile and set up your first project. Please check below the
-                                    timeline and click "Let's start" when you are ready.</p>
-                                <br>
-                                <br>
+                                <h3 id="oldProjectsH3" title="Click to maximize/minimize" style="cursor: pointer">Old Projects +</h3>
+                                <br style="display: none" id="plsHideMeTooBr">
 
-                                <div class="card" style="margin-bottom: 30px;">
-                                    <div class="card-body">
-                                        <div style="float: left; max-width: 40%;">
-                                            <h4>Global Transport Management</h4>
-                                            <h6>Practice: Transport</h6>
-                                            <h6>Last updated: 11/11/1111</h6>
+                                <div id="oldPhaseContainer" style="display: none">
+                                    @foreach ($oldProjects as $project)
+                                    <div class="card" style="margin-bottom: 30px;" data-practice="{{$project->practice->name ?? ''}}">
+                                        <div class="card-body">
+                                            <div style="float: left; max-width: 40%;">
+                                                <h4>{{$project->name}}</h4>
+                                                <h6>Practice: {{$project->practice->name ?? 'No practice'}}</h6>
+                                            </div>
+                                            <div style="float: right; text-align: right; width: 17%;">
+                                                <a class="btn btn-primary btn-lg btn-icon-text" href="{{route('client.projectHome', ['project' => $project])}}">
+                                                    View <i class="btn-icon-prepend" data-feather="arrow-right"></i>
+                                                </a>
+                                            </div>
+                                            <x-projectProgressBar :project="$project" />
                                         </div>
-                                        <div style="float: right; text-align: right; width: 15%;">
-                                            <a class="btn btn-primary btn-lg btn-icon-text" href="{{route('client.projectHome')}}">
-                                                View <i class="btn-icon-prepend" data-feather="arrow-right"></i>
-                                            </a>
-                                        </div>
-                                        {{-- <x-projectProgressBar progressSetUp="40" progressValue="20" progressResponse="25"
-                                            progressAnalytics="10" progressConclusions="5" /> --}}
                                     </div>
+                                    @endforeach
                                 </div>
                             </div>
                         </div>
@@ -113,4 +121,23 @@
             <x-footer />
         </div>
     </div>
+@endsection
+
+@section('scripts')
+@parent
+<script>
+    $(document).ready(function(){
+            $('#oldProjectsH3').click(function(){
+                if($('#oldPhaseContainer').css('display') === 'none'){
+                    $('#oldPhaseContainer').css('display', 'initial')
+                    $('#plsHideMeTooBr').css('display', 'initial')
+                    $('#oldProjectsH3').text('Old Projects -')
+                } else {
+                    $('#oldPhaseContainer').css('display', 'none')
+                    $('#plsHideMeTooBr').css('display', 'none')
+                    $('#oldProjectsH3').text('Old Projects +')
+                }
+            })
+        });
+</script>
 @endsection

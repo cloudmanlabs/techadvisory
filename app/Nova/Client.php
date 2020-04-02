@@ -67,7 +67,7 @@ class Client extends Resource
                 ->creationRules('required', 'string', 'min:8')
                 ->updateRules('nullable', 'string', 'min:8'),
 
-
+            HasMany::make('Projects', 'projectsClient', 'App\Nova\Project'),
 
             // This sets the correct value for userType
             HiddenField::make('userType')

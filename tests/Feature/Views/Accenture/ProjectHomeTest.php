@@ -24,7 +24,7 @@ class ProjectHomeTest extends TestCase
         $response->assertStatus(404);
     }
 
-    public function testAccentureProjectViewWithProject()
+    public function testAccentureProjectHomeWithProject()
     {
         $user = factory(User::class)->states('accenture')->create();
         $practice = factory(Practice::class)->create([

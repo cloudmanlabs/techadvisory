@@ -13,7 +13,7 @@
                     </div>
                 </div>
 
-                <x-client.projectNavbar section="projectOrals" />
+                <x-client.projectNavbar section="projectOrals" :project="$project" />
 
                 <br>
                 <div class="row">
@@ -132,7 +132,7 @@
                                 </div>
 
                                 <div style="float: right; margin-top: 20px;">
-                                    <a class="btn btn-primary btn-lg btn-icon-text" href="{{route('client.projectHome')}}">
+                                    <a class="btn btn-primary btn-lg btn-icon-text" href="{{route('client.projectHome', ['project' => $project])}}">
                                         <i data-feather="arrow-left"></i>
                                         Go back to project
                                     </a>

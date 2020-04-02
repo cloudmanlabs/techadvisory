@@ -2,69 +2,102 @@
 
 namespace App\Http\Controllers\Client;
 
+use App\Project;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
 class ProjectController extends Controller
 {
-    public function home()
+    public function home(Project $project)
     {
-        return view('accentureViews.projectHome');
+        return view('clientViews.projectHome', [
+            'project' => $project
+        ]);
     }
 
-    public function edit()
+    // public function edit(Project $project)
+    // {
+    //     return view('clientViews.projectEdit', [
+    //         'project' => $project
+    //     ]);
+    // }
+
+    public function view(Project $project)
     {
-        return view('accentureViews.projectEdit');
+        return view('clientViews.projectView', [
+            'project' => $project
+        ]);
     }
 
-    public function view()
+    public function valueTargeting(Project $project)
     {
-        return view('accentureViews.projectView');
+        if (!$project->hasValueTargeting) {
+            abort(404);
+        }
+
+        return view('clientViews.projectValueTargeting', [
+            'project' => $project
+        ]);
     }
 
-    public function valueTargeting()
+    public function orals(Project $project)
     {
-        return view('accentureViews.projectValueTargeting');
+        if(! $project->hasOrals){
+            abort(404);
+        }
+
+        return view('clientViews.projectOrals', [
+            'project' => $project
+        ]);
     }
 
-    public function orals()
+    public function conclusions(Project $project)
     {
-        return view('accentureViews.projectOrals');
+        return view('clientViews.projectConclusions', [
+            'project' => $project
+        ]);
     }
 
-    public function conclusions()
+    public function benchmark(Project $project)
     {
-        return view('accentureViews.projectConclusions');
+        return view('clientViews.projectBenchmark', [
+            'project' => $project
+        ]);
     }
 
-    public function benchmark()
+    public function benchmarkFitgap(Project $project)
     {
-        return view('accentureViews.projectBenchmark');
+        return view('clientViews.projectBenchmarkFitgap', [
+            'project' => $project
+        ]);
     }
 
-    public function benchmarkFitgap()
+    public function benchmarkVendor(Project $project)
     {
-        return view('accentureViews.projectBenchmarkFitgap');
+        return view('clientViews.projectBenchmarkVendor', [
+            'project' => $project
+        ]);
     }
 
-    public function benchmarkVendor()
+    public function benchmarkExperience(Project $project)
     {
-        return view('accentureViews.projectBenchmarkVendor');
+        return view('clientViews.projectBenchmarkExperience', [
+            'project' => $project
+        ]);
     }
 
-    public function benchmarkExperience()
+    public function benchmarkInnovation(Project $project)
     {
-        return view('accentureViews.projectBenchmarkExperience');
+        return view('clientViews.projectBenchmarkInnovation', [
+            'project' => $project
+        ]);
     }
 
-    public function benchmarkInnovation()
+    public function benchmarkImplementation(Project $project)
     {
-        return view('accentureViews.projectBenchmarkInnovation');
-    }
-
-    public function benchmarkImplementation()
-    {
-        return view('accentureViews.projectBenchmarkImplementation');
+        return view('clientViews.projectBenchmarkImplementation', [
+            'project' => $project
+        ]);
     }
 
 }

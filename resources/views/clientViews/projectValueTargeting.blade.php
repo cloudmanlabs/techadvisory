@@ -13,7 +13,7 @@
                 </div>
 
                 {{-- TODO Hide this on this screen while the project is in preparation phase --}}
-                <x-client.projectNavbar section="projectDiscovery" />
+                <x-client.projectNavbar section="projectDiscovery" :project="$project" />
 
                 <br>
                 <div class="row">
@@ -155,7 +155,7 @@
                                 </div>
 
                                 <div style="float: right; margin-top: 20px;">
-                                    <a class="btn btn-primary btn-lg btn-icon-text" href="{{route('client.projectHome')}}">
+                                    <a class="btn btn-primary btn-lg btn-icon-text" href="{{route('client.projectHome', ['project' => $project])}}">
                                         <i data-feather="arrow-left"></i>
                                         Go back to project
                                     </a>
