@@ -111,6 +111,13 @@ Route::
                 ->name('analysisHistorical');
             Route::view('analysis/other', 'accentureViews.analysisOther')
                 ->name('analysisOther');
+
+
+
+
+
+            Route::post('/changeProjectName', 'ProjectController@changeProjectName');
+            Route::post('/changeProjectName', 'ProjectController@assignClient');
         });
     });
 

@@ -9,6 +9,8 @@
 
     <title>{{$title ?? 'Tech Advisory Platform'}}</title>
 
+    <meta name="_token" content="{!! $encrypted_csrf_token !!}" />
+
     @section('head')
         <link rel="stylesheet" href="{{url('assets/vendors/core/core.css')}}">
         <link rel="stylesheet" href="{{url('assets/vendors/select2/select2.min.css')}}">
@@ -46,6 +48,16 @@
         <script src="{{url('assets/js/chartsjs_techadvisory_vendor.js')}}"></script>
         <script src="{{url('assets/js/chartsjs_techadvisory_client.js')}}"></script>
         <script src="{{url('assets/js/chartsjs_techadvisory_historic.js')}}"></script>
+
+        <script>
+            $(function () {
+                $.ajaxSetup({
+                    headers: {
+                            'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
+                    }
+                });
+            });
+        </script>
     @show
 </body>
 

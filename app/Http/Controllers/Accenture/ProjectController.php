@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Project;
 use App\User;
+use Illuminate\Support\Facades\Log;
 
 class ProjectController extends Controller
 {
@@ -19,9 +20,44 @@ class ProjectController extends Controller
 
     public function newProjectSetUp(Project $project)
     {
+        $clients = User::clientUsers()->get();
+
         return view('accentureViews.newProjectSetUp', [
-            'project' => $project
+            'project' => $project,
+            'clients' => $clients
         ]);
+    }
+
+    public function changeProjectName (Request $request)
+    {
+        $request->validate([
+            'project_id' => 'required|numeric',
+            'newName' => 'required|string'
+        ]);
+
+        $project = Project::find($request->project_id);
+        if($project == null){
+            abourt(404);
+        }
+
+        $project->name = $request->newName;
+        $project->save();
+    }
+
+    public function assignClient(Request $request)
+    {
+        $request->validate([
+            'project_id' => 'required|numeric',
+            'client_id' => 'required|numeric'
+        ]);
+
+        $project = Project::find($request->project_id);
+        if ($project == null) {
+            abourt(404);
+        }
+
+        $project->client_id = $request->client_id;
+        $project->save();
     }
 
 

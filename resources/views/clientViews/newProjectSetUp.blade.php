@@ -57,7 +57,13 @@
 
                                         <div class="form-group">
                                             <label for="exampleInputText1">Project Name*</label>
-                                            <input type="text" class="form-control" id="exampleInputText1" placeholder="Project Name" value="Redistribution of processes at Nestlé" required disabled>
+                                            <input type="text"
+                                            class="form-control"
+                                            id="exampleInputText1"
+                                            placeholder="Project Name"
+                                            value="{{$project->name}}"
+                                            required
+                                            disabled>
                                         </div>
 
                                         <div class="form-group">

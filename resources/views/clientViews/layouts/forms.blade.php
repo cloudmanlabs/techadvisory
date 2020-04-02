@@ -9,6 +9,7 @@
 
     <title>{{$title ?? 'Tech Advisory Platform'}}</title>
 
+    <meta name="_token" content="{!! $encrypted_csrf_token !!}" />
 
     @section('head')
         <link rel="stylesheet" href="{{url('assets/vendors/core/core.css')}}">
@@ -38,6 +39,16 @@
         <script src="{{url('assets/js/dropzone.js')}}"></script>
         <script src="{{url('assets/js/select2.js')}}"></script>
         <script src="{{url('assets/js/datepicker.js')}}"></script>
+
+        <script>
+            $(function () {
+                $.ajaxSetup({
+                    headers: {
+                            'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
+                    }
+                });
+            });
+        </script>
     @show
 </body>
 
