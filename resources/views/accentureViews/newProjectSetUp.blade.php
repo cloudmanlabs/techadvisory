@@ -883,6 +883,17 @@
     </div>
 @endsection
 
+@section('head')
+    @parent
+
+    <style>
+        select.form-control {
+            color: #495057;
+        }
+    </style>
+@endsection
+
+
 @section('scripts')
 @parent
 <script src="https://cdn.jsdelivr.net/npm/sortablejs@latest/Sortable.min.js"></script>

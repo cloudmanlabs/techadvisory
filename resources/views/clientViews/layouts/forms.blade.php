@@ -9,7 +9,7 @@
 
     <title>{{$title ?? 'Tech Advisory Platform'}}</title>
 
-    <meta name="_token" content="{!! $encrypted_csrf_token !!}" />
+    <meta name="_token" content="{{ csrf_token() }}" />
 
     @section('head')
         <link rel="stylesheet" href="{{url('assets/vendors/core/core.css')}}">
