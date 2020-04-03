@@ -98,19 +98,6 @@ class ProjectsTest extends TestCase
         $this->assertNotNull($project->vtConclusionsFolder);
     }
 
-    // public function testCanAddVendorsToProject()
-    // {
-    //     $project = factory(Project::class)->create();
-
-    //     $vendors = factory(Vendor::class, 5)->create();
-
-    //     foreach ($vendors as $key => $vendor) {
-    //         $project->vendors()->syncWithoutDetaching([$vendor->id]);
-    //     }
-
-    //     $this->assertCount(5, $project->vendors);
-    // }
-
     public function testCanAddPracticesToProject()
     {
         $practice = factory(Practice::class)->create();
@@ -158,5 +145,78 @@ class ProjectsTest extends TestCase
 
         $request->assertStatus(302)
                 ->assertRedirect(route('accenture.newProjectSetUp', ['project'=> $project]));
+    }
+
+    public function testAccentureCanEditProjectName()
+    {
+        $user = factory(User::class)->states('accenture')->create();
+        $project = factory(Project::class)->create([
+            'name' => 'oldName'
+        ]);
+
+        $request = $this
+                        ->actingAs($user)
+                        ->post('/accenture/changeProjectName',[
+                            'project_id' => $project->id,
+                            'newName' => 'new'
+                        ]);
+
+        $request->assertOk();
+
+        $project->refresh();
+        $this->assertEquals('new', $project->name);
+    }
+
+    public function testClientAndVendorCanNotEditProjectName()
+    {
+        $client = factory(User::class)->states('client')->create();
+        $vendor = factory(User::class)->states('vendor')->create();
+        $project = factory(Project::class)->create([
+            'name' => 'oldName'
+        ]);
+
+        $request = $this
+            ->actingAs($vendor)
+            ->post('/accenture/changeProjectName', [
+                'project_id' => $project->id,
+                'newName' => 'new'
+            ]);
+
+        $request->assertStatus(302);
+
+        $request = $this
+            ->actingAs($client)
+            ->post('/accenture/changeProjectName', [
+                'project_id' => $project->id,
+                'newName' => 'new'
+            ]);
+
+        $request->assertStatus(302);
+
+        $project->refresh();
+        $this->assertEquals('oldName', $project->name);
+    }
+
+    public function testCanChangeClientInProject()
+    {
+        $user = factory(User::class)->states('accenture')->create();
+
+        factory(User::class, 5)->states('client')->create();
+
+        $project = factory(Project::class)->create([
+            'client_id' => 1,
+        ]);
+
+        $request = $this
+            ->actingAs($user)
+            ->post('/accenture/assignClient', [
+                'project_id' => $project->id,
+                'client_id' => 2
+            ]);
+
+        $request->assertOk();
+
+        $project->refresh();
+        $this->assertEquals(2, $project->client_id);
     }
 }

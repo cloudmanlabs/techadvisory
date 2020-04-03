@@ -42,6 +42,11 @@ class ProjectController extends Controller
 
         $project->name = $request->newName;
         $project->save();
+
+        return \response()->json([
+            'status' => 200,
+            'message' => 'nma'
+        ]);
     }
 
     public function assignClient(Request $request)
