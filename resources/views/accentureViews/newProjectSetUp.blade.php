@@ -922,7 +922,7 @@
         $('#chooseClientSelect').on('change', function (e) {
             var client_id = $(this).val()
 
-            $.post('/accenture/changeProjectName', {
+            $.post('/accenture/assignClient', {
                 project_id: '{{$project->id}}',
                 client_id
             })

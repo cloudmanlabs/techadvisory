@@ -117,7 +117,7 @@ Route::
 
 
             Route::post('/changeProjectName', 'ProjectController@changeProjectName');
-            Route::post('/changeProjectName', 'ProjectController@assignClient');
+            Route::post('/assignClient', 'ProjectController@assignClient');
         });
     });
 
