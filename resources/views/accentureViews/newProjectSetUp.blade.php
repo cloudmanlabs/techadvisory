@@ -61,22 +61,26 @@
                                         <br>
 
                                         <div class="form-group">
-                                            <label for="projectNameInput">Project Name*</label>
+                                            <label for="projectName">Project Name*</label>
                                             <input type="text" class="form-control"
-                                                id="projectNameInput"
+                                                id="projectName"
+                                                data-changing="name"
                                                 placeholder="Project Name"
                                                 value="{{$project->name}}"
                                                 required>
                                         </div>
                                         <div class="form-group">
-                                            <label for="exampleFormControlTextarea1">Short description*</label>
-                                            <textarea class="form-control" id="exampleFormControlTextarea1" rows="14"
-                                                required></textarea>
+                                            <label for="shortDescription">Short description*</label>
+                                            <textarea class="form-control" id="shortDescription" rows="14"
+                                                data-changing="shortDescription"
+                                                required>{{$project->shortDescription}}</textarea>
                                         </div>
 
                                         <div class="form-group">
                                             <label for="chooseClientSelect">Client name*</label>
-                                            <select class="form-control" id="chooseClientSelect" required>
+                                            <select class="form-control" id="chooseClientSelect"
+                                                data-changing="client_id"
+                                                required>
                                                 <option selected="" disabled="">Please select the Client Name</option>
                                                 @php
                                                     $currentlySelected = $project->client->id ?? -1;
@@ -91,71 +95,82 @@
                                         </div>
 
                                         <div class="form-group">
-                                            <label for="exampleInputText1">Client contact e-mail</label>
-                                            <input type="email" class="form-control" id="exampleInputText1"
-                                                placeholder="Client contact e-mail" required>
+                                            <label for="clientContactEmail">Client contact e-mail</label>
+                                            <input type="email" class="form-control"
+                                                id="clientContactEmail"
+                                                data-changing="clientContactEmail"
+                                                value="{{$project->clientContactEmail}}"
+                                                required
+                                                placeholder="Client contact e-mail">
                                         </div>
 
                                         <div class="form-group">
-                                            <label for="exampleInputText1">Client contact phone</label>
-                                            <input type="text" class="form-control" id="exampleInputText1"
+                                            <label for="clientContactPhone">Client contact phone</label>
+                                            <input type="text" class="form-control" id="clientContactPhone"
+                                                data-changing="clientContactPhone"
+                                                value="{{$project->clientContactPhone}}"
+                                                required
                                                 placeholder="Client contact phone">
                                         </div>
 
                                         <div class="form-group">
-                                            <label for="exampleInputText1">Accenture contact e-mail</label>
-                                            <input type="email" class="form-control" id="exampleInputText1"
+                                            <label for="accentureContactEmail">Accenture contact e-mail</label>
+                                            <input type="email" class="form-control" id="accentureContactEmail"
+                                                value="{{$project->accentureContactEmail}}"
+                                                data-changing="accentureContactEmail" required
                                                 placeholder="Accenture contact e-mail" required>
                                         </div>
 
                                         <div class="form-group">
-                                            <label for="exampleInputText1">Accenture contact phone</label>
-                                            <input type="text" class="form-control" id="exampleInputText1"
+                                            <label for="accentureContactPhone">Accenture contact phone</label>
+                                            <input type="text" class="form-control" id="accentureContactPhone"
+                                                data-changing="accentureContactPhone" required
+                                                value="{{$project->accentureContactPhone}}"
                                                 placeholder="Accenture contact phone">
                                         </div>
 
                                         <div class="form-group">
-                                            <label for="exampleFormControlSelect1">Project Type*</label>
-                                            <select class="form-control" id="exampleFormControlSelect1" required>
-                                                <option selected="" disabled="">Please select the Project Type</option>
-                                                <option>Business Case</option>
-                                                <option>Software selection</option>
-                                                <option>Value Based Software Selection</option>
-                                                <option>Client Satisfaction Survey</option>
+                                            <label for="projectType">Project Type*</label>
+                                            <select class="form-control" id="projectType" data-changing="projectType" required>
+                                                <option @if($project->projectType == '') selected @endif disabled="">Please select the Project Type</option>
+                                                <option value="businessCase" @if($project->projectType == 'businessCase') selected @endif>Business Case</option>
+                                                <option value="softwareSelection" @if($project->projectType == 'softwareSelection') selected @endif>Software selection</option>
+                                                <option value="valueBased" @if($project->projectType == 'valueBased') selected @endif>Value Based Software Selection</option>
+                                                <option value="clientSatisfaction" @if($project->projectType == 'clientSatisfaction') selected @endif>Client Satisfaction Survey</option>
                                             </select>
                                         </div>
 
                                         <div class="form-group">
-                                            <label for="exampleFormControlSelect1">Value Targeting*</label>
-                                            <select class="form-control" id="exampleFormControlSelect1" required>
-                                                <option selected="" disabled="">Please select the Project Type</option>
-                                                <option>Yes</option>
-                                                <option>No</option>
+                                            <label for="valueTargeting">Value Targeting*</label>
+                                            <select class="form-control" id="valueTargeting" data-changing="hasValueTargeting" data-fieldtype="boolean" required>
+                                                <option disabled="">Please select the Project Type</option>
+                                                <option value="yes" @if($project->hasValueTargeting) selected @endif>Yes</option>
+                                                <option value="no" @if(!$project->hasValueTargeting) selected @endif>No</option>
                                             </select>
                                         </div>
 
                                         <div class="form-group">
-                                            <label for="exampleFormControlSelect1">Project Currency*</label>
-                                            <select class="form-control" id="exampleFormControlSelect1" required>
-                                                <option selected="" disabled="">Please select the Project Type</option>
-                                                <option>€</option>
-                                                <option>$</option>
+                                            <label for="projectCurrency">Project Currency*</label>
+                                            <select class="form-control" id="projectCurrency" data-changing="projectCurrency" required>
+                                                <option @if($project->projectType == '') selected @endif disabled="">Please select the Project Type</option>
+                                                <option value="euro" @if($project->projectType == 'euro') selected @endif>€</option>
+                                                <option value="dollar" @if($project->projectType == 'dollar') selected @endif>$</option>
                                             </select>
                                         </div>
 
                                         <div class="form-group">
-                                            <label for="exampleFormControlSelect1">Binding/Non-binding*</label>
-                                            <select class="form-control" id="exampleFormControlSelect1" required>
-                                                <option selected="" disabled="">Please select the Project Type</option>
-                                                <option>Binding</option>
-                                                <option>Non-binding</option>
+                                            <label for="bindingOption">Binding/Non-binding*</label>
+                                            <select class="form-control" id="bindingOption" data-changing="isBinding" data-fieldtype="boolean" required>
+                                                <option disabled="">Please select the Project Type</option>
+                                                <option value="yes" @if($project->isBinding) selected @endif>Binding</option>
+                                                <option value="no" @if(!$project->isBinding) selected @endif>Non-binding</option>
                                             </select>
                                         </div>
 
                                         <div class="form-group">
-                                            <label for="exampleFormControlTextarea1">Detailed description</label>
-                                            <textarea class="form-control" id="exampleFormControlTextarea1" rows="14"
-                                                required></textarea>
+                                            <label for="detailedDescription">Detailed description</label>
+                                            <textarea class="form-control" id="detailedDescription" data-changing="detailedDescription" rows="14"
+                                                required>{{$project->detailedDescription}}</textarea>
                                         </div>
 
                                         <br>
@@ -165,32 +180,37 @@
 
                                         <div class="form-group">
                                             <label for="practiceSelect">Practice*</label>
-                                            <select class="form-control" id="practiceSelect" required>
-                                                <option selected="" disabled="">Please select your Transport Mode
-                                                </option>
-                                                <option>Transport </option>
-                                                <option>Planning</option>
-                                                <option>Manufacturing</option>
-                                                <option>Warehousing</option>
-                                                <option>Sourcing</option>
+                                            <select class="form-control" id="practiceSelect" data-changing="practiceSelect" required>
+                                                <option selected="" disabled="">Please select your Transport Mode</option>
+                                                <option value="transport" @if($project->practiceSelect == 'transport') selected @endif>Transport</option>
+                                                <option value="planning" @if($project->practiceSelect == 'planning') selected @endif>Planning</option>
+                                                <option value="manufacturing" @if($project->practiceSelect == 'manufacturing') selected @endif>Manufacturing</option>
+                                                <option value="warehousing" @if($project->practiceSelect == 'warehousing') selected @endif>Warehousing</option>
+                                                <option value="sourcing" @if($project->practiceSelect == 'sourcing') selected @endif>Sourcing</option>
                                             </select>
                                         </div>
 
 
                                         <div class="form-group">
-                                            <label for="exampleFormControlSelect1">Subpractice*</label>
-                                            <select class="js-example-basic-multiple w-100" multiple="multiple"
+                                            <label for="subpracticeSelect">Subpractice*</label>
+                                            <select class="js-example-basic-multiple w-100"
+                                                id="subpracticeSelect"
+                                                data-changing="subpracticeSelect"
+                                                multiple="multiple"
                                                 required>
-                                                <option>Logistics Procurement</option>
-                                                <option>Tactical Planning</option>
-                                                <option>Order Management</option>
-                                                <option>Transport Planning</option>
-                                                <option>Tendering & Spot buying</option>
-                                                <option>Execution & Visbility</option>
-                                                <option>Document management</option>
-                                                <option>Trade complaince</option>
-                                                <option>FBA</option>
-                                                <option>Reporting and Analytics </option>
+                                                @php
+                                                    $select = json_decode($project->subpracticeSelect ?? '[]');
+                                                @endphp
+                                                <option value="logistics" {{in_array('logistics', $select) ? 'selected' : ''}}>Logistics Procurement</option>
+                                                <option value="tactical" {{in_array('tactical', $select) ? 'selected' : ''}}>Tactical Planning</option>
+                                                <option value="order" {{in_array('order', $select) ? 'selected' : ''}}>Order Management</option>
+                                                <option value="transport" {{in_array('transport', $select) ? 'selected' : ''}}>Transport Planning</option>
+                                                <option value="tendering" {{in_array('tendering', $select) ? 'selected' : ''}}>Tendering & Spot buying</option>
+                                                <option value="execution" {{in_array('execution', $select) ? 'selected' : ''}}>Execution & Visbility</option>
+                                                <option value="document" {{in_array('document', $select) ? 'selected' : ''}}>Document management</option>
+                                                <option value="trade" {{in_array('trade', $select) ? 'selected' : ''}}>Trade complaince</option>
+                                                <option value="fba" {{in_array('fba', $select) ? 'selected' : ''}}>FBA</option>
+                                                <option value="reporting" {{in_array('reporting', $select) ? 'selected' : ''}}>Reporting and Analytics</option>
                                             </select>
 
                                         </div>
@@ -198,47 +218,61 @@
                                         <h4>1.3. Scope</h4>
                                         <br>
                                         <div class="form-group">
-                                            <label>Region Served</label>
+                                            <label for="regionServedOption">Region Served</label>
                                             <select class="js-example-basic-multiple w-100" multiple="multiple"
+                                                id="regionServedOption"
+                                                data-changing="regionServed"
                                                 required>
-                                                <x-options.countries :selected="[]" />
+                                                <x-options.countries :selected="json_decode($project->regionServed ?? '[]')" />
                                             </select>
                                         </div>
 
                                         <div class="form-group">
-                                            <label for="exampleFormControlSelect1">Transport Flows</label>
-                                            <select class="js-example-basic-multiple w-100" multiple="multiple"
+                                            <label for="transportFlowsOption">Transport Flows</label>
+                                            <select id="transportFlowsOption" class="js-example-basic-multiple w-100" multiple="multiple"
+                                                data-changing="transportFlows"
                                                 required>
-                                                <option>International Trade</option>
-                                                <option>Domestic</option>
-                                                <option>Inbound</option>
-                                                <option>Last Mile</option>
-                                            </select>
-                                        </div>
-
-
-                                        <div class="form-group">
-                                            <label for="exampleFormControlSelect1">Transport Mode</label>
-                                            <select class="js-example-basic-multiple w-100" multiple="multiple"
-                                                required>
-                                                <option>Road</option>
-                                                <option>Maritime</option>
-                                                <option>Air</option>
-                                                <option>Train</option>
-                                                <option>Fluvial</option>
-                                                <option>Others</option>
+                                                @php
+                                                $select = json_decode($project->transportFlows ?? '[]');
+                                                @endphp
+                                                <option value="international" {{in_array('international', $select) ? 'selected' : ''}}>International Trade</option>
+                                                <option value="domestic" {{in_array('domestic', $select) ? 'selected' : ''}}>Domestic</option>
+                                                <option value="inbound" {{in_array('inbound', $select) ? 'selected' : ''}}>Inbound</option>
+                                                <option value="last" {{in_array('last', $select) ? 'selected' : ''}}>Last Mile</option>
                                             </select>
                                         </div>
 
 
                                         <div class="form-group">
-                                            <label for="exampleFormControlSelect1">Transport Type</label>
-                                            <select class="js-example-basic-multiple w-100" multiple="multiple"
+                                            <label for="transportModeOption">Transport Mode</label>
+                                            <select id="transportModeOption" class="js-example-basic-multiple w-100" multiple="multiple"
+                                                data-changing="transportMode"
                                                 required>
-                                                <option>FTL</option>
-                                                <option>LTL</option>
-                                                <option>Parcel</option>
-                                                <option>Others</option>
+                                                @php
+                                                $select = json_decode($project->transportMode ?? '[]');
+                                                @endphp
+                                                <option value="road" {{in_array('road', $select) ? 'selected' : ''}}>Road</option>
+                                                <option value="maritime" {{in_array('maritime', $select) ? 'selected' : ''}}>Maritime</option>
+                                                <option value="air" {{in_array('air', $select) ? 'selected' : ''}}>Air</option>
+                                                <option value="train" {{in_array('train', $select) ? 'selected' : ''}}>Train</option>
+                                                <option value="fluvial" {{in_array('fluvial', $select) ? 'selected' : ''}}>Fluvial</option>
+                                                <option value="others" {{in_array('others', $select) ? 'selected' : ''}}>Others</option>
+                                            </select>
+                                        </div>
+
+
+                                        <div class="form-group">
+                                            <label for="transportTypeOption">Transport Type</label>
+                                            <select id="transportTypeOption" class="js-example-basic-multiple w-100" multiple="multiple"
+                                                data-changing="transportType"
+                                                required>
+                                                @php
+                                                $select = json_decode($project->transportType ?? '[]');
+                                                @endphp
+                                                <option value="ftl" {{in_array('ftl', $select) ? 'selected' : ''}}>FTL</option>
+                                                <option value="ltl" {{in_array('ltl', $select) ? 'selected' : ''}}>LTL</option>
+                                                <option value="parcel" {{in_array('parcel', $select) ? 'selected' : ''}}>Parcel</option>
+                                                <option value="others" {{in_array('others', $select) ? 'selected' : ''}}>Others</option>
                                             </select>
                                         </div>
 
@@ -247,42 +281,42 @@
                                         <h4>1.4. Timeline</h4>
                                         <br>
 
-                                        <label for="exampleFormControlSelect1">Tentative date for project set - up
+                                        <label for="tentativeProjectSetUp">Tentative date for project set - up
                                             completion</label>
                                         <div class="input-group date datepicker" id="datePicker1">
-                                            <input type="text" class="form-control"><span class="input-group-addon"><i
+                                            <input id="tentativeProjectSetUp" data-changing="tentativeProjectSetUp" value="{{$project->tentativeProjectSetUp}}" required type="text" class="form-control"><span class="input-group-addon"><i
                                                     data-feather="calendar"></i></span>
                                         </div>
 
 
-                                        <label for="exampleFormControlSelect1">Tentative date for Value Enablers
+                                        <label for="tentativeValueEnablers">Tentative date for Value Enablers
                                             completion</label>
                                         <div class="input-group date datepicker" id="datePicker2">
-                                            <input type="text" class="form-control"><span class="input-group-addon"><i
+                                            <input id="tentativeValueEnablers" data-changing="tentativeValueEnablers" value="{{$project->tentativeValueEnablers}}" required type="text" class="form-control"><span class="input-group-addon"><i
                                                     data-feather="calendar"></i></span>
                                         </div>
 
 
-                                        <label for="exampleFormControlSelect1">Tentative date for Vendor Response
+                                        <label for="tentativeVendorResponse">Tentative date for Vendor Response
                                             completion</label>
                                         <div class="input-group date datepicker" id="datePicker3">
-                                            <input type="text" class="form-control"><span class="input-group-addon"><i
+                                            <input id="tentativeVendorResponse" data-changing="tentativeVendorResponse" value="{{$project->tentativeVendorResponse}}" required type="text" class="form-control"><span class="input-group-addon"><i
                                                     data-feather="calendar"></i></span>
                                         </div>
 
 
-                                        <label for="exampleFormControlSelect1">Tentative date for Analytics
+                                        <label for="tentativeAnalytics">Tentative date for Analytics
                                             completion</label>
                                         <div class="input-group date datepicker" id="datePicker4">
-                                            <input type="text" class="form-control"><span class="input-group-addon"><i
+                                            <input id="tentativeAnalytics" data-changing="tentativeAnalytics" value="{{$project->tentativeAnalytics}}" required type="text" class="form-control"><span class="input-group-addon"><i
                                                     data-feather="calendar"></i></span>
                                         </div>
 
 
-                                        <label for="exampleFormControlSelect1">Tentative date fot Conclusions &
+                                        <label for="tentativeConclusions">Tentative date fot Conclusions &
                                             Recomendations completion</label>
                                         <div class="input-group date datepicker" id="datePicker5">
-                                            <input type="text" class="form-control"><span class="input-group-addon"><i
+                                            <input id="tentativeConclusions" data-changing="tentativeConclusions" value="{{$project->tentativeConclusions}}" required type="text" class="form-control"><span class="input-group-addon"><i
                                                     data-feather="calendar"></i></span>
                                         </div>
 
@@ -305,9 +339,9 @@
                                             </div>
 
                                             <div class="form-group">
-                                                <label for="exampleFormControlTextarea1">Other information</label>
-                                                <textarea class="form-control" id="exampleFormControlTextarea1"
-                                                    rows="14" required></textarea>
+                                                <label for="otherInformation">Other information</label>
+                                                <textarea class="form-control" id="otherInformation"
+                                                    rows="14"></textarea>
                                             </div>
 
                                         </div>
@@ -355,7 +389,7 @@
 
                                         <div class="form-group">
                                             <label>Countries</label><br>
-                                            <select class="js-example-basic-multiple w-100" multiple="multiple" required
+                                            <select class="js-example-basic-multiple w-100" multiple="multiple"
                                                 style="width: 100%;">
                                                 <x-options.countries :selected="[]" />
                                             </select>
@@ -497,348 +531,350 @@
 
                                     <h2>Selection Criteria</h2>
                                     <section>
-                                        <div id="subwizard">
-                                            <h3>Fit gap</h3>
-                                            <div>
-                                                <h4>4.1. Fit Gap</h4>
-                                                <br>
-                                                <p>
-                                                    Phasellus vehicula suscipit mauris, et aliquet urna. Fusce sed ipsum eu
-                                                    nunc
-                                                    pellentesque luctus. ipsum dolor sit amet, consectetur adipiscing elit.
-                                                    Donec
-                                                    aliquam ornare sapien, ut dictum nunc pharetra a.Phasellus vehicula
-                                                    suscipit
-                                                    mauris, et aliquet urna. Fusce sed ipsum eu nunc pellentesque luctus.
-                                                    ipsum
-                                                    dolor sit amet.
-                                                </p>
-                                                <br><br>
-                                                <div style="text-align: center;">
-                                                    <div class="input-group col-xs-12">
-                                                        <input class="form-control file-upload-info"
-                                                            placeholder="Upload Fit Gap model in CSV format"
-                                                            type="text">
-                                                        <span class="input-group-append">
-                                                            <button
-                                                                class="file-upload-browse btn btn-primary"
-                                                                type="button">
-                                                                <span class="input-group-append">Upload</span>
-                                                            </button>
-                                                        </span>
-                                                    </div>
-                                                    <div class="modal fade bd-example-modal-xl" tabindex="-1"
-                                                        role="dialog" aria-labelledby="myExtraLargeModalLabel"
-                                                        aria-hidden="true">
-                                                        <div class="modal-dialog modal-xl">
-                                                            <div class="modal-content">
-                                                                <div class="modal-header">
-                                                                    <h5 class="modal-title" id="exampleModalLabel">
-                                                                        Please
-                                                                        complete the Fit Gap table</h5>
-                                                                    <button type="button" class="close"
-                                                                        data-dismiss="modal" aria-label="Close">
-                                                                        <span aria-hidden="true">&times;</span>
-                                                                    </button>
-                                                                </div>
-                                                                <div class="modal-body">
-                                                                    <iframe
-                                                                        src="{{url('/assets/vendors_techadvisory/jexcel-3.6.1/doc.html')}}"
-                                                                        style="width: 100%; min-height: 600px; border: none;"></iframe>
-                                                                </div>
-                                                                <div class="modal-footer">
-                                                                    <button type="button"
-                                                                        class="btn btn-primary btn-lg btn-icon-text"
-                                                                        data-toggle="modal"
-                                                                        data-target=".bd-example-modal-xl"><svg
-                                                                            xmlns="http://www.w3.org/2000/svg"
-                                                                            width="24" height="24" viewBox="0 0 24 24"
-                                                                            fill="none" stroke="currentColor"
-                                                                            stroke-width="2" stroke-linecap="round"
-                                                                            stroke-linejoin="round"
-                                                                            class="feather feather-check-square btn-icon-prepend">
-                                                                            <polyline points="9 11 12 14 22 4">
-                                                                            </polyline>
-                                                                            <path
-                                                                                d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11">
-                                                                            </path>
-                                                                        </svg> Done</button>
+                                        <div>
+                                            <div id="subwizard_here">
+                                                <h3>Fit gap</h3>
+                                                <div>
+                                                    <h4>4.1. Fit Gap</h4>
+                                                    <br>
+                                                    <p>
+                                                        Phasellus vehicula suscipit mauris, et aliquet urna. Fusce sed ipsum eu
+                                                        nunc
+                                                        pellentesque luctus. ipsum dolor sit amet, consectetur adipiscing elit.
+                                                        Donec
+                                                        aliquam ornare sapien, ut dictum nunc pharetra a.Phasellus vehicula
+                                                        suscipit
+                                                        mauris, et aliquet urna. Fusce sed ipsum eu nunc pellentesque luctus.
+                                                        ipsum
+                                                        dolor sit amet.
+                                                    </p>
+                                                    <br><br>
+                                                    <div style="text-align: center;">
+                                                        <div class="input-group col-xs-12">
+                                                            <input class="form-control file-upload-info"
+                                                                placeholder="Upload Fit Gap model in CSV format"
+                                                                type="text">
+                                                            <span class="input-group-append">
+                                                                <button
+                                                                    class="file-upload-browse btn btn-primary"
+                                                                    type="button">
+                                                                    <span class="input-group-append">Upload</span>
+                                                                </button>
+                                                            </span>
+                                                        </div>
+                                                        <div class="modal fade bd-example-modal-xl" tabindex="-1"
+                                                            role="dialog" aria-labelledby="myExtraLargeModalLabel"
+                                                            aria-hidden="true">
+                                                            <div class="modal-dialog modal-xl">
+                                                                <div class="modal-content">
+                                                                    <div class="modal-header">
+                                                                        <h5 class="modal-title" id="exampleModalLabel">
+                                                                            Please
+                                                                            complete the Fit Gap table</h5>
+                                                                        <button type="button" class="close"
+                                                                            data-dismiss="modal" aria-label="Close">
+                                                                            <span aria-hidden="true">&times;</span>
+                                                                        </button>
+                                                                    </div>
+                                                                    <div class="modal-body">
+                                                                        <iframe
+                                                                            src="{{url('/assets/vendors_techadvisory/jexcel-3.6.1/doc.html')}}"
+                                                                            style="width: 100%; min-height: 600px; border: none;"></iframe>
+                                                                    </div>
+                                                                    <div class="modal-footer">
+                                                                        <button type="button"
+                                                                            class="btn btn-primary btn-lg btn-icon-text"
+                                                                            data-toggle="modal"
+                                                                            data-target=".bd-example-modal-xl"><svg
+                                                                                xmlns="http://www.w3.org/2000/svg"
+                                                                                width="24" height="24" viewBox="0 0 24 24"
+                                                                                fill="none" stroke="currentColor"
+                                                                                stroke-width="2" stroke-linecap="round"
+                                                                                stroke-linejoin="round"
+                                                                                class="feather feather-check-square btn-icon-prepend">
+                                                                                <polyline points="9 11 12 14 22 4">
+                                                                                </polyline>
+                                                                                <path
+                                                                                    d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11">
+                                                                                </path>
+                                                                            </svg> Done</button>
+                                                                    </div>
                                                                 </div>
                                                             </div>
                                                         </div>
                                                     </div>
                                                 </div>
-                                            </div>
 
 
 
 
-                                            <h3>Vendor</h3>
-                                            <div>
-                                                <h4>2.1 Corporate information</h4>
-                                                <br>
-                                                <div class="form-group">
-                                                    <x-accenture.activateQuestion>
-                                                        <h6>
-                                                            1. Lorem ipsum dolor sit amet, consectetur adipiscing elit?
-                                                        </h6>
-                                                    </x-accenture.activateQuestion>
+                                                <h3>Vendor</h3>
+                                                <div>
+                                                    <h4>2.1 Corporate information</h4>
                                                     <br>
+                                                    <div class="form-group">
+                                                        <x-accenture.activateQuestion>
+                                                            <h6>
+                                                                1. Lorem ipsum dolor sit amet, consectetur adipiscing elit?
+                                                            </h6>
+                                                        </x-accenture.activateQuestion>
+                                                        <br>
 
-                                                    <x-accenture.activateQuestion>
-                                                        <h6>
-                                                            2. Lorem ipsum dolor sit amet, consectetur adipiscing elit?
-                                                        </h6>
-                                                    </x-accenture.activateQuestion>
-                                                    <br>
-
-
-                                                    <x-accenture.activateQuestion>
-                                                        <h6>
-                                                            3. Lorem ipsum dolor sit amet, consectetur adipiscing elit?
-                                                        </h6>
-                                                    </x-accenture.activateQuestion>
-                                                    <br>
-
-
-                                                    <x-accenture.activateQuestion>
-                                                        <h6>
-                                                            4. Lorem ipsum dolor sit amet, consectetur adipiscing elit?
-                                                        </h6>
-                                                    </x-accenture.activateQuestion>
-                                                    <br>
+                                                        <x-accenture.activateQuestion>
+                                                            <h6>
+                                                                2. Lorem ipsum dolor sit amet, consectetur adipiscing elit?
+                                                            </h6>
+                                                        </x-accenture.activateQuestion>
+                                                        <br>
 
 
-                                                    <x-accenture.activateQuestion>
-                                                        <h6>
-                                                            5. Lorem ipsum dolor sit amet, consectetur adipiscing elit?
-                                                        </h6>
-                                                    </x-accenture.activateQuestion>
-                                                    <br>
+                                                        <x-accenture.activateQuestion>
+                                                            <h6>
+                                                                3. Lorem ipsum dolor sit amet, consectetur adipiscing elit?
+                                                            </h6>
+                                                        </x-accenture.activateQuestion>
+                                                        <br>
 
 
-                                                    <h4>2.1 Market presence</h4>
-                                                    <br>
-                                                    <x-accenture.activateQuestion>
-                                                        <h6>
-                                                            1. Headquarters
-                                                        </h6>
-                                                    </x-accenture.activateQuestion>
-                                                    <br>
-
-                                                    <x-accenture.activateQuestion>
-                                                        <h6>
-                                                            2. Commercial Offices
-                                                        </h6>
-                                                    </x-accenture.activateQuestion>
-                                                    <br>
-
-                                                    <x-accenture.activateQuestion>
-                                                        <h6>
-                                                            3. Service Team Offices
-                                                        </h6>
-                                                    </x-accenture.activateQuestion>
-                                                    <br>
-
-                                                    <x-accenture.activateQuestion>
-                                                        <h6>
-                                                            4. Geographies with solution implementations
-                                                        </h6>
-                                                    </x-accenture.activateQuestion>
-                                                    <br>
-                                                    <br>
+                                                        <x-accenture.activateQuestion>
+                                                            <h6>
+                                                                4. Lorem ipsum dolor sit amet, consectetur adipiscing elit?
+                                                            </h6>
+                                                        </x-accenture.activateQuestion>
+                                                        <br>
 
 
+                                                        <x-accenture.activateQuestion>
+                                                            <h6>
+                                                                5. Lorem ipsum dolor sit amet, consectetur adipiscing elit?
+                                                            </h6>
+                                                        </x-accenture.activateQuestion>
+                                                        <br>
+
+
+                                                        <h4>2.1 Market presence</h4>
+                                                        <br>
+                                                        <x-accenture.activateQuestion>
+                                                            <h6>
+                                                                1. Headquarters
+                                                            </h6>
+                                                        </x-accenture.activateQuestion>
+                                                        <br>
+
+                                                        <x-accenture.activateQuestion>
+                                                            <h6>
+                                                                2. Commercial Offices
+                                                            </h6>
+                                                        </x-accenture.activateQuestion>
+                                                        <br>
+
+                                                        <x-accenture.activateQuestion>
+                                                            <h6>
+                                                                3. Service Team Offices
+                                                            </h6>
+                                                        </x-accenture.activateQuestion>
+                                                        <br>
+
+                                                        <x-accenture.activateQuestion>
+                                                            <h6>
+                                                                4. Geographies with solution implementations
+                                                            </h6>
+                                                        </x-accenture.activateQuestion>
+                                                        <br>
+                                                        <br>
+
+
+                                                    </div>
+
+                                                    <br><br>
+                                                    <a href="#" class="btn btn-primary btn-lg btn-icon-text">Save</a>
+                                                    <br><br>
                                                 </div>
 
-                                                <br><br>
-                                                <a href="#" class="btn btn-primary btn-lg btn-icon-text">Save</a>
-                                                <br><br>
-                                            </div>
-
-                                            <h3>Experience</h3>
-                                            <div>
-                                                <h4>3.1 Questions</h4>
-                                                <br>
-                                                <div class="form-group">
-                                                    <x-accenture.activateQuestion>
-                                                        <h6>
-                                                            1. Industry Experience
-                                                        </h6>
-                                                    </x-accenture.activateQuestion>
+                                                <h3>Experience</h3>
+                                                <div>
+                                                    <h4>3.1 Questions</h4>
                                                     <br>
+                                                    <div class="form-group">
+                                                        <x-accenture.activateQuestion>
+                                                            <h6>
+                                                                1. Industry Experience
+                                                            </h6>
+                                                        </x-accenture.activateQuestion>
+                                                        <br>
 
-                                                    <x-accenture.activateQuestion>
-                                                        <h6>
-                                                            2. List all active clients
-                                                        </h6>
-                                                    </x-accenture.activateQuestion>
-                                                    <br>
-
-
-                                                    <x-accenture.activateQuestion>
-                                                        <h6>
-                                                            3. List how many successful implementations you performed within last 4
-                                                            years
-                                                        </h6>
-                                                    </x-accenture.activateQuestion>
-                                                    <br>
+                                                        <x-accenture.activateQuestion>
+                                                            <h6>
+                                                                2. List all active clients
+                                                            </h6>
+                                                        </x-accenture.activateQuestion>
+                                                        <br>
 
 
-                                                    <x-accenture.activateQuestion>
-                                                        <h6>
-                                                            4. List how many successful implementations you performed within last 4
-                                                            years
-                                                        </h6>
-                                                    </x-accenture.activateQuestion>
-                                                    <br>
+                                                        <x-accenture.activateQuestion>
+                                                            <h6>
+                                                                3. List how many successful implementations you performed within last 4
+                                                                years
+                                                            </h6>
+                                                        </x-accenture.activateQuestion>
+                                                        <br>
 
-                                                    <x-accenture.activateQuestion>
-                                                        <h6>
-                                                            5. Share 3 customer references for implementation with similar size &
-                                                            scope (same industry preferred)
-                                                        </h6>
-                                                    </x-accenture.activateQuestion>
-                                                    <br>
-                                                    <br>
+
+                                                        <x-accenture.activateQuestion>
+                                                            <h6>
+                                                                4. List how many successful implementations you performed within last 4
+                                                                years
+                                                            </h6>
+                                                        </x-accenture.activateQuestion>
+                                                        <br>
+
+                                                        <x-accenture.activateQuestion>
+                                                            <h6>
+                                                                5. Share 3 customer references for implementation with similar size &
+                                                                scope (same industry preferred)
+                                                            </h6>
+                                                        </x-accenture.activateQuestion>
+                                                        <br>
+                                                        <br>
+                                                    </div>
+
+                                                    <br><br>
+                                                    <a href="#" class="btn btn-primary btn-lg btn-icon-text">Save</a>
+                                                    <br><br>
                                                 </div>
 
-                                                <br><br>
-                                                <a href="#" class="btn btn-primary btn-lg btn-icon-text">Save</a>
-                                                <br><br>
-                                            </div>
-
-                                            <h3>Innovation & Vision</h3>
-                                            <div>
-                                                <h4>4.1. IT Enablers</h4>
-                                                <br>
-                                                <div class="form-group">
-                                                    <x-accenture.activateQuestion>
-                                                        <h6>
-                                                            Question
-                                                        </h6>
-                                                    </x-accenture.activateQuestion>
+                                                <h3>Innovation & Vision</h3>
+                                                <div>
+                                                    <h4>4.1. IT Enablers</h4>
                                                     <br>
+                                                    <div class="form-group">
+                                                        <x-accenture.activateQuestion>
+                                                            <h6>
+                                                                Question
+                                                            </h6>
+                                                        </x-accenture.activateQuestion>
+                                                        <br>
+                                                    </div>
+
+                                                    <h4>4.2. Alliances</h4>
+                                                    <div class="form-group">
+                                                        <br>
+                                                        <x-accenture.activateQuestion>
+                                                            <h6>
+                                                                Partnership 1
+                                                            </h6>
+                                                        </x-accenture.activateQuestion>
+                                                        <br>
+                                                        <x-accenture.activateQuestion>
+                                                            <h6>
+                                                                Partnership 2
+                                                            </h6>
+                                                        </x-accenture.activateQuestion>
+                                                        <br>
+                                                        <x-accenture.activateQuestion>
+                                                            <h6>
+                                                                Partnership 3
+                                                            </h6>
+                                                        </x-accenture.activateQuestion>
+                                                        <br>
+                                                    </div>
+
+                                                    <h4>4.3. Product</h4>
+                                                    <div class="form-group">
+                                                        <br>
+                                                        <x-accenture.activateQuestion>
+                                                            <h6>
+                                                                Question 1
+                                                            </h6>
+                                                        </x-accenture.activateQuestion>
+                                                        <br>
+                                                        <x-accenture.activateQuestion>
+                                                            <h6>
+                                                                Question 2
+                                                            </h6>
+                                                        </x-accenture.activateQuestion>
+                                                        <br>
+                                                        <x-accenture.activateQuestion>
+                                                            <h6>
+                                                                Question 3
+                                                            </h6>
+                                                        </x-accenture.activateQuestion>
+                                                        <br>
+                                                    </div>
+
+                                                    <h4>4.4. Sustainability</h4>
+                                                    <div class="form-group">
+                                                        <br>
+                                                        <x-accenture.activateQuestion>
+                                                            <h6>
+                                                                Question 1
+                                                            </h6>
+                                                        </x-accenture.activateQuestion>
+                                                        <br>
+                                                        <x-accenture.activateQuestion>
+                                                            <h6>
+                                                                Question 2
+                                                            </h6>
+                                                        </x-accenture.activateQuestion>
+                                                        <br>
+                                                        <x-accenture.activateQuestion>
+                                                            <h6>
+                                                                Question 3
+                                                            </h6>
+                                                        </x-accenture.activateQuestion>
+                                                        <br>
+                                                    </div>
+
+                                                    <br><br>
+                                                    <a href="#" class="btn btn-primary btn-lg btn-icon-text">Save</a>
+                                                    <br><br>
                                                 </div>
 
-                                                <h4>4.2. Alliances</h4>
-                                                <div class="form-group">
+                                                <h3>Implementation & Commercials</h3>
+                                                <div>
+                                                    <h4>5.1. Implementation</h4>
                                                     <br>
                                                     <x-accenture.activateQuestion>
                                                         <h6>
-                                                            Partnership 1
+                                                            Project plan upload
                                                         </h6>
                                                     </x-accenture.activateQuestion>
                                                     <br>
-                                                    <x-accenture.activateQuestion>
-                                                        <h6>
-                                                            Partnership 2
-                                                        </h6>
-                                                    </x-accenture.activateQuestion>
-                                                    <br>
-                                                    <x-accenture.activateQuestion>
-                                                        <h6>
-                                                            Partnership 3
-                                                        </h6>
-                                                    </x-accenture.activateQuestion>
-                                                    <br>
+
+                                                    <h4>5.2. Deliverables per phase</h4>
+                                                    <div class="form-group">
+                                                        <br>
+                                                        <x-accenture.activateQuestion>
+                                                            <h6>
+                                                                Phase 1
+                                                            </h6>
+                                                        </x-accenture.activateQuestion>
+                                                        <br>
+                                                        <x-accenture.activateQuestion>
+                                                            <h6>
+                                                                Phase 2
+                                                            </h6>
+                                                        </x-accenture.activateQuestion>
+                                                        <br>
+                                                        <x-accenture.activateQuestion>
+                                                            <h6>
+                                                                Phase 3
+                                                            </h6>
+                                                        </x-accenture.activateQuestion>
+                                                        <br>
+                                                    </div>
+
+                                                    <br><br>
+                                                    <a href="#" class="btn btn-primary btn-lg btn-icon-text">Save</a>
+                                                    <br><br>
                                                 </div>
 
-                                                <h4>4.3. Product</h4>
-                                                <div class="form-group">
-                                                    <br>
-                                                    <x-accenture.activateQuestion>
-                                                        <h6>
-                                                            Question 1
-                                                        </h6>
-                                                    </x-accenture.activateQuestion>
-                                                    <br>
-                                                    <x-accenture.activateQuestion>
-                                                        <h6>
-                                                            Question 2
-                                                        </h6>
-                                                    </x-accenture.activateQuestion>
-                                                    <br>
-                                                    <x-accenture.activateQuestion>
-                                                        <h6>
-                                                            Question 3
-                                                        </h6>
-                                                    </x-accenture.activateQuestion>
-                                                    <br>
+
+
+                                                <h3>Scoring criteria</h3>
+                                                <div>
+                                                    <x-scoringCriteriaBricks />
                                                 </div>
-
-                                                <h4>4.4. Sustainability</h4>
-                                                <div class="form-group">
-                                                    <br>
-                                                    <x-accenture.activateQuestion>
-                                                        <h6>
-                                                            Question 1
-                                                        </h6>
-                                                    </x-accenture.activateQuestion>
-                                                    <br>
-                                                    <x-accenture.activateQuestion>
-                                                        <h6>
-                                                            Question 2
-                                                        </h6>
-                                                    </x-accenture.activateQuestion>
-                                                    <br>
-                                                    <x-accenture.activateQuestion>
-                                                        <h6>
-                                                            Question 3
-                                                        </h6>
-                                                    </x-accenture.activateQuestion>
-                                                    <br>
-                                                </div>
-
-                                                <br><br>
-                                                <a href="#" class="btn btn-primary btn-lg btn-icon-text">Save</a>
-                                                <br><br>
-                                            </div>
-
-                                            <h3>Implementation & Commercials</h3>
-                                            <div>
-                                                <h4>5.1. Implementation</h4>
-                                                <br>
-                                                <x-accenture.activateQuestion>
-                                                    <h6>
-                                                        Project plan upload
-                                                    </h6>
-                                                </x-accenture.activateQuestion>
-                                                <br>
-
-                                                <h4>5.2. Deliverables per phase</h4>
-                                                <div class="form-group">
-                                                    <br>
-                                                    <x-accenture.activateQuestion>
-                                                        <h6>
-                                                            Phase 1
-                                                        </h6>
-                                                    </x-accenture.activateQuestion>
-                                                    <br>
-                                                    <x-accenture.activateQuestion>
-                                                        <h6>
-                                                            Phase 2
-                                                        </h6>
-                                                    </x-accenture.activateQuestion>
-                                                    <br>
-                                                    <x-accenture.activateQuestion>
-                                                        <h6>
-                                                            Phase 3
-                                                        </h6>
-                                                    </x-accenture.activateQuestion>
-                                                    <br>
-                                                </div>
-
-                                                <br><br>
-                                                <a href="#" class="btn btn-primary btn-lg btn-icon-text">Save</a>
-                                                <br><br>
-                                            </div>
-
-
-
-                                            <h3>Scoring criteria</h3>
-                                            <div>
-                                                <x-scoringCriteriaBricks />
                                             </div>
                                         </div>
                                     </section>
@@ -855,7 +891,7 @@
                                         <br>
                                         <div class="form-group">
                                             <label>Select vendors to be invited to this project</label><br>
-                                            <select class="js-example-basic-multiple w-100" multiple="multiple" required style="width: 100%;">
+                                            <select class="js-example-basic-multiple w-100" multiple="multiple" style="width: 100%;">
                                                 {{-- Selected is the ids of the vendors --}}
                                                 <x-options.vendorList :selected="['1', '3']" />
                                             </select>
@@ -901,40 +937,124 @@
 <link rel="stylesheet" href="{{url('/assets/css/techadvisory/vendorValidateResponses.css')}}">
 
 <script>
+    jQuery.expr[':'].hasValue = function(el,index,match) {
+        return el.value != "";
+    };
+
+    /**
+     *  Returns false if any field is empty
+     */
+    function checkIfAllRequiredsAreFilled(){
+        let array = $('input,textarea,select').filter('[required]').toArray();
+		if(array.length == 0) return true;
+
+        return array.reduce((prev, current) => {
+            return !prev ? false : $(current).is(':hasValue')
+        }, true)
+    }
+
+    function checkIfAllRequiredsInThisPageAreFilled(){
+        let array = $('input,textarea,select').filter('[required]:visible').toArray();
+        if(array.length == 0) return true;
+
+        return array.reduce((prev, current) => {
+            return !prev ? false : $(current).is(':hasValue')
+        }, true)
+    }
+
     $(document).ready(function() {
-        $('#projectNameInput').change(function(){
-            var newName = $(this).val();
+        var weAreOnPage3 = false;
 
-            $.post('/accenture/changeProjectName', {
-                project_id: '{{$project->id}}',
-                newName
-            })
+        $("#wizard_accenture_newProjectSetUp").steps({
+            headerTag: "h2",
+            bodyTag: "section",
+            transitionEffect: "slideLeft",
+            forceMoveForward: false,
+            labels: {
+                finish: 'Submit general set up'
+            },
+            onFinishing: function (event, currentIndex) {
+                // TODO Only let the client submit if all the fields are full
 
-            $.toast({
-                heading: 'Saved!',
-                showHideTransition: 'slide',
-                icon: 'success',
-                hideAfter: 1000,
-                position: 'bottom-right'
-            })
-        })
+                window.location.replace("/accenture/home");
+            },
+            onStepChanging: function (e, c, n) {
+                if (n == 2) {
+                    weAreOnPage3 = true;
+                    $('#wizard_accenture_newProjectSetUp-next').html('Submit')
+                    let fieldsAreEmtpy = !checkIfAllRequiredsAreFilled();
+                    if(fieldsAreEmtpy){
+                        $('#wizard_accenture_newProjectSetUp-next').addClass('disabled')
+                    } else {
+                        $('#wizard_accenture_newProjectSetUp-next').removeClass('disabled')
+                    }
+                } else {
+                    weAreOnPage3 = false;
+                    $('#wizard_accenture_newProjectSetUp-next').removeClass('disabled')
 
-        $('#chooseClientSelect').on('change', function (e) {
-            var client_id = $(this).val()
+                    $('#wizard_accenture_newProjectSetUp-next').html('Next')
+                }
 
-            $.post('/accenture/assignClient', {
-                project_id: '{{$project->id}}',
-                client_id
-            })
-
-            $.toast({
-                heading: 'Saved!',
-                showHideTransition: 'slide',
-                icon: 'success',
-                hideAfter: 1000,
-                position: 'bottom-right'
-            })
+                return true
+            },
+            onStepChanged: function (e, c, p) {
+                for (let i = 0; i < 10; i++) {
+                    $('#wizard_accenture_newProjectSetUp-p-' + i).css('display', 'none')
+                }
+                $('#wizard_accenture_newProjectSetUp-p-' + c).css('display', 'block')
+            }
         });
+
+        // NOTE remember to keep this after the main wizard, else it breaks. haha so fun pls kill me
+        $("#subwizard_here").steps({
+            headerTag: "h3",
+            bodyTag: "div",
+            transitionEffect: "slideLeft",
+            showFinishButtonAlways: false,
+            enableFinishButton: false,
+        });
+
+		$('input,textarea,select').change(function (e) {
+            var value = $(this).val();
+            console.log(value, $(this).attr('multiple'))
+            if($.isArray(value) && value.length == 0 && $(this).attr('multiple') !== undefined){
+                value = '[]'
+            }
+
+            if($(this).data('fieldtype') == 'boolean'){
+                $.post('/accenture/newProjectSetUp/changeProjectValueBoolean', {
+                    project_id: '{{$project->id}}',
+                    changing: $(this).data('changing'),
+                    value: value
+                })
+            } else {
+                $.post('/accenture/newProjectSetUp/changeProjectValue', {
+                    project_id: '{{$project->id}}',
+                    changing: $(this).data('changing'),
+                    value: value
+                })
+            }
+
+            $.toast({
+                heading: 'Saved!',
+                showHideTransition: 'slide',
+                icon: 'success',
+                hideAfter: 1000,
+                position: 'bottom-right'
+            })
+
+            // If we filled all the fields, remove the disabled from the button. This is incase we fill the last field on the last page
+            let fieldsAreEmtpy = !checkIfAllRequiredsAreFilled();
+            if(fieldsAreEmtpy && weAreOnPage3){
+                $('#wizard_accenture_newProjectSetUp-next').addClass('disabled')
+            } else {
+                $('#wizard_accenture_newProjectSetUp-next').removeClass('disabled')
+            }
+        });
+
+
+        $(".js-example-basic-single").select2();
+        $(".js-example-basic-multiple").select2();
     });
 </script>
 @endsection

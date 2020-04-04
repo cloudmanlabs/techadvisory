@@ -30,15 +30,15 @@
 
     @section('scripts')
         <script src="{{url('assets/vendors/core/core.js')}}"></script>
-        <script src="{{url('assets/vendors/select2/select2.min.js')}}"></script>
-        <script src="{{url('assets/vendors/bootstrap-datepicker/bootstrap-datepicker.min.js')}}"></script>
         <script src="{{url('assets/vendors/jquery-steps/jquery.steps.min.js')}}"></script>
+        <script src="{{url('assets/vendors/bootstrap-datepicker/bootstrap-datepicker.min.js')}}"></script>
+        <script src="{{url('assets/vendors/select2/select2.min.js')}}"></script>
         <script src="{{url('assets/vendors/feather-icons/feather.min.js')}}"></script>
         <script src="{{url('assets/js/template.js')}}"></script>
         <script src="{{url('assets/vendors/dropzone/dropzone.min.js')}}"></script>
         <script src="{{url('assets/js/dropzone.js')}}"></script>
         <script src="{{url('assets/js/wizard.js')}}"></script>
-        <script src="{{url('assets/js/select2.js')}}"></script>
+        {{-- <script src="{{url('assets/js/select2.js')}}"></script> --}}
         <script src="{{url('assets/js/datepicker.js')}}"></script>
         <script src="{{url('assets/js/jquery.toast.min.js')}}"></script>
 

@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Project;
 use App\User;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Validation\Rule;
 
 class ProjectController extends Controller
 {
@@ -28,19 +29,24 @@ class ProjectController extends Controller
         ]);
     }
 
-    public function changeProjectName (Request $request)
+    public function changeProjectValue(Request $request)
     {
         $request->validate([
             'project_id' => 'required|numeric',
-            'newName' => 'required|string'
+            'changing' => [
+                'required',
+                'string',
+                Rule::in(Project::fieldsChangableByPost),
+            ],
+            'value' => 'required',
         ]);
 
         $project = Project::find($request->project_id);
         if($project == null){
-            abourt(404);
+            abort(404);
         }
 
-        $project->name = $request->newName;
+        $project->{$request->changing} = $request->value;
         $project->save();
 
         return \response()->json([
@@ -49,20 +55,30 @@ class ProjectController extends Controller
         ]);
     }
 
-    public function assignClient(Request $request)
+    public function changeProjectValueBoolean(Request $request)
     {
         $request->validate([
             'project_id' => 'required|numeric',
-            'client_id' => 'required|numeric'
+            'changing' => [
+                'required',
+                'string',
+                Rule::in(Project::fieldsChangableByPost),
+            ],
+            'value' => 'required',
         ]);
 
         $project = Project::find($request->project_id);
         if ($project == null) {
-            abourt(404);
+            abort(404);
         }
 
-        $project->client_id = $request->client_id;
+        $project->{$request->changing} = $request->value === 'yes';
         $project->save();
+
+        return \response()->json([
+            'status' => 200,
+            'message' => 'nma'
+        ]);
     }
 
 

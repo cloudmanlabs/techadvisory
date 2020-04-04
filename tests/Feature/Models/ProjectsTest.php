@@ -156,9 +156,10 @@ class ProjectsTest extends TestCase
 
         $request = $this
                         ->actingAs($user)
-                        ->post('/accenture/changeProjectName',[
+                        ->post('/accenture/newProjectSetUp/changeProjectValue',[
                             'project_id' => $project->id,
-                            'newName' => 'new'
+                            'changing' => 'name',
+                            'value' => 'new'
                         ]);
 
         $request->assertOk();
@@ -177,18 +178,20 @@ class ProjectsTest extends TestCase
 
         $request = $this
             ->actingAs($vendor)
-            ->post('/accenture/changeProjectName', [
+            ->post('/accenture/newProjectSetUp/changeProjectValue', [
                 'project_id' => $project->id,
-                'newName' => 'new'
+                'changing' => 'name',
+                'value' => 'new'
             ]);
 
         $request->assertStatus(302);
 
         $request = $this
             ->actingAs($client)
-            ->post('/accenture/changeProjectName', [
+            ->post('/accenture/newProjectSetUp/changeProjectValue', [
                 'project_id' => $project->id,
-                'newName' => 'new'
+                'changing' => 'name',
+                'value' => 'new'
             ]);
 
         $request->assertStatus(302);
@@ -209,9 +212,10 @@ class ProjectsTest extends TestCase
 
         $request = $this
             ->actingAs($user)
-            ->post('/accenture/assignClient', [
+            ->post('/accenture/newProjectSetUp/changeProjectValue', [
                 'project_id' => $project->id,
-                'client_id' => 2
+                'changing' => 'client_id',
+                'value' => 2
             ]);
 
         $request->assertOk();

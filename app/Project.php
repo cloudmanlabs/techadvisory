@@ -27,6 +27,35 @@ class Project extends Model
         'deadline'
     ];
 
+    /**
+     * List of fields that can be changed from a post request in the frontend
+     */
+    const fieldsChangableByPost = [
+        'hasValueTargeting',
+        'name',
+        'client_id',
+        'isBinding',
+        'shortDescription',
+        'clientContactEmail',
+        'clientContactPhone',
+        'accentureContactEmail',
+        'accentureContactPhone',
+        'projectType',
+        'projectCurrency',
+        'detailedDescription',
+        'practiceSelect',
+        'subpracticeSelect',
+        'regionServed',
+        'transportFlows',
+        'transportMode',
+        'transportType',
+        'tentativeProjectSetUp',
+        'tentativeValueEnablers',
+        'tentativeVendorResponse',
+        'tentativeAnalytics',
+        'tentativeConclusions',
+    ];
+
     public function conclusionsFolder()
     {
         return $this->morphTo(Folder::class, 'folderable');

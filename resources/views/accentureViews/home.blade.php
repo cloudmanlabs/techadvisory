@@ -221,9 +221,6 @@
                     return el.text
                 });
 
-                console.log(selectedClients)
-                console.log(selectedPractices)
-
                 // Add a display none to the one which don't have this tags
                 $('#openPhaseContainer').children().each(function () {
                     let practice = $(this).data('practice');

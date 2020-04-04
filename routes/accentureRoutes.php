@@ -32,6 +32,9 @@ Route::
                 ->name('createProject');
             Route::get('newProjectSetUp/{project}', 'ProjectController@newProjectSetUp')
                 ->name('newProjectSetUp');
+            Route::post('/newProjectSetUp/changeProjectValue', 'ProjectController@changeProjectValue');
+            Route::post('/newProjectSetUp/changeProjectValueBoolean', 'ProjectController@changeProjectValueBoolean');
+
             Route::view('clientList', 'accentureViews.clientList')
                 ->name('clientList');
             Route::view('vendorList', 'accentureViews.vendorList')
@@ -86,12 +89,5 @@ Route::
                 ->name('analysisHistorical');
             Route::view('analysis/other', 'accentureViews.analysisOther')
                 ->name('analysisOther');
-
-
-
-
-
-            Route::post('/changeProjectName', 'ProjectController@changeProjectName');
-            Route::post('/assignClient', 'ProjectController@assignClient');
         });
     });

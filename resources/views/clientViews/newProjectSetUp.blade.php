@@ -61,8 +61,8 @@
                                             class="form-control"
                                             id="exampleInputText1"
                                             placeholder="Project Name"
-                                            value="{{$project->name}}"
-                                            required
+                                            {{-- value="{{$project->name}}" --}}
+                                            value="Project name"
                                             disabled>
                                         </div>
 
