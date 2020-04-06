@@ -12,7 +12,6 @@ Route::prefix('vendors')
     ->namespace('Vendor')
     ->group(function () {
         Route::get('/', function () {
-            Log::debug('message');
             if (Auth::check()) {
                 return redirect()->route('vendor.home');
             } else {

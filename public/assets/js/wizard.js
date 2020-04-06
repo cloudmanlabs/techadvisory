@@ -92,7 +92,7 @@ $(async function () {
         bodyTag: "section",
         transitionEffect: "slideLeft",
         onFinishing: function (event, currentIndex) {
-            window.location.replace("/vendor/newSolutionSetUp");
+            window.location.replace("/vendors/newSolutionSetUp");
         }
     });
 
@@ -110,7 +110,7 @@ $(async function () {
         bodyTag: "section",
         transitionEffect: "slideLeft",
         onFinishing: function (event, currentIndex) {
-            window.location.replace("/vendor/home");
+            window.location.replace("/vendors/home");
         }
     });
 

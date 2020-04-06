@@ -39,6 +39,10 @@ class AuthController extends Controller
         if (Auth::attempt($credentials, $remember)) {
             return redirect()->route('accenture.home');
             // return redirect()->intended(route('accenture.home'));
+        } else {
+            return redirect()->back()->withErrors([
+                'email' => 'This credentials don\'t correspond to any user in the database.'
+            ]);
         }
     }
 }

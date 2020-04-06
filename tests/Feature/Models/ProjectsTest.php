@@ -223,4 +223,25 @@ class ProjectsTest extends TestCase
         $project->refresh();
         $this->assertEquals(2, $project->client_id);
     }
+
+    public function testCanChangeHasValueTargetingInProject()
+    {
+        $user = factory(User::class)->states('accenture')->create();
+        $project = factory(Project::class)->create([
+            'hasValueTargeting' => false
+        ]);
+
+        $request = $this
+            ->actingAs($user)
+            ->post('/accenture/newProjectSetUp/changeProjectValueBoolean', [
+                'project_id' => $project->id,
+                'changing' => 'hasValueTargeting',
+                'value' => 'yes'
+            ]);
+
+        $request->assertOk();
+
+        $project->refresh();
+        $this->assertEquals(1, $project->hasValueTargeting);
+    }
 }
