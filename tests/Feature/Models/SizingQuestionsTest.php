@@ -17,7 +17,8 @@ class SizingQuestionsTest extends TestCase
         $this->assertCount(0, SizingQuestion::all());
 
         $question = new SizingQuestion([
-            'question' => 'How are you?'
+            'question' => 'How are you?',
+            'type' => 'string'
         ]);
         $question->save();
 

@@ -32,8 +32,10 @@ Route::
                 ->name('createProject');
             Route::get('newProjectSetUp/{project}', 'ProjectController@newProjectSetUp')
                 ->name('newProjectSetUp');
-            Route::post('/newProjectSetUp/changeProjectValue', 'ProjectController@changeProjectValue');
-            Route::post('/newProjectSetUp/changeProjectValueBoolean', 'ProjectController@changeProjectValueBoolean');
+            Route::post('/newProjectSetUp/changeProjectName', 'ProjectController@changeProjectName');
+            Route::post('/newProjectSetUp/changeProjectClient', 'ProjectController@changeProjectClient');
+            Route::post('/newProjectSetUp/changeProjectHasValueTargeting', 'ProjectController@changeProjectHasValueTargeting');
+            Route::post('/newProjectSetUp/changeProjectIsBinding', 'ProjectController@changeProjectIsBinding');
 
             Route::view('clientList', 'accentureViews.clientList')
                 ->name('clientList');

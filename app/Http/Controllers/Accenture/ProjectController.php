@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Accenture;
 
+use App\GeneralInfoQuestionResponse;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Project;
@@ -23,61 +24,97 @@ class ProjectController extends Controller
     {
         $clients = User::clientUsers()->get();
 
+        $generalInfoQuestions = $project->generalInfoQuestions;
+
         return view('accentureViews.newProjectSetUp', [
             'project' => $project,
-            'clients' => $clients
+            'clients' => $clients,
+
+            'generalInfoQuestions' => $generalInfoQuestions
         ]);
     }
 
-    public function changeProjectValue(Request $request)
+    public function changeProjectName(Request $request)
     {
         $request->validate([
             'project_id' => 'required|numeric',
-            'changing' => [
-                'required',
-                'string',
-                Rule::in(Project::fieldsChangableByPost),
-            ],
-            'value' => 'required',
-        ]);
-
-        $project = Project::find($request->project_id);
-        if($project == null){
-            abort(404);
-        }
-
-        $project->{$request->changing} = $request->value;
-        $project->save();
-
-        return \response()->json([
-            'status' => 200,
-            'message' => 'nma'
-        ]);
-    }
-
-    public function changeProjectValueBoolean(Request $request)
-    {
-        $request->validate([
-            'project_id' => 'required|numeric',
-            'changing' => [
-                'required',
-                'string',
-                Rule::in(Project::fieldsChangableByPost),
-            ],
-            'value' => 'required',
+            'newName' => 'required|string'
         ]);
 
         $project = Project::find($request->project_id);
         if ($project == null) {
-            abort(404);
+            abourt(404);
         }
 
-        $project->{$request->changing} = $request->value === 'yes';
+        $project->name = $request->newName;
         $project->save();
 
         return \response()->json([
             'status' => 200,
-            'message' => 'nma'
+            'message' => 'Success'
+        ]);
+    }
+
+    public function changeProjectClient(Request $request)
+    {
+        $request->validate([
+            'project_id' => 'required|numeric',
+            'client_id' => 'required|numeric'
+        ]);
+
+        $project = Project::find($request->project_id);
+        if ($project == null) {
+            abourt(404);
+        }
+
+        $project->client_id = $request->client_id;
+        $project->save();
+
+        return \response()->json([
+            'status' => 200,
+            'message' => 'Success'
+        ]);
+    }
+
+    public function changeProjectHasValueTargeting(Request $request)
+    {
+        $request->validate([
+            'project_id' => 'required|numeric',
+            'value' => 'required|string'
+        ]);
+
+        $project = Project::find($request->project_id);
+        if ($project == null) {
+            abourt(404);
+        }
+
+        $project->hasValueTargeting = $request->value === 'yes';
+        $project->save();
+
+        return \response()->json([
+            'status' => 200,
+            'message' => 'Success'
+        ]);
+    }
+
+    public function changeProjectIsBinding(Request $request)
+    {
+        $request->validate([
+            'project_id' => 'required|numeric',
+            'value' => 'required|string'
+        ]);
+
+        $project = Project::find($request->project_id);
+        if ($project == null) {
+            abourt(404);
+        }
+
+        $project->isBinding = $request->value === 'yes';
+        $project->save();
+
+        return \response()->json([
+            'status' => 200,
+            'message' => 'Success'
         ]);
     }
 

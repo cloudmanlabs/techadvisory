@@ -16,6 +16,9 @@ class CreateGeneralInfoQuestionsTable extends Migration
         Schema::create('general_info_questions', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
+
+            $table->string('question');
+            $table->string('type');
         });
     }
 

@@ -172,7 +172,6 @@ $(async function () {
             window.location.replace("/accenture/project/view");
         },
         onStepChanging: function (e, c, n) {
-            console.log(n)
             if (n == 2) {
                 $('#projectEditWizard-next').html('Submit')
             } else {

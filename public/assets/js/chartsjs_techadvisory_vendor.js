@@ -141,7 +141,6 @@ $(function () {
                             max: 10,
                             fontSize: 17,
                             callback: function (tick, index, ticks) {
-                                console.log(tick)
                                 return (11 - tick).toString();
                             }
                         }

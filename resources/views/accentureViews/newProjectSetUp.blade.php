@@ -69,17 +69,10 @@
                                                 value="{{$project->name}}"
                                                 required>
                                         </div>
-                                        <div class="form-group">
-                                            <label for="shortDescription">Short description*</label>
-                                            <textarea class="form-control" id="shortDescription" rows="14"
-                                                data-changing="shortDescription"
-                                                required>{{$project->shortDescription}}</textarea>
-                                        </div>
 
                                         <div class="form-group">
                                             <label for="chooseClientSelect">Client name*</label>
                                             <select class="form-control" id="chooseClientSelect"
-                                                data-changing="client_id"
                                                 required>
                                                 <option selected="" disabled="">Please select the Client Name</option>
                                                 @php
@@ -92,6 +85,78 @@
                                                     >{{$client->name}}</option>
                                                 @endforeach
                                             </select>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="valueTargeting">Value Targeting*</label>
+                                            <select class="form-control" id="valueTargeting" required>
+                                                <option disabled="">Please select the Project Type</option>
+                                                <option value="yes" @if($project->hasValueTargeting) selected @endif>Yes</option>
+                                                <option value="no" @if(!$project->hasValueTargeting) selected @endif>No</option>
+                                            </select>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="bindingOption">Binding/Non-binding*</label>
+                                            <select class="form-control" id="bindingOption" required>
+                                                <option disabled="">Please select the Project Type</option>
+                                                <option value="yes" @if($project->isBinding) selected @endif>Binding</option>
+                                                <option value="no" @if(!$project->isBinding) selected @endif>Non-binding</option>
+                                            </select>
+                                        </div>
+
+
+                                        @foreach ($generalInfoQuestions as $question)
+                                            @switch($question->original->type)
+                                                @case('text')
+                                                    <div class="form-group">
+                                                        <label>{{$question->original->label}}</label>
+                                                        <input
+                                                            class="form-control"
+                                                            type="text"
+                                                            data-changing="{{$question->id}}"
+                                                            {{$question->original->required ? 'required' : ''}}
+                                                            value="{{$question->response}}"
+                                                            placeholder="{{$question->original->question}}">
+                                                    </div>
+                                                    @break
+                                                @case('textarea')
+                                                    <div class="form-group">
+                                                        <label>{{$question->original->label}}</label>
+                                                        <textarea
+                                                            rows="14"
+                                                            class="form-control"
+                                                            data-changing="{{$question->id}}"
+                                                            {{$question->original->required ? 'required' : ''}}
+                                                        >{{$question->response}}</textarea>
+                                                    </div>
+                                                    @break
+                                                @case('textarea')
+                                                    <div class="form-group">
+                                                        <label>{{$question->original->label}}</label>
+                                                        <select
+                                                            class="form-control"
+                                                            data-changing="{{$question->id}}"
+                                                            {{$question->original->required ? 'required' : ''}}
+                                                            >
+                                                            <option @if($question->response == '') selected @endif disabled="">Nothing Selected</option>
+
+                                                            @foreach ($question->original->options as $option)
+                                                            <option value="{{$option}}" @if($question->response == $option) selected @endif>{{$option}}</option>
+                                                            @endforeach
+                                                        </select>
+                                                    </div>
+                                                    @break
+                                                @default
+
+                                            @endswitch
+                                        @endforeach
+
+                                        <div class="form-group">
+                                            <label for="shortDescription">Short description*</label>
+                                            <textarea class="form-control" id="shortDescription" rows="14"
+                                                data-changing="shortDescription"
+                                                required>{{$project->shortDescription}}</textarea>
                                         </div>
 
                                         <div class="form-group">
@@ -140,14 +205,7 @@
                                             </select>
                                         </div>
 
-                                        <div class="form-group">
-                                            <label for="valueTargeting">Value Targeting*</label>
-                                            <select class="form-control" id="valueTargeting" data-changing="hasValueTargeting" data-fieldtype="boolean" required>
-                                                <option disabled="">Please select the Project Type</option>
-                                                <option value="yes" @if($project->hasValueTargeting) selected @endif>Yes</option>
-                                                <option value="no" @if(!$project->hasValueTargeting) selected @endif>No</option>
-                                            </select>
-                                        </div>
+
 
                                         <div class="form-group">
                                             <label for="projectCurrency">Project Currency*</label>
@@ -155,15 +213,6 @@
                                                 <option @if($project->projectType == '') selected @endif disabled="">Please select the Project Type</option>
                                                 <option value="euro" @if($project->projectType == 'euro') selected @endif>€</option>
                                                 <option value="dollar" @if($project->projectType == 'dollar') selected @endif>$</option>
-                                            </select>
-                                        </div>
-
-                                        <div class="form-group">
-                                            <label for="bindingOption">Binding/Non-binding*</label>
-                                            <select class="form-control" id="bindingOption" data-changing="isBinding" data-fieldtype="boolean" required>
-                                                <option disabled="">Please select the Project Type</option>
-                                                <option value="yes" @if($project->isBinding) selected @endif>Binding</option>
-                                                <option value="no" @if(!$project->isBinding) selected @endif>Non-binding</option>
                                             </select>
                                         </div>
 
@@ -962,6 +1011,28 @@
         }, true)
     }
 
+    function updateSubmitButton()
+    {
+        // If we filled all the fields, remove the disabled from the button. This is incase we fill the last field on the last page
+        let fieldsAreEmtpy = !checkIfAllRequiredsAreFilled();
+        if(fieldsAreEmtpy && weAreOnPage3){
+            $('#wizard_accenture_newProjectSetUp-next').addClass('disabled')
+        } else {
+            $('#wizard_accenture_newProjectSetUp-next').removeClass('disabled')
+        }
+    }
+
+    function showSavedToast()
+    {
+        $.toast({
+            heading: 'Saved!',
+            showHideTransition: 'slide',
+            icon: 'success',
+            hideAfter: 1000,
+            position: 'bottom-right'
+        })
+    }
+
     $(document).ready(function() {
         var weAreOnPage3 = false;
 
@@ -1014,43 +1085,75 @@
             enableFinishButton: false,
         });
 
-		$('input,textarea,select').change(function (e) {
+
+
+        // On change for the 4 default ones
+
+        $('#projectName').change(function (e) {
             var value = $(this).val();
-            console.log(value, $(this).attr('multiple'))
-            if($.isArray(value) && value.length == 0 && $(this).attr('multiple') !== undefined){
-                value = '[]'
-            }
-
-            if($(this).data('fieldtype') == 'boolean'){
-                $.post('/accenture/newProjectSetUp/changeProjectValueBoolean', {
-                    project_id: '{{$project->id}}',
-                    changing: $(this).data('changing'),
-                    value: value
-                })
-            } else {
-                $.post('/accenture/newProjectSetUp/changeProjectValue', {
-                    project_id: '{{$project->id}}',
-                    changing: $(this).data('changing'),
-                    value: value
-                })
-            }
-
-            $.toast({
-                heading: 'Saved!',
-                showHideTransition: 'slide',
-                icon: 'success',
-                hideAfter: 1000,
-                position: 'bottom-right'
+            $.post('/accenture/newProjectSetUp/changeProjectName', {
+                project_id: '{{$project->id}}',
+                newName: value
             })
 
-            // If we filled all the fields, remove the disabled from the button. This is incase we fill the last field on the last page
-            let fieldsAreEmtpy = !checkIfAllRequiredsAreFilled();
-            if(fieldsAreEmtpy && weAreOnPage3){
-                $('#wizard_accenture_newProjectSetUp-next').addClass('disabled')
-            } else {
-                $('#wizard_accenture_newProjectSetUp-next').removeClass('disabled')
-            }
+            showSavedToast();
+            updateSubmitButton();
         });
+
+        $('#chooseClientSelect').change(function (e) {
+            var value = $(this).val();
+            $.post('/accenture/newProjectSetUp/changeProjectClient', {
+                project_id: '{{$project->id}}',
+                client_id: value
+            })
+
+            showSavedToast();
+            updateSubmitButton();
+        });
+
+        $('#valueTargeting').change(function (e) {
+            var value = $(this).val();
+            $.post('/accenture/newProjectSetUp/changeProjectHasValueTargeting', {
+                project_id: '{{$project->id}}',
+                value
+            })
+
+            showSavedToast();
+            updateSubmitButton();
+        });
+
+        $('#bindingOption').change(function (e) {
+            var value = $(this).val();
+            $.post('/accenture/newProjectSetUp/changeProjectIsBinding', {
+                project_id: '{{$project->id}}',
+                value
+            })
+
+            showSavedToast();
+            updateSubmitButton();
+        });
+
+
+        // On change for the rest
+
+        $('input,textarea,select')
+            .filter(function(el) {
+                return $( this ).data('changing') !== undefined
+            })
+            .change(function (e) {
+                var value = $(this).val();
+                if($.isArray(value) && value.length == 0 && $(this).attr('multiple') !== undefined){
+                    value = '[]'
+                }
+
+                $.post('/generalInfoQuestion/changeResponse', {
+                    changing: $(this).data('changing'),
+                    value: value
+                })
+
+                showSavedToast();
+                updateSubmitButton();
+            });
 
 
         $(".js-example-basic-single").select2();

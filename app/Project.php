@@ -10,6 +10,7 @@ use \Illuminate\Database\Eloquent\Builder;
  *
  * @property boolean $hasOrals
  * @property boolean $hasValueTargeting
+ * @property boolean $isBinding
  *
  * @property integer $progressSetUp
  * @property integer $progressValue
@@ -31,10 +32,6 @@ class Project extends Model
      * List of fields that can be changed from a post request in the frontend
      */
     const fieldsChangableByPost = [
-        'hasValueTargeting',
-        'name',
-        'client_id',
-        'isBinding',
         'shortDescription',
         'clientContactEmail',
         'clientContactPhone',
@@ -82,6 +79,12 @@ class Project extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    public function generalInfoQuestions()
+    {
+        return $this->hasMany(GeneralInfoQuestionResponse::class, 'project_id');
+    }
+
 
 
 

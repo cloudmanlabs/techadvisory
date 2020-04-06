@@ -156,10 +156,9 @@ class ProjectsTest extends TestCase
 
         $request = $this
                         ->actingAs($user)
-                        ->post('/accenture/newProjectSetUp/changeProjectValue',[
+                        ->post('/accenture/newProjectSetUp/changeProjectName',[
                             'project_id' => $project->id,
-                            'changing' => 'name',
-                            'value' => 'new'
+                            'newName' => 'new'
                         ]);
 
         $request->assertOk();
@@ -178,20 +177,18 @@ class ProjectsTest extends TestCase
 
         $request = $this
             ->actingAs($vendor)
-            ->post('/accenture/newProjectSetUp/changeProjectValue', [
+            ->post('/accenture/newProjectSetUp/changeProjectName', [
                 'project_id' => $project->id,
-                'changing' => 'name',
-                'value' => 'new'
+                'newName' => 'new'
             ]);
 
         $request->assertStatus(302);
 
         $request = $this
             ->actingAs($client)
-            ->post('/accenture/newProjectSetUp/changeProjectValue', [
+            ->post('/accenture/newProjectSetUp/changeProjectName', [
                 'project_id' => $project->id,
-                'changing' => 'name',
-                'value' => 'new'
+                'newName' => 'new'
             ]);
 
         $request->assertStatus(302);
@@ -212,10 +209,9 @@ class ProjectsTest extends TestCase
 
         $request = $this
             ->actingAs($user)
-            ->post('/accenture/newProjectSetUp/changeProjectValue', [
+            ->post('/accenture/newProjectSetUp/changeProjectClient', [
                 'project_id' => $project->id,
-                'changing' => 'client_id',
-                'value' => 2
+                'client_id' => 2
             ]);
 
         $request->assertOk();
@@ -233,9 +229,8 @@ class ProjectsTest extends TestCase
 
         $request = $this
             ->actingAs($user)
-            ->post('/accenture/newProjectSetUp/changeProjectValueBoolean', [
+            ->post('/accenture/newProjectSetUp/changeProjectHasValueTargeting', [
                 'project_id' => $project->id,
-                'changing' => 'hasValueTargeting',
                 'value' => 'yes'
             ]);
 
@@ -243,5 +238,25 @@ class ProjectsTest extends TestCase
 
         $project->refresh();
         $this->assertEquals(1, $project->hasValueTargeting);
+    }
+
+    public function testCanChangeIsBindingInProject()
+    {
+        $user = factory(User::class)->states('accenture')->create();
+        $project = factory(Project::class)->create([
+            'isBinding' => false
+        ]);
+
+        $request = $this
+            ->actingAs($user)
+            ->post('/accenture/newProjectSetUp/changeProjectIsBinding', [
+                'project_id' => $project->id,
+                'value' => 'yes'
+            ]);
+
+        $request->assertOk();
+
+        $project->refresh();
+        $this->assertEquals(1, $project->isBinding);
     }
 }
