@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Nova\GeneralInfoQuestion;
+use App\Nova\GeneralInfoQuestionResponse;
 use App\Nova\Accenture;
 use App\Nova\Client;
 use App\Nova\Metrics\NumberOfAccentureUsers;
@@ -32,24 +34,26 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
 
     protected function resources()
     {
+        $common = [
+            Accenture::class,
+            Client::class,
+            Vendor::class,
+            Practice::class,
+            Project::class,
+
+            GeneralInfoQuestion::class,
+            GeneralInfoQuestionResponse::class,
+        ];
+
         if (auth()->user()->isAdmin()) {
-            return Nova::resources([
-                Accenture::class,
-                Client::class,
-                Vendor::class,
+            $other = [
                 User::class,
-                Practice::class,
-                Project::class
-            ]);
-        } else if(auth()->user()->isAccenture()){
-            return Nova::resources([
-                Accenture::class,
-                Client::class,
-                Vendor::class,
-                Practice::class,
-                Project::class
-            ]);
+            ];
+        } else {
+            $other = [];
         }
+
+        Nova::resources(array_merge($common, $other));
     }
 
     /**

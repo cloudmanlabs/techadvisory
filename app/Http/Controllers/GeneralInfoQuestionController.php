@@ -21,7 +21,7 @@ class GeneralInfoQuestionController extends Controller
             abort(404);
         }
 
-        if($answer->question()->type == 'boolean'){
+        if($answer->original->type == 'boolean'){
             $answer->response = $request->value === 'yes';
         } else {
             $answer->response = $request->value;

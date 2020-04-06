@@ -14,18 +14,43 @@ class GeneralInfoQuestionsTest extends TestCase
 {
     use RefreshDatabase;
 
-    /**
-     * A basic feature test example.
-     *
-     * @return void
-     */
     public function testCanCreateGeneralInfoQuestion()
     {
         $this->assertCount(0, GeneralInfoQuestion::all());
 
         $question = new GeneralInfoQuestion([
-            'question' => 'How are you?',
+            'label' => 'How are you?',
             'type' => 'text'
+        ]);
+        $question->save();
+
+        $this->assertCount(1, GeneralInfoQuestion::all());
+    }
+
+    public function testCanCreateGeneralInfoQuestionWithPlaceholder()
+    {
+        $this->assertCount(0, GeneralInfoQuestion::all());
+
+        $question = new GeneralInfoQuestion([
+            'label' => 'How are you?',
+            'type' => 'text',
+
+            'placeholder' => 'PH'
+        ]);
+        $question->save();
+
+        $this->assertCount(1, GeneralInfoQuestion::all());
+    }
+
+    public function testCanCreateGeneralInfoQuestionWithRequired()
+    {
+        $this->assertCount(0, GeneralInfoQuestion::all());
+
+        $question = new GeneralInfoQuestion([
+            'label' => 'How are you?',
+            'type' => 'text',
+
+            'required' => true
         ]);
         $question->save();
 

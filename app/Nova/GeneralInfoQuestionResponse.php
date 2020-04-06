@@ -2,38 +2,37 @@
 
 namespace App\Nova;
 
-use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\BelongsToMany;
 use Laravel\Nova\Fields\Boolean;
-use Laravel\Nova\Fields\DateTime;
 use Laravel\Nova\Fields\HasMany;
 use Laravel\Nova\Fields\HasOne;
 use Laravel\Nova\Fields\ID;
-use Laravel\Nova\Fields\Number;
 use Laravel\Nova\Fields\Password;
 use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Panel;
 
-class Project extends Resource
+class GeneralInfoQuestionResponse extends Resource
 {
+    public static $displayInNavigation = false;
+
     /**
      * The model the resource corresponds to.
      *
      * @var string
      */
-    public static $model = 'App\Project';
+    public static $model = 'App\GeneralInfoQuestionResponse';
 
     /**
      * The single value that should be used to represent the resource when being displayed.
      *
      * @var string
      */
-    public static $title = 'name';
+    public static $title = 'id';
 
     /**
      * The columns that should be searched.
@@ -41,7 +40,7 @@ class Project extends Resource
      * @var array
      */
     public static $search = [
-        'id', 'name'
+        'id',
     ];
 
     /**
@@ -53,51 +52,12 @@ class Project extends Resource
     public function fields(Request $request)
     {
         return [
-            // ID::make()->sortable(),
+            BelongsTo::make('Project', 'project', 'App\Nova\Project'),
+            BelongsTo::make('Question', 'original', 'App\Nova\GeneralInfoQuestion'),
 
-            Text::make('Name', 'name')
-                ->rules('required')
-                ->required(),
-
-
-            Text::make('Current Phase', 'currentPhase')
-                ->sortable()
-                ->exceptOnForms(),
-
-            DateTime::make('Deadline', 'deadline')
-                ->sortable(),
-
-            Boolean::make('Orals', 'hasOrals'),
-            Boolean::make('Value Targeting', 'hasValueTargeting'),
-
-            Number::make('Set Up Progress', 'progressSetUp')
-                ->exceptOnForms()
-                ->hideFromIndex(),
-            Number::make('Value Progress', 'progressValue')
-                ->exceptOnForms()
-                ->hideFromIndex(),
-            Number::make('Response Progress', 'progressResponse')
-                ->exceptOnForms()
-                ->hideFromIndex(),
-            Number::make('Analytics Progress', 'progressAnalytics')
-                ->exceptOnForms()
-                ->hideFromIndex(),
-            Number::make('Conclusions Progress', 'progressConclusions')
-                ->exceptOnForms()
-                ->hideFromIndex(),
-
-            BelongsTo::make('Client', 'client', 'App\Nova\User')
-                ->sortable(),
-            BelongsTo::make('Practice', 'practice', 'App\Nova\Practice')
-                ->sortable(),
-
-            HasMany::make('General Info Questions', 'generalInfoQuestions', 'App\Nova\GeneralInfoQuestionResponse')
+            Text::make('Response', 'response')
+                ->hideWhenCreating(),
         ];
-    }
-
-    public static function relatableUsers(NovaRequest $request, $query)
-    {
-        return $query->whereIn('userType', User::clientTypes);
     }
 
     /**

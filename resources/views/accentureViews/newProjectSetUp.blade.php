@@ -110,19 +110,19 @@
                                             @switch($question->original->type)
                                                 @case('text')
                                                     <div class="form-group">
-                                                        <label>{{$question->original->label}}</label>
+                                                        <label>{{$question->original->label}}{{$question->original->required ? '*' : ''}}</label>
                                                         <input
                                                             class="form-control"
                                                             type="text"
                                                             data-changing="{{$question->id}}"
                                                             {{$question->original->required ? 'required' : ''}}
                                                             value="{{$question->response}}"
-                                                            placeholder="{{$question->original->question}}">
+                                                            placeholder="{{$question->original->placeholder}}">
                                                     </div>
                                                     @break
                                                 @case('textarea')
                                                     <div class="form-group">
-                                                        <label>{{$question->original->label}}</label>
+                                                        <label>{{$question->original->label}}{{$question->original->required ? '*' : ''}}</label>
                                                         <textarea
                                                             rows="14"
                                                             class="form-control"
@@ -131,33 +131,30 @@
                                                         >{{$question->response}}</textarea>
                                                     </div>
                                                     @break
-                                                @case('textarea')
+                                                @case('selectSingle')
                                                     <div class="form-group">
-                                                        <label>{{$question->original->label}}</label>
+                                                        <label>{{$question->original->label}}{{$question->original->required ? '*' : ''}}</label>
                                                         <select
                                                             class="form-control"
                                                             data-changing="{{$question->id}}"
                                                             {{$question->original->required ? 'required' : ''}}
                                                             >
-                                                            <option @if($question->response == '') selected @endif disabled="">Nothing Selected</option>
+                                                            <option @if($question->response == '') selected @endif disabled="">{{$question->original->placeholder}}</option>
 
-                                                            @foreach ($question->original->options as $option)
+                                                            @foreach (explode(',', $question->original->options) as $option)
                                                             <option value="{{$option}}" @if($question->response == $option) selected @endif>{{$option}}</option>
                                                             @endforeach
                                                         </select>
                                                     </div>
+                                                    @break
+                                                @case('selectMultiple')
+                                                    Implement select with multiple options pls
                                                     @break
                                                 @default
 
                                             @endswitch
                                         @endforeach
 
-                                        <div class="form-group">
-                                            <label for="shortDescription">Short description*</label>
-                                            <textarea class="form-control" id="shortDescription" rows="14"
-                                                data-changing="shortDescription"
-                                                required>{{$project->shortDescription}}</textarea>
-                                        </div>
 
                                         <div class="form-group">
                                             <label for="clientContactEmail">Client contact e-mail</label>

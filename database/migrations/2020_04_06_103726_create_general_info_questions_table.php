@@ -17,8 +17,12 @@ class CreateGeneralInfoQuestionsTable extends Migration
             $table->id();
             $table->timestamps();
 
-            $table->string('question');
+            $table->string('label');
             $table->string('type');
+
+            $table->string('placeholder')->nullable();
+            $table->boolean('required')->default(false);
+            $table->string('options')->nullable();
         });
     }
 
