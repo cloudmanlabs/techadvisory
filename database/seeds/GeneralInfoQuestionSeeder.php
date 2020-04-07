@@ -21,21 +21,25 @@ class GeneralInfoQuestionSeeder extends Seeder
             'type' => 'text',
             'label' => 'Client contact e-mail',
             'placeholder' => 'Client contact e-mail',
+            'required' => false
         ]);
         factory(GeneralInfoQuestion::class)->create([
             'type' => 'text',
             'label' => 'Client contact phone',
             'placeholder' => 'Client contact phone',
+            'required' => false
         ]);
         factory(GeneralInfoQuestion::class)->create([
             'type' => 'text',
             'label' => 'Accenture contact e-mail',
             'placeholder' => 'Accenture contact e-mail',
+            'required' => false
         ]);
         factory(GeneralInfoQuestion::class)->create([
             'type' => 'text',
             'label' => 'Accenture contact phone',
             'placeholder' => 'Accenture contact phone',
+            'required' => false
         ]);
 
         factory(GeneralInfoQuestion::class)->create([
@@ -55,6 +59,7 @@ class GeneralInfoQuestionSeeder extends Seeder
         factory(GeneralInfoQuestion::class)->create([
             'type' => 'textarea',
             'label' => 'Detailed description',
+            'required' => false
         ]);
     }
 }

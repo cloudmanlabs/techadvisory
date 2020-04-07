@@ -61,16 +61,23 @@ class GeneralInfoQuestionsTest extends TestCase
     {
         $this->assertCount(0, GeneralInfoQuestionResponse::all());
 
-        $question = factory(GeneralInfoQuestion::class)->create();
+        // We generate a random question that gets assignes with the observer
+        factory(GeneralInfoQuestion::class)->create();
         $project = factory(Project::class)->create();
 
+        $this->assertCount(1, $project->generalInfoQuestions);
+
+        // We then assign a new one
+
+        $question = factory(GeneralInfoQuestion::class)->create();
         $response = new GeneralInfoQuestionResponse([
             'question_id' => $question->id,
             'project_id' => $project->id,
         ]);
         $response->save();
 
-        $this->assertCount(1, GeneralInfoQuestionResponse::all());
+        $project->refresh();
+        $this->assertCount(2, $project->generalInfoQuestions);
     }
 
     public function testCanRespondQuestion()
