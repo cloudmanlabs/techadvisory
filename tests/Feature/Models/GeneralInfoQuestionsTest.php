@@ -96,4 +96,42 @@ class GeneralInfoQuestionsTest extends TestCase
         $response->save();
         $this->assertNotNull($response->response);
     }
+
+    public function testResponseIsDeletedWhenQuestionIsDeleted()
+    {
+        $question = factory(GeneralInfoQuestion::class)->create();
+        $project = factory(Project::class)->create();
+
+        $this->assertCount(1, $project->generalInfoQuestions);
+
+        $question->delete();
+
+        $project->refresh();
+        $this->assertCount(0, $project->generalInfoQuestions);
+    }
+
+    public function testChangingAQuestionResetsTheResponses()
+    {
+        $question = factory(GeneralInfoQuestion::class)->create([
+            'type' => 'selectMultiple',
+            'label' => 'Transport Type',
+            'required' => false,
+            'presetOption' => 'transportTypes'
+        ]);
+        $project = factory(Project::class)->create();
+
+        // Set a response
+        $response = GeneralInfoQuestionResponse::first();
+        $this->assertNull($response->response);
+        $response->response = 'hello';
+        $this->assertNotNull($response->response);
+
+        // Change the question
+        $question->type = 'selectSingle';
+        $question->save();
+
+        // CHekc that the response was reset
+        $response->refresh();
+        $this->assertNull($response->response);
+    }
 }

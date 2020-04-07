@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\GeneralInfoQuestion;
+use App\Observers\GeneralInfoQuestionObserver;
 use App\Observers\ProjectObserver;
 use App\Project;
 use Illuminate\Support\Facades\Blade;
@@ -27,7 +29,7 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         Project::observe(ProjectObserver::class);
-
+        GeneralInfoQuestion::observe(GeneralInfoQuestionObserver::class);
 
         Blade::directive('logo', function () {
             return "<?php echo url('/assets/images/techadvisory-logo.png'); ?>";
