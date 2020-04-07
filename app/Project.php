@@ -90,6 +90,11 @@ class Project extends Model
         return $this->hasMany(GeneralInfoQuestionResponse::class, 'project_id');
     }
 
+    public function sizingQuestions()
+    {
+        return $this->hasMany(SizingQuestionResponse::class, 'project_id');
+    }
+
 
 
 

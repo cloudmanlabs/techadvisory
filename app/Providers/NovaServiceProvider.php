@@ -12,6 +12,7 @@ use App\Nova\Metrics\NumberOfVendors;
 use App\Nova\Metrics\TotalNumberOfUsers;
 use App\Nova\Practice;
 use App\Nova\Project;
+use App\Nova\SizingQuestion;
 use App\Nova\Subpractice;
 use App\Nova\Vendor;
 use App\Nova\User;
@@ -45,6 +46,8 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
 
             GeneralInfoQuestion::class,
             GeneralInfoQuestionResponse::class,
+
+            SizingQuestion::class,
         ];
 
         if (auth()->user()->isAdmin()) {

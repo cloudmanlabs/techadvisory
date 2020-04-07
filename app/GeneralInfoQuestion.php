@@ -7,8 +7,6 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Log;
 
 /**
- * @property string $response
- *
  * @property string $type
  *
  * @property string $label
@@ -21,9 +19,6 @@ use Illuminate\Support\Facades\Log;
 class GeneralInfoQuestion extends Model
 {
     public $guarded = [];
-    public $fieldNames = [
-        'label'
-    ];
 
     const questionTypes = ['text', 'textarea', 'selectSingle', 'selectMultiple', 'date'];
     const presetOptions = ['countries', 'transportModes', 'transportFlows', 'transportTypes', 'custom'];

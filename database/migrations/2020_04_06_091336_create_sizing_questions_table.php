@@ -17,8 +17,13 @@ class CreateSizingQuestionsTable extends Migration
             $table->id();
             $table->timestamps();
 
-            $table->string('question');
+            $table->string('label');
             $table->string('type');
+
+            $table->string('placeholder')->nullable();
+            $table->boolean('required')->default(false);
+            $table->string('presetOption')->nullable();
+            $table->string('options')->nullable();
         });
     }
 
