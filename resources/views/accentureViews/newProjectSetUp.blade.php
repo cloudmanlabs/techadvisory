@@ -162,9 +162,13 @@
                                                             >
                                                             <option @if($question->response == '') selected @endif disabled="">{{$question->original->placeholder}}</option>
 
-                                                            @foreach (explode(',', $question->original->options) as $option)
-                                                            <option value="{{$option}}" @if($question->response == $option) selected @endif>{{$option}}</option>
-                                                            @endforeach
+                                                            @if ($question->original->presetOption == 'countries')
+                                                                <x-options.countries :selected="[$question->response]" />
+                                                            @else
+                                                                @foreach ($question->original->optionList() as $option)
+                                                                <option value="{{$option}}" @if($question->response == $option) selected @endif>{{$option}}</option>
+                                                                @endforeach
+                                                            @endif
                                                         </select>
                                                     </div>
                                                     @break
@@ -177,11 +181,16 @@
                                                             {{$question->original->required ? 'required' : ''}}
                                                             >
                                                             @php
-                                                            $selectedOptions = json_decode($project->subpracticeSelect ?? '[]');
+                                                            $selectedOptions = json_decode($question->response ?? '[]');
                                                             @endphp
-                                                            @foreach (explode(',', $question->original->options) as $option)
-                                                            <option value="{{$option}}" {{in_array($option, $selectedOptions) ? 'selected' : ''}}>{{$option}}</option>
-                                                            @endforeach
+
+                                                            @if ($question->original->presetOption == 'countries')
+                                                                <x-options.countries :selected="$selectedOptions" />
+                                                            @else
+                                                                @foreach ($question->original->optionList() as $option)
+                                                                <option value="{{$option}}" {{in_array($option, $selectedOptions) ? 'selected' : ''}}>{{$option}}</option>
+                                                                @endforeach
+                                                            @endif
                                                         </select>
                                                     </div>
                                                     @break
@@ -189,68 +198,6 @@
 
                                             @endswitch
                                         @endforeach
-
-                                        <br>
-                                        <h4>1.3. Scope</h4>
-                                        <br>
-                                        <div class="form-group">
-                                            <label for="regionServedOption">Region Served</label>
-                                            <select class="js-example-basic-multiple w-100" multiple="multiple"
-                                                id="regionServedOption"
-                                                data-changing="regionServed"
-                                                required>
-                                                <x-options.countries :selected="json_decode($project->regionServed ?? '[]')" />
-                                            </select>
-                                        </div>
-
-                                        <div class="form-group">
-                                            <label for="transportFlowsOption">Transport Flows</label>
-                                            <select id="transportFlowsOption" class="js-example-basic-multiple w-100" multiple="multiple"
-                                                data-changing="transportFlows"
-                                                required>
-                                                @php
-                                                $select = json_decode($project->transportFlows ?? '[]');
-                                                @endphp
-                                                <option value="international" {{in_array('international', $select) ? 'selected' : ''}}>International Trade</option>
-                                                <option value="domestic" {{in_array('domestic', $select) ? 'selected' : ''}}>Domestic</option>
-                                                <option value="inbound" {{in_array('inbound', $select) ? 'selected' : ''}}>Inbound</option>
-                                                <option value="last" {{in_array('last', $select) ? 'selected' : ''}}>Last Mile</option>
-                                            </select>
-                                        </div>
-
-
-                                        <div class="form-group">
-                                            <label for="transportModeOption">Transport Mode</label>
-                                            <select id="transportModeOption" class="js-example-basic-multiple w-100" multiple="multiple"
-                                                data-changing="transportMode"
-                                                required>
-                                                @php
-                                                $select = json_decode($project->transportMode ?? '[]');
-                                                @endphp
-                                                <option value="road" {{in_array('road', $select) ? 'selected' : ''}}>Road</option>
-                                                <option value="maritime" {{in_array('maritime', $select) ? 'selected' : ''}}>Maritime</option>
-                                                <option value="air" {{in_array('air', $select) ? 'selected' : ''}}>Air</option>
-                                                <option value="train" {{in_array('train', $select) ? 'selected' : ''}}>Train</option>
-                                                <option value="fluvial" {{in_array('fluvial', $select) ? 'selected' : ''}}>Fluvial</option>
-                                                <option value="others" {{in_array('others', $select) ? 'selected' : ''}}>Others</option>
-                                            </select>
-                                        </div>
-
-
-                                        <div class="form-group">
-                                            <label for="transportTypeOption">Transport Type</label>
-                                            <select id="transportTypeOption" class="js-example-basic-multiple w-100" multiple="multiple"
-                                                data-changing="transportType"
-                                                required>
-                                                @php
-                                                $select = json_decode($project->transportType ?? '[]');
-                                                @endphp
-                                                <option value="ftl" {{in_array('ftl', $select) ? 'selected' : ''}}>FTL</option>
-                                                <option value="ltl" {{in_array('ltl', $select) ? 'selected' : ''}}>LTL</option>
-                                                <option value="parcel" {{in_array('parcel', $select) ? 'selected' : ''}}>Parcel</option>
-                                                <option value="others" {{in_array('others', $select) ? 'selected' : ''}}>Others</option>
-                                            </select>
-                                        </div>
 
                                         <br>
 

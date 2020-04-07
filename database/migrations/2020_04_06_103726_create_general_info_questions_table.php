@@ -22,6 +22,7 @@ class CreateGeneralInfoQuestionsTable extends Migration
 
             $table->string('placeholder')->nullable();
             $table->boolean('required')->default(false);
+            $table->string('presetOption')->nullable();
             $table->string('options')->nullable();
         });
     }

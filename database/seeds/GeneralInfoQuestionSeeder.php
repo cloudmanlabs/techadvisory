@@ -47,19 +47,44 @@ class GeneralInfoQuestionSeeder extends Seeder
             'label' => 'Project Type',
             'placeholder' => 'Please select the Project Type',
             'required' => true,
-            'options' => 'Business Case, Software selection, Value Based Software Selection, Client Satisfaction Survey',
+            'presetOption' => 'projectTypes',
         ]);
         factory(GeneralInfoQuestion::class)->create([
             'type' => 'selectSingle',
             'label' => 'Project Currency',
             'placeholder' => 'Please select the Project Currency',
             'required' => true,
-            'options' => 'Euro, Dollar',
+            'presetOption' => 'currencies',
         ]);
         factory(GeneralInfoQuestion::class)->create([
             'type' => 'textarea',
             'label' => 'Detailed description',
             'required' => false
+        ]);
+
+        factory(GeneralInfoQuestion::class)->create([
+            'type' => 'selectMultiple',
+            'label' => 'Region Served',
+            'required' => false,
+            'presetOption' => 'countries'
+        ]);
+        factory(GeneralInfoQuestion::class)->create([
+            'type' => 'selectMultiple',
+            'label' => 'Transport Flows',
+            'required' => false,
+            'presetOption' => 'transportFlows'
+        ]);
+        factory(GeneralInfoQuestion::class)->create([
+            'type' => 'selectMultiple',
+            'label' => 'Transport Mode',
+            'required' => false,
+            'presetOption' => 'transportModes'
+        ]);
+        factory(GeneralInfoQuestion::class)->create([
+            'type' => 'selectMultiple',
+            'label' => 'Transport Type',
+            'required' => false,
+            'presetOption' => 'transportTypes'
         ]);
     }
 }

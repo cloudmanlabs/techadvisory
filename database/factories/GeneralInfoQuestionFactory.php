@@ -29,12 +29,14 @@ $factory->define(GeneralInfoQuestion::class, function (Faker $faker) {
                 'type' => $type,
                 'required' => $faker->boolean,
                 'placeholder' => 'Nothing selected',
+                'presetOption' => 'custom',
                 'options' => 'one, two, three'
             ];
         case 'selectMultiple':
             return [
                 'label' => 'How are you?',
                 'type' => $type,
+                'presetOption' => 'custom',
                 'options' => 'one, two, three'
             ];
     }

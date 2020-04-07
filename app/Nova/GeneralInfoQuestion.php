@@ -79,7 +79,21 @@ class GeneralInfoQuestion extends Resource
                     Text::make('Placeholder', 'placeholder')
                         ->hideWhenCreating()
                         ->hideFromIndex(),
-                    Text::make('Options', 'options')
+                    Select::make('Options', 'presetOption')
+                        ->options([
+                            'countries' => 'Countries',
+                            'transportModes' => 'Transport Modes',
+                            'transportFlows' => 'Transport Flows',
+                            'transportTypes' => 'Transport Types',
+                            'currencies' => 'Currencies',
+                            'projectTypes' => 'Project Types',
+                            'custom' => 'Custom'
+                        ])
+                        ->displayUsingLabels()
+                        ->hideFromIndex()
+                        ->hideWhenCreating()
+                        ->help('Select a preset of options for the Dropdown, or select Custom to add a custom list of options in "Custom options"'),
+                    Text::make('Custom options', 'options')
                         ->hideFromIndex()
                         ->hideWhenCreating()
                         ->help('Add a list of comma separated options.'),
@@ -87,7 +101,19 @@ class GeneralInfoQuestion extends Resource
                 break;
             case 'selectMultiple':
                 $other = [
-                    Text::make('Options', 'options')
+                    Select::make('Options', 'presetOption')
+                        ->options([
+                            'countries' => 'Countries',
+                            'transportModes' => 'Transport Modes',
+                            'transportFlows' => 'Transport Flows',
+                            'transportTypes' => 'Transport Types',
+                            'custom' => 'Custom'
+                        ])
+                        ->displayUsingLabels()
+                        ->hideFromIndex()
+                        ->hideWhenCreating()
+                        ->help('Select a preset of options for the Dropdown, or select Custom to add a custom list of options in "Custom options"'),
+                    Text::make('Custom options', 'options')
                         ->hideFromIndex()
                         ->hideWhenCreating()
                         ->help('Add a list of comma separated options.'),
