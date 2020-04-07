@@ -86,5 +86,31 @@ class GeneralInfoQuestionSeeder extends Seeder
             'required' => false,
             'presetOption' => 'transportTypes'
         ]);
+
+        factory(GeneralInfoQuestion::class)->create([
+            'type' => 'date',
+            'label' => 'Tentative date for project setup completion',
+            'required' => false,
+        ]);
+        factory(GeneralInfoQuestion::class)->create([
+            'type' => 'date',
+            'label' => 'Tentative date for Value Enablers completion',
+            'required' => false,
+        ]);
+        factory(GeneralInfoQuestion::class)->create([
+            'type' => 'date',
+            'label' => 'Tentative date for Vendor Response completion',
+            'required' => false,
+        ]);
+        factory(GeneralInfoQuestion::class)->create([
+            'type' => 'date',
+            'label' => 'Tentative date for Analytics completion',
+            'required' => false,
+        ]);
+        factory(GeneralInfoQuestion::class)->create([
+            'type' => 'date',
+            'label' => 'Tentative date fot Conclusions & Recomendations completion',
+            'required' => false,
+        ]);
     }
 }

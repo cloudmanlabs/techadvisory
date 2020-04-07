@@ -25,9 +25,8 @@ class GeneralInfoQuestion extends Model
         'label'
     ];
 
-    const questionTypes = ['text', 'textarea', 'selectSingle', 'selectMultiple'];
+    const questionTypes = ['text', 'textarea', 'selectSingle', 'selectMultiple', 'date'];
     const presetOptions = ['countries', 'transportModes', 'transportFlows', 'transportTypes', 'custom'];
-
 
     public function optionList()
     {

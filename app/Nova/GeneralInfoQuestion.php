@@ -55,7 +55,8 @@ class GeneralInfoQuestion extends Resource
                     'text' => 'Text',
                     'textarea' => 'Text Area',
                     'selectSingle' => 'Select',
-                    'selectMultiple' => 'Select multiple'
+                    'selectMultiple' => 'Select multiple',
+                    'date' => 'Date'
                 ])
                 ->displayUsingLabels()
                 ->rules('required'),

@@ -194,58 +194,24 @@
                                                         </select>
                                                     </div>
                                                     @break
+                                                @case('date')
+                                                    <label>{{$question->original->label}}{{$question->original->required ? '*' : ''}}</label>
+                                                    <div class="input-group date datepicker" data-initialValue="{{$question->response}}">
+                                                        <input
+                                                            data-changing="{{$question->id}}"
+                                                            value="{{$question->response}}"
+                                                            {{$question->original->required ? 'required' : ''}}
+                                                            type="text"
+                                                            class="form-control">
+                                                        <span class="input-group-addon"><i data-feather="calendar"></i></span>
+                                                    </div>
+                                                    @break
                                                 @default
 
                                             @endswitch
                                         @endforeach
 
                                         <br>
-
-                                        <h4>1.4. Timeline</h4>
-                                        <br>
-
-                                        <label for="tentativeProjectSetUp">Tentative date for project set - up
-                                            completion</label>
-                                        <div class="input-group date datepicker" id="datePicker1">
-                                            <input id="tentativeProjectSetUp" data-changing="tentativeProjectSetUp" value="{{$project->tentativeProjectSetUp}}" required type="text" class="form-control"><span class="input-group-addon"><i
-                                                    data-feather="calendar"></i></span>
-                                        </div>
-
-
-                                        <label for="tentativeValueEnablers">Tentative date for Value Enablers
-                                            completion</label>
-                                        <div class="input-group date datepicker" id="datePicker2">
-                                            <input id="tentativeValueEnablers" data-changing="tentativeValueEnablers" value="{{$project->tentativeValueEnablers}}" required type="text" class="form-control"><span class="input-group-addon"><i
-                                                    data-feather="calendar"></i></span>
-                                        </div>
-
-
-                                        <label for="tentativeVendorResponse">Tentative date for Vendor Response
-                                            completion</label>
-                                        <div class="input-group date datepicker" id="datePicker3">
-                                            <input id="tentativeVendorResponse" data-changing="tentativeVendorResponse" value="{{$project->tentativeVendorResponse}}" required type="text" class="form-control"><span class="input-group-addon"><i
-                                                    data-feather="calendar"></i></span>
-                                        </div>
-
-
-                                        <label for="tentativeAnalytics">Tentative date for Analytics
-                                            completion</label>
-                                        <div class="input-group date datepicker" id="datePicker4">
-                                            <input id="tentativeAnalytics" data-changing="tentativeAnalytics" value="{{$project->tentativeAnalytics}}" required type="text" class="form-control"><span class="input-group-addon"><i
-                                                    data-feather="calendar"></i></span>
-                                        </div>
-
-
-                                        <label for="tentativeConclusions">Tentative date fot Conclusions &
-                                            Recomendations completion</label>
-                                        <div class="input-group date datepicker" id="datePicker5">
-                                            <input id="tentativeConclusions" data-changing="tentativeConclusions" value="{{$project->tentativeConclusions}}" required type="text" class="form-control"><span class="input-group-addon"><i
-                                                    data-feather="calendar"></i></span>
-                                        </div>
-
-
-                                        <br>
-
                                     </section>
 
                                     <h2>RFP Upload</h2>
@@ -1057,6 +1023,17 @@
 
         $(".js-example-basic-single").select2();
         $(".js-example-basic-multiple").select2();
+
+        $('.datepicker').each(function(){
+            var date = new Date($(this).data('initialvalue'));
+
+            $(this).datepicker({
+                format: "mm/dd/yyyy",
+                todayHighlight: true,
+                autoclose: true
+            });
+            $(this).datepicker('setDate', date);
+        });
     });
 </script>
 @endsection

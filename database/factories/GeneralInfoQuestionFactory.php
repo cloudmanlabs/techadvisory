@@ -36,8 +36,15 @@ $factory->define(GeneralInfoQuestion::class, function (Faker $faker) {
             return [
                 'label' => 'How are you?',
                 'type' => $type,
+                'required' => $faker->boolean,
                 'presetOption' => 'custom',
                 'options' => 'one, two, three'
+            ];
+        case 'date':
+            return [
+                'label' => 'How are you?',
+                'type' => $type,
+                'required' => $faker->boolean,
             ];
     }
 });
