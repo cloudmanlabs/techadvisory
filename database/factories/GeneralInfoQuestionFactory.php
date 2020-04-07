@@ -11,12 +11,17 @@ $factory->define(GeneralInfoQuestion::class, function (Faker $faker) {
 
     switch($type){
         case 'text':
-        case 'textarea':
             return [
                 'label' => 'How are you?',
                 'type' => $type,
                 'required' => $faker->boolean,
                 'placeholder' => 'Placeholder text'
+            ];
+        case 'textarea':
+            return [
+                'label' => 'How are you?',
+                'type' => $type,
+                'required' => $faker->boolean,
             ];
         case 'selectSingle':
             return [

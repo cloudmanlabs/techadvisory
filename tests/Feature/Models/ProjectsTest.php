@@ -5,6 +5,7 @@ namespace Tests\Feature;
 use App\Folder;
 use App\Practice;
 use App\Project;
+use App\Subpractice;
 use App\User;
 use Carbon\Carbon;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -112,6 +113,20 @@ class ProjectsTest extends TestCase
         $project->save();
 
         $this->assertNotNull($project->practice);
+    }
+
+    public function testCanAddSubpracticesToProject()
+    {
+        $subpractice = factory(Subpractice::class)->create();
+
+        $project = factory(Project::class)->create();
+
+        $this->assertCount(0, $project->subpractices);
+
+        $project->subpractices()->attach($subpractice);
+
+        $project->refresh();
+        $this->assertCount(1, $project->subpractices);
     }
 
     public function testCanAddClientToProject()
@@ -258,5 +273,53 @@ class ProjectsTest extends TestCase
 
         $project->refresh();
         $this->assertEquals(1, $project->isBinding);
+    }
+
+    public function testCanChangePracticeInProject()
+    {
+        $user = factory(User::class)->states('accenture')->create();
+
+        $practice1 = factory(Practice::class)->create();
+        $practice2 = factory(Practice::class)->create();
+        $project = factory(Project::class)->create([
+            'practice_id' => $practice1->id
+        ]);
+
+        $request = $this
+            ->actingAs($user)
+            ->post('/accenture/newProjectSetUp/changePractice', [
+                'project_id' => $project->id,
+                'practice_id' => $practice2->id
+            ]);
+
+        $request->assertOk();
+
+        $project->refresh();
+        $this->assertEquals($practice2->id, $project->practice->id);
+    }
+
+    public function testCanChangeSubpracticeInProject()
+    {
+        $user = factory(User::class)->states('accenture')->create();
+
+        $subpractice1 = factory(Subpractice::class)->create();
+        $subpractice2 = factory(Subpractice::class)->create();
+        $subpractice3 = factory(Subpractice::class)->create();
+        $project = factory(Project::class)->create();
+
+        $project->subpractices()->attach($subpractice1);
+        $this->assertCount(1, $project->subpractices);
+
+        $request = $this
+            ->actingAs($user)
+            ->post('/accenture/newProjectSetUp/changeSubpractice', [
+                'project_id' => $project->id,
+                'subpractices' => [$subpractice2->id, $subpractice3->id],
+            ]);
+
+        $request->assertOk();
+
+        $project->refresh();
+        $this->assertCount(2, $project->subpractices);
     }
 }

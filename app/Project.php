@@ -75,6 +75,11 @@ class Project extends Model
         return $this->belongsTo(Practice::class);
     }
 
+    public function subpractices()
+    {
+        return $this->belongsToMany(Subpractice::class);
+    }
+
     public function client()
     {
         return $this->belongsTo(User::class);

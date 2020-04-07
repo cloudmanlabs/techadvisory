@@ -5,7 +5,9 @@ namespace App\Http\Controllers\Accenture;
 use App\GeneralInfoQuestionResponse;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Practice;
 use App\Project;
+use App\Subpractice;
 use App\User;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Validation\Rule;
@@ -43,7 +45,7 @@ class ProjectController extends Controller
 
         $project = Project::find($request->project_id);
         if ($project == null) {
-            abourt(404);
+            abort(404);
         }
 
         $project->name = $request->newName;
@@ -64,7 +66,7 @@ class ProjectController extends Controller
 
         $project = Project::find($request->project_id);
         if ($project == null) {
-            abourt(404);
+            abort(404);
         }
 
         $project->client_id = $request->client_id;
@@ -85,7 +87,7 @@ class ProjectController extends Controller
 
         $project = Project::find($request->project_id);
         if ($project == null) {
-            abourt(404);
+            abort(404);
         }
 
         $project->hasValueTargeting = $request->value === 'yes';
@@ -106,10 +108,57 @@ class ProjectController extends Controller
 
         $project = Project::find($request->project_id);
         if ($project == null) {
-            abourt(404);
+            abort(404);
         }
 
         $project->isBinding = $request->value === 'yes';
+        $project->save();
+
+        return \response()->json([
+            'status' => 200,
+            'message' => 'Success'
+        ]);
+    }
+
+    public function changePractice(Request $request)
+    {
+        $request->validate([
+            'project_id' => 'required|numeric',
+            'practice_id' => 'required|numeric'
+        ]);
+
+        $project = Project::find($request->project_id);
+        if ($project == null) {
+            abort(404);
+        }
+
+        $practice = Practice::find($request->practice_id);
+        if ($practice == null) {
+            abort(404);
+        }
+
+        $project->practice_id = $request->practice_id;
+        $project->save();
+
+        return \response()->json([
+            'status' => 200,
+            'message' => 'Success'
+        ]);
+    }
+
+    public function changeSubpractice(Request $request)
+    {
+        $request->validate([
+            'project_id' => 'required|numeric',
+            'subpractices' => 'required|array'
+        ]);
+
+        $project = Project::find($request->project_id);
+        if ($project == null) {
+            abort(404);
+        }
+
+        $project->subpractices()->sync($request->subpractices);
         $project->save();
 
         return \response()->json([

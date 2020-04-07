@@ -5,6 +5,7 @@
 use App\Model;
 use App\Practice;
 use App\Project;
+use App\Subpractice;
 use App\User;
 use Carbon\Carbon;
 use Faker\Generator as Faker;

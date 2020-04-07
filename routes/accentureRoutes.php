@@ -36,6 +36,8 @@ Route::
             Route::post('/newProjectSetUp/changeProjectClient', 'ProjectController@changeProjectClient');
             Route::post('/newProjectSetUp/changeProjectHasValueTargeting', 'ProjectController@changeProjectHasValueTargeting');
             Route::post('/newProjectSetUp/changeProjectIsBinding', 'ProjectController@changeProjectIsBinding');
+            Route::post('/newProjectSetUp/changePractice', 'ProjectController@changePractice');
+            Route::post('/newProjectSetUp/changeSubpractice', 'ProjectController@changeSubpractice');
 
             Route::view('clientList', 'accentureViews.clientList')
                 ->name('clientList');

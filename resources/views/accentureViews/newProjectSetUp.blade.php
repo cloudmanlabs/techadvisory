@@ -105,6 +105,27 @@
                                             </select>
                                         </div>
 
+                                        <div class="form-group">
+                                            <label for="practiceSelect">Practice*</label>
+                                            <select class="form-control" id="practiceSelect" required>
+                                                <x-options.practices :selected="$project->practice->id" />
+                                            </select>
+                                        </div>
+
+
+                                        <div class="form-group">
+                                            <label for="subpracticeSelect">Subpractice*</label>
+                                            <select
+                                                class="js-example-basic-multiple w-100"
+                                                id="subpracticeSelect"
+                                                multiple="multiple" required>
+                                                @php
+                                                $select = $project->subpractices()->pluck('subpractices.id')->toArray();
+                                                @endphp
+                                                <x-options.subpractices :selected="$select" />
+                                            </select>
+                                        </div>
+
 
                                         @foreach ($generalInfoQuestions as $question)
                                             @switch($question->original->type)
@@ -148,118 +169,27 @@
                                                     </div>
                                                     @break
                                                 @case('selectMultiple')
-                                                    Implement select with multiple options pls
+                                                    <div class="form-group">
+                                                        <label>{{$question->original->label}}{{$question->original->required ? '*' : ''}}</label>
+                                                        <select class="js-example-basic-multiple w-100"
+                                                            data-changing="{{$question->id}}"
+                                                            multiple="multiple"
+                                                            {{$question->original->required ? 'required' : ''}}
+                                                            >
+                                                            @php
+                                                            $selectedOptions = json_decode($project->subpracticeSelect ?? '[]');
+                                                            @endphp
+                                                            @foreach (explode(',', $question->original->options) as $option)
+                                                            <option value="{{$option}}" {{in_array($option, $selectedOptions) ? 'selected' : ''}}>{{$option}}</option>
+                                                            @endforeach
+                                                        </select>
+                                                    </div>
                                                     @break
                                                 @default
 
                                             @endswitch
                                         @endforeach
 
-
-                                        <div class="form-group">
-                                            <label for="clientContactEmail">Client contact e-mail</label>
-                                            <input type="email" class="form-control"
-                                                id="clientContactEmail"
-                                                data-changing="clientContactEmail"
-                                                value="{{$project->clientContactEmail}}"
-                                                required
-                                                placeholder="Client contact e-mail">
-                                        </div>
-
-                                        <div class="form-group">
-                                            <label for="clientContactPhone">Client contact phone</label>
-                                            <input type="text" class="form-control" id="clientContactPhone"
-                                                data-changing="clientContactPhone"
-                                                value="{{$project->clientContactPhone}}"
-                                                required
-                                                placeholder="Client contact phone">
-                                        </div>
-
-                                        <div class="form-group">
-                                            <label for="accentureContactEmail">Accenture contact e-mail</label>
-                                            <input type="email" class="form-control" id="accentureContactEmail"
-                                                value="{{$project->accentureContactEmail}}"
-                                                data-changing="accentureContactEmail" required
-                                                placeholder="Accenture contact e-mail" required>
-                                        </div>
-
-                                        <div class="form-group">
-                                            <label for="accentureContactPhone">Accenture contact phone</label>
-                                            <input type="text" class="form-control" id="accentureContactPhone"
-                                                data-changing="accentureContactPhone" required
-                                                value="{{$project->accentureContactPhone}}"
-                                                placeholder="Accenture contact phone">
-                                        </div>
-
-                                        <div class="form-group">
-                                            <label for="projectType">Project Type*</label>
-                                            <select class="form-control" id="projectType" data-changing="projectType" required>
-                                                <option @if($project->projectType == '') selected @endif disabled="">Please select the Project Type</option>
-                                                <option value="businessCase" @if($project->projectType == 'businessCase') selected @endif>Business Case</option>
-                                                <option value="softwareSelection" @if($project->projectType == 'softwareSelection') selected @endif>Software selection</option>
-                                                <option value="valueBased" @if($project->projectType == 'valueBased') selected @endif>Value Based Software Selection</option>
-                                                <option value="clientSatisfaction" @if($project->projectType == 'clientSatisfaction') selected @endif>Client Satisfaction Survey</option>
-                                            </select>
-                                        </div>
-
-
-
-                                        <div class="form-group">
-                                            <label for="projectCurrency">Project Currency*</label>
-                                            <select class="form-control" id="projectCurrency" data-changing="projectCurrency" required>
-                                                <option @if($project->projectType == '') selected @endif disabled="">Please select the Project Type</option>
-                                                <option value="euro" @if($project->projectType == 'euro') selected @endif>€</option>
-                                                <option value="dollar" @if($project->projectType == 'dollar') selected @endif>$</option>
-                                            </select>
-                                        </div>
-
-                                        <div class="form-group">
-                                            <label for="detailedDescription">Detailed description</label>
-                                            <textarea class="form-control" id="detailedDescription" data-changing="detailedDescription" rows="14"
-                                                required>{{$project->detailedDescription}}</textarea>
-                                        </div>
-
-                                        <br>
-
-                                        <h4>1.2. Practice</h4>
-                                        <br>
-
-                                        <div class="form-group">
-                                            <label for="practiceSelect">Practice*</label>
-                                            <select class="form-control" id="practiceSelect" data-changing="practiceSelect" required>
-                                                <option selected="" disabled="">Please select your Transport Mode</option>
-                                                <option value="transport" @if($project->practiceSelect == 'transport') selected @endif>Transport</option>
-                                                <option value="planning" @if($project->practiceSelect == 'planning') selected @endif>Planning</option>
-                                                <option value="manufacturing" @if($project->practiceSelect == 'manufacturing') selected @endif>Manufacturing</option>
-                                                <option value="warehousing" @if($project->practiceSelect == 'warehousing') selected @endif>Warehousing</option>
-                                                <option value="sourcing" @if($project->practiceSelect == 'sourcing') selected @endif>Sourcing</option>
-                                            </select>
-                                        </div>
-
-
-                                        <div class="form-group">
-                                            <label for="subpracticeSelect">Subpractice*</label>
-                                            <select class="js-example-basic-multiple w-100"
-                                                id="subpracticeSelect"
-                                                data-changing="subpracticeSelect"
-                                                multiple="multiple"
-                                                required>
-                                                @php
-                                                    $select = json_decode($project->subpracticeSelect ?? '[]');
-                                                @endphp
-                                                <option value="logistics" {{in_array('logistics', $select) ? 'selected' : ''}}>Logistics Procurement</option>
-                                                <option value="tactical" {{in_array('tactical', $select) ? 'selected' : ''}}>Tactical Planning</option>
-                                                <option value="order" {{in_array('order', $select) ? 'selected' : ''}}>Order Management</option>
-                                                <option value="transport" {{in_array('transport', $select) ? 'selected' : ''}}>Transport Planning</option>
-                                                <option value="tendering" {{in_array('tendering', $select) ? 'selected' : ''}}>Tendering & Spot buying</option>
-                                                <option value="execution" {{in_array('execution', $select) ? 'selected' : ''}}>Execution & Visbility</option>
-                                                <option value="document" {{in_array('document', $select) ? 'selected' : ''}}>Document management</option>
-                                                <option value="trade" {{in_array('trade', $select) ? 'selected' : ''}}>Trade complaince</option>
-                                                <option value="fba" {{in_array('fba', $select) ? 'selected' : ''}}>FBA</option>
-                                                <option value="reporting" {{in_array('reporting', $select) ? 'selected' : ''}}>Reporting and Analytics</option>
-                                            </select>
-
-                                        </div>
                                         <br>
                                         <h4>1.3. Scope</h4>
                                         <br>
@@ -1030,8 +960,10 @@
         })
     }
 
+    var weAreOnPage3 = false;
+
     $(document).ready(function() {
-        var weAreOnPage3 = false;
+        weAreOnPage3 = false;
 
         $("#wizard_accenture_newProjectSetUp").steps({
             headerTag: "h2",
@@ -1129,6 +1061,29 @@
             showSavedToast();
             updateSubmitButton();
         });
+
+        $('#practiceSelect').change(function (e) {
+            var value = $(this).val();
+            $.post('/accenture/newProjectSetUp/changePractice', {
+                project_id: '{{$project->id}}',
+                practice_id: value
+            })
+
+            showSavedToast();
+            updateSubmitButton();
+        });
+
+        $('#subpracticeSelect').change(function (e) {
+            var value = $(this).val();
+            $.post('/accenture/newProjectSetUp/changeSubpractice', {
+                project_id: '{{$project->id}}',
+                subpractices: value
+            })
+
+            showSavedToast();
+            updateSubmitButton();
+        });
+
 
 
         // On change for the rest

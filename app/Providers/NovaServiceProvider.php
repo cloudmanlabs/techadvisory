@@ -12,6 +12,7 @@ use App\Nova\Metrics\NumberOfVendors;
 use App\Nova\Metrics\TotalNumberOfUsers;
 use App\Nova\Practice;
 use App\Nova\Project;
+use App\Nova\Subpractice;
 use App\Nova\Vendor;
 use App\Nova\User;
 use Illuminate\Support\Facades\Gate;
@@ -39,6 +40,7 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
             Client::class,
             Vendor::class,
             Practice::class,
+            Subpractice::class,
             Project::class,
 
             GeneralInfoQuestion::class,

@@ -68,13 +68,12 @@ class GeneralInfoQuestion extends Resource
         // NOTE All of the fields here should be hidden on index and create
         switch($this->resource->type){
             case 'text':
-            case 'textarea':
                 $other = [
                     Text::make('Placeholder', 'placeholder')
-                        ->hideWhenCreating()
-                        ->hideFromIndex(),
+                    ->hideWhenCreating()
+                    ->hideFromIndex(),
                 ];
-                break;
+            break;
             case 'selectSingle':
                 $other = [
                     Text::make('Placeholder', 'placeholder')
@@ -82,16 +81,19 @@ class GeneralInfoQuestion extends Resource
                         ->hideFromIndex(),
                     Text::make('Options', 'options')
                         ->hideFromIndex()
-                        ->hideWhenCreating(),
+                        ->hideWhenCreating()
+                        ->help('Add a list of comma separated options.'),
                 ];
                 break;
             case 'selectMultiple':
                 $other = [
                     Text::make('Options', 'options')
                         ->hideFromIndex()
-                        ->hideWhenCreating(),
+                        ->hideWhenCreating()
+                        ->help('Add a list of comma separated options.'),
                 ];
                 break;
+            case 'textarea':
             default:
                 $other = [];
                 break;
