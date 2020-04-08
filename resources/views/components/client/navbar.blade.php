@@ -108,7 +108,7 @@
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="{{route('client.home')}}#closed_projects">
-                                    Closed Projects
+                                    Old Projects
                                 </a>
                             </li>
                         </ul>

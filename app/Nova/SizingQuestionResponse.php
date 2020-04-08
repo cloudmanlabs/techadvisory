@@ -50,7 +50,11 @@ class SizingQuestionResponse extends Resource
     public function fields(Request $request)
     {
         return [
-            ID::make()->sortable(),
+            BelongsTo::make('Project', 'project', 'App\Nova\Project'),
+            BelongsTo::make('Question', 'original', 'App\Nova\SizingQuestion'),
+
+            Text::make('Response', 'response')
+                ->hideWhenCreating(),
         ];
     }
 

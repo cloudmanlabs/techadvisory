@@ -53,8 +53,6 @@ class Project extends Resource
     public function fields(Request $request)
     {
         return [
-            // ID::make()->sortable(),
-
             Text::make('Name', 'name')
                 ->rules('required')
                 ->required(),
@@ -92,6 +90,7 @@ class Project extends Resource
                 ->sortable(),
 
             HasMany::make('General Info Questions', 'generalInfoQuestions', 'App\Nova\GeneralInfoQuestionResponse'),
+            HasMany::make('Sizing Questions', 'sizingQuestions', 'App\Nova\SizingQuestionResponse'),
             BelongsToMany::make('Subpractices', 'subpractices', 'App\Nova\Subpractice'),
         ];
     }

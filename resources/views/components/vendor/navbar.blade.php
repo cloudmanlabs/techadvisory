@@ -100,12 +100,17 @@
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="{{route('vendor.home')}}#open_projects">
-                                    Open Projects
+                                    Started Applications
                                 </a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="{{route('vendor.home')}}#closed_projects">
-                                    Closed Projects
+                                    Submitted Applications
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{route('vendor.home')}}#closed_projects">
+                                    Rejected Projects
                                 </a>
                             </li>
                         </ul>
