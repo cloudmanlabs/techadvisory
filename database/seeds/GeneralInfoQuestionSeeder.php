@@ -1,6 +1,7 @@
 <?php
 
 use App\GeneralInfoQuestion;
+use App\Practice;
 use Illuminate\Database\Seeder;
 
 class GeneralInfoQuestionSeeder extends Seeder
@@ -62,29 +63,34 @@ class GeneralInfoQuestionSeeder extends Seeder
             'required' => false
         ]);
 
+        $transportPractice = Practice::where('name', 'Transport')->first();
         factory(GeneralInfoQuestion::class)->create([
             'type' => 'selectMultiple',
             'label' => 'Region Served',
             'required' => false,
-            'presetOption' => 'countries'
+            'presetOption' => 'countries',
+            'practice_id' => $transportPractice->id
         ]);
         factory(GeneralInfoQuestion::class)->create([
             'type' => 'selectMultiple',
             'label' => 'Transport Flows',
             'required' => false,
-            'presetOption' => 'transportFlows'
+            'presetOption' => 'transportFlows',
+            'practice_id' => $transportPractice->id
         ]);
         factory(GeneralInfoQuestion::class)->create([
             'type' => 'selectMultiple',
             'label' => 'Transport Mode',
             'required' => false,
-            'presetOption' => 'transportModes'
+            'presetOption' => 'transportModes',
+            'practice_id' => $transportPractice->id
         ]);
         factory(GeneralInfoQuestion::class)->create([
             'type' => 'selectMultiple',
             'label' => 'Transport Type',
             'required' => false,
-            'presetOption' => 'transportTypes'
+            'presetOption' => 'transportTypes',
+            'practice_id' => $transportPractice->id
         ]);
 
         factory(GeneralInfoQuestion::class)->create([

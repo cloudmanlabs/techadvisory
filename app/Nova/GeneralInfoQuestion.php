@@ -18,6 +18,9 @@ use Laravel\Nova\Panel;
 
 class GeneralInfoQuestion extends Resource
 {
+
+    public static $group = 'Questions';
+
     /**
      * The model the resource corresponds to.
      *
@@ -64,6 +67,10 @@ class GeneralInfoQuestion extends Resource
             Text::make('Label', 'label')
                 ->required(),
             Boolean::make('Required', 'required'),
+
+            BelongsTo::make('Practice', 'practice', 'App\Nova\Practice')
+                ->nullable()
+                ->help('Select a Practice if you want this Question to only show on projects with that Practice')
         ];
 
         // NOTE All of the fields here should be hidden on index and create

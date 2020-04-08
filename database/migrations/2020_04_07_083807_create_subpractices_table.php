@@ -18,6 +18,7 @@ class CreateSubpracticesTable extends Migration
             $table->timestamps();
 
             $table->string('name');
+            $table->unsignedBigInteger('practice_id');
         });
 
         Schema::create('project_subpractice', function (Blueprint $table) {

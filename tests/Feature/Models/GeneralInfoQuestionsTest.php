@@ -4,6 +4,7 @@ namespace Tests\Feature\Models;
 
 use App\GeneralInfoQuestion;
 use App\GeneralInfoQuestionResponse;
+use App\Practice;
 use App\Project;
 use App\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -55,6 +56,43 @@ class GeneralInfoQuestionsTest extends TestCase
         $question->save();
 
         $this->assertCount(1, GeneralInfoQuestion::all());
+    }
+
+    public function testCanCreateGeneralInfoQuestionWithPracticeDependency()
+    {
+        $this->assertCount(0, GeneralInfoQuestion::all());
+
+        $practice = factory(Practice::class)->create();
+
+        $question = new GeneralInfoQuestion([
+            'label' => 'How are you?',
+            'type' => 'text',
+
+            'practice_id' => $practice->id
+        ]);
+        $question->save();
+
+        $this->assertCount(1, GeneralInfoQuestion::all());
+    }
+
+    public function testCanAttachPracticeToGeneralInfoQuestion()
+    {
+        $practice = factory(Practice::class)->create();
+
+        $question = new GeneralInfoQuestion([
+            'label' => 'How are you?',
+            'type' => 'text',
+        ]);
+        $question->save();
+
+        $this->assertNull($question->practice);
+
+        $question->practice()->associate($practice);
+        $question->save();
+
+        $question->refresh();
+
+        $this->assertNotNull($question->practice);
     }
 
     public function testCanAssignQuestionsToAProject()

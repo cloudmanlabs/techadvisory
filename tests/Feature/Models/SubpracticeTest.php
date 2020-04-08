@@ -2,6 +2,7 @@
 
 namespace Tests\Feature\Models;
 
+use App\Practice;
 use App\Project;
 use App\Subpractice;
 use App\User;
@@ -13,10 +14,13 @@ class SubpracticeTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function testCanCreatePractice()
+    public function testCanCreateSubpractice()
     {
+        $practice = factory(Practice::class)->create();
+
         $subpractice = new Subpractice([
-            'name' => 'newName'
+            'name' => 'newName',
+            'practice_id' => $practice->id
         ]);
         $subpractice->save();
 

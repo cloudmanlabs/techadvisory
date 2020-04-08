@@ -52,6 +52,7 @@ class Subpractice extends Resource
         return [
             Text::make('Name', 'name'),
 
+            BelongsTo::make('Practice', 'practice', 'App\Nova\Practice'),
             BelongsToMany::make('Projects with this Practice', 'projects', 'App\Nova\Project')
         ];
     }

@@ -130,7 +130,7 @@
                                         @foreach ($generalInfoQuestions as $question)
                                             @switch($question->original->type)
                                                 @case('text')
-                                                    <div class="form-group">
+                                                    <div class="form-group questionDiv generalQuestion" data-practice="{{$question->original->practice->id ?? ''}}">
                                                         <label>{{$question->original->label}}{{$question->original->required ? '*' : ''}}</label>
                                                         <input
                                                             class="form-control"
@@ -142,7 +142,7 @@
                                                     </div>
                                                     @break
                                                 @case('textarea')
-                                                    <div class="form-group">
+                                                    <div class="form-group questionDiv generalQuestion" data-practice="{{$question->original->practice->id ?? ''}}">
                                                         <label>{{$question->original->label}}{{$question->original->required ? '*' : ''}}</label>
                                                         <textarea
                                                             rows="14"
@@ -153,7 +153,7 @@
                                                     </div>
                                                     @break
                                                 @case('selectSingle')
-                                                    <div class="form-group">
+                                                    <div class="form-group questionDiv generalQuestion" data-practice="{{$question->original->practice->id ?? ''}}">
                                                         <label>{{$question->original->label}}{{$question->original->required ? '*' : ''}}</label>
                                                         <select
                                                             class="form-control"
@@ -173,7 +173,7 @@
                                                     </div>
                                                     @break
                                                 @case('selectMultiple')
-                                                    <div class="form-group">
+                                                    <div class="form-group questionDiv generalQuestion" data-practice="{{$question->original->practice->id ?? ''}}">
                                                         <label>{{$question->original->label}}{{$question->original->required ? '*' : ''}}</label>
                                                         <select class="js-example-basic-multiple w-100"
                                                             data-changing="{{$question->id}}"
@@ -195,15 +195,17 @@
                                                     </div>
                                                     @break
                                                 @case('date')
-                                                    <label>{{$question->original->label}}{{$question->original->required ? '*' : ''}}</label>
-                                                    <div class="input-group date datepicker" data-initialValue="{{$question->response}}">
-                                                        <input
+                                                    <div class="questionDiv generalQuestion" data-practice="{{$question->original->practice->id ?? ''}}">
+                                                        <label>{{$question->original->label}}{{$question->original->required ? '*' : ''}}</label>
+                                                        <div class="input-group date datepicker" data-initialValue="{{$question->response}}">
+                                                            <input
                                                             data-changing="{{$question->id}}"
                                                             value="{{$question->response}}"
                                                             {{$question->original->required ? 'required' : ''}}
                                                             type="text"
                                                             class="form-control">
-                                                        <span class="input-group-addon"><i data-feather="calendar"></i></span>
+                                                            <span class="input-group-addon"><i data-feather="calendar"></i></span>
+                                                        </div>
                                                     </div>
                                                     @break
                                                 @default
@@ -815,6 +817,10 @@
         select.form-control {
             color: #495057;
         }
+
+        .select2-results__options .select2-results__option[aria-disabled=true] {
+            display: none;
+        }
     </style>
 @endsection
 
@@ -872,6 +878,39 @@
             position: 'bottom-right'
         })
     }
+
+    var currentPracticeId = {{$project->practice->id}};
+    function updateShownQuestionsAccordingToPractice(){
+        $('.questionDiv').each(function () {
+            let practiceId = $(this).data('practice');
+
+            if(practiceId == currentPracticeId || practiceId == "") {
+                $(this).css('display', 'block')
+            } else {
+                $(this).css('display', 'none')
+            }
+        });
+    }
+
+    function updateShownSubpracticeOptionsAccordingToPractice(){
+        // TODO Also deselect the current subpractice
+        $('#subpracticeSelect').val([]);
+        $('#subpracticeSelect').trigger('change');
+
+        $('#subpracticeSelect').children().each(function(){
+            let practiceId = $(this).data('practiceid');
+
+            if(practiceId == currentPracticeId) {
+                $(this).attr('disabled', false);
+            } else {
+                $(this).attr('disabled', true);
+            }
+        })
+    }
+
+
+
+
 
     var weAreOnPage3 = false;
 
@@ -977,6 +1016,7 @@
 
         $('#practiceSelect').change(function (e) {
             var value = $(this).val();
+            currentPracticeId = value;
             $.post('/accenture/newProjectSetUp/changePractice', {
                 project_id: '{{$project->id}}',
                 practice_id: value
@@ -984,6 +1024,9 @@
 
             showSavedToast();
             updateSubmitButton();
+
+            updateShownQuestionsAccordingToPractice();
+            updateShownSubpracticeOptionsAccordingToPractice();
         });
 
         $('#subpracticeSelect').change(function (e) {
@@ -1020,7 +1063,6 @@
                 updateSubmitButton();
             });
 
-
         $(".js-example-basic-single").select2();
         $(".js-example-basic-multiple").select2();
 
@@ -1034,6 +1076,9 @@
             });
             $(this).datepicker('setDate', date);
         });
+
+        updateShownQuestionsAccordingToPractice();
+        updateShownSubpracticeOptionsAccordingToPractice();
     });
 </script>
 @endsection

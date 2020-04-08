@@ -18,6 +18,8 @@ use Laravel\Nova\Panel;
 
 class SizingQuestion extends Resource
 {
+    public static $group = 'Questions';
+
     /**
      * The model the resource corresponds to.
      *
@@ -64,6 +66,10 @@ class SizingQuestion extends Resource
             Text::make('Label', 'label')
                 ->required(),
             Boolean::make('Required', 'required'),
+
+            BelongsTo::make('Practice', 'practice', 'App\Nova\Practice')
+                ->nullable()
+                ->help('Select a Practice if you want this Question to only show on projects with that Practice')
         ];
 
         switch ($this->resource->type) {

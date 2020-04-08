@@ -2,6 +2,7 @@
 
 namespace Tests\Feature\Models;
 
+use App\Practice;
 use App\Project;
 use App\SizingQuestion;
 use App\SizingQuestionResponse;
@@ -55,6 +56,43 @@ class SizingQuestionsTest extends TestCase
         $question->save();
 
         $this->assertCount(1, SizingQuestion::all());
+    }
+
+    public function testCanSizingQuestionWithPracticeDependency()
+    {
+        $this->assertCount(0, SizingQuestion::all());
+
+        $practice = factory(Practice::class)->create();
+
+        $question = new SizingQuestion([
+            'label' => 'How are you?',
+            'type' => 'text',
+
+            'practice_id' => $practice->id
+        ]);
+        $question->save();
+
+        $this->assertCount(1, SizingQuestion::all());
+    }
+
+    public function testCanAttachPracticeToSizingQuestion()
+    {
+        $practice = factory(Practice::class)->create();
+
+        $question = new SizingQuestion([
+            'label' => 'How are you?',
+            'type' => 'text',
+        ]);
+        $question->save();
+
+        $this->assertNull($question->practice);
+
+        $question->practice()->associate($practice);
+        $question->save();
+
+        $question->refresh();
+
+        $this->assertNotNull($question->practice);
     }
 
     public function testCanAssignQuestionsToAProject()

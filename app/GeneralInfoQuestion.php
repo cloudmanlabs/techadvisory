@@ -20,6 +20,16 @@ class GeneralInfoQuestion extends Model
 {
     public $guarded = [];
 
+
+    public function practice()
+    {
+        return $this->belongsTo(Practice::class);
+    }
+
+
+
+
+
     const questionTypes = ['text', 'textarea', 'selectSingle', 'selectMultiple', 'date'];
     const presetOptions = ['countries', 'transportModes', 'transportFlows', 'transportTypes', 'custom'];
 

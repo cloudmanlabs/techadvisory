@@ -12,4 +12,9 @@ class Subpractice extends Model
     {
         return $this->belongsToMany(Project::class);
     }
+
+    public function practice()
+    {
+        return $this->belongsTo(Practice::class);
+    }
 }
