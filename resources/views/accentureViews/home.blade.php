@@ -26,7 +26,7 @@
                                     </p>
                                     <select id="homePracticeSelect" class="w-100" multiple="multiple">
                                         @foreach ($practices as $practice)
-                                        <option selected>{{$practice}}</option>
+                                        <option>{{$practice}}</option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -37,7 +37,7 @@
                                     </p>
                                     <select id="homeClientSelect" class="w-100" multiple="multiple">
                                         @foreach ($clients as $client)
-                                        <option selected>{{$client}}</option>
+                                        <option>{{$client}}</option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -214,12 +214,27 @@
 
 
             function updateOpenProjects() {
+                // Get all selected practices. If there are none, get all of them
                 var selectedPractices = $('#homePracticeSelect').select2('data').map((el) => {
                     return el.text
                 });
+                if(selectedPractices.length == 0){
+                    selectedPractices = $('#homePracticeSelect').children().toArray().map((el) => {
+                        return el.innerHTML
+                    });
+                }
+
                 var selectedClients = $('#homeClientSelect').select2('data').map((el) => {
                     return el.text
                 });
+                if(selectedClients.length == 0){
+                    selectedClients = $('#homeClientSelect').children().toArray().map((el) => {
+                        return el.innerHTML
+                    });
+                }
+                console.log(selectedClients);
+
+
 
                 // Add a display none to the one which don't have this tags
                 $('#openPhaseContainer').children().each(function () {
@@ -262,6 +277,7 @@
             $('#homeClientSelect').on('change', function (e) {
                 updateOpenProjects();
             });
+            updateOpenProjects();
         });
     </script>
 @endsection

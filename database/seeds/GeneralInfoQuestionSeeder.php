@@ -93,6 +93,16 @@ class GeneralInfoQuestionSeeder extends Seeder
             'practice_id' => $transportPractice->id
         ]);
 
+        $planningPractice = Practice::where('name', 'Planning')->first();
+        factory(GeneralInfoQuestion::class)->create([
+            'type' => 'text',
+            'label' => 'Planning question 1',
+            'placeholder' => 'Placeholder',
+            'required' => false,
+            'practice_id' => $planningPractice->id
+        ]);
+
+
         factory(GeneralInfoQuestion::class)->create([
             'type' => 'date',
             'label' => 'Tentative date for project setup completion',

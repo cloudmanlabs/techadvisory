@@ -893,7 +893,7 @@
     }
 
     function updateShownSubpracticeOptionsAccordingToPractice(){
-        // TODO Also deselect the current subpractice
+        // Deselect the current subpractice
         $('#subpracticeSelect').val([]);
         $('#subpracticeSelect').trigger('change');
 

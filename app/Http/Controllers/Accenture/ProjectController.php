@@ -26,13 +26,12 @@ class ProjectController extends Controller
     {
         $clients = User::clientUsers()->get();
 
-        $generalInfoQuestions = $project->generalInfoQuestions;
-
         return view('accentureViews.newProjectSetUp', [
             'project' => $project,
             'clients' => $clients,
 
-            'generalInfoQuestions' => $generalInfoQuestions
+            'generalInfoQuestions' => $project->generalInfoQuestions,
+            'sizingQuestions' => $project->sizingQuestions
         ]);
     }
 
