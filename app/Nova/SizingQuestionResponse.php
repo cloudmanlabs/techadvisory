@@ -2,6 +2,7 @@
 
 namespace App\Nova;
 
+use App\Project;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Laravel\Nova\Fields\BelongsTo;
@@ -58,6 +59,16 @@ class SizingQuestionResponse extends Resource
             Text::make('Response', 'response')
                 ->hideWhenCreating(),
         ];
+    }
+
+    public static function relatableSizingQuestions(NovaRequest $request, $query)
+    {
+        if ($request->viaResource) {
+            $selectedAgendaItems = Project::find($request->viaResourceId)->sizingQuestions()->pluck('question_id');
+            return $query->whereNotIn('id', $selectedAgendaItems);
+        } else {
+            return $query;
+        }
     }
 
     /**
