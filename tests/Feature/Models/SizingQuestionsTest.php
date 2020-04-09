@@ -117,4 +117,84 @@ class SizingQuestionsTest extends TestCase
         $project->refresh();
         $this->assertCount(2, $project->sizingQuestions);
     }
+
+
+    public function testCanRespondQuestion()
+    {
+        // Create the question
+        $question = factory(SizingQuestion::class)->create();
+        $project = factory(Project::class)->create();
+        $response = new SizingQuestionResponse([
+            'question_id' => $question->id,
+            'project_id' => $project->id,
+        ]);
+        $response->save();
+
+        $this->assertNull($response->response);
+        $response->response = 'answer';
+        $response->save();
+        $this->assertNotNull($response->response);
+    }
+
+    public function testResponseIsDeletedWhenQuestionIsDeleted()
+    {
+        $question = factory(SizingQuestion::class)->create();
+        $project = factory(Project::class)->create();
+
+        $this->assertCount(1, $project->sizingQuestions);
+
+        $question->delete();
+
+        $project->refresh();
+        $this->assertCount(0, $project->sizingQuestions);
+    }
+
+    public function testChangingAQuestionResetsTheResponses()
+    {
+        $question = factory(SizingQuestion::class)->create([
+            'type' => 'selectMultiple',
+            'label' => 'Transport Type',
+            'required' => false,
+            'presetOption' => 'transportTypes'
+        ]);
+        $project = factory(Project::class)->create();
+
+        // Set a response
+        $response = SizingQuestionResponse::first();
+        $this->assertNull($response->response);
+        $response->response = 'hello';
+        $this->assertNotNull($response->response);
+
+        // Change the question
+        $question->type = 'selectSingle';
+        $question->save();
+
+        // CHekc that the response was reset
+        $response->refresh();
+        $this->assertNull($response->response);
+    }
+
+    public function testCanChangeResponseWithPost()
+    {
+        $user = factory(User::class)->create();
+
+        $question = factory(SizingQuestion::class)->create();
+        $project = factory(Project::class)->create();
+        $qResponse = new SizingQuestionResponse([
+            'question_id' => $question->id,
+            'project_id' => $project->id,
+        ]);
+        $qResponse->save();
+
+        $response = $this->actingAs($user)
+                        ->post('/sizingQuestion/changeResponse', [
+                            'changing' => $qResponse->id,
+                            'value' => 'newText'
+                        ]);
+
+        $response->assertOk();
+
+        $qResponse->refresh();
+        $this->assertEquals('newText', $qResponse->response);
+    }
 }

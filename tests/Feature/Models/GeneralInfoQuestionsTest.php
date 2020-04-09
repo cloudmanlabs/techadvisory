@@ -172,4 +172,28 @@ class GeneralInfoQuestionsTest extends TestCase
         $response->refresh();
         $this->assertNull($response->response);
     }
+
+    public function testCanChangeResponseWithPost()
+    {
+        $user = factory(User::class)->create();
+
+        $question = factory(GeneralInfoQuestion::class)->create();
+        $project = factory(Project::class)->create();
+        $qResponse = new GeneralInfoQuestionResponse([
+            'question_id' => $question->id,
+            'project_id' => $project->id,
+        ]);
+        $qResponse->save();
+
+        $response = $this->actingAs($user)
+            ->post('/generalInfoQuestion/changeResponse', [
+                'changing' => $qResponse->id,
+                'value' => 'newText'
+            ]);
+
+        $response->assertOk();
+
+        $qResponse->refresh();
+        $this->assertEquals('newText', $qResponse->response);
+    }
 }

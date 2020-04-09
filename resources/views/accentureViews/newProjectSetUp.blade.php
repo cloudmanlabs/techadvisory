@@ -240,6 +240,92 @@
 
                                     <h2>Sizing Info</h2>
                                     <section>
+                                        @foreach ($sizingQuestions as $question)
+                                            @switch($question->original->type)
+                                                @case('text')
+                                                    <div class="form-group questionDiv sizingQuestion" data-practice="{{$question->original->practice->id ?? ''}}">
+                                                        <label>{{$question->original->label}}{{$question->original->required ? '*' : ''}}</label>
+                                                        <input
+                                                            class="form-control"
+                                                            type="text"
+                                                            data-changing="{{$question->id}}"
+                                                            {{$question->original->required ? 'required' : ''}}
+                                                            value="{{$question->response}}"
+                                                            placeholder="{{$question->original->placeholder}}">
+                                                    </div>
+                                                    @break
+                                                @case('textarea')
+                                                    <div class="form-group questionDiv sizingQuestion" data-practice="{{$question->original->practice->id ?? ''}}">
+                                                        <label>{{$question->original->label}}{{$question->original->required ? '*' : ''}}</label>
+                                                        <textarea
+                                                            rows="14"
+                                                            class="form-control"
+                                                            data-changing="{{$question->id}}"
+                                                            {{$question->original->required ? 'required' : ''}}
+                                                        >{{$question->response}}</textarea>
+                                                    </div>
+                                                    @break
+                                                @case('selectSingle')
+                                                    <div class="form-group questionDiv sizingQuestion" data-practice="{{$question->original->practice->id ?? ''}}">
+                                                        <label>{{$question->original->label}}{{$question->original->required ? '*' : ''}}</label>
+                                                        <select
+                                                            class="form-control"
+                                                            data-changing="{{$question->id}}"
+                                                            {{$question->original->required ? 'required' : ''}}
+                                                            >
+                                                            <option @if($question->response == '') selected @endif disabled="">{{$question->original->placeholder}}</option>
+
+                                                            @if ($question->original->presetOption == 'countries')
+                                                                <x-options.countries :selected="[$question->response]" />
+                                                            @else
+                                                                @foreach ($question->original->optionList() as $option)
+                                                                <option value="{{$option}}" @if($question->response == $option) selected @endif>{{$option}}</option>
+                                                                @endforeach
+                                                            @endif
+                                                        </select>
+                                                    </div>
+                                                    @break
+                                                @case('selectMultiple')
+                                                    <div class="form-group questionDiv sizingQuestion" data-practice="{{$question->original->practice->id ?? ''}}">
+                                                        <label>{{$question->original->label}}{{$question->original->required ? '*' : ''}}</label>
+                                                        <select class="js-example-basic-multiple w-100"
+                                                            data-changing="{{$question->id}}"
+                                                            multiple="multiple"
+                                                            {{$question->original->required ? 'required' : ''}}
+                                                            >
+                                                            @php
+                                                            $selectedOptions = json_decode($question->response ?? '[]');
+                                                            @endphp
+
+                                                            @if ($question->original->presetOption == 'countries')
+                                                                <x-options.countries :selected="$selectedOptions" />
+                                                            @else
+                                                                @foreach ($question->original->optionList() as $option)
+                                                                <option value="{{$option}}" {{in_array($option, $selectedOptions) ? 'selected' : ''}}>{{$option}}</option>
+                                                                @endforeach
+                                                            @endif
+                                                        </select>
+                                                    </div>
+                                                    @break
+                                                @case('date')
+                                                    <div class="questionDiv sizingQuestion" data-practice="{{$question->original->practice->id ?? ''}}">
+                                                        <label>{{$question->original->label}}{{$question->original->required ? '*' : ''}}</label>
+                                                        <div class="input-group date datepicker" data-initialValue="{{$question->response}}">
+                                                            <input
+                                                            data-changing="{{$question->id}}"
+                                                            value="{{$question->response}}"
+                                                            {{$question->original->required ? 'required' : ''}}
+                                                            type="text"
+                                                            class="form-control">
+                                                            <span class="input-group-addon"><i data-feather="calendar"></i></span>
+                                                        </div>
+                                                    </div>
+                                                    @break
+                                                @default
+
+                                            @endswitch
+                                        @endforeach
+
                                         <h4>3.1. Sizing Info</h4>
                                         <br>
                                         <div class="form-group">
@@ -892,10 +978,12 @@
         });
     }
 
-    function updateShownSubpracticeOptionsAccordingToPractice(){
+    function updateShownSubpracticeOptionsAccordingToPractice(removeCurrentSelection = true){
         // Deselect the current subpractice
-        $('#subpracticeSelect').val([]);
-        $('#subpracticeSelect').trigger('change');
+        if(removeCurrentSelection){
+            $('#subpracticeSelect').val([]);
+            $('#subpracticeSelect').trigger('change');
+        }
 
         $('#subpracticeSelect').children().each(function(){
             let practiceId = $(this).data('practiceid');
@@ -1044,17 +1132,39 @@
 
         // On change for the rest
 
-        $('input,textarea,select')
+        $('.generalQuestion input,.generalQuestion textarea,.generalQuestion select')
             .filter(function(el) {
                 return $( this ).data('changing') !== undefined
             })
             .change(function (e) {
+                console.log('general');
                 var value = $(this).val();
                 if($.isArray(value) && value.length == 0 && $(this).attr('multiple') !== undefined){
                     value = '[]'
                 }
 
                 $.post('/generalInfoQuestion/changeResponse', {
+                    changing: $(this).data('changing'),
+                    value: value
+                })
+
+                showSavedToast();
+                updateSubmitButton();
+            });
+
+        $('.sizingQuestion input,.sizingQuestion textarea,.sizingQuestion select')
+            .filter(function(el) {
+                return $( this ).data('changing') !== undefined
+            })
+            .change(function (e) {
+                console.log('sizing');
+
+                var value = $(this).val();
+                if($.isArray(value) && value.length == 0 && $(this).attr('multiple') !== undefined){
+                    value = '[]'
+                }
+
+                $.post('/sizingQuestion/changeResponse', {
                     changing: $(this).data('changing'),
                     value: value
                 })
@@ -1078,7 +1188,7 @@
         });
 
         updateShownQuestionsAccordingToPractice();
-        updateShownSubpracticeOptionsAccordingToPractice();
+        updateShownSubpracticeOptionsAccordingToPractice(false);
     });
 </script>
 @endsection

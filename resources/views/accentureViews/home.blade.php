@@ -232,9 +232,6 @@
                         return el.innerHTML
                     });
                 }
-                console.log(selectedClients);
-
-
 
                 // Add a display none to the one which don't have this tags
                 $('#openPhaseContainer').children().each(function () {

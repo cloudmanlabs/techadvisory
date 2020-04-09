@@ -17,6 +17,7 @@ class DatabaseSeeder extends Seeder
         $this->call(SubpracticeSeeder::class);
 
         $this->call(GeneralInfoQuestionSeeder::class);
+        $this->call(SizingQuestionSeeder::class);
 
         $this->call(ProjectSeeder::class);
     }

@@ -13,7 +13,7 @@ class SizingQuestionResponse extends Model
 
     public function original()
     {
-        return $this->belongsTo(GeneralInfoQuestion::class, 'question_id');
+        return $this->belongsTo(SizingQuestion::class, 'question_id');
     }
 
     public function project()
