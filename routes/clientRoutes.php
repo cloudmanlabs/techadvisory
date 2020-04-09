@@ -29,8 +29,13 @@ Route::prefix('client')
                 ->name('firstLoginRegistration');
             Route::view('homeProfileCreate', 'clientViews.homeProfileCreate')
                 ->name('homeProfileCreate');
-            Route::view('newProjectSetUp', 'clientViews.newProjectSetUp')
+            Route::get('newProjectSetUp/{project}', 'ProjectController@newProjectSetUp')
                 ->name('newProjectSetUp');
+            Route::post('/newProjectSetUp/changeProjectName', 'ProjectController@changeProjectName');
+            Route::post('/newProjectSetUp/changeProjectHasValueTargeting', 'ProjectController@changeProjectHasValueTargeting');
+            Route::post('/newProjectSetUp/changeProjectIsBinding', 'ProjectController@changeProjectIsBinding');
+            Route::post('/newProjectSetUp/changePractice', 'ProjectController@changePractice');
+            Route::post('/newProjectSetUp/changeSubpractice', 'ProjectController@changeSubpractice');
 
             Route::get('home', 'HomeController@home')
                 ->name('home');

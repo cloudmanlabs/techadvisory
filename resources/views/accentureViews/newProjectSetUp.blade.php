@@ -208,6 +208,18 @@
                                                         </div>
                                                     </div>
                                                     @break
+                                                @case('number')
+                                                    <div class="form-group questionDiv generalQuestion" data-practice="{{$question->original->practice->id ?? ''}}">
+                                                        <label>{{$question->original->label}}{{$question->original->required ? '*' : ''}}</label>
+                                                        <input
+                                                            class="form-control"
+                                                            type="number"
+                                                            data-changing="{{$question->id}}"
+                                                            {{$question->original->required ? 'required' : ''}}
+                                                            value="{{$question->response}}"
+                                                            placeholder="{{$question->original->placeholder}}">
+                                                    </div>
+                                                    @break
                                                 @default
 
                                             @endswitch
@@ -321,189 +333,22 @@
                                                         </div>
                                                     </div>
                                                     @break
+                                                @case('number')
+                                                    <div class="form-group questionDiv sizingQuestion" data-practice="{{$question->original->practice->id ?? ''}}">
+                                                        <label>{{$question->original->label}}{{$question->original->required ? '*' : ''}}</label>
+                                                        <input
+                                                            class="form-control"
+                                                            type="number"
+                                                            data-changing="{{$question->id}}"
+                                                            {{$question->original->required ? 'required' : ''}}
+                                                            value="{{$question->response}}"
+                                                            placeholder="{{$question->original->placeholder}}">
+                                                    </div>
+                                                    @break
                                                 @default
 
                                             @endswitch
                                         @endforeach
-
-                                        <h4>3.1. Sizing Info</h4>
-                                        <br>
-                                        <div class="form-group">
-                                            <label for="exampleInputText1">Maximum number of concurrent users
-                                            </label>
-                                            <input type="number" class="form-control" id="exampleInputText1"
-                                                placeholder="Maximum number of concurrent users">
-                                        </div>
-
-                                        <div class="form-group">
-                                            <label for="exampleInputText1">Number of named users
-                                            </label>
-                                            <input type="number" class="form-control" id="exampleInputText1"
-                                                placeholder="Number of named users">
-                                        </div>
-
-                                        <div class="form-group">
-                                            <label for="exampleInputText1">Annual number shipments
-                                            </label>
-                                            <input type="number" class="form-control" id="exampleInputText1"
-                                                placeholder="Annual # shipments">
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="exampleInputText1">Average number of shipments per month valley
-                                                season
-                                            </label>
-                                            <input type="number" class="form-control" id="exampleInputText1"
-                                                placeholder="Average number of shimpments per month valley season">
-                                        </div>
-
-                                        <div class="form-group">
-                                            <label for="exampleInputText1">Average number of shipments per month peak
-                                                season
-                                            </label>
-                                            <input type="number" class="form-control" id="exampleInputText1"
-                                                placeholder="Average number of shimpments per month peak season">
-                                        </div>
-
-                                        <div class="form-group">
-                                            <label>Countries</label><br>
-                                            <select class="js-example-basic-multiple w-100" multiple="multiple"
-                                                style="width: 100%;">
-                                                <x-options.countries :selected="[]" />
-                                            </select>
-                                        </div>
-
-                                        <div class="form-group">
-                                            <label for="exampleInputText1">Transport Spend
-                                            </label>
-                                            <input type="number" class="form-control" id="exampleInputText1"
-                                                placeholder="Transport Spend">
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="exampleInputText1"># Suppliers
-                                            </label>
-                                            <input type="number" class="form-control" id="exampleInputText1"
-                                                placeholder="# Suppliers">
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="exampleInputText1"># Plants
-                                            </label>
-                                            <input type="number" class="form-control" id="exampleInputText1"
-                                                placeholder="Plants">
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="exampleInputText1"># Warehouses
-                                            </label>
-                                            <input type="number" class="form-control" id="exampleInputText1"
-                                                placeholder="# Warehouses">
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="exampleInputText1"># Direct customers
-                                            </label>
-                                            <input type="number" class="form-control" id="exampleInputText1"
-                                                placeholder="# Direct customers">
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="exampleInputText1"># Final Clients
-                                            </label>
-                                            <input type="number" class="form-control" id="exampleInputText1"
-                                                placeholder="# Final Clients">
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="exampleInputText1">% Complex movements (different than OW)
-                                            </label>
-                                            <input type="text" class="form-control" id="exampleInputText1"
-                                                placeholder="% Complex movements (different than OW)">
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="exampleInputText1"># carriers
-                                            </label>
-                                            <input type="number" class="form-control" id="exampleInputText1"
-                                                placeholder="# carriers">
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="exampleInputText1">% own fleet
-                                            </label>
-                                            <input type="text" class="form-control" id="exampleInputText1"
-                                                placeholder="% own fleet">
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="exampleInputText1">% dedicated fleet
-                                            </label>
-                                            <input type="text" class="form-control" id="exampleInputText1"
-                                                placeholder="% dedicated fleet">
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="exampleInputText1">% contracted fleet
-                                            </label>
-                                            <input type="text" class="form-control" id="exampleInputText1"
-                                                placeholder="% contracted fleet">
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="exampleInputText1">% Road movements
-                                            </label>
-                                            <input type="text" class="form-control" id="exampleInputText1"
-                                                placeholder="% Road movements">
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="exampleInputText1">% Maritime movements
-                                            </label>
-                                            <input type="text" class="form-control" id="exampleInputText1"
-                                                placeholder="% Maritime movements">
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="exampleInputText1">% Air movements
-                                            </label>
-                                            <input type="text" class="form-control" id="exampleInputText1"
-                                                placeholder="% Air movements">
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="exampleInputText1">% Rail movements
-                                            </label>
-                                            <input type="text" class="form-control" id="exampleInputText1"
-                                                placeholder="% Rail movements">
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="exampleInputText1">% Fluvial movements
-                                            </label>
-                                            <input type="text" class="form-control" id="exampleInputText1"
-                                                placeholder="% Fluvial movements">
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="exampleInputText1">% Intermodal movements
-                                            </label>
-                                            <input type="text" class="form-control" id="exampleInputText1"
-                                                placeholder="% Intermodal movements">
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="exampleInputText1">% International
-                                            </label>
-                                            <input type="text" class="form-control" id="exampleInputText1"
-                                                placeholder="% International">
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="exampleInputText1">% Domestic
-                                            </label>
-                                            <input type="text" class="form-control" id="exampleInputText1"
-                                                placeholder="% Domestic">
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="exampleInputText1">% Inbound
-                                            </label>
-                                            <input type="text" class="form-control" id="exampleInputText1"
-                                                placeholder="% Inbound">
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="exampleInputText1">% Last mile
-                                            </label>
-                                            <input type="text" class="form-control" id="exampleInputText1"
-                                                placeholder="% Last mile">
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="exampleInputText1">% FTL vs parcial
-                                            </label>
-                                            <input type="text" class="form-control" id="exampleInputText1"
-                                                placeholder="% FTL vs parcial">
-                                        </div>
                                     </section>
 
                                     <h2>Selection Criteria</h2>

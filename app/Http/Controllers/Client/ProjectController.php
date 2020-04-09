@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Client;
 use App\Project;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Practice;
+use Laravel\Nova\Tests\Fixtures\User;
 
 class ProjectController extends Controller
 {
@@ -21,6 +23,127 @@ class ProjectController extends Controller
     //         'project' => $project
     //     ]);
     // }
+
+
+    public function newProjectSetUp(Project $project)
+    {
+        return view('clientViews.newProjectSetUp', [
+            'project' => $project,
+
+            'generalInfoQuestions' => $project->generalInfoQuestions,
+            'sizingQuestions' => $project->sizingQuestions
+        ]);
+    }
+
+    public function changeProjectName(Request $request)
+    {
+        $request->validate([
+            'project_id' => 'required|numeric',
+            'newName' => 'required|string'
+        ]);
+
+        $project = Project::find($request->project_id);
+        if ($project == null) {
+            abort(404);
+        }
+
+        $project->name = $request->newName;
+        $project->save();
+
+        return \response()->json([
+            'status' => 200,
+            'message' => 'Success'
+        ]);
+    }
+
+    public function changeProjectHasValueTargeting(Request $request)
+    {
+        $request->validate([
+            'project_id' => 'required|numeric',
+            'value' => 'required|string'
+        ]);
+
+        $project = Project::find($request->project_id);
+        if ($project == null) {
+            abort(404);
+        }
+
+        $project->hasValueTargeting = $request->value === 'yes';
+        $project->save();
+
+        return \response()->json([
+            'status' => 200,
+            'message' => 'Success'
+        ]);
+    }
+
+    public function changeProjectIsBinding(Request $request)
+    {
+        $request->validate([
+            'project_id' => 'required|numeric',
+            'value' => 'required|string'
+        ]);
+
+        $project = Project::find($request->project_id);
+        if ($project == null) {
+            abort(404);
+        }
+
+        $project->isBinding = $request->value === 'yes';
+        $project->save();
+
+        return \response()->json([
+            'status' => 200,
+            'message' => 'Success'
+        ]);
+    }
+
+    public function changePractice(Request $request)
+    {
+        $request->validate([
+            'project_id' => 'required|numeric',
+            'practice_id' => 'required|numeric'
+        ]);
+
+        $project = Project::find($request->project_id);
+        if ($project == null) {
+            abort(404);
+        }
+
+        $practice = Practice::find($request->practice_id);
+        if ($practice == null) {
+            abort(404);
+        }
+
+        $project->practice_id = $request->practice_id;
+        $project->save();
+
+        return \response()->json([
+            'status' => 200,
+            'message' => 'Success'
+        ]);
+    }
+
+    public function changeSubpractice(Request $request)
+    {
+        $request->validate([
+            'project_id' => 'required|numeric',
+            'subpractices' => 'required|array'
+        ]);
+
+        $project = Project::find($request->project_id);
+        if ($project == null) {
+            abort(404);
+        }
+
+        $project->subpractices()->sync($request->subpractices);
+        $project->save();
+
+        return \response()->json([
+            'status' => 200,
+            'message' => 'Success'
+        ]);
+    }
 
     public function view(Project $project)
     {

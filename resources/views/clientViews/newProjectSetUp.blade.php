@@ -49,172 +49,143 @@
                                 </p>
 
                                 <br>
-                                <div id="clientNewProjectSetUpWizard{{($somethingHasBeenSubmitted ?? false) ? '-withSelectionCriteria' : ''}}">
+                                <div id="wizard_client_newProjectSetUp">
                                     <h2>General Info</h2>
                                     <section>
                                         <h4>1.1. Project Info</h4>
                                         <br>
 
                                         <div class="form-group">
-                                            <label for="exampleInputText1">Project Name*</label>
-                                            <input type="text"
-                                            class="form-control"
-                                            id="exampleInputText1"
-                                            placeholder="Project Name"
-                                            {{-- value="{{$project->name}}" --}}
-                                            value="Project name"
-                                            disabled>
+                                            <label for="projectName">Project Name*</label>
+                                            <input
+                                                type="text"
+                                                class="form-control"
+                                                id="projectName"
+                                                data-changing="name"
+                                                placeholder="Project Name"
+                                                value="{{$project->name}}"
+                                                disabled
+                                                required>
                                         </div>
 
                                         <div class="form-group">
-                                            <label for="exampleInputText1">Client contact e-mail*</label>
-                                            <input type="email" class="form-control" id="exampleInputText1" placeholder="Client contact e-mail" required>
-                                        </div>
-
-                                        <div class="form-group">
-                                            <label for="exampleInputText1">Client contact phone*</label>
-                                            <input type="text" class="form-control" id="exampleInputText1" placeholder="Client contact phone">
-                                        </div>
-
-                                        <div class="form-group">
-                                            <label for="exampleInputText1">Accenture contact e-mail*</label>
-                                            <input type="email" class="form-control" id="exampleInputText1" placeholder="Accenture contact e-mail" required value="adrian.garcia.mena@accenture.com" disabled>
-                                        </div>
-
-                                        <div class="form-group">
-                                            <label for="exampleInputText1">Accenture contact phone*</label>
-                                            <input type="text" class="form-control" id="exampleInputText1" placeholder="Accenture contact phone" value="+34 915 399 000" disabled>
-                                        </div>
-
-                                        <div class="form-group">
-                                            <label for="exampleFormControlSelect1">Project Type*</label>
-                                            <select class="form-control" id="exampleFormControlSelect1" required>
-                                                <option selected="" disabled="">Please select the Project Type</option>
-                                                <option>Business Case</option>
-                                                <option>Software selection</option>
-                                                <option>Value Based Software Selection</option>
-                                                <option>Client Satisfaction Survey</option>
+                                            <label for="valueTargeting">Value Targeting*</label>
+                                            <select class="form-control" id="valueTargeting" required disabled>
+                                                <option disabled="">Please select the Project Type</option>
+                                                <option value="yes" @if($project->hasValueTargeting) selected @endif>Yes</option>
+                                                <option value="no" @if(!$project->hasValueTargeting) selected @endif>No</option>
                                             </select>
                                         </div>
+
                                         <div class="form-group">
-                                            <label for="exampleFormControlTextarea1">Project description*</label>
-                                            <textarea class="form-control" id="exampleFormControlTextarea1" rows="14" required></textarea>
+                                            <label for="bindingOption">Binding/Non-binding*</label>
+                                            <select class="form-control" id="bindingOption" required>
+                                                <option disabled="">Please select the Project Type</option>
+                                                <option value="yes" @if($project->isBinding) selected @endif>Binding</option>
+                                                <option value="no" @if(!$project->isBinding) selected @endif>Non-binding</option>
+                                            </select>
                                         </div>
-                                        <br>
-
-                                        <h4>1.2. Practice</h4>
-                                        <br>
 
                                         <div class="form-group">
-                                            <label for="exampleFormControlSelect1">Practice*</label>
-                                            <select class="form-control" id="exampleFormControlSelect1" required>
-                                                <option selected="" disabled="">Please select your Transport Mode</option>
-                                                <option>Transport </option>
-                                                <option>Planning</option>
-                                                <option>Manufacturing</option>
-                                                <option>Warehousing</option>
-                                                <option>Sourcing</option>
+                                            <label for="practiceSelect">Practice*</label>
+                                            <select class="form-control" id="practiceSelect" required>
+                                                <x-options.practices :selected="$project->practice->id" />
                                             </select>
                                         </div>
 
 
                                         <div class="form-group">
-                                            <label for="exampleFormControlSelect1">Subpractice*</label>
-                                            <select class="js-example-basic-multiple w-100" multiple="multiple" required>
-                                                <option>Logistics Procurement</option>
-                                                <option>Tactical Planning</option>
-                                                <option>Order Management</option>
-                                                <option>Transport Planning</option>
-                                                <option>Tendering & Spot buying</option>
-                                                <option>Execution & Visbility</option>
-                                                <option>Document management</option>
-                                                <option>Trade complaince</option>
-                                                <option>FBA</option>
-                                                <option>Reporting and Analytics </option>
-                                            </select>
-
-                                        </div>
-                                        <br>
-                                        <h4>1.3. Scope</h4>
-                                        <br>
-                                        <div class="form-group">
-                                            <label>Region Served*</label>
-                                            <select class="js-example-basic-multiple w-100" multiple="multiple" required>
-                                                <option value="AF">Afghanistan</option> <option value="AL">Albania</option> <option value="DZ">Algeria</option> <option value="AS">American Samoa</option> <option value="AD">Andorra</option> <option value="AO">Angola</option> <option value="AI">Anguilla</option> <option value="AQ">Antarctica</option> <option value="AG">Antigua and Barbuda</option> <option value="AR">Argentina</option> <option value="AM">Armenia</option> <option value="AW">Aruba</option> <option value="AU">Australia</option> <option value="AT">Austria</option> <option value="AZ">Azerbaijan</option> <option value="BS">Bahamas</option> <option value="BH">Bahrain</option> <option value="BD">Bangladesh</option> <option value="BB">Barbados</option> <option value="BY">Belarus</option> <option value="BE">Belgium</option> <option value="BZ">Belize</option> <option value="BJ">Benin</option> <option value="BM">Bermuda</option> <option value="BT">Bhutan</option> <option value="BO">Bolivia, Plurinational State of</option> <option value="BQ">Bonaire, Sint Eustatius and Saba</option> <option value="BA">Bosnia and Herzegovina</option> <option value="BW">Botswana</option> <option value="BV">Bouvet Island</option> <option value="BR">Brazil</option> <option value="IO">British Indian Ocean Territory</option> <option value="BN">Brunei Darussalam</option> <option value="BG">Bulgaria</option> <option value="BF">Burkina Faso</option> <option value="BI">Burundi</option> <option value="KH">Cambodia</option> <option value="CM">Cameroon</option> <option value="CA">Canada</option> <option value="CV">Cape Verde</option> <option value="KY">Cayman Islands</option> <option value="CF">Central African Republic</option> <option value="TD">Chad</option> <option value="CL">Chile</option> <option value="CN">China</option> <option value="CX">Christmas Island</option> <option value="CC">Cocos (Keeling) Islands</option> <option value="CO">Colombia</option> <option value="KM">Comoros</option> <option value="CG">Congo</option> <option value="CD">Congo, the Democratic Republic of the</option> <option value="CK">Cook Islands</option> <option value="CR">Costa Rica</option> <option value="CI">Côte d'Ivoire</option> <option value="HR">Croatia</option> <option value="CU">Cuba</option> <option value="CW">Curaçao</option> <option value="CY">Cyprus</option> <option value="CZ">Czech Republic</option> <option value="DK">Denmark</option> <option value="DJ">Djibouti</option> <option value="DM">Dominica</option> <option value="DO">Dominican Republic</option> <option value="EC">Ecuador</option> <option value="EG">Egypt</option> <option value="SV">El Salvador</option> <option value="GQ">Equatorial Guinea</option> <option value="ER">Eritrea</option> <option value="EE">Estonia</option> <option value="ET">Ethiopia</option> <option value="FK">Falkland Islands (Malvinas)</option> <option value="FO">Faroe Islands</option> <option value="FJ">Fiji</option> <option value="FI">Finland</option> <option value="FR">France</option> <option value="GF">French Guiana</option> <option value="PF">French Polynesia</option> <option value="TF">French Southern Territories</option> <option value="GA">Gabon</option> <option value="GM">Gambia</option> <option value="GE">Georgia</option> <option value="DE">Germany</option> <option value="GH">Ghana</option> <option value="GI">Gibraltar</option> <option value="GR">Greece</option> <option value="GL">Greenland</option> <option value="GD">Grenada</option> <option value="GP">Guadeloupe</option> <option value="GU">Guam</option> <option value="GT">Guatemala</option> <option value="GG">Guernsey</option> <option value="GN">Guinea</option> <option value="GW">Guinea-Bissau</option> <option value="GY">Guyana</option> <option value="HT">Haiti</option> <option value="HM">Heard Island and McDonald Islands</option> <option value="VA">Holy See (Vatican City State)</option> <option value="HN">Honduras</option> <option value="HK">Hong Kong</option> <option value="HU">Hungary</option> <option value="IS">Iceland</option> <option value="IN">India</option> <option value="ID">Indonesia</option> <option value="IR">Iran, Islamic Republic of</option> <option value="IQ">Iraq</option> <option value="IE">Ireland</option> <option value="IM">Isle of Man</option> <option value="IL">Israel</option> <option value="IT">Italy</option> <option value="JM">Jamaica</option> <option value="JP">Japan</option> <option value="JE">Jersey</option> <option value="JO">Jordan</option> <option value="KZ">Kazakhstan</option> <option value="KE">Kenya</option> <option value="KI">Kiribati</option> <option value="KP">Korea, Democratic People's Republic of</option> <option value="KR">Korea, Republic of</option> <option value="KW">Kuwait</option> <option value="KG">Kyrgyzstan</option> <option value="LA">Lao People's Democratic Republic</option> <option value="LV">Latvia</option> <option value="LB">Lebanon</option> <option value="LS">Lesotho</option> <option value="LR">Liberia</option> <option value="LY">Libya</option> <option value="LI">Liechtenstein</option> <option value="LT">Lithuania</option> <option value="LU">Luxembourg</option> <option value="MO">Macao</option> <option value="MK">Macedonia, the former Yugoslav Republic of</option> <option value="MG">Madagascar</option> <option value="MW">Malawi</option> <option value="MY">Malaysia</option> <option value="MV">Maldives</option> <option value="ML">Mali</option> <option value="MT">Malta</option> <option value="MH">Marshall Islands</option> <option value="MQ">Martinique</option> <option value="MR">Mauritania</option> <option value="MU">Mauritius</option> <option value="YT">Mayotte</option> <option value="MX">Mexico</option> <option value="FM">Micronesia, Federated States of</option> <option value="MD">Moldova, Republic of</option> <option value="MC">Monaco</option> <option value="MN">Mongolia</option> <option value="ME">Montenegro</option> <option value="MS">Montserrat</option> <option value="MA">Morocco</option> <option value="MZ">Mozambique</option> <option value="MM">Myanmar</option> <option value="NA">Namibia</option> <option value="NR">Nauru</option> <option value="NP">Nepal</option> <option value="NL">Netherlands</option> <option value="NC">New Caledonia</option> <option value="NZ">New Zealand</option> <option value="NI">Nicaragua</option> <option value="NE">Niger</option> <option value="NG">Nigeria</option> <option value="NU">Niue</option> <option value="NF">Norfolk Island</option> <option value="MP">Northern Mariana Islands</option> <option value="NO">Norway</option> <option value="OM">Oman</option> <option value="PK">Pakistan</option> <option value="PW">Palau</option> <option value="PS">Palestinian Territory, Occupied</option> <option value="PA">Panama</option> <option value="PG">Papua New Guinea</option> <option value="PY">Paraguay</option> <option value="PE">Peru</option> <option value="PH">Philippines</option> <option value="PN">Pitcairn</option> <option value="PL">Poland</option> <option value="PT">Portugal</option> <option value="PR">Puerto Rico</option> <option value="QA">Qatar</option> <option value="RE">Réunion</option> <option value="RO">Romania</option> <option value="RU">Russian Federation</option> <option value="RW">Rwanda</option> <option value="BL">Saint Barthélemy</option> <option value="SH">Saint Helena, Ascension and Tristan da Cunha</option> <option value="KN">Saint Kitts and Nevis</option> <option value="LC">Saint Lucia</option> <option value="MF">Saint Martin (French part)</option> <option value="PM">Saint Pierre and Miquelon</option> <option value="VC">Saint Vincent and the Grenadines</option> <option value="WS">Samoa</option> <option value="SM">San Marino</option> <option value="ST">Sao Tome and Principe</option> <option value="SA">Saudi Arabia</option> <option value="SN">Senegal</option> <option value="RS">Serbia</option> <option value="SC">Seychelles</option> <option value="SL">Sierra Leone</option> <option value="SG">Singapore</option> <option value="SX">Sint Maarten (Dutch part)</option> <option value="SK">Slovakia</option> <option value="SI">Slovenia</option> <option value="SB">Solomon Islands</option> <option value="SO">Somalia</option> <option value="ZA">South Africa</option> <option value="GS">South Georgia and the South Sandwich Islands</option> <option value="SS">South Sudan</option> <option value="ES">Spain</option> <option value="LK">Sri Lanka</option> <option value="SD">Sudan</option> <option value="SR">Suriname</option> <option value="SJ">Svalbard and Jan Mayen</option> <option value="SZ">Swaziland</option> <option value="SE">Sweden</option> <option value="CH">Switzerland</option> <option value="SY">Syrian Arab Republic</option> <option value="TW">Taiwan, Province of China</option> <option value="TJ">Tajikistan</option> <option value="TZ">Tanzania, United Republic of</option> <option value="TH">Thailand</option> <option value="TL">Timor-Leste</option> <option value="TG">Togo</option> <option value="TK">Tokelau</option> <option value="TO">Tonga</option> <option value="TT">Trinidad and Tobago</option> <option value="TN">Tunisia</option> <option value="TR">Turkey</option> <option value="TM">Turkmenistan</option> <option value="TC">Turks and Caicos Islands</option> <option value="TV">Tuvalu</option> <option value="UG">Uganda</option> <option value="UA">Ukraine</option> <option value="AE">United Arab Emirates</option> <option value="GB">United Kingdom</option> <option value="US">United States</option> <option value="UM">United States Minor Outlying Islands</option> <option value="UY">Uruguay</option> <option value="UZ">Uzbekistan</option> <option value="VU">Vanuatu</option> <option value="VE">Venezuela, Bolivarian Republic of</option> <option value="VN">Viet Nam</option> <option value="VG">Virgin Islands, British</option> <option value="VI">Virgin Islands, U.S.</option> <option value="WF">Wallis and Futuna</option> <option value="EH">Western Sahara</option> <option value="YE">Yemen</option> <option value="ZM">Zambia</option> <option value="ZW">Zimbabwe</option>
-                                            </select>
-                                        </div>
-
-                                        <div class="form-group">
-                                            <label for="exampleFormControlSelect1">Transport Flows*</label>
-                                            <select class="js-example-basic-multiple w-100" multiple="multiple" required>
-                                                <option>International Trade</option>
-                                                <option>Domestic</option>
-                                                <option>Inbound</option>
-                                                <option>Last Mile</option>
+                                            <label for="subpracticeSelect">Subpractice*</label>
+                                            <select class="js-example-basic-multiple w-100" id="subpracticeSelect" multiple="multiple" required>
+                                                @php
+                                                $select = $project->subpractices()->pluck('subpractices.id')->toArray();
+                                                @endphp
+                                                <x-options.subpractices :selected="$select" />
                                             </select>
                                         </div>
 
 
-                                        <div class="form-group">
-                                            <label for="exampleFormControlSelect1">Transport Mode*</label>
-                                            <select class="js-example-basic-multiple w-100" multiple="multiple" required>
-                                                <option>Road</option>
-                                                <option>Maritime</option>
-                                                <option>Air</option>
-                                                <option>Train</option>
-                                                <option>Fluvial</option>
-                                                <option>Others</option>
-                                            </select>
-                                        </div>
+                                        @foreach ($generalInfoQuestions as $question)
+                                            @switch($question->original->type)
+                                                @case('text')
+                                                <div class="form-group questionDiv generalQuestion" data-practice="{{$question->original->practice->id ?? ''}}">
+                                                    <label>{{$question->original->label}}{{$question->original->required ? '*' : ''}}</label>
+                                                    <input class="form-control" type="text" data-changing="{{$question->id}}"
+                                                        {{$question->original->required ? 'required' : ''}} value="{{$question->response}}"
+                                                        placeholder="{{$question->original->placeholder}}">
+                                                </div>
+                                                @break
+                                                @case('textarea')
+                                                <div class="form-group questionDiv generalQuestion" data-practice="{{$question->original->practice->id ?? ''}}">
+                                                    <label>{{$question->original->label}}{{$question->original->required ? '*' : ''}}</label>
+                                                    <textarea rows="14" class="form-control" data-changing="{{$question->id}}"
+                                                        {{$question->original->required ? 'required' : ''}}>{{$question->response}}</textarea>
+                                                </div>
+                                                @break
+                                                @case('selectSingle')
+                                                <div class="form-group questionDiv generalQuestion" data-practice="{{$question->original->practice->id ?? ''}}">
+                                                    <label>{{$question->original->label}}{{$question->original->required ? '*' : ''}}</label>
+                                                    <select class="form-control" data-changing="{{$question->id}}"
+                                                        {{$question->original->required ? 'required' : ''}}>
+                                                        <option @if($question->response == '') selected @endif disabled="">{{$question->original->placeholder}}
+                                                        </option>
 
+                                                        @if ($question->original->presetOption == 'countries')
+                                                        <x-options.countries :selected="[$question->response]" />
+                                                        @else
+                                                        @foreach ($question->original->optionList() as $option)
+                                                        <option value="{{$option}}" @if($question->response == $option) selected @endif>{{$option}}</option>
+                                                        @endforeach
+                                                        @endif
+                                                    </select>
+                                                </div>
+                                                @break
+                                                @case('selectMultiple')
+                                                <div class="form-group questionDiv generalQuestion" data-practice="{{$question->original->practice->id ?? ''}}">
+                                                    <label>{{$question->original->label}}{{$question->original->required ? '*' : ''}}</label>
+                                                    <select class="js-example-basic-multiple w-100" data-changing="{{$question->id}}" multiple="multiple"
+                                                        {{$question->original->required ? 'required' : ''}}>
+                                                        @php
+                                                        $selectedOptions = json_decode($question->response ?? '[]');
+                                                        @endphp
 
-                                        <div class="form-group">
-                                            <label for="exampleFormControlSelect1">Transport Type*</label>
-                                            <select class="js-example-basic-multiple w-100" multiple="multiple" required>
-                                                <option>FTL</option>
-                                                <option>LTL</option>
-                                                <option>Parcel</option>
-                                                <option>Others</option>
-                                            </select>
-                                        </div>
+                                                        @if ($question->original->presetOption == 'countries')
+                                                        <x-options.countries :selected="$selectedOptions" />
+                                                        @else
+                                                        @foreach ($question->original->optionList() as $option)
+                                                        <option value="{{$option}}" {{in_array($option, $selectedOptions) ? 'selected' : ''}}>{{$option}}</option>
+                                                        @endforeach
+                                                        @endif
+                                                    </select>
+                                                </div>
+                                                @break
+                                                @case('date')
+                                                <div class="questionDiv generalQuestion" data-practice="{{$question->original->practice->id ?? ''}}">
+                                                    <label>{{$question->original->label}}{{$question->original->required ? '*' : ''}}</label>
+                                                    <div class="input-group date datepicker" data-initialValue="{{$question->response}}">
+                                                        <input data-changing="{{$question->id}}" value="{{$question->response}}"
+                                                            {{$question->original->required ? 'required' : ''}} type="text" class="form-control">
+                                                        <span class="input-group-addon"><i data-feather="calendar"></i></span>
+                                                    </div>
+                                                </div>
+                                                @break
+                                                @case('number')
+                                                    <div class="form-group questionDiv generalQuestion" data-practice="{{$question->original->practice->id ?? ''}}">
+                                                        <label>{{$question->original->label}}{{$question->original->required ? '*' : ''}}</label>
+                                                        <input
+                                                            class="form-control"
+                                                            type="number"
+                                                            data-changing="{{$question->id}}"
+                                                            {{$question->original->required ? 'required' : ''}}
+                                                            value="{{$question->response}}"
+                                                            placeholder="{{$question->original->placeholder}}">
+                                                    </div>
+                                                    @break
+                                                @default
+                                            @endswitch
+                                        @endforeach
 
                                         <br>
-
-                                        <h4>1.4. Timeline</h4>
-                                        <br>
-
-                                        <label for="exampleFormControlSelect1">Tentative date for project set - up completion*</label>
-                                        <div class="input-group date datepicker" id="datePicker1">
-                                            <input type="text" class="form-control"><span class="input-group-addon"><i data-feather="calendar"></i></span>
-                                        </div>
-
-
-                                        <label for="exampleFormControlSelect1">Tentative date for Value Enablers completion*</label>
-                                        <div class="input-group date datepicker" id="datePicker2">
-                                            <input type="text" class="form-control"><span class="input-group-addon"><i data-feather="calendar"></i></span>
-                                        </div>
-
-
-                                        <label for="exampleFormControlSelect1">Tentative date for Vendor Response completion*</label>
-                                        <div class="input-group date datepicker" id="datePicker3">
-                                            <input type="text" class="form-control"><span class="input-group-addon"><i data-feather="calendar"></i></span>
-                                        </div>
-
-
-                                        <label for="exampleFormControlSelect1">Tentative date for Analytics completion*</label>
-                                        <div class="input-group date datepicker" id="datePicker4">
-                                            <input type="text" class="form-control"><span class="input-group-addon"><i data-feather="calendar"></i></span>
-                                        </div>
-
-
-                                        <label for="exampleFormControlSelect1">Tentative date fot Conclusions & Recomendations completion*</label>
-                                        <div class="input-group date datepicker" id="datePicker5">
-                                            <input type="text" class="form-control"><span class="input-group-addon"><i data-feather="calendar"></i></span>
-                                        </div>
-
-
-                                        <br>
-
                                     </section>
 
                                     <h2>RFP Upload</h2>
@@ -238,152 +209,103 @@
 
                                     <h2>Sizing Info</h2>
                                     <section>
-                                        <h4>3.1. Sizing Info</h4>
-                                        <br>
-                                        <div class="form-group">
-                                            <label for="exampleInputText1">Annual # shipments*
-                                            </label>
-                                            <input type="number" class="form-control" id="exampleInputText1" placeholder="Annual # shipments">
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="exampleInputText1">Average number of shipments per month valley season*
-                                            </label>
-                                            <input type="number" class="form-control" id="exampleInputText1" placeholder="Average number of shimpments per month valley season">
-                                        </div>
+                                        @foreach ($sizingQuestions as $question)
+                                            @switch($question->original->type)
+                                                @case('text')
+                                                    <div class="form-group questionDiv sizingQuestion" data-practice="{{$question->original->practice->id ?? ''}}">
+                                                        <label>{{$question->original->label}}{{$question->original->required ? '*' : ''}}</label>
+                                                        <input
+                                                            class="form-control"
+                                                            type="text"
+                                                            data-changing="{{$question->id}}"
+                                                            {{$question->original->required ? 'required' : ''}}
+                                                            value="{{$question->response}}"
+                                                            placeholder="{{$question->original->placeholder}}">
+                                                    </div>
+                                                    @break
+                                                @case('textarea')
+                                                    <div class="form-group questionDiv sizingQuestion" data-practice="{{$question->original->practice->id ?? ''}}">
+                                                        <label>{{$question->original->label}}{{$question->original->required ? '*' : ''}}</label>
+                                                        <textarea
+                                                            rows="14"
+                                                            class="form-control"
+                                                            data-changing="{{$question->id}}"
+                                                            {{$question->original->required ? 'required' : ''}}
+                                                        >{{$question->response}}</textarea>
+                                                    </div>
+                                                    @break
+                                                @case('selectSingle')
+                                                    <div class="form-group questionDiv sizingQuestion" data-practice="{{$question->original->practice->id ?? ''}}">
+                                                        <label>{{$question->original->label}}{{$question->original->required ? '*' : ''}}</label>
+                                                        <select
+                                                            class="form-control"
+                                                            data-changing="{{$question->id}}"
+                                                            {{$question->original->required ? 'required' : ''}}
+                                                            >
+                                                            <option @if($question->response == '') selected @endif disabled="">{{$question->original->placeholder}}</option>
 
-                                        <div class="form-group">
-                                            <label for="exampleInputText1">Average number of shipments per month peak season*
-                                            </label>
-                                            <input type="number" class="form-control" id="exampleInputText1" placeholder="Average number of shimpments per month peak season">
-                                        </div>
+                                                            @if ($question->original->presetOption == 'countries')
+                                                                <x-options.countries :selected="[$question->response]" />
+                                                            @else
+                                                                @foreach ($question->original->optionList() as $option)
+                                                                <option value="{{$option}}" @if($question->response == $option) selected @endif>{{$option}}</option>
+                                                                @endforeach
+                                                            @endif
+                                                        </select>
+                                                    </div>
+                                                    @break
+                                                @case('selectMultiple')
+                                                    <div class="form-group questionDiv sizingQuestion" data-practice="{{$question->original->practice->id ?? ''}}">
+                                                        <label>{{$question->original->label}}{{$question->original->required ? '*' : ''}}</label>
+                                                        <select class="js-example-basic-multiple w-100"
+                                                            data-changing="{{$question->id}}"
+                                                            multiple="multiple"
+                                                            {{$question->original->required ? 'required' : ''}}
+                                                            >
+                                                            @php
+                                                            $selectedOptions = json_decode($question->response ?? '[]');
+                                                            @endphp
 
-                                        <div class="form-group">
-                                            <label>Countries*</label><br>
-                                            <select class="js-example-basic-multiple w-100" multiple="multiple" required style="width: 100%;">
-                                                <option value="AF">Afghanistan</option> <option value="AL">Albania</option> <option value="DZ">Algeria</option> <option value="AS">American Samoa</option> <option value="AD">Andorra</option> <option value="AO">Angola</option> <option value="AI">Anguilla</option> <option value="AQ">Antarctica</option> <option value="AG">Antigua and Barbuda</option> <option value="AR">Argentina</option> <option value="AM">Armenia</option> <option value="AW">Aruba</option> <option value="AU">Australia</option> <option value="AT">Austria</option> <option value="AZ">Azerbaijan</option> <option value="BS">Bahamas</option> <option value="BH">Bahrain</option> <option value="BD">Bangladesh</option> <option value="BB">Barbados</option> <option value="BY">Belarus</option> <option value="BE">Belgium</option> <option value="BZ">Belize</option> <option value="BJ">Benin</option> <option value="BM">Bermuda</option> <option value="BT">Bhutan</option> <option value="BO">Bolivia, Plurinational State of</option> <option value="BQ">Bonaire, Sint Eustatius and Saba</option> <option value="BA">Bosnia and Herzegovina</option> <option value="BW">Botswana</option> <option value="BV">Bouvet Island</option> <option value="BR">Brazil</option> <option value="IO">British Indian Ocean Territory</option> <option value="BN">Brunei Darussalam</option> <option value="BG">Bulgaria</option> <option value="BF">Burkina Faso</option> <option value="BI">Burundi</option> <option value="KH">Cambodia</option> <option value="CM">Cameroon</option> <option value="CA">Canada</option> <option value="CV">Cape Verde</option> <option value="KY">Cayman Islands</option> <option value="CF">Central African Republic</option> <option value="TD">Chad</option> <option value="CL">Chile</option> <option value="CN">China</option> <option value="CX">Christmas Island</option> <option value="CC">Cocos (Keeling) Islands</option> <option value="CO">Colombia</option> <option value="KM">Comoros</option> <option value="CG">Congo</option> <option value="CD">Congo, the Democratic Republic of the</option> <option value="CK">Cook Islands</option> <option value="CR">Costa Rica</option> <option value="CI">Côte d'Ivoire</option> <option value="HR">Croatia</option> <option value="CU">Cuba</option> <option value="CW">Curaçao</option> <option value="CY">Cyprus</option> <option value="CZ">Czech Republic</option> <option value="DK">Denmark</option> <option value="DJ">Djibouti</option> <option value="DM">Dominica</option> <option value="DO">Dominican Republic</option> <option value="EC">Ecuador</option> <option value="EG">Egypt</option> <option value="SV">El Salvador</option> <option value="GQ">Equatorial Guinea</option> <option value="ER">Eritrea</option> <option value="EE">Estonia</option> <option value="ET">Ethiopia</option> <option value="FK">Falkland Islands (Malvinas)</option> <option value="FO">Faroe Islands</option> <option value="FJ">Fiji</option> <option value="FI">Finland</option> <option value="FR">France</option> <option value="GF">French Guiana</option> <option value="PF">French Polynesia</option> <option value="TF">French Southern Territories</option> <option value="GA">Gabon</option> <option value="GM">Gambia</option> <option value="GE">Georgia</option> <option value="DE">Germany</option> <option value="GH">Ghana</option> <option value="GI">Gibraltar</option> <option value="GR">Greece</option> <option value="GL">Greenland</option> <option value="GD">Grenada</option> <option value="GP">Guadeloupe</option> <option value="GU">Guam</option> <option value="GT">Guatemala</option> <option value="GG">Guernsey</option> <option value="GN">Guinea</option> <option value="GW">Guinea-Bissau</option> <option value="GY">Guyana</option> <option value="HT">Haiti</option> <option value="HM">Heard Island and McDonald Islands</option> <option value="VA">Holy See (Vatican City State)</option> <option value="HN">Honduras</option> <option value="HK">Hong Kong</option> <option value="HU">Hungary</option> <option value="IS">Iceland</option> <option value="IN">India</option> <option value="ID">Indonesia</option> <option value="IR">Iran, Islamic Republic of</option> <option value="IQ">Iraq</option> <option value="IE">Ireland</option> <option value="IM">Isle of Man</option> <option value="IL">Israel</option> <option value="IT">Italy</option> <option value="JM">Jamaica</option> <option value="JP">Japan</option> <option value="JE">Jersey</option> <option value="JO">Jordan</option> <option value="KZ">Kazakhstan</option> <option value="KE">Kenya</option> <option value="KI">Kiribati</option> <option value="KP">Korea, Democratic People's Republic of</option> <option value="KR">Korea, Republic of</option> <option value="KW">Kuwait</option> <option value="KG">Kyrgyzstan</option> <option value="LA">Lao People's Democratic Republic</option> <option value="LV">Latvia</option> <option value="LB">Lebanon</option> <option value="LS">Lesotho</option> <option value="LR">Liberia</option> <option value="LY">Libya</option> <option value="LI">Liechtenstein</option> <option value="LT">Lithuania</option> <option value="LU">Luxembourg</option> <option value="MO">Macao</option> <option value="MK">Macedonia, the former Yugoslav Republic of</option> <option value="MG">Madagascar</option> <option value="MW">Malawi</option> <option value="MY">Malaysia</option> <option value="MV">Maldives</option> <option value="ML">Mali</option> <option value="MT">Malta</option> <option value="MH">Marshall Islands</option> <option value="MQ">Martinique</option> <option value="MR">Mauritania</option> <option value="MU">Mauritius</option> <option value="YT">Mayotte</option> <option value="MX">Mexico</option> <option value="FM">Micronesia, Federated States of</option> <option value="MD">Moldova, Republic of</option> <option value="MC">Monaco</option> <option value="MN">Mongolia</option> <option value="ME">Montenegro</option> <option value="MS">Montserrat</option> <option value="MA">Morocco</option> <option value="MZ">Mozambique</option> <option value="MM">Myanmar</option> <option value="NA">Namibia</option> <option value="NR">Nauru</option> <option value="NP">Nepal</option> <option value="NL">Netherlands</option> <option value="NC">New Caledonia</option> <option value="NZ">New Zealand</option> <option value="NI">Nicaragua</option> <option value="NE">Niger</option> <option value="NG">Nigeria</option> <option value="NU">Niue</option> <option value="NF">Norfolk Island</option> <option value="MP">Northern Mariana Islands</option> <option value="NO">Norway</option> <option value="OM">Oman</option> <option value="PK">Pakistan</option> <option value="PW">Palau</option> <option value="PS">Palestinian Territory, Occupied</option> <option value="PA">Panama</option> <option value="PG">Papua New Guinea</option> <option value="PY">Paraguay</option> <option value="PE">Peru</option> <option value="PH">Philippines</option> <option value="PN">Pitcairn</option> <option value="PL">Poland</option> <option value="PT">Portugal</option> <option value="PR">Puerto Rico</option> <option value="QA">Qatar</option> <option value="RE">Réunion</option> <option value="RO">Romania</option> <option value="RU">Russian Federation</option> <option value="RW">Rwanda</option> <option value="BL">Saint Barthélemy</option> <option value="SH">Saint Helena, Ascension and Tristan da Cunha</option> <option value="KN">Saint Kitts and Nevis</option> <option value="LC">Saint Lucia</option> <option value="MF">Saint Martin (French part)</option> <option value="PM">Saint Pierre and Miquelon</option> <option value="VC">Saint Vincent and the Grenadines</option> <option value="WS">Samoa</option> <option value="SM">San Marino</option> <option value="ST">Sao Tome and Principe</option> <option value="SA">Saudi Arabia</option> <option value="SN">Senegal</option> <option value="RS">Serbia</option> <option value="SC">Seychelles</option> <option value="SL">Sierra Leone</option> <option value="SG">Singapore</option> <option value="SX">Sint Maarten (Dutch part)</option> <option value="SK">Slovakia</option> <option value="SI">Slovenia</option> <option value="SB">Solomon Islands</option> <option value="SO">Somalia</option> <option value="ZA">South Africa</option> <option value="GS">South Georgia and the South Sandwich Islands</option> <option value="SS">South Sudan</option> <option value="ES">Spain</option> <option value="LK">Sri Lanka</option> <option value="SD">Sudan</option> <option value="SR">Suriname</option> <option value="SJ">Svalbard and Jan Mayen</option> <option value="SZ">Swaziland</option> <option value="SE">Sweden</option> <option value="CH">Switzerland</option> <option value="SY">Syrian Arab Republic</option> <option value="TW">Taiwan, Province of China</option> <option value="TJ">Tajikistan</option> <option value="TZ">Tanzania, United Republic of</option> <option value="TH">Thailand</option> <option value="TL">Timor-Leste</option> <option value="TG">Togo</option> <option value="TK">Tokelau</option> <option value="TO">Tonga</option> <option value="TT">Trinidad and Tobago</option> <option value="TN">Tunisia</option> <option value="TR">Turkey</option> <option value="TM">Turkmenistan</option> <option value="TC">Turks and Caicos Islands</option> <option value="TV">Tuvalu</option> <option value="UG">Uganda</option> <option value="UA">Ukraine</option> <option value="AE">United Arab Emirates</option> <option value="GB">United Kingdom</option> <option value="US">United States</option> <option value="UM">United States Minor Outlying Islands</option> <option value="UY">Uruguay</option> <option value="UZ">Uzbekistan</option> <option value="VU">Vanuatu</option> <option value="VE">Venezuela, Bolivarian Republic of</option> <option value="VN">Viet Nam</option> <option value="VG">Virgin Islands, British</option> <option value="VI">Virgin Islands, U.S.</option> <option value="WF">Wallis and Futuna</option> <option value="EH">Western Sahara</option> <option value="YE">Yemen</option> <option value="ZM">Zambia</option> <option value="ZW">Zimbabwe</option>
-                                            </select>
-                                        </div>
+                                                            @if ($question->original->presetOption == 'countries')
+                                                                <x-options.countries :selected="$selectedOptions" />
+                                                            @else
+                                                                @foreach ($question->original->optionList() as $option)
+                                                                <option value="{{$option}}" {{in_array($option, $selectedOptions) ? 'selected' : ''}}>{{$option}}</option>
+                                                                @endforeach
+                                                            @endif
+                                                        </select>
+                                                    </div>
+                                                    @break
+                                                @case('date')
+                                                    <div class="questionDiv sizingQuestion" data-practice="{{$question->original->practice->id ?? ''}}">
+                                                        <label>{{$question->original->label}}{{$question->original->required ? '*' : ''}}</label>
+                                                        <div class="input-group date datepicker" data-initialValue="{{$question->response}}">
+                                                            <input
+                                                            data-changing="{{$question->id}}"
+                                                            value="{{$question->response}}"
+                                                            {{$question->original->required ? 'required' : ''}}
+                                                            type="text"
+                                                            class="form-control">
+                                                            <span class="input-group-addon"><i data-feather="calendar"></i></span>
+                                                        </div>
+                                                    </div>
+                                                    @break
+                                                @case('number')
+                                                    <div class="form-group questionDiv sizingQuestion" data-practice="{{$question->original->practice->id ?? ''}}">
+                                                        <label>{{$question->original->label}}{{$question->original->required ? '*' : ''}}</label>
+                                                        <input
+                                                            class="form-control"
+                                                            type="number"
+                                                            data-changing="{{$question->id}}"
+                                                            {{$question->original->required ? 'required' : ''}}
+                                                            value="{{$question->response}}"
+                                                            placeholder="{{$question->original->placeholder}}">
+                                                    </div>
+                                                    @break
+                                                @default
 
-                                        <div class="form-group">
-                                            <label for="exampleInputText1">Transport Spend*
-                                            </label>
-                                            <input type="number" class="form-control" id="exampleInputText1" placeholder="Transport Spend">
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="exampleInputText1"># Suppliers*
-                                            </label>
-                                            <input type="number" class="form-control" id="exampleInputText1" placeholder="# Suppliers">
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="exampleInputText1"># Plants*
-                                            </label>
-                                            <input type="number" class="form-control" id="exampleInputText1" placeholder="Plants">
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="exampleInputText1"># Warehouses*
-                                            </label>
-                                            <input type="number" class="form-control" id="exampleInputText1" placeholder="# Warehouses">
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="exampleInputText1"># Direct customers*
-                                            </label>
-                                            <input type="number" class="form-control" id="exampleInputText1" placeholder="# Direct customers">
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="exampleInputText1"># Final Clients*
-                                            </label>
-                                            <input type="number" class="form-control" id="exampleInputText1" placeholder="# Final Clients">
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="exampleInputText1">% Complex movements (different than OW)*
-                                            </label>
-                                            <input type="text" class="form-control" id="exampleInputText1" placeholder="% Complex movements (different than OW)">
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="exampleInputText1"># carriers*
-                                            </label>
-                                            <input type="number" class="form-control" id="exampleInputText1" placeholder="# carriers">
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="exampleInputText1">% own fleet*
-                                            </label>
-                                            <input type="text" class="form-control" id="exampleInputText1" placeholder="% own fleet">
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="exampleInputText1">% dedicated fleet*
-                                            </label>
-                                            <input type="text" class="form-control" id="exampleInputText1" placeholder="% dedicated fleet">
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="exampleInputText1">% contracted fleet*
-                                            </label>
-                                            <input type="text" class="form-control" id="exampleInputText1" placeholder="% contracted fleet">
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="exampleInputText1">% Road movements*
-                                            </label>
-                                            <input type="text" class="form-control" id="exampleInputText1" placeholder="% Road movements">
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="exampleInputText1">% Maritime movements*
-                                            </label>
-                                            <input type="text" class="form-control" id="exampleInputText1" placeholder="% Maritime movements">
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="exampleInputText1">% Air movements*
-                                            </label>
-                                            <input type="text" class="form-control" id="exampleInputText1" placeholder="% Air movements">
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="exampleInputText1">% Rail movements*
-                                            </label>
-                                            <input type="text" class="form-control" id="exampleInputText1" placeholder="% Rail movements">
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="exampleInputText1">% Fluvial movements*
-                                            </label>
-                                            <input type="text" class="form-control" id="exampleInputText1" placeholder="% Fluvial movements">
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="exampleInputText1">% Intermodal movements*
-                                            </label>
-                                            <input type="text" class="form-control" id="exampleInputText1" placeholder="% Intermodal movements">
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="exampleInputText1">% International*
-                                            </label>
-                                            <input type="text" class="form-control" id="exampleInputText1" placeholder="% International">
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="exampleInputText1">% Domestic*
-                                            </label>
-                                            <input type="text" class="form-control" id="exampleInputText1" placeholder="% Domestic">
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="exampleInputText1">% Inbound*
-                                            </label>
-                                            <input type="text" class="form-control" id="exampleInputText1" placeholder="% Inbound">
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="exampleInputText1">% Last mile*
-                                            </label>
-                                            <input type="text" class="form-control" id="exampleInputText1" placeholder="% Last mile">
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="exampleInputText1">% FTL vs parcial*
-                                            </label>
-                                            <input type="text" class="form-control" id="exampleInputText1" placeholder="% FTL vs parcial">
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="exampleInputText1">Maximum number of concurrent users*
-                                            </label>
-                                            <input type="number" class="form-control" id="exampleInputText1" placeholder="Maximum number of concurrent users">
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="exampleInputText1">Number of named users*
-                                            </label>
-                                            <input type="number" class="form-control" id="exampleInputText1" placeholder="Number of named users">
-                                        </div>
+                                            @endswitch
+                                        @endforeach
                                     </section>
 
                                     <h2>Selection Criteria</h2>
@@ -856,10 +778,290 @@
     </div>
 @endsection
 
-{{-- NOT SURE IF THE CLIENT CAN EDIT THIS --}}
-{{-- @section('scripts')
+@section('head')
 @parent
 
+<style>
+    select.form-control {
+        color: #495057;
+    }
+
+    .select2-results__options .select2-results__option[aria-disabled=true] {
+        display: none;
+    }
+</style>
+@endsection
+
+@section('scripts')
+@parent
+{{-- NOT SURE IF THE CLIENT CAN EDIT THIS --}}
+{{--
 <script src="https://cdn.jsdelivr.net/npm/sortablejs@latest/Sortable.min.js"></script>
-<script src="{{url('assets/js/bricks.js')}}"></script>
-@endsection --}}
+<script src="{{url('assets/js/bricks.js')}}"></script> --}}
+
+<link rel="stylesheet" href="{{url('/assets/css/techadvisory/vendorValidateResponses.css')}}">
+
+<script>
+    jQuery.expr[':'].hasValue = function(el,index,match) {
+        return el.value != "";
+    };
+
+    /**
+     *  Returns false if any field is empty
+     */
+    function checkIfAllRequiredsAreFilled(){
+        let array = $('input,textarea,select').filter('[required]').toArray();
+		if(array.length == 0) return true;
+
+        return array.reduce((prev, current) => {
+            return !prev ? false : $(current).is(':hasValue')
+        }, true)
+    }
+
+    function checkIfAllRequiredsInThisPageAreFilled(){
+        let array = $('input,textarea,select').filter('[required]:visible').toArray();
+        if(array.length == 0) return true;
+
+        return array.reduce((prev, current) => {
+            return !prev ? false : $(current).is(':hasValue')
+        }, true)
+    }
+
+    function updateSubmitButton()
+    {
+        // If we filled all the fields, remove the disabled from the button. This is incase we fill the last field on the last page
+        let fieldsAreEmtpy = !checkIfAllRequiredsAreFilled();
+        if(fieldsAreEmtpy && weAreOnPage3){
+            $('#wizard_client_newProjectSetUp-next').addClass('disabled')
+        } else {
+            $('#wizard_client_newProjectSetUp-next').removeClass('disabled')
+        }
+    }
+
+    function showSavedToast()
+    {
+        $.toast({
+            heading: 'Saved!',
+            showHideTransition: 'slide',
+            icon: 'success',
+            hideAfter: 1000,
+            position: 'bottom-right'
+        })
+    }
+
+    var currentPracticeId = {{$project->practice->id}};
+    function updateShownQuestionsAccordingToPractice(){
+        $('.questionDiv').each(function () {
+            let practiceId = $(this).data('practice');
+
+            if(practiceId == currentPracticeId || practiceId == "") {
+                $(this).css('display', 'block')
+            } else {
+                $(this).css('display', 'none')
+            }
+        });
+    }
+
+    function updateShownSubpracticeOptionsAccordingToPractice(removeCurrentSelection = true){
+        // Deselect the current subpractice
+        if(removeCurrentSelection){
+            $('#subpracticeSelect').val([]);
+            $('#subpracticeSelect').trigger('change');
+        }
+
+        $('#subpracticeSelect').children().each(function(){
+            let practiceId = $(this).data('practiceid');
+
+            if(practiceId == currentPracticeId) {
+                $(this).attr('disabled', false);
+            } else {
+                $(this).attr('disabled', true);
+            }
+        })
+    }
+
+
+
+
+
+    var weAreOnPage3 = false;
+
+    $(document).ready(function() {
+        weAreOnPage3 = false;
+
+        $("#wizard_client_newProjectSetUp").steps({
+            headerTag: "h2",
+            bodyTag: "section",
+            transitionEffect: "slideLeft",
+            forceMoveForward: false,
+            labels: {
+                finish: 'Submit general set up'
+            },
+            onFinishing: function (event, currentIndex) {
+                // TODO Only let the client submit if all the fields are full
+
+                window.location.replace("/client/home");
+            },
+            onStepChanging: function (e, c, n) {
+                if (n == 2) {
+                    weAreOnPage3 = true;
+                    $('#wizard_client_newProjectSetUp-next').html('Submit')
+                    let fieldsAreEmtpy = !checkIfAllRequiredsAreFilled();
+                    if(fieldsAreEmtpy){
+                        $('#wizard_client_newProjectSetUp-next').addClass('disabled')
+                    } else {
+                        $('#wizard_client_newProjectSetUp-next').removeClass('disabled')
+                    }
+                } else {
+                    weAreOnPage3 = false;
+                    $('#wizard_client_newProjectSetUp-next').removeClass('disabled')
+
+                    $('#wizard_client_newProjectSetUp-next').html('Next')
+                }
+
+                return true
+            },
+            onStepChanged: function (e, c, p) {
+                for (let i = 0; i < 10; i++) {
+                    $('#wizard_client_newProjectSetUp-p-' + i).css('display', 'none')
+                }
+                $('#wizard_client_newProjectSetUp-p-' + c).css('display', 'block')
+            }
+        });
+
+        // NOTE remember to keep this after the main wizard, else it breaks. haha so fun pls kill me
+        $("#subwizard_here").steps({
+            headerTag: "h3",
+            bodyTag: "div",
+            transitionEffect: "slideLeft",
+            showFinishButtonAlways: false,
+            enableFinishButton: false,
+        });
+
+
+
+        // On change for the 4 default ones
+
+        $('#projectName').change(function (e) {
+            var value = $(this).val();
+            $.post('/client/newProjectSetUp/changeProjectName', {
+                project_id: '{{$project->id}}',
+                newName: value
+            })
+
+            showSavedToast();
+            updateSubmitButton();
+        });
+
+        $('#valueTargeting').change(function (e) {
+            var value = $(this).val();
+            $.post('/client/newProjectSetUp/changeProjectHasValueTargeting', {
+                project_id: '{{$project->id}}',
+                value
+            })
+
+            showSavedToast();
+            updateSubmitButton();
+        });
+
+        $('#bindingOption').change(function (e) {
+            var value = $(this).val();
+            $.post('/client/newProjectSetUp/changeProjectIsBinding', {
+                project_id: '{{$project->id}}',
+                value
+            })
+
+            showSavedToast();
+            updateSubmitButton();
+        });
+
+        $('#practiceSelect').change(function (e) {
+            var value = $(this).val();
+            currentPracticeId = value;
+            $.post('/client/newProjectSetUp/changePractice', {
+                project_id: '{{$project->id}}',
+                practice_id: value
+            })
+
+            showSavedToast();
+            updateSubmitButton();
+
+            updateShownQuestionsAccordingToPractice();
+            updateShownSubpracticeOptionsAccordingToPractice();
+        });
+
+        $('#subpracticeSelect').change(function (e) {
+            var value = $(this).val();
+            $.post('/client/newProjectSetUp/changeSubpractice', {
+                project_id: '{{$project->id}}',
+                subpractices: value
+            })
+
+            showSavedToast();
+            updateSubmitButton();
+        });
+
+
+
+        // On change for the rest
+
+        $('.generalQuestion input,.generalQuestion textarea,.generalQuestion select')
+            .filter(function(el) {
+                return $( this ).data('changing') !== undefined
+            })
+            .change(function (e) {
+                console.log('general');
+                var value = $(this).val();
+                if($.isArray(value) && value.length == 0 && $(this).attr('multiple') !== undefined){
+                    value = '[]'
+                }
+
+                $.post('/generalInfoQuestion/changeResponse', {
+                    changing: $(this).data('changing'),
+                    value: value
+                })
+
+                showSavedToast();
+                updateSubmitButton();
+            });
+
+        $('.sizingQuestion input,.sizingQuestion textarea,.sizingQuestion select')
+            .filter(function(el) {
+                return $( this ).data('changing') !== undefined
+            })
+            .change(function (e) {
+                console.log('sizing');
+
+                var value = $(this).val();
+                if($.isArray(value) && value.length == 0 && $(this).attr('multiple') !== undefined){
+                    value = '[]'
+                }
+
+                $.post('/sizingQuestion/changeResponse', {
+                    changing: $(this).data('changing'),
+                    value: value
+                })
+
+                showSavedToast();
+                updateSubmitButton();
+            });
+
+        $(".js-example-basic-single").select2();
+        $(".js-example-basic-multiple").select2();
+
+        $('.datepicker').each(function(){
+            var date = new Date($(this).data('initialvalue'));
+
+            $(this).datepicker({
+                format: "mm/dd/yyyy",
+                todayHighlight: true,
+                autoclose: true
+            });
+            $(this).datepicker('setDate', date);
+        });
+
+        updateShownQuestionsAccordingToPractice();
+        updateShownSubpracticeOptionsAccordingToPractice(false);
+    });
+</script>
+@endsection
