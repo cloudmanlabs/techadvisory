@@ -197,4 +197,30 @@ class SizingQuestionsTest extends TestCase
         $qResponse->refresh();
         $this->assertEquals('newText', $qResponse->response);
     }
+
+    public function testCanChangeShouldShow()
+    {
+        $user = factory(User::class)->create();
+
+        $question = factory(SizingQuestion::class)->create();
+        $project = factory(Project::class)->create();
+        $qResponse = new SizingQuestionResponse([
+            'question_id' => $question->id,
+            'project_id' => $project->id,
+        ]);
+        $qResponse->save();
+
+        $this->assertFalse(boolval($qResponse->shouldShow));
+
+        $response = $this->actingAs($user)
+            ->post('/sizingQuestion/setShouldShow', [
+                'changing' => $qResponse->id,
+                'value' => 'true'
+            ]);
+
+        $response->assertOk();
+
+        $qResponse->refresh();
+        $this->assertTrue($qResponse->shouldShow);
+    }
 }

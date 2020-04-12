@@ -58,6 +58,7 @@ class SizingQuestionResponse extends Resource
 
             Text::make('Response', 'response')
                 ->hideWhenCreating(),
+            Boolean::make('Should show', 'shouldShow'),
         ];
     }
 

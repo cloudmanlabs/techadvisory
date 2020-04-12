@@ -34,3 +34,4 @@ Route::post('password/reset', 'Auth\ResetPasswordController@reset')->name('passw
 
 Route::post('/generalInfoQuestion/changeResponse', 'GeneralInfoQuestionController@changeResponse');
 Route::post('/sizingQuestion/changeResponse', 'SizingQuestionController@changeResponse');
+Route::post('/sizingQuestion/setShouldShow', 'SizingQuestionController@setShouldShow');

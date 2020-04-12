@@ -31,4 +31,21 @@ class SizingQuestionController extends Controller
             'message' => 'nma'
         ]);
     }
+
+    public function setShouldShow(Request $request)
+    {
+        $request->validate([
+            'changing' => 'required|numeric',
+            'value' => 'required',
+        ]);
+
+        $answer = SizingQuestionResponse::find($request->changing);
+        if ($answer == null) {
+            abort(404);
+        }
+
+        $answer->shouldShow = $request->value === 'true';
+
+        $answer->save();
+    }
 }

@@ -256,99 +256,117 @@
                                             @switch($question->original->type)
                                                 @case('text')
                                                     <div class="form-group questionDiv sizingQuestion" data-practice="{{$question->original->practice->id ?? ''}}">
-                                                        <label>{{$question->original->label}}{{$question->original->required ? '*' : ''}}</label>
-                                                        <input
-                                                            class="form-control"
-                                                            type="text"
-                                                            data-changing="{{$question->id}}"
-                                                            {{$question->original->required ? 'required' : ''}}
-                                                            value="{{$question->response}}"
-                                                            placeholder="{{$question->original->placeholder}}">
+                                                        <x-accenture.activateSizingInfoQuestion :changing="$question->id" :shouldShow="$question->shouldShow">
+                                                            <label>{{$question->original->label}}{{$question->original->required ? '*' : ''}}</label>
+                                                            <input
+                                                                class="form-control"
+                                                                type="text"
+                                                                data-changing="{{$question->id}}"
+                                                                {{$question->original->required ? 'required' : ''}}
+                                                                value="{{$question->response}}"
+                                                                placeholder="{{$question->original->placeholder}}">
+                                                        </x-accenture.activateSizingInfoQuestion>
                                                     </div>
                                                     @break
                                                 @case('textarea')
                                                     <div class="form-group questionDiv sizingQuestion" data-practice="{{$question->original->practice->id ?? ''}}">
-                                                        <label>{{$question->original->label}}{{$question->original->required ? '*' : ''}}</label>
-                                                        <textarea
-                                                            rows="14"
-                                                            class="form-control"
-                                                            data-changing="{{$question->id}}"
-                                                            {{$question->original->required ? 'required' : ''}}
-                                                        >{{$question->response}}</textarea>
+                                                        <x-accenture.activateSizingInfoQuestion :changing="$question->id" :shouldShow="$question->shouldShow">
+                                                            <label>{{$question->original->label}}{{$question->original->required ? '*' : ''}}</label>
+                                                            <textarea
+                                                                rows="14"
+                                                                class="form-control"
+                                                                data-changing="{{$question->id}}"
+                                                                {{$question->original->required ? 'required' : ''}}
+                                                            >{{$question->response}}</textarea>
+                                                        </x-accenture.activateSizingInfoQuestion>
                                                     </div>
                                                     @break
                                                 @case('selectSingle')
                                                     <div class="form-group questionDiv sizingQuestion" data-practice="{{$question->original->practice->id ?? ''}}">
-                                                        <label>{{$question->original->label}}{{$question->original->required ? '*' : ''}}</label>
-                                                        <select
-                                                            class="form-control"
-                                                            data-changing="{{$question->id}}"
-                                                            {{$question->original->required ? 'required' : ''}}
-                                                            >
-                                                            <option @if($question->response == '') selected @endif disabled="">{{$question->original->placeholder}}</option>
+                                                        <x-accenture.activateSizingInfoQuestion :changing="$question->id" :shouldShow="$question->shouldShow">
+                                                            <label>{{$question->original->label}}{{$question->original->required ? '*' : ''}}</label>
+                                                            <select
+                                                                class="form-control"
+                                                                data-changing="{{$question->id}}"
+                                                                {{$question->original->required ? 'required' : ''}}
+                                                                >
+                                                                <option @if($question->response == '') selected @endif disabled="">{{$question->original->placeholder}}</option>
 
-                                                            @if ($question->original->presetOption == 'countries')
-                                                                <x-options.countries :selected="[$question->response]" />
-                                                            @else
-                                                                @foreach ($question->original->optionList() as $option)
-                                                                <option value="{{$option}}" @if($question->response == $option) selected @endif>{{$option}}</option>
-                                                                @endforeach
-                                                            @endif
-                                                        </select>
+                                                                @if ($question->original->presetOption == 'countries')
+                                                                    <x-options.countries :selected="[$question->response]" />
+                                                                @else
+                                                                    @foreach ($question->original->optionList() as $option)
+                                                                    <option value="{{$option}}" @if($question->response == $option) selected @endif>{{$option}}</option>
+                                                                    @endforeach
+                                                                @endif
+                                                            </select>
+                                                        </x-accenture.activateSizingInfoQuestion>
                                                     </div>
                                                     @break
                                                 @case('selectMultiple')
                                                     <div class="form-group questionDiv sizingQuestion" data-practice="{{$question->original->practice->id ?? ''}}">
-                                                        <label>{{$question->original->label}}{{$question->original->required ? '*' : ''}}</label>
-                                                        <select class="js-example-basic-multiple w-100"
-                                                            data-changing="{{$question->id}}"
-                                                            multiple="multiple"
-                                                            {{$question->original->required ? 'required' : ''}}
-                                                            >
-                                                            @php
-                                                            $selectedOptions = json_decode($question->response ?? '[]');
-                                                            @endphp
+                                                        <x-accenture.activateSizingInfoQuestion :changing="$question->id" :shouldShow="$question->shouldShow">
+                                                            <label>{{$question->original->label}}{{$question->original->required ? '*' : ''}}</label>
+                                                            <select class="js-example-basic-multiple w-100"
+                                                                data-changing="{{$question->id}}"
+                                                                multiple="multiple"
+                                                                {{$question->original->required ? 'required' : ''}}
+                                                                >
+                                                                @php
+                                                                $selectedOptions = json_decode($question->response ?? '[]');
+                                                                @endphp
 
-                                                            @if ($question->original->presetOption == 'countries')
-                                                                <x-options.countries :selected="$selectedOptions" />
-                                                            @else
-                                                                @foreach ($question->original->optionList() as $option)
-                                                                <option value="{{$option}}" {{in_array($option, $selectedOptions) ? 'selected' : ''}}>{{$option}}</option>
-                                                                @endforeach
-                                                            @endif
-                                                        </select>
+                                                                @if ($question->original->presetOption == 'countries')
+                                                                    <x-options.countries :selected="$selectedOptions" />
+                                                                @else
+                                                                    @foreach ($question->original->optionList() as $option)
+                                                                    <option value="{{$option}}" {{in_array($option, $selectedOptions) ? 'selected' : ''}}>{{$option}}</option>
+                                                                    @endforeach
+                                                                @endif
+                                                            </select>
+                                                        </x-accenture.activateSizingInfoQuestion>
                                                     </div>
                                                     @break
                                                 @case('date')
                                                     <div class="questionDiv sizingQuestion" data-practice="{{$question->original->practice->id ?? ''}}">
-                                                        <label>{{$question->original->label}}{{$question->original->required ? '*' : ''}}</label>
-                                                        <div class="input-group date datepicker" data-initialValue="{{$question->response}}">
-                                                            <input
-                                                            data-changing="{{$question->id}}"
-                                                            value="{{$question->response}}"
-                                                            {{$question->original->required ? 'required' : ''}}
-                                                            type="text"
-                                                            class="form-control">
-                                                            <span class="input-group-addon"><i data-feather="calendar"></i></span>
-                                                        </div>
+                                                        <x-accenture.activateSizingInfoQuestion :changing="$question->id" :shouldShow="$question->shouldShow">
+                                                            <label>{{$question->original->label}}{{$question->original->required ? '*' : ''}}</label>
+                                                            <div class="input-group date datepicker" data-initialValue="{{$question->response}}">
+                                                                <input
+                                                                data-changing="{{$question->id}}"
+                                                                value="{{$question->response}}"
+                                                                {{$question->original->required ? 'required' : ''}}
+                                                                type="text"
+                                                                class="form-control">
+                                                                <span class="input-group-addon"><i data-feather="calendar"></i></span>
+                                                            </div>
+                                                        </x-accenture.activateSizingInfoQuestion>
                                                     </div>
                                                     @break
                                                 @case('number')
                                                     <div class="form-group questionDiv sizingQuestion" data-practice="{{$question->original->practice->id ?? ''}}">
-                                                        <label>{{$question->original->label}}{{$question->original->required ? '*' : ''}}</label>
-                                                        <input
-                                                            class="form-control"
-                                                            type="number"
-                                                            data-changing="{{$question->id}}"
-                                                            {{$question->original->required ? 'required' : ''}}
-                                                            value="{{$question->response}}"
-                                                            placeholder="{{$question->original->placeholder}}">
+                                                        <x-accenture.activateSizingInfoQuestion :changing="$question->id" :shouldShow="$question->shouldShow">
+                                                            <label>{{$question->original->label}}{{$question->original->required ? '*' : ''}}</label>
+                                                            <input
+                                                                class="form-control"
+                                                                type="number"
+                                                                data-changing="{{$question->id}}"
+                                                                {{$question->original->required ? 'required' : ''}}
+                                                                value="{{$question->response}}"
+                                                                placeholder="{{$question->original->placeholder}}">
+                                                        </x-accenture.activateSizingInfoQuestion>
                                                     </div>
                                                     @break
                                                 @default
 
                                             @endswitch
                                         @endforeach
+
+                                        <br><br>
+
+                                        <button id="submitSizingInfo" class="btn btn-primary">
+                                            Submit
+                                        </button>
                                     </section>
 
                                     <h2>Selection Criteria</h2>
@@ -752,7 +770,12 @@
         .select2-results__options .select2-results__option[aria-disabled=true] {
             display: none;
         }
+
+        #subwizard_here ul > li{
+            display: block;
+        }
     </style>
+    <link rel="stylesheet" href="{{url('/assets/css/techadvisory/vendorValidateResponses.css')}}">
 @endsection
 
 
@@ -760,7 +783,6 @@
 @parent
 <script src="https://cdn.jsdelivr.net/npm/sortablejs@latest/Sortable.min.js"></script>
 <script src="{{url('assets/js/bricks.js')}}"></script>
-<link rel="stylesheet" href="{{url('/assets/css/techadvisory/vendorValidateResponses.css')}}">
 
 <script>
     jQuery.expr[':'].hasValue = function(el,index,match) {
@@ -792,10 +814,10 @@
     {
         // If we filled all the fields, remove the disabled from the button. This is incase we fill the last field on the last page
         let fieldsAreEmtpy = !checkIfAllRequiredsAreFilled();
-        if(fieldsAreEmtpy && weAreOnPage3){
-            $('#wizard_accenture_newProjectSetUp-next').addClass('disabled')
+        if(fieldsAreEmtpy){
+            $('#submitSizingInfo').addClass('disabled')
         } else {
-            $('#wizard_accenture_newProjectSetUp-next').removeClass('disabled')
+            $('#submitSizingInfo').removeClass('disabled')
         }
     }
 
@@ -845,8 +867,6 @@
 
 
 
-    var weAreOnPage3 = false;
-
     $(document).ready(function() {
         weAreOnPage3 = false;
 
@@ -862,25 +882,6 @@
                 // TODO Only let the client submit if all the fields are full
 
                 window.location.replace("/accenture/home");
-            },
-            onStepChanging: function (e, c, n) {
-                if (n == 2) {
-                    weAreOnPage3 = true;
-                    $('#wizard_accenture_newProjectSetUp-next').html('Submit')
-                    let fieldsAreEmtpy = !checkIfAllRequiredsAreFilled();
-                    if(fieldsAreEmtpy){
-                        $('#wizard_accenture_newProjectSetUp-next').addClass('disabled')
-                    } else {
-                        $('#wizard_accenture_newProjectSetUp-next').removeClass('disabled')
-                    }
-                } else {
-                    weAreOnPage3 = false;
-                    $('#wizard_accenture_newProjectSetUp-next').removeClass('disabled')
-
-                    $('#wizard_accenture_newProjectSetUp-next').html('Next')
-                }
-
-                return true
             },
             onStepChanged: function (e, c, p) {
                 for (let i = 0; i < 10; i++) {
@@ -999,7 +1000,9 @@
 
         $('.sizingQuestion input,.sizingQuestion textarea,.sizingQuestion select')
             .filter(function(el) {
-                return $( this ).data('changing') !== undefined
+                console.log($(this));
+                console.log($(this).data('changing') !== undefined)
+                return $(this).data('changing') !== undefined
             })
             .change(function (e) {
                 console.log('sizing');
@@ -1012,6 +1015,18 @@
                 $.post('/sizingQuestion/changeResponse', {
                     changing: $(this).data('changing'),
                     value: value
+                })
+
+                showSavedToast();
+                updateSubmitButton();
+            });
+
+        $('.sizingQuestion .checkboxesDiv input')
+            .change(function (e) {
+                console.log($(this).parent().parent().parent())
+                $.post('/sizingQuestion/setShouldShow', {
+                    changing: $(this).data('changingid'),
+                    value: $(this).prop("checked")
                 })
 
                 showSavedToast();

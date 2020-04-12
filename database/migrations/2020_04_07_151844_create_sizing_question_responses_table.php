@@ -21,6 +21,7 @@ class CreateSizingQuestionResponsesTable extends Migration
             $table->unsignedBigInteger('project_id');
 
             $table->string('response')->nullable();
+            $table->boolean('shouldShow')->default(false);
         });
     }
 

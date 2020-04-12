@@ -27,11 +27,15 @@ class ProjectController extends Controller
 
     public function newProjectSetUp(Project $project)
     {
+        $sizingQuestions = $project->sizingQuestions->filter(function($el){
+            return $el->shouldShow;
+        });
+
         return view('clientViews.newProjectSetUp', [
             'project' => $project,
 
             'generalInfoQuestions' => $project->generalInfoQuestions,
-            'sizingQuestions' => $project->sizingQuestions
+            'sizingQuestions' => $sizingQuestions,
         ]);
     }
 
