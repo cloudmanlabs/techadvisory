@@ -1,11 +1,11 @@
-$(async function () {
-    'use strict';
+$(async function() {
+    "use strict";
 
     $("#wizard").steps({
         headerTag: "h2",
         bodyTag: "section",
         transitionEffect: "slideLeft",
-        onFinishing: function (event, currentIndex) {
+        onFinishing: function(event, currentIndex) {
             window.location.replace("/client/home");
         }
     });
@@ -15,31 +15,32 @@ $(async function () {
         bodyTag: "section",
         transitionEffect: "slideLeft",
         labels: {
-            finish: 'Submit general set up'
+            finish: "Submit general set up"
         },
-        onFinishing: function (event, currentIndex) {
+        onFinishing: function(event, currentIndex) {
             window.location.replace("/client/home");
         },
-        onStepChanging: function (e, c, n) {
+        onStepChanging: function(e, c, n) {
             // Change the button name on Sizing info
             if (n == 2) {
-                $('#clientNewProjectSetUpWizard-next').html('Submit general set up')
+                $("#clientNewProjectSetUpWizard-next").html(
+                    "Submit general set up"
+                );
             } else {
-                $('#clientNewProjectSetUpWizard-next').html('Next')
+                $("#clientNewProjectSetUpWizard-next").html("Next");
             }
-
 
             // if (c == 2) {
             //     window.location.replace("/client/home");
             // }
 
-            return true
+            return true;
         },
-        onStepChanged: function (e, c, p) {
+        onStepChanged: function(e, c, p) {
             for (let i = 0; i < 10; i++) {
-                $('#clientNewProjectSetUpWizard-p-' + i).css('display', 'none')
+                $("#clientNewProjectSetUpWizard-p-" + i).css("display", "none");
             }
-            $('#clientNewProjectSetUpWizard-p-' + c).css('display', 'block')
+            $("#clientNewProjectSetUpWizard-p-" + c).css("display", "block");
         }
     });
 
@@ -48,50 +49,50 @@ $(async function () {
         bodyTag: "section",
         transitionEffect: "slideLeft",
         labels: {
-            finish: 'Submit general set up'
+            finish: "Submit general set up"
         },
-        onFinishing: function (event, currentIndex) {
+        onFinishing: function(event, currentIndex) {
             // TODO Only let the client submit if all the fields are full
 
             window.location.replace("/client/home");
         },
-        onStepChanging: function (e, c, n) {
+        onStepChanging: function(e, c, n) {
             // TODO Check if all the fields are filled
             var canGoToSelection = false;
 
             if (n == 2 && !canGoToSelection) {
-                $('#clientNewProjectSetUpWizard-next').html('Submit general set up')
+                $("#clientNewProjectSetUpWizard-next").html(
+                    "Submit general set up"
+                );
             } else {
-                $('#clientNewProjectSetUpWizard-next').html('Next')
+                $("#clientNewProjectSetUpWizard-next").html("Next");
             }
 
             // Check if we can move to selection criteria
             if (c == 2) {
                 if (canGoToSelection) {
                     window.location.replace("/client/home");
-                    return false
+                    return false;
                 } else {
-                    return true
+                    return true;
                 }
             }
 
-            return true
+            return true;
         },
-        onStepChanged: function (e, c, p) {
+        onStepChanged: function(e, c, p) {
             for (let i = 0; i < 10; i++) {
-                $('#clientNewProjectSetUpWizard-p-' + i).css('display', 'none')
+                $("#clientNewProjectSetUpWizard-p-" + i).css("display", "none");
             }
-            $('#clientNewProjectSetUpWizard-p-' + c).css('display', 'block')
+            $("#clientNewProjectSetUpWizard-p-" + c).css("display", "block");
         }
     });
-
-
 
     $("#wizard_vendor").steps({
         headerTag: "h2",
         bodyTag: "section",
         transitionEffect: "slideLeft",
-        onFinishing: function (event, currentIndex) {
+        onFinishing: function(event, currentIndex) {
             window.location.replace("/vendors/newSolutionSetUp");
         }
     });
@@ -100,8 +101,20 @@ $(async function () {
         headerTag: "h2",
         bodyTag: "section",
         transitionEffect: "slideLeft",
-        onFinishing: function (event, currentIndex) {
+        onFinishing: function(event, currentIndex) {
             window.location.replace("/accenture/vendorList");
+        }
+    });
+
+    $("#wizardVendorProfile").steps({
+        headerTag: "h2",
+        bodyTag: "section",
+        transitionEffect: "slideLeft",
+        labels: {
+            finish: "Home"
+        },
+        onFinishing: function(event, currentIndex) {
+            window.location.replace("/vendor/home");
         }
     });
 
@@ -109,7 +122,7 @@ $(async function () {
         headerTag: "h2",
         bodyTag: "section",
         transitionEffect: "slideLeft",
-        onFinishing: function (event, currentIndex) {
+        onFinishing: function(event, currentIndex) {
             window.location.replace("/vendors/home");
         }
     });
@@ -118,7 +131,7 @@ $(async function () {
         headerTag: "h2",
         bodyTag: "section",
         transitionEffect: "slideLeft",
-        onFinishing: function (event, currentIndex) {
+        onFinishing: function(event, currentIndex) {
             window.location.replace("/client/project/home");
         }
     });
@@ -128,19 +141,25 @@ $(async function () {
         bodyTag: "section",
         transitionEffect: "slideLeft",
         labels: {
-            finish: 'Submit validation'
+            finish: "Submit validation"
         },
-        onFinishing: function (event, currentIndex) {
+        onFinishing: function(event, currentIndex) {
             // TODO Here check if all thingies have a value
             window.location.replace("/accenture/project/home");
         },
         // HACK Cause otherwise subwizards don't work
-        onStepChanged: function (e, c, p) {
+        onStepChanged: function(e, c, p) {
             for (let i = 0; i < 10; i++) {
-                $('#viewVendorProposalEvaluationWizard-p-' + i).css('display', 'none')
+                $("#viewVendorProposalEvaluationWizard-p-" + i).css(
+                    "display",
+                    "none"
+                );
             }
 
-            $('#viewVendorProposalEvaluationWizard-p-' + c).css('display', 'block')
+            $("#viewVendorProposalEvaluationWizard-p-" + c).css(
+                "display",
+                "block"
+            );
         }
     });
 
@@ -151,13 +170,13 @@ $(async function () {
         showFinishButtonAlways: false,
         enableFinishButton: false,
         // HACK Cause otherwise subwizards don't work
-        onStepChanged: function (e, c, p) {
+        onStepChanged: function(e, c, p) {
             for (let i = 0; i < 10; i++) {
-                $('#projectViewWizard-p-' + i).css('display', 'none')
+                $("#projectViewWizard-p-" + i).css("display", "none");
             }
 
-            $('#projectViewWizard-p-' + c).css('display', 'block')
-        },
+            $("#projectViewWizard-p-" + c).css("display", "block");
+        }
     });
 
     $("#projectEditWizard").steps({
@@ -165,28 +184,28 @@ $(async function () {
         bodyTag: "section",
         transitionEffect: "slideLeft",
         labels: {
-            finish: 'Save'
+            finish: "Save"
         },
-        onFinishing: function (event, currentIndex) {
+        onFinishing: function(event, currentIndex) {
             // TODO Here check if all thingies have a value
             window.location.replace("/accenture/project/view");
         },
-        onStepChanging: function (e, c, n) {
+        onStepChanging: function(e, c, n) {
             if (n == 2) {
-                $('#projectEditWizard-next').html('Submit')
+                $("#projectEditWizard-next").html("Submit");
             } else {
-                $('#projectEditWizard-next').html('Next')
+                $("#projectEditWizard-next").html("Next");
             }
 
-            return true
+            return true;
         },
         // HACK Cause otherwise subwizards don't work
-        onStepChanged: function (e, c, p) {
+        onStepChanged: function(e, c, p) {
             for (let i = 0; i < 10; i++) {
-                $('#projectEditWizard-p-' + i).css('display', 'none')
+                $("#projectEditWizard-p-" + i).css("display", "none");
             }
 
-            $('#projectEditWizard-p-' + c).css('display', 'block')
+            $("#projectEditWizard-p-" + c).css("display", "block");
         }
     });
 
@@ -194,25 +213,24 @@ $(async function () {
         headerTag: "h2",
         bodyTag: "section",
         transitionEffect: "slideLeft",
-        onFinishing: function (event, currentIndex) {
+        onFinishing: function(event, currentIndex) {
             window.location.replace("/accenture/home");
         },
         // HACK Cause otherwise subwizards don't work
-        onStepChanged: function (e, c, p) {
+        onStepChanged: function(e, c, p) {
             for (let i = 0; i < 10; i++) {
-                $('#wizard_accenture-p-' + i).css('display', 'none')
+                $("#wizard_accenture-p-" + i).css("display", "none");
             }
 
-            $('#wizard_accenture-p-' + c).css('display', 'block')
+            $("#wizard_accenture-p-" + c).css("display", "block");
         }
     });
-
 
     $("#subwizard").steps({
         headerTag: "h3",
         bodyTag: "div",
         transitionEffect: "slideLeft",
         showFinishButtonAlways: false,
-        enableFinishButton: false,
+        enableFinishButton: false
     });
 });

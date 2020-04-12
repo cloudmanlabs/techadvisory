@@ -41,6 +41,17 @@
                                         @endforeach
                                     </select>
                                 </div>
+
+                                <div class="media-body" style="padding: 20px;">
+                                    <p class="welcome_text">
+                                        Please choose the Years you'd like to see:
+                                    </p>
+                                    <select id="homeYearSelect" class="w-100" multiple="multiple">
+                                        <option value="2019">2019</option>
+                                        <option value="2020">2020</option>
+                                        <option value="2021">2021</option>
+                                    </select>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -60,7 +71,8 @@
                                 @foreach ($openProjects as $project)
                                 <div class="card" style="margin-bottom: 30px;"
                                     data-client="{{$project->client->name}}"
-                                    data-practice="{{$project->practice->name}}">
+                                    data-practice="{{$project->practice->name}}"
+                                    data-year="{{$project->created_at->year}}">
                                     <div class="card-body">
                                         <div style="float: left; max-width: 40%;">
                                             <h4>{{$project->name}}</h4>
@@ -95,7 +107,8 @@
                                 @foreach ($preparationProjects as $project)
                                 <div class="card" style="margin-bottom: 30px;"
                                     data-client="{{$project->client->name ?? ''}}"
-                                    data-practice="{{$project->practice->name ?? ''}}">
+                                    data-practice="{{$project->practice->name ?? ''}}"
+                                    data-year="{{$project->created_at->year}}">
                                     <div class="card-body">
                                         <div style="float: left; max-width: 40%;">
                                             <h4>{{$project->name}}</h4>
@@ -132,7 +145,8 @@
                                 @foreach ($oldProjects as $project)
                                 <div class="card" style="margin-bottom: 30px;"
                                     data-client="{{$project->client->name}}"
-                                    data-practice="{{$project->practice->name}}">
+                                    data-practice="{{$project->practice->name}}"
+                                    data-year="{{$project->created_at->year}}">
                                     <div class="card-body">
                                         <div style="float: left; max-width: 40%;">
                                             <h4>{{$project->name}}</h4>
@@ -233,32 +247,50 @@
                     });
                 }
 
+                var selectedYears = $('#homeYearSelect').select2('data').map((el) => {
+                    return el.text
+                });
+                if(selectedYears.length == 0){
+                    selectedYears = $('#homeYearSelect').children().toArray().map((el) => {
+                        return el.innerHTML
+                    });
+                }
+
                 // Add a display none to the one which don't have this tags
                 $('#openPhaseContainer').children().each(function () {
-                    let practice = $(this).data('practice');
-                    let client = $(this).data('client');
+                    const practice = $(this).data('practice');
+                    const client = $(this).data('client');
+                    const year = $(this).data('year').toString();
 
-                    if ($.inArray(practice, selectedPractices) !== -1 && $.inArray(client, selectedClients) !== -1) {
+                    if ($.inArray(practice, selectedPractices) !== -1
+                        && $.inArray(client, selectedClients) !== -1
+                        && $.inArray(year, selectedYears) !== -1) {
                         $(this).css('display', 'flex')
                     } else {
                         $(this).css('display', 'none')
                     }
                 });
                 $('#preparationPhaseContainer').children().each(function () {
-                    let practice = $(this).data('practice');
-                    let client = $(this).data('client');
+                    const practice = $(this).data('practice');
+                    const client = $(this).data('client');
+                    const year = $(this).data('year').toString();
 
-                    if ($.inArray(practice, selectedPractices) !== -1 && $.inArray(client, selectedClients) !== -1) {
+                    if  ($.inArray(practice, selectedPractices) !== -1
+                        && $.inArray(client, selectedClients) !== -1
+                        && $.inArray(year, selectedYears) !== -1) {
                         $(this).css('display', 'flex')
                     } else {
                         $(this).css('display', 'none')
                     }
                 });
                 $('#oldPhaseContainer').children().each(function () {
-                    let practice = $(this).data('practice');
-                    let client = $(this).data('client');
+                    const practice = $(this).data('practice');
+                    const client = $(this).data('client');
+                    const year = $(this).data('year').toString();
 
-                    if ($.inArray(practice, selectedPractices) !== -1 && $.inArray(client, selectedClients) !== -1) {
+                    if  ($.inArray(practice, selectedPractices) !== -1
+                        && $.inArray(client, selectedClients) !== -1
+                        && $.inArray(year, selectedYears) !== -1) {
                         $(this).css('display', 'flex')
                     } else {
                         $(this).css('display', 'none')
@@ -272,6 +304,10 @@
             });
             $('#homeClientSelect').select2();
             $('#homeClientSelect').on('change', function (e) {
+                updateOpenProjects();
+            });
+            $('#homeYearSelect').select2();
+            $('#homeYearSelect').on('change', function (e) {
                 updateOpenProjects();
             });
             updateOpenProjects();
