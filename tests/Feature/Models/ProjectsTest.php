@@ -322,4 +322,42 @@ class ProjectsTest extends TestCase
         $project->refresh();
         $this->assertCount(2, $project->subpractices);
     }
+
+    public function testCanSetStep4FinishedForAccenture()
+    {
+        $user = factory(User::class)->states('accenture')->create();
+        $project = factory(Project::class)->create();
+
+        $this->assertFalse(boolval($project->step4FinishedAccenture));
+
+        $request = $this
+            ->actingAs($user)
+            ->post('/accenture/newProjectSetUp/setStep4Finished', [
+                'project_id' => $project->id,
+            ]);
+
+        $request->assertOk();
+
+        $project->refresh();
+        $this->assertTrue($project->step4FinishedAccenture);
+    }
+
+    public function testCanSetStep4FinishedForClient()
+    {
+        $user = factory(User::class)->states('client')->create();
+        $project = factory(Project::class)->create();
+
+        $this->assertFalse(boolval($project->step4FinishedClient));
+
+        $request = $this
+            ->actingAs($user)
+            ->post('/client/newProjectSetUp/setStep4Finished', [
+                'project_id' => $project->id,
+            ]);
+
+        $request->assertOk();
+
+        $project->refresh();
+        $this->assertTrue($project->step4FinishedClient);
+    }
 }

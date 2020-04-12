@@ -36,6 +36,9 @@ class CreateProjectsTable extends Migration
             $table->unsignedBigInteger('client_id')->nullable();
 
             $table->boolean('isBinding')->default(false);
+
+            $table->boolean('step4FinishedAccenture')->default(false);
+            $table->boolean('step4FinishedClient')->default(false);
         });
     }
 

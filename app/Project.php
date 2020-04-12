@@ -28,6 +28,11 @@ class Project extends Model
         'deadline'
     ];
 
+    protected $casts = [
+        'step4FinishedAccenture' => 'boolean',
+        'step4FinishedClient' => 'boolean',
+    ];
+
     /**
      * List of fields that can be changed from a post request in the frontend
      */

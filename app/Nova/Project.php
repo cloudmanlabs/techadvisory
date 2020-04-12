@@ -68,6 +68,11 @@ class Project extends Resource
             Boolean::make('Orals', 'hasOrals'),
             Boolean::make('Value Targeting', 'hasValueTargeting'),
 
+            Boolean::make('Accenture finished Selection Criteria', 'step4FinishedAccenture')
+                ->hideFromIndex(),
+            Boolean::make('Client finished Selection Criteria', 'step4FinishedClient')
+                ->hideFromIndex(),
+
             Number::make('Set Up Progress', 'progressSetUp')
                 ->exceptOnForms()
                 ->hideFromIndex(),

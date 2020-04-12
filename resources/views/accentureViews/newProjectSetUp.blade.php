@@ -445,9 +445,6 @@
                                                     </div>
                                                 </div>
 
-
-
-
                                                 <h3>Vendor</h3>
                                                 <div>
                                                     <h4>2.1 Corporate information</h4>
@@ -525,10 +522,6 @@
 
 
                                                     </div>
-
-                                                    <br><br>
-                                                    <a href="#" class="btn btn-primary btn-lg btn-icon-text">Save</a>
-                                                    <br><br>
                                                 </div>
 
                                                 <h3>Experience</h3>
@@ -577,10 +570,6 @@
                                                         <br>
                                                         <br>
                                                     </div>
-
-                                                    <br><br>
-                                                    <a href="#" class="btn btn-primary btn-lg btn-icon-text">Save</a>
-                                                    <br><br>
                                                 </div>
 
                                                 <h3>Innovation & Vision</h3>
@@ -664,10 +653,6 @@
                                                         </x-accenture.activateQuestion>
                                                         <br>
                                                     </div>
-
-                                                    <br><br>
-                                                    <a href="#" class="btn btn-primary btn-lg btn-icon-text">Save</a>
-                                                    <br><br>
                                                 </div>
 
                                                 <h3>Implementation & Commercials</h3>
@@ -703,17 +688,14 @@
                                                         </x-accenture.activateQuestion>
                                                         <br>
                                                     </div>
-
-                                                    <br><br>
-                                                    <a href="#" class="btn btn-primary btn-lg btn-icon-text">Save</a>
-                                                    <br><br>
                                                 </div>
-
-
 
                                                 <h3>Scoring criteria</h3>
                                                 <div>
                                                     <x-scoringCriteriaBricks />
+
+                                                    <br><br>
+                                                    <button class="btn btn-primary" id="step4Submit">Submit</button>
                                                 </div>
                                             </div>
                                         </div>
@@ -739,7 +721,11 @@
 
                                         <br>
                                         <br>
-                                        <a href="#" class="btn btn-primary btn-lg btn-icon-text">Publish project</a>
+                                        <button
+                                            class="btn btn-primary btn-lg btn-icon-text"
+                                            id="publishButton"
+                                            data-clienthasfinished="{{$project->step4FinishedClient}}"
+                                            {{!$project->step4FinishedAccenture || !$project->step4FinishedClient ? 'disabled' : ''}}>Publish project</button>
                                         <br><br>
                                         <p>
                                             Please make sure everything is correct before publishing this project.
@@ -812,12 +798,12 @@
 
     function updateSubmitButton()
     {
-        // If we filled all the fields, remove the disabled from the button. This is incase we fill the last field on the last page
+        // If we filled all the fields, remove the disabled from the button.
         let fieldsAreEmtpy = !checkIfAllRequiredsAreFilled();
         if(fieldsAreEmtpy){
-            $('#submitSizingInfo').addClass('disabled')
+            $('#submitSizingInfo').attr('disabled', true)
         } else {
-            $('#submitSizingInfo').removeClass('disabled')
+            $('#submitSizingInfo').attr('disabled', false)
         }
     }
 
@@ -974,6 +960,25 @@
             updateSubmitButton();
         });
 
+        $('#step4Submit').click(function(){
+            $.post('/accenture/newProjectSetUp/setStep4Finished', {
+                project_id: '{{$project->id}}',
+            })
+
+            $.toast({
+                heading: 'Submitted!',
+                showHideTransition: 'slide',
+                icon: 'success',
+                hideAfter: 1000,
+                position: 'bottom-right'
+            })
+
+            // If the client has already accepted, set it as active
+            if($('#publishButton').data('clienthasfinished') == '1'){
+                $('#publishButton').attr('disabled', false);
+            }
+        });
+
 
 
         // On change for the rest
@@ -983,7 +988,6 @@
                 return $( this ).data('changing') !== undefined
             })
             .change(function (e) {
-                console.log('general');
                 var value = $(this).val();
                 if($.isArray(value) && value.length == 0 && $(this).attr('multiple') !== undefined){
                     value = '[]'
@@ -1000,13 +1004,9 @@
 
         $('.sizingQuestion input,.sizingQuestion textarea,.sizingQuestion select')
             .filter(function(el) {
-                console.log($(this));
-                console.log($(this).data('changing') !== undefined)
                 return $(this).data('changing') !== undefined
             })
             .change(function (e) {
-                console.log('sizing');
-
                 var value = $(this).val();
                 if($.isArray(value) && value.length == 0 && $(this).attr('multiple') !== undefined){
                     value = '[]'
@@ -1023,7 +1023,6 @@
 
         $('.sizingQuestion .checkboxesDiv input')
             .change(function (e) {
-                console.log($(this).parent().parent().parent())
                 $.post('/sizingQuestion/setShouldShow', {
                     changing: $(this).data('changingid'),
                     value: $(this).prop("checked")
@@ -1049,6 +1048,7 @@
 
         updateShownQuestionsAccordingToPractice();
         updateShownSubpracticeOptionsAccordingToPractice(false);
+        updateSubmitButton();
     });
 </script>
 @endsection

@@ -149,6 +149,28 @@ class ProjectController extends Controller
         ]);
     }
 
+    public function setStep4Finished(Request $request)
+    {
+        $request->validate([
+            'project_id' => 'required|numeric',
+        ]);
+
+        $project = Project::find($request->project_id);
+        if ($project == null) {
+            abort(404);
+        }
+
+        $project->step4FinishedClient = true;
+        $project->save();
+
+        return \response()->json([
+            'status' => 200,
+            'message' => 'Success'
+        ]);
+    }
+
+
+
     public function view(Project $project)
     {
         return view('clientViews.projectView', [

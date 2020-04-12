@@ -310,7 +310,7 @@
 
                                     <h2>Selection Criteria</h2>
                                     <section>
-                                        <div id="subwizard">
+                                        <div id="subwizard_here">
                                             <h3>Fit gap</h3>
                                             <div>
                                                 <h4>4.1. Fit Gap</h4>
@@ -749,6 +749,10 @@
                                             <h3>Scoring criteria</h3>
                                             <div>
                                                 <x-scoringCriteriaBricksView />
+
+                                                <br>
+                                                <br>
+                                                <button class="btn btn-primary" id="step4Submit">Submit</button>
                                             </div>
                                         </div>
                                     </section>
@@ -788,6 +792,10 @@
 
     .select2-results__options .select2-results__option[aria-disabled=true] {
         display: none;
+    }
+
+    #subwizard_here ul > li{
+        display: block;
     }
 </style>
 @endsection
@@ -902,25 +910,6 @@
 
                 window.location.replace("/client/home");
             },
-            onStepChanging: function (e, c, n) {
-                if (n == 2) {
-                    weAreOnPage3 = true;
-                    $('#wizard_client_newProjectSetUp-next').html('Submit')
-                    let fieldsAreEmtpy = !checkIfAllRequiredsAreFilled();
-                    if(fieldsAreEmtpy){
-                        $('#wizard_client_newProjectSetUp-next').addClass('disabled')
-                    } else {
-                        $('#wizard_client_newProjectSetUp-next').removeClass('disabled')
-                    }
-                } else {
-                    weAreOnPage3 = false;
-                    $('#wizard_client_newProjectSetUp-next').removeClass('disabled')
-
-                    $('#wizard_client_newProjectSetUp-next').html('Next')
-                }
-
-                return true
-            },
             onStepChanged: function (e, c, p) {
                 for (let i = 0; i < 10; i++) {
                     $('#wizard_client_newProjectSetUp-p-' + i).css('display', 'none')
@@ -999,6 +988,20 @@
 
             showSavedToast();
             updateSubmitButton();
+        });
+
+        $('#step4Submit').click(function(){
+            $.post('/client/newProjectSetUp/setStep4Finished', {
+                project_id: '{{$project->id}}',
+            })
+
+            $.toast({
+                heading: 'Submitted!',
+                showHideTransition: 'slide',
+                icon: 'success',
+                hideAfter: 1000,
+                position: 'bottom-right'
+            })
         });
 
 
