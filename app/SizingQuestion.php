@@ -31,8 +31,6 @@ class SizingQuestion extends Model
     public function optionList()
     {
         switch ($this->presetOption) {
-            case 'custom':
-                return explode(',', $this->options);
             case 'countries':
                 // Countries are dealt by through newProjectSetUp
                 throw new Exception('This question has Countries as a Preset. You shouldn\'t be calling optionList on it');
@@ -47,6 +45,9 @@ class SizingQuestion extends Model
                 return config('arrays.currencies');
             case 'projectTypes':
                 return config('arrays.projectTypes');
+            case 'custom':
+            default:
+                return explode(',', $this->options);
         }
     }
 }
