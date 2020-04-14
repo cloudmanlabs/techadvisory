@@ -47,6 +47,11 @@ class User extends Authenticatable
         return $this->hasMany(Project::class, 'client_id');
     }
 
+    public function clientProfileQuestions()
+    {
+        return $this->hasMany(ClientProfileQuestionResponse::class, 'client_id');
+    }
+
 
 
 

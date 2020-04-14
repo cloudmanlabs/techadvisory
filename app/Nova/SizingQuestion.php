@@ -73,6 +73,59 @@ class SizingQuestion extends Resource
         ];
 
         switch ($this->resource->type) {
+            case 'text':
+                $other = [
+                    Text::make('Placeholder', 'placeholder')
+                        ->hideWhenCreating()
+                        ->hideFromIndex(),
+                ];
+                break;
+            case 'selectSingle':
+                $other = [
+                    Text::make('Placeholder', 'placeholder')
+                        ->hideWhenCreating()
+                        ->hideFromIndex(),
+                    Select::make('Options', 'presetOption')
+                        ->options([
+                            'countries' => 'Countries',
+                            'transportModes' => 'Transport Modes',
+                            'transportFlows' => 'Transport Flows',
+                            'transportTypes' => 'Transport Types',
+                            'currencies' => 'Currencies',
+                            'projectTypes' => 'Project Types',
+                            'custom' => 'Custom'
+                        ])
+                        ->displayUsingLabels()
+                        ->hideFromIndex()
+                        ->hideWhenCreating()
+                        ->help('Select a preset of options for the Dropdown, or select Custom to add a custom list of options in "Custom options"'),
+                    Text::make('Custom options', 'options')
+                        ->hideFromIndex()
+                        ->hideWhenCreating()
+                        ->help('Add a list of comma separated options.'),
+                ];
+                break;
+            case 'selectMultiple':
+                $other = [
+                    Select::make('Options', 'presetOption')
+                        ->options([
+                            'countries' => 'Countries',
+                            'transportModes' => 'Transport Modes',
+                            'transportFlows' => 'Transport Flows',
+                            'transportTypes' => 'Transport Types',
+                            'custom' => 'Custom'
+                        ])
+                        ->displayUsingLabels()
+                        ->hideFromIndex()
+                        ->hideWhenCreating()
+                        ->help('Select a preset of options for the Dropdown, or select Custom to add a custom list of options in "Custom options"'),
+                    Text::make('Custom options', 'options')
+                        ->hideFromIndex()
+                        ->hideWhenCreating()
+                        ->help('Add a list of comma separated options.'),
+                ];
+                break;
+            case 'textarea':
             default:
                 $other = [];
                 break;

@@ -40,8 +40,12 @@ Route::prefix('client')
 
             Route::get('home', 'HomeController@home')
                 ->name('home');
-            Route::view('profile', 'clientViews.profile')
+
+            Route::get('profile', 'ProfileController@profile')
                 ->name('profile');
+            Route::post('/profile/changeResponse', 'ProfileController@changeResponse')
+                ->name('profile.changeResponse');
+
             // They have decided to remove profile editing, but I'm keeping this for when they eventually decide to change their mind
             // Route::view('profileEdit', 'clientViews.profileEdit')
             //     ->name('profileEdit');

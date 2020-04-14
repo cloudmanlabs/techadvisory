@@ -2,12 +2,16 @@
 
 namespace App\Providers;
 
+use App\ClientProfileQuestion;
 use App\GeneralInfoQuestion;
+use App\Observers\ClientProfileQuestionObserver;
 use App\Observers\GeneralInfoQuestionObserver;
 use App\Observers\ProjectObserver;
 use App\Observers\SizingQuestionObserver;
+use App\Observers\UserObserver;
 use App\Project;
 use App\SizingQuestion;
+use App\User;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
 
@@ -31,7 +35,9 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         Project::observe(ProjectObserver::class);
+        User::observe(UserObserver::class);
         GeneralInfoQuestion::observe(GeneralInfoQuestionObserver::class);
+        ClientProfileQuestion::observe(ClientProfileQuestionObserver::class);
         SizingQuestion::observe(SizingQuestionObserver::class);
 
         Blade::directive('logo', function () {
