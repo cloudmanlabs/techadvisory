@@ -108,7 +108,7 @@
                                         <div class="form-group">
                                             <label for="practiceSelect">Practice*</label>
                                             <select class="form-control" id="practiceSelect" required>
-                                                <x-options.practices :selected="$project->practice->id" />
+                                                <x-options.practices :selected="$project->practice->id ?? -1" />
                                             </select>
                                         </div>
 
@@ -818,7 +818,7 @@
         })
     }
 
-    var currentPracticeId = {{$project->practice->id}};
+    var currentPracticeId = {{$project->practice->id ?? -1}};
     function updateShownQuestionsAccordingToPractice(){
         $('.questionDiv').each(function () {
             let practiceId = $(this).data('practice');
