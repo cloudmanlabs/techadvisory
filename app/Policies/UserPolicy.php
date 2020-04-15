@@ -37,6 +37,8 @@ class UserPolicy
     {
         if ($object->isAdmin()) return false;
 
+        if($user->id == $object->id) return false;
+
         return $user->isAdmin() || $user->isAccenture();
     }
 }
