@@ -13,8 +13,10 @@ class ProfileController extends Controller
 {
     public function profile()
     {
+        $client = auth()->user();
         return view('clientViews.profile', [
-            'client' => auth()->user()
+            'client' => $client,
+            'questions' => $client->clientProfileQuestions
         ]);
     }
 

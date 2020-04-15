@@ -16,9 +16,8 @@ use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Panel;
 
-class GeneralInfoQuestion extends Resource
+class ClientProfileQuestion extends Resource
 {
-
     public static $group = 'Questions';
 
     /**
@@ -26,7 +25,7 @@ class GeneralInfoQuestion extends Resource
      *
      * @var string
      */
-    public static $model = 'App\GeneralInfoQuestion';
+    public static $model = 'App\ClientProfileQuestion';
 
     /**
      * The single value that should be used to represent the resource when being displayed.
@@ -67,22 +66,17 @@ class GeneralInfoQuestion extends Resource
 
             Text::make('Label', 'label')
                 ->required(),
-            Boolean::make('Required', 'required'),
-
-            BelongsTo::make('Practice', 'practice', 'App\Nova\Practice')
-                ->nullable()
-                ->help('Select a Practice if you want this Question to only show on projects with that Practice')
         ];
 
         // NOTE All of the fields here should be hidden on index and create
-        switch($this->resource->type){
+        switch ($this->resource->type) {
             case 'text':
                 $other = [
                     Text::make('Placeholder', 'placeholder')
-                    ->hideWhenCreating()
-                    ->hideFromIndex(),
+                        ->hideWhenCreating()
+                        ->hideFromIndex(),
                 ];
-            break;
+                break;
             case 'selectSingle':
                 $other = [
                     Text::make('Placeholder', 'placeholder')

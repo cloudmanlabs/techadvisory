@@ -11,28 +11,29 @@ use Laravel\Nova\Fields\Boolean;
 use Laravel\Nova\Fields\HasMany;
 use Laravel\Nova\Fields\HasOne;
 use Laravel\Nova\Fields\ID;
-use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Password;
+use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Panel;
-use Outhebox\NovaHiddenField\HiddenField;
 
-class Client extends Resource
+class ClientProfileQuestionResponse extends Resource
 {
+    public static $displayInNavigation = false;
+
     /**
      * The model the resource corresponds to.
      *
      * @var string
      */
-    public static $model = 'App\User';
+    public static $model = 'App\ClientProfileQuestionResponse';
 
     /**
      * The single value that should be used to represent the resource when being displayed.
      *
      * @var string
      */
-    public static $title = 'name';
+    public static $title = 'id';
 
     /**
      * The columns that should be searched.
@@ -40,7 +41,7 @@ class Client extends Resource
      * @var array
      */
     public static $search = [
-        'id', 'name', 'email',
+        'id', 'response'
     ];
 
     /**
@@ -52,38 +53,32 @@ class Client extends Resource
     public function fields(Request $request)
     {
         return [
-            Text::make('Name')
-                ->sortable()
-                ->rules('required', 'max:255'),
+            BelongsTo::make('Client', 'client', 'App\Nova\User'),
+            BelongsTo::make('Question', 'original', 'App\Nova\ClientProfileQuestion'),
 
-            Text::make('Email')
-                ->sortable()
-                ->rules('required', 'email', 'max:254')
-                ->creationRules('unique:users,email')
-                ->updateRules('unique:users,email,{{resourceId}}'),
-
-            Password::make('Password')
-                ->onlyOnForms()
-                ->creationRules('required', 'string', 'min:8')
-                ->updateRules('nullable', 'string', 'min:8'),
-
-            HasMany::make('Projects', 'projectsClient', 'App\Nova\Project'),
-
-            // This sets the correct value for userType
-            HiddenField::make('userType')
-                ->hideFromIndex()
-                ->hideFromDetail()
-                ->default('client'),
-
-            HasMany::make('Profile Questions', 'clientProfileQuestions', 'App\Nova\ClientProfileQuestionResponse'),
+            Text::make('Response', 'response')
+                ->hideWhenCreating(),
         ];
     }
 
-    public static function indexQuery(NovaRequest $request, $query)
+    public static function relatableUsers(NovaRequest $request, $query)
     {
-        return $query->whereIn('userType', User::clientTypes);
+        if($request->viaResource == 'clients' && $request->viaRelationship == 'clientProfileQuestions'){
+            return $query->where('id', $request->viaResourceId);
+        } else {
+            return $query->whereIn('userType', User::clientTypes);
+        }
     }
 
+    public static function relatableClientProfileQuestions(NovaRequest $request, $query)
+    {
+        if ($request->viaResource) {
+            $selectedAgendaItems = User::find($request->viaResourceId)->clientProfileQuestions()->pluck('question_id');
+            return $query->whereNotIn('id', $selectedAgendaItems);
+        } else {
+            return $query;
+        }
+    }
 
     /**
      * Get the cards available for the request.

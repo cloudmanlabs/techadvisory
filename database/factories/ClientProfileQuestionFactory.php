@@ -41,5 +41,10 @@ $factory->define(ClientProfileQuestion::class, function (Faker $faker) {
                 'label' => 'How are you?',
                 'type' => $type,
             ];
+        case 'number':
+            return [
+                'label' => 'How are you?',
+                'type' => $type,
+            ];
     }
 });

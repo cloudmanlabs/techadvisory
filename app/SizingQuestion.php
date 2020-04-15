@@ -25,8 +25,16 @@ class SizingQuestion extends Model
 
 
 
-    const questionTypes = ['text', 'textarea', 'selectSingle', 'selectMultiple', 'date'];
-    const presetOptions = ['countries', 'transportModes', 'transportFlows', 'transportTypes', 'custom'];
+    const questionTypes = ['text', 'textarea', 'selectSingle', 'selectMultiple', 'date', 'number'];
+    const presetOptions = [
+        'countries',
+        'transportModes',
+        'transportFlows',
+        'transportTypes',
+        'industryExperience',
+        'regions',
+        'custom'
+    ];
 
     public function optionList()
     {
@@ -45,6 +53,10 @@ class SizingQuestion extends Model
                 return config('arrays.currencies');
             case 'projectTypes':
                 return config('arrays.projectTypes');
+            case 'industryExperience':
+                return config('arrays.industryExperience');
+            case 'regions':
+                return config('arrays.regions');
             case 'custom':
             default:
                 return explode(',', $this->options);

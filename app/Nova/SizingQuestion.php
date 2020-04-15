@@ -58,7 +58,8 @@ class SizingQuestion extends Resource
                     'textarea' => 'Text Area',
                     'selectSingle' => 'Select',
                     'selectMultiple' => 'Select multiple',
-                    'date' => 'Date'
+                    'date' => 'Date',
+                    'number' => 'Number'
                 ])
                 ->displayUsingLabels()
                 ->rules('required'),

@@ -807,6 +807,7 @@
 <script src="https://cdn.jsdelivr.net/npm/sortablejs@latest/Sortable.min.js"></script>
 <script src="{{url('assets/js/bricks.js')}}"></script> --}}
 
+<script src="{{url('assets/js/select2.js')}}"></script>
 <link rel="stylesheet" href="{{url('/assets/css/techadvisory/vendorValidateResponses.css')}}">
 
 <script>
