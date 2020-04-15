@@ -53,14 +53,7 @@ class SizingQuestion extends Resource
     {
         $common = [
             Select::make('Type', 'type')
-                ->options([
-                    'text' => 'Text',
-                    'textarea' => 'Text Area',
-                    'selectSingle' => 'Select',
-                    'selectMultiple' => 'Select multiple',
-                    'date' => 'Date',
-                    'number' => 'Number'
-                ])
+                ->options(\App\SizingQuestion::selectTypes)
                 ->displayUsingLabels()
                 ->rules('required'),
 
