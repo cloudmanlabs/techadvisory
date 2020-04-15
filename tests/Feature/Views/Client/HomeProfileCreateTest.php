@@ -75,4 +75,14 @@ class HomeProfileCreateTest extends TestCase
 
         $this->assertTrue($client->hasFinishedSetup);
     }
+
+    public function testCanNotAccessProfileCreateIfSetUpHasBeenFinished()
+    {
+        $user = factory(User::class)->states(['client', 'finishedSetup'])->create();
+
+        $response = $this->actingAs($user)
+            ->get('client/profile/create');
+
+        $response->assertNotFound();
+    }
 }

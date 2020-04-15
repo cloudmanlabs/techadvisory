@@ -25,14 +25,16 @@ Route::prefix('client')
             ->name('loginPost');
 
         Route::middleware(['auth', 'checkClient'])->group(function () {
-            Route::post('/profile/changeResponse', 'ProfileController@changeResponse')
-                ->name('profile.changeResponse');
-            Route::view('firstLoginRegistration', 'clientViews.firstLoginRegistration')
-                ->name('firstLoginRegistration');
-            Route::get('profile/create', 'ProfileController@homeProfileCreate')
-                ->name('profile.create');
-            Route::post('profile/submit', 'ProfileController@submitProfile')
-                ->name('profile.submit');
+            Route::middleware(['checkUserHasNotFinishedSetup'])->group(function () {
+                Route::view('firstLoginRegistration', 'clientViews.firstLoginRegistration')
+                    ->name('firstLoginRegistration');
+                Route::get('profile/create', 'ProfileController@homeProfileCreate')
+                    ->name('profile.create');
+                Route::post('/profile/changeResponse', 'ProfileController@changeResponse')
+                    ->name('profile.changeResponse');
+                Route::post('profile/submit', 'ProfileController@submitProfile')
+                    ->name('profile.submit');
+            });
 
             Route::middleware(['checkUserHasFinishedSetup'])->group(function(){
                 Route::get('home', 'HomeController@home')

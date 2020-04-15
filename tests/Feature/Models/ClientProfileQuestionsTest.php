@@ -99,7 +99,7 @@ class ClientProfileQuestionsTest extends TestCase
     public function testCanChangeResponseWithPost()
     {
         $question = factory(ClientProfileQuestion::class)->create();
-        $client = factory(User::class)->states(['client', 'finishedSetup'])->create();
+        $client = factory(User::class)->states('client')->create();
 
         $qResponse = new ClientProfileQuestionResponse([
             'question_id' => $question->id,
@@ -122,8 +122,8 @@ class ClientProfileQuestionsTest extends TestCase
     public function testClientCanOnlyChangeOwnProfileQuestionResponses()
     {
         $question = factory(ClientProfileQuestion::class)->create();
-        $owner = factory(User::class)->states(['client', 'finishedSetup'])->create();
-        $changer = factory(User::class)->states(['client', 'finishedSetup'])->create();
+        $owner = factory(User::class)->states('client')->create();
+        $changer = factory(User::class)->states('client')->create();
 
         $qResponse = new ClientProfileQuestionResponse([
             'question_id' => $question->id,
