@@ -30,192 +30,123 @@
 
 
                                 <div class="form-group">
-                                    <label for="exampleInputText1">Client name</label> <input class="form-control" id="exampleInputText1" placeholder="Enter Name" value="Nestlé" type="text" disabled>
+                                    <label for="exampleInputText1">Client name</label>
+                                    <input class="form-control" id="exampleInputText1" disabled value="{{$client->name}}" type="text">
                                 </div>
 
-
-                                <div class="form-group">
-                                    <label for="exampleFormControlSelect1">Industry Experience</label> <select class="form-control" id="exampleFormControlSelect1" disabled>
-                                        <option disabled selected>
-                                            Please select your industry
-                                        </option>
-
-                                        <option>
-                                            Automative
-                                        </option>
-
-                                        <option selected>
-                                            Consumer goods & services
-                                        </option>
-
-                                        <option>
-                                            Industrial Equipement
-                                        </option>
-
-                                        <option>
-                                            Life Sciences
-                                        </option>
-
-                                        <option>
-                                            Retail
-                                        </option>
-
-                                        <option>
-                                            Transport services
-                                        </option>
-
-                                        <option>
-                                            Travel
-                                        </option>
-
-                                        <option>
-                                            Chemical
-                                        </option>
-
-                                        <option>
-                                            Energy
-                                        </option>
-
-                                        <option>
-                                            Natural Resources
-                                        </option>
-
-                                        <option>
-                                            Utilities
-                                        </option>
-
-                                        <option>
-                                            Communications & Media
-                                        </option>
-
-                                        <option>
-                                            High tech
-                                        </option>
-
-                                        <option>
-                                            CMT SW&P
-                                        </option>
-
-                                        <option>
-                                            Health
-                                        </option>
-
-                                        <option>
-                                            Public Service
-                                        </option>
-
-                                        <option>
-                                            Banking
-                                        </option>
-
-                                        <option>
-                                            Capital Markets
-                                        </option>
-
-                                        <option>
-                                            Insurance
-                                        </option>
-                                    </select>
-                                </div>
-
-
-                                <div class="form-group">
-                                    <label for="exampleInputText1">Revenue for last exercise</label> <input class="form-control" id="exampleInputText1" placeholder="Enter amount" type="text">
-                                </div>
-
-
-                                <div class="form-group">
-                                    <label for="exampleFormControlSelect1">Revenue currency</label> <select class="form-control" id="exampleFormControlSelect1">
-                                        <option disabled selected>
-                                            Please select your currency
-                                        </option>
-
-                                        <option>
-                                            Euro
-                                        </option>
-
-                                        <option>
-                                            USD
-                                        </option>
-
-                                        <option>
-                                            CHF
-                                        </option>
-                                    </select>
-                                </div>
-
-
-                                <div class="form-group">
-                                    <label for="exampleFormControlSelect1">Number of employees</label> <select class="form-control" id="exampleFormControlSelect1">
-                                        <option disabled selected>
-                                            Please select the range
-                                        </option>
-
-                                        <option>
-                                            0-50
-                                        </option>
-
-                                        <option>
-                                            50-500
-                                        </option>
-
-                                        <option>
-                                            500-5.000
-                                        </option>
-
-                                        <option>
-                                            5.000 – 30.000
-                                        </option>
-
-                                        <option>
-                                            + 30.000
-                                        </option>
-                                    </select>
-                                </div>
-
-
-                                <div class="form-group">
-                                    <label for="exampleFormControlSelect1">Area served</label> <select class="form-control" id="exampleFormControlSelect1">
-                                        <option disabled selected>
-                                            Please select the area served
-                                        </option>
-
-                                        <option>
-                                            Worldwide
-                                        </option>
-
-                                        <option>
-                                            EMEA
-                                        </option>
-
-                                        <option>
-                                            APAC
-                                        </option>
-
-                                        <option>
-                                            NA
-                                        </option>
-
-                                        <option>
-                                            LATAM
-                                        </option>
-                                    </select>
-                                </div>
-
-
+                                <br>
                                 <div class="form-group">
                                     <label>Upload your logo</label> <input class="file-upload-default" name="img[]" type="file">
 
                                     <div class="input-group col-xs-12">
-                                        <input class="form-control file-upload-info" disabled placeholder="Upload Image" type="text"> <span class="input-group-append"><button class="file-upload-browse btn btn-primary" type="button"><span class="input-group-append">Upload</span></button></span>
+                                        <input class="form-control file-upload-info" placeholder="Upload Image" type="text"> <span class="input-group-append"><button class="file-upload-browse btn btn-primary" type="button"><span class="input-group-append">Upload</span></button></span>
                                     </div>
                                 </div>
+                                <br>
 
+                                @foreach ($questions as $question)
+                                    @switch($question->original->type)
+                                        @case('text')
+                                            <div class="form-group questionDiv profileQuestion" data-practice="{{$question->original->practice->id ?? ''}}">
+                                                <label>{{$question->original->label}}{{$question->original->required ? '*' : ''}}</label>
+                                                <input
+                                                    required
+                                                    class="form-control"
+                                                    type="text"
+                                                    data-changing="{{$question->id}}"
+                                                    {{$question->original->required ? 'required' : ''}}
+                                                    value="{{$question->response}}"
+                                                    placeholder="{{$question->original->placeholder}}">
+                                            </div>
+                                            @break
+                                        @case('textarea')
+                                            <div class="form-group questionDiv profileQuestion" data-practice="{{$question->original->practice->id ?? ''}}">
+                                                <label>{{$question->original->label}}{{$question->original->required ? '*' : ''}}</label>
+                                                <textarea
+                                                    required
+                                                    rows="14"
+                                                    class="form-control"
+                                                    data-changing="{{$question->id}}"
+                                                    {{$question->original->required ? 'required' : ''}}
+                                                >{{$question->response}}</textarea>
+                                            </div>
+                                            @break
+                                        @case('selectSingle')
+                                            <div class="form-group questionDiv profileQuestion" data-practice="{{$question->original->practice->id ?? ''}}">
+                                                <label>{{$question->original->label}}{{$question->original->required ? '*' : ''}}</label>
+                                                <select
+                                                    required
+                                                    class="form-control"
+                                                    data-changing="{{$question->id}}"
+                                                    {{$question->original->required ? 'required' : ''}}
+                                                    >
+                                                    <option @if($question->response == '') selected @endif="">{{$question->original->placeholder}}</option>
 
-                                <div class="form-group">
-                                    <label for="exampleInputText1">Link to your website</label> <input class="form-control" id="exampleInputText1" placeholder="https://..." type="text">
-                                </div>
+                                                    @if ($question->original->presetOption == 'countries')
+                                                        <x-options.countries :selected="[$question->response]" />
+                                                    @else
+                                                        @foreach ($question->original->optionList() as $option)
+                                                        <option value="{{$option}}" @if($question->response == $option) selected @endif>{{$option}}</option>
+                                                        @endforeach
+                                                    @endif
+                                                </select>
+                                            </div>
+                                            @break
+                                        @case('selectMultiple')
+                                            <div class="form-group questionDiv profileQuestion" data-practice="{{$question->original->practice->id ?? ''}}">
+                                                <label>{{$question->original->label}}{{$question->original->required ? '*' : ''}}</label>
+                                                <select class="js-example-basic-multiple w-100"
+                                                    required
+                                                    data-changing="{{$question->id}}"
+                                                    multiple="multiple"
+                                                    {{$question->original->required ? 'required' : ''}}
+                                                    >
+                                                    @php
+                                                    $selectedOptions = json_decode($question->response ?? '[]');
+                                                    @endphp
 
+                                                    @if ($question->original->presetOption == 'countries')
+                                                        <x-options.countries :selected="$selectedOptions" />
+                                                    @else
+                                                        @foreach ($question->original->optionList() as $option)
+                                                        <option value="{{$option}}" {{in_array($option, $selectedOptions) ? 'selected' : ''}}>{{$option}}</option>
+                                                        @endforeach
+                                                    @endif
+                                                </select>
+                                            </div>
+                                            @break
+                                        @case('date')
+                                            <div class="questionDiv profileQuestion" data-practice="{{$question->original->practice->id ?? ''}}">
+                                                <label>{{$question->original->label}}{{$question->original->required ? '*' : ''}}</label>
+                                                <div class="input-group date datepicker" data-initialValue="{{$question->response}}">
+                                                    <input
+                                                        required
+                                                        data-changing="{{$question->id}}"
+                                                        value="{{$question->response}}"
+                                                        {{$question->original->required ? 'required' : ''}}
+                                                        type="text"
+                                                        class="form-control">
+                                                    <span class="input-group-addon"><i data-feather="calendar"></i></span>
+                                                </div>
+                                            </div>
+                                            @break
+                                        @case('number')
+                                            <div class="form-group questionDiv profileQuestion" data-practice="{{$question->original->practice->id ?? ''}}">
+                                                <label>{{$question->original->label}}{{$question->original->required ? '*' : ''}}</label>
+                                                <input
+                                                    required
+                                                    class="form-control"
+                                                    type="number"
+                                                    data-changing="{{$question->id}}"
+                                                    {{$question->original->required ? 'required' : ''}}
+                                                    value="{{$question->response}}"
+                                                    placeholder="{{$question->original->placeholder}}">
+                                            </div>
+                                            @break
+                                        @default
+
+                                    @endswitch
+                                @endforeach
 
                                 <div class="form-group">
                                     <label for="exampleInputText1">Upload any extra files</label>
@@ -224,9 +155,13 @@
                                     </form>
                                 </div>
 
-
                                 <div style="float: right; margin-top: 20px;">
-                                    <a class="btn btn-primary btn-lg btn-icon-text" href="{{route('client.newProjectSetUp')}}"><i class="btn-icon-prepend" data-feather="check-square"></i> Save profile</a>
+                                    <form action="{{route('client.profile.submit')}}" method="post">
+                                        @csrf
+                                        <button class="btn btn-primary btn-lg btn-icon-text" id="submitButton" type="submit">
+                                            <i class="btn-icon-prepend" data-feather="check-square"></i> Save profile
+                                        </button>
+                                    </form>
                                 </div>
                             </div>
                         </div>
@@ -237,4 +172,108 @@
             <x-footer />
         </div>
     </div>
+@endsection
+
+
+@section('head')
+@parent
+
+<style>
+    select.form-control {
+        color: #495057;
+    }
+
+    .select2-results__options .select2-results__option[aria-disabled=true] {
+        display: none;
+    }
+</style>
+@endsection
+
+
+@section('scripts')
+@parent
+<script>
+    jQuery.expr[':'].hasValue = function(el,index,match) {
+        return el.value != "";
+    };
+
+    /**
+     *  Returns false if any field is empty
+     */
+    function checkIfAllRequiredsAreFilled(){
+        let array = $('input,textarea,select').filter('[required]').toArray();
+		if(array.length == 0) return true;
+
+        return array.reduce((prev, current) => {
+            return !prev ? false : $(current).is(':hasValue')
+        }, true)
+    }
+
+    function checkIfAllRequiredsInThisPageAreFilled(){
+        let array = $('input,textarea,select').filter('[required]:visible').toArray();
+        if(array.length == 0) return true;
+
+        return array.reduce((prev, current) => {
+            return !prev ? false : $(current).is(':hasValue')
+        }, true)
+    }
+
+    function updateSubmitButton()
+    {
+        // If we filled all the fields, remove the disabled from the button.
+        if(checkIfAllRequiredsAreFilled()){
+            $('#submitButton').attr('disabled', false)
+        } else {
+            $('#submitButton').attr('disabled', true)
+        }
+    }
+
+    function showSavedToast()
+    {
+        $.toast({
+            heading: 'Saved!',
+            showHideTransition: 'slide',
+            icon: 'success',
+            hideAfter: 1000,
+            position: 'bottom-right'
+        })
+    }
+
+    $(document).ready(function() {
+        $('.profileQuestion input,.profileQuestion textarea,.profileQuestion select')
+            .filter(function(el) {
+                return $( this ).data('changing') !== undefined
+            })
+            .change(function (e) {
+                var value = $(this).val();
+                if($.isArray(value) && value.length == 0 && $(this).attr('multiple') !== undefined){
+                    value = '[]'
+                }
+
+                $.post('/client/profile/changeResponse', {
+                    changing: $(this).data('changing'),
+                    value: value
+                })
+
+                showSavedToast();
+                updateSubmitButton();
+            });
+
+        $(".js-example-basic-single").select2();
+        $(".js-example-basic-multiple").select2();
+
+        $('.datepicker').each(function(){
+            var date = new Date($(this).data('initialvalue'));
+
+            $(this).datepicker({
+                format: "mm/dd/yyyy",
+                todayHighlight: true,
+                autoclose: true
+            });
+            $(this).datepicker('setDate', date);
+        });
+
+        updateSubmitButton();
+    });
+</script>
 @endsection

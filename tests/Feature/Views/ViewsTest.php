@@ -34,7 +34,7 @@ class ViewsTest extends TestCase
 
     public function testClientCanAccessClientViews()
     {
-        $user = factory(User::class)->states('client')->make();
+        $user = factory(User::class)->states(['client', 'finishedSetup'])->make();
 
         $response = $this->actingAs($user)
             ->get('/client/home');
@@ -66,7 +66,7 @@ class ViewsTest extends TestCase
 
     public function testClientCanNotAccessOtherViews()
     {
-        $user = factory(User::class)->states('client')->make();
+        $user = factory(User::class)->states(['client', 'finishedSetup'])->make();
 
         $response = $this->actingAs($user)
             ->get('/accenture/home');

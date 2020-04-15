@@ -19,7 +19,7 @@ class HomeTest extends TestCase
         $practice = factory(Practice::class)->create([
             'name' => 'praaactice'
         ]);
-        $client = factory(User::class)->states('client')->create([
+        $client = factory(User::class)->states(['client', 'finishedSetup'])->create([
             'name' => 'SOme Client nameee'
         ]);
         factory(Project::class)->create([
@@ -45,7 +45,7 @@ class HomeTest extends TestCase
         $practice = factory(Practice::class)->create([
             'name' => 'praaactice'
         ]);
-        $client = factory(User::class)->states('client')->create([
+        $client = factory(User::class)->states(['client', 'finishedSetup'])->create([
             'name' => 'SOme Client nameee'
         ]);
         factory(Project::class)->create([
@@ -70,7 +70,7 @@ class HomeTest extends TestCase
         $practice = factory(Practice::class)->create([
             'name' => 'praaactice'
         ]);
-        $client = factory(User::class)->states('client')->create([
+        $client = factory(User::class)->states(['client', 'finishedSetup'])->create([
             'name' => 'SOme Client nameee'
         ]);
         factory(Project::class)->create([
@@ -105,7 +105,7 @@ class HomeTest extends TestCase
     public function testClientFilterGetsCorrectValues()
     {
         $user = factory(User::class)->states('accenture')->create();
-        $clients = factory(User::class, 3)->states('client')->create();
+        $clients = factory(User::class, 3)->states(['client', 'finishedSetup'])->create();
 
         $response = $this->actingAs($user)
             ->get('/accenture/home');

@@ -32,7 +32,7 @@ class UserSeeder extends Seeder
                 'email' => 'accenture@accenture.com',
             ]);
         factory(User::class)
-            ->states('client')
+            ->states(['client', 'finishedSetup'])
             ->create([
                 'name' => 'Client',
                 'email' => 'client@client.com',
@@ -46,7 +46,7 @@ class UserSeeder extends Seeder
 
         // Create some other randoms
         factory(User::class, 3)
-            ->states('client')
+            ->states(['client', 'finishedSetup'])
             ->create();
         factory(User::class, 4)
             ->states('vendor')

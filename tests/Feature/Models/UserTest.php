@@ -25,7 +25,7 @@ class UserTest extends TestCase
 
     public function testCanCreateClient()
     {
-        $user = factory(User::class)->states('client')->create([
+        $user = factory(User::class)->states(['client', 'finishedSetup'])->create([
             'name' => 'client',
             'email' => 'client@client.com',
         ]);
@@ -78,7 +78,7 @@ class UserTest extends TestCase
 
     public function testUserClientsReturnsAQueryBuilder()
     {
-        factory(User::class, 2)->states('client')->create();
+        factory(User::class, 2)->states(['client', 'finishedSetup'])->create();
 
         $col = User::clientUsers();
         $this->assertInstanceOf(\Illuminate\Database\Eloquent\Builder::class, $col);
@@ -98,7 +98,7 @@ class UserTest extends TestCase
     {
         factory(User::class, 3)->states('accenture')->create();
         factory(User::class, 5)->states('vendor')->create();
-        factory(User::class, 7)->states('client')->create();
+        factory(User::class, 7)->states(['client', 'finishedSetup'])->create();
         factory(User::class, 11)->states('admin')->create();
     }
 

@@ -15,7 +15,7 @@ class ProjectOralsTest extends TestCase
 
     public function testClientProjectOralsWithoutProject()
     {
-        $user = factory(User::class)->states('client')->create();
+        $user = factory(User::class)->states(['client', 'finishedSetup'])->create();
 
         $response = $this
             ->actingAs($user)
@@ -31,7 +31,7 @@ class ProjectOralsTest extends TestCase
         $practice = factory(Practice::class)->create([
             'name' => 'praaacticeeeee'
         ]);
-        $client = factory(User::class)->states('client')->create([
+        $client = factory(User::class)->states(['client', 'finishedSetup'])->create([
             'name' => 'SOme Clieneet nameee'
         ]);
         $project = factory(Project::class)->create(array_merge([
@@ -75,12 +75,12 @@ class ProjectOralsTest extends TestCase
 
     public function testClientProjectOralsWithNotOwnedProject()
     {
-        $user = factory(User::class)->states('client')->create();
+        $user = factory(User::class)->states(['client', 'finishedSetup'])->create();
 
         $practice = factory(Practice::class)->create([
             'name' => 'praaacticeeeee'
         ]);
-        $owner = factory(User::class)->states('client')->create();
+        $owner = factory(User::class)->states(['client', 'finishedSetup'])->create();
         $project = factory(Project::class)->create([
             'name' => 'Project name',
             'currentPhase' => 'preparation',

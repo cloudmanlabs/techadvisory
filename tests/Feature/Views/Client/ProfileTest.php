@@ -15,7 +15,7 @@ class ProfileTest extends TestCase
 
     public function testClientCanAccessProfilePage()
     {
-        $client = factory(User::class)->states('client')->create();
+        $client = factory(User::class)->states(['client', 'finishedSetup'])->create();
 
         $response = $this->actingAs($client)
                         ->get('client/profile');
@@ -25,7 +25,7 @@ class ProfileTest extends TestCase
 
     public function testCanSeeOwnName()
     {
-        $client = factory(User::class)->states('client')->create();
+        $client = factory(User::class)->states(['client', 'finishedSetup'])->create();
 
         $response = $this->actingAs($client)
             ->get('client/profile');
@@ -37,7 +37,7 @@ class ProfileTest extends TestCase
     public function testCanSeeAddedQuestions()
     {
         $question = factory(ClientProfileQuestion::class)->create();
-        $client = factory(User::class)->states('client')->create();
+        $client = factory(User::class)->states(['client', 'finishedSetup'])->create();
 
         $qResponse = new ClientProfileQuestionResponse([
             'question_id' => $question->id,
@@ -50,5 +50,15 @@ class ProfileTest extends TestCase
 
         $response->assertOk();
         $response->assertSee($question->label);
+    }
+
+    public function testCanNotAccessIfClientHasNotFinishedSetUp()
+    {
+        $user = factory(User::class)->states('client')->create();
+        $response = $this
+            ->actingAs($user)
+            ->get('/client/profile');
+
+        $response->assertStatus(404);
     }
 }

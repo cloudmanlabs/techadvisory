@@ -23,6 +23,7 @@ class CreateUsersTable extends Migration
             $table->timestamps();
 
             $table->string('userType');
+            $table->boolean('hasFinishedSetup')->default(false);
         });
     }
 

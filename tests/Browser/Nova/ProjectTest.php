@@ -23,7 +23,7 @@ class ProjectTest extends DuskTestCase
         $admin = factory(User::class)->states('admin')->create();
         factory(Practice::class, 5)->create();
         factory(User::class, 4)
-            ->states('client')
+            ->states(['client', 'finishedSetup'])
             ->create();
 
         $this->browse(function ($browser) use ($admin) {
@@ -55,7 +55,7 @@ class ProjectTest extends DuskTestCase
         $admin = factory(User::class)->states('accenture')->create();
         factory(Practice::class, 5)->create();
         factory(User::class, 4)
-            ->states('client')
+            ->states(['client', 'finishedSetup'])
             ->create();
 
         $this->browse(function ($browser) use ($admin) {
@@ -87,7 +87,7 @@ class ProjectTest extends DuskTestCase
         $admin = factory(User::class)->states('accenture')->create();
         factory(Practice::class, 5)->create();
         factory(User::class, 4)
-            ->states('client')
+            ->states(['client', 'finishedSetup'])
             ->create();
 
         $this->browse(function ($browser) use ($admin) {
@@ -118,7 +118,7 @@ class ProjectTest extends DuskTestCase
         $admin = factory(User::class)->states('accenture')->create();
         factory(Practice::class, 5)->create();
         factory(User::class, 4)
-            ->states('client')
+            ->states(['client', 'finishedSetup'])
             ->create();
 
         $this->browse(function ($browser) use ($admin) {

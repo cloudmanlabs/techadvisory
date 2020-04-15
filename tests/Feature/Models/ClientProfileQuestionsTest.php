@@ -45,7 +45,7 @@ class ClientProfileQuestionsTest extends TestCase
     {
         // Create the question
         $question = factory(ClientProfileQuestion::class)->create();
-        $client = factory(User::class)->states('client')->create();
+        $client = factory(User::class)->states(['client', 'finishedSetup'])->create();
         $response = new ClientProfileQuestionResponse([
             'client_id' => $client->id,
             'question_id' => $question->id,
@@ -61,7 +61,7 @@ class ClientProfileQuestionsTest extends TestCase
     public function testResponseIsDeletedWhenQuestionIsDeleted()
     {
         $question = factory(ClientProfileQuestion::class)->create();
-        $client = factory(User::class)->states('client')->create();
+        $client = factory(User::class)->states(['client', 'finishedSetup'])->create();
 
         $this->assertCount(1, $client->clientProfileQuestions);
 
@@ -78,7 +78,7 @@ class ClientProfileQuestionsTest extends TestCase
             'label' => 'Transport Type',
             'presetOption' => 'transportTypes'
         ]);
-        $client = factory(User::class)->states('client')->create();
+        $client = factory(User::class)->states(['client', 'finishedSetup'])->create();
 
         // Set a response
         $response = ClientProfileQuestionResponse::first();
@@ -99,7 +99,7 @@ class ClientProfileQuestionsTest extends TestCase
     public function testCanChangeResponseWithPost()
     {
         $question = factory(ClientProfileQuestion::class)->create();
-        $client = factory(User::class)->states('client')->create();
+        $client = factory(User::class)->states(['client', 'finishedSetup'])->create();
 
         $qResponse = new ClientProfileQuestionResponse([
             'question_id' => $question->id,
@@ -122,8 +122,8 @@ class ClientProfileQuestionsTest extends TestCase
     public function testClientCanOnlyChangeOwnProfileQuestionResponses()
     {
         $question = factory(ClientProfileQuestion::class)->create();
-        $owner = factory(User::class)->states('client')->create();
-        $changer = factory(User::class)->states('client')->create();
+        $owner = factory(User::class)->states(['client', 'finishedSetup'])->create();
+        $changer = factory(User::class)->states(['client', 'finishedSetup'])->create();
 
         $qResponse = new ClientProfileQuestionResponse([
             'question_id' => $question->id,

@@ -15,7 +15,7 @@ class ProjectViewTest extends TestCase
 
     public function testClientProjectViewWithoutProject()
     {
-        $user = factory(User::class)->states('client')->create();
+        $user = factory(User::class)->states(['client', 'finishedSetup'])->create();
 
         $response = $this
             ->actingAs($user)
@@ -26,7 +26,7 @@ class ProjectViewTest extends TestCase
 
     public function testClientProjectViewWithProject()
     {
-        $user = factory(User::class)->states('client')->create();
+        $user = factory(User::class)->states(['client', 'finishedSetup'])->create();
         $practice = factory(Practice::class)->create([
             'name' => 'praaacticeeeee'
         ]);
@@ -49,12 +49,12 @@ class ProjectViewTest extends TestCase
 
     public function testClientProjectViewWithNotOwnedProject()
     {
-        $user = factory(User::class)->states('client')->create();
+        $user = factory(User::class)->states(['client', 'finishedSetup'])->create();
 
         $practice = factory(Practice::class)->create([
             'name' => 'praaacticeeeee'
         ]);
-        $owner = factory(User::class)->states('client')->create();
+        $owner = factory(User::class)->states(['client', 'finishedSetup'])->create();
         $project = factory(Project::class)->create([
             'name' => 'Project name',
             'currentPhase' => 'preparation',

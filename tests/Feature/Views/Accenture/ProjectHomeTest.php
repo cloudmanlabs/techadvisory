@@ -30,7 +30,7 @@ class ProjectHomeTest extends TestCase
         $practice = factory(Practice::class)->create([
             'name' => 'praaacticeeeee'
         ]);
-        $client = factory(User::class)->states('client')->create([
+        $client = factory(User::class)->states(['client', 'finishedSetup'])->create([
             'name' => 'SOme Clieneet nameee'
         ]);
         $project = factory(Project::class)->create([

@@ -66,7 +66,7 @@
 
 
                                     <div style="float: right; margin-top: 20px;">
-                                        <a class="btn btn-primary btn-lg btn-icon-text" href="{{route('client.homeProfileCreate')}}"><i class="btn-icon-prepend" data-feather="check-square"></i> Let's start!</a>
+                                        <a class="btn btn-primary btn-lg btn-icon-text" href="{{route('client.profile.create')}}"><i class="btn-icon-prepend" data-feather="check-square"></i> Let's start!</a>
                                     </div>
                                 </div>
                             </div>

@@ -68,5 +68,6 @@ class Kernel extends HttpKernel
         'checkVendor' => \App\Http\Middleware\CheckVendor::class,
 
         'checkClientOwnsProject' => \App\Http\Middleware\CheckClientOwnsProject::class,
+        'checkUserHasFinishedSetup' => \App\Http\Middleware\CheckUserHasFinishedSetup::class,
     ];
 }

@@ -131,7 +131,7 @@ class ProjectsTest extends TestCase
 
     public function testCanAddClientToProject()
     {
-        $client = factory(User::class)->states('client')->create();
+        $client = factory(User::class)->states(['client', 'finishedSetup'])->create();
 
         $project = factory(Project::class)->make([
             'client_id' => null
@@ -184,7 +184,7 @@ class ProjectsTest extends TestCase
 
     public function testClientAndVendorCanNotEditProjectName()
     {
-        $client = factory(User::class)->states('client')->create();
+        $client = factory(User::class)->states(['client', 'finishedSetup'])->create();
         $vendor = factory(User::class)->states('vendor')->create();
         $project = factory(Project::class)->create([
             'name' => 'oldName'
@@ -216,7 +216,7 @@ class ProjectsTest extends TestCase
     {
         $user = factory(User::class)->states('accenture')->create();
 
-        factory(User::class, 5)->states('client')->create();
+        factory(User::class, 5)->states(['client', 'finishedSetup'])->create();
 
         $project = factory(Project::class)->create([
             'client_id' => 1,
@@ -344,7 +344,7 @@ class ProjectsTest extends TestCase
 
     public function testCanSetStep4FinishedForClient()
     {
-        $user = factory(User::class)->states('client')->create();
+        $user = factory(User::class)->states(['client', 'finishedSetup'])->create();
         $project = factory(Project::class)->create();
 
         $this->assertFalse(boolval($project->step4FinishedClient));

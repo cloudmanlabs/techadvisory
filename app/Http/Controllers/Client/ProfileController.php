@@ -20,6 +20,15 @@ class ProfileController extends Controller
         ]);
     }
 
+    public function homeProfileCreate()
+    {
+        $client = auth()->user();
+        return view('clientViews.homeProfileCreate', [
+            'client' => $client,
+            'questions' => $client->clientProfileQuestions
+        ]);
+    }
+
     public function changeResponse(Request $request)
     {
         $request->validate([
@@ -47,5 +56,14 @@ class ProfileController extends Controller
             'status' => 200,
             'message' => 'nma'
         ]);
+    }
+
+    public function submitProfile(Request $request)
+    {
+        $client = auth()->user();
+        $client->hasFinishedSetup = true;
+        $client->save();
+
+        return redirect()->route('client.home');
     }
 }

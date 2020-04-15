@@ -16,7 +16,7 @@ class ProjectHomeTest extends TestCase
 
     public function testClientProjectHomeWithoutProject()
     {
-        $user = factory(User::class)->states('client')->create();
+        $user = factory(User::class)->states(['client', 'finishedSetup'])->create();
 
         $response = $this
             ->actingAs($user)
@@ -27,7 +27,7 @@ class ProjectHomeTest extends TestCase
 
     public function testClientProjectHomeWithProject()
     {
-        $client = factory(User::class)->states('client')->create();
+        $client = factory(User::class)->states(['client', 'finishedSetup'])->create();
         $practice = factory(Practice::class)->create([
             'name' => 'praaacticeeeee'
         ]);
@@ -50,11 +50,11 @@ class ProjectHomeTest extends TestCase
 
     public function testClientProjectHomeWithNotOwnedProject()
     {
-        $user = factory(User::class)->states('client')->create();
+        $user = factory(User::class)->states(['client', 'finishedSetup'])->create();
         $practice = factory(Practice::class)->create([
             'name' => 'praaacticeeeee'
         ]);
-        $client = factory(User::class)->states('client')->create();
+        $client = factory(User::class)->states(['client', 'finishedSetup'])->create();
         $project = factory(Project::class)->create([
             'name' => 'Project name',
             'currentPhase' => 'preparation',

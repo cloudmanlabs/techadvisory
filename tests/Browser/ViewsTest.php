@@ -71,7 +71,7 @@ class ViewsTest extends DuskTestCase
 
     public function testClientCanLoginInToClient()
     {
-        $user = factory(User::class)->states('client')->create();
+        $user = factory(User::class)->states(['client', 'finishedSetup'])->create();
 
         $this->browse(function ($browser) use ($user) {
             $browser->visit('/client/login')
@@ -84,7 +84,7 @@ class ViewsTest extends DuskTestCase
 
     public function testClientCanNotLoginInToAccentureAndVendor()
     {
-        $user = factory(User::class)->states('client')->create();
+        $user = factory(User::class)->states(['client', 'finishedSetup'])->create();
 
         $this->browse(function ($browser) use ($user) {
             $browser->visit('/accenture/login')
@@ -107,7 +107,7 @@ class ViewsTest extends DuskTestCase
 
     public function testClientCanLogout()
     {
-        $user = factory(User::class)->states('client')->create();
+        $user = factory(User::class)->states(['client', 'finishedSetup'])->create();
 
         $this->browse(function ($browser) use ($user) {
             $browser->loginAs($user)

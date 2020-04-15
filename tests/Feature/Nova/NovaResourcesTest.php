@@ -34,7 +34,7 @@ class NovaResourcesTest extends TestCase
     {
         $admin = factory(User::class)->states('admin')->create();
         factory(User::class, 11)->states('accenture')->create();
-        factory(User::class, 4)->states('client')->create();
+        factory(User::class, 4)->states(['client', 'finishedSetup'])->create();
         factory(User::class, 3)->states('vendor')->create();
 
         $response = $this->actingAs($admin)
@@ -47,7 +47,7 @@ class NovaResourcesTest extends TestCase
     {
         $admin = factory(User::class)->states('admin')->create();
         factory(User::class, 11)->states('accenture')->create();
-        factory(User::class, 4)->states('client')->create();
+        factory(User::class, 4)->states(['client', 'finishedSetup'])->create();
         factory(User::class, 3)->states('vendor')->create();
 
         $response = $this->actingAs($admin)
@@ -60,7 +60,7 @@ class NovaResourcesTest extends TestCase
     {
         $admin = factory(User::class)->states('admin')->create();
         factory(User::class, 11)->states('accenture')->create();
-        factory(User::class, 4)->states('client')->create();
+        factory(User::class, 4)->states(['client', 'finishedSetup'])->create();
         factory(User::class, 3)->states('vendor')->create();
 
         $response = $this->actingAs($admin)

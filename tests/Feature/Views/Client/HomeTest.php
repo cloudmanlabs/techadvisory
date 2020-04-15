@@ -15,7 +15,7 @@ class HomeTest extends TestCase
 
     public function testWorks()
     {
-        $user = factory(User::class)->states('client')->create();
+        $user = factory(User::class)->states(['client', 'finishedSetup'])->create();
         $response = $this
                     ->actingAs($user)
                     ->get('/client/home');
@@ -28,7 +28,7 @@ class HomeTest extends TestCase
         $practice = factory(Practice::class)->create([
             'name' => 'praaactice'
         ]);
-        $client = factory(User::class)->states('client')->create([
+        $client = factory(User::class)->states(['client', 'finishedSetup'])->create([
             'name' => 'SOme Client nameee'
         ]);
         factory(Project::class)->create([
@@ -48,12 +48,12 @@ class HomeTest extends TestCase
 
     public function testPreparationProjectFromAnotherClientDoesntShow()
     {
-        $user = factory(User::class)->states('client')->create();
+        $user = factory(User::class)->states(['client', 'finishedSetup'])->create();
 
         $practice = factory(Practice::class)->create([
             'name' => 'praaactice'
         ]);
-        $client = factory(User::class)->states('client')->create([
+        $client = factory(User::class)->states(['client', 'finishedSetup'])->create([
             'name' => 'SOme Client nameee'
         ]);
         factory(Project::class)->create([
@@ -76,7 +76,7 @@ class HomeTest extends TestCase
         $practice = factory(Practice::class)->create([
             'name' => 'praaactice'
         ]);
-        $client = factory(User::class)->states('client')->create([
+        $client = factory(User::class)->states(['client', 'finishedSetup'])->create([
             'name' => 'SOme Client nameee'
         ]);
         factory(Project::class)->create([
@@ -96,12 +96,12 @@ class HomeTest extends TestCase
 
     public function testOpenProjectFromAnotherClientDoesntShow()
     {
-        $user = factory(User::class)->states('client')->create();
+        $user = factory(User::class)->states(['client', 'finishedSetup'])->create();
 
         $practice = factory(Practice::class)->create([
             'name' => 'praaactice'
         ]);
-        $client = factory(User::class)->states('client')->create([
+        $client = factory(User::class)->states(['client', 'finishedSetup'])->create([
             'name' => 'SOme Client nameee'
         ]);
         factory(Project::class)->create([
@@ -124,7 +124,7 @@ class HomeTest extends TestCase
         $practice = factory(Practice::class)->create([
             'name' => 'praaactice'
         ]);
-        $client = factory(User::class)->states('client')->create([
+        $client = factory(User::class)->states(['client', 'finishedSetup'])->create([
             'name' => 'SOme Client nameee'
         ]);
         factory(Project::class)->create([
@@ -144,12 +144,12 @@ class HomeTest extends TestCase
 
     public function testOldProjectFromAnotherClientDoesntShow()
     {
-        $user = factory(User::class)->states('client')->create();
+        $user = factory(User::class)->states(['client', 'finishedSetup'])->create();
 
         $practice = factory(Practice::class)->create([
             'name' => 'praaactice'
         ]);
-        $client = factory(User::class)->states('client')->create([
+        $client = factory(User::class)->states(['client', 'finishedSetup'])->create([
             'name' => 'SOme Client nameee'
         ]);
         factory(Project::class)->create([
@@ -165,5 +165,15 @@ class HomeTest extends TestCase
         $response->assertStatus(200)
             ->assertDontSee('Project name')
             ->assertDontSee('praaactice');
+    }
+
+    public function testCanNotAccessIfClientHasNotFinishedSetUp()
+    {
+        $user = factory(User::class)->states('client')->create();
+        $response = $this
+            ->actingAs($user)
+            ->get('/client/home');
+
+        $response->assertStatus(404);
     }
 }

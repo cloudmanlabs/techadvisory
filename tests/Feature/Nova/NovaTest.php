@@ -48,7 +48,7 @@ class NovaTest extends TestCase
 
     public function testClientCanNotAccessNova()
     {
-        $user = factory(User::class)->states('client')->make();
+        $user = factory(User::class)->states(['client', 'finishedSetup'])->make();
 
         $response = $this->actingAs($user)
             ->get('/admin/');

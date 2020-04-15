@@ -15,7 +15,7 @@ class ExperienceTest extends TestCase
 
     public function testClientProjectBenchmarksExperienceWithoutProject()
     {
-        $user = factory(User::class)->states('client')->create();
+        $user = factory(User::class)->states(['client', 'finishedSetup'])->create();
 
         $response = $this
             ->actingAs($user)
@@ -29,7 +29,7 @@ class ExperienceTest extends TestCase
         $practice = factory(Practice::class)->create([
             'name' => 'praaacticeeeee'
         ]);
-        $client = factory(User::class)->states('client')->create([
+        $client = factory(User::class)->states(['client', 'finishedSetup'])->create([
             'name' => 'SOme Clieneet nameee'
         ]);
         $project = factory(Project::class)->create([
@@ -51,12 +51,12 @@ class ExperienceTest extends TestCase
 
     public function testClientProjectBenchmarksExperienceWithNotOwnedProject()
     {
-        $user = factory(User::class)->states('client')->create();
+        $user = factory(User::class)->states(['client', 'finishedSetup'])->create();
 
         $practice = factory(Practice::class)->create([
             'name' => 'praaacticeeeee'
         ]);
-        $owner = factory(User::class)->states('client')->create();
+        $owner = factory(User::class)->states(['client', 'finishedSetup'])->create();
         $project = factory(Project::class)->create([
             'name' => 'Project name',
             'currentPhase' => 'preparation',
