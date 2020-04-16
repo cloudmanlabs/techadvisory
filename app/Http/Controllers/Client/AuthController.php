@@ -28,7 +28,7 @@ class AuthController extends Controller
 
         // Check if the user is Accenture
         $user = User::where('email', $request->input('email'))->first();
-        if ( ! $user->isClient()){
+        if ($user == null ||  ! $user->isClient()){
             return redirect()->back()
                     ->withErrors(['notClient' => 'You\'re not a Client User, please use your corresponding login page.']);
         }
@@ -37,7 +37,7 @@ class AuthController extends Controller
         $remember = $request->input('remember') ?? false;
 
         if (Auth::attempt($credentials, $remember)) {
-            return redirect()->route('client.home');
+            return redirect('/client');
             // return redirect()->intended(route('client.home'));
         } else {
             return redirect()->back()->withErrors([

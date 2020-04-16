@@ -7,6 +7,7 @@ use App\ClientProfileQuestionResponse;
 use App\User;
 use App\VendorProfileQuestion;
 use App\VendorProfileQuestionResponse;
+use Illuminate\Support\Facades\Log;
 
 class UserObserver
 {

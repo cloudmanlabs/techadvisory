@@ -28,7 +28,7 @@ class AuthController extends Controller
 
         // Check if the user is Accenture
         $user = User::where('email', $request->input('email'))->first();
-        if ( ! $user->isVendor()){
+        if ($user == null || ! $user->isVendor()){
             return redirect()->back()
                     ->withErrors(['notVendor' => 'You\'re not a Vendor User, please use your corresponding login page.']);
         }
@@ -37,7 +37,7 @@ class AuthController extends Controller
         $remember = $request->input('remember') ?? false;
 
         if (Auth::attempt($credentials, $remember)) {
-            return redirect()->route('vendor.home');
+            return redirect('/vendors');
             // return redirect()->intended(route('vendor.home'));
         } else {
             return redirect()->back()->withErrors([

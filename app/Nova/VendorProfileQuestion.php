@@ -59,6 +59,15 @@ class VendorProfileQuestion extends Resource
 
             Text::make('Label', 'label')
                 ->required(),
+
+            Select::make('Page', 'page')
+                ->options([
+                    'general' => 'General information',
+                    'economic' => 'Economic information',
+                    'legal' => 'Legal information'
+                ])
+                ->displayUsingLabels()
+                ->rules('required')
         ];
 
         // NOTE All of the fields here should be hidden on index and create

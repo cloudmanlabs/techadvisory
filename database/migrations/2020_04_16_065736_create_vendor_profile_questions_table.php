@@ -23,6 +23,8 @@ class CreateVendorProfileQuestionsTable extends Migration
             $table->string('placeholder')->nullable();
             $table->string('presetOption')->nullable();
             $table->string('options')->nullable();
+
+            $table->string('page')->default('general');
         });
     }
 

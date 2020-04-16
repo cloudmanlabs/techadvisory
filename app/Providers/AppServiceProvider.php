@@ -16,6 +16,7 @@ use App\User;
 use App\VendorProfileQuestion;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
+use Laravel\Nova\Nova;
 
 class AppServiceProvider extends ServiceProvider
 {

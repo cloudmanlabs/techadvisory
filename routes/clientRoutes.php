@@ -12,7 +12,11 @@ Route::prefix('client')
     ->group(function () {
         Route::get('/', function () {
             if (Auth::check()) {
-                return redirect()->route('client.home');
+                if(auth()->user()->hasFinishedSetup){
+                    return redirect()->route('client.home');
+                } else {
+                    return redirect()->route('client.firstLoginRegistration');
+                }
             } else {
                 return redirect()->route('client.login');
             }

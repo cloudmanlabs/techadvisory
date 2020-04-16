@@ -48,37 +48,34 @@
                                     @switch($question->original->type)
                                         @case('text')
                                             <div class="form-group questionDiv profileQuestion" data-practice="{{$question->original->practice->id ?? ''}}">
-                                                <label>{{$question->original->label}}{{$question->original->required ? '*' : ''}}</label>
+                                                <label>{{$question->original->label}}*</label>
                                                 <input
                                                     required
                                                     class="form-control"
                                                     type="text"
                                                     data-changing="{{$question->id}}"
-                                                    {{$question->original->required ? 'required' : ''}}
                                                     value="{{$question->response}}"
                                                     placeholder="{{$question->original->placeholder}}">
                                             </div>
                                             @break
                                         @case('textarea')
                                             <div class="form-group questionDiv profileQuestion" data-practice="{{$question->original->practice->id ?? ''}}">
-                                                <label>{{$question->original->label}}{{$question->original->required ? '*' : ''}}</label>
+                                                <label>{{$question->original->label}}*</label>
                                                 <textarea
                                                     required
                                                     rows="14"
                                                     class="form-control"
                                                     data-changing="{{$question->id}}"
-                                                    {{$question->original->required ? 'required' : ''}}
                                                 >{{$question->response}}</textarea>
                                             </div>
                                             @break
                                         @case('selectSingle')
                                             <div class="form-group questionDiv profileQuestion" data-practice="{{$question->original->practice->id ?? ''}}">
-                                                <label>{{$question->original->label}}{{$question->original->required ? '*' : ''}}</label>
+                                                <label>{{$question->original->label}}*</label>
                                                 <select
                                                     required
                                                     class="form-control"
                                                     data-changing="{{$question->id}}"
-                                                    {{$question->original->required ? 'required' : ''}}
                                                     >
                                                     <option @if($question->response == '') selected @endif="">{{$question->original->placeholder}}</option>
 
@@ -94,12 +91,11 @@
                                             @break
                                         @case('selectMultiple')
                                             <div class="form-group questionDiv profileQuestion" data-practice="{{$question->original->practice->id ?? ''}}">
-                                                <label>{{$question->original->label}}{{$question->original->required ? '*' : ''}}</label>
+                                                <label>{{$question->original->label}}*</label>
                                                 <select class="js-example-basic-multiple w-100"
                                                     required
                                                     data-changing="{{$question->id}}"
                                                     multiple="multiple"
-                                                    {{$question->original->required ? 'required' : ''}}
                                                     >
                                                     @php
                                                     $selectedOptions = json_decode($question->response ?? '[]');
@@ -117,13 +113,12 @@
                                             @break
                                         @case('date')
                                             <div class="questionDiv profileQuestion" data-practice="{{$question->original->practice->id ?? ''}}">
-                                                <label>{{$question->original->label}}{{$question->original->required ? '*' : ''}}</label>
+                                                <label>{{$question->original->label}}*</label>
                                                 <div class="input-group date datepicker" data-initialValue="{{$question->response}}">
                                                     <input
                                                         required
                                                         data-changing="{{$question->id}}"
                                                         value="{{$question->response}}"
-                                                        {{$question->original->required ? 'required' : ''}}
                                                         type="text"
                                                         class="form-control">
                                                     <span class="input-group-addon"><i data-feather="calendar"></i></span>
@@ -132,13 +127,12 @@
                                             @break
                                         @case('number')
                                             <div class="form-group questionDiv profileQuestion" data-practice="{{$question->original->practice->id ?? ''}}">
-                                                <label>{{$question->original->label}}{{$question->original->required ? '*' : ''}}</label>
+                                                <label>{{$question->original->label}}*</label>
                                                 <input
                                                     required
                                                     class="form-control"
                                                     type="number"
                                                     data-changing="{{$question->id}}"
-                                                    {{$question->original->required ? 'required' : ''}}
                                                     value="{{$question->response}}"
                                                     placeholder="{{$question->original->placeholder}}">
                                             </div>

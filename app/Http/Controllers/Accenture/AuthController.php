@@ -28,7 +28,7 @@ class AuthController extends Controller
 
         // Check if the user is Accenture
         $user = User::where('email', $request->input('email'))->first();
-        if ( ! $user->isAccenture()){
+        if ($user == null ||  ! $user->isAccenture()){
             return redirect()->back()
                     ->withErrors(['notAccenture' => 'You\'re not an Accenture User, please use your corresponding login page.']);
         }

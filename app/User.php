@@ -6,6 +6,7 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use \Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Facades\Log;
 
 /**
  * @property string $userType Should be one of [admin, accenture, accentureAdmin, client, vendor]
@@ -106,7 +107,10 @@ class User extends Authenticatable
      */
     public function isAccenture(): bool
     {
-        return $this->userType == 'accenture' || $this->userType == 'accentureAdmin';
+        return $this->userType == 'accenture'
+            || $this->usertype == 'accenture' // It's really fun, cause sometimes with observers and nova the property gets lowercased
+            || $this->userType == 'accentureAdmin'
+            || $this->usertype == 'accentureAdmin';
     }
 
     /**
@@ -116,7 +120,8 @@ class User extends Authenticatable
      */
     public function isClient(): bool
     {
-        return $this->userType == 'client';
+        return $this->userType == 'client'
+            || $this->usertype == 'client';
     }
 
     /**
@@ -126,7 +131,8 @@ class User extends Authenticatable
      */
     public function isVendor(): bool
     {
-        return $this->userType == 'vendor';
+        return $this->userType == 'vendor'
+            || $this->usertype == 'vendor';
     }
 
     /**

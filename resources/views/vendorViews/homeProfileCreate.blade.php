@@ -25,199 +25,25 @@
                                 <h3>Complete your profile</h3>
                                 <p class="welcome_text extra-top-15px">Please complete your profile and get ready to use the platform. It won't take you more than just a few minutes and you can do it today. Note that, if you do not currently have the info for some specific fields, you can leave them blank and fill up them later.</p>
                                 <br>
-                                <div id="wizard_vendor">
-                                    <h2>General Information</h2>
+                                <div id="wizard_vendor_profile_create_here">
+                                    <h2>General information</h2>
                                     <section>
                                         <div class="form-group">
-                                            <label for="exampleInputText1">Vendor Name</label> <input class="form-control" id="exampleInputText1" placeholder="Enter Name" type="text" value="Ventix Pro Corp." disabled>
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="exampleInputText1">Vendor contact email</label> <input class="form-control" id="exampleInputText1" placeholder="Enter E-mail" type="email">
-                                        </div>
-
-                                        <div class="form-group">
-                                            <label for="exampleFormControlTextarea1">Vendor contact role</label>
-                                            <textarea class="form-control" id="exampleFormControlTextarea1" rows="5"></textarea>
+                                            <label>Vendor Name</label>
+                                            <input
+                                                class="form-control"
+                                                type="text"
+                                                value="{{$vendor->name}}"
+                                                disabled>
                                         </div>
 
                                         <div class="form-group">
-                                            <label for="exampleFormControlTextarea1">Address</label>
-                                            <textarea class="form-control" id="exampleFormControlTextarea1" rows="5"></textarea>
-                                        </div>
-
-                                        <div class="form-group">
-                                            <label for="exampleFormControlTextarea1">Vendor contact phone</label>
-                                            <input class="form-control" id="exampleInputText1" placeholder="+000 000 000" type="text">
-                                        </div>
-
-                                        <div class="form-group">
-                                            <label for="exampleFormControlTextarea1">Link to your website</label>
-                                            <input class="form-control" id="exampleInputText1" placeholder="https://" type="text">
-                                        </div>
-
-                                        <div class="form-group">
-                                            <label for="exampleFormControlTextarea1">Foundation year</label>
-                                            <input class="form-control" id="exampleInputText1" placeholder="Enter year" type="text">
-                                        </div>
-
-                                        <div class="form-group">
-                                            <label for="exampleFormControlTextarea1">Specify Senior Management team (name, title & years in the company)</label>
-                                            <textarea class="form-control" id="exampleFormControlTextarea1" rows="5" placeholder="Name, title, years in company"></textarea>
-                                        </div>
-
-                                        <div class="form-group">
-                                            <label for="exampleFormControlTextarea1">Company Vision</label>
-                                            <textarea class="form-control" id="exampleFormControlTextarea1" rows="5" placeholder=""></textarea>
-                                        </div>
-
-                                        <div class="form-group">
-                                            <label for="exampleFormControlTextarea1">High-level development strategy</label>
-                                            <textarea class="form-control" id="exampleFormControlTextarea1" rows="5" placeholder=""></textarea>
-                                        </div>
-
-
-                                        <div class="form-group">
-                                            <label>Headquarters</label>
-                                            <select class="js-example-basic-multiple w-100" multiple="multiple" required>
-                                                <option value="AF">Afghanistan</option> <option value="AL">Albania</option> <option value="DZ">Algeria</option> <option value="AS">American Samoa</option> <option value="AD">Andorra</option> <option value="AO">Angola</option> <option value="AI">Anguilla</option> <option value="AQ">Antarctica</option> <option value="AG">Antigua and Barbuda</option> <option value="AR">Argentina</option> <option value="AM">Armenia</option> <option value="AW">Aruba</option> <option value="AU">Australia</option> <option value="AT">Austria</option> <option value="AZ">Azerbaijan</option> <option value="BS">Bahamas</option> <option value="BH">Bahrain</option> <option value="BD">Bangladesh</option> <option value="BB">Barbados</option> <option value="BY">Belarus</option> <option value="BE">Belgium</option> <option value="BZ">Belize</option> <option value="BJ">Benin</option> <option value="BM">Bermuda</option> <option value="BT">Bhutan</option> <option value="BO">Bolivia, Plurinational State of</option> <option value="BQ">Bonaire, Sint Eustatius and Saba</option> <option value="BA">Bosnia and Herzegovina</option> <option value="BW">Botswana</option> <option value="BV">Bouvet Island</option> <option value="BR">Brazil</option> <option value="IO">British Indian Ocean Territory</option> <option value="BN">Brunei Darussalam</option> <option value="BG">Bulgaria</option> <option value="BF">Burkina Faso</option> <option value="BI">Burundi</option> <option value="KH">Cambodia</option> <option value="CM">Cameroon</option> <option value="CA">Canada</option> <option value="CV">Cape Verde</option> <option value="KY">Cayman Islands</option> <option value="CF">Central African Republic</option> <option value="TD">Chad</option> <option value="CL">Chile</option> <option value="CN">China</option> <option value="CX">Christmas Island</option> <option value="CC">Cocos (Keeling) Islands</option> <option value="CO">Colombia</option> <option value="KM">Comoros</option> <option value="CG">Congo</option> <option value="CD">Congo, the Democratic Republic of the</option> <option value="CK">Cook Islands</option> <option value="CR">Costa Rica</option> <option value="CI">Côte d'Ivoire</option> <option value="HR">Croatia</option> <option value="CU">Cuba</option> <option value="CW">Curaçao</option> <option value="CY">Cyprus</option> <option value="CZ">Czech Republic</option> <option value="DK">Denmark</option> <option value="DJ">Djibouti</option> <option value="DM">Dominica</option> <option value="DO">Dominican Republic</option> <option value="EC">Ecuador</option> <option value="EG">Egypt</option> <option value="SV">El Salvador</option> <option value="GQ">Equatorial Guinea</option> <option value="ER">Eritrea</option> <option value="EE">Estonia</option> <option value="ET">Ethiopia</option> <option value="FK">Falkland Islands (Malvinas)</option> <option value="FO">Faroe Islands</option> <option value="FJ">Fiji</option> <option value="FI">Finland</option> <option value="FR">France</option> <option value="GF">French Guiana</option> <option value="PF">French Polynesia</option> <option value="TF">French Southern Territories</option> <option value="GA">Gabon</option> <option value="GM">Gambia</option> <option value="GE">Georgia</option> <option value="DE">Germany</option> <option value="GH">Ghana</option> <option value="GI">Gibraltar</option> <option value="GR">Greece</option> <option value="GL">Greenland</option> <option value="GD">Grenada</option> <option value="GP">Guadeloupe</option> <option value="GU">Guam</option> <option value="GT">Guatemala</option> <option value="GG">Guernsey</option> <option value="GN">Guinea</option> <option value="GW">Guinea-Bissau</option> <option value="GY">Guyana</option> <option value="HT">Haiti</option> <option value="HM">Heard Island and McDonald Islands</option> <option value="VA">Holy See (Vatican City State)</option> <option value="HN">Honduras</option> <option value="HK">Hong Kong</option> <option value="HU">Hungary</option> <option value="IS">Iceland</option> <option value="IN">India</option> <option value="ID">Indonesia</option> <option value="IR">Iran, Islamic Republic of</option> <option value="IQ">Iraq</option> <option value="IE">Ireland</option> <option value="IM">Isle of Man</option> <option value="IL">Israel</option> <option value="IT">Italy</option> <option value="JM">Jamaica</option> <option value="JP">Japan</option> <option value="JE">Jersey</option> <option value="JO">Jordan</option> <option value="KZ">Kazakhstan</option> <option value="KE">Kenya</option> <option value="KI">Kiribati</option> <option value="KP">Korea, Democratic People's Republic of</option> <option value="KR">Korea, Republic of</option> <option value="KW">Kuwait</option> <option value="KG">Kyrgyzstan</option> <option value="LA">Lao People's Democratic Republic</option> <option value="LV">Latvia</option> <option value="LB">Lebanon</option> <option value="LS">Lesotho</option> <option value="LR">Liberia</option> <option value="LY">Libya</option> <option value="LI">Liechtenstein</option> <option value="LT">Lithuania</option> <option value="LU">Luxembourg</option> <option value="MO">Macao</option> <option value="MK">Macedonia, the former Yugoslav Republic of</option> <option value="MG">Madagascar</option> <option value="MW">Malawi</option> <option value="MY">Malaysia</option> <option value="MV">Maldives</option> <option value="ML">Mali</option> <option value="MT">Malta</option> <option value="MH">Marshall Islands</option> <option value="MQ">Martinique</option> <option value="MR">Mauritania</option> <option value="MU">Mauritius</option> <option value="YT">Mayotte</option> <option value="MX">Mexico</option> <option value="FM">Micronesia, Federated States of</option> <option value="MD">Moldova, Republic of</option> <option value="MC">Monaco</option> <option value="MN">Mongolia</option> <option value="ME">Montenegro</option> <option value="MS">Montserrat</option> <option value="MA">Morocco</option> <option value="MZ">Mozambique</option> <option value="MM">Myanmar</option> <option value="NA">Namibia</option> <option value="NR">Nauru</option> <option value="NP">Nepal</option> <option value="NL">Netherlands</option> <option value="NC">New Caledonia</option> <option value="NZ">New Zealand</option> <option value="NI">Nicaragua</option> <option value="NE">Niger</option> <option value="NG">Nigeria</option> <option value="NU">Niue</option> <option value="NF">Norfolk Island</option> <option value="MP">Northern Mariana Islands</option> <option value="NO">Norway</option> <option value="OM">Oman</option> <option value="PK">Pakistan</option> <option value="PW">Palau</option> <option value="PS">Palestinian Territory, Occupied</option> <option value="PA">Panama</option> <option value="PG">Papua New Guinea</option> <option value="PY">Paraguay</option> <option value="PE">Peru</option> <option value="PH">Philippines</option> <option value="PN">Pitcairn</option> <option value="PL">Poland</option> <option value="PT">Portugal</option> <option value="PR">Puerto Rico</option> <option value="QA">Qatar</option> <option value="RE">Réunion</option> <option value="RO">Romania</option> <option value="RU">Russian Federation</option> <option value="RW">Rwanda</option> <option value="BL">Saint Barthélemy</option> <option value="SH">Saint Helena, Ascension and Tristan da Cunha</option> <option value="KN">Saint Kitts and Nevis</option> <option value="LC">Saint Lucia</option> <option value="MF">Saint Martin (French part)</option> <option value="PM">Saint Pierre and Miquelon</option> <option value="VC">Saint Vincent and the Grenadines</option> <option value="WS">Samoa</option> <option value="SM">San Marino</option> <option value="ST">Sao Tome and Principe</option> <option value="SA">Saudi Arabia</option> <option value="SN">Senegal</option> <option value="RS">Serbia</option> <option value="SC">Seychelles</option> <option value="SL">Sierra Leone</option> <option value="SG">Singapore</option> <option value="SX">Sint Maarten (Dutch part)</option> <option value="SK">Slovakia</option> <option value="SI">Slovenia</option> <option value="SB">Solomon Islands</option> <option value="SO">Somalia</option> <option value="ZA">South Africa</option> <option value="GS">South Georgia and the South Sandwich Islands</option> <option value="SS">South Sudan</option> <option value="ES">Spain</option> <option value="LK">Sri Lanka</option> <option value="SD">Sudan</option> <option value="SR">Suriname</option> <option value="SJ">Svalbard and Jan Mayen</option> <option value="SZ">Swaziland</option> <option value="SE">Sweden</option> <option value="CH">Switzerland</option> <option value="SY">Syrian Arab Republic</option> <option value="TW">Taiwan, Province of China</option> <option value="TJ">Tajikistan</option> <option value="TZ">Tanzania, United Republic of</option> <option value="TH">Thailand</option> <option value="TL">Timor-Leste</option> <option value="TG">Togo</option> <option value="TK">Tokelau</option> <option value="TO">Tonga</option> <option value="TT">Trinidad and Tobago</option> <option value="TN">Tunisia</option> <option value="TR">Turkey</option> <option value="TM">Turkmenistan</option> <option value="TC">Turks and Caicos Islands</option> <option value="TV">Tuvalu</option> <option value="UG">Uganda</option> <option value="UA">Ukraine</option> <option value="AE">United Arab Emirates</option> <option value="GB">United Kingdom</option> <option value="US">United States</option> <option value="UM">United States Minor Outlying Islands</option> <option value="UY">Uruguay</option> <option value="UZ">Uzbekistan</option> <option value="VU">Vanuatu</option> <option value="VE">Venezuela, Bolivarian Republic of</option> <option value="VN">Viet Nam</option> <option value="VG">Virgin Islands, British</option> <option value="VI">Virgin Islands, U.S.</option> <option value="WF">Wallis and Futuna</option> <option value="EH">Western Sahara</option> <option value="YE">Yemen</option> <option value="ZM">Zambia</option> <option value="ZW">Zimbabwe</option>
-                                            </select>
-                                        </div>
-
-                                        <div class="form-group">
-                                            <label>Commercials Offices</label>
-                                            <select class="js-example-basic-multiple w-100" multiple="multiple" required>
-                                                <option value="AF">Afghanistan</option> <option value="AL">Albania</option> <option value="DZ">Algeria</option> <option value="AS">American Samoa</option> <option value="AD">Andorra</option> <option value="AO">Angola</option> <option value="AI">Anguilla</option> <option value="AQ">Antarctica</option> <option value="AG">Antigua and Barbuda</option> <option value="AR">Argentina</option> <option value="AM">Armenia</option> <option value="AW">Aruba</option> <option value="AU">Australia</option> <option value="AT">Austria</option> <option value="AZ">Azerbaijan</option> <option value="BS">Bahamas</option> <option value="BH">Bahrain</option> <option value="BD">Bangladesh</option> <option value="BB">Barbados</option> <option value="BY">Belarus</option> <option value="BE">Belgium</option> <option value="BZ">Belize</option> <option value="BJ">Benin</option> <option value="BM">Bermuda</option> <option value="BT">Bhutan</option> <option value="BO">Bolivia, Plurinational State of</option> <option value="BQ">Bonaire, Sint Eustatius and Saba</option> <option value="BA">Bosnia and Herzegovina</option> <option value="BW">Botswana</option> <option value="BV">Bouvet Island</option> <option value="BR">Brazil</option> <option value="IO">British Indian Ocean Territory</option> <option value="BN">Brunei Darussalam</option> <option value="BG">Bulgaria</option> <option value="BF">Burkina Faso</option> <option value="BI">Burundi</option> <option value="KH">Cambodia</option> <option value="CM">Cameroon</option> <option value="CA">Canada</option> <option value="CV">Cape Verde</option> <option value="KY">Cayman Islands</option> <option value="CF">Central African Republic</option> <option value="TD">Chad</option> <option value="CL">Chile</option> <option value="CN">China</option> <option value="CX">Christmas Island</option> <option value="CC">Cocos (Keeling) Islands</option> <option value="CO">Colombia</option> <option value="KM">Comoros</option> <option value="CG">Congo</option> <option value="CD">Congo, the Democratic Republic of the</option> <option value="CK">Cook Islands</option> <option value="CR">Costa Rica</option> <option value="CI">Côte d'Ivoire</option> <option value="HR">Croatia</option> <option value="CU">Cuba</option> <option value="CW">Curaçao</option> <option value="CY">Cyprus</option> <option value="CZ">Czech Republic</option> <option value="DK">Denmark</option> <option value="DJ">Djibouti</option> <option value="DM">Dominica</option> <option value="DO">Dominican Republic</option> <option value="EC">Ecuador</option> <option value="EG">Egypt</option> <option value="SV">El Salvador</option> <option value="GQ">Equatorial Guinea</option> <option value="ER">Eritrea</option> <option value="EE">Estonia</option> <option value="ET">Ethiopia</option> <option value="FK">Falkland Islands (Malvinas)</option> <option value="FO">Faroe Islands</option> <option value="FJ">Fiji</option> <option value="FI">Finland</option> <option value="FR">France</option> <option value="GF">French Guiana</option> <option value="PF">French Polynesia</option> <option value="TF">French Southern Territories</option> <option value="GA">Gabon</option> <option value="GM">Gambia</option> <option value="GE">Georgia</option> <option value="DE">Germany</option> <option value="GH">Ghana</option> <option value="GI">Gibraltar</option> <option value="GR">Greece</option> <option value="GL">Greenland</option> <option value="GD">Grenada</option> <option value="GP">Guadeloupe</option> <option value="GU">Guam</option> <option value="GT">Guatemala</option> <option value="GG">Guernsey</option> <option value="GN">Guinea</option> <option value="GW">Guinea-Bissau</option> <option value="GY">Guyana</option> <option value="HT">Haiti</option> <option value="HM">Heard Island and McDonald Islands</option> <option value="VA">Holy See (Vatican City State)</option> <option value="HN">Honduras</option> <option value="HK">Hong Kong</option> <option value="HU">Hungary</option> <option value="IS">Iceland</option> <option value="IN">India</option> <option value="ID">Indonesia</option> <option value="IR">Iran, Islamic Republic of</option> <option value="IQ">Iraq</option> <option value="IE">Ireland</option> <option value="IM">Isle of Man</option> <option value="IL">Israel</option> <option value="IT">Italy</option> <option value="JM">Jamaica</option> <option value="JP">Japan</option> <option value="JE">Jersey</option> <option value="JO">Jordan</option> <option value="KZ">Kazakhstan</option> <option value="KE">Kenya</option> <option value="KI">Kiribati</option> <option value="KP">Korea, Democratic People's Republic of</option> <option value="KR">Korea, Republic of</option> <option value="KW">Kuwait</option> <option value="KG">Kyrgyzstan</option> <option value="LA">Lao People's Democratic Republic</option> <option value="LV">Latvia</option> <option value="LB">Lebanon</option> <option value="LS">Lesotho</option> <option value="LR">Liberia</option> <option value="LY">Libya</option> <option value="LI">Liechtenstein</option> <option value="LT">Lithuania</option> <option value="LU">Luxembourg</option> <option value="MO">Macao</option> <option value="MK">Macedonia, the former Yugoslav Republic of</option> <option value="MG">Madagascar</option> <option value="MW">Malawi</option> <option value="MY">Malaysia</option> <option value="MV">Maldives</option> <option value="ML">Mali</option> <option value="MT">Malta</option> <option value="MH">Marshall Islands</option> <option value="MQ">Martinique</option> <option value="MR">Mauritania</option> <option value="MU">Mauritius</option> <option value="YT">Mayotte</option> <option value="MX">Mexico</option> <option value="FM">Micronesia, Federated States of</option> <option value="MD">Moldova, Republic of</option> <option value="MC">Monaco</option> <option value="MN">Mongolia</option> <option value="ME">Montenegro</option> <option value="MS">Montserrat</option> <option value="MA">Morocco</option> <option value="MZ">Mozambique</option> <option value="MM">Myanmar</option> <option value="NA">Namibia</option> <option value="NR">Nauru</option> <option value="NP">Nepal</option> <option value="NL">Netherlands</option> <option value="NC">New Caledonia</option> <option value="NZ">New Zealand</option> <option value="NI">Nicaragua</option> <option value="NE">Niger</option> <option value="NG">Nigeria</option> <option value="NU">Niue</option> <option value="NF">Norfolk Island</option> <option value="MP">Northern Mariana Islands</option> <option value="NO">Norway</option> <option value="OM">Oman</option> <option value="PK">Pakistan</option> <option value="PW">Palau</option> <option value="PS">Palestinian Territory, Occupied</option> <option value="PA">Panama</option> <option value="PG">Papua New Guinea</option> <option value="PY">Paraguay</option> <option value="PE">Peru</option> <option value="PH">Philippines</option> <option value="PN">Pitcairn</option> <option value="PL">Poland</option> <option value="PT">Portugal</option> <option value="PR">Puerto Rico</option> <option value="QA">Qatar</option> <option value="RE">Réunion</option> <option value="RO">Romania</option> <option value="RU">Russian Federation</option> <option value="RW">Rwanda</option> <option value="BL">Saint Barthélemy</option> <option value="SH">Saint Helena, Ascension and Tristan da Cunha</option> <option value="KN">Saint Kitts and Nevis</option> <option value="LC">Saint Lucia</option> <option value="MF">Saint Martin (French part)</option> <option value="PM">Saint Pierre and Miquelon</option> <option value="VC">Saint Vincent and the Grenadines</option> <option value="WS">Samoa</option> <option value="SM">San Marino</option> <option value="ST">Sao Tome and Principe</option> <option value="SA">Saudi Arabia</option> <option value="SN">Senegal</option> <option value="RS">Serbia</option> <option value="SC">Seychelles</option> <option value="SL">Sierra Leone</option> <option value="SG">Singapore</option> <option value="SX">Sint Maarten (Dutch part)</option> <option value="SK">Slovakia</option> <option value="SI">Slovenia</option> <option value="SB">Solomon Islands</option> <option value="SO">Somalia</option> <option value="ZA">South Africa</option> <option value="GS">South Georgia and the South Sandwich Islands</option> <option value="SS">South Sudan</option> <option value="ES">Spain</option> <option value="LK">Sri Lanka</option> <option value="SD">Sudan</option> <option value="SR">Suriname</option> <option value="SJ">Svalbard and Jan Mayen</option> <option value="SZ">Swaziland</option> <option value="SE">Sweden</option> <option value="CH">Switzerland</option> <option value="SY">Syrian Arab Republic</option> <option value="TW">Taiwan, Province of China</option> <option value="TJ">Tajikistan</option> <option value="TZ">Tanzania, United Republic of</option> <option value="TH">Thailand</option> <option value="TL">Timor-Leste</option> <option value="TG">Togo</option> <option value="TK">Tokelau</option> <option value="TO">Tonga</option> <option value="TT">Trinidad and Tobago</option> <option value="TN">Tunisia</option> <option value="TR">Turkey</option> <option value="TM">Turkmenistan</option> <option value="TC">Turks and Caicos Islands</option> <option value="TV">Tuvalu</option> <option value="UG">Uganda</option> <option value="UA">Ukraine</option> <option value="AE">United Arab Emirates</option> <option value="GB">United Kingdom</option> <option value="US">United States</option> <option value="UM">United States Minor Outlying Islands</option> <option value="UY">Uruguay</option> <option value="UZ">Uzbekistan</option> <option value="VU">Vanuatu</option> <option value="VE">Venezuela, Bolivarian Republic of</option> <option value="VN">Viet Nam</option> <option value="VG">Virgin Islands, British</option> <option value="VI">Virgin Islands, U.S.</option> <option value="WF">Wallis and Futuna</option> <option value="EH">Western Sahara</option> <option value="YE">Yemen</option> <option value="ZM">Zambia</option> <option value="ZW">Zimbabwe</option>
-                                            </select>
-                                        </div>
-
-                                        <div class="form-group">
-                                            <label>Services Team Offices</label>
-                                            <select class="js-example-basic-multiple w-100" multiple="multiple" required>
-                                                <option value="AF">Afghanistan</option> <option value="AL">Albania</option> <option value="DZ">Algeria</option> <option value="AS">American Samoa</option> <option value="AD">Andorra</option> <option value="AO">Angola</option> <option value="AI">Anguilla</option> <option value="AQ">Antarctica</option> <option value="AG">Antigua and Barbuda</option> <option value="AR">Argentina</option> <option value="AM">Armenia</option> <option value="AW">Aruba</option> <option value="AU">Australia</option> <option value="AT">Austria</option> <option value="AZ">Azerbaijan</option> <option value="BS">Bahamas</option> <option value="BH">Bahrain</option> <option value="BD">Bangladesh</option> <option value="BB">Barbados</option> <option value="BY">Belarus</option> <option value="BE">Belgium</option> <option value="BZ">Belize</option> <option value="BJ">Benin</option> <option value="BM">Bermuda</option> <option value="BT">Bhutan</option> <option value="BO">Bolivia, Plurinational State of</option> <option value="BQ">Bonaire, Sint Eustatius and Saba</option> <option value="BA">Bosnia and Herzegovina</option> <option value="BW">Botswana</option> <option value="BV">Bouvet Island</option> <option value="BR">Brazil</option> <option value="IO">British Indian Ocean Territory</option> <option value="BN">Brunei Darussalam</option> <option value="BG">Bulgaria</option> <option value="BF">Burkina Faso</option> <option value="BI">Burundi</option> <option value="KH">Cambodia</option> <option value="CM">Cameroon</option> <option value="CA">Canada</option> <option value="CV">Cape Verde</option> <option value="KY">Cayman Islands</option> <option value="CF">Central African Republic</option> <option value="TD">Chad</option> <option value="CL">Chile</option> <option value="CN">China</option> <option value="CX">Christmas Island</option> <option value="CC">Cocos (Keeling) Islands</option> <option value="CO">Colombia</option> <option value="KM">Comoros</option> <option value="CG">Congo</option> <option value="CD">Congo, the Democratic Republic of the</option> <option value="CK">Cook Islands</option> <option value="CR">Costa Rica</option> <option value="CI">Côte d'Ivoire</option> <option value="HR">Croatia</option> <option value="CU">Cuba</option> <option value="CW">Curaçao</option> <option value="CY">Cyprus</option> <option value="CZ">Czech Republic</option> <option value="DK">Denmark</option> <option value="DJ">Djibouti</option> <option value="DM">Dominica</option> <option value="DO">Dominican Republic</option> <option value="EC">Ecuador</option> <option value="EG">Egypt</option> <option value="SV">El Salvador</option> <option value="GQ">Equatorial Guinea</option> <option value="ER">Eritrea</option> <option value="EE">Estonia</option> <option value="ET">Ethiopia</option> <option value="FK">Falkland Islands (Malvinas)</option> <option value="FO">Faroe Islands</option> <option value="FJ">Fiji</option> <option value="FI">Finland</option> <option value="FR">France</option> <option value="GF">French Guiana</option> <option value="PF">French Polynesia</option> <option value="TF">French Southern Territories</option> <option value="GA">Gabon</option> <option value="GM">Gambia</option> <option value="GE">Georgia</option> <option value="DE">Germany</option> <option value="GH">Ghana</option> <option value="GI">Gibraltar</option> <option value="GR">Greece</option> <option value="GL">Greenland</option> <option value="GD">Grenada</option> <option value="GP">Guadeloupe</option> <option value="GU">Guam</option> <option value="GT">Guatemala</option> <option value="GG">Guernsey</option> <option value="GN">Guinea</option> <option value="GW">Guinea-Bissau</option> <option value="GY">Guyana</option> <option value="HT">Haiti</option> <option value="HM">Heard Island and McDonald Islands</option> <option value="VA">Holy See (Vatican City State)</option> <option value="HN">Honduras</option> <option value="HK">Hong Kong</option> <option value="HU">Hungary</option> <option value="IS">Iceland</option> <option value="IN">India</option> <option value="ID">Indonesia</option> <option value="IR">Iran, Islamic Republic of</option> <option value="IQ">Iraq</option> <option value="IE">Ireland</option> <option value="IM">Isle of Man</option> <option value="IL">Israel</option> <option value="IT">Italy</option> <option value="JM">Jamaica</option> <option value="JP">Japan</option> <option value="JE">Jersey</option> <option value="JO">Jordan</option> <option value="KZ">Kazakhstan</option> <option value="KE">Kenya</option> <option value="KI">Kiribati</option> <option value="KP">Korea, Democratic People's Republic of</option> <option value="KR">Korea, Republic of</option> <option value="KW">Kuwait</option> <option value="KG">Kyrgyzstan</option> <option value="LA">Lao People's Democratic Republic</option> <option value="LV">Latvia</option> <option value="LB">Lebanon</option> <option value="LS">Lesotho</option> <option value="LR">Liberia</option> <option value="LY">Libya</option> <option value="LI">Liechtenstein</option> <option value="LT">Lithuania</option> <option value="LU">Luxembourg</option> <option value="MO">Macao</option> <option value="MK">Macedonia, the former Yugoslav Republic of</option> <option value="MG">Madagascar</option> <option value="MW">Malawi</option> <option value="MY">Malaysia</option> <option value="MV">Maldives</option> <option value="ML">Mali</option> <option value="MT">Malta</option> <option value="MH">Marshall Islands</option> <option value="MQ">Martinique</option> <option value="MR">Mauritania</option> <option value="MU">Mauritius</option> <option value="YT">Mayotte</option> <option value="MX">Mexico</option> <option value="FM">Micronesia, Federated States of</option> <option value="MD">Moldova, Republic of</option> <option value="MC">Monaco</option> <option value="MN">Mongolia</option> <option value="ME">Montenegro</option> <option value="MS">Montserrat</option> <option value="MA">Morocco</option> <option value="MZ">Mozambique</option> <option value="MM">Myanmar</option> <option value="NA">Namibia</option> <option value="NR">Nauru</option> <option value="NP">Nepal</option> <option value="NL">Netherlands</option> <option value="NC">New Caledonia</option> <option value="NZ">New Zealand</option> <option value="NI">Nicaragua</option> <option value="NE">Niger</option> <option value="NG">Nigeria</option> <option value="NU">Niue</option> <option value="NF">Norfolk Island</option> <option value="MP">Northern Mariana Islands</option> <option value="NO">Norway</option> <option value="OM">Oman</option> <option value="PK">Pakistan</option> <option value="PW">Palau</option> <option value="PS">Palestinian Territory, Occupied</option> <option value="PA">Panama</option> <option value="PG">Papua New Guinea</option> <option value="PY">Paraguay</option> <option value="PE">Peru</option> <option value="PH">Philippines</option> <option value="PN">Pitcairn</option> <option value="PL">Poland</option> <option value="PT">Portugal</option> <option value="PR">Puerto Rico</option> <option value="QA">Qatar</option> <option value="RE">Réunion</option> <option value="RO">Romania</option> <option value="RU">Russian Federation</option> <option value="RW">Rwanda</option> <option value="BL">Saint Barthélemy</option> <option value="SH">Saint Helena, Ascension and Tristan da Cunha</option> <option value="KN">Saint Kitts and Nevis</option> <option value="LC">Saint Lucia</option> <option value="MF">Saint Martin (French part)</option> <option value="PM">Saint Pierre and Miquelon</option> <option value="VC">Saint Vincent and the Grenadines</option> <option value="WS">Samoa</option> <option value="SM">San Marino</option> <option value="ST">Sao Tome and Principe</option> <option value="SA">Saudi Arabia</option> <option value="SN">Senegal</option> <option value="RS">Serbia</option> <option value="SC">Seychelles</option> <option value="SL">Sierra Leone</option> <option value="SG">Singapore</option> <option value="SX">Sint Maarten (Dutch part)</option> <option value="SK">Slovakia</option> <option value="SI">Slovenia</option> <option value="SB">Solomon Islands</option> <option value="SO">Somalia</option> <option value="ZA">South Africa</option> <option value="GS">South Georgia and the South Sandwich Islands</option> <option value="SS">South Sudan</option> <option value="ES">Spain</option> <option value="LK">Sri Lanka</option> <option value="SD">Sudan</option> <option value="SR">Suriname</option> <option value="SJ">Svalbard and Jan Mayen</option> <option value="SZ">Swaziland</option> <option value="SE">Sweden</option> <option value="CH">Switzerland</option> <option value="SY">Syrian Arab Republic</option> <option value="TW">Taiwan, Province of China</option> <option value="TJ">Tajikistan</option> <option value="TZ">Tanzania, United Republic of</option> <option value="TH">Thailand</option> <option value="TL">Timor-Leste</option> <option value="TG">Togo</option> <option value="TK">Tokelau</option> <option value="TO">Tonga</option> <option value="TT">Trinidad and Tobago</option> <option value="TN">Tunisia</option> <option value="TR">Turkey</option> <option value="TM">Turkmenistan</option> <option value="TC">Turks and Caicos Islands</option> <option value="TV">Tuvalu</option> <option value="UG">Uganda</option> <option value="UA">Ukraine</option> <option value="AE">United Arab Emirates</option> <option value="GB">United Kingdom</option> <option value="US">United States</option> <option value="UM">United States Minor Outlying Islands</option> <option value="UY">Uruguay</option> <option value="UZ">Uzbekistan</option> <option value="VU">Vanuatu</option> <option value="VE">Venezuela, Bolivarian Republic of</option> <option value="VN">Viet Nam</option> <option value="VG">Virgin Islands, British</option> <option value="VI">Virgin Islands, U.S.</option> <option value="WF">Wallis and Futuna</option> <option value="EH">Western Sahara</option> <option value="YE">Yemen</option> <option value="ZM">Zambia</option> <option value="ZW">Zimbabwe</option>
-                                            </select>
-                                        </div>
-
-                                        <div class="form-group">
-                                            <label for="exampleFormControlSelect1">Vendor segment</label>
-                                            <select class="js-example-basic-multiple w-100" multiple="multiple" required>
-                                                <option>Megasuite</option>
-                                                <option>SCM suite</option>
-                                                <option>Specific solution</option>
-                                            </select>
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="exampleFormControlSelect1">Number of employees</label> <select class="form-control" id="exampleFormControlSelect1">
-                                                <option disabled selected>
-                                                    Please select the range
-                                                </option>
-                                                <option>
-                                                    0-50
-                                                </option>
-                                                <option>
-                                                    50-500
-                                                </option>
-                                                <option>
-                                                    500-5.000
-                                                </option>
-                                                <option>
-                                                    5.000 – 30.000
-                                                </option>
-                                                <option>
-                                                    + 30.000
-                                                </option>
-                                            </select>
-                                        </div>
-
-                                        <div class="form-group">
-                                            <label for="exampleInputText1">Number of employees in R&D</label> <input class="form-control" id="exampleInputText1" placeholder="Enter number" type="number">
-                                        </div>
-
-                                        <div class="form-group">
-                                            <label for="exampleFormControlSelect1">Geographies with solution implementations</label> <select class="form-control" id="exampleFormControlSelect1">
-                                                <option disabled selected>
-                                                    Please select the area served
-                                                </option>
-                                                <option>
-                                                    Worldwide
-                                                </option>
-                                                <option>
-                                                    EMEA
-                                                </option>
-                                                <option>
-                                                    APAC
-                                                </option>
-                                                <option>
-                                                    NA
-                                                </option>
-                                                <option>
-                                                    LATAM
-                                                </option>
-                                            </select>
-                                        </div>
-
-                                        <div class="form-group">
-                                            <label for="exampleFormControlSelect1">Industry Experience</label> <select class="form-control" id="exampleFormControlSelect1">
-                                                <option disabled selected>
-                                                    Please select your industry
-                                                </option>
-                                                <option>
-                                                    Automative
-                                                </option>
-                                                <option>
-                                                    Consumer goods & services
-                                                </option>
-                                                <option>
-                                                    Industrial Equipement
-                                                </option>
-                                                <option>
-                                                    Life Sciences
-                                                </option>
-                                                <option>
-                                                    Retail
-                                                </option>
-                                                <option>
-                                                    Transport services
-                                                </option>
-                                                <option>
-                                                    Travel
-                                                </option>
-                                                <option>
-                                                    Chemical
-                                                </option>
-                                                <option>
-                                                    Energy
-                                                </option>
-                                                <option>
-                                                    Natural Resources
-                                                </option>
-                                                <option>
-                                                    Utilities
-                                                </option>
-                                                <option>
-                                                    Communications & Media
-                                                </option>
-                                                <option>
-                                                    High tech
-                                                </option>
-                                                <option>
-                                                    CMT SW&P
-                                                </option>
-                                                <option>
-                                                    Health
-                                                </option>
-                                                <option>
-                                                    Public Service
-                                                </option>
-                                                <option>
-                                                    Banking
-                                                </option>
-                                                <option>
-                                                    Capital Markets
-                                                </option>
-                                                <option>
-                                                    Insurance
-                                                </option>
-                                            </select>
+                                            <label>Vendor contact email</label>
+                                            <input
+                                                class="form-control"
+                                                disabled
+                                                value="{{$vendor->name}}"
+                                                type="email">
                                         </div>
 
                                         <div class="form-group">
@@ -227,148 +53,323 @@
                                                 <input class="form-control file-upload-info" disabled placeholder="Upload Image" type="text"> <span class="input-group-append"><button class="file-upload-browse btn btn-primary" type="button"><span class="input-group-append">Upload</span></button></span>
                                             </div>
                                         </div>
+
+                                        @foreach ($generalQuestions as $question)
+                                            @switch($question->original->type)
+                                                @case('text')
+                                                    <div class="form-group questionDiv profileQuestion" data-practice="{{$question->original->practice->id ?? ''}}">
+                                                        <label>{{$question->original->label}}*</label>
+                                                        <input
+                                                            required
+                                                            class="form-control"
+                                                            type="text"
+                                                            data-changing="{{$question->id}}"
+                                                            value="{{$question->response}}"
+                                                            placeholder="{{$question->original->placeholder}}">
+                                                    </div>
+                                                    @break
+                                                @case('textarea')
+                                                    <div class="form-group questionDiv profileQuestion" data-practice="{{$question->original->practice->id ?? ''}}">
+                                                        <label>{{$question->original->label}}*</label>
+                                                        <textarea
+                                                            required
+                                                            rows="14"
+                                                            class="form-control"
+                                                            data-changing="{{$question->id}}"
+                                                        >{{$question->response}}</textarea>
+                                                    </div>
+                                                    @break
+                                                @case('selectSingle')
+                                                    <div class="form-group questionDiv profileQuestion" data-practice="{{$question->original->practice->id ?? ''}}">
+                                                        <label>{{$question->original->label}}*</label>
+                                                        <select
+                                                            required
+                                                            class="form-control"
+                                                            data-changing="{{$question->id}}"
+                                                            >
+                                                            <option @if($question->response == '') selected @endif="">{{$question->original->placeholder}}</option>
+
+                                                            @if ($question->original->presetOption == 'countries')
+                                                                <x-options.countries :selected="[$question->response]" />
+                                                            @else
+                                                                @foreach ($question->original->optionList() as $option)
+                                                                <option value="{{$option}}" @if($question->response == $option) selected @endif>{{$option}}</option>
+                                                                @endforeach
+                                                            @endif
+                                                        </select>
+                                                    </div>
+                                                    @break
+                                                @case('selectMultiple')
+                                                    <div class="form-group questionDiv profileQuestion" data-practice="{{$question->original->practice->id ?? ''}}">
+                                                        <label>{{$question->original->label}}*</label>
+                                                        <select class="js-example-basic-multiple w-100"
+                                                            required
+                                                            data-changing="{{$question->id}}"
+                                                            multiple="multiple"
+                                                            >
+                                                            @php
+                                                            $selectedOptions = json_decode($question->response ?? '[]');
+                                                            @endphp
+
+                                                            @if ($question->original->presetOption == 'countries')
+                                                                <x-options.countries :selected="$selectedOptions" />
+                                                            @else
+                                                                @foreach ($question->original->optionList() as $option)
+                                                                <option value="{{$option}}" {{in_array($option, $selectedOptions) ? 'selected' : ''}}>{{$option}}</option>
+                                                                @endforeach
+                                                            @endif
+                                                        </select>
+                                                    </div>
+                                                    @break
+                                                @case('date')
+                                                    <div class="questionDiv profileQuestion" data-practice="{{$question->original->practice->id ?? ''}}">
+                                                        <label>{{$question->original->label}}*</label>
+                                                        <div class="input-group date datepicker" data-initialValue="{{$question->response}}">
+                                                            <input
+                                                                required
+                                                                data-changing="{{$question->id}}"
+                                                                value="{{$question->response}}"
+                                                                type="text"
+                                                                class="form-control">
+                                                            <span class="input-group-addon"><i data-feather="calendar"></i></span>
+                                                        </div>
+                                                    </div>
+                                                    @break
+                                                @case('number')
+                                                    <div class="form-group questionDiv profileQuestion" data-practice="{{$question->original->practice->id ?? ''}}">
+                                                        <label>{{$question->original->label}}*</label>
+                                                        <input
+                                                            required
+                                                            class="form-control"
+                                                            type="number"
+                                                            data-changing="{{$question->id}}"
+                                                            value="{{$question->response}}"
+                                                            placeholder="{{$question->original->placeholder}}">
+                                                    </div>
+                                                    @break
+                                                @default
+
+                                            @endswitch
+                                        @endforeach
+
                                         <div class="form-group">
                                             <label for="exampleInputText1">Upload any extra files</label>
 
                                             <form action="/file-upload" class="dropzone" id="exampleDropzone" name="exampleDropzone">
                                             </form>
                                         </div>
-
-
-                                        <div class="form-group">
-                                            <label for="exampleFormControlTextarea1">Partnerships</label>
-                                            <textarea class="form-control" id="exampleFormControlTextarea1" rows="5" placeholder=""></textarea>
-                                        </div>
-
-
-                                        <div class="form-group">
-                                            <label for="exampleFormControlSelect1">Indicate if your company is Public or private</label> <select class="form-control" id="exampleFormControlSelect1">
-                                                <option disabled selected>
-                                                    Please select
-                                                </option>
-                                                <option>
-                                                    Public
-                                                </option>
-                                                <option>
-                                                    Private
-                                                </option>
-                                            </select>
-                                        </div>
                                     </section>
-
 
                                     <h2>Economic information</h2>
                                     <section>
+                                        @foreach ($economicQuestions as $question)
+                                            @switch($question->original->type)
+                                                @case('text')
+                                                    <div class="form-group questionDiv profileQuestion" data-practice="{{$question->original->practice->id ?? ''}}">
+                                                        <label>{{$question->original->label}}*</label>
+                                                        <input
+                                                            required
+                                                            class="form-control"
+                                                            type="text"
+                                                            data-changing="{{$question->id}}"
+                                                            value="{{$question->response}}"
+                                                            placeholder="{{$question->original->placeholder}}">
+                                                    </div>
+                                                    @break
+                                                @case('textarea')
+                                                    <div class="form-group questionDiv profileQuestion" data-practice="{{$question->original->practice->id ?? ''}}">
+                                                        <label>{{$question->original->label}}*</label>
+                                                        <textarea
+                                                            required
+                                                            rows="14"
+                                                            class="form-control"
+                                                            data-changing="{{$question->id}}"
+                                                        >{{$question->response}}</textarea>
+                                                    </div>
+                                                    @break
+                                                @case('selectSingle')
+                                                    <div class="form-group questionDiv profileQuestion" data-practice="{{$question->original->practice->id ?? ''}}">
+                                                        <label>{{$question->original->label}}*</label>
+                                                        <select
+                                                            required
+                                                            class="form-control"
+                                                            data-changing="{{$question->id}}"
+                                                            >
+                                                            <option @if($question->response == '') selected @endif="">{{$question->original->placeholder}}</option>
 
-                                        <div class="form-group">
-                                            <label for="exampleFormControlTextarea1">Stock exchange and ticker symbol</label>
-                                            <input class="form-control" id="exampleInputText1" placeholder="Enter Stock / ticker" type="text">
-                                        </div>
+                                                            @if ($question->original->presetOption == 'countries')
+                                                                <x-options.countries :selected="[$question->response]" />
+                                                            @else
+                                                                @foreach ($question->original->optionList() as $option)
+                                                                <option value="{{$option}}" @if($question->response == $option) selected @endif>{{$option}}</option>
+                                                                @endforeach
+                                                            @endif
+                                                        </select>
+                                                    </div>
+                                                    @break
+                                                @case('selectMultiple')
+                                                    <div class="form-group questionDiv profileQuestion" data-practice="{{$question->original->practice->id ?? ''}}">
+                                                        <label>{{$question->original->label}}*</label>
+                                                        <select class="js-example-basic-multiple w-100"
+                                                            required
+                                                            data-changing="{{$question->id}}"
+                                                            multiple="multiple"
+                                                            >
+                                                            @php
+                                                            $selectedOptions = json_decode($question->response ?? '[]');
+                                                            @endphp
 
+                                                            @if ($question->original->presetOption == 'countries')
+                                                                <x-options.countries :selected="$selectedOptions" />
+                                                            @else
+                                                                @foreach ($question->original->optionList() as $option)
+                                                                <option value="{{$option}}" {{in_array($option, $selectedOptions) ? 'selected' : ''}}>{{$option}}</option>
+                                                                @endforeach
+                                                            @endif
+                                                        </select>
+                                                    </div>
+                                                    @break
+                                                @case('date')
+                                                    <div class="questionDiv profileQuestion" data-practice="{{$question->original->practice->id ?? ''}}">
+                                                        <label>{{$question->original->label}}*</label>
+                                                        <div class="input-group date datepicker" data-initialValue="{{$question->response}}">
+                                                            <input
+                                                                required
+                                                                data-changing="{{$question->id}}"
+                                                                value="{{$question->response}}"
+                                                                type="text"
+                                                                class="form-control">
+                                                            <span class="input-group-addon"><i data-feather="calendar"></i></span>
+                                                        </div>
+                                                    </div>
+                                                    @break
+                                                @case('number')
+                                                    <div class="form-group questionDiv profileQuestion" data-practice="{{$question->original->practice->id ?? ''}}">
+                                                        <label>{{$question->original->label}}*</label>
+                                                        <input
+                                                            required
+                                                            class="form-control"
+                                                            type="number"
+                                                            data-changing="{{$question->id}}"
+                                                            value="{{$question->response}}"
+                                                            placeholder="{{$question->original->placeholder}}">
+                                                    </div>
+                                                    @break
+                                                @default
 
-                                        <div class="form-group">
-                                            <label for="exampleFormControlTextarea1">Describe ownership structure (attach additional information if required)</label>
-                                            <textarea class="form-control" id="exampleFormControlTextarea1" rows="5" placeholder=""></textarea>
-                                        </div>
-
-
-                                        <div class="form-group">
-                                            <label for="exampleFormControlTextarea1">Month in which fiscal year ends</label>
-                                            <input class="form-control" id="exampleInputText1" placeholder="Enter Stock / ticker" type="text">
-                                        </div>
-
-                                        <div class="form-group">
-                                            <label for="exampleFormControlSelect1">Finance currency</label> <select class="form-control" id="exampleFormControlSelect1">
-                                                <option disabled selected>
-                                                    Please select
-                                                </option>
-                                                <option>
-                                                    €
-                                                </option>
-                                                <option>
-                                                    USD
-                                                </option>
-                                            </select>
-                                        </div>
-
-
-                                        <div class="form-group">
-                                            <label for="exampleFormControlTextarea1">Indicate YTD Results 2020 - Revenue, Profit, R&D Expenses</label>
-                                            <textarea class="form-control" id="exampleFormControlTextarea1" rows="5" placeholder=""></textarea>
-                                        </div>
-
-
-                                        <div class="form-group">
-                                            <label for="exampleFormControlTextarea1">Indicate 2019 Results - Revenue, Profit, R&D Expenses</label>
-                                            <textarea class="form-control" id="exampleFormControlTextarea1" rows="5" placeholder=""></textarea>
-                                        </div>
-
-
-                                        <div class="form-group">
-                                            <label for="exampleFormControlTextarea1">Indicate 2018 Results - Revenue, Profit, R&D Expenses</label>
-                                            <textarea class="form-control" id="exampleFormControlTextarea1" rows="5" placeholder=""></textarea>
-                                        </div>
-
-
-                                        <div class="form-group">
-                                            <label for="exampleFormControlTextarea1">Current Balance Sheet Information</label>
-                                            <textarea class="form-control" id="exampleFormControlTextarea1" rows="5" placeholder=""></textarea>
-                                        </div>
-
-
-
-                                        <div class="form-group">
-                                            <label for="exampleFormControlTextarea1">Cash and cash equivalents</label>
-                                            <textarea class="form-control" id="exampleFormControlTextarea1" rows="5" placeholder=""></textarea>
-                                        </div>
-
-
-                                        <div class="form-group">
-                                            <label for="exampleFormControlTextarea1">Other current assets</label>
-                                            <textarea class="form-control" id="exampleFormControlTextarea1" rows="5" placeholder=""></textarea>
-                                        </div>
-
-
-                                        <div class="form-group">
-                                            <label for="exampleFormControlTextarea1">Current liabilities</label>
-                                            <textarea class="form-control" id="exampleFormControlTextarea1" rows="5" placeholder=""></textarea>
-                                        </div>
-
-
-                                        <div class="form-group">
-                                            <label for="exampleFormControlTextarea1">Quick ratio (current assets - current liabilities)</label>
-                                            <textarea class="form-control" id="exampleFormControlTextarea1" rows="5" placeholder=""></textarea>
-                                        </div>
-
-
-                                        <div class="form-group">
-                                            <label for="exampleFormControlTextarea1">Total amount of debt</label>
-                                            <textarea class="form-control" id="exampleFormControlTextarea1" rows="5" placeholder=""></textarea>
-                                        </div>
-
+                                            @endswitch
+                                        @endforeach
                                     </section>
 
-
-                                    <h2>Legal Info</h2>
+                                    <h2>Legal information</h2>
                                     <section>
+                                        @foreach ($legalQuestions as $question)
+                                            @switch($question->original->type)
+                                                @case('text')
+                                                    <div class="form-group questionDiv profileQuestion" data-practice="{{$question->original->practice->id ?? ''}}">
+                                                        <label>{{$question->original->label}}*</label>
+                                                        <input
+                                                            required
+                                                            class="form-control"
+                                                            type="text"
+                                                            data-changing="{{$question->id}}"
+                                                            value="{{$question->response}}"
+                                                            placeholder="{{$question->original->placeholder}}">
+                                                    </div>
+                                                    @break
+                                                @case('textarea')
+                                                    <div class="form-group questionDiv profileQuestion" data-practice="{{$question->original->practice->id ?? ''}}">
+                                                        <label>{{$question->original->label}}*</label>
+                                                        <textarea
+                                                            required
+                                                            rows="14"
+                                                            class="form-control"
+                                                            data-changing="{{$question->id}}"
+                                                        >{{$question->response}}</textarea>
+                                                    </div>
+                                                    @break
+                                                @case('selectSingle')
+                                                    <div class="form-group questionDiv profileQuestion" data-practice="{{$question->original->practice->id ?? ''}}">
+                                                        <label>{{$question->original->label}}*</label>
+                                                        <select
+                                                            required
+                                                            class="form-control"
+                                                            data-changing="{{$question->id}}"
+                                                            >
+                                                            <option @if($question->response == '') selected @endif="">{{$question->original->placeholder}}</option>
 
-                                        <div class="form-group">
-                                            <label for="exampleFormControlTextarea1">Any litigation pending?</label>
-                                            <textarea class="form-control" id="exampleFormControlTextarea1" rows="5" placeholder=""></textarea>
-                                        </div>
+                                                            @if ($question->original->presetOption == 'countries')
+                                                                <x-options.countries :selected="[$question->response]" />
+                                                            @else
+                                                                @foreach ($question->original->optionList() as $option)
+                                                                <option value="{{$option}}" @if($question->response == $option) selected @endif>{{$option}}</option>
+                                                                @endforeach
+                                                            @endif
+                                                        </select>
+                                                    </div>
+                                                    @break
+                                                @case('selectMultiple')
+                                                    <div class="form-group questionDiv profileQuestion" data-practice="{{$question->original->practice->id ?? ''}}">
+                                                        <label>{{$question->original->label}}*</label>
+                                                        <select class="js-example-basic-multiple w-100"
+                                                            required
+                                                            data-changing="{{$question->id}}"
+                                                            multiple="multiple"
+                                                            >
+                                                            @php
+                                                            $selectedOptions = json_decode($question->response ?? '[]');
+                                                            @endphp
 
+                                                            @if ($question->original->presetOption == 'countries')
+                                                                <x-options.countries :selected="$selectedOptions" />
+                                                            @else
+                                                                @foreach ($question->original->optionList() as $option)
+                                                                <option value="{{$option}}" {{in_array($option, $selectedOptions) ? 'selected' : ''}}>{{$option}}</option>
+                                                                @endforeach
+                                                            @endif
+                                                        </select>
+                                                    </div>
+                                                    @break
+                                                @case('date')
+                                                    <div class="questionDiv profileQuestion" data-practice="{{$question->original->practice->id ?? ''}}">
+                                                        <label>{{$question->original->label}}*</label>
+                                                        <div class="input-group date datepicker" data-initialValue="{{$question->response}}">
+                                                            <input
+                                                                required
+                                                                data-changing="{{$question->id}}"
+                                                                value="{{$question->response}}"
+                                                                type="text"
+                                                                class="form-control">
+                                                            <span class="input-group-addon"><i data-feather="calendar"></i></span>
+                                                        </div>
+                                                    </div>
+                                                    @break
+                                                @case('number')
+                                                    <div class="form-group questionDiv profileQuestion" data-practice="{{$question->original->practice->id ?? ''}}">
+                                                        <label>{{$question->original->label}}*</label>
+                                                        <input
+                                                            required
+                                                            class="form-control"
+                                                            type="number"
+                                                            data-changing="{{$question->id}}"
+                                                            value="{{$question->response}}"
+                                                            placeholder="{{$question->original->placeholder}}">
+                                                    </div>
+                                                    @break
+                                                @default
 
-                                        <div class="form-group">
-                                            <label for="exampleFormControlTextarea1">Number of lawsuits in history of company?</label>
-                                            <textarea class="form-control" id="exampleFormControlTextarea1" rows="5" placeholder=""></textarea>
-                                        </div>
-
-
-                                        <div class="form-group">
-                                            <label for="exampleFormControlTextarea1">Are you currently in any discussions about being acquired? </label>
-                                            <textarea class="form-control" id="exampleFormControlTextarea1" rows="5" placeholder=""></textarea>
-                                        </div>
+                                            @endswitch
+                                        @endforeach
                                     </section>
+                                </div>
+
+                                <div style="float: right; margin-top: 20px;">
+                                    <form action="{{route('vendor.profile.submit')}}" method="post">
+                                        @csrf
+                                        <button class="btn btn-primary btn-lg btn-icon-text" id="submitButton" type="submit">
+                                            <i class="btn-icon-prepend" data-feather="check-square"></i> Save profile
+                                        </button>
+                                    </form>
                                 </div>
                             </div>
                         </div>
@@ -376,9 +377,120 @@
                 </div>
             </div>
 
-
             <x-footer />
         </div>
     </div>
 @endsection
 
+
+@section('head')
+@parent
+
+<style>
+    select.form-control {
+        color: #495057;
+    }
+
+    .select2-results__options .select2-results__option[aria-disabled=true] {
+        display: none;
+    }
+</style>
+@endsection
+
+
+@section('scripts')
+@parent
+<script>
+    jQuery.expr[':'].hasValue = function(el,index,match) {
+        return el.value != "";
+    };
+
+    /**
+     *  Returns false if any field is empty
+     */
+    function checkIfAllRequiredsAreFilled(){
+        let array = $('input,textarea,select').filter('[required]').toArray();
+		if(array.length == 0) return true;
+
+        return array.reduce((prev, current) => {
+            return !prev ? false : $(current).is(':hasValue')
+        }, true)
+    }
+
+    function checkIfAllRequiredsInThisPageAreFilled(){
+        let array = $('input,textarea,select').filter('[required]:visible').toArray();
+        if(array.length == 0) return true;
+
+        return array.reduce((prev, current) => {
+            return !prev ? false : $(current).is(':hasValue')
+        }, true)
+    }
+
+    function updateSubmitButton()
+    {
+        // If we filled all the fields, remove the disabled from the button.
+        if(checkIfAllRequiredsAreFilled()){
+            $('#submitButton').attr('disabled', false)
+        } else {
+            $('#submitButton').attr('disabled', true)
+        }
+    }
+
+    function showSavedToast()
+    {
+        $.toast({
+            heading: 'Saved!',
+            showHideTransition: 'slide',
+            icon: 'success',
+            hideAfter: 1000,
+            position: 'bottom-right'
+        })
+    }
+
+    $(document).ready(function() {
+        $("#wizard_vendor_profile_create_here").steps({
+            headerTag: "h2",
+            bodyTag: "section",
+            transitionEffect: "slideLeft",
+            showFinishButtonAlways: false,
+            enableFinishButton: false,
+        });
+
+
+        $('.profileQuestion input,.profileQuestion textarea,.profileQuestion select')
+            .filter(function(el) {
+                return $( this ).data('changing') !== undefined
+            })
+            .change(function (e) {
+                var value = $(this).val();
+                if($.isArray(value) && value.length == 0 && $(this).attr('multiple') !== undefined){
+                    value = '[]'
+                }
+
+                $.post('/vendors/profile/changeResponse', {
+                    changing: $(this).data('changing'),
+                    value: value
+                })
+
+                showSavedToast();
+                updateSubmitButton();
+            });
+
+        $(".js-example-basic-single").select2();
+        $(".js-example-basic-multiple").select2();
+
+        $('.datepicker').each(function(){
+            var date = new Date($(this).data('initialvalue'));
+
+            $(this).datepicker({
+                format: "mm/dd/yyyy",
+                todayHighlight: true,
+                autoclose: true
+            });
+            $(this).datepicker('setDate', date);
+        });
+
+        updateSubmitButton();
+    });
+</script>
+@endsection

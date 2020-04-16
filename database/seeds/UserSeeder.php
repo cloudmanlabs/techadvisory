@@ -38,7 +38,7 @@ class UserSeeder extends Seeder
                 'email' => 'client@client.com',
             ]);
         factory(User::class)
-            ->states('vendor')
+            ->states(['vendor', 'finishedSetup'])
             ->create([
                 'name' => 'Vendor',
                 'email' => 'vendor@vendor.com',
@@ -49,8 +49,25 @@ class UserSeeder extends Seeder
             ->states(['client', 'finishedSetup'])
             ->create();
         factory(User::class, 4)
-            ->states('vendor')
+            ->states(['vendor', 'finishedSetup'])
             ->create();
+
+
+        // Create some that haven't finished set up
+        factory(User::class)
+            ->states('client')
+            ->create([
+                'name' => 'New',
+                'email' => 'new@client.com',
+            ]);
+        factory(User::class)
+            ->states('vendor')
+            ->create([
+                'name' => 'New',
+                'email' => 'new@vendor.com',
+            ]);
+
+
 
         error_log('Users created successfully');
     }

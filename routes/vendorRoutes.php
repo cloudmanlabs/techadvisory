@@ -13,7 +13,11 @@ Route::prefix('vendors')
     ->group(function () {
         Route::get('/', function () {
             if (Auth::check()) {
-                return redirect()->route('vendor.home');
+                if (auth()->user()->hasFinishedSetup) {
+                    return redirect()->route('vendor.home');
+                } else {
+                    return redirect()->route('vendor.firstLoginRegistration');
+                }
             } else {
                 return redirect()->route('vendor.login');
             }

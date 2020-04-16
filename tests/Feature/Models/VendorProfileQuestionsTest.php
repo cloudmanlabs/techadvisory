@@ -41,6 +41,21 @@ class VendorProfileQuestionsTest extends TestCase
         $this->assertCount(1, VendorProfileQuestion::all());
     }
 
+    public function testCanCreateVendorProfileQuestionWithPage()
+    {
+        $this->assertCount(0, VendorProfileQuestion::all());
+
+        $question = new VendorProfileQuestion([
+            'label' => 'How are you?',
+            'type' => 'text',
+
+            'page' => 'legal'
+        ]);
+        $question->save();
+
+        $this->assertCount(1, VendorProfileQuestion::all());
+    }
+
     public function testCanRespondQuestion()
     {
         // Create the question

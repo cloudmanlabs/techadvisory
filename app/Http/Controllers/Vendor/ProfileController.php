@@ -11,18 +11,44 @@ class ProfileController extends Controller
     public function profile()
     {
         $vendor = auth()->user();
+
+        $generalQuestions = $vendor->vendorProfileQuestions->filter(function ($question) {
+            return $question->original->page == 'general';
+        });
+        $economicQuestions = $vendor->vendorProfileQuestions->filter(function ($question) {
+            return $question->original->page == 'economic';
+        });
+        $legalQuestions = $vendor->vendorProfileQuestions->filter(function ($question) {
+            return $question->original->page == 'legal';
+        });
+
         return view('vendorViews.profile', [
             'vendor' => $vendor,
-            'questions' => $vendor->vendorProfileQuestions
+            'generalQuestions' => $generalQuestions,
+            'economicQuestions' => $economicQuestions,
+            'legalQuestions' => $legalQuestions,
         ]);
     }
 
     public function homeProfileCreate()
     {
         $vendor = auth()->user();
+
+        $generalQuestions = $vendor->vendorProfileQuestions->filter(function($question){
+            return $question->original->page == 'general';
+        });
+        $economicQuestions = $vendor->vendorProfileQuestions->filter(function($question){
+            return $question->original->page == 'economic';
+        });
+        $legalQuestions = $vendor->vendorProfileQuestions->filter(function($question){
+            return $question->original->page == 'legal';
+        });
+
         return view('vendorViews.homeProfileCreate', [
             'vendor' => $vendor,
-            'questions' => $vendor->vendorProfileQuestions
+            'generalQuestions' => $generalQuestions,
+            'economicQuestions' => $economicQuestions,
+            'legalQuestions' => $legalQuestions,
         ]);
     }
 

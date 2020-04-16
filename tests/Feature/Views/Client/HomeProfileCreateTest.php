@@ -85,4 +85,14 @@ class HomeProfileCreateTest extends TestCase
 
         $response->assertNotFound();
     }
+
+    public function testAccessingMainClientRouteRedirectsToFirstLoginIfSetupNotFinished()
+    {
+        $client = factory(User::class)->states('client')->create();
+
+        $response = $this->actingAs($client)
+            ->get('client');
+
+        $response->assertRedirect('client/firstLoginRegistration');
+    }
 }
