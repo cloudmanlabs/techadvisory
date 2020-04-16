@@ -43,7 +43,7 @@ class ViewsTest extends TestCase
 
     public function testVendorCanAccessVendorViews()
     {
-        $user = factory(User::class)->states('vendor')->make();
+        $user = factory(User::class)->states(['vendor', 'finishedSetup'])->make();
 
         $response = $this->actingAs($user)
             ->get('/vendors/home');

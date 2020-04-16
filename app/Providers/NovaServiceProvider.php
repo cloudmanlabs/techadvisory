@@ -8,6 +8,8 @@ use App\Nova\Accenture;
 use App\Nova\Client;
 use App\Nova\ClientProfileQuestion;
 use App\Nova\ClientProfileQuestionResponse;
+use App\Nova\VendorProfileQuestion;
+use App\Nova\VendorProfileQuestionResponse;
 use App\Nova\Metrics\NumberOfAccentureUsers;
 use App\Nova\Metrics\NumberOfClients;
 use App\Nova\Metrics\NumberOfVendors;
@@ -55,6 +57,9 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
 
             ClientProfileQuestion::class,
             ClientProfileQuestionResponse::class,
+
+            VendorProfileQuestion::class,
+            VendorProfileQuestionResponse::class,
         ];
 
         if (auth()->user()->isAdmin()) {

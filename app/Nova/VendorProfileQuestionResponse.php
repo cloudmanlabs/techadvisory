@@ -16,23 +16,24 @@ use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Panel;
-use Outhebox\NovaHiddenField\HiddenField;
 
-class Vendor extends Resource
+class VendorProfileQuestionResponse extends Resource
 {
+    public static $displayInNavigation = false;
+
     /**
      * The model the resource corresponds to.
      *
      * @var string
      */
-    public static $model = 'App\User';
+    public static $model = 'App\VendorProfileQuestionResponse';
 
     /**
      * The single value that should be used to represent the resource when being displayed.
      *
      * @var string
      */
-    public static $title = 'name';
+    public static $title = 'id';
 
     /**
      * The columns that should be searched.
@@ -40,7 +41,7 @@ class Vendor extends Resource
      * @var array
      */
     public static $search = [
-        'id', 'name', 'email',
+        'id', 'response'
     ];
 
     /**
@@ -52,37 +53,33 @@ class Vendor extends Resource
     public function fields(Request $request)
     {
         return [
-            Text::make('Name')
-                ->sortable()
-                ->rules('required', 'max:255'),
+            BelongsTo::make('Vendor', 'vendor', 'App\Nova\User'),
+            BelongsTo::make('Question', 'original', 'App\Nova\VendorProfileQuestion'),
 
-            Text::make('Email')
-                ->sortable()
-                ->rules('required', 'email', 'max:254')
-                ->creationRules('unique:users,email')
-                ->updateRules('unique:users,email,{{resourceId}}'),
-
-            Password::make('Password')
-                ->onlyOnForms()
-                ->creationRules('required', 'string', 'min:8')
-                ->updateRules('nullable', 'string', 'min:8'),
-
-
-
-            // This sets the correct value for userType
-            HiddenField::make('userType')
-                ->hideFromIndex()
-                ->hideFromDetail()
-                ->default('vendor'),
-
-            HasMany::make('Profile Questions', 'vendorProfileQuestions', 'App\Nova\VendorProfileQuestionResponse'),
+            Text::make('Response', 'response')
+                ->hideWhenCreating(),
         ];
     }
 
-    public static function indexQuery(NovaRequest $request, $query)
+    public static function relatableUsers(NovaRequest $request, $query)
     {
-        return $query->whereIn('userType', User::vendorTypes);
+        if ($request->viaResource == 'vendors' && $request->viaRelationship == 'vendorProfileQuestions') {
+            return $query->where('id', $request->viaResourceId);
+        } else {
+            return $query->whereIn('userType', User::vendorTypes);
+        }
     }
+
+    public static function relatableVendorProfileQuestions(NovaRequest $request, $query)
+    {
+        if ($request->viaResource) {
+            $selectedItems = User::find($request->viaResourceId)->vendorProfileQuestions()->pluck('question_id');
+            return $query->whereNotIn('id', $selectedItems);
+        } else {
+            return $query;
+        }
+    }
+
 
     /**
      * Get the cards available for the request.

@@ -73,8 +73,8 @@ class ClientProfileQuestionResponse extends Resource
     public static function relatableClientProfileQuestions(NovaRequest $request, $query)
     {
         if ($request->viaResource) {
-            $selectedAgendaItems = User::find($request->viaResourceId)->clientProfileQuestions()->pluck('question_id');
-            return $query->whereNotIn('id', $selectedAgendaItems);
+            $selectedItems = User::find($request->viaResourceId)->clientProfileQuestions()->pluck('question_id');
+            return $query->whereNotIn('id', $selectedItems);
         } else {
             return $query;
         }

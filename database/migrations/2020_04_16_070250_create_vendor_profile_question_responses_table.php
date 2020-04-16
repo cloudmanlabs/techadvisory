@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateClientProfileQuestionsTable extends Migration
+class CreateVendorProfileQuestionResponsesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,16 +13,14 @@ class CreateClientProfileQuestionsTable extends Migration
      */
     public function up()
     {
-        Schema::create('client_profile_questions', function (Blueprint $table) {
+        Schema::create('vendor_profile_question_responses', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
 
-            $table->string('label');
-            $table->string('type');
+            $table->unsignedBigInteger('question_id');
+            $table->unsignedBigInteger('vendor_id');
 
-            $table->string('placeholder')->nullable();
-            $table->string('presetOption')->nullable();
-            $table->string('options')->nullable();
+            $table->string('response')->nullable();
         });
     }
 
@@ -33,6 +31,6 @@ class CreateClientProfileQuestionsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('client_profile_questions');
+        Schema::dropIfExists('vendor_profile_question_responses');
     }
 }

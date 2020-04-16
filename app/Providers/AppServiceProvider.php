@@ -9,9 +9,11 @@ use App\Observers\GeneralInfoQuestionObserver;
 use App\Observers\ProjectObserver;
 use App\Observers\SizingQuestionObserver;
 use App\Observers\UserObserver;
+use App\Observers\VendorProfileQuestionObserver;
 use App\Project;
 use App\SizingQuestion;
 use App\User;
+use App\VendorProfileQuestion;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
 
@@ -37,8 +39,9 @@ class AppServiceProvider extends ServiceProvider
         Project::observe(ProjectObserver::class);
         User::observe(UserObserver::class);
         GeneralInfoQuestion::observe(GeneralInfoQuestionObserver::class);
-        ClientProfileQuestion::observe(ClientProfileQuestionObserver::class);
         SizingQuestion::observe(SizingQuestionObserver::class);
+        ClientProfileQuestion::observe(ClientProfileQuestionObserver::class);
+        VendorProfileQuestion::observe(VendorProfileQuestionObserver::class);
 
         Blade::directive('logo', function () {
             return "<?php echo url('/assets/images/techadvisory-logo.png'); ?>";
