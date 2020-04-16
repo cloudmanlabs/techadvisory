@@ -6,6 +6,8 @@ use App\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
+use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Storage;
 
 class UserTest extends TestCase
 {
@@ -124,5 +126,30 @@ class UserTest extends TestCase
 
         $count = User::vendorUsers()->count();
         $this->assertEquals(5, $count);
+    }
+
+    public function testCanUploadLogoToUser()
+    {
+        $this->withoutExceptionHandling();
+        $user = factory(User::class)->create();
+
+        Storage::fake('public');
+
+        $file = UploadedFile::fake()->image('avatar.jpg');
+
+        $response = $this->actingAs($user)
+        ->post('user/changeLogo', [
+            'image' => $file,
+        ]);
+        $response->assertOk();
+
+        Storage::disk('public')->assertExists('logos/'.$file->hashName());
+
+        $this->assertEquals($user->logo, 'logos/' . $file->hashName());
+    }
+
+    public function testCanAddProfileFolderToUser()
+    {
+
     }
 }

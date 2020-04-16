@@ -59,4 +59,9 @@ class FolderTest extends TestCase
         $this->expectException(Exception::class);
         $folder->name = 'other';
     }
+
+    public function testCreatingAFolderCreatesAFolderOnDisk()
+    {
+
+    }
 }

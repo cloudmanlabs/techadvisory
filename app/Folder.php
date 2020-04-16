@@ -48,8 +48,6 @@ class Folder extends Model
         ]);
         $folder->save();
 
-        // TODO Create the actual folder on disk
-
         return $folder;
     }
 

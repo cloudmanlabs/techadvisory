@@ -1,7 +1,7 @@
 $(function() {
-  'use strict';
+    "use strict";
 
-  $("exampleDropzone").dropzone({
-    url: 'nobleui.com'
-  });
+    $("exampleDropzone").dropzone({
+        url: "nobleui.com"
+    });
 });

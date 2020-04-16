@@ -24,6 +24,7 @@ class CreateUsersTable extends Migration
 
             $table->string('userType');
             $table->boolean('hasFinishedSetup')->default(false);
+            $table->string('logo')->nullable();
         });
     }
 

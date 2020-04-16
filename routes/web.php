@@ -32,6 +32,10 @@ Route::get('password/reset/{token}', 'Auth\ResetPasswordController@showResetForm
 Route::post('password/reset', 'Auth\ResetPasswordController@reset')->name('password.update');
 
 
-Route::post('/generalInfoQuestion/changeResponse', 'GeneralInfoQuestionController@changeResponse');
-Route::post('/sizingQuestion/changeResponse', 'SizingQuestionController@changeResponse');
-Route::post('/sizingQuestion/setShouldShow', 'SizingQuestionController@setShouldShow');
+Route::middleware(['auth'])->group(function () {
+    Route::post('/generalInfoQuestion/changeResponse', 'GeneralInfoQuestionController@changeResponse');
+    Route::post('/sizingQuestion/changeResponse', 'SizingQuestionController@changeResponse');
+    Route::post('/sizingQuestion/setShouldShow', 'SizingQuestionController@setShouldShow');
+
+    Route::post('/user/changeLogo', 'UserController@changeLogo');
+});

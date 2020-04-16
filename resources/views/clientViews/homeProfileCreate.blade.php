@@ -36,10 +36,23 @@
 
                                 <br>
                                 <div class="form-group">
-                                    <label>Upload your logo</label> <input class="file-upload-default" name="img[]" type="file">
+                                    <label>Upload your logo</label>
+                                    <input
+                                        id="logoInput"
+                                        class="file-upload-default" name="img[]" type="file">
 
                                     <div class="input-group col-xs-12">
-                                        <input class="form-control file-upload-info" placeholder="Upload Image" type="text"> <span class="input-group-append"><button class="file-upload-browse btn btn-primary" type="button"><span class="input-group-append">Upload</span></button></span>
+                                        <input
+                                            id="fileNameInput"
+                                            disabled
+                                            class="form-control file-upload-info"
+                                            value="{{$client->logo ? 'logo.jpg' : 'No file selected'}}"
+                                            type="text">
+                                        <span class="input-group-append">
+                                            <button class="file-upload-browse btn btn-primary" type="button">
+                                                <span class="input-group-append" id="logoUploadButton">{{$client->logo ? 'Replace file' : 'Select file'}}</span>
+                                            </button>
+                                        </span>
                                     </div>
                                 </div>
                                 <br>
@@ -265,6 +278,30 @@
                 autoclose: true
             });
             $(this).datepicker('setDate', date);
+        });
+
+        $('.file-upload-browse').on('click', function(e) {
+            $("#logoInput").trigger('click');
+        });
+
+        $("#logoInput").change(function (){
+            var fileName = $(this).val().split('\\').pop();;
+
+            $("#fileNameInput").val(fileName);
+            $('#logoUploadButton').html('Replace file')
+
+
+            var formData = new FormData();
+            formData.append('image', $(this).get(0).files[0]);
+            $.ajax({
+                url : "/user/changeLogo",
+                type: "POST",
+                data : formData,
+                processData: false,
+                contentType: false,
+            });
+
+            showSavedToast();
         });
 
         updateSubmitButton();
