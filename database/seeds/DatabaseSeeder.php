@@ -11,6 +11,9 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
+        // Remove all folders
+        Storage::disk('public')->deleteDirectory('folders');
+
         $this->call(ClientProfileQuestionSeeder::class);
         $this->call(VendorProfileQuestionSeeder::class);
         $this->call(UserSeeder::class);

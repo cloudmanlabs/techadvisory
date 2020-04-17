@@ -5,6 +5,7 @@ namespace App;
 use Exception;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use InvalidArgumentException;
 
@@ -48,6 +49,8 @@ class Folder extends Model
         ]);
         $folder->save();
 
+        Storage::disk('public')->makeDirectory('folders/' . $folder->name);
+
         return $folder;
     }
 
@@ -80,30 +83,6 @@ class Folder extends Model
     //TODO Add an option to add the full file path here or smth
     public function getListOfFiles(): array
     {
-        $path = storage_path('app/public/folders/' . $this->name);
-        $files = scandir($path);
-        $files = array_diff(scandir($path), array('.', '..'));
-
-        return array_values($files);
-    }
-
-    public function uploadFiles(Request $request): void
-    {
-        $files = $request->file('files');
-        foreach ($files as $key => $file) {
-            $file->storeAs('public/folders/' . $this->name . '/', $file->getClientOriginalName());
-        }
-    }
-
-    public function removeFile(Request $request)
-    {
-        $docName = $request->input('doc');
-
-        $exists = Storage::disk('public')->exists('folders/' . $this->name . '/' . $docName);
-        if ($exists) {
-            Storage::disk('public')->delete('folders/' . $this->name . '/' .  $docName);
-        } else {
-            return 'doesNotExist';
-        }
+        return Storage::disk('public')->files('folders/' . $this->name);
     }
 }

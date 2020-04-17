@@ -155,12 +155,14 @@
                                     @endswitch
                                 @endforeach
 
-                                <div class="form-group">
+                                {{-- <div class="form-group">
                                     <label for="exampleInputText1">Upload any extra files</label>
 
                                     <form action="/file-upload" class="dropzone" id="exampleDropzone" name="exampleDropzone">
                                     </form>
-                                </div>
+                                </div> --}}
+
+                                <x-folderFileUploader :folder="$client->profileFolder" />
 
                                 <div style="float: right; margin-top: 20px;">
                                     <form action="{{route('client.profile.submit')}}" method="post">

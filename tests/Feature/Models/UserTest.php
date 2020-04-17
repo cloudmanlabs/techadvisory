@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use App\Folder;
 use App\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -130,7 +131,6 @@ class UserTest extends TestCase
 
     public function testCanUploadLogoToUser()
     {
-        $this->withoutExceptionHandling();
         $user = factory(User::class)->create();
 
         Storage::fake('public');
@@ -148,8 +148,38 @@ class UserTest extends TestCase
         $this->assertEquals($user->logo, 'logos/' . $file->hashName());
     }
 
-    public function testCanAddProfileFolderToUser()
-    {
 
+    public function testObserverCreatesAFolder()
+    {
+        Storage::fake('public');
+
+        $user = factory(User::class)->create();
+        $user->refresh();
+        $this->assertNotNull($user->profileFolder);
+    }
+
+    public function testCanAddFilesToProfileFolder()
+    {
+        Storage::fake('public');
+
+        $user = factory(User::class)->create();
+
+        $list = $user->profileFolder->getListOfFiles();
+        $this->assertCount(0, $list);
+
+        $response = $this
+            ->actingAs($user)
+            ->post('folder/uploadFilesToFolder', [
+                'files' => [
+                    UploadedFile::fake()->image('image1.jpg'),
+                    UploadedFile::fake()->image('image2.jpg'),
+                    UploadedFile::fake()->image('image3.jpg'),
+                ],
+                'folder_id' => $user->profileFolder->id,
+            ]);
+        $response->assertOk();
+
+        $list = $user->profileFolder->getListOfFiles();
+        $this->assertCount(3, $list);
     }
 }

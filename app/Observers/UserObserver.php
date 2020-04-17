@@ -4,6 +4,7 @@ namespace App\Observers;
 
 use App\ClientProfileQuestion;
 use App\ClientProfileQuestionResponse;
+use App\Folder;
 use App\User;
 use App\VendorProfileQuestion;
 use App\VendorProfileQuestionResponse;
@@ -32,5 +33,8 @@ class UserObserver
                 $response->save();
             }
         }
+
+        $folder = Folder::createNewRandomFolder();
+        $user->profileFolder()->save($folder);
     }
 }

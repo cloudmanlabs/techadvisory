@@ -38,4 +38,9 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/sizingQuestion/setShouldShow', 'SizingQuestionController@setShouldShow');
 
     Route::post('/user/changeLogo', 'UserController@changeLogo');
+
+
+    Route::post('folder/uploadFilesToFolder', 'FolderController@uploadFiles');
+    Route::post('folder/uploadSingleFileToFolder', 'FolderController@uploadSingleFile');
+    Route::post('folder/removeFile', 'FolderController@removeFile');
 });

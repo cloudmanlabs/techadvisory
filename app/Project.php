@@ -60,19 +60,19 @@ class Project extends Model
 
     public function conclusionsFolder()
     {
-        return $this->morphTo(Folder::class, 'folderable');
+        return $this->morphOne(Folder::class, 'folderable');
     }
     public function selectedValueLeversFolder()
     {
-        return $this->morphTo(Folder::class, 'folderable');
+        return $this->morphOne(Folder::class, 'folderable');
     }
     public function businessOpportunityFolder()
     {
-        return $this->morphTo(Folder::class, 'folderable');
+        return $this->morphOne(Folder::class, 'folderable');
     }
     public function vtConclusionsFolder()
     {
-        return $this->morphTo(Folder::class, 'folderable');
+        return $this->morphOne(Folder::class, 'folderable');
     }
 
     public function practice()
