@@ -22,24 +22,26 @@
                                     on the button.</p>
                                 <br>
                                 <br>
-                                <div class="card" style="margin-bottom: 30px;">
-                                    <div class="card-body">
-                                        <div style="float: left; max-width: 40%;">
-                                            <h4>Client Name </h4>
-                                        </div>
-                                        <div style="float: right; text-align: right; width: 15%;">
-                                            <a class="btn btn-primary btn-lg btn-icon-text"
+                                @foreach ($clients as $client)
+                                    <div class="card" style="margin-bottom: 30px;">
+                                        <div class="card-body">
+                                            <div style="float: left; max-width: 40%;">
+                                                <h4>{{$client->name}}</h4>
+                                            </div>
+                                            <div style="float: right; text-align: right; width: 15%;">
+                                                <a class="btn btn-primary btn-lg btn-icon-text"
                                                 href="{{route('accenture.clientHomeProfileCreate')}}">View <i
-                                                    class="btn-icon-prepend" data-feather="arrow-right"></i></a>
-                                        </div>
-                                        <div style="float: right; width: 20%; margin-right: 10%;">
-                                            <h5>Industry name</h5>
-                                        </div>
-                                        <div style="float: right; width: 10%; margin-right: 10%;">
-                                            <img alt="profile" src="@profilePic" style="height: 20px">
+                                                class="btn-icon-prepend" data-feather="arrow-right"></i></a>
+                                            </div>
+                                            <div style="float: right; width: 20%; margin-right: 10%;">
+                                                <h5>Industry name</h5>
+                                            </div>
+                                            <div style="float: right; width: 10%; margin-right: 10%;">
+                                                <img alt="profile" src="@profilePic" style="height: 20px">
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
+                                @endforeach
                             </div>
                         </div>
                     </div>

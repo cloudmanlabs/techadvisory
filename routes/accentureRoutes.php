@@ -40,10 +40,11 @@ Route::
             Route::post('/newProjectSetUp/changeSubpractice', 'ProjectController@changeSubpractice');
             Route::post('/newProjectSetUp/setStep4Finished', 'ProjectController@setStep4Finished');
 
-            Route::view('clientList', 'accentureViews.clientList')
+            Route::get('clientList', 'ClientVendorListController@clientList')
                 ->name('clientList');
-            Route::view('vendorList', 'accentureViews.vendorList')
+            Route::get('vendorList', 'ClientVendorListController@vendorList')
                 ->name('vendorList');
+
             Route::view('vendorHomeProfileCreate', 'accentureViews.vendorHomeProfileCreate')
                 ->name('vendorHomeProfileCreate');
             Route::redirect('createNewVendor', '/accenture/vendorHomeProfileCreate') // TODO Here we should create the new vendor and stuff
