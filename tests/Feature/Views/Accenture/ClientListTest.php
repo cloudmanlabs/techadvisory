@@ -37,4 +37,32 @@ class ClientListTest extends TestCase
             ->assertSee($client1->name)
             ->assertSee($client2->name);
     }
+
+    public function testCanViewClientProfile()
+    {
+        $user = factory(User::class)->states('accenture')->create();
+
+        $client = factory(User::class)->states('client')->create();
+
+        $response = $this
+            ->actingAs($user)
+            ->get('accenture/clientProfileView/'.$client->id);
+
+        $response->assertStatus(200)
+            ->assertSee($client->name);
+    }
+
+    public function testCanEditClientProfile()
+    {
+        $user = factory(User::class)->states('accenture')->create();
+
+        $client = factory(User::class)->states('client')->create();
+
+        $response = $this
+            ->actingAs($user)
+            ->get('accenture/clientProfileEdit/' . $client->id);
+
+        $response->assertStatus(200)
+            ->assertSee($client->name);
+    }
 }

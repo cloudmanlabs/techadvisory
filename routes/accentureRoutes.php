@@ -40,21 +40,27 @@ Route::
             Route::post('/newProjectSetUp/changeSubpractice', 'ProjectController@changeSubpractice');
             Route::post('/newProjectSetUp/setStep4Finished', 'ProjectController@setStep4Finished');
 
+
             Route::get('clientList', 'ClientVendorListController@clientList')
                 ->name('clientList');
-            Route::get('vendorList', 'ClientVendorListController@vendorList')
-                ->name('vendorList');
+            Route::redirect('createNewClient', '/accenture/clientList') // TODO Here we should create the new client and stuff
+                ->name('createNewClient');
+            Route::get('clientProfileEdit/{client}', 'ClientVendorListController@clientProfileEdit')
+                ->name('clientProfileEdit');
+            Route::get('clientProfileView/{client}', 'ClientVendorListController@clientProfileView')
+                ->name('clientProfileView');
 
-            Route::view('vendorHomeProfileCreate', 'accentureViews.vendorHomeProfileCreate')
-                ->name('vendorHomeProfileCreate');
             Route::redirect('createNewVendor', '/accenture/vendorHomeProfileCreate') // TODO Here we should create the new vendor and stuff
                 ->name('createNewVendor');
+            Route::get('vendorList', 'ClientVendorListController@vendorList')
+                ->name('vendorList');
+            Route::get('vendorProfileEdit/{vendor}', 'ClientVendorListController@vendorProfileEdit')
+                ->name('vendorProfileEdit');
+            Route::get('vendorProfileView/{vendor}', 'ClientVendorListController@vendorProfileView')
+                ->name('vendorProfileView');
+
             Route::view('vendorValidateResponses', 'accentureViews.vendorValidateResponses')
                 ->name('vendorValidateResponses');
-            Route::view('clientHomeProfileCreate', 'accentureViews.clientHomeProfileCreate')
-                ->name('clientHomeProfileCreate');
-            Route::redirect('createNewClient', '/accenture/clientHomeProfileCreate') // TODO Here we should create the new client and stuff
-                ->name('createNewClient');
 
             Route::get('project/home/{project}', 'ProjectController@home')
                 ->name('projectHome');
