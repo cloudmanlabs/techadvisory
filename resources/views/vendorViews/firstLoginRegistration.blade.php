@@ -13,7 +13,7 @@
                 </div>
 
 
-                <x-client.video />
+                <x-video :src="nova_get_setting('vendor_firstLogin')" />
 
                 <br>
                 <br>

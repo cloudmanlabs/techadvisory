@@ -12,6 +12,10 @@
                     </div>
                 </div>
 
+                <x-video :src="nova_get_setting('client_NewProjectSetUp')" />
+
+                <br><br>
+
                 <div class="row">
                     <div class="col-12 col-xl-12 stretch-card">
                         <div class="card">

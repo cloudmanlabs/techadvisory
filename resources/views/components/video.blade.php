@@ -1,3 +1,5 @@
+@props(['src'])
+
 <div class="row">
     <div class="col-12 col-xl-12 stretch-card">
         <div class="card">
@@ -13,7 +15,7 @@
                             to help you overview, make decissions and take control over your projects within our
                             network. Please take a minute to check out the video we've prepared for you.
                         </div>
-                        <a data-target=".bd-example-modal-lg" data-thevideo="https://www.youtube.com/embed/IHjNcp_4QCs"
+                        <a data-target=".bd-example-modal-lg" data-thevideo="{{$src ?? ''}}"
                             data-toggle="modal" href="#"><img alt="..." class="wd-100p wd-sm-150 mb-3 mb-sm-0 ml-3"
                                 src="{{url('/assets/images/video_small.jpg')}}"></a>
                     </div>
@@ -24,7 +26,7 @@
 </div>
 
 <div aria-hidden="true" aria-labelledby="myLargeModalLabel" class="modal fade bd-example-modal-lg" role="dialog"
-                    tabindex="-1">
+    tabindex="-1">
     <div class="modal-dialog modal-lg modal-dialog-centered">
         <div class="modal-content">
             <iframe height="450" src="" width="100%"></iframe>

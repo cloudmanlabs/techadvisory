@@ -12,7 +12,7 @@
                     </div>
                 </div>
 
-                <x-client.video />
+                <x-video :src="nova_get_setting('client_Profile')" />
 
                 <br>
                 <br>

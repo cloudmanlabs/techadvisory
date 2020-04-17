@@ -15,6 +15,7 @@
 
                 <x-vendor.projectNavbar section="apply" />
 
+                <x-video :src="nova_get_setting('vendor_NewApplication')" />
 
                 <div class="row" style="margin-top: 25px;">
                     <div class="col-md-12 grid-margin stretch-card">

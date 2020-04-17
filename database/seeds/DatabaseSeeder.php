@@ -25,5 +25,7 @@ class DatabaseSeeder extends Seeder
         $this->call(SizingQuestionSeeder::class);
 
         $this->call(ProjectSeeder::class);
+
+        $this->call(SettingsSeeder::class);
     }
 }

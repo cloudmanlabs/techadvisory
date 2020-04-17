@@ -15,6 +15,7 @@
 
             <x-client.projectNavbar section="projectConclusions" :project="$project" />
 
+            <x-video :src="nova_get_setting('client_Conclusions')" />
             <br>
             <div class="row">
                 <div class="col-12 col-xl-12 stretch-card">

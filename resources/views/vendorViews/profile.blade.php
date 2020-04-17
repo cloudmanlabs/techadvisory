@@ -12,7 +12,7 @@
                     </div>
                 </div>
 
-                <x-video />
+                <x-video :src="nova_get_setting('vendor_Profile')" />
 
                 <br>
                 <br>

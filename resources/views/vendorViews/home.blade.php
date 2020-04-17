@@ -13,7 +13,7 @@
                     </div>
                 </div>
 
-                <x-video />
+                <x-video :src="nova_get_setting('vendor_Home')" />
                 <br><br>
 
                 <div class="row">
