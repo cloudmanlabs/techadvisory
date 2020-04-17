@@ -16,6 +16,7 @@
         "laravel/nova": "*",
         "laravel/tinker": "^2.0",
         "laravel/ui": "^2.0",
+        "optimistdigital/nova-settings": "^2.5",
         "outhebox/nova-hidden-field": "^1.0"
     },
     "require-dev": {

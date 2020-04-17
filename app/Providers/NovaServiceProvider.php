@@ -24,8 +24,11 @@ use App\Nova\User;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Log;
 use Laravel\Nova\Cards\Help;
+use Laravel\Nova\Fields\Number;
+use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Nova;
 use Laravel\Nova\NovaApplicationServiceProvider;
+use Laravel\Nova\Panel;
 
 class NovaServiceProvider extends NovaApplicationServiceProvider
 {
@@ -37,6 +40,18 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
     public function boot()
     {
         parent::boot();
+
+        \OptimistDigital\NovaSettings\NovaSettings::addSettingsFields(function () {
+            return [
+                new Panel('Videos', [
+                    Text::make('Video 1 URL', 'video1url'),
+                    Text::make('Video 2 URL', 'video2url'),
+                    Text::make('Video 3 URL', 'video3url'),
+                    Text::make('Video 4 URL', 'video4url'),
+                    Text::make('Video 5 URL', 'video5url'),
+                ])
+            ];
+        });
     }
 
     protected function resources()
@@ -146,7 +161,9 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
      */
     public function tools()
     {
-        return [];
+        return [
+            new \OptimistDigital\NovaSettings\NovaSettings
+        ];
     }
 
     /**
