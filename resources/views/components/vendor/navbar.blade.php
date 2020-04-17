@@ -4,7 +4,7 @@
     <nav class="navbar top-navbar">
         <div class="container">
             <div class="navbar-content">
-                <a class="navbar-brand" href="{{route('vendor.home')}}">
+                <a class="navbar-brand" href="{{route('vendor.main')}}">
                     <img src="@logo" style="max-height: 37px;">
                 </a>
 

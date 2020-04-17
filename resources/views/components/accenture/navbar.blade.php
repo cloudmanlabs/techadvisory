@@ -4,7 +4,7 @@
     <nav class="navbar top-navbar">
         <div class="container">
             <div class="navbar-content">
-                <a class="navbar-brand" href="{{route('accenture.home')}}">
+                <a class="navbar-brand" href="{{route('accenture.main')}}">
                     <img src="@logo" style="max-height: 37px;">
                 </a>
 
