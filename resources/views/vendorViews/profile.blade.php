@@ -41,14 +41,14 @@
                                                 id="exampleInputText1"
                                                 placeholder="Enter Name"
                                                 type="text"
-                                                value="{{auth()->user()->name}}"
+                                                value="{{$vendor->name}}"
                                                 disabled>
                                         </div>
                                         <div class="form-group">
                                             <label for="exampleInputText1">Vendor contact email</label>
                                             <input class="form-control" id="exampleInputText1" placeholder="Enter E-mail"
                                                 type="email"
-                                                value="{{auth()->user()->email}}"
+                                                value="{{$vendor->email}}"
                                                 disabled>
                                         </div>
 
@@ -159,6 +159,8 @@
 
                                             @endswitch
                                         @endforeach
+
+                                        <x-folderFileUploader :folder="$vendor->profileFolder" :disabled="true" />
                                     </section>
 
 

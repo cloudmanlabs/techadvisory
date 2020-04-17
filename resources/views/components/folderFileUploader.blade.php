@@ -1,4 +1,8 @@
-@props(['folder'])
+@props(['folder', 'disabled'])
+
+@php
+    $disabled = $disabled ?? false;
+@endphp
 
 <div class="form-group">
     <label for="exampleInputText1">Upload any extra files</label>
@@ -61,7 +65,9 @@
                         </g>
                     </svg>
                 </div>
+                @if (!$disabled)
                 <a class="dz-remove" href="#" data-dz-remove="{{basename($file)}}">Remove file</a>
+                @endif
             </div>
         @endforeach
     </form>
@@ -72,9 +78,10 @@
 @section('scripts')
 @parent
 <script>
-    Dropzone.options.{{$folder->name}} = {
+    Dropzone.options['{{$folder->name}}'] = {
         maxFilesize: 50, // MB
         addRemoveLinks: true,
+        {{$disabled ? 'clickable: false,' : ''}}
 
         init: function() {
             this.on("removedfile", function(file) {

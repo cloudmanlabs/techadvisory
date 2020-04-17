@@ -162,12 +162,7 @@
                                             @endswitch
                                         @endforeach
 
-                                        <div class="form-group">
-                                            <label for="exampleInputText1">Upload any extra files</label>
-
-                                            <form action="/file-upload" class="dropzone" id="exampleDropzone" name="exampleDropzone">
-                                            </form>
-                                        </div>
+                                        <x-folderFileUploader :folder="$vendor->profileFolder" />
                                     </section>
 
                                     <h2>Economic information</h2>

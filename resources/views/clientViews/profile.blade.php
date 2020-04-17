@@ -148,12 +148,7 @@
                                     @endswitch
                                 @endforeach
 
-                                <div class="form-group">
-                                    <label for="exampleInputText1">Upload any extra files</label>
-
-                                    <form action="/file-upload" class="dropzone" id="exampleDropzone" name="exampleDropzone" disabled aria-disabled="true">
-                                    </form>
-                                </div>
+                                <x-folderFileUploader :folder="$client->profileFolder" :disabled="true" />
                             </div>
                         </div>
                     </div>
