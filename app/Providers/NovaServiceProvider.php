@@ -64,11 +64,9 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
                     Text::make('Vendor Solutions Home', 'vendor_SolutionsHome'),
                 ]),
                 new Panel('Texts', [
-                    Text::make('Video 1 URL', 'video1url'),
-                    Text::make('Video 2 URL', 'video2url'),
-                    Text::make('Video 3 URL', 'video3url'),
-                    Text::make('Video 4 URL', 'video4url'),
-                    Text::make('Video 5 URL', 'video5url'),
+                    Text::make('Accenture Home', 'video1url'),
+                    Text::make('Vendor Home', 'video2url'),
+                    Text::make('Accenture Home', 'video3url'),
                 ])
             ];
         });
