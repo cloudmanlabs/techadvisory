@@ -64,9 +64,18 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
                     Text::make('Vendor Solutions Home', 'vendor_SolutionsHome'),
                 ]),
                 new Panel('Texts', [
-                    Text::make('Accenture Home', 'video1url'),
-                    Text::make('Vendor Home', 'video2url'),
-                    Text::make('Accenture Home', 'video3url'),
+                    Text::make('Accenture Home Open Projects', 'accenture_Home_Open'),
+                    Text::make('Accenture Home Preparation Projects', 'accenture_Home_Preparation'),
+                    Text::make('Accenture Home Old Projects', 'accenture_Home_Old'),
+
+                    Text::make('Client Home Open Projects', 'client_Home_Open'),
+                    Text::make('Client Home Preparation Projects', 'client_Home_Preparation'),
+                    Text::make('Client Home Old Projects', 'client_Home_Old'),
+
+                    Text::make('Vendor Home Invitation Phase', 'vendor_Home_Invitation'),
+                    Text::make('Vendor Home Started Applications', 'vendor_Home_Started'),
+                    Text::make('Vendor Home Submitted Applications', 'vendor_Home_Submitted'),
+                    Text::make('Vendor Home Rejected Applications', 'vendor_Home_Rejected'),
                 ])
             ];
         });

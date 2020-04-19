@@ -67,7 +67,9 @@
                     <div class="card">
                         <div class="card-body">
                             <h3>Open Projects</h3>
-                            <p class="welcome_text extra-top-15px">In order to start using the Tech Advisory Platform, you'll need to follow some steps to complete your profile and set up your first project. Please check below the timeline and click "Let's start" when you are ready.</p>
+                            <p class="welcome_text extra-top-15px">
+                                {{nova_get_setting('accenture_Home_Open') ?? ''}}
+                            </p>
                             <br>
                             <br>
 
@@ -104,7 +106,9 @@
                     <div class="card">
                         <div class="card-body">
                             <h3>Preparation phase</h3>
-                            <p class="welcome_text extra-top-15px">In order to start using the Tech Advisory Platform, you'll need to follow some steps to complete your profile and set up your first project. Please check below the timeline and click "Let's start" when you are ready.</p>
+                            <p class="welcome_text extra-top-15px">
+                                {{nova_get_setting('accenture_Home_Preparation') ?? ''}}
+                            </p>
                             <br>
 
                             <div id="preparationPhaseContainer">
@@ -143,8 +147,12 @@
                     <div class="card">
                         <div class="card-body">
                             <h3 id="oldProjectsH3" title="Click to maximize/minimize" style="cursor: pointer">Old Projects +</h3>
-
-                            <br id="plsHideMeTooBr" style="display: none">
+                            <br class="plsHideMeToo" style="display: none">
+                            <p class="plsHideMeToo welcome_text extra-top-15px" style="display: none">
+                                {{nova_get_setting('accenture_Home_Old') ?? ''}}
+                            </p>
+                            <br>
+                            <br class="plsHideMeToo" style="display: none">
                             <div id="oldPhaseContainer" style="display: none">
                                 @foreach ($oldProjects as $project)
                                 <div class="card" style="margin-bottom: 30px;"
@@ -221,11 +229,11 @@
             $('#oldProjectsH3').click(function(){
                 if($('#oldPhaseContainer').css('display') === 'none'){
                     $('#oldPhaseContainer').css('display', 'initial')
-                    $('#plsHideMeTooBr').css('display', 'initial')
+                    $('.plsHideMeToo').css('display', 'initial')
                     $('#oldProjectsH3').text('Old Projects -')
                 } else {
                     $('#oldPhaseContainer').css('display', 'none')
-                    $('#plsHideMeTooBr').css('display', 'none')
+                    $('.plsHideMeToo').css('display', 'none')
                     $('#oldProjectsH3').text('Old Projects +')
                 }
             })

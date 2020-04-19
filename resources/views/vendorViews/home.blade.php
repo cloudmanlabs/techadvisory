@@ -21,7 +21,9 @@
                         <div class="card">
                             <div class="card-body">
                                 <h3>Projects in Invitation phase</h3>
-                                <p class="welcome_text extra-top-15px">In order to start using the Tech Advisory Platform, you'll need to follow some steps to complete your profile and set up your first project. Please check below the timeline and click "Let's start" when you are ready.</p>
+                                <p class="welcome_text extra-top-15px">
+                                    {{nova_get_setting('vendor_Home_Invitation') ?? ''}}
+                                </p>
                                 <br>
                                 <br>
                                 <div class="card" style="margin-bottom: 30px;">
@@ -58,7 +60,9 @@
                         <div class="card">
                             <div class="card-body">
                                 <h3>Started Applications</h3>
-                                <p class="welcome_text extra-top-15px">In order to start using the Tech Advisory Platform, you'll need to follow some steps to complete your profile and set up your first project. Please check below the timeline and click "Let's start" when you are ready.</p>
+                                <p class="welcome_text extra-top-15px">
+                                    {{nova_get_setting('vendor_Home_Started') ?? ''}}
+                                </p>
                                 <br>
                                 <br>
 
@@ -100,7 +104,9 @@
                         <div class="card">
                             <div class="card-body">
                                 <h3>Submitted Applications</h3>
-                                <p class="welcome_text extra-top-15px">In order to start using the Tech Advisory Platform, you'll need to follow some steps to complete your profile and set up your first project. Please check below the timeline and click "Let's start" when you are ready.</p>
+                                <p class="welcome_text extra-top-15px">
+                                    {{nova_get_setting('vendor_Home_Submitted') ?? ''}}
+                                </p>
                                 <br>
                                 <br>
 
@@ -141,9 +147,9 @@
                         <div class="card">
                             <div class="card-body">
                                 <h3>Rejected Projects</h3>
-                                <p class="welcome_text extra-top-15px">In order to start using the Tech Advisory Platform, you'll need
-                                    to follow some steps to complete your profile and set up your first project. Please check below the
-                                    timeline and click "Let's start" when you are ready.</p>
+                                <p class="welcome_text extra-top-15px">
+                                    {{nova_get_setting('vendor_Home_Rejected') ?? ''}}
+                                </p>
                                 <br>
                                 <br>
                                 <div class="card" style="margin-bottom: 30px;">
