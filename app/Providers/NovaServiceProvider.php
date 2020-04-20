@@ -22,6 +22,8 @@ use App\Nova\Subpractice;
 use App\Nova\Vendor;
 use App\Nova\User;
 use App\Nova\VendorSolution;
+use App\Nova\VendorSolutionQuestion;
+use App\Nova\VendorSolutionQuestionResponse;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Log;
 use Laravel\Nova\Cards\Help;
@@ -105,6 +107,9 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
 
             VendorProfileQuestion::class,
             VendorProfileQuestionResponse::class,
+
+            VendorSolutionQuestion::class,
+            VendorSolutionQuestionResponse::class,
         ];
 
         if (auth()->user()->isAdmin()) {

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Accenture;
 use App\Http\Controllers\Controller;
 use App\User;
 use App\VendorSolution;
+use App\VendorSolutionQuestionResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
@@ -108,6 +109,69 @@ class ClientVendorListController extends Controller
             'generalQuestions' => $generalQuestions,
             'economicQuestions' => $economicQuestions,
             'legalQuestions' => $legalQuestions,
+        ]);
+    }
+
+    public function vendorSolution(VendorSolution $solution)
+    {
+        return view('accentureViews.vendorSolution', [
+            'solution' => $solution,
+            'questions' => $solution->questions
+        ]);
+    }
+
+    public function vendorSolutionEdit(VendorSolution $solution)
+    {
+        return view('accentureViews.vendorSolutionEdit', [
+            'solution' => $solution,
+            'questions' => $solution->questions
+        ]);
+    }
+
+
+    public function changeSolutionName(Request $request)
+    {
+        $request->validate([
+            'solution_id' => 'required|numeric',
+            'newName' => 'required|string'
+        ]);
+
+        $solution = VendorSolution::find($request->solution_id);
+        if ($solution == null) {
+            abort(404);
+        }
+
+        $solution->name = $request->newName;
+        $solution->save();
+
+        return \response()->json([
+            'status' => 200,
+            'message' => 'Success'
+        ]);
+    }
+
+    public function changeResponse(Request $request)
+    {
+        $request->validate([
+            'changing' => 'required|numeric',
+            'value' => 'required',
+        ]);
+
+        $answer = VendorSolutionQuestionResponse::find($request->changing);
+        if ($answer == null) {
+            abort(404);
+        }
+
+        if ($answer->original->type == 'boolean') {
+            $answer->response = $request->value === 'yes';
+        } else {
+            $answer->response = $request->value;
+        }
+        $answer->save();
+
+        return response()->json([
+            'status' => 200,
+            'message' => 'nma'
         ]);
     }
 }

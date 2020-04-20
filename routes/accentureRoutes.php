@@ -58,6 +58,12 @@ Route::
                 ->name('vendorProfileEdit');
             Route::get('vendorProfileView/{vendor}', 'ClientVendorListController@vendorProfileView')
                 ->name('vendorProfileView');
+            Route::get('vendorSolution/{solution}', 'ClientVendorListController@vendorSolution')
+                ->name('vendorSolution');
+            Route::get('vendorSolution/edit/{solution}', 'ClientVendorListController@vendorSolutionEdit')
+                ->name('vendorSolutionEdit');
+            Route::post('vendorSolution/changeResponse', 'ClientVendorListController@changeResponse');
+            Route::post('vendorSolution/changeName', 'ClientVendorListController@changeSolutionName');
 
             Route::view('vendorValidateResponses', 'accentureViews.vendorValidateResponses')
                 ->name('vendorValidateResponses');

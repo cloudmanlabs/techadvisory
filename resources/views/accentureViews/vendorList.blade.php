@@ -94,10 +94,10 @@
                                             <div style="float: left; max-width: 40%;">
                                                 <h4>{{$solution->name}}</h4>
                                             </div>
-                                            {{-- <div style="float: right; text-align: right; width: 15%;">
+                                            <div style="float: right; text-align: right; width: 15%;">
                                                 <a class="btn btn-primary btn-lg btn-icon-text"
-                                                href="#">View</a>
-                                            </div> --}}
+                                                href="{{route('accenture.vendorSolution', ['solution' => $solution])}}">View</a>
+                                            </div>
                                             <div style="float: right; width: 20%; margin-right: 10%;">
                                                 <h5>{{$solution->vendor->name}}</h5>
                                             </div>

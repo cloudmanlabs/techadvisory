@@ -4,8 +4,11 @@ namespace Tests\Feature\Views\Accenture;
 
 use App\User;
 use App\VendorSolution;
+use App\VendorSolutionQuestion;
+use App\VendorSolutionQuestionResponse;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Support\Facades\Log;
 use Tests\TestCase;
 
 class VendorListTest extends TestCase
@@ -69,8 +72,6 @@ class VendorListTest extends TestCase
         ]);
         $vendor->vendorSolutions()->save($solution2);
 
-            $this->withoutExceptionHandling();
-
         $response = $this
             ->actingAs($accenture)
             ->get('accenture/vendorList');
@@ -78,5 +79,55 @@ class VendorListTest extends TestCase
         $response->assertStatus(200)
                     ->assertSee('First Solution')
                     ->assertSee('Second SOlution');
+    }
+
+    public function testCanViewSolutionAnswers()
+    {
+        $accenture = factory(User::class)->states('accenture')->create();
+
+        $question = factory(VendorSolutionQuestion::class)->create([
+            'type' => 'text'
+        ]);
+        factory(User::class)
+            ->states(['vendor', 'finishedSetup'])
+            ->create()
+            ->each(function ($user) {
+                $user->vendorSolutions()->save(factory(VendorSolution::class)->make());
+            });
+        $vendor = User::vendorUsers()->first();
+        $solution = $vendor->vendorSolutions->first();
+        $qResponse = $solution->questions->first();
+        $qResponse->response = 'hello';
+        $qResponse->save();
+
+        $response = $this
+            ->actingAs($accenture)
+            ->get('accenture/vendorSolution/' . $solution->id);
+
+        $response->assertStatus(200)
+            ->assertSee('hello');
+    }
+
+    public function testCanEditSolution()
+    {
+        $accenture = factory(User::class)->states('accenture')->create();
+
+        $question = factory(VendorSolutionQuestion::class)->create([
+            'type' => 'text'
+        ]);
+        factory(User::class)
+            ->states(['vendor', 'finishedSetup'])
+            ->create()
+            ->each(function ($user) {
+                $user->vendorSolutions()->save(factory(VendorSolution::class)->make());
+            });
+        $vendor = User::vendorUsers()->first();
+        $solution = $vendor->vendorSolutions->first();
+
+        $response = $this
+            ->actingAs($accenture)
+            ->get('accenture/vendorSolution/edit/' . $solution->id);
+
+        $response->assertStatus(200);
     }
 }

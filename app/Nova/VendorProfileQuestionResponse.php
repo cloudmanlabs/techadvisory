@@ -33,7 +33,7 @@ class VendorProfileQuestionResponse extends Resource
      *
      * @var string
      */
-    public static $title = 'id';
+    public static $title = 'response';
 
     /**
      * The columns that should be searched.

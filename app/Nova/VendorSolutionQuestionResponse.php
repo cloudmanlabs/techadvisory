@@ -2,7 +2,6 @@
 
 namespace App\Nova;
 
-use App\Project;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Laravel\Nova\Fields\BelongsTo;
@@ -17,7 +16,7 @@ use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Panel;
 
-class SizingQuestionResponse extends Resource
+class VendorSolutionQuestionResponse extends Resource
 {
     public static $displayInNavigation = false;
 
@@ -26,7 +25,7 @@ class SizingQuestionResponse extends Resource
      *
      * @var string
      */
-    public static $model = 'App\SizingQuestionResponse';
+    public static $model = 'App\VendorSolutionQuestionResponse';
 
     /**
      * The single value that should be used to represent the resource when being displayed.
@@ -41,7 +40,7 @@ class SizingQuestionResponse extends Resource
      * @var array
      */
     public static $search = [
-        'id', 'response'
+        'response',
     ];
 
     /**
@@ -53,23 +52,12 @@ class SizingQuestionResponse extends Resource
     public function fields(Request $request)
     {
         return [
-            BelongsTo::make('Project', 'project', 'App\Nova\Project'),
-            BelongsTo::make('Question', 'original', 'App\Nova\SizingQuestion'),
+            BelongsTo::make('Solution', 'solution', 'App\Nova\VendorSolution'),
+            BelongsTo::make('Question', 'original', 'App\Nova\VendorProfileQuestion'),
 
             Text::make('Response', 'response')
                 ->hideWhenCreating(),
-            Boolean::make('Should show', 'shouldShow'),
         ];
-    }
-
-    public static function relatableSizingQuestions(NovaRequest $request, $query)
-    {
-        if ($request->viaResource) {
-            $selectedAgendaItems = Project::find($request->viaResourceId)->sizingQuestions()->pluck('question_id');
-            return $query->whereNotIn('id', $selectedAgendaItems);
-        } else {
-            return $query;
-        }
     }
 
     /**
