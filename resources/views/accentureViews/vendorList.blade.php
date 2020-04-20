@@ -88,24 +88,26 @@
                                 <p class="welcome_text extra-top-15px">In this list you can see the list of solutions.</p>
                                 <br>
                                 <br>
-                                <div class="card" style="margin-bottom: 30px;">
-                                    <div class="card-body">
-                                        <div style="float: left; max-width: 40%;">
-                                            <h4>Solution Name</h4>
-                                        </div>
-                                        {{-- <div style="float: right; text-align: right; width: 15%;">
-                                            <a class="btn btn-primary btn-lg btn-icon-text"
+                                @foreach ($vendorSolutions as $solution)
+                                    <div class="card" style="margin-bottom: 30px;">
+                                        <div class="card-body">
+                                            <div style="float: left; max-width: 40%;">
+                                                <h4>{{$solution->name}}</h4>
+                                            </div>
+                                            {{-- <div style="float: right; text-align: right; width: 15%;">
+                                                <a class="btn btn-primary btn-lg btn-icon-text"
                                                 href="#">View</a>
-                                        </div> --}}
-                                        <div style="float: right; width: 20%; margin-right: 10%;">
-                                            <h5>Client name</h5>
-                                        </div>
-                                        <div style="float: right; width: 10%; margin-right: 10%;">
-                                            {{-- TODO Change image --}}
-                                            <img alt="profile" src="@profilePic" style="height: 20px">
+                                            </div> --}}
+                                            <div style="float: right; width: 20%; margin-right: 10%;">
+                                                <h5>{{$solution->vendor->name}}</h5>
+                                            </div>
+                                            <div style="float: right; width: 10%; margin-right: 10%;">
+                                                {{-- TODO Change image --}}
+                                                <img alt="profile" src="@profilePic" style="height: 20px">
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
+                                @endforeach
                             </div>
                         </div>
                     </div>

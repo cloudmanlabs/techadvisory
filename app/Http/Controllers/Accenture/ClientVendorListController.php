@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Accenture;
 
 use App\Http\Controllers\Controller;
 use App\User;
+use App\VendorSolution;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
@@ -65,7 +66,8 @@ class ClientVendorListController extends Controller
     public function vendorList()
     {
         return view('accentureViews.vendorList', [
-            'vendors' => User::vendorUsers()->get()
+            'vendors' => User::vendorUsers()->get(),
+            'vendorSolutions' => VendorSolution::all()
         ]);
     }
 

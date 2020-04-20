@@ -52,6 +52,11 @@ class User extends Authenticatable
         return $this->hasMany(Project::class, 'client_id');
     }
 
+    public function vendorSolutions()
+    {
+        return $this->hasMany(VendorSolution::class, 'vendor_id');
+    }
+
     public function clientProfileQuestions()
     {
         return $this->hasMany(ClientProfileQuestionResponse::class, 'client_id');
