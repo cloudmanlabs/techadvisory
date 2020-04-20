@@ -41,17 +41,17 @@ Route::
             Route::post('/newProjectSetUp/setStep4Finished', 'ProjectController@setStep4Finished');
 
 
+            Route::post('createClient', 'ClientVendorListController@createClientPost')
+                ->name('createClient');
             Route::get('clientList', 'ClientVendorListController@clientList')
                 ->name('clientList');
-            Route::redirect('createNewClient', '/accenture/clientList') // TODO Here we should create the new client and stuff
-                ->name('createNewClient');
             Route::get('clientProfileEdit/{client}', 'ClientVendorListController@clientProfileEdit')
                 ->name('clientProfileEdit');
             Route::get('clientProfileView/{client}', 'ClientVendorListController@clientProfileView')
                 ->name('clientProfileView');
 
-            Route::redirect('createNewVendor', '/accenture/vendorHomeProfileCreate') // TODO Here we should create the new vendor and stuff
-                ->name('createNewVendor');
+            Route::post('createVendor', 'ClientVendorListController@createVendorPost')
+                ->name('createVendor');
             Route::get('vendorList', 'ClientVendorListController@vendorList')
                 ->name('vendorList');
             Route::get('vendorProfileEdit/{vendor}', 'ClientVendorListController@vendorProfileEdit')

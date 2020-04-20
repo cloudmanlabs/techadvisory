@@ -55,9 +55,15 @@
                                 <br>
                                 <br>
 
-                                <a class="btn btn-primary btn-lg btn-icon-text" href="{{route('accenture.createNewClient')}}">Create and
-                                    do
-                                    initial set-up <i class="btn-icon-prepend" data-feather="arrow-right"></i></a>
+                                <a class="btn btn-primary btn-lg btn-icon-text" href="{{ route('accenture.createClient') }}"
+                                    onclick="event.preventDefault(); document.getElementById('create-project-form').submit();">
+                                    Create and do
+                                    initial set-up
+                                    <i class="btn-icon-prepend" data-feather="arrow-right"></i>
+                                </a>
+                                <form id="create-project-form" action="{{ route('accenture.createClient') }}" method="POST" style="display: none;">
+                                    @csrf
+                                </form>
                             </div>
                         </div>
                     </div>

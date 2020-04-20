@@ -65,4 +65,18 @@ class ClientListTest extends TestCase
         $response->assertStatus(200)
             ->assertSee($client->name);
     }
+
+    public function testCanCreateClientWithPost()
+    {
+        $user = factory(User::class)->states('accenture')->create();
+
+        $this->assertCount(0, User::clientUsers()->get());
+
+        $response = $this->actingAs($user)
+                    ->post('accenture/createClient');
+
+        $response->assertRedirect();
+
+        $this->assertCount(1, User::clientUsers()->get());
+    }
 }

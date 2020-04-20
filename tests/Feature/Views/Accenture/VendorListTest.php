@@ -37,4 +37,18 @@ class VendorListTest extends TestCase
             ->assertSee($vendor1->name)
             ->assertSee($vendor2->name);
     }
+
+    public function testCanCreateVendorWithPost()
+    {
+        $user = factory(User::class)->states('accenture')->create();
+
+        $this->assertCount(0, User::vendorUsers()->get());
+
+        $response = $this->actingAs($user)
+            ->post('accenture/createVendor');
+
+        $response->assertRedirect();
+
+        $this->assertCount(1, User::vendorUsers()->get());
+    }
 }
