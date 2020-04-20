@@ -21,6 +21,7 @@ use App\Nova\SizingQuestionResponse;
 use App\Nova\Subpractice;
 use App\Nova\Vendor;
 use App\Nova\User;
+use App\Nova\VendorSolution;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Log;
 use Laravel\Nova\Cards\Help;
@@ -90,6 +91,8 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
             Practice::class,
             Subpractice::class,
             Project::class,
+
+            VendorSolution::class,
 
             GeneralInfoQuestion::class,
             GeneralInfoQuestionResponse::class,

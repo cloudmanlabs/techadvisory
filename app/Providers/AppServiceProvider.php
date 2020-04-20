@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use App\ClientProfileQuestion;
 use App\GeneralInfoQuestion;
+use App\Nova\VendorSolution;
 use App\Observers\ClientProfileQuestionObserver;
 use App\Observers\GeneralInfoQuestionObserver;
 use App\Observers\ProjectObserver;

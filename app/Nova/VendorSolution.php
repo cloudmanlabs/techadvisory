@@ -16,16 +16,20 @@ use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Panel;
-use Outhebox\NovaHiddenField\HiddenField;
 
-class Vendor extends Resource
+class VendorSolution extends Resource
 {
+    public static function label()
+    {
+        return 'Solutions';
+    }
+
     /**
      * The model the resource corresponds to.
      *
      * @var string
      */
-    public static $model = 'App\User';
+    public static $model = 'App\VendorSolution';
 
     /**
      * The single value that should be used to represent the resource when being displayed.
@@ -40,7 +44,7 @@ class Vendor extends Resource
      * @var array
      */
     public static $search = [
-        'id', 'name', 'email',
+        'id', 'name',
     ];
 
     /**
@@ -52,35 +56,15 @@ class Vendor extends Resource
     public function fields(Request $request)
     {
         return [
-            Text::make('Name')
-                ->sortable()
-                ->rules('required', 'max:255'),
+            // ID::make()->sortable(),
 
-            Text::make('Email')
-                ->sortable()
-                ->rules('required', 'email', 'max:254')
-                ->creationRules('unique:users,email')
-                ->updateRules('unique:users,email,{{resourceId}}'),
-
-            Password::make('Password')
-                ->onlyOnForms()
-                ->creationRules('required', 'string', 'min:8')
-                ->updateRules('nullable', 'string', 'min:8'),
-
-
-
-            // This sets the correct value for userType
-            HiddenField::make('userType')
-                ->hideFromIndex()
-                ->hideFromDetail()
-                ->default('vendor'),
-
-            HasMany::make('Profile Questions', 'vendorProfileQuestions', 'App\Nova\VendorProfileQuestionResponse'),
-            HasMany::make('Solutions', 'vendorSolutions', 'App\Nova\VendorSolution')
+            Text::make('Name', 'name')
+                ->required(),
+            BelongsTo::make('Vendor', 'vendor', '\App\Nova\User')
         ];
     }
 
-    public static function indexQuery(NovaRequest $request, $query)
+    public static function relatableUsers(NovaRequest $request, $query)
     {
         return $query->whereIn('userType', User::vendorTypes);
     }
