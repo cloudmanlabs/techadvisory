@@ -131,8 +131,14 @@
                     <div class="submenu">
                         <ul class="submenu-item">
                             <li class="category-heading">Solutions</li>
-                            <li class="nav-item"><a class="nav-link" href="{{route('vendor.solutionsHome')}}">View solutions</a></li>
-                            <li class="nav-item"><a class="nav-link" href="{{route('vendor.newSolutionSetUp')}}">Add new solution</a></li>
+                            <li class="nav-item"><a class="nav-link" href="{{route('vendor.solutions')}}">View solutions</a></li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{route('vendor.createSolution')}}"
+                                onclick="event.preventDefault(); document.getElementById('create-solution-form').submit();">Add new solution</a>
+                                <form id="create-solution-form" action="{{ route('vendor.createSolution') }}" method="POST" style="display: none;">
+                                    @csrf
+                                </form>
+                            </li>
                         </ul>
                     </div>
                 </li>

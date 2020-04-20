@@ -27,13 +27,15 @@
 
 
                                 <div class="form-group">
-                                    <label for="exampleInputText1">Solution name</label> <input class="form-control"
-                                        id="exampleInputText1" placeholder="Enter Name" type="text">
+                                    <label for="exampleInputText1">Solution name</label>
+                                    <input class="form-control"
+                                    id="exampleInputText1" value="{{$solution->name}}" type="text">
                                 </div>
 
                                 <div class="form-group">
-                                    <label for="exampleInputText1">Vendor solution contact email</label> <input
-                                        class="form-control" id="exampleInputText1" placeholder="Enter Contact"
+                                    <label for="exampleInputText1">Vendor solution contact email</label>
+                                    <input
+                                        class="form-control" id="exampleInputText1"
                                         type="text">
                                 </div>
 
@@ -163,7 +165,7 @@
 
                                 <div style="float: right; margin-top: 20px;">
                                     <a class="btn btn-primary btn-lg btn-icon-text"
-                                        href="{{route('vendor.solutionsHome')}}"><i class="btn-icon-prepend"
+                                        href="{{route('vendor.solutions')}}"><i class="btn-icon-prepend"
                                             data-feather="check-square"></i>Save</a>
                                 </div>
                             </div>

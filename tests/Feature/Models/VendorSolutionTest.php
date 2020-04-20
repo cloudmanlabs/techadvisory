@@ -59,8 +59,22 @@ class VendorSolutionTest extends TestCase
         ]);
         $vendor->vendorSolutions()->save($solution);
 
-
         $solution->refresh();
         $this->assertNotNull($solution->vendor);
+    }
+
+    public function testCanCreateSolutionWithPost()
+    {
+        $vendor = factory(User::class)->states(['vendor', 'finishedSetup'])->create();
+
+        $this->assertCount(0, VendorSolution::all());
+
+        $response = $this
+            ->actingAs($vendor)
+            ->post('/vendors/createSolution');
+
+        $this->assertCount(1, VendorSolution::all());
+
+        $response->assertRedirect('/vendors/newSolutionSetUp/'. VendorSolution::first()->id);
     }
 }

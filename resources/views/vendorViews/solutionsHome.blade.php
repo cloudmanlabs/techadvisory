@@ -25,17 +25,19 @@
                                 <p class="welcome_text extra-top-15px">This are your existing solutions.</p>
                                 <br>
                                 <br>
-                                <div class="card" style="margin-bottom: 30px;">
-                                    <div class="card-body">
-                                        <div style="float: left; max-width: 40%;">
-                                            <h4>Redistribution of processes at Nestlé</h4>
-                                            <h6>Solution type</h6>
-                                        </div>
-                                        <div style="float: right; text-align: right; width: 17%;">
-                                            <a class="btn btn-primary btn-lg btn-icon-text" href="{{route('vendor.solutionEdit')}}">View/Edit <i class="btn-icon-prepend" data-feather="arrow-right"></i></a>
+                                @foreach ($solutions as $solution)
+                                    <div class="card" style="margin-bottom: 30px;">
+                                        <div class="card-body">
+                                            <div style="float: left; max-width: 40%;">
+                                                <h4>{{$solution->name}}</h4>
+                                                <h6>Solution type</h6>
+                                            </div>
+                                            <div style="float: right; text-align: right; width: 17%;">
+                                                <a class="btn btn-primary btn-lg btn-icon-text" href="{{route('vendor.solutionEdit', ['solution' => $solution])}}">View/Edit <i class="btn-icon-prepend" data-feather="arrow-right"></i></a>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
+                                @endforeach
                             </div>
                         </div>
                     </div>
