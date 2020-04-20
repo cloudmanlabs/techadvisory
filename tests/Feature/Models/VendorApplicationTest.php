@@ -68,4 +68,25 @@ class VendorApplicationTest extends TestCase
         $this->assertNull($accApplication);
         $this->assertNull($clientApplication);
     }
+
+    public function testAVendorThatHasntFinishedSetupCanNotApply()
+    {
+        $project = factory(Project::class)->create();
+        $vendor = factory(User::class)->states(['vendor'])->create();
+
+        $this->assertCount(0, VendorApplication::all());
+
+        $application = $vendor->applyToProject($project);
+        $this->assertCount(0, VendorApplication::all());
+        $this->assertNull($application);
+    }
+
+    public function testCanGetTheProjectsAVendorHasAppliedTo()
+    {
+        $project = factory(Project::class)->create();
+        $vendor = factory(User::class)->states(['vendor', 'finishedSetup'])->create();
+        $application = $vendor->applyToProject($project);
+
+
+    }
 }
