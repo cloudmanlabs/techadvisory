@@ -4,7 +4,9 @@ namespace App\Http\Controllers\Vendor;
 
 use App\Http\Controllers\Controller;
 use App\VendorSolution;
+use App\VendorSolutionQuestionResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class SolutionController extends Controller
 {
@@ -37,6 +39,37 @@ class SolutionController extends Controller
     {
         return view('vendorViews.solutionEdit', [
             'solution' => $solution
+        ]);
+    }
+
+    public function changeResponse(Request $request)
+    {
+        $request->validate([
+            'changing' => 'required|numeric',
+            'value' => 'required',
+        ]);
+
+        $answer = VendorSolutionQuestionResponse::find($request->changing);
+        if ($answer == null) {
+            abort(404);
+        }
+
+        Log::debug($answer->solution->vendor);
+        Log::debug(auth()->id());
+        if ($answer->solution->vendor->id != auth()->id()) {
+            abort(403);
+        }
+
+        if ($answer->original->type == 'boolean') {
+            $answer->response = $request->value === 'yes';
+        } else {
+            $answer->response = $request->value;
+        }
+        $answer->save();
+
+        return response()->json([
+            'status' => 200,
+            'message' => 'nma'
         ]);
     }
 }

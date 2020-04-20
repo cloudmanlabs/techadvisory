@@ -100,6 +100,8 @@ class VendorProfileQuestionsTest extends TestCase
         $this->assertNull($response->response);
         $response->response = 'hello';
         $response->save();
+
+        $response->refresh();
         $this->assertNotNull($response->response);
 
         // Change the question

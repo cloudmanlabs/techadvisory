@@ -12,4 +12,9 @@ class VendorSolution extends Model
     {
         return $this->belongsTo(User::class, 'vendor_id');
     }
+
+    public function questions()
+    {
+        return $this->hasMany(VendorSolutionQuestionResponse::class, 'solution_id');
+    }
 }

@@ -25,7 +25,7 @@ class NewSolutionSetUpTest extends TestCase
 
         $response = $this
             ->actingAs($vendor)
-            ->get('/vendors/newSolutionSetUp/' . $solution->id);
+            ->get('/vendors/solution/setup/' . $solution->id);
 
         $response->assertStatus(200)
             ->assertSee($solution->name)

@@ -25,7 +25,7 @@ class SolutionsEditTest extends TestCase
 
         $response = $this
             ->actingAs($vendor)
-            ->get('/vendors/solutionEdit/'. $solution->id);
+            ->get('/vendors/solution/edit/'. $solution->id);
 
         $response->assertStatus(200)
                     ->assertSee($solution->name);

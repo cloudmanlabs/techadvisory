@@ -71,10 +71,10 @@ class VendorSolutionTest extends TestCase
 
         $response = $this
             ->actingAs($vendor)
-            ->post('/vendors/createSolution');
+            ->post('/vendors/solution/create');
 
         $this->assertCount(1, VendorSolution::all());
 
-        $response->assertRedirect('/vendors/newSolutionSetUp/'. VendorSolution::first()->id);
+        $response->assertRedirect('/vendors/solution/setup/'. VendorSolution::first()->id);
     }
 }

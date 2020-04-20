@@ -12,10 +12,8 @@ use Illuminate\Database\Eloquent\Model;
  *
  * @property string $presetOption
  * @property string $options
- *
- * @property string $page
  */
-class VendorProfileQuestion extends Question
+class VendorSolutionQuestion extends Question
 {
 
 }
