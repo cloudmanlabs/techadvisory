@@ -52,14 +52,20 @@ class User extends Authenticatable
         return $this->hasMany(Project::class, 'client_id');
     }
 
-    public function vendorSolutions()
-    {
-        return $this->hasMany(VendorSolution::class, 'vendor_id');
-    }
 
     public function clientProfileQuestions()
     {
         return $this->hasMany(ClientProfileQuestionResponse::class, 'client_id');
+    }
+
+    public function vendorApplications()
+    {
+        return $this->hasMany(VendorApplication::class, 'vendor_id');
+    }
+
+    public function vendorSolutions()
+    {
+        return $this->hasMany(VendorSolution::class, 'vendor_id');
     }
 
     public function vendorProfileQuestions()
@@ -70,6 +76,33 @@ class User extends Authenticatable
 
 
 
+
+    /**
+     * Applies to project or returns the existing application
+     *
+     * @param Project $project Project to apply to
+     * @return VendorApplication|null
+     */
+    public function applyToProject(Project $project) : ?VendorApplication
+    {
+        if(!$this->isVendor()) return null; // Only vendors can apply
+
+        $existingApplication = VendorApplication::where([
+            'project_id' => $project->id,
+            'vendor_id' => $this->id
+        ])->first();
+        if($existingApplication){
+            return $existingApplication;
+        }
+
+        $application = new VendorApplication([
+            'project_id' => $project->id,
+            'vendor_id' => $this->id
+        ]);
+        $application->save();
+
+        return $application;
+    }
 
 
 
