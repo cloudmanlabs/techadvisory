@@ -76,7 +76,9 @@ class Vendor extends Resource
                 ->default('vendor'),
 
             HasMany::make('Profile Questions', 'vendorProfileQuestions', 'App\Nova\VendorProfileQuestionResponse'),
-            HasMany::make('Solutions', 'vendorSolutions', 'App\Nova\VendorSolution')
+            HasMany::make('Solutions', 'vendorSolutions', 'App\Nova\VendorSolution'),
+
+            HasMany::make('Applied projects', 'vendorAppliedProjects', 'App\Nova\Project'),
         ];
     }
 

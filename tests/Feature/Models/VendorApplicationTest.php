@@ -7,6 +7,7 @@ use App\User;
 use App\VendorApplication;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Support\Facades\Log;
 use Tests\TestCase;
 
 class VendorApplicationTest extends TestCase
@@ -85,8 +86,23 @@ class VendorApplicationTest extends TestCase
     {
         $project = factory(Project::class)->create();
         $vendor = factory(User::class)->states(['vendor', 'finishedSetup'])->create();
-        $application = $vendor->applyToProject($project);
 
+        $this->assertCount(0, $vendor->vendorAppliedProjects()->get());
 
+        $vendor->applyToProject($project);
+
+        $this->assertCount(1, $vendor->vendorAppliedProjects()->get());
+    }
+
+    public function testCanGetThevendorsAppliedToAProject()
+    {
+        $project = factory(Project::class)->create();
+        $vendor = factory(User::class)->states(['vendor', 'finishedSetup'])->create();
+
+        $this->assertCount(0, $project->vendorsApplied()->get());
+
+        $vendor->applyToProject($project);
+
+        $this->assertCount(1, $project->vendorsApplied()->get());
     }
 }

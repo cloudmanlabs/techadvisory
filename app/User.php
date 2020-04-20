@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Log;
 
 /**
  * @property string $userType Should be one of [admin, accenture, accentureAdmin, client, vendor]
+ * @property string $hasFinishedSetup
  */
 class User extends Authenticatable
 {
@@ -58,11 +59,6 @@ class User extends Authenticatable
         return $this->hasMany(ClientProfileQuestionResponse::class, 'client_id');
     }
 
-    public function vendorApplications()
-    {
-        return $this->hasMany(VendorApplication::class, 'vendor_id');
-    }
-
     public function vendorSolutions()
     {
         return $this->hasMany(VendorSolution::class, 'vendor_id');
@@ -72,6 +68,20 @@ class User extends Authenticatable
     {
         return $this->hasMany(VendorProfileQuestionResponse::class, 'vendor_id');
     }
+
+    public function vendorApplications()
+    {
+        return $this->hasMany(VendorApplication::class, 'vendor_id');
+    }
+
+    public function vendorAppliedProjects()
+    {
+        return Project::whereHas('vendorApplications', function (Builder $query) {
+            $query->where('vendor_id', $this->id);
+        });
+    }
+
+
 
 
 
@@ -85,7 +95,9 @@ class User extends Authenticatable
      */
     public function applyToProject(Project $project) : ?VendorApplication
     {
-        if(!$this->isVendor()) return null; // Only vendors can apply
+        // Only vendors who have finished setup can apply
+        if(!$this->isVendor()) return null;
+        if(!$this->hasFinishedSetup) return null;
 
         $existingApplication = VendorApplication::where([
             'project_id' => $project->id,

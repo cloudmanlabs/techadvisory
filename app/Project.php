@@ -100,6 +100,21 @@ class Project extends Model
         return $this->hasMany(SizingQuestionResponse::class, 'project_id');
     }
 
+    public function vendorApplications()
+    {
+        return $this->hasMany(VendorApplication::class, 'project_id');
+    }
+
+    public function vendorsApplied()
+    {
+        return User::vendorUsers()
+                ->whereHas('vendorApplications', function (Builder $query) {
+                    $query->where('project_id', $this->id);
+                });
+    }
+
+
+
 
 
 

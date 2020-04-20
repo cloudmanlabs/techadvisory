@@ -9,6 +9,16 @@ class UserPolicy
 {
     use HandlesAuthorization;
 
+    public function addProject(User $auth, User $user)
+    {
+        return $user->isClient();
+    }
+
+
+
+
+
+
     public function viewAny(User $user)
     {
         return true;

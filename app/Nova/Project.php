@@ -89,7 +89,7 @@ class Project extends Resource
                 ->exceptOnForms()
                 ->hideFromIndex(),
 
-            BelongsTo::make('Client', 'client', 'App\Nova\User')
+            BelongsTo::make('Client', 'client', 'App\Nova\Client')
                 ->sortable(),
             BelongsTo::make('Practice', 'practice', 'App\Nova\Practice')
                 ->sortable(),
@@ -97,6 +97,8 @@ class Project extends Resource
             HasMany::make('General Info Questions', 'generalInfoQuestions', 'App\Nova\GeneralInfoQuestionResponse'),
             HasMany::make('Sizing Questions', 'sizingQuestions', 'App\Nova\SizingQuestionResponse'),
             BelongsToMany::make('Subpractices', 'subpractices', 'App\Nova\Subpractice'),
+
+            HasMany::make('Applied vendors', 'vendorsApplied', 'App\Nova\Vendor'),
         ];
     }
 
