@@ -103,4 +103,17 @@ class VendorSolutionTest extends TestCase
         $solution->refresh();
         $this->assertEquals('new', $solution->name);
     }
+
+    public function testSolutionHasAFolder()
+    {
+        factory(User::class)
+            ->states(['vendor', 'finishedSetup'])
+            ->create()
+            ->each(function ($user) {
+                $user->vendorSolutions()->save(factory(VendorSolution::class)->make());
+            });
+
+        $solution = VendorSolution::first();
+        $this->assertNotNull($solution->folder);
+    }
 }

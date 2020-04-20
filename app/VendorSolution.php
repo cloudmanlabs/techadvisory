@@ -17,4 +17,9 @@ class VendorSolution extends Model
     {
         return $this->hasMany(VendorSolutionQuestionResponse::class, 'solution_id');
     }
+
+    public function folder()
+    {
+        return $this->morphOne(Folder::class, 'folderable');
+    }
 }

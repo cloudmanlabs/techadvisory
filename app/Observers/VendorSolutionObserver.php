@@ -2,6 +2,7 @@
 
 namespace App\Observers;
 
+use App\Folder;
 use App\VendorSolution;
 use App\VendorSolutionQuestion;
 use App\VendorSolutionQuestionResponse;
@@ -17,5 +18,9 @@ class VendorSolutionObserver
             ]);
             $response->save();
         }
+
+
+        $folder = Folder::createNewRandomFolder();
+        $solution->folder()->save($folder);
     }
 }

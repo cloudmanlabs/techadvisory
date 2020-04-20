@@ -131,14 +131,7 @@
                                     @endswitch
                                 @endforeach
 
-                                <div class="form-group">
-                                    <label for="exampleInputText1">Upload any extra files</label>
-
-                                    <form action="/file-upload" class="dropzone" id="exampleDropzone"
-                                        name="exampleDropzone">
-                                    </form>
-                                </div>
-
+                                <x-folderFileUploader :folder="$solution->folder" />
 
                                 <div style="float: right; margin-top: 20px;">
                                     <a class="btn btn-primary btn-lg btn-icon-text"
