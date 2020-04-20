@@ -30,132 +30,108 @@
 
 
                                 <div class="form-group">
-                                    <label for="exampleInputText1">Solution name</label>
+                                    <label for="solutionName">Solution name</label>
                                     <input class="form-control"
-                                        id="exampleInputText1" value="{{$solution->name}}" type="text">
+                                        id="solutionName" value="{{$solution->name}}" type="text">
                                 </div>
 
-                                <div class="form-group">
-                                    <label for="exampleInputText1">Vendor solution contact email</label>
-                                    <input
-                                        class="form-control" id="exampleInputText1" value="{{$solution->vendor->email}}"
-                                        type="text">
-                                </div>
+                                @foreach ($questions as $question)
+                                    @switch($question->original->type)
+                                        @case('text')
+                                            <div class="form-group questionDiv solutionQuestion" data-practice="{{$question->original->practice->id ?? ''}}">
+                                                <label>{{$question->original->label}}*</label>
+                                                <input
+                                                    required
+                                                    class="form-control"
+                                                    type="text"
+                                                    data-changing="{{$question->id}}"
+                                                    value="{{$question->response}}"
+                                                    placeholder="{{$question->original->placeholder}}">
+                                            </div>
+                                            @break
+                                        @case('textarea')
+                                            <div class="form-group questionDiv solutionQuestion" data-practice="{{$question->original->practice->id ?? ''}}">
+                                                <label>{{$question->original->label}}*</label>
+                                                <textarea
+                                                    required
+                                                    rows="14"
+                                                    class="form-control"
+                                                    data-changing="{{$question->id}}"
+                                                >{{$question->response}}</textarea>
+                                            </div>
+                                            @break
+                                        @case('selectSingle')
+                                            <div class="form-group questionDiv solutionQuestion" data-practice="{{$question->original->practice->id ?? ''}}">
+                                                <label>{{$question->original->label}}*</label>
+                                                <select
+                                                    required
+                                                    class="form-control"
+                                                    data-changing="{{$question->id}}"
+                                                    >
+                                                    <option @if($question->response == '') selected @endif="">{{$question->original->placeholder}}</option>
 
-                                <div class="form-group">
-                                    <label for="exampleFormControlTextarea1">Vendor solution contact role</label>
-                                    <textarea class="form-control" id="exampleFormControlTextarea1" rows="5"></textarea>
-                                </div>
+                                                    @if ($question->original->presetOption == 'countries')
+                                                        <x-options.countries :selected="[$question->response]" />
+                                                    @else
+                                                        @foreach ($question->original->optionList() as $option)
+                                                        <option value="{{$option}}" @if($question->response == $option) selected @endif>{{$option}}</option>
+                                                        @endforeach
+                                                    @endif
+                                                </select>
+                                            </div>
+                                            @break
+                                        @case('selectMultiple')
+                                            <div class="form-group questionDiv solutionQuestion" data-practice="{{$question->original->practice->id ?? ''}}">
+                                                <label>{{$question->original->label}}*</label>
+                                                <select class="js-example-basic-multiple w-100"
+                                                    required
+                                                    data-changing="{{$question->id}}"
+                                                    multiple="multiple"
+                                                    >
+                                                    @php
+                                                    $selectedOptions = json_decode($question->response ?? '[]');
+                                                    @endphp
 
-                                <div class="form-group">
-                                    <label for="exampleInputText1">Vendor solution contact phone</label> <input
-                                        class="form-control" id="exampleInputText1" placeholder="Enter Phone number"
-                                        type="text">
-                                </div>
+                                                    @if ($question->original->presetOption == 'countries')
+                                                        <x-options.countries :selected="$selectedOptions" />
+                                                    @else
+                                                        @foreach ($question->original->optionList() as $option)
+                                                        <option value="{{$option}}" {{in_array($option, $selectedOptions) ? 'selected' : ''}}>{{$option}}</option>
+                                                        @endforeach
+                                                    @endif
+                                                </select>
+                                            </div>
+                                            @break
+                                        @case('date')
+                                            <div class="questionDiv solutionQuestion" data-practice="{{$question->original->practice->id ?? ''}}">
+                                                <label>{{$question->original->label}}*</label>
+                                                <div class="input-group date datepicker" data-initialValue="{{$question->response}}">
+                                                    <input
+                                                        required
+                                                        data-changing="{{$question->id}}"
+                                                        value="{{$question->response}}"
+                                                        type="text"
+                                                        class="form-control">
+                                                    <span class="input-group-addon"><i data-feather="calendar"></i></span>
+                                                </div>
+                                            </div>
+                                            @break
+                                        @case('number')
+                                            <div class="form-group questionDiv solutionQuestion" data-practice="{{$question->original->practice->id ?? ''}}">
+                                                <label>{{$question->original->label}}*</label>
+                                                <input
+                                                    required
+                                                    class="form-control"
+                                                    type="number"
+                                                    data-changing="{{$question->id}}"
+                                                    value="{{$question->response}}"
+                                                    placeholder="{{$question->original->placeholder}}">
+                                            </div>
+                                            @break
+                                        @default
 
-                                <div class="form-group">
-                                    <label for="exampleFormControlTextarea1">Provide high-level description of your
-                                        solution and vision</label>
-                                    <textarea class="form-control" id="exampleFormControlTextarea1" rows="7"></textarea>
-                                </div>
-
-                                <div class="form-group">
-                                    <label for="exampleFormControlTextarea1">Describe core modules of your solution and
-                                        third party applications that complement your offering (ex: Maps
-                                        provider)</label>
-                                    <textarea class="form-control" id="exampleFormControlTextarea1"
-                                        rows="12"></textarea>
-                                </div>
-
-                                <div class="form-group">
-                                    <label for="exampleFormControlSelect1">SC Capabilities</label>
-                                    <select class="js-example-basic-multiple w-100" multiple="multiple" required>
-                                        <option>Sourcing</option>
-                                        <option>Planning</option>
-                                        <option>Manufacturing</option>
-                                        <option>Warehousing</option>
-                                        <option>Transport</option>
-                                    </select>
-                                </div>
-
-                                <div class="form-group">
-                                    <label for="exampleFormControlSelect1">Integration method</label>
-                                    <select class="js-example-basic-multiple w-100" multiple="multiple" required>
-                                        <option>EDI</option>
-                                        <option>API</option>
-                                        <option>Web Services</option>
-                                        <option>Others</option>
-                                    </select>
-                                </div>
-
-                                <div class="form-group">
-                                    <label for="exampleFormControlSelect1">TMS Capabilities</label>
-                                    <select class="js-example-basic-multiple w-100" multiple="multiple" required>
-                                        <option>Logistics Procurement</option>
-                                        <option>Tactical Planning</option>
-                                        <option>Order Management</option>
-                                        <option>Transport Planning</option>
-                                        <option>Tendering & Spot buying</option>
-                                        <option>Execution & Visbility</option>
-                                        <option>Document management</option>
-                                        <option>Trade complaince</option>
-                                        <option>FBA</option>
-                                        <option>Reporting and Analytics </option>
-                                    </select>
-                                </div>
-
-                                <div class="form-group">
-                                    <label for="exampleFormControlSelect1">Transport Flows</label>
-                                    <select class="js-example-basic-multiple w-100" multiple="multiple" required>
-                                        <option>International</option>
-                                        <option>Domestic</option>
-                                        <option>Last Mille</option>
-                                    </select>
-                                </div>
-
-                                <div class="form-group">
-                                    <label for="exampleFormControlSelect1">Transport Mode</label>
-                                    <select class="js-example-basic-multiple w-100" multiple="multiple" required>
-                                        <option>Road</option>
-                                        <option>Ocean</option>
-                                        <option>Train</option>
-                                        <option>Air</option>
-                                        <option>Intermodal</option>
-                                    </select>
-                                </div>
-
-                                <div class="form-group">
-                                    <label for="exampleFormControlSelect1">Transport Type</label>
-                                    <select class="js-example-basic-multiple w-100" multiple="multiple" required>
-                                        <option>FTL</option>
-                                        <option>LTL</option>
-                                        <option>Parcel</option>
-                                    </select>
-                                </div>
-
-
-                                <div class="form-group">
-                                    <label for="exampleFormControlSelect1">Digital enablers</label>
-                                    <select class="js-example-basic-multiple w-100" multiple="multiple" required>
-                                        <option>Internet of things</option>
-                                        <option>Analitics & Big data</option>
-                                        <option>Cloud</option>
-                                        <option>Automation</option>
-                                        <option>Artificial Intelligence</option>
-                                        <option>Machine learning</option>
-                                        <option>Mobility</option>
-                                        <option>Stakeholders comunity</option>
-                                        <option>Block chain</option>
-                                        <option>Others</option>
-                                    </select>
-                                </div>
-
-
-                                <div class="form-group">
-                                    <label for="exampleFormControlTextarea1">Link to your website</label>
-                                    <input class="form-control" id="exampleInputText1" placeholder="Enter Contact"
-                                        type="text">
-                                </div>
+                                    @endswitch
+                                @endforeach
 
                                 <div class="form-group">
                                     <label for="exampleInputText1">Upload any extra files</label>
@@ -165,12 +141,11 @@
                                     </form>
                                 </div>
 
-
                                 <div style="float: right; margin-top: 20px;">
                                     <a class="btn btn-primary btn-lg btn-icon-text"
                                         href="{{route('vendor.createSolution')}}"><i class="btn-icon-prepend"
                                             data-feather="check-square"></i> Save and add another</a>
-                                    <a class="btn btn-primary btn-lg btn-icon-text" href="{{route('vendor.home')}}"><i
+                                    <a class="btn btn-primary btn-lg btn-icon-text" href="{{route('vendor.solutions')}}"><i
                                             class="btn-icon-prepend" data-feather="check-square"></i> Save and go to
                                         Dashboard</a>
                                 </div>
@@ -183,4 +158,106 @@
             <x-footer />
         </div>
     </div>
+@endsection
+
+
+@section('head')
+@parent
+
+<style>
+    select.form-control {
+        color: #495057;
+    }
+
+    .select2-results__options .select2-results__option[aria-disabled=true] {
+        display: none;
+    }
+</style>
+@endsection
+
+
+@section('scripts')
+@parent
+<script>
+    jQuery.expr[':'].hasValue = function(el,index,match) {
+        return el.value != "";
+    };
+
+    /**
+     *  Returns false if any field is empty
+     */
+    function checkIfAllRequiredsAreFilled(){
+        let array = $('input,textarea,select').filter('[required]').toArray();
+		if(array.length == 0) return true;
+
+        return array.reduce((prev, current) => {
+            return !prev ? false : $(current).is(':hasValue')
+        }, true)
+    }
+
+    function checkIfAllRequiredsInThisPageAreFilled(){
+        let array = $('input,textarea,select').filter('[required]:visible').toArray();
+        if(array.length == 0) return true;
+
+        return array.reduce((prev, current) => {
+            return !prev ? false : $(current).is(':hasValue')
+        }, true)
+    }
+
+    function showSavedToast()
+    {
+        $.toast({
+            heading: 'Saved!',
+            showHideTransition: 'slide',
+            icon: 'success',
+            hideAfter: 1000,
+            position: 'bottom-right'
+        })
+    }
+
+    $(document).ready(function() {
+        $('#solutionName').change(function (e) {
+            var value = $(this).val();
+            $.post('/vendors/solution/changeName', {
+                solution_id: '{{$solution->id}}',
+                newName: value
+            })
+
+            showSavedToast();
+        });
+
+        $('.solutionQuestion input,.solutionQuestion textarea,.solutionQuestion select')
+            .filter(function(el) {
+                return $( this ).data('changing') !== undefined
+            })
+            .change(function (e) {
+                var value = $(this).val();
+                if($.isArray(value) && value.length == 0 && $(this).attr('multiple') !== undefined){
+                    value = '[]'
+                }
+
+                $.post('/vendors/solution/changeResponse', {
+                    changing: $(this).data('changing'),
+                    value: value
+                })
+
+                showSavedToast();
+            });
+
+        $(".js-example-basic-single").select2();
+        $(".js-example-basic-multiple").select2();
+
+        $('.datepicker').each(function(){
+            var date = new Date($(this).data('initialvalue'));
+
+            $(this).datepicker({
+                format: "mm/dd/yyyy",
+                todayHighlight: true,
+                autoclose: true
+            });
+            $(this).datepicker('setDate', date);
+        });
+
+    });
+</script>
 @endsection

@@ -77,4 +77,30 @@ class VendorSolutionTest extends TestCase
 
         $response->assertRedirect('/vendors/solution/setup/'. VendorSolution::first()->id);
     }
+
+    public function testVendorCanChangeSolutionName()
+    {
+        factory(User::class)
+            ->states(['vendor', 'finishedSetup'])
+            ->create()
+            ->each(function ($user) {
+                $user->vendorSolutions()->save(factory(VendorSolution::class)->make([
+                    'name' => 'oldName'
+                ]));
+            });
+        $vendor = User::vendorUsers()->first();
+        $solution = VendorSolution::first();
+
+        $response = $this
+            ->actingAs($vendor)
+            ->post('/vendors/solution/changeName',[
+                'solution_id' => $solution->id,
+                'newName' => 'new'
+            ]);
+
+        $response->assertOk();
+
+        $solution->refresh();
+        $this->assertEquals('new', $solution->name);
+    }
 }

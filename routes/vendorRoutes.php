@@ -58,16 +58,18 @@ Route::prefix('vendors')
                 Route::view('projectOrals', 'vendorViews.projectOrals')
                     ->name('projectOrals');
 
+                Route::get('solutions', 'SolutionController@solutionHome')
+                    ->name('solutions');
                 Route::post('solution/create', 'SolutionController@createSolution')
                     ->name('createSolution');
                 Route::get('solution/setup/{solution}', 'SolutionController@newSolutionSetUp')
                     ->name('newSolutionSetUp');
-                Route::get('solutions', 'SolutionController@solutionHome')
-                    ->name('solutions');
                 Route::get('solution/edit/{solution}', 'SolutionController@solutionEdit')
                     ->name('solutionEdit');
                 Route::post('solution/changeResponse', 'SolutionController@changeResponse')
                     ->name('profile.changeResponse');
+                Route::post('solution/changeName', 'SolutionController@changeSolutionName')
+                    ->name('profile.changeSolutionName');
             });
         });
     });

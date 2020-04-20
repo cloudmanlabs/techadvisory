@@ -28,7 +28,6 @@ class NewSolutionSetUpTest extends TestCase
             ->get('/vendors/solution/setup/' . $solution->id);
 
         $response->assertStatus(200)
-            ->assertSee($solution->name)
-            ->assertSee($vendor->email); // We default to the vendor email
+            ->assertSee($solution->name);
     }
 }

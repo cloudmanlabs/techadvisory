@@ -31,14 +31,37 @@ class SolutionController extends Controller
     public function newSolutionSetUp(VendorSolution $solution)
     {
         return view('vendorViews.newSolutionSetUp', [
-            'solution' => $solution
+            'solution' => $solution,
+            'questions' => $solution->questions
         ]);
     }
 
     public function solutionEdit(VendorSolution $solution)
     {
         return view('vendorViews.solutionEdit', [
-            'solution' => $solution
+            'solution' => $solution,
+            'questions' => $solution->questions
+        ]);
+    }
+
+    public function changeSolutionName(Request $request)
+    {
+        $request->validate([
+            'solution_id' => 'required|numeric',
+            'newName' => 'required|string'
+        ]);
+
+        $solution = VendorSolution::find($request->solution_id);
+        if ($solution == null) {
+            abort(404);
+        }
+
+        $solution->name = $request->newName;
+        $solution->save();
+
+        return \response()->json([
+            'status' => 200,
+            'message' => 'Success'
         ]);
     }
 
@@ -54,8 +77,6 @@ class SolutionController extends Controller
             abort(404);
         }
 
-        Log::debug($answer->solution->vendor);
-        Log::debug(auth()->id());
         if ($answer->solution->vendor->id != auth()->id()) {
             abort(403);
         }

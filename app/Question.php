@@ -19,6 +19,7 @@ abstract class Question extends Model
 
     const questionTypes = ['text', 'textarea', 'selectSingle', 'selectMultiple', 'date', 'number'];
     const presetOptions = [
+        'practices',
         'countries',
         'transportModes',
         'transportFlows',
@@ -31,6 +32,8 @@ abstract class Question extends Model
     public function optionList()
     {
         switch ($this->presetOption) {
+            case 'practices':
+                return Practice::all()->pluck('name')->toArray();
             case 'countries':
                 // Countries are dealt specially by the view
                 throw new Exception('This question has Countries as a Preset. You shouldn\'t be calling optionList on it');
