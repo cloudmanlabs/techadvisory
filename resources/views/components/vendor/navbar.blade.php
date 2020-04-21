@@ -29,8 +29,7 @@
                         <div aria-labelledby="profileDropdown" class="dropdown-menu">
                             <div class="dropdown-header d-flex flex-column align-items-center">
                                 <div class="info text-center">
-                                    {{-- TODO Add a prop for company name --}}
-                                    <p class="name font-weight-bold mb-0">Company Name</p>
+                                    <p class="name font-weight-bold mb-0">{{auth()->user()->name}}</p>
                                 </div>
                             </div>
 

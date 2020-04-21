@@ -28,7 +28,7 @@
                         <div aria-labelledby="profileDropdown" class="dropdown-menu">
                             <div class="dropdown-header d-flex flex-column align-items-center">
                                 <div class="info text-center">
-                                    <p class="name font-weight-bold mb-0">Accenture Name</p>
+                                    <p class="name font-weight-bold mb-0">{{auth()->user()->name}}</p>
                                 </div>
                             </div>
 
@@ -123,7 +123,6 @@
                     <div class="submenu">
                         <ul class="submenu-item">
                             <li class="category-heading">Benchmark & Analytics</li>
-                            {{-- TODO Change all this views --}}
                             <li class="nav-item">
                                 <a class="nav-link" href="{{route('accenture.analysisVendor')}}">
                                     By Vendor

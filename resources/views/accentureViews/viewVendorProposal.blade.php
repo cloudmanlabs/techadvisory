@@ -41,10 +41,7 @@
                                             href="#">Application by Vendix Solutions
                                             S.L.</a>
                                     </li>
-
-
                                 </ul>
-
                             </div>
                         </div>
                     </div>

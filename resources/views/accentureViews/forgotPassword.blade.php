@@ -32,7 +32,7 @@
 
                                         <div style="margin-top: 30px; float: right; margin-bottom: 20px;">
                                             <div class="mt-3">
-                                            {{-- TODO Change to actual login --}}
+                                            {{-- TODO Implement send forgot password email --}}
                                             <a class="btn btn-primary btn-lg btn-icon-text" href="{{route('accenture.login')}}">
                                                     <i class="btn-icon-prepend" data-feather="arrow-right"></i>
                                                     Send email

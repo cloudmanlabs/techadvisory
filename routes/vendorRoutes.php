@@ -47,8 +47,6 @@ Route::prefix('vendors')
                 Route::get('profile', 'ProfileController@profile')
                     ->name('profile');
 
-                Route::redirect('createNewApplication', '/vendor/newApplication') // TODO Here we should accept the  stuff and go to the newApplication to fill the data
-                    ->name('createNewApplication');
                 Route::get('previewProject/{project}', 'ProjectController@previewProject')
                     ->name('previewProject');
                 Route::view('newApplication', 'vendorViews.newApplication')

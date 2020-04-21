@@ -12,7 +12,6 @@
                     </div>
                 </div>
 
-                {{-- TODO Hide this on this screen while the project is in preparation phase --}}
                 <x-client.projectNavbar section="projectDiscovery" :project="$project" />
 
                 <br>
