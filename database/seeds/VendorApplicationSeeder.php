@@ -23,7 +23,7 @@ class VendorApplicationSeeder extends Seeder
                 case 0:
                     break;
                 case 1:
-                    $application->setStarted();
+                    $application->setApplicating();
                     break;
                 case 2:
                     $application->setSubmitted();

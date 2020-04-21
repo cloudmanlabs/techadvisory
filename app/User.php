@@ -2,6 +2,7 @@
 
 namespace App;
 
+use Exception;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -78,6 +79,7 @@ class User extends Authenticatable
     /**
      * Returns the project this vendor has applied to
      *
+     * @param string[]|null $phase
      * @return \Illuminate\Database\Eloquent\Builder
      */
     public function vendorAppliedProjects($phase = null) : \Illuminate\Database\Eloquent\Builder
@@ -86,7 +88,7 @@ class User extends Authenticatable
             if($phase == null){
                 $query->where('vendor_id', $this->id);
             } else {
-                $query->where('vendor_id', $this->id)->where('phase', $phase);
+                $query->where('vendor_id', $this->id)->whereIn('phase', $phase);
             }
         });
     }

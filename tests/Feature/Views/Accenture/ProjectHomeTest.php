@@ -50,4 +50,127 @@ class ProjectHomeTest extends TestCase
                 ->assertSee('praaacticeeeee')
                 ->assertSee('SOme Clieneet nameee');
     }
+
+    public function testShowsInvitedProjects()
+    {
+        $user = factory(User::class)->states('accenture')->create();
+        $project = factory(Project::class)->create();
+        $vendor = factory(User::class)->states(['vendor', 'finishedSetup'])->create();
+
+        $vendor->applyToProject($project);
+
+        $response = $this
+            ->actingAs($user)
+            ->get('/accenture/project/home/'.$project->id);
+
+        $response->assertStatus(200)
+            ->assertSee($project->name);
+    }
+
+    public function testShowsApplicatingProjects()
+    {
+        $user = factory(User::class)->states('accenture')->create();
+        $project = factory(Project::class)->create();
+        /** @var User $vendor */
+        $vendor = factory(User::class)->states(['vendor', 'finishedSetup'])->create();
+
+        $application = $vendor->applyToProject($project);
+        $application->setApplicating();
+
+        $response = $this
+            ->actingAs($user)
+            ->get('/accenture/project/home/' . $project->id);
+
+        $response->assertStatus(200)
+            ->assertSee($vendor->name);
+    }
+
+    public function testShowsPendingEvaluationProjects()
+    {
+        $user = factory(User::class)->states('accenture')->create();
+        $project = factory(Project::class)->create();
+        /** @var User $vendor */
+        $vendor = factory(User::class)->states(['vendor', 'finishedSetup'])->create();
+
+        $application = $vendor->applyToProject($project);
+        $application->setPendingEvaluation();
+
+        $response = $this
+            ->actingAs($user)
+            ->get('/accenture/project/home/' . $project->id);
+
+        $response->assertStatus(200)
+            ->assertSee($vendor->name);
+    }
+
+    public function testShowsEvaluatedProjects()
+    {
+        $user = factory(User::class)->states('accenture')->create();
+        $project = factory(Project::class)->create();
+        /** @var User $vendor */
+        $vendor = factory(User::class)->states(['vendor', 'finishedSetup'])->create();
+
+        $application = $vendor->applyToProject($project);
+        $application->setEvaluated();
+
+        $response = $this
+            ->actingAs($user)
+            ->get('/accenture/project/home/' . $project->id);
+
+        $response->assertStatus(200)
+            ->assertSee($vendor->name);
+    }
+
+    public function testShowsSubmittedProjects()
+    {
+        $user = factory(User::class)->states('accenture')->create();
+        $project = factory(Project::class)->create();
+        /** @var User $vendor */
+        $vendor = factory(User::class)->states(['vendor', 'finishedSetup'])->create();
+
+        $application = $vendor->applyToProject($project);
+        $application->setSubmitted();
+
+        $response = $this
+            ->actingAs($user)
+            ->get('/accenture/project/home/' . $project->id);
+
+        $response->assertStatus(200)
+            ->assertSee($vendor->name);
+    }
+
+    public function testShowsDisqualifiedProjects()
+    {
+        $user = factory(User::class)->states('accenture')->create();
+        $project = factory(Project::class)->create();
+        /** @var User $vendor */
+        $vendor = factory(User::class)->states(['vendor', 'finishedSetup'])->create();
+
+        $application = $vendor->applyToProject($project);
+        $application->setDisqualified();
+
+        $response = $this
+            ->actingAs($user)
+            ->get('/accenture/project/home/' . $project->id);
+
+        $response->assertStatus(200)
+            ->assertSee($vendor->name);
+    }
+
+    public function testShowsRejectedProjects()
+    {
+        $user = factory(User::class)->states('accenture')->create();
+        $project = factory(Project::class)->create();
+        $vendor = factory(User::class)->states(['vendor', 'finishedSetup'])->create();
+
+        $application = $vendor->applyToProject($project);
+        $application->setRejected();
+
+        $response = $this
+            ->actingAs($user)
+            ->get('/accenture/project/home/' . $project->id);
+
+        $response->assertStatus(200)
+            ->assertSee($vendor->name);
+    }
 }

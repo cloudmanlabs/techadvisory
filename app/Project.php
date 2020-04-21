@@ -105,11 +105,21 @@ class Project extends Model
         return $this->hasMany(VendorApplication::class, 'project_id');
     }
 
-    public function vendorsApplied()
+    /**
+     * Returns the vendors applied to this project
+     *
+     * @param string[]|null $phase
+     * @return void
+     */
+    public function vendorsApplied($phase = null)
     {
         return User::vendorUsers()
-                ->whereHas('vendorApplications', function (Builder $query) {
-                    $query->where('project_id', $this->id);
+                ->whereHas('vendorApplications', function (Builder $query) use ($phase) {
+                    if ($phase == null) {
+                        $query->where('project_id', $this->id);
+                    } else {
+                        $query->where('project_id', $this->id)->whereIn('phase', $phase);
+                    }
                 });
     }
 

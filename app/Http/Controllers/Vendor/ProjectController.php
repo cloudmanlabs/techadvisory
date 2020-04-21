@@ -46,7 +46,7 @@ class ProjectController extends Controller
             abort(404);
         }
 
-        $application->setStarted();
+        $application->setApplicating();
 
         return redirect()->route('vendor.home');
     }

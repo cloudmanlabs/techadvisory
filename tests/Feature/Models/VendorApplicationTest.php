@@ -131,43 +131,7 @@ class VendorApplicationTest extends TestCase
         $this->assertEquals('invitation',$application->phase);
     }
 
-    public function testCanSetApplicationAsStarted()
-    {
-        $project = factory(Project::class)->create();
-        $vendor = factory(User::class)->states(['vendor', 'finishedSetup'])->create();
-
-        $application = $vendor->applyToProject($project);
-
-        $application->setStarted();
-
-        $this->assertEquals('started', $application->phase);
-    }
-
-    public function testCanSetApplicationAsSubmitted()
-    {
-        $project = factory(Project::class)->create();
-        $vendor = factory(User::class)->states(['vendor', 'finishedSetup'])->create();
-
-        $application = $vendor->applyToProject($project);
-
-        $application->setSubmitted();
-
-        $this->assertEquals('submitted', $application->phase);
-    }
-
-    public function testCanSetApplicationAsRejected()
-    {
-        $project = factory(Project::class)->create();
-        $vendor = factory(User::class)->states(['vendor', 'finishedSetup'])->create();
-
-        $application = $vendor->applyToProject($project);
-
-        $application->setRejected();
-
-        $this->assertEquals('rejected', $application->phase);
-    }
-
-    public function testChainingSetsOnlySetsTheLastOne()
+    public function testChainingSetMethodsOnlySetsTheLastOne()
     {
         $project = factory(Project::class)->create();
         $vendor = factory(User::class)->states(['vendor', 'finishedSetup'])->create();
@@ -175,7 +139,7 @@ class VendorApplicationTest extends TestCase
         $application = $vendor->applyToProject($project);
 
         $application
-                ->setStarted()
+                ->setApplicating()
                 ->setSubmitted()
                 ->setRejected();
 
@@ -209,6 +173,6 @@ class VendorApplicationTest extends TestCase
         $response->assertRedirect('vendors/home');
 
         $application->refresh();
-        $this->assertEquals('started', $application->phase);
+        $this->assertEquals('applicating', $application->phase);
     }
 }

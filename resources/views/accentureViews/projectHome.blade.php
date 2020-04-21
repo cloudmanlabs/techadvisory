@@ -19,6 +19,60 @@
                     <div class="col-lg-12 grid-margin stretch-card">
                         <div class="card">
                             <div class="card-body">
+                                <h3>Vendors invited</h3>
+                                <p class="welcome_text extra-top-15px">In order to start using the Tech Advisory
+                                    Platform, you'll need to follow some steps to complete your profile and set up your
+                                    first project. Please check below the timeline and click "Let's start" when you are
+                                    ready.</p>
+                                <br>
+                                <br>
+
+                                @foreach ($invitedVendors as $vendor)
+                                <x-vendorCard :showProgressBar="false" :vendor="$vendor">
+                                    <div style="float: right; text-align: right; width: 25%;">
+                                        <a class="btn btn-primary btn-lg btn-icon-text" href="#" data-toggle="modal"
+                                            data-target="#resend_invite_modal">Resend invite <i class="btn-icon-prepend"
+                                                data-feather="mail"></i></a>
+                                    </div>
+                                </x-vendorCard>
+                                @endforeach
+
+                                <div class="modal fade" id="resend_invite_modal" tabindex="-1" role="dialog"
+                                    aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="resend_invite_modal">Resend invitation to
+                                                    vendor</h5>
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <form>
+                                                    <div class="form-group">
+                                                        <label for="message-text" class="col-form-label">Message:</label>
+                                                        <textarea class="form-control" id="message-text" style="min-height: 400px;">Dear Vendor, &#10;&#10;We would like to invite dolor sit amet, consectetur adipiscing elit. Etiam in eros libero. &#10;&#10;Curabitur quis ipsum in purus imperdiet dictum. Vivamus at varius sapien. Aenean et bibendum diam, in condimentum erat. Duis sed odio quis nulla venenatis cursus et eu sapien. &#10;&#10;Phasellus hendrerit pharetra turpis. Aliquam lobortis scelerisque dui, at accumsan nunc vehicula laoreet. Proin auctor, nisi emollis ipsum at this link:&#10;&#10;[INVITATION LINK]&#10;&#10;Thank you,&#10;Accenture Team
+                                                                            </textarea>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                <button type="button" class="btn btn-primary">Resend invitation</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-lg-12 grid-margin stretch-card">
+                        <div class="card">
+                            <div class="card-body">
                                 <h3>Vendors applicating</h3>
                                 <p class="welcome_text extra-top-15px">In order to start using the Tech Advisory
                                     Platform, you'll need to follow some steps to complete your profile and set up your
@@ -27,7 +81,8 @@
                                 <br>
                                 <br>
 
-                                <x-vendorCard>
+                                @foreach ($applicatingVendors as $vendor)
+                                <x-vendorCard :vendor="$vendor">
                                     <div style=" text-align: right; width: 7%;">
                                         <a class="btn btn-primary btn-lg btn-icon-text" href="{{route('accenture.viewVendorProposal')}}">
                                             View
@@ -39,6 +94,7 @@
                                         </a>
                                     </div>
                                 </x-vendorCard>
+                                @endforeach
                             </div>
                         </div>
                     </div>
@@ -55,13 +111,15 @@
                                 <br>
                                 <br>
 
-                                <x-vendorCard>
+                                @foreach ($pendingEvaluationVendors as $vendor)
+                                <x-vendorCard :vendor="$vendor">
                                     <div style="text-align: right; width: 15%;">
-                                        <a class="btn btn-primary btn-lg btn-icon-text"
-                                            href="{{route('accenture.viewVendorProposalEvaluation')}}">Evaluate Response
+                                        <a class="btn btn-primary btn-lg btn-icon-text" href="{{route('accenture.viewVendorProposalEvaluation')}}">Evaluate
+                                            Response
                                         </a>
                                     </div>
                                 </x-vendorCard>
+                                @endforeach
                             </div>
                         </div>
                     </div>
@@ -76,9 +134,11 @@
                                 <br>
                                 <br>
 
-                                <x-vendorCard :showProgressBar="false">
+                                @foreach ($evaluatedVendors as $vendor)
+                                <x-vendorCard :showProgressBar="false" :vendor="$vendor">
                                     <div style="text-align: right; width: 15%; ">
-                                        <a class="btn btn-primary btn-lg btn-icon-text" href="{{route('accenture.projectHome', ['project' => $project])}}">Disqualify vendor
+                                        <a class="btn btn-primary btn-lg btn-icon-text"
+                                            href="{{route('accenture.projectHome', ['project' => $project])}}">Disqualify vendor
                                         </a>
                                     </div>
                                     <div style="text-align: right; width: 15%;">
@@ -86,6 +146,7 @@
                                             href="{{route('accenture.projectHome', ['project' => $project])}}">Release Response</a>
                                     </div>
                                 </x-vendorCard>
+                                @endforeach
                             </div>
                         </div>
                     </div>
@@ -101,73 +162,18 @@
                                 <br>
                                 <br>
 
-                                <x-vendorCard :showProgressBar="false">
+                                @foreach ($submittedVendors as $vendor)
+                                <x-vendorCard :showProgressBar="false" :vendor="$vendor">
                                     <div style="text-align: right; width: 15%;">
-                                        <a class="btn btn-primary btn-lg btn-icon-text"
-                                            href="{{route('accenture.viewVendorProposal')}}">View response
+                                        <a class="btn btn-primary btn-lg btn-icon-text" href="{{route('accenture.viewVendorProposal')}}">View response
                                         </a>
                                     </div>
                                     <div style="text-align: right; width: 15%;">
-                                        <a class="btn btn-primary btn-lg btn-icon-text"
-                                            href="#">Download response
+                                        <a class="btn btn-primary btn-lg btn-icon-text" href="#">Download response
                                         </a>
                                     </div>
                                 </x-vendorCard>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="row">
-                    <div class="col-lg-12 grid-margin stretch-card">
-                        <div class="card">
-                            <div class="card-body">
-                                <h3>Vendors invited</h3>
-                                <p class="welcome_text extra-top-15px">In order to start using the Tech Advisory
-                                    Platform, you'll need to follow some steps to complete your profile and set up your
-                                    first project. Please check below the timeline and click "Let's start" when you are
-                                    ready.</p>
-                                <br>
-                                <br>
-
-                                <x-vendorCard :showProgressBar="false">
-                                    <div style="float: right; text-align: right; width: 25%;">
-                                        <a class="btn btn-primary btn-lg btn-icon-text" href="#" data-toggle="modal"
-                                            data-target="#resend_invite_modal">Resend invite <i class="btn-icon-prepend" data-feather="mail"></i></a>
-                                    </div>
-                                </x-vendorCard>
-
-                                <div class="modal fade" id="resend_invite_modal" tabindex="-1" role="dialog"
-                                    aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                    <div class="modal-dialog" role="document">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h5 class="modal-title" id="resend_invite_modal">Resend invitation to
-                                                    vendor</h5>
-                                                <button type="button" class="close" data-dismiss="modal"
-                                                    aria-label="Close">
-                                                    <span aria-hidden="true">&times;</span>
-                                                </button>
-                                            </div>
-                                            <div class="modal-body">
-                                                <form>
-                                                    <div class="form-group">
-                                                        <label for="message-text"
-                                                            class="col-form-label">Message:</label>
-                                                        <textarea class="form-control" id="message-text"
-                                                            style="min-height: 400px;">Dear Vendor, &#10;&#10;We would like to invite dolor sit amet, consectetur adipiscing elit. Etiam in eros libero. &#10;&#10;Curabitur quis ipsum in purus imperdiet dictum. Vivamus at varius sapien. Aenean et bibendum diam, in condimentum erat. Duis sed odio quis nulla venenatis cursus et eu sapien. &#10;&#10;Phasellus hendrerit pharetra turpis. Aliquam lobortis scelerisque dui, at accumsan nunc vehicula laoreet. Proin auctor, nisi emollis ipsum at this link:&#10;&#10;[INVITATION LINK]&#10;&#10;Thank you,&#10;Accenture Team
-                                                            </textarea>
-                                                    </div>
-                                                </form>
-                                            </div>
-                                            <div class="modal-footer">
-                                                <button type="button" class="btn btn-secondary"
-                                                    data-dismiss="modal">Close</button>
-                                                <button type="button" class="btn btn-primary">Resend invitation</button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+                                @endforeach
                             </div>
                         </div>
                     </div>
@@ -182,9 +188,32 @@
                                 <br>
                                 <br>
 
-                                <x-vendorCard>
+                                @foreach ($disqualifiedVendors as $vendor)
+                                <x-vendorCard :vendor="$vendor">
                                     <a class="btn btn-primary btn-lg btn-icon-text" href="{{route('accenture.viewVendorProposal')}}">View Response</a>
                                 </x-vendorCard>
+                                @endforeach
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-lg-12 grid-margin stretch-card">
+                        <div class="card">
+                            <div class="card-body">
+                                <h3>Rejected Vendors</h3>
+                                <p class="welcome_text extra-top-15px">The following vendors have rejected participating in this
+                                    project.</p>
+                                <br>
+                                <br>
+
+                                @foreach ($rejectedVendors as $vendor)
+                                <x-vendorCard :showProgressBar="false" :vendor="$vendor">
+                                    <a class="btn btn-primary btn-lg btn-icon-text"
+                                    href="{{route('accenture.viewVendorProposal')}}">View Response</a>
+                                </x-vendorCard>
+                                @endforeach
                             </div>
                         </div>
                     </div>

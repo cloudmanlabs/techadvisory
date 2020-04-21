@@ -190,8 +190,23 @@ class ProjectController extends Controller
 
     public function home(Project $project)
     {
+        $invitedVendors = $project->vendorsApplied(['invitation'])->get();
+        $applicatingVendors = $project->vendorsApplied(['applicating'])->get();
+        $pendingEvaluationVendors = $project->vendorsApplied(['pendingEvaluation'])->get();
+        $evaluatedVendors = $project->vendorsApplied(['evaluated'])->get();
+        $submittedVendors = $project->vendorsApplied(['submitted'])->get();
+        $disqualifiedVendors = $project->vendorsApplied(['disqualified'])->get();
+        $rejectedVendors = $project->vendorsApplied(['rejected'])->get();
+
         return view('accentureViews.projectHome', [
-            'project' => $project
+            'project' => $project,
+            'invitedVendors' => $invitedVendors,
+            'applicatingVendors' => $applicatingVendors,
+            'pendingEvaluationVendors' => $pendingEvaluationVendors,
+            'evaluatedVendors' => $evaluatedVendors,
+            'submittedVendors' => $submittedVendors,
+            'disqualifiedVendors' => $disqualifiedVendors,
+            'rejectedVendors' => $rejectedVendors,
         ]);
     }
 

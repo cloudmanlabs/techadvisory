@@ -53,7 +53,7 @@ class HomeTest extends TestCase
         $vendor = factory(User::class)->states(['vendor', 'finishedSetup'])->create();
 
         $application = $vendor->applyToProject($project);
-        $application->setStarted();
+        $application->setApplicating();
 
         $response = $this
             ->actingAs($vendor)
