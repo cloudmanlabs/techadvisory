@@ -17,6 +17,7 @@ class CheckClientOwnsProject
     public function handle($request, Closure $next)
     {
         if ($request->project->client_id != auth()->user()->id) {
+            Log::debug('Client doesnt own this project');
             abort(404);
         }
 

@@ -51,7 +51,7 @@ class ProjectHomeTest extends TestCase
                 ->assertSee('SOme Clieneet nameee');
     }
 
-    public function testShowsInvitedProjects()
+    public function testShowsInvitedVendors()
     {
         $user = factory(User::class)->states('accenture')->create();
         $project = factory(Project::class)->create();
@@ -67,7 +67,7 @@ class ProjectHomeTest extends TestCase
             ->assertSee($project->name);
     }
 
-    public function testShowsApplicatingProjects()
+    public function testShowsApplicatingVendors()
     {
         $user = factory(User::class)->states('accenture')->create();
         $project = factory(Project::class)->create();
@@ -85,7 +85,7 @@ class ProjectHomeTest extends TestCase
             ->assertSee($vendor->name);
     }
 
-    public function testShowsPendingEvaluationProjects()
+    public function testShowsPendingEvaluationVendors()
     {
         $user = factory(User::class)->states('accenture')->create();
         $project = factory(Project::class)->create();
@@ -103,7 +103,7 @@ class ProjectHomeTest extends TestCase
             ->assertSee($vendor->name);
     }
 
-    public function testShowsEvaluatedProjects()
+    public function testShowsEvaluatedVendors()
     {
         $user = factory(User::class)->states('accenture')->create();
         $project = factory(Project::class)->create();
@@ -121,7 +121,7 @@ class ProjectHomeTest extends TestCase
             ->assertSee($vendor->name);
     }
 
-    public function testShowsSubmittedProjects()
+    public function testShowsSubmittedVendors()
     {
         $user = factory(User::class)->states('accenture')->create();
         $project = factory(Project::class)->create();
@@ -139,7 +139,7 @@ class ProjectHomeTest extends TestCase
             ->assertSee($vendor->name);
     }
 
-    public function testShowsDisqualifiedProjects()
+    public function testShowsDisqualifiedVendors()
     {
         $user = factory(User::class)->states('accenture')->create();
         $project = factory(Project::class)->create();
@@ -157,7 +157,7 @@ class ProjectHomeTest extends TestCase
             ->assertSee($vendor->name);
     }
 
-    public function testShowsRejectedProjects()
+    public function testShowsRejectedVendors()
     {
         $user = factory(User::class)->states('accenture')->create();
         $project = factory(Project::class)->create();

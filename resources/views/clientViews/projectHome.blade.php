@@ -29,14 +29,14 @@
                                 <br>
                                 <br>
 
-                                <x-vendorCard />
-
-                                <x-vendorCard>
+                                @foreach ($startedVendors as $vendor)
+                                <x-vendorCard :vendor="$vendor">
                                     <div style=" text-align: right; width: 15%;">
                                         <a class="btn btn-primary btn-lg btn-icon-text" href="{{route('client.viewVendorProposal')}}">View response
                                         </a>
                                     </div>
                                 </x-vendorCard>
+                                @endforeach
                             </div>
                         </div>
                     </div>
@@ -53,13 +53,14 @@
                                 <br>
                                 <br>
 
-                                <x-vendorCard :showProgressBar="false">
+                                @foreach ($submittedVendors as $vendor)
+                                <x-vendorCard :showProgressBar="false" :vendor="$vendor">
                                     <div style="text-align: right; width: 15%;">
-                                        <a class="btn btn-primary btn-lg btn-icon-text"
-                                            href="#">Download response
+                                        <a class="btn btn-primary btn-lg btn-icon-text" href="#">Download response
                                         </a>
                                     </div>
                                 </x-vendorCard>
+                                @endforeach
                             </div>
                         </div>
                     </div>
@@ -75,8 +76,9 @@
                                 <br>
                                 <br>
 
-                                <x-vendorCard :showProgressBar="false">
-                                </x-vendorCard>
+                                @foreach ($disqualifiedVendors as $vendor)
+                                <x-vendorCard :showProgressBar="false" :vendor="$vendor"></x-vendorCard>
+                                @endforeach
                             </div>
                         </div>
                     </div>

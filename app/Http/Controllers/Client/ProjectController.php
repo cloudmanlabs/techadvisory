@@ -12,8 +12,15 @@ class ProjectController extends Controller
 {
     public function home(Project $project)
     {
+        $startedVendors = $project->vendorsApplied(['applicating', 'pendingEvaluation', 'evaluated'])->get();
+        $submittedVendors = $project->vendorsApplied(['submitted'])->get();
+        $disqualifiedVendors = $project->vendorsApplied(['disqualified'])->get();
         return view('clientViews.projectHome', [
-            'project' => $project
+            'project' => $project,
+
+            'startedVendors' => $startedVendors,
+            'submittedVendors' => $submittedVendors,
+            'disqualifiedVendors' => $disqualifiedVendors,
         ]);
     }
 
