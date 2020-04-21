@@ -58,6 +58,10 @@ Route::prefix('vendors')
                 Route::view('projectOrals', 'vendorViews.projectOrals')
                     ->name('projectOrals');
 
+                Route::post('application/setRejected/{project}', 'ProjectController@setRejected')
+                    ->name('application.setRejected');
+
+
                 Route::get('solutions', 'SolutionController@solutionHome')
                     ->name('solutions');
                 Route::post('solution/create', 'SolutionController@createSolution')

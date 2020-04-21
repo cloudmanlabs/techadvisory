@@ -176,4 +176,19 @@ class VendorApplicationTest extends TestCase
 
         $this->assertEquals('rejected', $application->phase);
     }
+
+    public function testVendorCanRejectProject()
+    {
+        $project = factory(Project::class)->create();
+        $vendor = factory(User::class)->states(['vendor', 'finishedSetup'])->create();
+
+        $application = $vendor->applyToProject($project);
+
+        $response = $this->actingAs($vendor)
+                    ->post('vendors/application/setRejected/'.$project->id);
+        $response->assertRedirect('vendors/home');
+
+        $application->refresh();
+        $this->assertEquals('rejected', $application->phase);
+    }
 }

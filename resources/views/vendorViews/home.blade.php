@@ -41,16 +41,19 @@
                                                     Preview <i class="btn-icon-prepend" data-feather="arrow-right"></i>
                                                 </a>
                                             </div>
-                                            {{-- TODO Here we should mark the project as either rejected or accepted --}}
                                             <div style="float: right; text-align: right; width: 17%;">
                                                 <a class="btn btn-primary btn-lg btn-icon-text" href="{{route('vendor.home')}}">
                                                     Accept
                                                 </a>
                                             </div>
                                             <div style="float: right; text-align: right; width: 17%;">
-                                                <a class="btn btn-primary btn-lg btn-icon-text" href="{{route('vendor.home')}}">
+                                                <a class="btn btn-primary btn-lg btn-icon-text" href="{{route('vendor.application.setRejected', ['project' => $project])}}"
+                                                    onclick="event.preventDefault(); document.getElementById('reject-project-{{$project->id}}-form').submit();">
                                                     Reject
                                                 </a>
+                                                <form id="reject-project-{{$project->id}}-form" action="{{ route('vendor.application.setRejected', ['project' => $project]) }}" method="POST" style="display: none;">
+                                                    @csrf
+                                                </form>
                                             </div>
                                         </div>
                                     </div>
