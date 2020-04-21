@@ -173,4 +173,40 @@ class ProjectHomeTest extends TestCase
         $response->assertStatus(200)
             ->assertSee($vendor->name);
     }
+
+    public function testCanDisqualifyVendorsWithPost()
+    {
+        $user = factory(User::class)->states('accenture')->create();
+        $project = factory(Project::class)->create();
+        $vendor = factory(User::class)->states(['vendor', 'finishedSetup'])->create();
+
+        $application = $vendor->applyToProject($project);
+
+        $response = $this
+            ->actingAs($user)
+            ->post('/accenture/project/disqualifyVendor/' . $project->id . '/' . $vendor->id);
+
+        $response->assertRedirect('/accenture/project/home/' . $project->id);
+
+        $application->refresh();
+        $this->assertEquals('disqualified', $application->phase);
+    }
+
+    public function testCanReleaseVendorResponseWithPost()
+    {
+        $user = factory(User::class)->states('accenture')->create();
+        $project = factory(Project::class)->create();
+        $vendor = factory(User::class)->states(['vendor', 'finishedSetup'])->create();
+
+        $application = $vendor->applyToProject($project);
+
+        $response = $this
+            ->actingAs($user)
+            ->post('/accenture/project/releaseResponse/' . $project->id . '/' . $vendor->id);
+
+        $response->assertRedirect('/accenture/project/home/' . $project->id);
+
+        $application->refresh();
+        $this->assertEquals('submitted', $application->phase);
+    }
 }

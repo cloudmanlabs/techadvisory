@@ -9,6 +9,7 @@ use App\Practice;
 use App\Project;
 use App\Subpractice;
 use App\User;
+use App\VendorApplication;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Validation\Rule;
 
@@ -209,6 +210,40 @@ class ProjectController extends Controller
             'rejectedVendors' => $rejectedVendors,
         ]);
     }
+
+    public function disqualifyVendor(Request $request, Project $project, User $vendor)
+    {
+        $application = VendorApplication::where('vendor_id', $vendor->id)
+                                            ->where('project_id', $project->id)
+                                            ->first();
+        if ($application == null) {
+            abort(404);
+        }
+
+        $application->setDisqualified();
+
+        return redirect()->route('accenture.projectHome', ['project' => $project]);
+    }
+
+    public function releaseResponse(Request $request, Project $project, User $vendor)
+    {
+        $application = VendorApplication::where('vendor_id', $vendor->id)
+                                            ->where('project_id', $project->id)
+                                            ->first();
+        if ($application == null) {
+            abort(404);
+        }
+
+        $application->setSubmitted();
+
+        return redirect()->route('accenture.projectHome', ['project' => $project]);
+    }
+
+
+
+
+
+
 
     public function view(Project $project)
     {

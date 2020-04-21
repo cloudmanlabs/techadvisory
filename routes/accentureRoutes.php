@@ -94,6 +94,12 @@ Route::
             Route::get('project/benchmark/implementation/{project}', 'ProjectController@benchmarkImplementation')
                 ->name('projectBenchmarkImplementation');
 
+            Route::post('project/disqualifyVendor/{project}/{vendor}', 'ProjectController@disqualifyVendor')
+                ->name('project.disqualifyVendor');
+            Route::post('project/releaseResponse/{project}/{vendor}', 'ProjectController@releaseResponse')
+                ->name('project.releaseResponse');
+
+
             Route::view('viewVendorProposal', 'accentureViews.viewVendorProposal')
                 ->name('viewVendorProposal');
             Route::view('viewVendorProposalEvaluation', 'accentureViews.viewVendorProposalEvaluation')

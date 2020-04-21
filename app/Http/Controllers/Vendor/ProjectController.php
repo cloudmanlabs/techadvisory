@@ -21,8 +21,6 @@ class ProjectController extends Controller
         ]);
     }
 
-
-
     public function setRejected(Request $request, Project $project)
     {
         $application = VendorApplication::where('vendor_id', auth()->id())

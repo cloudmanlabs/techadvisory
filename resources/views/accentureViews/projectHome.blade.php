@@ -138,12 +138,27 @@
                                 <x-vendorCard :showProgressBar="false" :vendor="$vendor">
                                     <div style="text-align: right; width: 15%; ">
                                         <a class="btn btn-primary btn-lg btn-icon-text"
-                                            href="{{route('accenture.projectHome', ['project' => $project])}}">Disqualify vendor
+                                            href="{{route('accenture.project.disqualifyVendor', ['project' => $project, 'vendor' => $vendor])}}"
+                                            onclick="event.preventDefault(); document.getElementById('disqualify-vendor-{{$vendor->id}}-form').submit();">
+                                            Disqualify
                                         </a>
+                                        <form id="disqualify-vendor-{{$vendor->id}}-form"
+                                            action="{{ route('accenture.project.disqualifyVendor', ['project' => $project, 'vendor' => $vendor]) }}" method="POST"
+                                            style="display: none;">
+                                            @csrf
+                                        </form>
                                     </div>
                                     <div style="text-align: right; width: 15%;">
                                         <a class="btn btn-primary btn-lg btn-icon-text"
-                                            href="{{route('accenture.projectHome', ['project' => $project])}}">Release Response</a>
+                                            href="{{route('accenture.project.releaseResponse', ['project' => $project, 'vendor' => $vendor])}}"
+                                            onclick="event.preventDefault(); document.getElementById('releaseResponse-vendor-{{$vendor->id}}-form').submit();">
+                                            Release response
+                                        </a>
+                                        <form id="releaseResponse-vendor-{{$vendor->id}}-form"
+                                            action="{{ route('accenture.project.releaseResponse', ['project' => $project, 'vendor' => $vendor]) }}"
+                                            method="POST" style="display: none;">
+                                            @csrf
+                                        </form>
                                     </div>
                                 </x-vendorCard>
                                 @endforeach
