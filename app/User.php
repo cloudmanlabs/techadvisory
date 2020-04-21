@@ -7,6 +7,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use \Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Log;
+use Laravel\Nova\Fields\Boolean;
 
 /**
  * @property string $userType Should be one of [admin, accenture, accentureAdmin, client, vendor]
@@ -101,12 +102,14 @@ class User extends Authenticatable
      *
      * @param Project $project Project to apply to
      * @return VendorApplication|null
+     *
+     * @throws Exception
      */
     public function applyToProject(Project $project) : ?VendorApplication
     {
         // Only vendors who have finished setup can apply
-        if(!$this->isVendor()) return null;
-        if(!$this->hasFinishedSetup) return null;
+        if(!$this->isVendor()) throw new \Exception('Calling applyToProject on a non-vendor User');
+        if(!$this->hasFinishedSetup) throw new \Exception('Trying to apply to project with a user that hasn\'t finished setup');
 
         $existingApplication = VendorApplication::where([
             'project_id' => $project->id,
@@ -127,6 +130,21 @@ class User extends Authenticatable
         return $application;
     }
 
+    public function hasAppliedToProject(Project $project) : bool
+    {
+        if (!$this->isVendor()) throw new \Exception('Calling hasAppliedToProject on a non-vendor User');
+        if (!$this->hasFinishedSetup) throw new \Exception('Checking if user has applied to project with a user that hasn\'t finished setup');
+
+        $existingApplication = VendorApplication::where([
+            'project_id' => $project->id,
+            'vendor_id' => $this->id
+        ])->first();
+        if ($existingApplication) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 
 
 

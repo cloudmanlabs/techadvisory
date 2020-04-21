@@ -12,7 +12,7 @@
                     </div>
                 </div>
 
-                <x-vendor.projectNavbar section="preview" />
+                <x-vendor.projectNavbar section="preview" :project="$project" />
 
                 <div class="row">
                     <div class="col-md-12 grid-margin stretch-card">
@@ -30,7 +30,7 @@
                                         <div class="form-group">
                                             <label for="exampleInputText1">Project Name</label>
                                             <input type="text" class="form-control" id="exampleInputText1" disabled
-                                                value="Project Name">
+                                                value="{{$project->name}}">
                                         </div>
 
                                         <div class="form-group">
@@ -404,17 +404,30 @@
                                 </div>
                             </div>
 
-                            {{-- TODO Here we should mark the project as either rejected or accepted --}}
                             <div style="display:flex; justify-content:space-evenly; padding: 1.5rem 1.5rem;">
                                 <div style="text-align: right; width: 17%;">
-                                    <a class="btn btn-primary btn-lg btn-icon-text" href="{{route('vendor.home')}}">
+                                    <a class="btn btn-primary btn-lg btn-icon-text"
+                                        href="{{route('vendor.application.setRejected', ['project' => $project])}}"
+                                        onclick="event.preventDefault(); document.getElementById('reject-project-{{$project->id}}-form').submit();">
                                         Reject
                                     </a>
+                                    <form id="reject-project-{{$project->id}}-form"
+                                        action="{{ route('vendor.application.setRejected', ['project' => $project]) }}" method="POST"
+                                        style="display: none;">
+                                        @csrf
+                                    </form>
                                 </div>
                                 <div style="text-align: right; width: 17%;">
-                                    <a class="btn btn-primary btn-lg btn-icon-text" href="{{route('vendor.home')}}">
+                                    <a class="btn btn-primary btn-lg btn-icon-text"
+                                        href="{{route('vendor.application.setAccepted', ['project' => $project])}}"
+                                        onclick="event.preventDefault(); document.getElementById('accepted-project-{{$project->id}}-form').submit();">
                                         Accept
                                     </a>
+                                    <form id="accepted-project-{{$project->id}}-form"
+                                        action="{{ route('vendor.application.setAccepted', ['project' => $project]) }}" method="POST"
+                                        style="display: none;">
+                                        @csrf
+                                    </form>
                                 </div>
                             </div>
 

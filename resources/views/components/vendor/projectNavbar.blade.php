@@ -1,4 +1,4 @@
-@props(['section', 'subsection'])
+@props(['section', 'subsection', 'project'])
 
 <div class="row">
     <div class="col-12 col-xl-12 stretch-card">
@@ -49,7 +49,7 @@
                         @else
                         <li class="header-link-item d-flex align-items-center active">
                             <i data-feather="bookmark" style="max-width: 18px; margin-right: 3px; margin-top: -2px"></i>
-                            <a class="pt-1px d-none d-md-block" href="{{route('vendor.previewProject')}}">Project
+                            <a class="pt-1px d-none d-md-block" href="{{route('vendor.previewProject', ['project' => $project])}}">Project
                                 information</a>
                         </li>
                         @endif

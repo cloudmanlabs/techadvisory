@@ -10,6 +10,19 @@ use Illuminate\Support\Facades\Log;
 
 class ProjectController extends Controller
 {
+    public function previewProject(Project $project)
+    {
+        if(! auth()->user()->hasAppliedToProject($project)){
+            abort(404);
+        }
+
+        return view('vendorViews.previewProject',[
+            'project' => $project
+        ]);
+    }
+
+
+
     public function setRejected(Request $request, Project $project)
     {
         $application = VendorApplication::where('vendor_id', auth()->id())

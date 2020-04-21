@@ -5,6 +5,7 @@ namespace Tests\Feature\Models;
 use App\Project;
 use App\User;
 use App\VendorApplication;
+use Exception;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Log;
@@ -62,7 +63,10 @@ class VendorApplicationTest extends TestCase
         $accenture = factory(User::class)->states(['accenture', 'finishedSetup'])->create();
         $client = factory(User::class)->states(['client', 'finishedSetup'])->create();
 
+
+        $this->expectException(Exception::class);
         $accApplication = $accenture->applyToProject($project);
+        $this->expectException(Exception::class);
         $clientApplication = $client->applyToProject($project);
 
         $this->assertCount(0, VendorApplication::all());
@@ -77,6 +81,7 @@ class VendorApplicationTest extends TestCase
 
         $this->assertCount(0, VendorApplication::all());
 
+        $this->expectException(Exception::class);
         $application = $vendor->applyToProject($project);
         $this->assertCount(0, VendorApplication::all());
         $this->assertNull($application);

@@ -37,7 +37,7 @@
                                                 <h6>{{$project->practice->name}}</h6>
                                             </div>
                                             <div style="float: right; text-align: right; width: 20%;">
-                                                <a class="btn btn-primary btn-lg btn-icon-text" href="{{route('vendor.previewProject')}}">
+                                                <a class="btn btn-primary btn-lg btn-icon-text" href="{{route('vendor.previewProject', ['project' => $project])}}">
                                                     Preview <i class="btn-icon-prepend" data-feather="arrow-right"></i>
                                                 </a>
                                             </div>
