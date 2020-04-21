@@ -53,6 +53,8 @@ class Project extends Resource
     public function fields(Request $request)
     {
         return [
+            ID::make()->sortable(),
+
             Text::make('Name', 'name')
                 ->rules('required')
                 ->required(),

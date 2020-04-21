@@ -50,6 +50,8 @@ class Subpractice extends Resource
     public function fields(Request $request)
     {
         return [
+            ID::make()->sortable(),
+
             Text::make('Name', 'name'),
 
             BelongsTo::make('Practice', 'practice', 'App\Nova\Practice'),

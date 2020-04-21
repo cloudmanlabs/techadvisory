@@ -52,6 +52,8 @@ class Vendor extends Resource
     public function fields(Request $request)
     {
         return [
+            ID::make('Id', 'id'),
+
             Text::make('Name')
                 ->sortable()
                 ->rules('required', 'max:255'),

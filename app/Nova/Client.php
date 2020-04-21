@@ -52,6 +52,8 @@ class Client extends Resource
     public function fields(Request $request)
     {
         return [
+            ID::make()->sortable(),
+
             Text::make('Name')
                 ->sortable()
                 ->rules('required', 'max:255'),

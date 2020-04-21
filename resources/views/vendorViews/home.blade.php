@@ -26,29 +26,35 @@
                                 </p>
                                 <br>
                                 <br>
-                                <div class="card" style="margin-bottom: 30px;">
-                                    <div class="card-body">
-                                        <div style="float: left; max-width: 40%;">
-                                            <h4>Redistribution of processes at Nestlé</h4>
-                                            <h6>Solution type</h6>
-                                        </div>
-                                        <div style="float: right; text-align: right; width: 20%;">
-                                            <a class="btn btn-primary btn-lg btn-icon-text" href="{{route('vendor.previewProject')}}">
-                                                Preview <i class="btn-icon-prepend" data-feather="arrow-right"></i>
-                                            </a>
-                                        </div>
-                                        {{-- TODO Here we should mark the project as either rejected or accepted --}}
-                                        <div style="float: right; text-align: right; width: 17%;">
-                                            <a class="btn btn-primary btn-lg btn-icon-text" href="{{route('vendor.home')}}">
-                                                Accept
-                                            </a>
-                                        </div>
-                                        <div style="float: right; text-align: right; width: 17%;">
-                                            <a class="btn btn-primary btn-lg btn-icon-text" href="{{route('vendor.home')}}">
-                                                Reject
-                                            </a>
+
+                                <div id="invitationPhaseContainer">
+                                    @foreach ($invitationProjects as $project)
+                                    <div class="card" style="margin-bottom: 30px;"
+                                        data-practice="{{$project->practice->name}}" data-year="{{$project->created_at->year}}">
+                                        <div class="card-body">
+                                            <div style="float: left; max-width: 40%;">
+                                                <h4>{{$project->name}}</h4>
+                                                <h6>{{$project->practice->name}}</h6>
+                                            </div>
+                                            <div style="float: right; text-align: right; width: 20%;">
+                                                <a class="btn btn-primary btn-lg btn-icon-text" href="{{route('vendor.previewProject')}}">
+                                                    Preview <i class="btn-icon-prepend" data-feather="arrow-right"></i>
+                                                </a>
+                                            </div>
+                                            {{-- TODO Here we should mark the project as either rejected or accepted --}}
+                                            <div style="float: right; text-align: right; width: 17%;">
+                                                <a class="btn btn-primary btn-lg btn-icon-text" href="{{route('vendor.home')}}">
+                                                    Accept
+                                                </a>
+                                            </div>
+                                            <div style="float: right; text-align: right; width: 17%;">
+                                                <a class="btn btn-primary btn-lg btn-icon-text" href="{{route('vendor.home')}}">
+                                                    Reject
+                                                </a>
+                                            </div>
                                         </div>
                                     </div>
+                                    @endforeach
                                 </div>
                             </div>
                         </div>
@@ -66,33 +72,24 @@
                                 <br>
                                 <br>
 
-                                <div class="card" style="margin-bottom: 30px;">
-                                    <div class="card-body">
-                                        <div style="float: left; max-width: 40%;">
-                                            <h4>Global Transport Management</h4>
-                                            <h6>Solution type</h6>
+                                <div id="startedPhaseContainer">
+                                    @foreach ($startedProjects as $project)
+                                    <div class="card" style="margin-bottom: 30px;"
+                                        data-practice="{{$project->practice->name}}" data-year="{{$project->created_at->year}}">
+                                        <div class="card-body">
+                                            <div style="float: left; max-width: 40%;">
+                                                <h4>{{$project->name}}</h4>
+                                                <h6>{{$project->practice->name}}</h6>
+                                            </div>
+                                            <div style="float: right; text-align: right; width: 15%;">
+                                                <a class="btn btn-primary btn-lg btn-icon-text" href="{{route('vendor.newApplicationApply')}}">View <i
+                                                        class="btn-icon-prepend" data-feather="arrow-right"></i></a>
+                                            </div>
+                                            <x-applicationProgressBar progressFitgap="20" progressVendor="10" progressExperience="0" progressInnovation="0"
+                                                progressImplementation="0" progressSubmit="0" />
                                         </div>
-                                        <div style="float: right; text-align: right; width: 15%;">
-                                            <a class="btn btn-primary btn-lg btn-icon-text" href="{{route('vendor.newApplicationApply')}}">View <i class="btn-icon-prepend" data-feather="arrow-right"></i></a>
-                                        </div>
-                                        <x-applicationProgressBar progressFitgap="20" progressVendor="10" progressExperience="0" progressInnovation="0"
-                                            progressImplementation="0" progressSubmit="0" />
                                     </div>
-                                </div>
-
-
-                                <div class="card" style="margin-bottom: 30px;">
-                                    <div class="card-body">
-                                        <div style="float: left; max-width: 40%;">
-                                            <h4>Future of leadership</h4>
-                                            <h6>Solution type</h6>
-                                        </div>
-                                        <div style="float: right; text-align: right; width: 15%;">
-                                            <a class="btn btn-primary btn-lg btn-icon-text" href="{{route('vendor.newApplicationApply')}}">View <i class="btn-icon-prepend" data-feather="arrow-right"></i></a>
-                                        </div>
-                                        <x-applicationProgressBar progressFitgap="20" progressVendor="10" progressExperience="0" progressInnovation="0"
-                                            progressImplementation="0" progressSubmit="0" />
-                                    </div>
+                                    @endforeach
                                 </div>
                             </div>
                         </div>
@@ -110,32 +107,24 @@
                                 <br>
                                 <br>
 
-                                <div class="card" style="margin-bottom: 30px;">
-                                    <div class="card-body">
-                                        <div style="float: left; max-width: 40%;">
-                                            <h4>Global Management Platform</h4>
-                                            <h6>Solution type</h6>
+                                <div id="submittedPhaseContainer">
+                                    @foreach ($submittedProjects as $project)
+                                    <div class="card" style="margin-bottom: 30px;" data-practice="{{$project->practice->name}}"
+                                        data-year="{{$project->created_at->year}}">
+                                        <div class="card-body">
+                                            <div style="float: left; max-width: 40%;">
+                                                <h4>{{$project->name}}</h4>
+                                                <h6>{{$project->practice->name}}</h6>
+                                            </div>
+                                            <div style="float: right; text-align: right; width: 15%;">
+                                                <a class="btn btn-primary btn-lg btn-icon-text" href="{{route('vendor.newApplicationApply')}}">View <i
+                                                        class="btn-icon-prepend" data-feather="arrow-right"></i></a>
+                                            </div>
+                                            <x-applicationProgressBar progressFitgap="30" progressVendor="10" progressExperience="10" progressInnovation="10"
+                                                progressImplementation="30" progressSubmit="10" />
                                         </div>
-                                        <div style="float: right; text-align: right; width: 15%;">
-                                            <a class="btn btn-primary btn-lg btn-icon-text" href="{{route('vendor.newApplicationApply')}}">View <i class="btn-icon-prepend" data-feather="arrow-right"></i></a>
-                                        </div>
-                                        <x-applicationProgressBar progressFitgap="30" progressVendor="10" progressExperience="10" progressInnovation="10"
-                                            progressImplementation="30" progressSubmit="10" />
                                     </div>
-                                </div>
-
-                                <div class="card" style="margin-bottom: 30px;">
-                                    <div class="card-body">
-                                        <div style="float: left; max-width: 40%;">
-                                            <h4>Stock of leisiture</h4>
-                                            <h6>Solution type</h6>
-                                        </div>
-                                        <div style="float: right; text-align: right; width: 15%;">
-                                            <a class="btn btn-primary btn-lg btn-icon-text" href="{{route('vendor.newApplicationApply')}}">View <i class="btn-icon-prepend" data-feather="arrow-right"></i></a>
-                                        </div>
-                                        <x-applicationProgressBar progressFitgap="30" progressVendor="10" progressExperience="10" progressInnovation="10"
-                                            progressImplementation="30" progressSubmit="10" />
-                                    </div>
+                                    @endforeach
                                 </div>
                             </div>
                         </div>
@@ -152,13 +141,18 @@
                                 </p>
                                 <br>
                                 <br>
-                                <div class="card" style="margin-bottom: 30px;">
-                                    <div class="card-body">
-                                        <div style="float: left; max-width: 40%;">
-                                            <h4>Redistribution of processes at Nestlé</h4>
-                                            <h6>Solution type</h6>
+                                <div id="rejectedPhaseContainer">
+                                    @foreach ($rejectedProjects as $project)
+                                    <div class="card" style="margin-bottom: 30px;" data-practice="{{$project->practice->name}}"
+                                        data-year="{{$project->created_at->year}}">
+                                        <div class="card-body">
+                                            <div style="float: left; max-width: 40%;">
+                                                <h4>{{$project->name}}</h4>
+                                                <h6>{{$project->practice->name}}</h6>
+                                            </div>
                                         </div>
                                     </div>
+                                    @endforeach
                                 </div>
                             </div>
                         </div>

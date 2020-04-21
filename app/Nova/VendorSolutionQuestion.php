@@ -52,6 +52,8 @@ class VendorSolutionQuestion extends Resource
     public function fields(Request $request)
     {
         $common = [
+            ID::make()->sortable(),
+
             Select::make('Type', 'type')
                 ->options(\App\VendorSolutionQuestion::selectTypes)
                 ->displayUsingLabels()

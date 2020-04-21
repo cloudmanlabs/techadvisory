@@ -19,6 +19,8 @@ class CreateVendorApplicationsTable extends Migration
 
             $table->unsignedBigInteger('project_id');
             $table->unsignedBigInteger('vendor_id');
+
+            $table->string('phase')->default('invitation');
         });
     }
 

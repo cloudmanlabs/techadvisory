@@ -105,4 +105,75 @@ class VendorApplicationTest extends TestCase
 
         $this->assertCount(1, $project->vendorsApplied()->get());
     }
+
+    public function testApplicationHasPhase()
+    {
+        $project = factory(Project::class)->create();
+        $vendor = factory(User::class)->states(['vendor', 'finishedSetup'])->create();
+
+        $application = $vendor->applyToProject($project);
+
+        $this->assertNotNull($application->phase);
+    }
+
+    public function testApplicationDefaultsToInvitationPhase()
+    {
+        $project = factory(Project::class)->create();
+        $vendor = factory(User::class)->states(['vendor', 'finishedSetup'])->create();
+
+        $application = $vendor->applyToProject($project);
+
+        $this->assertEquals('invitation',$application->phase);
+    }
+
+    public function testCanSetApplicationAsStarted()
+    {
+        $project = factory(Project::class)->create();
+        $vendor = factory(User::class)->states(['vendor', 'finishedSetup'])->create();
+
+        $application = $vendor->applyToProject($project);
+
+        $application->setStarted();
+
+        $this->assertEquals('started', $application->phase);
+    }
+
+    public function testCanSetApplicationAsSubmitted()
+    {
+        $project = factory(Project::class)->create();
+        $vendor = factory(User::class)->states(['vendor', 'finishedSetup'])->create();
+
+        $application = $vendor->applyToProject($project);
+
+        $application->setSubmitted();
+
+        $this->assertEquals('submitted', $application->phase);
+    }
+
+    public function testCanSetApplicationAsRejected()
+    {
+        $project = factory(Project::class)->create();
+        $vendor = factory(User::class)->states(['vendor', 'finishedSetup'])->create();
+
+        $application = $vendor->applyToProject($project);
+
+        $application->setRejected();
+
+        $this->assertEquals('rejected', $application->phase);
+    }
+
+    public function testChainingSetsOnlySetsTheLastOne()
+    {
+        $project = factory(Project::class)->create();
+        $vendor = factory(User::class)->states(['vendor', 'finishedSetup'])->create();
+
+        $application = $vendor->applyToProject($project);
+
+        $application
+                ->setStarted()
+                ->setSubmitted()
+                ->setRejected();
+
+        $this->assertEquals('rejected', $application->phase);
+    }
 }

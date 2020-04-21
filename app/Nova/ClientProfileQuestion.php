@@ -52,6 +52,8 @@ class ClientProfileQuestion extends Resource
     public function fields(Request $request)
     {
         $common = [
+            ID::make()->sortable(),
+
             Select::make('Type', 'type')
                 ->options(\App\ClientProfileQuestion::selectTypes)
                 ->displayUsingLabels()
