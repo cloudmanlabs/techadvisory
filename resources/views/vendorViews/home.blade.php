@@ -42,9 +42,16 @@
                                                 </a>
                                             </div>
                                             <div style="float: right; text-align: right; width: 17%;">
-                                                <a class="btn btn-primary btn-lg btn-icon-text" href="{{route('vendor.home')}}">
+                                                <a class="btn btn-primary btn-lg btn-icon-text"
+                                                    href="{{route('vendor.application.setAccepted', ['project' => $project])}}"
+                                                    onclick="event.preventDefault(); document.getElementById('accepted-project-{{$project->id}}-form').submit();">
                                                     Accept
                                                 </a>
+                                                <form id="accepted-project-{{$project->id}}-form"
+                                                    action="{{ route('vendor.application.setAccepted', ['project' => $project]) }}" method="POST"
+                                                    style="display: none;">
+                                                    @csrf
+                                                </form>
                                             </div>
                                             <div style="float: right; text-align: right; width: 17%;">
                                                 <a class="btn btn-primary btn-lg btn-icon-text" href="{{route('vendor.application.setRejected', ['project' => $project])}}"

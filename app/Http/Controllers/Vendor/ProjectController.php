@@ -23,4 +23,18 @@ class ProjectController extends Controller
 
         return redirect()->route('vendor.home');
     }
+
+    public function setAccepted(Request $request, Project $project)
+    {
+        $application = VendorApplication::where('vendor_id', auth()->id())
+            ->where('project_id', $project->id)
+            ->first();
+        if ($application == null) {
+            abort(404);
+        }
+
+        $application->setStarted();
+
+        return redirect()->route('vendor.home');
+    }
 }
