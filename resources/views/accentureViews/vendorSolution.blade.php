@@ -132,7 +132,7 @@
                                     @endswitch
                                 @endforeach
 
-                                <x-folderFileUploader :folder="$solution->folder" />
+                                <x-folderFileUploader :folder="$solution->folder" :disabled="true" />
 
                                 <div style="float: right; margin-top: 20px;">
                                     <a class="btn btn-primary btn-lg btn-icon-text"

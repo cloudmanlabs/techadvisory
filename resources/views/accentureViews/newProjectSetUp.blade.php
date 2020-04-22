@@ -689,9 +689,10 @@
                                         <br>
                                         <div class="form-group">
                                             <label>Select vendors to be invited to this project</label><br>
-                                            <select class="js-example-basic-multiple w-100" multiple="multiple" style="width: 100%;">
-                                                {{-- Selected is the ids of the vendors --}}
-                                                <x-options.vendorList :selected="['1', '3']" />
+                                            <select
+                                                id="vendorSelection"
+                                                class="js-example-basic-multiple w-100" multiple="multiple" style="width: 100%;">
+                                                <x-options.vendorList :selected="$project->vendorsApplied()->pluck('id')->toArray()" />
                                             </select>
                                         </div>
 
@@ -953,6 +954,15 @@
             if($('#publishButton').data('clienthasfinished') == '1'){
                 $('#publishButton').attr('disabled', false);
             }
+        });
+
+        $('#vendorSelection').change(function(){
+            $.post('/accenture/newProjectSetUp/updateVendors', {
+                project_id: '{{$project->id}}',
+                vendorList: $(this).val()
+            })
+
+            showSavedToast();
         });
 
 

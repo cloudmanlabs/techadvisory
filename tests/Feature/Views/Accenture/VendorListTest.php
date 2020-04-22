@@ -3,6 +3,8 @@
 namespace Tests\Feature\Views\Accenture;
 
 use App\User;
+use App\VendorProfileQuestion;
+use App\VendorProfileQuestionResponse;
 use App\VendorSolution;
 use App\VendorSolutionQuestion;
 use App\VendorSolutionQuestionResponse;
@@ -129,5 +131,47 @@ class VendorListTest extends TestCase
             ->get('accenture/vendorSolution/edit/' . $solution->id);
 
         $response->assertStatus(200);
+    }
+
+    public function testCanChangeVendorResponse()
+    {
+        $user = factory(User::class)->states('accenture')->create();
+
+        $question = factory(VendorProfileQuestion::class)->create();
+        $vendor = factory(User::class)->states('vendor')->create();
+
+        $qResponse = new VendorProfileQuestionResponse([
+            'question_id' => $question->id,
+            'vendor_id' => $vendor->id,
+        ]);
+        $qResponse->save();
+
+        $response = $this->actingAs($user)
+            ->post('/accenture/vendorProfileEdit/changeResponse', [
+                'changing' => $qResponse->id,
+                'value' => 'newText'
+            ]);
+
+        $response->assertOk();
+
+        $qResponse->refresh();
+        $this->assertEquals('newText', $qResponse->response);
+    }
+
+    public function testCanChangeVendorName()
+    {
+        $user = factory(User::class)->states('accenture')->create();
+        $vendor = factory(User::class)->states('vendor')->create();
+
+        $response = $this->actingAs($user)
+            ->post('/accenture/vendorProfileEdit/changeName', [
+                'vendor_id' => $vendor->id,
+                'value' => 'newText'
+            ]);
+
+        $response->assertOk();
+
+        $vendor->refresh();
+        $this->assertEquals('newText', $vendor->name);
     }
 }

@@ -22,7 +22,7 @@
                             <div class="card-body">
                                 <div style="display: flex; justify-content: space-between">
                                     <h3>Edit project information</h3>
-                                    <a class="btn btn-primary btn-lg btn-icon-text" href="{{route('accenture.projectView', ['project' => $project])}}">View</a>
+                                    <a class="btn btn-primary btn-lg btn-icon-text" href="{{route('accenture.projectView', ['project' => $project])}}">Save</a>
                                 </div>
                                 <br>
                                 <div class="alert alert-warning" role="alert">Please note that this project is currently
@@ -1363,9 +1363,10 @@
                                         <br>
                                         <div class="form-group">
                                             <label>Select vendors to be invited to this project</label><br>
-                                            <select class="js-example-basic-multiple w-100" multiple="multiple" style="width: 100%;">
-                                                {{-- Selected is the ids of the vendors --}}
-                                                <x-options.vendorList :selected="['1', '3']" />
+                                            <select
+                                                id="vendorSelection"
+                                                class="js-example-basic-multiple w-100" multiple="multiple" style="width: 100%;">
+                                                <x-options.vendorList :selected="$project->vendorsApplied()->pluck('id')->toArray()" />
                                             </select>
                                         </div>
                                     </section>
@@ -1383,9 +1384,319 @@
 @endsection
 
 
-@section('scripts')
-    @parent
+@section('head')
+@parent
 
-    <script src="https://cdn.jsdelivr.net/npm/sortablejs@latest/Sortable.min.js"></script>
-    <script src="{{url('assets/js/bricks.js')}}"></script>
+<style>
+    select.form-control {
+        color: #495057;
+    }
+
+    .select2-results__options .select2-results__option[aria-disabled=true] {
+        display: none;
+    }
+
+    #subwizard_here ul>li {
+        display: block;
+    }
+</style>
+<link rel="stylesheet" href="{{url('/assets/css/techadvisory/vendorValidateResponses.css')}}">
+@endsection
+
+
+@section('scripts')
+@parent
+<script src="https://cdn.jsdelivr.net/npm/sortablejs@latest/Sortable.min.js"></script>
+<script src="{{url('assets/js/bricks.js')}}"></script>
+
+<script>
+    jQuery.expr[':'].hasValue = function(el,index,match) {
+        return el.value != "";
+    };
+
+    /**
+     *  Returns false if any field is empty
+     */
+    function checkIfAllRequiredsAreFilled(){
+        let array = $('input,textarea,select').filter('[required]').toArray();
+		if(array.length == 0) return true;
+
+        return array.reduce((prev, current) => {
+            return !prev ? false : $(current).is(':hasValue')
+        }, true)
+    }
+
+    function checkIfAllRequiredsInThisPageAreFilled(){
+        let array = $('input,textarea,select').filter('[required]:visible').toArray();
+        if(array.length == 0) return true;
+
+        return array.reduce((prev, current) => {
+            return !prev ? false : $(current).is(':hasValue')
+        }, true)
+    }
+
+    function updateSubmitButton()
+    {
+        // If we filled all the fields, remove the disabled from the button.
+        let fieldsAreEmtpy = !checkIfAllRequiredsAreFilled();
+        if(fieldsAreEmtpy){
+            $('#submitSizingInfo').attr('disabled', true)
+        } else {
+            $('#submitSizingInfo').attr('disabled', false)
+        }
+    }
+
+    function showSavedToast()
+    {
+        $.toast({
+            heading: 'Saved!',
+            showHideTransition: 'slide',
+            icon: 'success',
+            hideAfter: 1000,
+            position: 'bottom-right'
+        })
+    }
+
+    var currentPracticeId = {{$project->practice->id ?? -1}};
+    function updateShownQuestionsAccordingToPractice(){
+        $('.questionDiv').each(function () {
+            let practiceId = $(this).data('practice');
+
+            if(practiceId == currentPracticeId || practiceId == "") {
+                $(this).css('display', 'block')
+            } else {
+                $(this).css('display', 'none')
+            }
+        });
+    }
+
+    function updateShownSubpracticeOptionsAccordingToPractice(removeCurrentSelection = true){
+        // Deselect the current subpractice
+        if(removeCurrentSelection){
+            $('#subpracticeSelect').val([]);
+            $('#subpracticeSelect').trigger('change');
+        }
+
+        $('#subpracticeSelect').children().each(function(){
+            let practiceId = $(this).data('practiceid');
+
+            if(practiceId == currentPracticeId) {
+                $(this).attr('disabled', false);
+            } else {
+                $(this).attr('disabled', true);
+            }
+        })
+    }
+
+
+
+
+
+    $(document).ready(function() {
+        weAreOnPage3 = false;
+
+        $("#wizard_accenture_newProjectSetUp").steps({
+            headerTag: "h2",
+            bodyTag: "section",
+            transitionEffect: "slideLeft",
+            forceMoveForward: false,
+            labels: {
+                finish: 'Submit general set up'
+            },
+            onFinishing: function (event, currentIndex) {
+                // TODO Only let the client submit if all the fields are full
+
+                window.location.replace("/accenture/home");
+            },
+            onStepChanged: function (e, c, p) {
+                for (let i = 0; i < 10; i++) {
+                    $('#wizard_accenture_newProjectSetUp-p-' + i).css('display', 'none')
+                }
+                $('#wizard_accenture_newProjectSetUp-p-' + c).css('display', 'block')
+            }
+        });
+
+        // NOTE remember to keep this after the main wizard, else it breaks. haha so fun pls kill me
+        $("#subwizard_here").steps({
+            headerTag: "h3",
+            bodyTag: "div",
+            transitionEffect: "slideLeft",
+            showFinishButtonAlways: false,
+            enableFinishButton: false,
+        });
+
+
+
+        // On change for the 4 default ones
+
+        $('#projectName').change(function (e) {
+            var value = $(this).val();
+            $.post('/accenture/newProjectSetUp/changeProjectName', {
+                project_id: '{{$project->id}}',
+                newName: value
+            })
+
+            showSavedToast();
+            updateSubmitButton();
+        });
+
+        $('#chooseClientSelect').change(function (e) {
+            var value = $(this).val();
+            $.post('/accenture/newProjectSetUp/changeProjectClient', {
+                project_id: '{{$project->id}}',
+                client_id: value
+            })
+
+            showSavedToast();
+            updateSubmitButton();
+        });
+
+        $('#valueTargeting').change(function (e) {
+            var value = $(this).val();
+            $.post('/accenture/newProjectSetUp/changeProjectHasValueTargeting', {
+                project_id: '{{$project->id}}',
+                value
+            })
+
+            showSavedToast();
+            updateSubmitButton();
+        });
+
+        $('#bindingOption').change(function (e) {
+            var value = $(this).val();
+            $.post('/accenture/newProjectSetUp/changeProjectIsBinding', {
+                project_id: '{{$project->id}}',
+                value
+            })
+
+            showSavedToast();
+            updateSubmitButton();
+        });
+
+        $('#practiceSelect').change(function (e) {
+            var value = $(this).val();
+            currentPracticeId = value;
+            $.post('/accenture/newProjectSetUp/changePractice', {
+                project_id: '{{$project->id}}',
+                practice_id: value
+            })
+
+            showSavedToast();
+            updateSubmitButton();
+
+            updateShownQuestionsAccordingToPractice();
+            updateShownSubpracticeOptionsAccordingToPractice();
+        });
+
+        $('#subpracticeSelect').change(function (e) {
+            var value = $(this).val();
+            $.post('/accenture/newProjectSetUp/changeSubpractice', {
+                project_id: '{{$project->id}}',
+                subpractices: value
+            })
+
+            showSavedToast();
+            updateSubmitButton();
+        });
+
+        $('#step4Submit').click(function(){
+            $.post('/accenture/newProjectSetUp/setStep4Finished', {
+                project_id: '{{$project->id}}',
+            })
+
+            $.toast({
+                heading: 'Submitted!',
+                showHideTransition: 'slide',
+                icon: 'success',
+                hideAfter: 1000,
+                position: 'bottom-right'
+            })
+
+            // If the client has already accepted, set it as active
+            if($('#publishButton').data('clienthasfinished') == '1'){
+                $('#publishButton').attr('disabled', false);
+            }
+        });
+
+        $('#vendorSelection').change(function(){
+            $.post('/accenture/newProjectSetUp/updateVendors', {
+                project_id: '{{$project->id}}',
+                vendorList: $(this).val()
+            })
+
+            showSavedToast();
+        });
+
+
+
+        // On change for the rest
+
+        $('.generalQuestion input,.generalQuestion textarea,.generalQuestion select')
+            .filter(function(el) {
+                return $( this ).data('changing') !== undefined
+            })
+            .change(function (e) {
+                var value = $(this).val();
+                if($.isArray(value) && value.length == 0 && $(this).attr('multiple') !== undefined){
+                    value = '[]'
+                }
+
+                $.post('/generalInfoQuestion/changeResponse', {
+                    changing: $(this).data('changing'),
+                    value: value
+                })
+
+                showSavedToast();
+                updateSubmitButton();
+            });
+
+        $('.sizingQuestion input,.sizingQuestion textarea,.sizingQuestion select')
+            .filter(function(el) {
+                return $(this).data('changing') !== undefined
+            })
+            .change(function (e) {
+                var value = $(this).val();
+                if($.isArray(value) && value.length == 0 && $(this).attr('multiple') !== undefined){
+                    value = '[]'
+                }
+
+                $.post('/sizingQuestion/changeResponse', {
+                    changing: $(this).data('changing'),
+                    value: value
+                })
+
+                showSavedToast();
+                updateSubmitButton();
+            });
+
+        $('.sizingQuestion .checkboxesDiv input')
+            .change(function (e) {
+                $.post('/sizingQuestion/setShouldShow', {
+                    changing: $(this).data('changingid'),
+                    value: $(this).prop("checked")
+                })
+
+                showSavedToast();
+                updateSubmitButton();
+            });
+
+        $(".js-example-basic-single").select2();
+        $(".js-example-basic-multiple").select2();
+
+        $('.datepicker').each(function(){
+            var date = new Date($(this).data('initialvalue'));
+
+            $(this).datepicker({
+                format: "mm/dd/yyyy",
+                todayHighlight: true,
+                autoclose: true
+            });
+            $(this).datepicker('setDate', date);
+        });
+
+        updateShownQuestionsAccordingToPractice();
+        updateShownSubpracticeOptionsAccordingToPractice(false);
+        updateSubmitButton();
+    });
+</script>
 @endsection

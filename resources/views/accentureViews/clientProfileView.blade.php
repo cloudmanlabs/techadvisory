@@ -118,7 +118,7 @@
                                 @endswitch
                                 @endforeach
 
-                                <x-folderFileUploader :folder="$client->profileFolder" />
+                                <x-folderFileUploader :folder="$client->profileFolder" :disabled="true" />
 
                                 <div style="float: right; margin-top: 20px;">
                                     <form action="{{route('client.profile.submit')}}" method="post">

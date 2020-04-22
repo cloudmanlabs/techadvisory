@@ -50,7 +50,6 @@ class ClientVendorListController extends Controller
         ]);
     }
 
-    // TODO Write tests for this function and route
     public function changeClientProfileResponse(Request $request)
     {
         $request->validate([
@@ -76,7 +75,6 @@ class ClientVendorListController extends Controller
         ]);
     }
 
-    // TODO Write tests for this function and route
     public function changeClientName(Request $request)
     {
         $request->validate([
@@ -163,7 +161,6 @@ class ClientVendorListController extends Controller
         ]);
     }
 
-    // TODO Write tests for this function and route
     public function changeVendorProfileResponse(Request $request)
     {
         $request->validate([
@@ -189,7 +186,6 @@ class ClientVendorListController extends Controller
         ]);
     }
 
-    // TODO Write tests for this function and route
     public function changeVendorName(Request $request)
     {
         $request->validate([

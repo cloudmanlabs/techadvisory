@@ -164,7 +164,7 @@
                                             @endswitch
                                         @endforeach
 
-                                        <x-folderFileUploader :folder="$vendor->profileFolder" : ="true" />
+                                        <x-folderFileUploader :folder="$vendor->profileFolder"/>
                                     </section>
 
 

@@ -869,9 +869,11 @@
                                         <br>
                                         <div class="form-group">
                                             <label>Vendors invited to this project</label><br>
-                                            <select class="js-example-basic-multiple w-100" multiple="multiple" disabled style="width: 100%;">
-                                                {{-- Selected is the ids of the vendors --}}
-                                                <x-options.vendorList :selected="['1', '3']" />
+                                            <select
+                                                id="vendorSelection"
+                                                disabled
+                                                class="js-example-basic-multiple w-100" multiple="multiple" style="width: 100%;">
+                                                <x-options.vendorList :selected="$project->vendorsApplied()->pluck('id')->toArray()" />
                                             </select>
                                         </div>
                                     </section>
@@ -885,4 +887,48 @@
             <x-footer />
         </div>
     </div>
+@endsection
+
+@section('head')
+@parent
+
+<style>
+    select.form-control {
+        color: #495057;
+    }
+
+    .select2-results__options .select2-results__option[aria-disabled=true] {
+        display: none;
+    }
+
+    #subwizard_here ul>li {
+        display: block;
+    }
+</style>
+<link rel="stylesheet" href="{{url('/assets/css/techadvisory/vendorValidateResponses.css')}}">
+@endsection
+
+@section('scripts')
+@parent
+{{-- <script src="https://cdn.jsdelivr.net/npm/sortablejs@latest/Sortable.min.js"></script>
+<script src="{{url('assets/js/bricks.js')}}"></script> --}}
+
+<script>
+    $(document).ready(function() {
+        $(".js-example-basic-single").select2();
+        $(".js-example-basic-multiple").select2();
+
+        $('.datepicker').each(function(){
+            var date = new Date($(this).data('initialvalue'));
+
+            $(this).datepicker({
+                format: "mm/dd/yyyy",
+                todayHighlight: true,
+                autoclose: true
+            });
+            $(this).datepicker('setDate', date);
+        });
+
+    });
+</script>
 @endsection

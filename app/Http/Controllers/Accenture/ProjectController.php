@@ -187,6 +187,49 @@ class ProjectController extends Controller
         ]);
     }
 
+    public function updateVendors(Request $request)
+    {
+        $request->validate([
+            'project_id' => 'required|numeric',
+            'vendorList' => 'required|array'
+        ]);
+
+        /** @var Project $project */
+        $project = Project::find($request->project_id);
+        if ($project == null) {
+            abort(404);
+        }
+
+        $currentVendors = $project->vendorsApplied()->pluck('id')->toArray();
+
+        $removedVendors = array_diff($currentVendors, $request->vendorList);
+        foreach ($removedVendors as $key => $vendor_id) {
+            $vendor = User::find($vendor_id);
+            if ($vendor == null) continue;
+
+            $application = VendorApplication::where([
+                'project_id' => $project->id,
+                'vendor_id' => $vendor->id
+            ])->first();
+            if($application != null){
+                $application->delete();
+            }
+        }
+
+        $addedVendors = array_diff($request->vendorList, $currentVendors);
+        foreach ($addedVendors as $key => $vendor_id) {
+            $vendor = User::find($vendor_id);
+            if($vendor == null || ! $vendor->isVendor() || ! $vendor->hasFinishedSetup) continue;
+
+            $vendor->applyToProject($project);
+        }
+
+        return \response()->json([
+            'status' => 200,
+            'message' => 'Success'
+        ]);
+    }
+
 
 
     public function home(Project $project)

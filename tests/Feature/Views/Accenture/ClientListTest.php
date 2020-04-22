@@ -2,6 +2,8 @@
 
 namespace Tests\Feature\Views\Accenture;
 
+use App\ClientProfileQuestion;
+use App\ClientProfileQuestionResponse;
 use App\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -78,5 +80,47 @@ class ClientListTest extends TestCase
         $response->assertRedirect();
 
         $this->assertCount(1, User::clientUsers()->get());
+    }
+
+    public function testCanChangeClientResponse()
+    {
+        $user = factory(User::class)->states('accenture')->create();
+
+        $question = factory(ClientProfileQuestion::class)->create();
+        $client = factory(User::class)->states('client')->create();
+
+        $qResponse = new ClientProfileQuestionResponse([
+            'question_id' => $question->id,
+            'client_id' => $client->id,
+        ]);
+        $qResponse->save();
+
+        $response = $this->actingAs($user)
+            ->post('/accenture/clientProfileEdit/changeResponse', [
+                'changing' => $qResponse->id,
+                'value' => 'newText'
+            ]);
+
+        $response->assertOk();
+
+        $qResponse->refresh();
+        $this->assertEquals('newText', $qResponse->response);
+    }
+
+    public function testCanChangeClientName()
+    {
+        $user = factory(User::class)->states('accenture')->create();
+        $client = factory(User::class)->states('client')->create();
+
+        $response = $this->actingAs($user)
+            ->post('/accenture/clientProfileEdit/changeName', [
+                'client_id' => $client->id,
+                'value' => 'newText'
+            ]);
+
+        $response->assertOk();
+
+        $client->refresh();
+        $this->assertEquals('newText', $client->name);
     }
 }
