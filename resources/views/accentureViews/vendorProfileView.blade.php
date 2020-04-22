@@ -19,7 +19,7 @@
                                 <div style="display: flex; justify-content: space-between">
                                     <h3>Complete the Profile</h3>
                                     <a class="btn btn-primary btn-lg btn-icon-text"
-                                        href="{{route('accenture.vendorProfileView', ['vendor' => $vendor])}}">Edit</a>
+                                        href="{{route('accenture.vendorProfileEdit', ['vendor' => $vendor])}}">Edit</a>
                                 </div>
 
 
@@ -48,15 +48,13 @@
                                                 disabled>
                                         </div>
 
+                                        <br>
                                         <div class="form-group">
-                                            <label>Upload your logo</label> <input class="file-upload-default" name="img[]" type="file">
-
-                                            <div class="input-group col-xs-12">
-                                                <input class="form-control file-upload-info" disabled placeholder="Upload Image" type="text"> <span
-                                                    class="input-group-append"><button class="file-upload-browse btn btn-primary" type="button"><span
-                                                            class="input-group-append">Upload</span></button></span>
-                                            </div>
+                                            <label>Logo</label>
+                                            <img src="{{url($vendor->logo ? ('/storage/' . $vendor->logo) : '/assets/images/user.png')}}" alt=""
+                                                style="max-height: 5rem">
                                         </div>
+                                        <br>
 
                                         @foreach ($generalQuestions as $question)
                                             @switch($question->original->type)

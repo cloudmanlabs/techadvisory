@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers\Accenture;
 
+use App\ClientProfileQuestionResponse;
 use App\Http\Controllers\Controller;
 use App\User;
+use App\VendorProfileQuestionResponse;
 use App\VendorSolution;
 use App\VendorSolutionQuestionResponse;
 use Illuminate\Http\Request;
@@ -48,6 +50,54 @@ class ClientVendorListController extends Controller
         ]);
     }
 
+    // TODO Write tests for this function and route
+    public function changeClientProfileResponse(Request $request)
+    {
+        $request->validate([
+            'changing' => 'required|numeric',
+            'value' => 'required',
+        ]);
+
+        $answer = ClientProfileQuestionResponse::find($request->changing);
+        if ($answer == null) {
+            abort(404);
+        }
+
+        if ($answer->original->type == 'boolean') {
+            $answer->response = $request->value === 'yes';
+        } else {
+            $answer->response = $request->value;
+        }
+        $answer->save();
+
+        return response()->json([
+            'status' => 200,
+            'message' => 'nma'
+        ]);
+    }
+
+    // TODO Write tests for this function and route
+    public function changeClientName(Request $request)
+    {
+        $request->validate([
+            'client_id' => 'required|numeric',
+            'value' => 'required',
+        ]);
+
+        $client = User::find($request->client_id);
+        if ($client == null || ! $client->isClient()) {
+            abort(404);
+        }
+
+        $client->name = $request->value;
+        $client->save();
+
+        return response()->json([
+            'status' => 200,
+            'message' => 'nma'
+        ]);
+    }
+
 
 
     public function createVendorPost(Request $request)
@@ -67,7 +117,8 @@ class ClientVendorListController extends Controller
     public function vendorList()
     {
         return view('accentureViews.vendorList', [
-            'vendors' => User::vendorUsers()->get(),
+            'vendors' => User::vendorUsers()->where('hasFinishedSetup', true)->get(),
+            'vendorsPendingValidation' => User::vendorUsers()->where('hasFinishedSetup', false)->get(),
             'vendorSolutions' => VendorSolution::all()
         ]);
     }
@@ -112,6 +163,59 @@ class ClientVendorListController extends Controller
         ]);
     }
 
+    // TODO Write tests for this function and route
+    public function changeVendorProfileResponse(Request $request)
+    {
+        $request->validate([
+            'changing' => 'required|numeric',
+            'value' => 'required',
+        ]);
+
+        $answer = VendorProfileQuestionResponse::find($request->changing);
+        if ($answer == null) {
+            abort(404);
+        }
+
+        if ($answer->original->type == 'boolean') {
+            $answer->response = $request->value === 'yes';
+        } else {
+            $answer->response = $request->value;
+        }
+        $answer->save();
+
+        return response()->json([
+            'status' => 200,
+            'message' => 'nma'
+        ]);
+    }
+
+    // TODO Write tests for this function and route
+    public function changeVendorName(Request $request)
+    {
+        $request->validate([
+            'vendor_id' => 'required|numeric',
+            'value' => 'required',
+        ]);
+
+        $client = User::find($request->vendor_id);
+        if ($client == null || !$client->isVendor()) {
+            abort(404);
+        }
+
+        $client->name = $request->value;
+        $client->save();
+
+        return response()->json([
+            'status' => 200,
+            'message' => 'nma'
+        ]);
+    }
+
+
+
+
+
+
     public function vendorSolution(VendorSolution $solution)
     {
         return view('accentureViews.vendorSolution', [
@@ -150,7 +254,7 @@ class ClientVendorListController extends Controller
         ]);
     }
 
-    public function changeResponse(Request $request)
+    public function changeSolutionResponse(Request $request)
     {
         $request->validate([
             'changing' => 'required|numeric',

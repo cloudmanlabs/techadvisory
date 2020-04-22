@@ -31,8 +31,8 @@
 
 
                                 <div class="form-group">
-                                    <label for="exampleInputText1">Client name</label>
-                                    <input class="form-control" id="exampleInputText1" value="{{$client->name}}" type="text">
+                                    <label for="clientNameInput">Client name</label>
+                                    <input class="form-control" id="clientNameInput" value="{{$client->name}}" type="text">
                                 </div>
 
                                 <br>
@@ -54,75 +54,75 @@
                                 <br>
 
                                 @foreach ($questions as $question)
-                                @switch($question->original->type)
-                                @case('text')
-                                <div class="form-group questionDiv profileQuestion" data-practice="{{$question->original->practice->id ?? ''}}">
-                                    <label>{{$question->original->label}}*</label>
-                                    <input required class="form-control" type="text" data-changing="{{$question->id}}"
-                                        value="{{$question->response}}" placeholder="{{$question->original->placeholder}}">
-                                </div>
-                                @break
-                                @case('textarea')
-                                <div class="form-group questionDiv profileQuestion" data-practice="{{$question->original->practice->id ?? ''}}">
-                                    <label>{{$question->original->label}}*</label>
-                                    <textarea required rows="14" class="form-control"
-                                        data-changing="{{$question->id}}">{{$question->response}}</textarea>
-                                </div>
-                                @break
-                                @case('selectSingle')
-                                <div class="form-group questionDiv profileQuestion" data-practice="{{$question->original->practice->id ?? ''}}">
-                                    <label>{{$question->original->label}}*</label>
-                                    <select required class="form-control" data-changing="{{$question->id}}">
-                                        <option @if($question->response == '') selected @endif="">{{$question->original->placeholder}}</option>
+                                    @switch($question->original->type)
+                                        @case('text')
+                                            <div class="form-group questionDiv profileQuestion" data-practice="{{$question->original->practice->id ?? ''}}">
+                                                <label>{{$question->original->label}}*</label>
+                                                <input required class="form-control" type="text" data-changing="{{$question->id}}"
+                                                    value="{{$question->response}}" placeholder="{{$question->original->placeholder}}">
+                                            </div>
+                                            @break
+                                        @case('textarea')
+                                            <div class="form-group questionDiv profileQuestion" data-practice="{{$question->original->practice->id ?? ''}}">
+                                                <label>{{$question->original->label}}*</label>
+                                                <textarea required rows="14" class="form-control"
+                                                    data-changing="{{$question->id}}">{{$question->response}}</textarea>
+                                            </div>
+                                            @break
+                                        @case('selectSingle')
+                                            <div class="form-group questionDiv profileQuestion" data-practice="{{$question->original->practice->id ?? ''}}">
+                                                <label>{{$question->original->label}}*</label>
+                                                <select required class="form-control" data-changing="{{$question->id}}">
+                                                    <option @if($question->response == '') selected @endif="">{{$question->original->placeholder}}</option>
 
-                                        @if ($question->original->presetOption == 'countries')
-                                        <x-options.countries :selected="[$question->response]" />
-                                        @else
-                                        @foreach ($question->original->optionList() as $option)
-                                        <option value="{{$option}}" @if($question->response == $option) selected @endif>{{$option}}</option>
-                                        @endforeach
-                                        @endif
-                                    </select>
-                                </div>
-                                @break
-                                @case('selectMultiple')
-                                <div class="form-group questionDiv profileQuestion" data-practice="{{$question->original->practice->id ?? ''}}">
-                                    <label>{{$question->original->label}}*</label>
-                                    <select class="js-example-basic-multiple w-100" required data-changing="{{$question->id}}" multiple="multiple">
-                                        @php
-                                        $selectedOptions = json_decode($question->response ?? '[]');
-                                        @endphp
+                                                    @if ($question->original->presetOption == 'countries')
+                                                    <x-options.countries :selected="[$question->response]" />
+                                                    @else
+                                                    @foreach ($question->original->optionList() as $option)
+                                                    <option value="{{$option}}" @if($question->response == $option) selected @endif>{{$option}}</option>
+                                                    @endforeach
+                                                    @endif
+                                                </select>
+                                            </div>
+                                            @break
+                                        @case('selectMultiple')
+                                            <div class="form-group questionDiv profileQuestion" data-practice="{{$question->original->practice->id ?? ''}}">
+                                                <label>{{$question->original->label}}*</label>
+                                                <select class="js-example-basic-multiple w-100" required data-changing="{{$question->id}}" multiple="multiple">
+                                                    @php
+                                                    $selectedOptions = json_decode($question->response ?? '[]');
+                                                    @endphp
 
-                                        @if ($question->original->presetOption == 'countries')
-                                        <x-options.countries :selected="$selectedOptions" />
-                                        @else
-                                        @foreach ($question->original->optionList() as $option)
-                                        <option value="{{$option}}" {{in_array($option, $selectedOptions) ? 'selected' : ''}}>{{$option}}</option>
-                                        @endforeach
-                                        @endif
-                                    </select>
-                                </div>
-                                @break
-                                @case('date')
-                                <div class="questionDiv profileQuestion" data-practice="{{$question->original->practice->id ?? ''}}">
-                                    <label>{{$question->original->label}}*</label>
-                                    <div class="input-group date datepicker" data-initialValue="{{$question->response}}">
-                                        <input required data-changing="{{$question->id}}" value="{{$question->response}}" type="text"
-                                            class="form-control">
-                                        <span class="input-group-addon"><i data-feather="calendar"></i></span>
-                                    </div>
-                                </div>
-                                @break
-                                @case('number')
-                                <div class="form-group questionDiv profileQuestion" data-practice="{{$question->original->practice->id ?? ''}}">
-                                    <label>{{$question->original->label}}*</label>
-                                    <input required class="form-control" type="number" data-changing="{{$question->id}}"
-                                        value="{{$question->response}}" placeholder="{{$question->original->placeholder}}">
-                                </div>
-                                @break
-                                @default
+                                                    @if ($question->original->presetOption == 'countries')
+                                                    <x-options.countries :selected="$selectedOptions" />
+                                                    @else
+                                                    @foreach ($question->original->optionList() as $option)
+                                                    <option value="{{$option}}" {{in_array($option, $selectedOptions) ? 'selected' : ''}}>{{$option}}</option>
+                                                    @endforeach
+                                                    @endif
+                                                </select>
+                                            </div>
+                                            @break
+                                        @case('date')
+                                            <div class="questionDiv profileQuestion" data-practice="{{$question->original->practice->id ?? ''}}">
+                                                <label>{{$question->original->label}}*</label>
+                                                <div class="input-group date datepicker" data-initialValue="{{$question->response}}">
+                                                    <input required data-changing="{{$question->id}}" value="{{$question->response}}" type="text"
+                                                        class="form-control">
+                                                    <span class="input-group-addon"><i data-feather="calendar"></i></span>
+                                                </div>
+                                            </div>
+                                            @break
+                                        @case('number')
+                                            <div class="form-group questionDiv profileQuestion" data-practice="{{$question->original->practice->id ?? ''}}">
+                                                <label>{{$question->original->label}}*</label>
+                                                <input required class="form-control" type="number" data-changing="{{$question->id}}"
+                                                    value="{{$question->response}}" placeholder="{{$question->original->placeholder}}">
+                                            </div>
+                                            @break
+                                        @default
 
-                                @endswitch
+                                    @endswitch
                                 @endforeach
 
                                 <x-folderFileUploader :folder="$client->profileFolder" />
@@ -144,4 +144,144 @@
             <x-footer />
         </div>
     </div>
+@endsection
+
+@section('head')
+@parent
+
+<style>
+    select.form-control {
+        color: #495057;
+    }
+
+    .select2-results__options .select2-results__option[aria-disabled=true] {
+        display: none;
+    }
+</style>
+@endsection
+
+
+@section('scripts')
+@parent
+<script>
+    jQuery.expr[':'].hasValue = function(el,index,match) {
+        return el.value != "";
+    };
+
+    /**
+     *  Returns false if any field is empty
+     */
+    function checkIfAllRequiredsAreFilled(){
+        let array = $('input,textarea,select').filter('[required]').toArray();
+		if(array.length == 0) return true;
+
+        return array.reduce((prev, current) => {
+            return !prev ? false : $(current).is(':hasValue')
+        }, true)
+    }
+
+    function checkIfAllRequiredsInThisPageAreFilled(){
+        let array = $('input,textarea,select').filter('[required]:visible').toArray();
+        if(array.length == 0) return true;
+
+        return array.reduce((prev, current) => {
+            return !prev ? false : $(current).is(':hasValue')
+        }, true)
+    }
+
+    function updateSubmitButton()
+    {
+        // If we filled all the fields, remove the disabled from the button.
+        if(checkIfAllRequiredsAreFilled()){
+            $('#submitButton').attr('disabled', false)
+        } else {
+            $('#submitButton').attr('disabled', true)
+        }
+    }
+
+    function showSavedToast()
+    {
+        $.toast({
+            heading: 'Saved!',
+            showHideTransition: 'slide',
+            icon: 'success',
+            hideAfter: 1000,
+            position: 'bottom-right'
+        })
+    }
+
+    $(document).ready(function() {
+        $('.profileQuestion input,.profileQuestion textarea,.profileQuestion select')
+            .filter(function(el) {
+                return $( this ).data('changing') !== undefined
+            })
+            .change(function (e) {
+                var value = $(this).val();
+                if($.isArray(value) && value.length == 0 && $(this).attr('multiple') !== undefined){
+                    value = '[]'
+                }
+
+                $.post('/accenture/clientProfileEdit/changeResponse', {
+                    changing: $(this).data('changing'),
+                    value: value
+                })
+
+                showSavedToast();
+                updateSubmitButton();
+            });
+
+        $('#clientNameInput')
+            .change(function (e) {
+                var value = $(this).val();
+                $.post('/accenture/clientProfileEdit/changeName', {
+                    client_id: {{$client->id}},
+                    value: value
+                })
+
+                showSavedToast();
+                updateSubmitButton();
+            });
+
+        $(".js-example-basic-single").select2();
+        $(".js-example-basic-multiple").select2();
+
+        $('.datepicker').each(function(){
+            var date = new Date($(this).data('initialvalue'));
+
+            $(this).datepicker({
+                format: "mm/dd/yyyy",
+                todayHighlight: true,
+                autoclose: true
+            });
+            $(this).datepicker('setDate', date);
+        });
+
+        $('.file-upload-browse').on('click', function(e) {
+            $("#logoInput").trigger('click');
+        });
+
+        $("#logoInput").change(function (){
+            var fileName = $(this).val().split('\\').pop();;
+
+            $("#fileNameInput").val(fileName);
+            $('#logoUploadButton').html('Replace file')
+
+
+            var formData = new FormData();
+            formData.append('user_id', '{{$client->id}}')
+            formData.append('image', $(this).get(0).files[0]);
+            $.ajax({
+                url : "/accenture/changeSomeoneElsesLogo",
+                type: "POST",
+                data : formData,
+                processData: false,
+                contentType: false,
+            });
+
+            showSavedToast();
+        });
+
+        updateSubmitButton();
+    });
+</script>
 @endsection

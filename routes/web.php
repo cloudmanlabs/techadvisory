@@ -38,6 +38,8 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/sizingQuestion/setShouldShow', 'SizingQuestionController@setShouldShow');
 
     Route::post('/user/changeLogo', 'UserController@changeLogo');
+    Route::post('/accenture/changeSomeoneElsesLogo', 'UserController@changeSomeoneElsesLogo')
+        ->middleware('checkAccenture');
 
 
     Route::post('folder/uploadFilesToFolder', 'FolderController@uploadFiles');

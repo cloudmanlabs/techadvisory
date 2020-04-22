@@ -37,21 +37,13 @@
                                 </div>
 
                                 <br>
+                                <br>
                                 <div class="form-group">
-                                    <label>Upload your logo</label>
-                                    <input id="logoInput" class="file-upload-default" name="img[]" type="file">
-
-                                    <div class="input-group col-xs-12">
-                                        <input id="fileNameInput" disabled class="form-control file-upload-info"
-                                            value="{{$client->logo ? 'logo.jpg' : 'No file selected'}}" type="text">
-                                        <span class="input-group-append">
-                                            <button class="file-upload-browse btn btn-primary" type="button">
-                                                <span class="input-group-append"
-                                                    id="logoUploadButton">{{$client->logo ? 'Replace file' : 'Select file'}}</span>
-                                            </button>
-                                        </span>
-                                    </div>
+                                    <label>Logo</label>
+                                    <img src="{{url($client->logo ? ('/storage/' . $client->logo) : '/assets/images/user.png')}}" alt=""
+                                        style="max-height: 5rem">
                                 </div>
+                                <br>
                                 <br>
 
                                 @foreach ($questions as $question)

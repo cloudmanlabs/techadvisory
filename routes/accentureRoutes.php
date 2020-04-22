@@ -40,15 +40,17 @@ Route::
             Route::post('/newProjectSetUp/changeSubpractice', 'ProjectController@changeSubpractice');
             Route::post('/newProjectSetUp/setStep4Finished', 'ProjectController@setStep4Finished');
 
-
             Route::post('createClient', 'ClientVendorListController@createClientPost')
                 ->name('createClient');
             Route::get('clientList', 'ClientVendorListController@clientList')
                 ->name('clientList');
             Route::get('clientProfileEdit/{client}', 'ClientVendorListController@clientProfileEdit')
                 ->name('clientProfileEdit');
+            Route::post('clientProfileEdit/changeResponse', 'ClientVendorListController@changeClientProfileResponse');
+            Route::post('clientProfileEdit/changeName', 'ClientVendorListController@changeClientName');
             Route::get('clientProfileView/{client}', 'ClientVendorListController@clientProfileView')
                 ->name('clientProfileView');
+
 
             Route::post('createVendor', 'ClientVendorListController@createVendorPost')
                 ->name('createVendor');
@@ -56,13 +58,15 @@ Route::
                 ->name('vendorList');
             Route::get('vendorProfileEdit/{vendor}', 'ClientVendorListController@vendorProfileEdit')
                 ->name('vendorProfileEdit');
+            Route::post('vendorProfileEdit/changeResponse', 'ClientVendorListController@changeVendorProfileResponse');
+            Route::post('vendorProfileEdit/changeName', 'ClientVendorListController@changeVendorName');
             Route::get('vendorProfileView/{vendor}', 'ClientVendorListController@vendorProfileView')
                 ->name('vendorProfileView');
             Route::get('vendorSolution/{solution}', 'ClientVendorListController@vendorSolution')
                 ->name('vendorSolution');
             Route::get('vendorSolution/edit/{solution}', 'ClientVendorListController@vendorSolutionEdit')
                 ->name('vendorSolutionEdit');
-            Route::post('vendorSolution/changeResponse', 'ClientVendorListController@changeResponse');
+            Route::post('vendorSolution/changeResponse', 'ClientVendorListController@changeSolutionResponse');
             Route::post('vendorSolution/changeName', 'ClientVendorListController@changeSolutionName');
 
             Route::view('vendorValidateResponses', 'accentureViews.vendorValidateResponses')

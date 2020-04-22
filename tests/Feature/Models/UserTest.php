@@ -145,7 +145,30 @@ class UserTest extends TestCase
 
         Storage::disk('public')->assertExists('logos/'.$file->hashName());
 
-        $this->assertEquals($user->logo, 'logos/' . $file->hashName());
+        $user->refresh();
+        $this->assertEquals('logos/' . $file->hashName(), $user->logo);
+    }
+
+    public function testAccentureCanChangeSomeoneElsesLogo()
+    {
+        $user = factory(User::class)->create();
+        $accenture = factory(User::class)->states('accenture')->create();
+
+        Storage::fake('public');
+
+        $file = UploadedFile::fake()->image('avatar.jpg');
+
+        $response = $this->actingAs($accenture)
+            ->post('accenture/changeSomeoneElsesLogo', [
+                'image' => $file,
+                'user_id' => $user->id
+            ]);
+        $response->assertOk();
+
+        Storage::disk('public')->assertExists('logos/' . $file->hashName());
+
+        $user->refresh();
+        $this->assertEquals('logos/' . $file->hashName(), $user->logo);
     }
 
 

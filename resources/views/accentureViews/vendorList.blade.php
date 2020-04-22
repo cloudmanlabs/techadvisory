@@ -38,7 +38,6 @@
                                             <h5>Segment name</h5>
                                         </div>
                                         <div style="float: right; width: 10%; margin-right: 10%;">
-                                            {{-- TODO Change image --}}
                                             <img alt="profile" src="{{url($vendor->logo ? ('/storage/' . $vendor->logo) : '/assets/images/user.png')}}" style="height: 20px">
                                         </div>
                                     </div>
@@ -58,23 +57,26 @@
                                     on the button.</p>
                                 <br>
                                 <br>
+                                @foreach ($vendorsPendingValidation as $vendor)
                                 <div class="card" style="margin-bottom: 30px;">
                                     <div class="card-body">
                                         <div style="float: left; max-width: 40%;">
-                                            <h4>Vendor Name</h4>
+                                            <h4>{{$vendor->name}}</h4>
                                         </div>
                                         <div style="float: right; text-align: right; width: 15%;">
-                                            <a class="btn btn-primary btn-lg btn-icon-text" href="{{route('accenture.vendorValidateResponses')}}">Validate</a>
+                                            <a class="btn btn-primary btn-lg btn-icon-text"
+                                                href="{{route('accenture.vendorValidateResponses', ['vendor' => $vendor])}}">Validate</a>
                                         </div>
                                         <div style="float: right; width: 20%; margin-right: 10%;">
                                             <h5>Segment name</h5>
                                         </div>
                                         <div style="float: right; width: 10%; margin-right: 10%;">
-                                            {{-- TODO Change image --}}
-                                            <img alt="profile" src="@profilePic" style="height: 20px">
+                                            <img alt="profile" src="{{url($vendor->logo ? ('/storage/' . $vendor->logo) : '/assets/images/user.png')}}"
+                                                style="height: 20px">
                                         </div>
                                     </div>
                                 </div>
+                                @endforeach
                             </div>
                         </div>
                     </div>
