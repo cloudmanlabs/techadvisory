@@ -31,10 +31,6 @@
 
                                 @foreach ($startedVendors as $vendor)
                                 <x-vendorCard :vendor="$vendor">
-                                    <div style=" text-align: right; width: 15%;">
-                                        <a class="btn btn-primary btn-lg btn-icon-text" href="{{route('client.viewVendorProposal')}}">View response
-                                        </a>
-                                    </div>
                                 </x-vendorCard>
                                 @endforeach
                             </div>
@@ -59,25 +55,11 @@
                                         <a class="btn btn-primary btn-lg btn-icon-text" href="#">Download response
                                         </a>
                                     </div>
+                                    <div style=" text-align: right; width: 15%;">
+                                        <a class="btn btn-primary btn-lg btn-icon-text" href="{{route('client.viewVendorProposal')}}">View response
+                                        </a>
+                                    </div>
                                 </x-vendorCard>
-                                @endforeach
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="row">
-                    <div class="col-lg-12 grid-margin stretch-card">
-                        <div class="card">
-                            <div class="card-body">
-                                <h3>Disqualified vendors</h3>
-                                <p class="welcome_text extra-top-15px">The following vendors have already been disqualified.
-                                </p>
-                                <br>
-                                <br>
-
-                                @foreach ($disqualifiedVendors as $vendor)
-                                <x-vendorCard :showProgressBar="false" :vendor="$vendor"></x-vendorCard>
                                 @endforeach
                             </div>
                         </div>

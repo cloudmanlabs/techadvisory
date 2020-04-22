@@ -123,31 +123,4 @@ class ProjectHomeTest extends TestCase
         $response->assertStatus(200)
             ->assertSee($vendor->name);
     }
-
-    public function testShowsDisqualifiedVendors()
-    {
-        /** @var User $vendor */
-        $vendor = factory(User::class)->states(['vendor', 'finishedSetup'])->create();
-        $practice = factory(Practice::class)->create([
-            'name' => 'praaacticeeeee'
-        ]);
-        $client = factory(User::class)->states(['client', 'finishedSetup'])->create();
-        $project = factory(Project::class)->create([
-            'name' => 'Project name',
-            'currentPhase' => 'preparation',
-
-            'practice_id' => $practice->id,
-            'client_id' => $client->id,
-        ]);
-
-        $application = $vendor->applyToProject($project);
-        $application->setDisqualified();
-
-        $response = $this
-            ->actingAs($client)
-            ->get('/client/project/home/' . $project->id);
-
-        $response->assertStatus(200)
-            ->assertSee($vendor->name);
-    }
 }
