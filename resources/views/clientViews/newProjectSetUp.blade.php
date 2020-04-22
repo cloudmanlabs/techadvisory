@@ -68,13 +68,12 @@
                                                 data-changing="name"
                                                 placeholder="Project Name"
                                                 value="{{$project->name}}"
-                                                disabled
-                                                required>
+                                                disabled>
                                         </div>
 
                                         <div class="form-group">
                                             <label for="valueTargeting">Value Targeting*</label>
-                                            <select class="form-control" id="valueTargeting" required disabled>
+                                            <select class="form-control" id="valueTargeting" disabled>
                                                 <option disabled="">Please select the Project Type</option>
                                                 <option value="yes" @if($project->hasValueTargeting) selected @endif>Yes</option>
                                                 <option value="no" @if(!$project->hasValueTargeting) selected @endif>No</option>
@@ -100,7 +99,10 @@
 
                                         <div class="form-group">
                                             <label for="subpracticeSelect">Subpractice*</label>
-                                            <select class="js-example-basic-multiple w-100" id="subpracticeSelect" multiple="multiple" required>
+                                            <select
+                                                class="js-example-basic-multiple w-100"
+                                                id="subpracticeSelect"
+                                                multiple="multiple" required>
                                                 @php
                                                 $select = $project->subpractices()->pluck('subpractices.id')->toArray();
                                                 @endphp
@@ -752,7 +754,7 @@
 
                                             <h3>Scoring criteria</h3>
                                             <div>
-                                                <x-scoringCriteriaBricksView />
+                                                <x-scoringCriteriaBricks />
 
                                                 <br>
                                                 <br>
@@ -775,8 +777,7 @@
                                     </section>
                                 </div>
                             </div>
-
-             </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -806,12 +807,9 @@
 
 @section('scripts')
 @parent
-{{-- NOT SURE IF THE CLIENT CAN EDIT THIS --}}
-{{--
 <script src="https://cdn.jsdelivr.net/npm/sortablejs@latest/Sortable.min.js"></script>
-<script src="{{url('assets/js/bricks.js')}}"></script> --}}
+<script src="{{url('assets/js/bricks.js')}}"></script>
 
-<script src="{{url('assets/js/select2.js')}}"></script>
 <link rel="stylesheet" href="{{url('/assets/css/techadvisory/vendorValidateResponses.css')}}">
 
 <script>

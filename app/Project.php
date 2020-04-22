@@ -33,31 +33,6 @@ class Project extends Model
         'step4FinishedClient' => 'boolean',
     ];
 
-    /**
-     * List of fields that can be changed from a post request in the frontend
-     */
-    const fieldsChangableByPost = [
-        'shortDescription',
-        'clientContactEmail',
-        'clientContactPhone',
-        'accentureContactEmail',
-        'accentureContactPhone',
-        'projectType',
-        'projectCurrency',
-        'detailedDescription',
-        'practiceSelect',
-        'subpracticeSelect',
-        'regionServed',
-        'transportFlows',
-        'transportMode',
-        'transportType',
-        'tentativeProjectSetUp',
-        'tentativeValueEnablers',
-        'tentativeVendorResponse',
-        'tentativeAnalytics',
-        'tentativeConclusions',
-    ];
-
     public function conclusionsFolder()
     {
         return $this->morphOne(Folder::class, 'folderable');
