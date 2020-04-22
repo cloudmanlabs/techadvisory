@@ -9,7 +9,7 @@
 
         <div style="width: 10%;">
             {{-- TODO Change image --}}
-            <img alt="profile" src="@profilePic" style="height: 20px">
+            <img alt="profile" src="{{url(($vendor && $vendor->logo) ? ('/storage/' . $vendor->logo) : '/assets/images/user.png')}}" style="height: 20px">
         </div>
 
         @if($showProgressBar ?? true)

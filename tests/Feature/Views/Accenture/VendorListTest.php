@@ -17,6 +17,8 @@ class VendorListTest extends TestCase
 
     public function testWorks()
     {
+        $this->withoutExceptionHandling();
+
         $user = factory(User::class)->states('accenture')->create();
         $response = $this
                 ->actingAs($user)

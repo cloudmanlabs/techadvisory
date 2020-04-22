@@ -138,6 +138,7 @@
                                         <x-accenture.validateInputGroup>
                                             <label>Uploaded logo</label> <input class="file-upload-default" name="img[]" type="file">
 
+                                            {{-- TODO Change this to the vendor logo --}}
                                             <img src="@logo" style="max-width: 30rem" alt="">
                                         </x-accenture.validateInputGroup>
 

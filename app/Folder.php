@@ -79,8 +79,6 @@ class Folder extends Model
         }
     }
 
-
-    //TODO Add an option to add the full file path here or smth
     public function getListOfFiles(): array
     {
         return Storage::disk('public')->files('folders/' . $this->name);

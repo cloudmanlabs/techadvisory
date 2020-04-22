@@ -23,7 +23,7 @@
                     <li class="nav-item dropdown nav-profile">
                         <a aria-expanded="false" aria-haspopup="true" class="nav-link dropdown-toggle"
                             data-toggle="dropdown" href="#" id="profileDropdown" role="button">
-                            <img alt="profile" src="@profilePic">
+                            <img alt="profile" src="{{url(auth()->user()->logo ? ('/storage/' . auth()->user()->logo) : '/assets/images/user.png')}}">
                         </a>
 
                         <div aria-labelledby="profileDropdown" class="dropdown-menu">

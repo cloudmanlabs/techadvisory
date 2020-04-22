@@ -37,7 +37,7 @@
                                                 <h5>Industry name</h5>
                                             </div>
                                             <div style="float: right; width: 10%; margin-right: 10%;">
-                                                <img alt="profile" src="@profilePic" style="height: 20px">
+                                                <img alt="profile" src="{{url($client->logo ? ('/storage/' . $client->logo) : '/assets/images/user.png')}}" style="height: 20px">
                                             </div>
                                         </div>
                                     </div>

@@ -15,7 +15,8 @@
 
                             <div class="col-md-8 pl-md-0">
                                 <div class="auth-form-wrapper px-4 py-5">
-                                    <div style="text-align: center;"><img src="@logo" style="max-height: 80px; margin-bottom: 50px;">
+                                    <div style="text-align: center;">
+                                        <img src="@logo" style="max-height: 80px; margin-bottom: 50px;">
                                     </div>
 
                                     <p>

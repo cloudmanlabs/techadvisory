@@ -19,6 +19,7 @@ use App\VendorProfileQuestion;
 use App\VendorSolution;
 use App\VendorSolutionQuestion;
 use Illuminate\Support\Facades\Blade;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\ServiceProvider;
 use Laravel\Nova\Nova;
 

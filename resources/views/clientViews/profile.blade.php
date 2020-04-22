@@ -40,7 +40,7 @@
                                 <div class="form-group">
                                     <label>Logo</label> <input class="file-upload-default" name="img[]" type="file">
 
-                                    <img src="@logo" alt="" style="max-height: 5rem">
+                                    <img src="{{url($client->logo ? ('/storage/' . $client->logo) : '/assets/images/user.png')}}" alt="" style="max-height: 5rem">
                                 </div>
                                 <br>
 

@@ -39,7 +39,7 @@
                                         </div>
                                         <div style="float: right; width: 10%; margin-right: 10%;">
                                             {{-- TODO Change image --}}
-                                            <img alt="profile" src="@profilePic" style="height: 20px">
+                                            <img alt="profile" src="{{url($vendor->logo ? ('/storage/' . $vendor->logo) : '/assets/images/user.png')}}" style="height: 20px">
                                         </div>
                                     </div>
                                 </div>
@@ -103,7 +103,7 @@
                                             </div>
                                             <div style="float: right; width: 10%; margin-right: 10%;">
                                                 {{-- TODO Change image --}}
-                                                <img alt="profile" src="@profilePic" style="height: 20px">
+                                                <img alt="profile" src="{{url($solution->vendor->logo ? ('/storage/' . $solution->vendor->logo) : '/assets/images/user.png')}}" style="height: 20px">
                                             </div>
                                         </div>
                                     </div>
