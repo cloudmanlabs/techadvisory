@@ -36,6 +36,9 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/generalInfoQuestion/changeResponse', 'GeneralInfoQuestionController@changeResponse');
     Route::post('/sizingQuestion/changeResponse', 'SizingQuestionController@changeResponse');
     Route::post('/sizingQuestion/setShouldShow', 'SizingQuestionController@setShouldShow');
+    Route::post('/selectionCriteriaQuestion/changeResponse', 'SelectionCriteriaQuestionController@changeResponse');
+    Route::post('/selectionCriteriaQuestion/setShouldShow', 'SelectionCriteriaQuestionController@setShouldShow');
+
 
     Route::post('/user/changeLogo', 'UserController@changeLogo');
     Route::post('/accenture/changeSomeoneElsesLogo', 'UserController@changeSomeoneElsesLogo')

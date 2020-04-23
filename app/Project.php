@@ -80,6 +80,11 @@ class Project extends Model
         return $this->hasMany(SizingQuestionResponse::class, 'project_id');
     }
 
+    public function selectionCriteriaQuestions()
+    {
+        return $this->hasMany(SelectionCriteriaQuestionResponse::class, 'project_id');
+    }
+
     public function vendorApplications()
     {
         return $this->hasMany(VendorApplication::class, 'project_id');

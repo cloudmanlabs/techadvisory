@@ -5,6 +5,8 @@ namespace App\Observers;
 use App\GeneralInfoQuestion;
 use App\GeneralInfoQuestionResponse;
 use App\Project;
+use App\SelectionCriteriaQuestion;
+use App\SelectionCriteriaQuestionResponse;
 use App\SizingQuestion;
 use App\SizingQuestionResponse;
 use Illuminate\Support\Facades\Log;
@@ -32,6 +34,14 @@ class ProjectObserver
         // Add all SizingQuestions by default
         foreach (SizingQuestion::all() as $key => $question) {
             $response = new SizingQuestionResponse([
+                'question_id' => $question->id,
+                'project_id' => $project->id,
+            ]);
+            $response->save();
+        }
+
+        foreach (SelectionCriteriaQuestion::all() as $key => $question) {
+            $response = new SelectionCriteriaQuestionResponse([
                 'question_id' => $question->id,
                 'project_id' => $project->id,
             ]);
