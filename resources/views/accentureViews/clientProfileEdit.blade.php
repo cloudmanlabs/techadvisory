@@ -53,88 +53,9 @@
                                 </div>
                                 <br>
 
-                                @foreach ($questions as $question)
-                                    @switch($question->original->type)
-                                        @case('text')
-                                            <div class="form-group questionDiv profileQuestion" data-practice="{{$question->original->practice->id ?? ''}}">
-                                                <label>{{$question->original->label}}*</label>
-                                                <input required class="form-control" type="text" data-changing="{{$question->id}}"
-                                                    value="{{$question->response}}" placeholder="{{$question->original->placeholder}}">
-                                            </div>
-                                            @break
-                                        @case('textarea')
-                                            <div class="form-group questionDiv profileQuestion" data-practice="{{$question->original->practice->id ?? ''}}">
-                                                <label>{{$question->original->label}}*</label>
-                                                <textarea required rows="14" class="form-control"
-                                                    data-changing="{{$question->id}}">{{$question->response}}</textarea>
-                                            </div>
-                                            @break
-                                        @case('selectSingle')
-                                            <div class="form-group questionDiv profileQuestion" data-practice="{{$question->original->practice->id ?? ''}}">
-                                                <label>{{$question->original->label}}*</label>
-                                                <select required class="form-control" data-changing="{{$question->id}}">
-                                                    <option @if($question->response == '') selected @endif="">{{$question->original->placeholder}}</option>
-
-                                                    @if ($question->original->presetOption == 'countries')
-                                                    <x-options.countries :selected="[$question->response]" />
-                                                    @else
-                                                    @foreach ($question->original->optionList() as $option)
-                                                    <option value="{{$option}}" @if($question->response == $option) selected @endif>{{$option}}</option>
-                                                    @endforeach
-                                                    @endif
-                                                </select>
-                                            </div>
-                                            @break
-                                        @case('selectMultiple')
-                                            <div class="form-group questionDiv profileQuestion" data-practice="{{$question->original->practice->id ?? ''}}">
-                                                <label>{{$question->original->label}}*</label>
-                                                <select class="js-example-basic-multiple w-100" required data-changing="{{$question->id}}" multiple="multiple">
-                                                    @php
-                                                    $selectedOptions = json_decode($question->response ?? '[]');
-                                                    @endphp
-
-                                                    @if ($question->original->presetOption == 'countries')
-                                                    <x-options.countries :selected="$selectedOptions" />
-                                                    @else
-                                                    @foreach ($question->original->optionList() as $option)
-                                                    <option value="{{$option}}" {{in_array($option, $selectedOptions) ? 'selected' : ''}}>{{$option}}</option>
-                                                    @endforeach
-                                                    @endif
-                                                </select>
-                                            </div>
-                                            @break
-                                        @case('date')
-                                            <div class="questionDiv profileQuestion" data-practice="{{$question->original->practice->id ?? ''}}">
-                                                <label>{{$question->original->label}}*</label>
-                                                <div class="input-group date datepicker" data-initialValue="{{$question->response}}">
-                                                    <input required data-changing="{{$question->id}}" value="{{$question->response}}" type="text"
-                                                        class="form-control">
-                                                    <span class="input-group-addon"><i data-feather="calendar"></i></span>
-                                                </div>
-                                            </div>
-                                            @break
-                                        @case('number')
-                                            <div class="form-group questionDiv profileQuestion" data-practice="{{$question->original->practice->id ?? ''}}">
-                                                <label>{{$question->original->label}}*</label>
-                                                <input required class="form-control" type="number" data-changing="{{$question->id}}"
-                                                    value="{{$question->response}}" placeholder="{{$question->original->placeholder}}">
-                                            </div>
-                                            @break
-                                        @default
-
-                                    @endswitch
-                                @endforeach
+                                <x-questionForeach :questions="$questions" :class="'profileQuestion'" :disabled="false" :required="true" />
 
                                 <x-folderFileUploader :folder="$client->profileFolder" />
-
-                                <div style="float: right; margin-top: 20px;">
-                                    <form action="{{route('client.profile.submit')}}" method="post">
-                                        @csrf
-                                        <button class="btn btn-primary btn-lg btn-icon-text" id="submitButton" type="submit">
-                                            <i class="btn-icon-prepend" data-feather="check-square"></i> Save profile
-                                        </button>
-                                    </form>
-                                </div>
                             </div>
                         </div>
                     </div>
