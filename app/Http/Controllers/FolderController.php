@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Folder;
+use Guimcaballero\LaravelFolders\Models\Folder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
@@ -16,15 +16,14 @@ class FolderController extends Controller
             'files' => 'required'
         ]);
 
+        /** @var Folder $folder */
         $folder = Folder::find($request->folder_id);
         if($folder == null){
             abort(404);
         }
 
         $files = $request->file('files');
-        foreach ($files as $key => $file) {
-            Storage::disk('public')->putFileAs('folders/' . $folder->name, $file, $file->getClientOriginalName());
-        }
+        $folder->uploadFiles($files);
     }
 
     public function uploadSingleFile(Request $request)
@@ -34,13 +33,14 @@ class FolderController extends Controller
             'file' => 'required'
         ]);
 
+        /** @var Folder $folder */
         $folder = Folder::find($request->folder_id);
         if ($folder == null) {
             abort(404);
         }
 
         $file = $request->file('file');
-        Storage::disk('public')->putFileAs('folders/' . $folder->name, $file, $file->getClientOriginalName());
+        $folder->uploadSingleFile($file);
     }
 
     public function removeFile(Request $request)
@@ -50,14 +50,12 @@ class FolderController extends Controller
             'file' => 'required'
         ]);
 
+        /** @var Folder $folder */
         $folder = Folder::find($request->folder_id);
         if ($folder == null) {
             abort(404);
         }
 
-        $exists = Storage::disk('public')->exists('folders/' . $folder->name . '/' . $request->file);
-        if ($exists) {
-            Storage::disk('public')->delete('folders/' . $folder->name . '/' . $request->file);
-        }
+        $folder->removeSingleFile($request->file);
     }
 }

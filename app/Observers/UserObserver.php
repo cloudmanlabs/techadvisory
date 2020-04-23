@@ -4,10 +4,10 @@ namespace App\Observers;
 
 use App\ClientProfileQuestion;
 use App\ClientProfileQuestionResponse;
-use App\Folder;
 use App\User;
 use App\VendorProfileQuestion;
 use App\VendorProfileQuestionResponse;
+use Guimcaballero\LaravelFolders\Models\Folder;
 use Illuminate\Support\Facades\Log;
 
 class UserObserver

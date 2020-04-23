@@ -2,6 +2,7 @@
 
 namespace App;
 
+use Guimcaballero\LaravelFolders\Models\Folder;
 use Illuminate\Database\Eloquent\Model;
 
 class VendorSolution extends Model

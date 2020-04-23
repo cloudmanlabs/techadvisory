@@ -2,6 +2,7 @@
 
 namespace App;
 
+use Guimcaballero\LaravelFolders\Models\Folder;
 use Illuminate\Database\Eloquent\Model;
 use \Illuminate\Database\Eloquent\Builder;
 

@@ -2,12 +2,12 @@
 
 namespace Tests\Feature;
 
-use App\Folder;
 use App\Practice;
 use App\Project;
 use App\Subpractice;
 use App\User;
 use Carbon\Carbon;
+use Guimcaballero\LaravelFolders\Models\Folder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;

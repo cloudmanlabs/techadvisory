@@ -3,6 +3,7 @@
 namespace App;
 
 use Exception;
+use Guimcaballero\LaravelFolders\Models\Folder;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;

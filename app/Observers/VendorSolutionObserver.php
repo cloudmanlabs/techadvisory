@@ -2,10 +2,10 @@
 
 namespace App\Observers;
 
-use App\Folder;
 use App\VendorSolution;
 use App\VendorSolutionQuestion;
 use App\VendorSolutionQuestionResponse;
+use Guimcaballero\LaravelFolders\Models\Folder;
 
 class VendorSolutionObserver
 {
