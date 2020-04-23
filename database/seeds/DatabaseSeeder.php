@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Storage;
 
 class DatabaseSeeder extends Seeder
 {
@@ -23,6 +24,7 @@ class DatabaseSeeder extends Seeder
 
         $this->call(GeneralInfoQuestionSeeder::class);
         $this->call(SizingQuestionSeeder::class);
+        $this->call(SelectionCriteriaQuestionSeeder::class);
 
         $this->call(ProjectSeeder::class);
         $this->call(VendorApplicationSeeder::class);

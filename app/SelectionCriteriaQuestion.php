@@ -14,6 +14,8 @@ use Illuminate\Database\Eloquent\Model;
  *
  * @property string $presetOption
  * @property string $options
+ *
+ * @property string $page
  */
 class SelectionCriteriaQuestion extends Question
 {

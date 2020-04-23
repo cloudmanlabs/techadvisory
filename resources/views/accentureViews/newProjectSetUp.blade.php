@@ -131,7 +131,7 @@
 
                                     <h2>Sizing Info</h2>
                                     <section>
-                                        <x-questionForeach :questions="$sizingQuestions" :class="'sizingQuestion'" :disabled="false" :required="false" />
+                                        <x-questionForeachWithActivate :questions="$sizingQuestions" :class="'sizingQuestion'" :disabled="false" :required="false" />
 
                                         <br><br>
 
@@ -146,7 +146,7 @@
                                             <div id="subwizard_here">
                                                 <h3>Fit gap</h3>
                                                 <div>
-                                                    <h4>4.1. Fit Gap</h4>
+                                                    <h4>Fit Gap</h4>
                                                     <br>
                                                     <p>
                                                         Phasellus vehicula suscipit mauris, et aliquet urna. Fusce sed ipsum eu
@@ -214,251 +214,118 @@
                                                             </div>
                                                         </div>
                                                     </div>
+
+                                                    <br><br>
+                                                    <h4>Questions</h4>
+                                                    <br>
+                                                    @foreach ($fitgapQuestions as $question)
+                                                        <x-accenture.activateQuestion>
+                                                            <h6>
+                                                                {{$question->label}}
+                                                            </h6>
+                                                        </x-accenture.activateQuestion>
+                                                    @endforeach
                                                 </div>
 
                                                 <h3>Vendor</h3>
                                                 <div>
-                                                    <h4>2.1 Corporate information</h4>
+                                                    <h4>Corporate information</h4>
                                                     <br>
-                                                    <div class="form-group">
+                                                    @foreach ($vendorCorporateQuestions as $question)
                                                         <x-accenture.activateQuestion>
                                                             <h6>
-                                                                1. Lorem ipsum dolor sit amet, consectetur adipiscing elit?
+                                                                {{$question->label}}
                                                             </h6>
                                                         </x-accenture.activateQuestion>
-                                                        <br>
+                                                    @endforeach
 
+                                                    <br><br>
+                                                    <h4>Market presence</h4>
+                                                    @foreach ($vendorMarketQuestions as $question)
                                                         <x-accenture.activateQuestion>
                                                             <h6>
-                                                                2. Lorem ipsum dolor sit amet, consectetur adipiscing elit?
+                                                                {{$question->label}}
                                                             </h6>
                                                         </x-accenture.activateQuestion>
-                                                        <br>
-
-
-                                                        <x-accenture.activateQuestion>
-                                                            <h6>
-                                                                3. Lorem ipsum dolor sit amet, consectetur adipiscing elit?
-                                                            </h6>
-                                                        </x-accenture.activateQuestion>
-                                                        <br>
-
-
-                                                        <x-accenture.activateQuestion>
-                                                            <h6>
-                                                                4. Lorem ipsum dolor sit amet, consectetur adipiscing elit?
-                                                            </h6>
-                                                        </x-accenture.activateQuestion>
-                                                        <br>
-
-
-                                                        <x-accenture.activateQuestion>
-                                                            <h6>
-                                                                5. Lorem ipsum dolor sit amet, consectetur adipiscing elit?
-                                                            </h6>
-                                                        </x-accenture.activateQuestion>
-                                                        <br>
-
-
-                                                        <h4>2.1 Market presence</h4>
-                                                        <br>
-                                                        <x-accenture.activateQuestion>
-                                                            <h6>
-                                                                1. Headquarters
-                                                            </h6>
-                                                        </x-accenture.activateQuestion>
-                                                        <br>
-
-                                                        <x-accenture.activateQuestion>
-                                                            <h6>
-                                                                2. Commercial Offices
-                                                            </h6>
-                                                        </x-accenture.activateQuestion>
-                                                        <br>
-
-                                                        <x-accenture.activateQuestion>
-                                                            <h6>
-                                                                3. Service Team Offices
-                                                            </h6>
-                                                        </x-accenture.activateQuestion>
-                                                        <br>
-
-                                                        <x-accenture.activateQuestion>
-                                                            <h6>
-                                                                4. Geographies with solution implementations
-                                                            </h6>
-                                                        </x-accenture.activateQuestion>
-                                                        <br>
-                                                        <br>
-
-
-                                                    </div>
+                                                    @endforeach
                                                 </div>
 
                                                 <h3>Experience</h3>
                                                 <div>
-                                                    <h4>3.1 Questions</h4>
+                                                    <h4>Questions</h4>
                                                     <br>
-                                                    <div class="form-group">
+                                                    @foreach ($experienceQuestions as $question)
                                                         <x-accenture.activateQuestion>
                                                             <h6>
-                                                                1. Industry Experience
+                                                                {{$question->label}}
                                                             </h6>
                                                         </x-accenture.activateQuestion>
-                                                        <br>
-
-                                                        <x-accenture.activateQuestion>
-                                                            <h6>
-                                                                2. List all active clients
-                                                            </h6>
-                                                        </x-accenture.activateQuestion>
-                                                        <br>
-
-
-                                                        <x-accenture.activateQuestion>
-                                                            <h6>
-                                                                3. List how many successful implementations you performed within last 4
-                                                                years
-                                                            </h6>
-                                                        </x-accenture.activateQuestion>
-                                                        <br>
-
-
-                                                        <x-accenture.activateQuestion>
-                                                            <h6>
-                                                                4. List how many successful implementations you performed within last 4
-                                                                years
-                                                            </h6>
-                                                        </x-accenture.activateQuestion>
-                                                        <br>
-
-                                                        <x-accenture.activateQuestion>
-                                                            <h6>
-                                                                5. Share 3 customer references for implementation with similar size &
-                                                                scope (same industry preferred)
-                                                            </h6>
-                                                        </x-accenture.activateQuestion>
-                                                        <br>
-                                                        <br>
-                                                    </div>
+                                                    @endforeach
                                                 </div>
 
                                                 <h3>Innovation & Vision</h3>
                                                 <div>
-                                                    <h4>4.1. IT Enablers</h4>
+                                                    <h4>IT Enablers</h4>
                                                     <br>
-                                                    <div class="form-group">
+                                                    @foreach ($innovationDigitalEnablersQuestions as $question)
                                                         <x-accenture.activateQuestion>
                                                             <h6>
-                                                                Question
+                                                                {{$question->label}}
                                                             </h6>
                                                         </x-accenture.activateQuestion>
-                                                        <br>
-                                                    </div>
+                                                    @endforeach
 
-                                                    <h4>4.2. Alliances</h4>
-                                                    <div class="form-group">
-                                                        <br>
+                                                    <h4>Alliances</h4>
+                                                    <br>
+                                                    @foreach ($innovationAlliancesQuestions as $question)
                                                         <x-accenture.activateQuestion>
                                                             <h6>
-                                                                Partnership 1
+                                                                {{$question->label}}
                                                             </h6>
                                                         </x-accenture.activateQuestion>
-                                                        <br>
-                                                        <x-accenture.activateQuestion>
-                                                            <h6>
-                                                                Partnership 2
-                                                            </h6>
-                                                        </x-accenture.activateQuestion>
-                                                        <br>
-                                                        <x-accenture.activateQuestion>
-                                                            <h6>
-                                                                Partnership 3
-                                                            </h6>
-                                                        </x-accenture.activateQuestion>
-                                                        <br>
-                                                    </div>
+                                                    @endforeach
 
-                                                    <h4>4.3. Product</h4>
-                                                    <div class="form-group">
-                                                        <br>
+                                                    <h4>Product</h4>
+                                                    <br>
+                                                    @foreach ($innovationProductQuestions as $question)
                                                         <x-accenture.activateQuestion>
                                                             <h6>
-                                                                Question 1
+                                                                {{$question->label}}
                                                             </h6>
                                                         </x-accenture.activateQuestion>
-                                                        <br>
-                                                        <x-accenture.activateQuestion>
-                                                            <h6>
-                                                                Question 2
-                                                            </h6>
-                                                        </x-accenture.activateQuestion>
-                                                        <br>
-                                                        <x-accenture.activateQuestion>
-                                                            <h6>
-                                                                Question 3
-                                                            </h6>
-                                                        </x-accenture.activateQuestion>
-                                                        <br>
-                                                    </div>
+                                                    @endforeach
 
-                                                    <h4>4.4. Sustainability</h4>
-                                                    <div class="form-group">
-                                                        <br>
+                                                    <h4>Sustainability</h4>
+                                                    <br>
+                                                    @foreach ($innovationSustainabilityQuestions as $question)
                                                         <x-accenture.activateQuestion>
                                                             <h6>
-                                                                Question 1
+                                                                {{$question->label}}
                                                             </h6>
                                                         </x-accenture.activateQuestion>
-                                                        <br>
-                                                        <x-accenture.activateQuestion>
-                                                            <h6>
-                                                                Question 2
-                                                            </h6>
-                                                        </x-accenture.activateQuestion>
-                                                        <br>
-                                                        <x-accenture.activateQuestion>
-                                                            <h6>
-                                                                Question 3
-                                                            </h6>
-                                                        </x-accenture.activateQuestion>
-                                                        <br>
-                                                    </div>
+                                                    @endforeach
                                                 </div>
 
                                                 <h3>Implementation & Commercials</h3>
                                                 <div>
-                                                    <h4>5.1. Implementation</h4>
+                                                    <h4>Implementation</h4>
                                                     <br>
+                                                    @foreach ($implementationImplementationQuestions as $question)
                                                     <x-accenture.activateQuestion>
                                                         <h6>
-                                                            Project plan upload
+                                                            {{$question->label}}
                                                         </h6>
                                                     </x-accenture.activateQuestion>
-                                                    <br>
+                                                    @endforeach
 
-                                                    <h4>5.2. Deliverables per phase</h4>
-                                                    <div class="form-group">
-                                                        <br>
-                                                        <x-accenture.activateQuestion>
-                                                            <h6>
-                                                                Phase 1
-                                                            </h6>
-                                                        </x-accenture.activateQuestion>
-                                                        <br>
-                                                        <x-accenture.activateQuestion>
-                                                            <h6>
-                                                                Phase 2
-                                                            </h6>
-                                                        </x-accenture.activateQuestion>
-                                                        <br>
-                                                        <x-accenture.activateQuestion>
-                                                            <h6>
-                                                                Phase 3
-                                                            </h6>
-                                                        </x-accenture.activateQuestion>
-                                                        <br>
-                                                    </div>
+                                                    <h4>Deliverables per phase</h4>
+                                                    @foreach ($implementationRunQuestions as $question)
+                                                    <x-accenture.activateQuestion>
+                                                        <h6>
+                                                            {{$question->label}}
+                                                        </h6>
+                                                    </x-accenture.activateQuestion>
+                                                    @endforeach
                                                 </div>
 
                                                 <h3>Scoring criteria</h3>

@@ -40,12 +40,15 @@ class ProjectObserver
             $response->save();
         }
 
-        foreach (SelectionCriteriaQuestion::all() as $key => $question) {
-            $response = new SelectionCriteriaQuestionResponse([
-                'question_id' => $question->id,
-                'project_id' => $project->id,
-            ]);
-            $response->save();
+        foreach ($project->vendorsApplied() as $key1 => $vendor) {
+            foreach (SelectionCriteriaQuestion::all() as $key2 => $question) {
+                $response = new SelectionCriteriaQuestionResponse([
+                    'question_id' => $question->id,
+                    'project_id' => $project->id,
+                    'vendor_id' => $vendor->id
+                ]);
+                $response->save();
+            }
         }
     }
 

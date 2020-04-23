@@ -4,6 +4,7 @@ namespace App\Observers;
 
 use App\SelectionCriteriaQuestion;
 use App\SelectionCriteriaQuestionResponse;
+use Illuminate\Support\Facades\Log;
 
 class SelectionCriteriaQuestionObserver
 {

@@ -130,6 +130,20 @@ class User extends Authenticatable
         ]);
         $application->save();
 
+        // If there are no questions attached (the vendor wasn't previously in this project), we add the questions
+        // If there are some questions attached, it means that when the vendor was previously attached, so we don't want to add them again
+        if ($project->selectionCriteriaQuestionsForVendor($this)->count() == 0)
+        {
+            foreach (SelectionCriteriaQuestion::all() as $key2 => $question) {
+                $response = new SelectionCriteriaQuestionResponse([
+                    'question_id' => $question->id,
+                    'project_id' => $project->id,
+                    'vendor_id' => $this->id
+                ]);
+                $response->save();
+            }
+        }
+
         return $application;
     }
 
