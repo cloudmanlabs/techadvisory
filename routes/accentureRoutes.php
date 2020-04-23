@@ -40,7 +40,7 @@ Route::
             Route::post('/newProjectSetUp/changeSubpractice', 'ProjectController@changeSubpractice');
             Route::post('/newProjectSetUp/setStep4Finished', 'ProjectController@setStep4Finished');
             Route::post('/newProjectSetUp/updateVendors', 'ProjectController@updateVendors');
-
+            Route::post('/newProjectSetUp/updateScoringValues', 'ProjectController@updateScoringValues');
 
 
             Route::post('createClient', 'ClientVendorListController@createClientPost')

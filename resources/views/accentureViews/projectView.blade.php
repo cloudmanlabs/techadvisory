@@ -910,9 +910,6 @@
 
 @section('scripts')
 @parent
-{{-- <script src="https://cdn.jsdelivr.net/npm/sortablejs@latest/Sortable.min.js"></script>
-<script src="{{url('assets/js/bricks.js')}}"></script> --}}
-
 <script>
     $(document).ready(function() {
         $(".js-example-basic-single").select2();

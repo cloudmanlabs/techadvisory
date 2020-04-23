@@ -47,16 +47,17 @@ Route::prefix('client')
                 Route::get('profile', 'ProfileController@profile')
                     ->name('profile');
 
-                Route::get('newProjectSetUp/{project}', 'ProjectController@newProjectSetUp')
-                    ->name('newProjectSetUp');
-                Route::post('/newProjectSetUp/changeProjectName', 'ProjectController@changeProjectName');
-                Route::post('/newProjectSetUp/changeProjectHasValueTargeting', 'ProjectController@changeProjectHasValueTargeting');
-                Route::post('/newProjectSetUp/changeProjectIsBinding', 'ProjectController@changeProjectIsBinding');
-                Route::post('/newProjectSetUp/changePractice', 'ProjectController@changePractice');
-                Route::post('/newProjectSetUp/changeSubpractice', 'ProjectController@changeSubpractice');
-                Route::post('/newProjectSetUp/setStep4Finished', 'ProjectController@setStep4Finished');
-
                 Route::middleware(['checkClientOwnsProject'])->group(function () {
+                    Route::get('newProjectSetUp/{project}', 'ProjectController@newProjectSetUp')
+                        ->name('newProjectSetUp');
+                    Route::post('/newProjectSetUp/changeProjectName', 'ProjectController@changeProjectName');
+                    Route::post('/newProjectSetUp/changeProjectHasValueTargeting', 'ProjectController@changeProjectHasValueTargeting');
+                    Route::post('/newProjectSetUp/changeProjectIsBinding', 'ProjectController@changeProjectIsBinding');
+                    Route::post('/newProjectSetUp/changePractice', 'ProjectController@changePractice');
+                    Route::post('/newProjectSetUp/changeSubpractice', 'ProjectController@changeSubpractice');
+                    Route::post('/newProjectSetUp/setStep4Finished', 'ProjectController@setStep4Finished');
+                    Route::post('/newProjectSetUp/updateScoringValues', 'ProjectController@updateScoringValues');
+
                     Route::get('project/home/{project}', 'ProjectController@home')
                         ->name('projectHome');
                     Route::get('project/view/{project}', 'ProjectController@view')

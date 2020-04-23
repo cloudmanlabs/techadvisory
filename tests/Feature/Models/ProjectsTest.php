@@ -360,4 +360,76 @@ class ProjectsTest extends TestCase
         $project->refresh();
         $this->assertTrue($project->step4FinishedClient);
     }
+
+    public function testAccentureCanUpdateScoringValues()
+    {
+        $user = factory(User::class)->states(['accenture'])->create();
+        $project = factory(Project::class)->create();
+
+        $this->assertEquals([0, 0, 0, 0, 0], $project->scoringValues);
+
+        $response = $this->actingAs($user)
+                    ->post('/accenture/newProjectSetUp/updateScoringValues', [
+                        'project_id' => $project->id,
+                        'values' => [0, 1, 2, 3, 4]
+                    ]);
+
+        $response->assertOk();
+
+        $project->refresh();
+        $this->assertEquals([0, 1, 2, 3, 4], $project->scoringValues);
+    }
+
+    public function testUploadingAnArrayOfStringsGetsConvertedToAnArrayOfIntsAccenture()
+    {
+        $user = factory(User::class)->states(['accenture'])->create();
+        $project = factory(Project::class)->create();
+
+        $response = $this->actingAs($user)
+            ->post('/accenture/newProjectSetUp/updateScoringValues', [
+                'project_id' => $project->id,
+                'values' => ['1', '3', '2', '2', '1']
+            ]);
+
+        $response->assertOk();
+
+        $project->refresh();
+        $this->assertEquals([1, 3, 2, 2, 1], $project->scoringValues);
+    }
+
+    public function testClientCanUpdateScoringValues()
+    {
+        $user = factory(User::class)->states(['client', 'finishedSetup'])->create();
+        $project = factory(Project::class)->create();
+
+        $this->assertEquals([0, 0, 0, 0, 0], $project->scoringValues);
+
+        $response = $this->actingAs($user)
+            ->post('/client/newProjectSetUp/updateScoringValues', [
+                'project_id' => $project->id,
+                'values' => [0, 1, 2, 3, 4]
+            ]);
+
+        $response->assertOk();
+
+        $project->refresh();
+        $this->assertEquals([0, 1, 2, 3, 4], $project->scoringValues);
+    }
+
+    public function testUploadingAnArrayOfStringsGetsConvertedToAnArrayOfIntsClient()
+    {
+        $user = factory(User::class)->states(['client', 'finishedSetup'])->create();
+        $project = factory(Project::class)->create();
+
+        $response = $this->actingAs($user)
+            ->post('/client/newProjectSetUp/updateScoringValues', [
+                'project_id' => $project->id,
+                'values' => ['1', '3', '2', '2', '1']
+            ]);
+
+        $response->assertOk();
+
+        $project->refresh();
+        $this->assertEquals([1, 3, 2, 2, 1], $project->scoringValues);
+    }
 }

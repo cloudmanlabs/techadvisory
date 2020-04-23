@@ -39,6 +39,8 @@ class CreateProjectsTable extends Migration
 
             $table->boolean('step4FinishedAccenture')->default(false);
             $table->boolean('step4FinishedClient')->default(false);
+
+            $table->json('scoringValues');
         });
     }
 

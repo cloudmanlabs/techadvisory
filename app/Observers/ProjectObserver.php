@@ -11,6 +11,13 @@ use Illuminate\Support\Facades\Log;
 
 class ProjectObserver
 {
+    public function creating(Project $project)
+    {
+        if($project->scoringValues == null){
+            $project->scoringValues = [0, 0, 0, 0, 0];
+        }
+    }
+
     public function created(Project $project)
     {
         // Add all GeneralInfoQuestions by default

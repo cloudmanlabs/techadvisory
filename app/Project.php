@@ -20,6 +20,8 @@ use \Illuminate\Database\Eloquent\Builder;
  * @property integer $progressConclusions
  *
  * @property string $currentPhase
+ *
+ * @property array $scoringValues
  */
 class Project extends Model
 {
@@ -32,6 +34,8 @@ class Project extends Model
     protected $casts = [
         'step4FinishedAccenture' => 'boolean',
         'step4FinishedClient' => 'boolean',
+
+        'scoringValues' => 'array'
     ];
 
     public function conclusionsFolder()

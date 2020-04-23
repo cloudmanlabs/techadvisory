@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\Project;
 use Closure;
 use Illuminate\Support\Facades\Log;
 
@@ -16,9 +17,20 @@ class CheckClientOwnsProject
      */
     public function handle($request, Closure $next)
     {
-        if ($request->project->client_id != auth()->user()->id) {
+        if ($request->project && $request->project->client_id != auth()->user()->id) {
             Log::debug('Client doesnt own this project');
             abort(404);
+        }
+        if($request->project_id){
+            $project = Project::find($request->project_id);
+            if($project == null){
+                Log::debug('Project doesn\'t exist');
+                abort(404);
+            }
+            if($project->client_id != auth()->user()->id) {
+                Log::debug('Client doesnt own this project');
+                abort(404);
+            }
         }
 
         return $next($request);

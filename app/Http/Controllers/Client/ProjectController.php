@@ -176,6 +176,32 @@ class ProjectController extends Controller
         ]);
     }
 
+    public function updateScoringValues(Request $request)
+    {
+        $request->validate([
+            'project_id' => 'required|numeric',
+            'values' => 'required|array'
+        ]);
+
+        $project = Project::find($request->project_id);
+        if ($project == null) {
+            abort(404);
+        }
+
+        $values = [];
+        foreach ($request->values as $key => $value) {
+            $values[] = intval($value);
+        }
+
+        $project->scoringValues = $values;
+        $project->save();
+
+        return \response()->json([
+            'status' => 200,
+            'message' => 'Success'
+        ]);
+    }
+
 
 
     public function view(Project $project)

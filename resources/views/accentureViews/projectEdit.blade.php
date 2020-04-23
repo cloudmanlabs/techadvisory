@@ -1352,7 +1352,7 @@
 
                                             <h3>Scoring criteria</h3>
                                             <div>
-                                                <x-scoringCriteriaBricks />
+                                                <x-scoringCriteriaBricks :isClient="false" :project="$project"/>
                                             </div>
                                         </div>
                                     </section>
@@ -1406,9 +1406,6 @@
 
 @section('scripts')
 @parent
-<script src="https://cdn.jsdelivr.net/npm/sortablejs@latest/Sortable.min.js"></script>
-<script src="{{url('assets/js/bricks.js')}}"></script>
-
 <script>
     jQuery.expr[':'].hasValue = function(el,index,match) {
         return el.value != "";

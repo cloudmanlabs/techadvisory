@@ -754,7 +754,7 @@
 
                                             <h3>Scoring criteria</h3>
                                             <div>
-                                                <x-scoringCriteriaBricks />
+                                                <x-scoringCriteriaBricks :isClient="true" :project="$project"/>
 
                                                 <br>
                                                 <br>
@@ -807,9 +807,6 @@
 
 @section('scripts')
 @parent
-<script src="https://cdn.jsdelivr.net/npm/sortablejs@latest/Sortable.min.js"></script>
-<script src="{{url('assets/js/bricks.js')}}"></script>
-
 <link rel="stylesheet" href="{{url('/assets/css/techadvisory/vendorValidateResponses.css')}}">
 
 <script>
