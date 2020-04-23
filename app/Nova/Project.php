@@ -96,9 +96,12 @@ class Project extends Resource
             BelongsTo::make('Practice', 'practice', 'App\Nova\Practice')
                 ->sortable(),
 
+            BelongsToMany::make('Subpractices', 'subpractices', 'App\Nova\Subpractice'),
+
             HasMany::make('General Info Questions', 'generalInfoQuestions', 'App\Nova\GeneralInfoQuestionResponse'),
             HasMany::make('Sizing Questions', 'sizingQuestions', 'App\Nova\SizingQuestionResponse'),
-            BelongsToMany::make('Subpractices', 'subpractices', 'App\Nova\Subpractice'),
+            HasMany::make('Selection Criteria Questions', 'selectionCriteriaQuestions', 'App\Nova\SelectionCriteriaQuestionResponse'),
+
 
             HasMany::make('Applied vendors', 'vendorsApplied', 'App\Nova\Vendor'),
         ];

@@ -2,28 +2,13 @@
 
 namespace App\Providers;
 
-use App\Nova\GeneralInfoQuestion;
-use App\Nova\GeneralInfoQuestionResponse;
-use App\Nova\Accenture;
-use App\Nova\Client;
-use App\Nova\ClientProfileQuestion;
-use App\Nova\ClientProfileQuestionResponse;
-use App\Nova\VendorProfileQuestion;
-use App\Nova\VendorProfileQuestionResponse;
+use App\Nova\{GeneralInfoQuestion, GeneralInfoQuestionResponse, Accenture, Client, ClientProfileQuestion,ClientProfileQuestionResponse,VendorProfileQuestion,VendorProfileQuestionResponse,Practice,Project,SizingQuestion,SizingQuestionResponse,Subpractice,Vendor,User,VendorSolution,VendorSolutionQuestion,VendorSolutionQuestionResponse,SelectionCriteriaQuestion,SelectionCriteriaQuestionResponse};
+
 use App\Nova\Metrics\NumberOfAccentureUsers;
 use App\Nova\Metrics\NumberOfClients;
 use App\Nova\Metrics\NumberOfVendors;
 use App\Nova\Metrics\TotalNumberOfUsers;
-use App\Nova\Practice;
-use App\Nova\Project;
-use App\Nova\SizingQuestion;
-use App\Nova\SizingQuestionResponse;
-use App\Nova\Subpractice;
-use App\Nova\Vendor;
-use App\Nova\User;
-use App\Nova\VendorSolution;
-use App\Nova\VendorSolutionQuestion;
-use App\Nova\VendorSolutionQuestionResponse;
+
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Log;
 use Laravel\Nova\Cards\Help;
@@ -101,6 +86,9 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
 
             SizingQuestion::class,
             SizingQuestionResponse::class,
+
+            SelectionCriteriaQuestion::class,
+            SelectionCriteriaQuestionResponse::class,
 
             ClientProfileQuestion::class,
             ClientProfileQuestionResponse::class,

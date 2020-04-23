@@ -25,4 +25,9 @@ class SelectionCriteriaQuestionResponse extends Model
     {
         return $this->belongsTo(Project::class, 'project_id');
     }
+
+    public function vendor()
+    {
+        return $this->belongsTo(User::class, 'vendor_id');
+    }
 }

@@ -88,6 +88,11 @@ class Project extends Model
         return SelectionCriteriaQuestion::find($uniqueIds);
     }
 
+    public function selectionCriteriaQuestions()
+    {
+        return $this->hasMany(SelectionCriteriaQuestionResponse::class, 'project_id');
+    }
+
     public function selectionCriteriaQuestionsForVendor(User $vendor)
     {
         return $this->hasMany(SelectionCriteriaQuestionResponse::class, 'project_id')->where('vendor_id', $vendor->id);

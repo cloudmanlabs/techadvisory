@@ -20,4 +20,16 @@ use Illuminate\Database\Eloquent\Model;
 class SelectionCriteriaQuestion extends Question
 {
     public $guarded = [];
+
+    const pagesSelect = [
+        'fitgap' => 'Fitgap',
+        'vendor_corporate' => 'Vendor - Corporate',
+        'vendor_market' => 'Vendor - Market',
+        'innovation_digitalEnablers' => 'Innovation - Digital Enablers',
+        'innovation_alliances' => 'Innovation - Alliacnces',
+        'innovation_product' => 'Innovation - Product',
+        'innovation_sustainability' => 'Innovation - Sustainability',
+        'implementation_implementation' => 'Implementation - Implementation',
+        'implementation_run' => 'Implementation - Run',
+    ];
 }
