@@ -93,7 +93,7 @@
                                         <br><br>
                                         <h4>Questions</h4>
                                         <br>
-                                        <x-questionForeach :questions="$fitgapQuestions" :class="'selectionCriteriaQuestion'" :disabled="false"
+                                        <x-questionForeach :questions="$fitgapQuestions" :class="'fitgapQuestions'" :disabled="true"
                                             :required="false" />
                                     </section>
 
@@ -101,18 +101,18 @@
                                     <section>
                                         <h4>Corporate information</h4>
                                         <br>
-                                        <x-questionForeach :questions="$vendorCorporateQuestions" :class="'selectionCriteriaQuestion'" :disabled="false" :required="false" />
+                                        <x-questionForeach :questions="$vendorCorporateQuestions" :class="'vendorCorporateQuestions'" :disabled="true" :required="false" />
 
                                         <br><br>
                                         <h4>Market presence</h4>
-                                        <x-questionForeach :questions="$vendorMarketQuestions" :class="'selectionCriteriaQuestion'" :disabled="false" :required="false" />
+                                        <x-questionForeach :questions="$vendorMarketQuestions" :class="'vendorMarketQuestions'" :disabled="true" :required="false" />
                                     </section>
 
                                     <h2>Experience</h2>
                                     <section>
                                         <h4>Questions</h4>
                                         <br>
-                                        <x-questionForeach :questions="$experienceQuestions" :class="'selectionCriteriaQuestion'" :disabled="false"
+                                        <x-questionForeach :questions="$experienceQuestions" :class="'experienceQuestions'" :disabled="true"
                                             :required="false" />
                                     </section>
 
@@ -120,31 +120,31 @@
                                     <section>
                                         <h4>IT Enablers</h4>
                                         <br>
-                                        <x-questionForeach :questions="$innovationDigitalEnablersQuestions" :class="'selectionCriteriaQuestion'" :disabled="false" :required="false" />
+                                        <x-questionForeach :questions="$innovationDigitalEnablersQuestions" :class="'innovationDigitalEnablersQuestions'" :disabled="true" :required="false" />
 
                                         <h4>Alliances</h4>
                                         <br>
-                                        <x-questionForeach :questions="$innovationAlliancesQuestions" :class="'selectionCriteriaQuestion'" :disabled="false" :required="false" />
+                                        <x-questionForeach :questions="$innovationAlliancesQuestions" :class="'innovationAlliancesQuestions'" :disabled="true" :required="false" />
 
                                         <h4>Product</h4>
                                         <br>
-                                        <x-questionForeach :questions="$innovationProductQuestions" :class="'selectionCriteriaQuestion'" :disabled="false" :required="false" />
+                                        <x-questionForeach :questions="$innovationProductQuestions" :class="'innovationProductQuestions'" :disabled="true" :required="false" />
 
                                         <h4>Sustainability</h4>
                                         <br>
-                                        <x-questionForeach :questions="$innovationSustainabilityQuestions" :class="'selectionCriteriaQuestion'" :disabled="false" :required="false" />
+                                        <x-questionForeach :questions="$innovationSustainabilityQuestions" :class="'innovationSustainabilityQuestions'" :disabled="true" :required="false" />
                                     </section>
 
                                     <h2>Implementation & Commercials</h2>
                                     <section>
                                         <h4>Implementation</h4>
                                         <br>
-                                        <x-questionForeach :questions="$implementationImplementationQuestions" :class="'selectionCriteriaQuestion'"
-                                            :disabled="false" :required="false" />
+                                        <x-questionForeach :questions="$implementationImplementationQuestions" :class="'implementationImplementationQuestions'"
+                                            :disabled="true" :required="false" />
 
                                         <h4>Deliverables per phase</h4>
-                                        <x-questionForeach :questions="$implementationRunQuestions" :class="'selectionCriteriaQuestion'"
-                                            :disabled="false" :required="false" />
+                                        <x-questionForeach :questions="$implementationRunQuestions" :class="'implementationRunQuestions'"
+                                            :disabled="true" :required="false" />
                                     </section>
                                 </div>
                             </div>
@@ -156,106 +156,4 @@
             <x-footer />
         </div>
     </div>
-@endsection
-
-
-@section('head')
-@parent
-
-<style>
-    select.form-control {
-        color: #495057;
-    }
-
-    .select2-results__options .select2-results__option[aria-disabled=true] {
-        display: none;
-    }
-</style>
-@endsection
-
-
-@section('scripts')
-@parent
-<script>
-    jQuery.expr[':'].hasValue = function(el,index,match) {
-        return el.value != "";
-    };
-
-    /**
-     *  Returns false if any field is empty
-     */
-    function checkIfAllRequiredsAreFilled(){
-        let array = $('input,textarea,select').filter('[required]').toArray();
-		if(array.length == 0) return true;
-
-        return array.reduce((prev, current) => {
-            return !prev ? false : $(current).is(':hasValue')
-        }, true)
-    }
-
-    function checkIfAllRequiredsInThisPageAreFilled(){
-        let array = $('input,textarea,select').filter('[required]:visible').toArray();
-        if(array.length == 0) return true;
-
-        return array.reduce((prev, current) => {
-            return !prev ? false : $(current).is(':hasValue')
-        }, true)
-    }
-
-    function updateSubmitButton()
-    {
-        // If we filled all the fields, remove the disabled from the button.
-        if(checkIfAllRequiredsAreFilled()){
-            $('#submitButton').attr('disabled', false)
-        } else {
-            $('#submitButton').attr('disabled', true)
-        }
-    }
-
-    function showSavedToast()
-    {
-        $.toast({
-            heading: 'Saved!',
-            showHideTransition: 'slide',
-            icon: 'success',
-            hideAfter: 1000,
-            position: 'bottom-right'
-        })
-    }
-
-    $(document).ready(function() {
-        $('.selectionCriteriaQuestion input,.selectionCriteriaQuestion textarea,.selectionCriteriaQuestion select')
-            .filter(function(el) {
-                return $( this ).data('changing') !== undefined
-            })
-            .change(function (e) {
-                var value = $(this).val();
-                if($.isArray(value) && value.length == 0 && $(this).attr('multiple') !== undefined){
-                    value = '[]'
-                }
-
-                $.post('/selectionCriteriaQuestion/changeResponse', {
-                    changing: $(this).data('changing'),
-                    value
-                })
-
-                showSavedToast();
-                updateSubmitButton();
-            });
-
-        $(".js-example-basic-single").select2();
-        $(".js-example-basic-multiple").select2();
-
-        $('.datepicker').each(function(){
-            var date = new Date($(this).data('initialvalue'));
-
-            $(this).datepicker({
-                format: "mm/dd/yyyy",
-                todayHighlight: true,
-                autoclose: true
-            });
-            $(this).datepicker('setDate', date);
-        });
-    });
-</script>
 @endsection

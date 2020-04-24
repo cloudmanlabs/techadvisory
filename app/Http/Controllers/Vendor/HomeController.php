@@ -17,8 +17,8 @@ class HomeController extends Controller
         $practices = Practice::all()->pluck('name');
 
         $invitationProjects = $vendor->vendorAppliedProjects(['invitation'])->get();
-        $startedProjects = $vendor->vendorAppliedProjects(['applicating','pendingEvaluation', 'evaluated'])->get();
-        $submittedProjects = $vendor->vendorAppliedProjects(['submitted'])->get();
+        $startedProjects = $vendor->vendorAppliedProjects(['applicating'])->get();
+        $submittedProjects = $vendor->vendorAppliedProjects(['pendingEvaluation', 'evaluated', 'submitted'])->get();
         $rejectedProjects = $vendor->vendorAppliedProjects(['rejected'])->get();
 
         return view('vendorViews.home', [

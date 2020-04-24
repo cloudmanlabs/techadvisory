@@ -16,6 +16,12 @@
     </div>
 </div>
 
+@php
+    $vendorApplication = \App\VendorApplication::where('project_id', $project->id)->where('vendor_id', auth()->id())->first();
+
+    $showApply = $vendorApplication->phase == 'applicating';
+@endphp
+
 <div class="profile-page">
     <div class="row">
         <div class="col-12 grid-margin">
@@ -35,8 +41,13 @@
                                     style="max-width: 18px; margin-right: 3px; margin-top: -2px"></i>
                                 <a
                                     class="pt-1px d-none d-md-block"
-                                    href="{{route('vendor.newApplication.apply', ['project' => $project])}}"
-                                >Apply to project</a>
+                                    {{--  TODO Change this route depending on if the application has beem submitted or not --}}
+                                    @if ($showApply)
+                                        href="{{route('vendor.newApplication.apply', ['project' => $project])}}"
+                                    @else
+                                        href="{{route('vendor.submittedApplication', ['project' => $project])}}"
+                                    @endif
+                                >Application</a>
                             </li>
                             @if ($project->hasOrals)
                             <li class="header-link-item ml-3 pl-3 border-left d-flex align-items-center {{$section == 'projectOrals' ? 'active' : ''}}">

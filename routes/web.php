@@ -2,6 +2,7 @@
 
 use App\Project;
 use App\User;
+use App\VendorApplication;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
@@ -51,3 +52,7 @@ Route::middleware(['auth'])->group(function () {
     Route::post('folder/removeFile', 'FolderController@removeFile');
 });
 
+
+Route::get('testing', function(){
+
+});

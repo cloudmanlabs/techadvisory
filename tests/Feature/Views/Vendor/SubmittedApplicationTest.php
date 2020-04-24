@@ -12,7 +12,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
-class NewApplicationApplyu extends TestCase
+class SubmittedApplicationApplyu extends TestCase
 {
     use RefreshDatabase;
 
@@ -22,7 +22,7 @@ class NewApplicationApplyu extends TestCase
 
         $response = $this
             ->actingAs($user)
-            ->get('/vendors/newApplication/apply');
+            ->get('/vendors/submittedApplication');
 
         $response->assertStatus(404);
     }
@@ -32,12 +32,11 @@ class NewApplicationApplyu extends TestCase
         $vendor = factory(User::class)->states(['vendor', 'finishedSetup'])->create();
         $project = factory(Project::class)->create();
 
-        $app = $vendor->applyToProject($project);
-        $app->setApplicating();
+        $vendor->applyToProject($project);
 
         $response = $this
             ->actingAs($vendor)
-            ->get('/vendors/newApplication/apply/' . $project->id);
+            ->get('/vendors/submittedApplication/' . $project->id);
 
         $response->assertStatus(200)
             ->assertSee($project->name);
@@ -50,28 +49,30 @@ class NewApplicationApplyu extends TestCase
 
         $response = $this
             ->actingAs($vendor)
-            ->get('/vendors/newApplication/apply/' . $project->id);
+            ->get('/vendors/submittedApplication/' . $project->id);
 
         $response->assertStatus(404);
     }
 
-    public function testCantAccessWithApplicationNotInApplicatingPhase()
+    public function testCantAccessWithApplicationInApplicatingPhase()
     {
         $vendor = factory(User::class)->states(['vendor', 'finishedSetup'])->create();
         $project = factory(Project::class)->create();
 
         $app = $vendor->applyToProject($project);
-        $app->setPendingEvaluation();
+        $app->setApplicating();
 
         $response = $this
             ->actingAs($vendor)
-            ->get('/vendors/newApplication/apply/' . $project->id);
+            ->get('/vendors/submittedApplication/' . $project->id);
 
         $response->assertStatus(404);
     }
 
     public function testSelectionCriteriaQuestionsWork()
     {
+        $this->withoutExceptionHandling();
+
         $vendor = factory(User::class)->states(['vendor', 'finishedSetup'])->create();
         $project = factory(Project::class)->create();
 
@@ -85,12 +86,11 @@ class NewApplicationApplyu extends TestCase
             ]);
         }
 
-        $app = $vendor->applyToProject($project);
-        $app->setApplicating();
+        $vendor->applyToProject($project);
 
         $response = $this
             ->actingAs($vendor)
-            ->get('/vendors/newApplication/apply/' . $project->id);
+            ->get('/vendors/submittedApplication/' . $project->id);
 
         $assertion = $response->assertStatus(200);
 

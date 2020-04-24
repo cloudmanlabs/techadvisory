@@ -84,6 +84,10 @@ class ProjectController extends Controller
         if (!$vendor->hasAppliedToProject($project)) {
             abort(404);
         }
+        $vendorApplication = \App\VendorApplication::where('project_id', $project->id)->where('vendor_id', $vendor->id)->first();
+        if($vendorApplication->phase != 'applicating'){
+            abort(404);
+        }
 
         $fitgapQuestions = $project->selectionCriteriaQuestionsForVendor($vendor)->get()->filter(function($question){
             return $question->original->page == 'fitgap';
@@ -147,6 +151,66 @@ class ProjectController extends Controller
 
         return view('vendorViews.newApplicationOrals', [
             'project' => $project
+        ]);
+    }
+
+    public function submittedApplication(Project $project)
+    {
+        /** @var User $vendor */
+        $vendor = auth()->user();
+        if (!$vendor->hasAppliedToProject($project)) {
+            abort(404);
+        }
+        $vendorApplication = \App\VendorApplication::where('project_id', $project->id)->where('vendor_id', $vendor->id)->first();
+        if ($vendorApplication->phase == 'applicating') {
+            abort(404);
+        }
+
+        $fitgapQuestions = $project->selectionCriteriaQuestionsForVendor($vendor)->get()->filter(function ($question) {
+            return $question->original->page == 'fitgap';
+        });
+        $vendorCorporateQuestions = $project->selectionCriteriaQuestionsForVendor($vendor)->get()->filter(function ($question) {
+            return $question->original->page == 'vendor_corporate';
+        });
+        $vendorMarketQuestions = $project->selectionCriteriaQuestionsForVendor($vendor)->get()->filter(function ($question) {
+            return $question->original->page == 'vendor_market';
+        });
+        $experienceQuestions = $project->selectionCriteriaQuestionsForVendor($vendor)->get()->filter(function ($question) {
+            return $question->original->page == 'experience';
+        });
+        $innovationDigitalEnablersQuestions = $project->selectionCriteriaQuestionsForVendor($vendor)->get()->filter(function ($question) {
+            return $question->original->page == 'innovation_digitalEnablers';
+        });
+        $innovationAlliancesQuestions = $project->selectionCriteriaQuestionsForVendor($vendor)->get()->filter(function ($question) {
+            return $question->original->page == 'innovation_alliances';
+        });
+        $innovationProductQuestions = $project->selectionCriteriaQuestionsForVendor($vendor)->get()->filter(function ($question) {
+            return $question->original->page == 'innovation_product';
+        });
+        $innovationSustainabilityQuestions = $project->selectionCriteriaQuestionsForVendor($vendor)->get()->filter(function ($question) {
+            return $question->original->page == 'innovation_sustainability';
+        });
+
+        $implementationImplementationQuestions = $project->selectionCriteriaQuestionsForVendor($vendor)->get()->filter(function ($question) {
+            return $question->original->page == 'implementation_implementation';
+        });
+        $implementationRunQuestions = $project->selectionCriteriaQuestionsForVendor($vendor)->get()->filter(function ($question) {
+            return $question->original->page == 'implementation_run';
+        });
+
+        return view('vendorViews.submittedApplication', [
+            'project' => $project,
+
+            'fitgapQuestions' => $fitgapQuestions,
+            'vendorCorporateQuestions' => $vendorCorporateQuestions,
+            'vendorMarketQuestions' => $vendorMarketQuestions,
+            'experienceQuestions' => $experienceQuestions,
+            'innovationDigitalEnablersQuestions' => $innovationDigitalEnablersQuestions,
+            'innovationAlliancesQuestions' => $innovationAlliancesQuestions,
+            'innovationProductQuestions' => $innovationProductQuestions,
+            'innovationSustainabilityQuestions' => $innovationSustainabilityQuestions,
+            'implementationImplementationQuestions' => $implementationImplementationQuestions,
+            'implementationRunQuestions' => $implementationRunQuestions,
         ]);
     }
 }

@@ -128,7 +128,7 @@
                                             </div>
                                             <div style="float: right; text-align: right; width: 15%;">
                                                 {{--  TODO CHange this route to submittedApplication --}}
-                                                <a class="btn btn-primary btn-lg btn-icon-text" href="{{route('vendor.newApplication.apply', ['project' => $project])}}">View <i
+                                                <a class="btn btn-primary btn-lg btn-icon-text" href="{{route('vendor.submittedApplication', ['project' => $project])}}">View <i
                                                         class="btn-icon-prepend" data-feather="arrow-right"></i></a>
                                             </div>
                                             <x-applicationProgressBar progressFitgap="30" progressVendor="10" progressExperience="10" progressInnovation="10"

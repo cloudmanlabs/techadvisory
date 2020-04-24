@@ -57,6 +57,8 @@ Route::prefix('vendors')
                 Route::get('newApplication/orals/{project}', 'ProjectController@projectOrals')
                     ->name('newApplication.orals');
 
+                Route::get('submittedApplication/{project}', 'ProjectController@submittedApplication')
+                    ->name('submittedApplication');
 
 
 
