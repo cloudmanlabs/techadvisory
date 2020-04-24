@@ -4,6 +4,8 @@ namespace Tests\Feature\Views\Client;
 
 use App\Project;
 use App\SelectionCriteriaQuestion;
+use App\SizingQuestion;
+use App\SizingQuestionResponse;
 use App\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -38,7 +40,7 @@ class NewProjectSetUpTest extends TestCase
 
         foreach ($pages as $key => $page) {
             factory(SelectionCriteriaQuestion::class)->create([
-                'page' => 'fitgap',
+                'page' => $page,
                 'label' => 'Page ' . $page . ' Question',
                 'type' => 'text',
             ]);
@@ -55,5 +57,19 @@ class NewProjectSetUpTest extends TestCase
         foreach ($pages as $key => $page) {
             $assertion->assertSee('Page ' . $page . ' Question');
         }
+    }
+
+    public function testSizingQuestionsWork()
+    {
+        $user = factory(User::class)->states(['client', 'finishedSetup'])->create();
+        $question = factory(SizingQuestion::class)->create();
+        $project = factory(Project::class)->create();
+
+        $response = $this
+            ->actingAs($user)
+            ->get('/client/newProjectSetUp/' . $project->id);
+
+        $response->assertStatus(200)
+            ->assertSee($question->label);
     }
 }

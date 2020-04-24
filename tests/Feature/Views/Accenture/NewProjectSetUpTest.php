@@ -2,8 +2,10 @@
 
 namespace Tests\Feature\Views\Accenture;
 
+use App\GeneralInfoQuestion;
 use App\Project;
 use App\SelectionCriteriaQuestion;
+use App\SizingQuestion;
 use App\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -84,7 +86,7 @@ class NewProjectSetUpTest extends TestCase
 
         foreach ($pages as $key => $page) {
             factory(SelectionCriteriaQuestion::class)->create([
-                'page' => 'fitgap',
+                'page' => $page,
                 'label' => 'Page ' . $page . ' Question',
                 'type' => 'text',
             ]);
@@ -101,5 +103,34 @@ class NewProjectSetUpTest extends TestCase
         foreach ($pages as $key => $page) {
             $assertion->assertSee('Page ' . $page . ' Question');
         }
+    }
+
+
+    public function testGeneralInfoQuestionsWork()
+    {
+        $user = factory(User::class)->states(['accenture'])->create();
+        $question = factory(GeneralInfoQuestion::class)->create();
+        $project = factory(Project::class)->create();
+
+        $response = $this
+            ->actingAs($user)
+            ->get('/accenture/newProjectSetUp/' . $project->id);
+
+        $response->assertStatus(200)
+            ->assertSee($question->label);
+    }
+
+    public function testSizingQuestionsWork()
+    {
+        $user = factory(User::class)->states(['accenture'])->create();
+        $question = factory(SizingQuestion::class)->create();
+        $project = factory(Project::class)->create();
+
+        $response = $this
+            ->actingAs($user)
+            ->get('/accenture/newProjectSetUp/' . $project->id);
+
+        $response->assertStatus(200)
+            ->assertSee($question->label);
     }
 }

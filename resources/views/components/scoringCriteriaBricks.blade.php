@@ -1,4 +1,4 @@
-@props(['values', 'project', 'isClient'])
+@props(['project', 'isClient'])
 
 @php
     $values = $project->scoringValues ?? [0, 0, 0, 0, 0];
