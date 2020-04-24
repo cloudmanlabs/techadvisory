@@ -56,7 +56,7 @@
                                         </a>
                                     </div>
                                     <div style=" text-align: right; width: 15%;">
-                                        <a class="btn btn-primary btn-lg btn-icon-text" href="{{route('client.viewVendorProposal')}}">View response
+                                        <a class="btn btn-primary btn-lg btn-icon-text" href="{{route('client.viewVendorProposal', ['project' => $project, 'vendor' => $vendor])}}">View response
                                         </a>
                                     </div>
                                 </x-vendorCard>
@@ -95,7 +95,6 @@
                                                     <div class="smalltext">Seconds</div>
                                                 </div>
                                             </div>
-
                                         </div>
                                     </div>
                                 </div>

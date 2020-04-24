@@ -82,7 +82,7 @@ Route::prefix('client')
                     Route::get('project/benchmark/implementation/{project}', 'ProjectController@benchmarkImplementation')
                         ->name('projectBenchmarkImplementation');
 
-                    Route::view('viewVendorProposal', 'clientViews.viewVendorProposal')
+                    Route::get('/project/vendorProposal/view/{project}/{vendor}', 'ProjectController@vendorProposalView')
                         ->name('viewVendorProposal');
                 });
             });
