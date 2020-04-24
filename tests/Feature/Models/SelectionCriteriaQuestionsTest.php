@@ -244,4 +244,28 @@ class SelectionCriteriaQuestionsTest extends TestCase
         $qResponse->refresh();
         $this->assertEquals('newText', $qResponse->response);
     }
+
+    public function testCanChangeScoreWithPost()
+    {
+        $user = factory(User::class)->create();
+
+        $question = factory(SelectionCriteriaQuestion::class)->create();
+        $project = factory(Project::class)->create();
+        $vendor = factory(User::class)->states(['vendor', 'finishedSetup'])->create();
+        $vendor->applyToProject($project);
+
+        $this->assertCount(1, SelectionCriteriaQuestionResponse::all()); // Just making sure
+        $qResponse = SelectionCriteriaQuestionResponse::first();
+
+        $response = $this->actingAs($user)
+            ->post('/selectionCriteriaQuestion/changeScore', [
+                'changing' => $qResponse->id,
+                'value' => 9
+            ]);
+
+        $response->assertOk();
+
+        $qResponse->refresh();
+        $this->assertEquals(9, $qResponse->score);
+    }
 }

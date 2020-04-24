@@ -40,6 +40,7 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/sizingQuestion/changeResponse', 'SizingQuestionController@changeResponse');
     Route::post('/sizingQuestion/setShouldShow', 'SizingQuestionController@setShouldShow');
     Route::post('/selectionCriteriaQuestion/changeResponse', 'SelectionCriteriaQuestionController@changeResponse');
+    Route::post('/selectionCriteriaQuestion/changeScore', 'SelectionCriteriaQuestionController@changeScore');
 
 
     Route::post('/user/changeLogo', 'UserController@changeLogo');

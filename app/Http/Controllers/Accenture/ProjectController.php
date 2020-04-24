@@ -499,16 +499,8 @@ class ProjectController extends Controller
 
 
 
-    public function vendorProposalView(Project $project, User $vendor)
-    {
-        $application = VendorApplication::where('vendor_id', $vendor->id)
-            ->where('project_id', $project->id)
-            ->first();
-        if ($application == null) {
-            abort(404);
-        }
 
-
+    function arrayOfSelectionCriteriaQuestions(Project $project, User $vendor){
         $fitgapQuestions = $project->selectionCriteriaQuestionsForVendor($vendor)->get()->filter(function ($question) {
             return $question->original->page == 'fitgap';
         });
@@ -541,7 +533,7 @@ class ProjectController extends Controller
             return $question->original->page == 'implementation_run';
         });
 
-        return view('accentureViews.viewVendorProposal', [
+        return [
             'project' => $project,
             'vendor' => $vendor,
 
@@ -555,7 +547,19 @@ class ProjectController extends Controller
             'innovationSustainabilityQuestions' => $innovationSustainabilityQuestions,
             'implementationImplementationQuestions' => $implementationImplementationQuestions,
             'implementationRunQuestions' => $implementationRunQuestions,
-        ]);
+        ];
+    }
+
+    public function vendorProposalView(Project $project, User $vendor)
+    {
+        $application = VendorApplication::where('vendor_id', $vendor->id)
+            ->where('project_id', $project->id)
+            ->first();
+        if ($application == null) {
+            abort(404);
+        }
+
+        return view('accentureViews.viewVendorProposal', $this->arrayOfSelectionCriteriaQuestions($project, $vendor));
     }
 
     public function vendorProposalEdit(Project $project, User $vendor)
@@ -568,52 +572,18 @@ class ProjectController extends Controller
         }
 
 
-        $fitgapQuestions = $project->selectionCriteriaQuestionsForVendor($vendor)->get()->filter(function ($question) {
-            return $question->original->page == 'fitgap';
-        });
-        $vendorCorporateQuestions = $project->selectionCriteriaQuestionsForVendor($vendor)->get()->filter(function ($question) {
-            return $question->original->page == 'vendor_corporate';
-        });
-        $vendorMarketQuestions = $project->selectionCriteriaQuestionsForVendor($vendor)->get()->filter(function ($question) {
-            return $question->original->page == 'vendor_market';
-        });
-        $experienceQuestions = $project->selectionCriteriaQuestionsForVendor($vendor)->get()->filter(function ($question) {
-            return $question->original->page == 'experience';
-        });
-        $innovationDigitalEnablersQuestions = $project->selectionCriteriaQuestionsForVendor($vendor)->get()->filter(function ($question) {
-            return $question->original->page == 'innovation_digitalEnablers';
-        });
-        $innovationAlliancesQuestions = $project->selectionCriteriaQuestionsForVendor($vendor)->get()->filter(function ($question) {
-            return $question->original->page == 'innovation_alliances';
-        });
-        $innovationProductQuestions = $project->selectionCriteriaQuestionsForVendor($vendor)->get()->filter(function ($question) {
-            return $question->original->page == 'innovation_product';
-        });
-        $innovationSustainabilityQuestions = $project->selectionCriteriaQuestionsForVendor($vendor)->get()->filter(function ($question) {
-            return $question->original->page == 'innovation_sustainability';
-        });
+        return view('accentureViews.editVendorProposal', $this->arrayOfSelectionCriteriaQuestions($project, $vendor));
+    }
 
-        $implementationImplementationQuestions = $project->selectionCriteriaQuestionsForVendor($vendor)->get()->filter(function ($question) {
-            return $question->original->page == 'implementation_implementation';
-        });
-        $implementationRunQuestions = $project->selectionCriteriaQuestionsForVendor($vendor)->get()->filter(function ($question) {
-            return $question->original->page == 'implementation_run';
-        });
+    public function vendorProposalEvaluation(Project $project, User $vendor)
+    {
+        $application = VendorApplication::where('vendor_id', $vendor->id)
+            ->where('project_id', $project->id)
+            ->first();
+        if ($application == null) {
+            abort(404);
+        }
 
-        return view('accentureViews.editVendorProposal', [
-            'project' => $project,
-            'vendor' => $vendor,
-
-            'fitgapQuestions' => $fitgapQuestions,
-            'vendorCorporateQuestions' => $vendorCorporateQuestions,
-            'vendorMarketQuestions' => $vendorMarketQuestions,
-            'experienceQuestions' => $experienceQuestions,
-            'innovationDigitalEnablersQuestions' => $innovationDigitalEnablersQuestions,
-            'innovationAlliancesQuestions' => $innovationAlliancesQuestions,
-            'innovationProductQuestions' => $innovationProductQuestions,
-            'innovationSustainabilityQuestions' => $innovationSustainabilityQuestions,
-            'implementationImplementationQuestions' => $implementationImplementationQuestions,
-            'implementationRunQuestions' => $implementationRunQuestions,
-        ]);
+        return view('accentureViews.viewVendorProposalEvaluation', $this->arrayOfSelectionCriteriaQuestions($project, $vendor));
     }
 }

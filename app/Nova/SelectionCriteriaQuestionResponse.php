@@ -10,6 +10,7 @@ use Laravel\Nova\Fields\Boolean;
 use Laravel\Nova\Fields\HasMany;
 use Laravel\Nova\Fields\HasOne;
 use Laravel\Nova\Fields\ID;
+use Laravel\Nova\Fields\Number;
 use Laravel\Nova\Fields\Password;
 use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Text;
@@ -57,6 +58,9 @@ class SelectionCriteriaQuestionResponse extends Resource
             BelongsTo::make('Vendor', 'vendor', 'App\Nova\User'),
 
             Text::make('Response', 'response')
+                ->hideWhenCreating(),
+
+            Number::make('Score', 'score')
                 ->hideWhenCreating(),
         ];
     }

@@ -114,7 +114,7 @@
                                 @foreach ($pendingEvaluationVendors as $vendor)
                                 <x-vendorCard :vendor="$vendor">
                                     <div style="text-align: right; width: 15%;">
-                                        <a class="btn btn-primary btn-lg btn-icon-text" href="{{route('accenture.viewVendorProposalEvaluation')}}">Evaluate
+                                        <a class="btn btn-primary btn-lg btn-icon-text" href="{{route('accenture.viewVendorProposalEvaluation', ['project' => $project, 'vendor' => $vendor])}}">Evaluate
                                             Response
                                         </a>
                                     </div>

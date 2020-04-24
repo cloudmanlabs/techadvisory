@@ -87,19 +87,19 @@
                                     <br><br>
                                     <h4>Questions</h4>
                                     <br>
-                                    <x-questionForeach :questions="$fitgapQuestions" :class="'fitgapQuestions'" :disabled="true" :required="false" />
+                                    <x-questionForeach :questions="$fitgapQuestions" :class="'selectionCriteriaQuestion'" :disabled="true" :required="false" />
                                 </section>
 
                                 <h2>Vendor</h2>
                                 <section>
                                     <h4>Corporate information</h4>
                                     <br>
-                                    <x-questionForeach :questions="$vendorCorporateQuestions" :class="'vendorCorporateQuestions'" :disabled="true"
+                                    <x-questionForeach :questions="$vendorCorporateQuestions" :class="'selectionCriteriaQuestion'" :disabled="true"
                                         :required="false" />
 
                                     <br><br>
                                     <h4>Market presence</h4>
-                                    <x-questionForeach :questions="$vendorMarketQuestions" :class="'vendorMarketQuestions'" :disabled="true"
+                                    <x-questionForeach :questions="$vendorMarketQuestions" :class="'selectionCriteriaQuestion'" :disabled="true"
                                         :required="false" />
                                 </section>
 
@@ -107,7 +107,7 @@
                                 <section>
                                     <h4>Questions</h4>
                                     <br>
-                                    <x-questionForeach :questions="$experienceQuestions" :class="'experienceQuestions'" :disabled="true"
+                                    <x-questionForeach :questions="$experienceQuestions" :class="'selectionCriteriaQuestion'" :disabled="true"
                                         :required="false" />
                                 </section>
 
@@ -115,22 +115,22 @@
                                 <section>
                                     <h4>IT Enablers</h4>
                                     <br>
-                                    <x-questionForeach :questions="$innovationDigitalEnablersQuestions" :class="'innovationDigitalEnablersQuestions'"
+                                    <x-questionForeach :questions="$innovationDigitalEnablersQuestions" :class="'selectionCriteriaQuestion'"
                                         :disabled="true" :required="false" />
 
                                     <h4>Alliances</h4>
                                     <br>
-                                    <x-questionForeach :questions="$innovationAlliancesQuestions" :class="'innovationAlliancesQuestions'"
+                                    <x-questionForeach :questions="$innovationAlliancesQuestions" :class="'selectionCriteriaQuestion'"
                                         :disabled="true" :required="false" />
 
                                     <h4>Product</h4>
                                     <br>
-                                    <x-questionForeach :questions="$innovationProductQuestions" :class="'innovationProductQuestions'" :disabled="true"
+                                    <x-questionForeach :questions="$innovationProductQuestions" :class="'selectionCriteriaQuestion'" :disabled="true"
                                         :required="false" />
 
                                     <h4>Sustainability</h4>
                                     <br>
-                                    <x-questionForeach :questions="$innovationSustainabilityQuestions" :class="'innovationSustainabilityQuestions'"
+                                    <x-questionForeach :questions="$innovationSustainabilityQuestions" :class="'selectionCriteriaQuestion'"
                                         :disabled="true" :required="false" />
                                 </section>
 
@@ -139,10 +139,10 @@
                                     <h4>Implementation</h4>
                                     <br>
                                     <x-questionForeach :questions="$implementationImplementationQuestions"
-                                        :class="'implementationImplementationQuestions'" :disabled="true" :required="false" />
+                                        :class="'selectionCriteriaQuestion'" :disabled="true" :required="false" />
 
                                     <h4>Deliverables per phase</h4>
-                                    <x-questionForeach :questions="$implementationRunQuestions" :class="'implementationRunQuestions'" :disabled="true"
+                                    <x-questionForeach :questions="$implementationRunQuestions" :class="'selectionCriteriaQuestion'" :disabled="true"
                                         :required="false" />
                                 </section>
                             </div>
