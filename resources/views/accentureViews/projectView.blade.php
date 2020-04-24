@@ -330,6 +330,19 @@
 @section('scripts')
 @parent
 <script>
+    var currentPracticeId = {{$project->practice->id ?? -1}};
+    function updateShownQuestionsAccordingToPractice(){
+        $('.questionDiv').each(function () {
+            let practiceId = $(this).data('practice');
+
+            if(practiceId == currentPracticeId || practiceId == "") {
+                $(this).css('display', 'block')
+            } else {
+                $(this).css('display', 'none')
+            }
+        });
+    }
+
     $(document).ready(function() {
         $(".js-example-basic-single").select2();
         $(".js-example-basic-multiple").select2();
@@ -345,6 +358,7 @@
             $(this).datepicker('setDate', date);
         });
 
+        updateShownQuestionsAccordingToPractice();
     });
 </script>
 @endsection
