@@ -107,8 +107,10 @@ Route::
                 ->name('project.releaseResponse');
 
 
-            Route::view('viewVendorProposal', 'accentureViews.viewVendorProposal')
+            Route::get('/project/vendorProposal/view/{project}/{vendor}', 'ProjectController@vendorProposalView')
                 ->name('viewVendorProposal');
+            Route::get('/project/vendorProposal/edit/{project}/{vendor}', 'ProjectController@vendorProposalEdit')
+                ->name('editVendorProposal');
             Route::view('viewVendorProposalEvaluation', 'accentureViews.viewVendorProposalEvaluation')
                 ->name('viewVendorProposalEvaluation');
 
