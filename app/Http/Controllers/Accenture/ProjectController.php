@@ -337,6 +337,20 @@ class ProjectController extends Controller
         return redirect()->route('accenture.projectHome', ['project' => $project]);
     }
 
+    public function submitEvaluation(Request $request, Project $project, User $vendor)
+    {
+        $application = VendorApplication::where('vendor_id', $vendor->id)
+                                            ->where('project_id', $project->id)
+                                            ->first();
+        if ($application == null) {
+            abort(404);
+        }
+
+        $application->setEvaluated();
+
+        return redirect()->route('accenture.projectHome', ['project' => $project]);
+    }
+
 
 
 

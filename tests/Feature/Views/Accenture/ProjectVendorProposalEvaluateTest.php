@@ -84,4 +84,23 @@ class ProjectVendorProposalEvaluate extends TestCase
             $assertion->assertSee('Page ' . $page . ' Question');
         }
     }
+
+    public function testCanSubmitEvaluationWithPost()
+    {
+        $user = factory(User::class)->states('accenture')->create();
+        $project = factory(Project::class)->create();
+        $vendor = factory(User::class)->states(['vendor', 'finishedSetup'])->create();
+
+        $application = $vendor->applyToProject($project);
+        $application->setPendingEvaluation();
+
+        $response = $this
+            ->actingAs($user)
+            ->post('/accenture/project/submitEvaluation/' . $project->id . '/' . $vendor->id);
+
+        $response->assertRedirect('/accenture/project/home/' . $project->id);
+
+        $application->refresh();
+        $this->assertEquals('evaluated', $application->phase);
+    }
 }

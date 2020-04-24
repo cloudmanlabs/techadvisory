@@ -113,6 +113,8 @@ Route::
                 ->name('editVendorProposal');
             Route::get('/project/vendorProposal/evaluate/{project}/{vendor}', 'ProjectController@vendorProposalEvaluation')
                 ->name('viewVendorProposalEvaluation');
+            Route::post('project/submitEvaluation/{project}/{vendor}', 'ProjectController@submitEvaluation')
+                ->name('project.submitEvaluation');
 
             Route::view('analysis/vendor', 'accentureViews.analysisVendor')
                 ->name('analysisVendor');

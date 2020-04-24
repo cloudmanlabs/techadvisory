@@ -146,6 +146,17 @@
                                             :required="false" />
                                     </section>
                                 </div>
+
+                                <div style="float: right; margin-top: 20px;">
+                                    <form action="{{route('accenture.project.submitEvaluation', ['project' => $project, 'vendor' => $vendor])}}"
+                                        method="post">
+                                        @csrf
+                                        <button class="btn btn-primary btn-lg btn-icon-text" id="submitButton" type="submit">
+                                            <i class="btn-icon-prepend" data-feather="check-square"></i>
+                                            Submit evaluation
+                                        </button>
+                                    </form>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -189,7 +200,7 @@
      *  Returns false if any field is empty
      */
     function checkIfAllEvalsAreFilled(){
-        let array = $('evalDiv input').toArray();
+        let array = $('.evalDiv input').toArray();
 		if(array.length == 0) return true;
 
         return array.reduce((prev, current) => {
@@ -208,6 +219,15 @@
         })
     }
 
+    function updateSubmitButton()
+    {
+        // If we filled all the fields, remove the disabled from the button.
+        if(checkIfAllEvalsAreFilled()){
+            $('#submitButton').attr('disabled', false)
+        } else {
+            $('#submitButton').attr('disabled', true)
+        }
+    }
 
 
     $(document).ready(function() {
@@ -219,8 +239,7 @@
                 })
 
                 showSavedToast();
-
-                //TODO Check if the fields are filled and set the submit button as active
+                updateSubmitButton();
             });
 
         $(".js-example-basic-single").select2();
@@ -236,6 +255,8 @@
             });
             $(this).datepicker('setDate', date);
         });
+
+        updateSubmitButton();
     });
 </script>
 @endsection
