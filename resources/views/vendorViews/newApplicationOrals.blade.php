@@ -13,7 +13,7 @@
                     </div>
                 </div>
 
-                <x-vendor.projectNavbar section="projectOrals" />
+                <x-vendor.projectNavbar section="projectOrals" :project="$project" />
 
                 <br>
                 <div class="row">
@@ -75,7 +75,7 @@
                                 <br><br><br>
 
                                 <div style="float: right; margin-top: 20px;">
-                                    <a class="btn btn-primary btn-lg btn-icon-text" href="{{route('vendor.newApplication')}}">
+                                    <a class="btn btn-primary btn-lg btn-icon-text" href="{{route('vendor.newApplication', ['project' => $project])}}">
                                         <i data-feather="arrow-left"></i>
                                         Go back to project
                                     </a>

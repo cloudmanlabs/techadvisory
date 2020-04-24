@@ -12,22 +12,22 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
-class PreviewProject extends TestCase
+class NewApplicationApplyu extends TestCase
 {
     use RefreshDatabase;
 
-    public function testPreviewWithoutProject()
+    public function testWithoutProject()
     {
         $user = factory(User::class)->states(['vendor', 'finishedSetup'])->create();
 
         $response = $this
             ->actingAs($user)
-            ->get('/vendors/previewProject');
+            ->get('/vendors/newApplication/apply');
 
         $response->assertStatus(404);
     }
 
-    public function testPreviewWithProjectAppliedTo()
+    public function testWithProjectAppliedTo()
     {
         $vendor = factory(User::class)->states(['vendor', 'finishedSetup'])->create();
         $project = factory(Project::class)->create();
@@ -36,51 +36,51 @@ class PreviewProject extends TestCase
 
         $response = $this
             ->actingAs($vendor)
-            ->get('/vendors/previewProject/' . $project->id);
+            ->get('/vendors/newApplication/apply/' . $project->id);
 
         $response->assertStatus(200)
             ->assertSee($project->name);
     }
 
-    public function testPreviewWithProjectNotAppliedTo()
+    public function testWithProjectNotAppliedTo()
     {
         $vendor = factory(User::class)->states(['vendor', 'finishedSetup'])->create();
         $project = factory(Project::class)->create();
 
         $response = $this
             ->actingAs($vendor)
-            ->get('/vendors/previewProject/' . $project->id);
+            ->get('/vendors/newApplication/apply/' . $project->id);
 
         $response->assertStatus(404);
     }
 
-    public function testGeneralInfoQuestionsWork()
+    public function testSelectionCriteriaQuestionsWork()
     {
+        $this->withoutExceptionHandling();
+
         $vendor = factory(User::class)->states(['vendor', 'finishedSetup'])->create();
-        $question = factory(GeneralInfoQuestion::class)->create();
         $project = factory(Project::class)->create();
+
+        $pages = array_keys(SelectionCriteriaQuestion::pagesSelect);
+
+        foreach ($pages as $key => $page) {
+            factory(SelectionCriteriaQuestion::class)->create([
+                'page' => $page,
+                'label' => 'Page ' . $page . ' Question',
+                'type' => 'text',
+            ]);
+        }
+
         $vendor->applyToProject($project);
 
         $response = $this
             ->actingAs($vendor)
-            ->get('/vendors/previewProject/' . $project->id);
+            ->get('/vendors/newApplication/apply/' . $project->id);
 
-        $response->assertStatus(200)
-            ->assertSee($question->label);
-    }
+        $assertion = $response->assertStatus(200);
 
-    public function testSizingQuestionsWork()
-    {
-        $vendor = factory(User::class)->states(['vendor', 'finishedSetup'])->create();
-        $question = factory(GeneralInfoQuestion::class)->create();
-        $project = factory(Project::class)->create();
-        $vendor->applyToProject($project);
-
-        $response = $this
-            ->actingAs($vendor)
-            ->get('/vendors/previewProject/' . $project->id);
-
-        $response->assertStatus(200)
-            ->assertSee($question->label);
+        foreach ($pages as $key => $page) {
+            $assertion->assertSee('Page ' . $page . ' Question');
+        }
     }
 }

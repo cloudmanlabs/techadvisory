@@ -112,7 +112,7 @@
 
                                     <h2>Sizing Info</h2>
                                     <section>
-                                        <x-questionForeachWithActivate :questions="$sizingQuestions" :class="'sizingQuestion'" :disabled="true"
+                                        <x-questionForeach :questions="$sizingQuestions" :class="'sizingQuestion'" :disabled="true"
                                             :required="false" />
                                     </section>
 

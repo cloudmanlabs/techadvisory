@@ -92,7 +92,7 @@
                                                 <h6>{{$project->practice->name}}</h6>
                                             </div>
                                             <div style="float: right; text-align: right; width: 15%;">
-                                                <a class="btn btn-primary btn-lg btn-icon-text" href="{{route('vendor.newApplicationApply')}}">View <i
+                                                <a class="btn btn-primary btn-lg btn-icon-text" href="{{route('vendor.newApplication.apply', ['project' => $project])}}">View <i
                                                         class="btn-icon-prepend" data-feather="arrow-right"></i></a>
                                             </div>
                                             <x-applicationProgressBar progressFitgap="20" progressVendor="10" progressExperience="0" progressInnovation="0"
@@ -127,7 +127,8 @@
                                                 <h6>{{$project->practice->name}}</h6>
                                             </div>
                                             <div style="float: right; text-align: right; width: 15%;">
-                                                <a class="btn btn-primary btn-lg btn-icon-text" href="{{route('vendor.newApplicationApply')}}">View <i
+                                                {{--  TODO CHange this route to submittedApplication --}}
+                                                <a class="btn btn-primary btn-lg btn-icon-text" href="{{route('vendor.newApplication.apply', ['project' => $project])}}">View <i
                                                         class="btn-icon-prepend" data-feather="arrow-right"></i></a>
                                             </div>
                                             <x-applicationProgressBar progressFitgap="30" progressVendor="10" progressExperience="10" progressInnovation="10"

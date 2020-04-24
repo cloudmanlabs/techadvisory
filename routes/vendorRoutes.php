@@ -49,12 +49,16 @@ Route::prefix('vendors')
 
                 Route::get('previewProject/{project}', 'ProjectController@previewProject')
                     ->name('previewProject');
-                Route::view('newApplication', 'vendorViews.newApplication')
+
+                Route::get('newApplication/{project}', 'ProjectController@newApplication')
                     ->name('newApplication');
-                Route::view('newApplicationApply', 'vendorViews.newApplicationApply')
-                    ->name('newApplicationApply');
-                Route::view('projectOrals', 'vendorViews.projectOrals')
-                    ->name('projectOrals');
+                Route::get('newApplication/apply/{project}', 'ProjectController@newApplicationApply')
+                    ->name('newApplication.apply');
+                Route::get('newApplication/orals/{project}', 'ProjectController@projectOrals')
+                    ->name('newApplication.orals');
+
+
+
 
                 Route::post('application/setRejected/{project}', 'ProjectController@setRejected')
                     ->name('application.setRejected');

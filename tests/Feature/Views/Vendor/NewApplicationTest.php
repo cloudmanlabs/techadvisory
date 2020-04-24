@@ -12,44 +12,45 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
-class PreviewProject extends TestCase
+class NewApplication extends TestCase
 {
     use RefreshDatabase;
 
-    public function testPreviewWithoutProject()
+    public function testWithoutProject()
     {
         $user = factory(User::class)->states(['vendor', 'finishedSetup'])->create();
 
         $response = $this
             ->actingAs($user)
-            ->get('/vendors/previewProject');
+            ->get('/vendors/newApplication');
 
         $response->assertStatus(404);
     }
 
-    public function testPreviewWithProjectAppliedTo()
+    public function testWithProjectAppliedTo()
     {
         $vendor = factory(User::class)->states(['vendor', 'finishedSetup'])->create();
         $project = factory(Project::class)->create();
 
+        $this->withoutExceptionHandling();
         $vendor->applyToProject($project);
 
         $response = $this
             ->actingAs($vendor)
-            ->get('/vendors/previewProject/' . $project->id);
+            ->get('/vendors/newApplication/' . $project->id);
 
         $response->assertStatus(200)
             ->assertSee($project->name);
     }
 
-    public function testPreviewWithProjectNotAppliedTo()
+    public function testWithProjectNotAppliedTo()
     {
         $vendor = factory(User::class)->states(['vendor', 'finishedSetup'])->create();
         $project = factory(Project::class)->create();
 
         $response = $this
             ->actingAs($vendor)
-            ->get('/vendors/previewProject/' . $project->id);
+            ->get('/vendors/newApplication/' . $project->id);
 
         $response->assertStatus(404);
     }
@@ -63,7 +64,7 @@ class PreviewProject extends TestCase
 
         $response = $this
             ->actingAs($vendor)
-            ->get('/vendors/previewProject/' . $project->id);
+            ->get('/vendors/newApplication/' . $project->id);
 
         $response->assertStatus(200)
             ->assertSee($question->label);
@@ -78,7 +79,7 @@ class PreviewProject extends TestCase
 
         $response = $this
             ->actingAs($vendor)
-            ->get('/vendors/previewProject/' . $project->id);
+            ->get('/vendors/newApplication/' . $project->id);
 
         $response->assertStatus(200)
             ->assertSee($question->label);
