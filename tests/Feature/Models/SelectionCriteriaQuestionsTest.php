@@ -6,6 +6,7 @@ use App\Project;
 use App\SelectionCriteriaQuestion;
 use App\SelectionCriteriaQuestionResponse;
 use App\User;
+use App\VendorApplication;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
@@ -169,6 +170,36 @@ class SelectionCriteriaQuestionsTest extends TestCase
         $this->assertNull($response->response);
     }
 
+    public function testAddingAndRemovingAVendorFromAProjectDoesntCreateResponsesTwice()
+    {
+        $question = factory(SelectionCriteriaQuestion::class)->create([
+            'type' => 'selectMultiple',
+            'label' => 'Transport Type',
+            'required' => false,
+            'presetOption' => 'transportTypes'
+        ]);
+        $project = factory(Project::class)->create();
+        $vendor = factory(User::class)->states(['vendor', 'finishedSetup'])->create();
+        $vendor->applyToProject($project);
+
+        // Response gets added by observer
+        $this->assertCount(1, SelectionCriteriaQuestionResponse::all());
+
+        $application = VendorApplication::where([
+            'project_id' => $project->id,
+            'vendor_id' => $vendor->id
+        ])->first();
+        $application->delete();
+
+        // Response is still here
+        $this->assertCount(1, SelectionCriteriaQuestionResponse::all());
+
+        $vendor->applyToProject($project);
+
+        // No other responses should get added
+        $this->assertCount(1, SelectionCriteriaQuestionResponse::all());
+    }
+
     public function testCanGetTheListOfOriginalQuestionsFromAProject()
     {
         $project = factory(Project::class)->create();
@@ -212,31 +243,5 @@ class SelectionCriteriaQuestionsTest extends TestCase
 
         $qResponse->refresh();
         $this->assertEquals('newText', $qResponse->response);
-    }
-
-    public function testCanChangeShouldShow()
-    {
-        $user = factory(User::class)->create();
-
-        $question = factory(SelectionCriteriaQuestion::class)->create();
-        $project = factory(Project::class)->create();
-        $vendor = factory(User::class)->states(['vendor', 'finishedSetup'])->create();
-        $vendor->applyToProject($project);
-
-        $this->assertCount(1, SelectionCriteriaQuestionResponse::all()); // Just making sure
-        $qResponse = SelectionCriteriaQuestionResponse::first();
-
-        $this->assertFalse(boolval($qResponse->shouldShow));
-
-        $response = $this->actingAs($user)
-            ->post('/selectionCriteriaQuestion/setShouldShow', [
-                'changing' => $qResponse->id,
-                'value' => 'true'
-            ]);
-
-        $response->assertOk();
-
-        $qResponse->refresh();
-        $this->assertTrue($qResponse->shouldShow);
     }
 }

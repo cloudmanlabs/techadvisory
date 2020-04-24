@@ -31,8 +31,6 @@ class ProjectController extends Controller
 
         $fitgapQuestions = $project->selectionCriteriaQuestionsOriginals()->where('page', 'fitgap');
 
-        Log::debug($fitgapQuestions);
-
         $vendorCorporateQuestions = $project->selectionCriteriaQuestionsOriginals()->where('page', 'vendor_corporate');
         $vendorMarketQuestions = $project->selectionCriteriaQuestionsOriginals()->where('page', 'vendor_market');
 

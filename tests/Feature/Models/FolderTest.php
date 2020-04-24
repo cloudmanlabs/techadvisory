@@ -28,8 +28,6 @@ class FolderTest extends TestCase
             UploadedFile::fake()->image('image3.jpg'),
         ];
 
-        $this->withoutExceptionHandling();
-
         $response = $this
                     ->actingAs(factory(User::class)->create())
                     ->post('folder/uploadFilesToFolder', [

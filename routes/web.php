@@ -1,5 +1,7 @@
 <?php
 
+use App\Project;
+use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
@@ -37,7 +39,6 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/sizingQuestion/changeResponse', 'SizingQuestionController@changeResponse');
     Route::post('/sizingQuestion/setShouldShow', 'SizingQuestionController@setShouldShow');
     Route::post('/selectionCriteriaQuestion/changeResponse', 'SelectionCriteriaQuestionController@changeResponse');
-    Route::post('/selectionCriteriaQuestion/setShouldShow', 'SelectionCriteriaQuestionController@setShouldShow');
 
 
     Route::post('/user/changeLogo', 'UserController@changeLogo');
@@ -49,3 +50,4 @@ Route::middleware(['auth'])->group(function () {
     Route::post('folder/uploadSingleFileToFolder', 'FolderController@uploadSingleFile');
     Route::post('folder/removeFile', 'FolderController@removeFile');
 });
+

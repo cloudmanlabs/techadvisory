@@ -4,7 +4,7 @@
     @switch($question->original->type)
         @case('text')
             <div class="form-group questionDiv {{$class}}" data-practice="{{$question->original->practice->id ?? ''}}">
-                <x-accenture.activateSizingInfoQuestion :changing="$question->id" :shouldShow="$question->shouldShow">
+                <x-accenture.shouldShowQuestion :changing="$question->id" :shouldShow="$question->shouldShow">
                     <label>{{$question->original->label}}{{$question->original->required ? '*' : ''}}</label>
                     <input
                         {{$required ? 'required' : ''}}
@@ -15,12 +15,12 @@
                         data-changing="{{$question->id}}"
                         value="{{$question->response}}"
                         placeholder="{{$question->original->placeholder}}">
-                </x-accenture.activateSizingInfoQuestion>
+                </x-accenture.shouldShowQuestion>
             </div>
             @break
         @case('textarea')
             <div class="form-group questionDiv {{$class}}" data-practice="{{$question->original->practice->id ?? ''}}">
-                <x-accenture.activateSizingInfoQuestion :changing="$question->id" :shouldShow="$question->shouldShow">
+                <x-accenture.shouldShowQuestion :changing="$question->id" :shouldShow="$question->shouldShow">
                     <label>{{$question->original->label}}{{$question->original->required ? '*' : ''}}</label>
                     <textarea
                         {{$required ? 'required' : ''}}
@@ -30,12 +30,12 @@
                         data-changing="{{$question->id}}"
                         {{$question->original->required ? 'required' : ''}}
                     >{{$question->response}}</textarea>
-                </x-accenture.activateSizingInfoQuestion>
+                </x-accenture.shouldShowQuestion>
             </div>
             @break
         @case('selectSingle')
             <div class="form-group questionDiv {{$class}}" data-practice="{{$question->original->practice->id ?? ''}}">
-                <x-accenture.activateSizingInfoQuestion :changing="$question->id" :shouldShow="$question->shouldShow">
+                <x-accenture.shouldShowQuestion :changing="$question->id" :shouldShow="$question->shouldShow">
                     <label>{{$question->original->label}}{{$question->original->required ? '*' : ''}}</label>
                     <select
                         {{$required ? 'required' : ''}}
@@ -54,12 +54,12 @@
                             @endforeach
                         @endif
                     </select>
-                </x-accenture.activateSizingInfoQuestion>
+                </x-accenture.shouldShowQuestion>
             </div>
             @break
         @case('selectMultiple')
             <div class="form-group questionDiv {{$class}}" data-practice="{{$question->original->practice->id ?? ''}}">
-                <x-accenture.activateSizingInfoQuestion :changing="$question->id" :shouldShow="$question->shouldShow">
+                <x-accenture.shouldShowQuestion :changing="$question->id" :shouldShow="$question->shouldShow">
                     <label>{{$question->original->label}}{{$question->original->required ? '*' : ''}}</label>
                     <select
                         {{$required ? 'required' : ''}}
@@ -81,12 +81,12 @@
                             @endforeach
                         @endif
                     </select>
-                </x-accenture.activateSizingInfoQuestion>
+                </x-accenture.shouldShowQuestion>
             </div>
             @break
         @case('date')
             <div class="questionDiv {{$class}}" data-practice="{{$question->original->practice->id ?? ''}}">
-                <x-accenture.activateSizingInfoQuestion :changing="$question->id" :shouldShow="$question->shouldShow">
+                <x-accenture.shouldShowQuestion :changing="$question->id" :shouldShow="$question->shouldShow">
                     <label>{{$question->original->label}}{{$question->original->required ? '*' : ''}}</label>
                     <div class="input-group date datepicker" data-initialValue="{{$question->response}}">
                         <input
@@ -99,12 +99,12 @@
                         class="form-control">
                         <span class="input-group-addon"><i data-feather="calendar"></i></span>
                     </div>
-                </x-accenture.activateSizingInfoQuestion>
+                </x-accenture.shouldShowQuestion>
             </div>
             @break
         @case('number')
             <div class="form-group questionDiv {{$class}}" data-practice="{{$question->original->practice->id ?? ''}}">
-                <x-accenture.activateSizingInfoQuestion :changing="$question->id" :shouldShow="$question->shouldShow">
+                <x-accenture.shouldShowQuestion :changing="$question->id" :shouldShow="$question->shouldShow">
                     <label>{{$question->original->label}}{{$question->original->required ? '*' : ''}}</label>
                     <input
                         {{$required ? 'required' : ''}}
@@ -115,7 +115,7 @@
                         {{$question->original->required ? 'required' : ''}}
                         value="{{$question->response}}"
                         placeholder="{{$question->original->placeholder}}">
-                </x-accenture.activateSizingInfoQuestion>
+                </x-accenture.shouldShowQuestion>
             </div>
             @break
         @default

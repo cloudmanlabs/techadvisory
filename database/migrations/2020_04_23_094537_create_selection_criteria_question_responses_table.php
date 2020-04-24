@@ -22,7 +22,6 @@ class CreateSelectionCriteriaQuestionResponsesTable extends Migration
             $table->unsignedBigInteger('vendor_id');
 
             $table->string('response')->nullable();
-            $table->boolean('shouldShow')->default(false);
         });
     }
 

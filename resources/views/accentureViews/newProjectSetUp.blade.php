@@ -219,11 +219,9 @@
                                                     <h4>Questions</h4>
                                                     <br>
                                                     @foreach ($fitgapQuestions as $question)
-                                                        <x-accenture.activateQuestion>
-                                                            <h6>
-                                                                {{$question->label}}
-                                                            </h6>
-                                                        </x-accenture.activateQuestion>
+                                                        <h6>
+                                                            {{$question->label}}
+                                                        </h6>
                                                     @endforeach
                                                 </div>
 
@@ -232,21 +230,17 @@
                                                     <h4>Corporate information</h4>
                                                     <br>
                                                     @foreach ($vendorCorporateQuestions as $question)
-                                                        <x-accenture.activateQuestion>
-                                                            <h6>
-                                                                {{$question->label}}
-                                                            </h6>
-                                                        </x-accenture.activateQuestion>
+                                                        <h6>
+                                                            {{$question->label}}
+                                                        </h6>
                                                     @endforeach
 
                                                     <br><br>
                                                     <h4>Market presence</h4>
                                                     @foreach ($vendorMarketQuestions as $question)
-                                                        <x-accenture.activateQuestion>
-                                                            <h6>
-                                                                {{$question->label}}
-                                                            </h6>
-                                                        </x-accenture.activateQuestion>
+                                                        <h6>
+                                                            {{$question->label}}
+                                                        </h6>
                                                     @endforeach
                                                 </div>
 
@@ -255,11 +249,9 @@
                                                     <h4>Questions</h4>
                                                     <br>
                                                     @foreach ($experienceQuestions as $question)
-                                                        <x-accenture.activateQuestion>
-                                                            <h6>
-                                                                {{$question->label}}
-                                                            </h6>
-                                                        </x-accenture.activateQuestion>
+                                                        <h6>
+                                                            {{$question->label}}
+                                                        </h6>
                                                     @endforeach
                                                 </div>
 
@@ -268,41 +260,33 @@
                                                     <h4>IT Enablers</h4>
                                                     <br>
                                                     @foreach ($innovationDigitalEnablersQuestions as $question)
-                                                        <x-accenture.activateQuestion>
-                                                            <h6>
-                                                                {{$question->label}}
-                                                            </h6>
-                                                        </x-accenture.activateQuestion>
+                                                        <h6>
+                                                            {{$question->label}}
+                                                        </h6>
                                                     @endforeach
 
                                                     <h4>Alliances</h4>
                                                     <br>
                                                     @foreach ($innovationAlliancesQuestions as $question)
-                                                        <x-accenture.activateQuestion>
-                                                            <h6>
-                                                                {{$question->label}}
-                                                            </h6>
-                                                        </x-accenture.activateQuestion>
+                                                        <h6>
+                                                            {{$question->label}}
+                                                        </h6>
                                                     @endforeach
 
                                                     <h4>Product</h4>
                                                     <br>
                                                     @foreach ($innovationProductQuestions as $question)
-                                                        <x-accenture.activateQuestion>
-                                                            <h6>
-                                                                {{$question->label}}
-                                                            </h6>
-                                                        </x-accenture.activateQuestion>
+                                                        <h6>
+                                                            {{$question->label}}
+                                                        </h6>
                                                     @endforeach
 
                                                     <h4>Sustainability</h4>
                                                     <br>
                                                     @foreach ($innovationSustainabilityQuestions as $question)
-                                                        <x-accenture.activateQuestion>
-                                                            <h6>
-                                                                {{$question->label}}
-                                                            </h6>
-                                                        </x-accenture.activateQuestion>
+                                                        <h6>
+                                                            {{$question->label}}
+                                                        </h6>
                                                     @endforeach
                                                 </div>
 
@@ -311,20 +295,16 @@
                                                     <h4>Implementation</h4>
                                                     <br>
                                                     @foreach ($implementationImplementationQuestions as $question)
-                                                    <x-accenture.activateQuestion>
                                                         <h6>
                                                             {{$question->label}}
                                                         </h6>
-                                                    </x-accenture.activateQuestion>
                                                     @endforeach
 
                                                     <h4>Deliverables per phase</h4>
                                                     @foreach ($implementationRunQuestions as $question)
-                                                    <x-accenture.activateQuestion>
                                                         <h6>
                                                             {{$question->label}}
                                                         </h6>
-                                                    </x-accenture.activateQuestion>
                                                     @endforeach
                                                 </div>
 

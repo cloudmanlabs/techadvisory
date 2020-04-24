@@ -34,15 +34,41 @@ class ProjectController extends Controller
 
     public function newProjectSetUp(Project $project)
     {
-        $sizingQuestions = $project->sizingQuestions->filter(function($el){
+        $sizingQuestions = $project->sizingQuestions->filter(function ($el) {
             return $el->shouldShow;
         });
+
+        $fitgapQuestions = $project->selectionCriteriaQuestionsOriginals()->where('page', 'fitgap');
+
+        $vendorCorporateQuestions = $project->selectionCriteriaQuestionsOriginals()->where('page', 'vendor_corporate');
+        $vendorMarketQuestions = $project->selectionCriteriaQuestionsOriginals()->where('page', 'vendor_market');
+
+        $experienceQuestions = $project->selectionCriteriaQuestionsOriginals()->where('page', 'experience');
+
+        $innovationDigitalEnablersQuestions = $project->selectionCriteriaQuestionsOriginals()->where('page', 'innovation_digitalEnablers');
+        $innovationAlliancesQuestions = $project->selectionCriteriaQuestionsOriginals()->where('page', 'innovation_alliances');
+        $innovationProductQuestions = $project->selectionCriteriaQuestionsOriginals()->where('page', 'innovation_product');
+        $innovationSustainabilityQuestions = $project->selectionCriteriaQuestionsOriginals()->where('page', 'innovation_sustainability');
+
+        $implementationImplementationQuestions = $project->selectionCriteriaQuestionsOriginals()->where('page', 'implementation_implementation');
+        $implementationRunQuestions = $project->selectionCriteriaQuestionsOriginals()->where('page', 'implementation_run');
 
         return view('clientViews.newProjectSetUp', [
             'project' => $project,
 
             'generalInfoQuestions' => $project->generalInfoQuestions,
             'sizingQuestions' => $sizingQuestions,
+
+            'fitgapQuestions' => $fitgapQuestions,
+            'vendorCorporateQuestions' => $vendorCorporateQuestions,
+            'vendorMarketQuestions' => $vendorMarketQuestions,
+            'experienceQuestions' => $experienceQuestions,
+            'innovationDigitalEnablersQuestions' => $innovationDigitalEnablersQuestions,
+            'innovationAlliancesQuestions' => $innovationAlliancesQuestions,
+            'innovationProductQuestions' => $innovationProductQuestions,
+            'innovationSustainabilityQuestions' => $innovationSustainabilityQuestions,
+            'implementationImplementationQuestions' => $implementationImplementationQuestions,
+            'implementationRunQuestions' => $implementationRunQuestions,
         ]);
     }
 

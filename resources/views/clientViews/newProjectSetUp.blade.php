@@ -92,7 +92,7 @@
                                         <div class="form-group">
                                             <label for="practiceSelect">Practice*</label>
                                             <select class="form-control" id="practiceSelect" required>
-                                                <x-options.practices :selected="$project->practice->id" />
+                                                <x-options.practices :selected="$project->practice->id ?? -1" />
                                             </select>
                                         </div>
 
@@ -199,382 +199,98 @@
                                                     </div>
 
                                                 </div>
+
+                                                <br><br>
+                                                <h4>Questions</h4>
+                                                <br>
+                                                @foreach ($fitgapQuestions as $question)
+                                                <h6>
+                                                    {{$question->label}}
+                                                </h6>
+                                                @endforeach
                                             </div>
 
                                             <h3>Vendor</h3>
                                             <div>
-                                                <h4>4.2. Corporate</h4>
+                                                <h4>Corporate information</h4>
                                                 <br>
-                                                <div class="table-responsive">
-                                                    <table class="table table-hover">
-                                                        <thead>
-                                                            <tr class="table-dark">
-                                                                <th>ID</th>
-                                                                <th>Question</th>
-                                                            </tr>
-                                                        </thead>
-                                                        <tbody>
-                                                            <tr>
-                                                                <th>1</th>
-                                                                <td>Lorem ipsum dolor sit amet, consectetur adipiscing
-                                                                    elit?
-                                                                </td>
-                                                            </tr>
-                                                            <tr>
-                                                                <th>2</th>
-                                                                <td>Donec sapien purus, mollis ut leo eget, sodales
-                                                                    tincidunt
-                                                                    elit. Vestibulum varius congue blandit. Vestibulum
-                                                                    pulvinar
-                                                                    volutpat ultrices?</td>
-                                                            </tr>
-                                                            <tr>
-                                                                <th>3</th>
-                                                                <td>Integer ornare feugiat libero, non consectetur odio
-                                                                    imperdiet rutrum?</td>
-                                                            </tr>
-                                                            <tr>
-                                                                <th>4</th>
-                                                                <td>Phasellus non sagittis dolor. Duis in suscipit ante.
-                                                                    Vestibulum eu consequat augue?</td>
-                                                            </tr>
-                                                            <tr>
-                                                                <th>5</th>
-                                                                <td>Vivamus semper magna ac nulla interdum, vitae
-                                                                    placerat
-                                                                    erat
-                                                                    viverra?</td>
-                                                            </tr>
+                                                @foreach ($vendorCorporateQuestions as $question)
+                                                    <h6>
+                                                        {{$question->label}}
+                                                    </h6>
+                                                @endforeach
 
-                                                        </tbody>
-                                                    </table>
-                                                </div>
+                                                <br><br>
+                                                <h4>Market presence</h4>
+                                                @foreach ($vendorMarketQuestions as $question)
+                                                    <h6>
+                                                        {{$question->label}}
+                                                    </h6>
+                                                @endforeach
                                             </div>
 
                                             <h3>Experience</h3>
                                             <div>
-                                                <h4>4.3. Market presence</h4>
+                                                <h4>Questions</h4>
                                                 <br>
-                                                <div class="table-responsive">
-                                                    <table class="table table-hover">
-                                                        <thead>
-                                                            <tr class="table-dark">
-                                                                <th>ID</th>
-                                                                <th>Question</th>
-                                                            </tr>
-                                                        </thead>
-                                                        <tbody>
-                                                            <tr>
-                                                                <th>1</th>
-                                                                <td>Headquarters</td>
-                                                            </tr>
-                                                            <tr>
-                                                                <th>2</th>
-                                                                <td>Commercial Offices</td>
-                                                            </tr>
-                                                            <tr>
-                                                                <th>3</th>
-                                                                <td>Service Team Offices</td>
-                                                            </tr>
-                                                            <tr>
-                                                                <th>4</th>
-                                                                <td>Geographies with solution implementations</td>
-                                                            </tr>
-                                                        </tbody>
-                                                    </table>
-                                                </div>
+                                                @foreach ($experienceQuestions as $question)
+                                                    <h6>
+                                                        {{$question->label}}
+                                                    </h6>
+                                                @endforeach
                                             </div>
-
 
                                             <h3>Innovation & Vision</h3>
                                             <div>
-                                                <h4>4.5. IT Enablers</h4>
+                                                <h4>IT Enablers</h4>
                                                 <br>
-                                                <div class="table-responsive">
-                                                    <table class="table table-hover">
-                                                        <thead>
-                                                            <tr class="table-dark">
-                                                                <th>ID</th>
-                                                                <th>Question</th>
-                                                            </tr>
-                                                        </thead>
-                                                        <tbody>
-                                                            <tr>
-                                                                <th>1</th>
-                                                                <td>List your IT Enablers</td>
-                                                            </tr>
-                                                        </tbody>
-                                                    </table>
-                                                </div>
+                                                @foreach ($innovationDigitalEnablersQuestions as $question)
+                                                    <h6>
+                                                        {{$question->label}}
+                                                    </h6>
+                                                @endforeach
 
-                                                <br><br>
-                                                <h4>4.6. Alliances</h4>
+                                                <h4>Alliances</h4>
                                                 <br>
-                                                <div class="table-responsive">
-                                                    <table class="table table-hover">
-                                                        <thead>
-                                                            <tr class="table-dark">
-                                                                <th>ID</th>
-                                                                <th>Question</th>
-                                                            </tr>
-                                                        </thead>
-                                                        <tbody>
-                                                            <tr>
-                                                                <th>1</th>
-                                                                <td>Partnership 1</td>
-                                                            </tr>
-                                                            <tr>
-                                                                <th>2</th>
-                                                                <td>Partnership 2</td>
-                                                            </tr>
-                                                            <tr>
-                                                                <th>3</th>
-                                                                <td>Partnership 3</td>
-                                                            </tr>
-                                                        </tbody>
-                                                    </table>
-                                                </div>
+                                                @foreach ($innovationAlliancesQuestions as $question)
+                                                    <h6>
+                                                        {{$question->label}}
+                                                    </h6>
+                                                @endforeach
 
-                                                <br><br>
-                                                <h4>4.4. Experience</h4>
+                                                <h4>Product</h4>
                                                 <br>
-                                                <div class="table-responsive">
-                                                    <table class="table table-hover">
-                                                        <thead>
-                                                            <tr class="table-dark">
-                                                                <th>ID</th>
-                                                                <th>Question</th>
-                                                            </tr>
-                                                        </thead>
-                                                        <tbody>
-                                                            <tr>
-                                                                <th>1</th>
-                                                                <td>Industry Experience</td>
-                                                            </tr>
-                                                            <tr>
-                                                                <th>2</th>
-                                                                <td>List all active clients</td>
-                                                            </tr>
-                                                            <tr>
-                                                                <th>3</th>
-                                                                <td>List how many successful implementations you
-                                                                    performed
-                                                                    within last 4 years</td>
-                                                            </tr>
-                                                            <tr>
-                                                                <th>4</th>
-                                                                <td>Share 3 customer references for implementation with
-                                                                    similar
-                                                                    size & scope (same industry preferred)</td>
-                                                            </tr>
-                                                        </tbody>
-                                                    </table>
-                                                </div>
+                                                @foreach ($innovationProductQuestions as $question)
+                                                    <h6>
+                                                        {{$question->label}}
+                                                    </h6>
+                                                @endforeach
 
-                                                <br><br>
-                                                <h4>4.7. Product</h4>
+                                                <h4>Sustainability</h4>
                                                 <br>
-                                                <div class="table-responsive">
-                                                    <table class="table table-hover">
-                                                        <thead>
-                                                            <tr class="table-dark">
-                                                                <th>ID</th>
-                                                                <th>Question</th>
-                                                            </tr>
-                                                        </thead>
-                                                        <tbody>
-                                                            <tr>
-                                                                <th>1</th>
-                                                                <td>Lorem ipsum dolor sit amet, consectetur adipiscing
-                                                                    elit?
-                                                                </td>
-                                                            </tr>
-                                                            <tr>
-                                                                <th>2</th>
-                                                                <td>Donec sapien purus, mollis ut leo eget, sodales
-                                                                    tincidunt
-                                                                    elit. Vestibulum varius congue blandit. Vestibulum
-                                                                    pulvinar
-                                                                    volutpat ultrices?</td>
-                                                            </tr>
-                                                            <tr>
-                                                                <th>3</th>
-                                                                <td>Integer ornare feugiat libero, non consectetur odio
-                                                                    imperdiet rutrum?</td>
-                                                            </tr>
-                                                            <tr>
-                                                                <th>4</th>
-                                                                <td>Phasellus non sagittis dolor. Duis in suscipit ante.
-                                                                    Vestibulum eu consequat augue?</td>
-                                                            </tr>
-                                                        </tbody>
-                                                    </table>
-                                                </div>
-
-                                                <br><br>
-                                                <h4>4.8. Sustainability</h4>
-                                                <br>
-                                                <div class="table-responsive">
-                                                    <table class="table table-hover">
-                                                        <thead>
-                                                            <tr class="table-dark">
-                                                                <th>ID</th>
-                                                                <th>Question</th>
-                                                            </tr>
-                                                        </thead>
-                                                        <tbody>
-                                                            <tr>
-                                                                <th>1</th>
-                                                                <td>Lorem ipsum dolor sit amet, consectetur adipiscing
-                                                                    elit?
-                                                                </td>
-                                                            </tr>
-                                                            <tr>
-                                                                <th>2</th>
-                                                                <td>Donec sapien purus, mollis ut leo eget, sodales
-                                                                    tincidunt
-                                                                    elit. Vestibulum varius congue blandit. Vestibulum
-                                                                    pulvinar
-                                                                    volutpat ultrices?</td>
-                                                            </tr>
-                                                            <tr>
-                                                                <th>3</th>
-                                                                <td>Integer ornare feugiat libero, non consectetur odio
-                                                                    imperdiet rutrum?</td>
-                                                            </tr>
-                                                            <tr>
-                                                                <th>4</th>
-                                                                <td>Phasellus non sagittis dolor. Duis in suscipit ante.
-                                                                    Vestibulum eu consequat augue?</td>
-                                                            </tr>
-                                                        </tbody>
-                                                    </table>
-                                                </div>
+                                                @foreach ($innovationSustainabilityQuestions as $question)
+                                                    <h6>
+                                                        {{$question->label}}
+                                                    </h6>
+                                                @endforeach
                                             </div>
-
 
                                             <h3>Implementation & Commercials</h3>
                                             <div>
-                                                <h4>4.9. Implementation</h4>
+                                                <h4>Implementation</h4>
                                                 <br>
-                                                <h6>Deliverables per phase</h6>
-                                                <div class="table-responsive">
-                                                    <table class="table table-hover">
-                                                        <thead>
-                                                            <tr class="table-dark">
-                                                                <th>Phase</th>
-                                                                <th>Deliverables</th>
-                                                            </tr>
-                                                        </thead>
-                                                    </table>
-                                                </div>
+                                                @foreach ($implementationImplementationQuestions as $question)
+                                                    <h6>
+                                                        {{$question->label}}
+                                                    </h6>
+                                                @endforeach
 
-                                                <br>
-                                                <h6>RACI Matrix</h6>
-                                                <div class="table-responsive">
-                                                    <table class="table table-hover">
-                                                        <thead>
-                                                            <tr class="table-dark">
-                                                                <th>Task</th>
-                                                                <th>Client</th>
-                                                                <th>Vendor</th>
-                                                                <th>Accenture</th>
-                                                            </tr>
-                                                        </thead>
-                                                    </table>
-                                                </div>
-
-
-                                                <br>
-                                                <h6>Implementation Cost</h6>
-                                                <div class="table-responsive">
-                                                    <table class="table table-hover">
-                                                        <thead>
-                                                            <tr class="table-dark">
-                                                                <th>Staffing Cost</th>
-                                                                <th>Role</th>
-                                                                <th>Estimated number of hours</th>
-                                                                <th>Hourly rate</th>
-                                                                <th>Staffing Cost</th>
-                                                            </tr>
-                                                        </thead>
-                                                    </table>
-                                                </div>
-                                                <br>
-
-                                                <div class="table-responsive">
-                                                    <table class="table table-hover">
-                                                        <thead>
-                                                            <tr class="table-dark">
-                                                                <th>Travel Cost</th>
-                                                                <th>Month</th>
-                                                                <th>Monthly Travel Cost</th>
-                                                            </tr>
-                                                        </thead>
-                                                    </table>
-                                                </div>
-                                                <br>
-
-                                                <div class="table-responsive">
-                                                    <table class="table table-hover">
-                                                        <thead>
-                                                            <tr class="table-dark">
-                                                                <th>Additional Cost</th>
-                                                                <th>Item</th>
-                                                                <th>Cost</th>
-                                                            </tr>
-                                                        </thead>
-                                                    </table>
-                                                </div>
-
-
-                                                <br><br>
-                                                <h4>4.10. Run</h4>
-                                                <br>
-                                                <h6>Pricing Model</h6>
-                                                <div class="table-responsive">
-                                                    <table class="table table-hover">
-                                                        <thead>
-                                                            <tr class="table-dark">
-                                                                <th>Description</th>
-                                                            </tr>
-                                                        </thead>
-                                                    </table>
-                                                </div>
-                                                <br>
-                                                <h6>Estimate first 5 years billing plan</h6>
-                                                <div class="table-responsive">
-                                                    <table class="table table-hover">
-                                                        <thead>
-                                                            <tr class="table-dark">
-                                                                <th>Yearly cost</th>
-                                                            </tr>
-                                                        </thead>
-                                                        <tbody>
-                                                            <tr>
-                                                                <th>Year 0 (Total Implementation Cost)</th>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>Year 1</td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>Year 2</td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>Year 3</td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>Year 4</td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>Year 5</td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>Total cost</td>
-                                                            </tr>
-                                                        </tbody>
-                                                    </table>
-                                                </div>
+                                                <h4>Deliverables per phase</h4>
+                                                @foreach ($implementationRunQuestions as $question)
+                                                    <h6>
+                                                        {{$question->label}}
+                                                    </h6>
+                                                @endforeach
                                             </div>
 
                                             <h3>Scoring criteria</h3>
@@ -682,7 +398,7 @@
         })
     }
 
-    var currentPracticeId = {{$project->practice->id}};
+    var currentPracticeId = {{$project->practice->id ?? -1}};
     function updateShownQuestionsAccordingToPractice(){
         $('.questionDiv').each(function () {
             let practiceId = $(this).data('practice');

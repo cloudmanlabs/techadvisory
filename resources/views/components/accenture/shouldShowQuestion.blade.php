@@ -12,7 +12,3 @@
             {{$shouldShow ? 'checked' : ''}}>
     </div>
 </div>
-
-{{--
-    Used in accenture.newProjectSetUp to decide which Sizing questions to show to the client
-    --}}
