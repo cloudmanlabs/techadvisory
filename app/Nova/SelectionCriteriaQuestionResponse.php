@@ -62,6 +62,10 @@ class SelectionCriteriaQuestionResponse extends Resource
 
             Number::make('Score', 'score')
                 ->hideWhenCreating(),
+
+            Boolean::make('Fixed', function(){
+                return $this->original->fixed;
+            }),
         ];
     }
 

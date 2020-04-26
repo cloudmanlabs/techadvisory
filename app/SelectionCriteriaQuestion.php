@@ -16,6 +16,9 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $options
  *
  * @property string $page
+ *
+ * @property boolean $fixed
+ * @property string $fixedQuestionIdentifier
  */
 class SelectionCriteriaQuestion extends Question
 {

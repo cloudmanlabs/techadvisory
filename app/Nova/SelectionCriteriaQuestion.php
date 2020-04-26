@@ -65,7 +65,11 @@ class SelectionCriteriaQuestion extends Resource
             Select::make('Page', 'page')
                 ->options(\App\SelectionCriteriaQuestion::pagesSelect)
                 ->displayUsingLabels()
-                ->rules('required')
+                ->rules('required'),
+
+            Boolean::make('Required', 'required'),
+            Boolean::make('Fixed', 'fixed')
+                ->exceptOnForms(),
         ];
 
         // NOTE All of the fields here should be hidden on index and create

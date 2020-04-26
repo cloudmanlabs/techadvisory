@@ -13,6 +13,16 @@ class SelectionCriteriaQuestionSeeder extends Seeder
     public function run()
     {
         factory(SelectionCriteriaQuestion::class)->create([
+            'page' => 'vendor_market',
+
+            'label' => 'Countries',
+            'type' => 'selectMultiple',
+            'presetOption' => 'countries',
+            'fixed' => true,
+            'fixedQuestionIdentifier' => 'vendor_market_countries'
+        ]);
+
+        factory(SelectionCriteriaQuestion::class)->create([
             'page' => 'fitgap',
             'label' => 'Vendor contact role',
             'type' => 'text',

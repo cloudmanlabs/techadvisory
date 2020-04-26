@@ -73,6 +73,36 @@ class SelectionCriteriaQuestionsTest extends TestCase
         $this->assertCount(1, SelectionCriteriaQuestion::all());
     }
 
+    public function testCanCreateSelectionCriteriaQuestionWithFixed()
+    {
+        $this->assertCount(0, SelectionCriteriaQuestion::all());
+
+        $question = new SelectionCriteriaQuestion([
+            'label' => 'How are you?',
+            'type' => 'text',
+
+            'fixed' => true
+        ]);
+        $question->save();
+
+        $this->assertCount(1, SelectionCriteriaQuestion::all());
+    }
+
+    public function testCanCreateSelectionCriteriaQuestionWithFixedQuestionIdentifier()
+    {
+        $this->assertCount(0, SelectionCriteriaQuestion::all());
+
+        $question = new SelectionCriteriaQuestion([
+            'label' => 'How are you?',
+            'type' => 'text',
+
+            'fixedQuestionIdentifier' => true
+        ]);
+        $question->save();
+
+        $this->assertCount(1, SelectionCriteriaQuestion::all());
+    }
+
     public function testCanAssignQuestionsToAProject()
     {
         $this->assertCount(0, SelectionCriteriaQuestionResponse::all());

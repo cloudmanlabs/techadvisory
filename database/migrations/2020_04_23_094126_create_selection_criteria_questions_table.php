@@ -26,6 +26,8 @@ class CreateSelectionCriteriaQuestionsTable extends Migration
             $table->string('options')->nullable();
 
             $table->string('page')->default('vendor_corporate');
+            $table->boolean('fixed')->default(false);
+            $table->string('fixedQuestionIdentifier')->nullable();
         });
     }
 
