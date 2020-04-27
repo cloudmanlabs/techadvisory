@@ -87,19 +87,19 @@
                                     <br><br>
                                     <h4>Questions</h4>
                                     <br>
-                                    <x-questionForeach :questions="$fitgapQuestions" :class="'selectionCriteriaQuestion'" :disabled="true" :required="false" />
+                                    <x-questionForeachWithEvaluate :questions="$fitgapQuestions" :class="'selectionCriteriaQuestion'" :disabled="true" :evalDisabled="true" :required="false" />
                                 </section>
 
                                 <h2>Vendor</h2>
                                 <section>
                                     <h4>Corporate information</h4>
                                     <br>
-                                    <x-questionForeach :questions="$vendorCorporateQuestions" :class="'selectionCriteriaQuestion'" :disabled="true"
+                                    <x-questionForeachWithEvaluate :questions="$vendorCorporateQuestions" :class="'selectionCriteriaQuestion'" :disabled="true" :evalDisabled="true"
                                         :required="false" />
 
                                     <br><br>
                                     <h4>Market presence</h4>
-                                    <x-questionForeach :questions="$vendorMarketQuestions" :class="'selectionCriteriaQuestion'" :disabled="true"
+                                    <x-questionForeachWithEvaluate :questions="$vendorMarketQuestions" :class="'selectionCriteriaQuestion'" :disabled="true" :evalDisabled="true"
                                         :required="false" />
                                 </section>
 
@@ -107,7 +107,7 @@
                                 <section>
                                     <h4>Questions</h4>
                                     <br>
-                                    <x-questionForeach :questions="$experienceQuestions" :class="'selectionCriteriaQuestion'" :disabled="true"
+                                    <x-questionForeachWithEvaluate :questions="$experienceQuestions" :class="'selectionCriteriaQuestion'" :disabled="true" :evalDisabled="true"
                                         :required="false" />
                                 </section>
 
@@ -115,34 +115,34 @@
                                 <section>
                                     <h4>IT Enablers</h4>
                                     <br>
-                                    <x-questionForeach :questions="$innovationDigitalEnablersQuestions" :class="'selectionCriteriaQuestion'"
-                                        :disabled="true" :required="false" />
+                                    <x-questionForeachWithEvaluate :questions="$innovationDigitalEnablersQuestions" :class="'selectionCriteriaQuestion'"
+                                        :disabled="true" :evalDisabled="true" :required="false" />
 
                                     <h4>Alliances</h4>
                                     <br>
-                                    <x-questionForeach :questions="$innovationAlliancesQuestions" :class="'selectionCriteriaQuestion'"
-                                        :disabled="true" :required="false" />
+                                    <x-questionForeachWithEvaluate :questions="$innovationAlliancesQuestions" :class="'selectionCriteriaQuestion'"
+                                        :disabled="true" :evalDisabled="true" :required="false" />
 
                                     <h4>Product</h4>
                                     <br>
-                                    <x-questionForeach :questions="$innovationProductQuestions" :class="'selectionCriteriaQuestion'" :disabled="true"
+                                    <x-questionForeachWithEvaluate :questions="$innovationProductQuestions" :class="'selectionCriteriaQuestion'" :disabled="true" :evalDisabled="true"
                                         :required="false" />
 
                                     <h4>Sustainability</h4>
                                     <br>
-                                    <x-questionForeach :questions="$innovationSustainabilityQuestions" :class="'selectionCriteriaQuestion'"
-                                        :disabled="true" :required="false" />
+                                    <x-questionForeachWithEvaluate :questions="$innovationSustainabilityQuestions" :class="'selectionCriteriaQuestion'"
+                                        :disabled="true" :evalDisabled="true" :required="false" />
                                 </section>
 
                                 <h2>Implementation & Commercials</h2>
                                 <section>
                                     <h4>Implementation</h4>
                                     <br>
-                                    <x-questionForeach :questions="$implementationImplementationQuestions"
-                                        :class="'selectionCriteriaQuestion'" :disabled="true" :required="false" />
+                                    <x-questionForeachWithEvaluate :questions="$implementationImplementationQuestions"
+                                        :class="'selectionCriteriaQuestion'" :disabled="true" :evalDisabled="true" :required="false" />
 
                                     <h4>Deliverables per phase</h4>
-                                    <x-questionForeach :questions="$implementationRunQuestions" :class="'selectionCriteriaQuestion'" :disabled="true"
+                                    <x-questionForeachWithEvaluate :questions="$implementationRunQuestions" :class="'selectionCriteriaQuestion'" :disabled="true" :evalDisabled="true"
                                         :required="false" />
                                 </section>
                             </div>

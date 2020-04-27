@@ -1,10 +1,10 @@
-@props(['questions', 'class', 'disabled', 'required'])
+@props(['questions', 'class', 'disabled', 'required', 'evalDisabled'])
 
 @foreach ($questions as $question)
     @switch($question->original->type)
         @case('text')
             <div class="form-group questionDiv {{$class}}" data-practice="{{$question->original->practice->id ?? ''}}">
-                <x-accenture.evaluateInputGroup :changing="$question->id" :score="$question->score">
+                <x-accenture.evaluateInputGroup :changing="$question->id" :score="$question->score" :disabled="$evalDisabled">
                     <label>{{$question->original->label}}{{$question->original->required ? '*' : ''}}</label>
                     <input
                         {{$required ? 'required' : ''}}
@@ -20,7 +20,7 @@
             @break
         @case('textarea')
             <div class="form-group questionDiv {{$class}}" data-practice="{{$question->original->practice->id ?? ''}}">
-                <x-accenture.evaluateInputGroup :changing="$question->id" :score="$question->score">
+                <x-accenture.evaluateInputGroup :changing="$question->id" :score="$question->score" :disabled="$evalDisabled">
                     <label>{{$question->original->label}}{{$question->original->required ? '*' : ''}}</label>
                     <textarea
                         {{$required ? 'required' : ''}}
@@ -35,7 +35,7 @@
             @break
         @case('selectSingle')
             <div class="form-group questionDiv {{$class}}" data-practice="{{$question->original->practice->id ?? ''}}">
-                <x-accenture.evaluateInputGroup :changing="$question->id" :score="$question->score">
+                <x-accenture.evaluateInputGroup :changing="$question->id" :score="$question->score" :disabled="$evalDisabled">
                     <label>{{$question->original->label}}{{$question->original->required ? '*' : ''}}</label>
                     <select
                         {{$required ? 'required' : ''}}
@@ -59,7 +59,7 @@
             @break
         @case('selectMultiple')
             <div class="form-group questionDiv {{$class}}" data-practice="{{$question->original->practice->id ?? ''}}">
-                <x-accenture.evaluateInputGroup :changing="$question->id" :score="$question->score">
+                <x-accenture.evaluateInputGroup :changing="$question->id" :score="$question->score" :disabled="$evalDisabled">
                     <label>{{$question->original->label}}{{$question->original->required ? '*' : ''}}</label>
                     <select
                         {{$required ? 'required' : ''}}
@@ -86,7 +86,7 @@
             @break
         @case('date')
             <div class="questionDiv {{$class}}" data-practice="{{$question->original->practice->id ?? ''}}">
-                <x-accenture.evaluateInputGroup :changing="$question->id" :score="$question->score">
+                <x-accenture.evaluateInputGroup :changing="$question->id" :score="$question->score" :disabled="$evalDisabled">
                     <label>{{$question->original->label}}{{$question->original->required ? '*' : ''}}</label>
                     <div class="input-group date datepicker" data-initialValue="{{$question->response}}">
                         <input
@@ -104,7 +104,7 @@
             @break
         @case('number')
             <div class="form-group questionDiv {{$class}}" data-practice="{{$question->original->practice->id ?? ''}}">
-                <x-accenture.evaluateInputGroup :changing="$question->id" :score="$question->score">
+                <x-accenture.evaluateInputGroup :changing="$question->id" :score="$question->score" :disabled="$evalDisabled">
                     <label>{{$question->original->label}}{{$question->original->required ? '*' : ''}}</label>
                     <input
                         {{$required ? 'required' : ''}}
