@@ -22,6 +22,9 @@ use Illuminate\Support\Facades\Log;
  *
  * @property string $currentPhase
  *
+ * @property boolean $step4FinishedAccenture
+ * @property boolean $step4FinishedClient
+ *
  * @property array $scoringValues
  */
 class Project extends Model

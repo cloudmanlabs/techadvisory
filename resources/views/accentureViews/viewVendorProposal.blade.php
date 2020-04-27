@@ -99,6 +99,7 @@
 
                                     <br><br>
                                     <h4>Market presence</h4>
+                                    <br>
                                     <x-questionForeachWithEvaluate :questions="$vendorMarketQuestions" :class="'selectionCriteriaQuestion'" :disabled="true" :evalDisabled="true"
                                         :required="false" />
                                 </section>
@@ -142,6 +143,7 @@
                                         :class="'selectionCriteriaQuestion'" :disabled="true" :evalDisabled="true" :required="false" />
 
                                     <h4>Deliverables per phase</h4>
+                                    <br>
                                     <x-questionForeachWithEvaluate :questions="$implementationRunQuestions" :class="'selectionCriteriaQuestion'" :disabled="true" :evalDisabled="true"
                                         :required="false" />
                                 </section>
@@ -157,10 +159,8 @@
 </div>
 @endsection
 
-
 @section('head')
 @parent
-
 <style>
     select.form-control {
         color: #495057;
@@ -169,9 +169,15 @@
     .select2-results__options .select2-results__option[aria-disabled=true] {
         display: none;
     }
-</style>
-@endsection
 
+    #subwizard_here ul>li {
+        display: block;
+    }
+</style>
+
+<link rel="stylesheet" href="{{url('/assets/css/techadvisory/vendorValidateResponses.css')}}">
+<link rel="stylesheet" href="{{url('/assets/css/techadvisory/viewVendorProposalEvaluation.css')}}">
+@endsection
 
 @section('scripts')
 @parent
