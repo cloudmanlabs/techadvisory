@@ -3,7 +3,7 @@
 <div class="card" style="margin-bottom: 30px;">
     <div class="card-body" style="display: flex; flex-direction: row; justify-content: space-between; align-items: center">
         <div style="max-width: 40%; padding-top: 8px;">
-            <h4>{{$vendor->name ?? 'NO VENDOR'}}</h4>
+            <h4>{{$vendor->name }}</h4>
             <p>Last update on: 17/03/2020</p>
         </div>
 
