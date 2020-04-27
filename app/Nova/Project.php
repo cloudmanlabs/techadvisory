@@ -100,7 +100,9 @@ class Project extends Resource
 
             HasMany::make('General Info Questions', 'generalInfoQuestions', 'App\Nova\GeneralInfoQuestionResponse'),
             HasMany::make('Sizing Questions', 'sizingQuestions', 'App\Nova\SizingQuestionResponse'),
-            HasMany::make('Selection Criteria Questions', 'selectionCriteriaQuestions', 'App\Nova\SelectionCriteriaQuestionResponse'),
+
+            HasMany::make('Selection Criteria Questions', 'selectionCriteriaQuestionsPivots', 'App\Nova\SelectionCriteriaQuestionProjectPivot'),
+            HasMany::make('Selection Criteria Responses', 'selectionCriteriaQuestions', 'App\Nova\SelectionCriteriaQuestionResponse'),
 
 
             HasMany::make('Applied vendors', 'vendorsApplied', 'App\Nova\Vendor'),

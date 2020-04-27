@@ -29,7 +29,7 @@ class SelectionCriteriaQuestion extends Question
         'vendor_corporate' => 'Vendor - Corporate',
         'vendor_market' => 'Vendor - Market',
         'innovation_digitalEnablers' => 'Innovation - Digital Enablers',
-        'innovation_alliances' => 'Innovation - Alliacnces',
+        'innovation_alliances' => 'Innovation - Alliances',
         'innovation_product' => 'Innovation - Product',
         'innovation_sustainability' => 'Innovation - Sustainability',
         'implementation_implementation' => 'Implementation - Implementation',

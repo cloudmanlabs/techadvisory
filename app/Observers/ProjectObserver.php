@@ -6,6 +6,7 @@ use App\GeneralInfoQuestion;
 use App\GeneralInfoQuestionResponse;
 use App\Project;
 use App\SelectionCriteriaQuestion;
+use App\SelectionCriteriaQuestionProjectPivot;
 use App\SelectionCriteriaQuestionResponse;
 use App\SizingQuestion;
 use App\SizingQuestionResponse;
@@ -40,15 +41,12 @@ class ProjectObserver
             $response->save();
         }
 
-        foreach ($project->vendorsApplied() as $key1 => $vendor) {
-            foreach (SelectionCriteriaQuestion::all() as $key2 => $question) {
-                $response = new SelectionCriteriaQuestionResponse([
-                    'question_id' => $question->id,
-                    'project_id' => $project->id,
-                    'vendor_id' => $vendor->id
-                ]);
-                $response->save();
-            }
+        foreach (SelectionCriteriaQuestion::all() as $key2 => $question) {
+            $response = new SelectionCriteriaQuestionProjectPivot([
+                'question_id' => $question->id,
+                'project_id' => $project->id,
+            ]);
+            $response->save();
         }
     }
 

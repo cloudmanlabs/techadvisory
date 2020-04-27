@@ -5,6 +5,7 @@ namespace App;
 use Guimcaballero\LaravelFolders\Models\Folder;
 use Illuminate\Database\Eloquent\Model;
 use \Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Facades\Log;
 
 /**
  * @property string $name
@@ -80,25 +81,6 @@ class Project extends Model
         return $this->hasMany(SizingQuestionResponse::class, 'project_id');
     }
 
-    public function selectionCriteriaQuestionsOriginals()
-    {
-        $questionIds = SelectionCriteriaQuestionResponse::where('project_id', $this->id)->pluck('question_id')->toArray();
-        $uniqueIds = array_values(array_unique($questionIds));
-
-        return SelectionCriteriaQuestion::find($uniqueIds);
-    }
-
-    public function selectionCriteriaQuestions()
-    {
-        return $this->hasMany(SelectionCriteriaQuestionResponse::class, 'project_id');
-    }
-
-    public function selectionCriteriaQuestionsForVendor(User $vendor)
-    {
-        return $this->hasMany(SelectionCriteriaQuestionResponse::class, 'project_id')->where('vendor_id', $vendor->id);
-    }
-
-
     public function vendorApplications()
     {
         return $this->hasMany(VendorApplication::class, 'project_id');
@@ -121,6 +103,37 @@ class Project extends Model
                     }
                 });
     }
+
+
+    public function selectionCriteriaQuestionsPivots()
+    {
+        return $this->hasMany(SelectionCriteriaQuestionProjectPivot::class, 'project_id');
+    }
+
+    public function selectionCriteriaQuestionsOriginals()
+    {
+        $questionIds = SelectionCriteriaQuestionProjectPivot::where('project_id', $this->id)->pluck('question_id')->toArray();
+        $uniqueIds = array_values(array_unique($questionIds));
+
+        return SelectionCriteriaQuestion::find($uniqueIds);
+    }
+
+    public function selectionCriteriaQuestions()
+    {
+        return $this->hasMany(SelectionCriteriaQuestionResponse::class, 'project_id');
+    }
+
+    public function selectionCriteriaQuestionsForVendor(User $vendor)
+    {
+        return $this->hasMany(SelectionCriteriaQuestionResponse::class, 'project_id')->where('vendor_id', $vendor->id);
+    }
+
+
+
+
+
+
+
 
 
 

@@ -232,11 +232,9 @@ class SelectionCriteriaQuestionsTest extends TestCase
 
     public function testCanGetTheListOfOriginalQuestionsFromAProject()
     {
-        $project = factory(Project::class)->create();
+        factory(SelectionCriteriaQuestion::class, 3)->create();
 
-        $question1 = factory(SelectionCriteriaQuestion::class)->create();
-        $question2 = factory(SelectionCriteriaQuestion::class)->create();
-        $question3 = factory(SelectionCriteriaQuestion::class)->create();
+        $project = factory(Project::class)->create();
 
         $vendor1 = factory(User::class)->states(['vendor', 'finishedSetup'])->create();
         $vendor2 = factory(User::class)->states(['vendor', 'finishedSetup'])->create();

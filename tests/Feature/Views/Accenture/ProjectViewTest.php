@@ -85,11 +85,8 @@ class ProjectViewTest extends TestCase
     public function testSelectionCriteriaQuestionsWork()
     {
         $user = factory(User::class)->states('accenture')->create();
-        $project = factory(Project::class)->create();
-        $vendor = factory(User::class)->states(['vendor', 'finishedSetup'])->create();
 
         $pages = array_keys(SelectionCriteriaQuestion::pagesSelect);
-
         foreach ($pages as $key => $page) {
             factory(SelectionCriteriaQuestion::class)->create([
                 'page' => $page,
@@ -98,6 +95,8 @@ class ProjectViewTest extends TestCase
             ]);
         }
 
+        $project = factory(Project::class)->create();
+        $vendor = factory(User::class)->states(['vendor', 'finishedSetup'])->create();
         $vendor->applyToProject($project);
 
         $response = $this

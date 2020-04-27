@@ -2,8 +2,6 @@
 
 namespace App\Nova;
 
-use App\Project;
-use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Laravel\Nova\Fields\BelongsTo;
@@ -12,30 +10,27 @@ use Laravel\Nova\Fields\Boolean;
 use Laravel\Nova\Fields\HasMany;
 use Laravel\Nova\Fields\HasOne;
 use Laravel\Nova\Fields\ID;
-use Laravel\Nova\Fields\Number;
 use Laravel\Nova\Fields\Password;
 use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Panel;
 
-class SelectionCriteriaQuestionResponse extends Resource
+class SelectionCriteriaQuestionProjectPivot extends Resource
 {
-    public static $displayInNavigation = false;
-
     /**
      * The model the resource corresponds to.
      *
      * @var string
      */
-    public static $model = 'App\SelectionCriteriaQuestionResponse';
+    public static $model = 'App\SelectionCriteriaQuestionProjectPivot';
 
     /**
      * The single value that should be used to represent the resource when being displayed.
      *
      * @var string
      */
-    public static $title = 'response';
+    public static $title = 'id';
 
     /**
      * The columns that should be searched.
@@ -43,7 +38,7 @@ class SelectionCriteriaQuestionResponse extends Resource
      * @var array
      */
     public static $search = [
-        'response',
+        'id',
     ];
 
     /**
@@ -55,25 +50,11 @@ class SelectionCriteriaQuestionResponse extends Resource
     public function fields(Request $request)
     {
         return [
-            BelongsTo::make('Question', 'original', 'App\Nova\SelectionCriteriaQuestion'),
-            BelongsTo::make('Project', 'project', 'App\Nova\Project'),
-            BelongsTo::make('Vendor', 'vendor', 'App\Nova\User'),
+            // ID::make()->sortable(),
 
-            Text::make('Response', 'response')
-                ->hideWhenCreating(),
-
-            Number::make('Score', 'score')
-                ->hideWhenCreating(),
-
-            Boolean::make('Fixed', function(){
-                return $this->original->fixed;
-            }),
+            BelongsTo::make('Project', 'project', '\App\Nova\Project'),
+            BelongsTo::make('Questions', 'question', '\App\Nova\SelectionCriteriaQuestion'),
         ];
-    }
-
-    public static function relatableUsers(NovaRequest $request, $query)
-    {
-        return $query->whereIn('userType', User::vendorTypes);
     }
 
     /**
