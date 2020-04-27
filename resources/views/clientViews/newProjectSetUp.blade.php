@@ -141,7 +141,13 @@
                                         <br>
                                         <br>
 
-                                        <button class="btn btn-primary" id="step3Submit">Submit</button>
+                                        <button
+                                            id="step3Submit"
+                                            class="btn btn-primary"
+                                            {{ $project->step3SubmittedClient ? 'disabled' : ''}}
+                                            data-submitted="{{ $project->step3SubmittedClient }}">
+                                            {{ $project->step3SubmittedClient ? 'Submitted' : 'Submit'}}
+                                        </button>
                                     </section>
 
                                     <h2>Selection Criteria</h2>
@@ -305,7 +311,12 @@
 
                                                 <br>
                                                 <br>
-                                                <button class="btn btn-primary" id="step4Submit">Submit</button>
+                                                <button
+                                                    class="btn btn-primary"
+                                                    id="step4Submit"
+                                                    {{ !$project->step3SubmittedClient ? 'disabled' : ''}}
+                                                    {{ $project->step4SubmittedClient ? 'disabled' : ''}}
+                                                >{{ $project->step4SubmittedClient ? 'Submitted' : 'Submit'}}</button>
                                             </div>
                                         </div>
                                     </section>
@@ -382,13 +393,14 @@
         }, true)
     }
 
-    function updateSubmitButton()
+    function updateSubmitStep3()
     {
-        // If we filled all the fields, remove the disabled from the button. This is incase we fill the last field on the last page
+        // If we filled all the fields, remove the disabled from the button.
         let fieldsAreEmtpy = !checkIfAllRequiredsAreFilled();
-        if(fieldsAreEmtpy && weAreOnPage3){
-            $('#wizard_client_newProjectSetUp-next').addClass('disabled')
+        if(fieldsAreEmtpy || $('#step3Submit').data('submitted') == 1){
+            $('#step3Submit').attr('disabled', true)
         } else {
+            $('#step3Submit').attr('disabled', false)
             $('#wizard_client_newProjectSetUp-next').removeClass('disabled')
         }
     }
@@ -561,6 +573,9 @@
                 hideAfter: 1000,
                 position: 'bottom-right'
             })
+
+            $(this).attr('disabled', true);
+            $(this).html('Submitted')
         });
 
         $('#step4Submit').click(function(){
@@ -575,6 +590,9 @@
                 hideAfter: 1000,
                 position: 'bottom-right'
             })
+
+            $(this).attr('disabled', true);
+            $(this).html('Submitted')
         });
 
 

@@ -135,8 +135,13 @@
 
                                         <br><br>
 
-                                        <button id="step3Submit" class="btn btn-primary">
-                                            Submit
+                                        <button
+                                            id="step3Submit"
+                                            class="btn btn-primary"
+                                            {{ $project->step3SubmittedAccenture ? 'disabled' : ''}}
+                                            data-submitted="{{ $project->step3SubmittedAccenture }}"
+                                        >
+                                            {{ $project->step3SubmittedAccenture ? 'Submitted' : 'Submit'}}
                                         </button>
                                     </section>
 
@@ -315,7 +320,12 @@
                                                     <x-scoringCriteriaBricks :isClient="false" :project="$project"/>
 
                                                     <br><br>
-                                                    <button class="btn btn-primary" id="step4Submit">Submit</button>
+                                                    <button
+                                                        class="btn btn-primary"
+                                                        id="step4Submit"
+                                                        {{ !$project->step3SubmittedAccenture ? 'disabled' : ''}}
+                                                        {{ $project->step4SubmittedAccenture ? 'disabled' : ''}}
+                                                    >{{ $project->step4SubmittedAccenture ? 'Submitted' : 'Submit'}}</button>
                                                 </div>
                                             </div>
                                         </div>
@@ -345,8 +355,13 @@
                                         <button
                                             class="btn btn-primary btn-lg btn-icon-text"
                                             id="publishButton"
-                                            data-clienthasfinished="{{$project->step4FinishedClient}}"
-                                            {{!$project->step4FinishedAccenture || !$project->step4FinishedClient ? 'disabled' : ''}}>Publish project</button>
+                                            data-clienthasfinished="{{$project->step3SubmittedClient && $project->step4SubmittedClient}}"
+                                            {{
+                                                !$project->step3SubmittedAccenture ||
+                                                !$project->step3SubmittedClient ||
+                                                !$project->step4SubmittedAccenture ||
+                                                !$project->step4SubmittedClient
+                                                ? 'disabled' : ''}}>Publish project</button>
                                         <br><br>
                                         <p>
                                             Please make sure everything is correct before publishing this project.
@@ -418,7 +433,7 @@
     {
         // If we filled all the fields, remove the disabled from the button.
         let fieldsAreEmtpy = !checkIfAllRequiredsAreFilled();
-        if(fieldsAreEmtpy){
+        if(fieldsAreEmtpy || $('#step3Submit').data('submitted') == 1){
             $('#step3Submit').attr('disabled', true)
         } else {
             $('#step3Submit').attr('disabled', false)
@@ -590,6 +605,11 @@
                 hideAfter: 1000,
                 position: 'bottom-right'
             })
+
+            $(this).attr('disabled', true);
+            $(this).html('Submitted')
+
+            $('#step4Submit').attr('disabled', false);
         });
 
         $('#step4Submit').click(function(){
@@ -604,6 +624,9 @@
                 hideAfter: 1000,
                 position: 'bottom-right'
             })
+
+            $(this).attr('disabled', true);
+            $(this).html('Submitted')
 
             // If the client has already accepted, set it as active
             if($('#publishButton').data('clienthasfinished') == '1'){
