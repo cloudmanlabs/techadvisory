@@ -206,7 +206,7 @@ class ProjectController extends Controller
             abort(404);
         }
 
-        $project->step4FinishedAccenture = true;
+        $project->step4SubmittedAccenture = true;
         $project->save();
 
         return \response()->json([

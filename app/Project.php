@@ -22,8 +22,8 @@ use Illuminate\Support\Facades\Log;
  *
  * @property string $currentPhase
  *
- * @property boolean $step4FinishedAccenture
- * @property boolean $step4FinishedClient
+ * @property boolean $step4SubmittedAccenture
+ * @property boolean $step4SubmittedClient
  *
  * @property array $scoringValues
  */
@@ -36,8 +36,8 @@ class Project extends Model
     ];
 
     protected $casts = [
-        'step4FinishedAccenture' => 'boolean',
-        'step4FinishedClient' => 'boolean',
+        'step4SubmittedAccenture' => 'boolean',
+        'step4SubmittedClient' => 'boolean',
 
         'scoringValues' => 'array'
     ];

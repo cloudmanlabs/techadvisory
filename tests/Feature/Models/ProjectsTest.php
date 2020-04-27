@@ -328,7 +328,7 @@ class ProjectsTest extends TestCase
         $user = factory(User::class)->states('accenture')->create();
         $project = factory(Project::class)->create();
 
-        $this->assertFalse(boolval($project->step4FinishedAccenture));
+        $this->assertFalse(boolval($project->step4SubmittedAccenture));
 
         $request = $this
             ->actingAs($user)
@@ -339,7 +339,7 @@ class ProjectsTest extends TestCase
         $request->assertOk();
 
         $project->refresh();
-        $this->assertTrue($project->step4FinishedAccenture);
+        $this->assertTrue($project->step4SubmittedAccenture);
     }
 
     public function testCanSetStep4FinishedForClient()
@@ -347,7 +347,7 @@ class ProjectsTest extends TestCase
         $user = factory(User::class)->states(['client', 'finishedSetup'])->create();
         $project = factory(Project::class)->create();
 
-        $this->assertFalse(boolval($project->step4FinishedClient));
+        $this->assertFalse(boolval($project->step4SubmittedClient));
 
         $request = $this
             ->actingAs($user)
@@ -358,7 +358,7 @@ class ProjectsTest extends TestCase
         $request->assertOk();
 
         $project->refresh();
-        $this->assertTrue($project->step4FinishedClient);
+        $this->assertTrue($project->step4SubmittedClient);
     }
 
     public function testAccentureCanUpdateScoringValues()

@@ -195,7 +195,7 @@ class ProjectController extends Controller
             abort(404);
         }
 
-        $project->step4FinishedClient = true;
+        $project->step4SubmittedClient = true;
         $project->save();
 
         return \response()->json([
