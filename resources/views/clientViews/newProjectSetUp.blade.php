@@ -137,6 +137,11 @@
                                     <h2>Sizing Info</h2>
                                     <section>
                                         <x-questionForeach :questions="$sizingQuestions" :class="'sizingQuestion'" :disabled="false" :required="false" />
+
+                                        <br>
+                                        <br>
+
+                                        <button class="btn btn-primary" id="step3Submit">Submit</button>
                                     </section>
 
                                     <h2>Selection Criteria</h2>
@@ -530,6 +535,20 @@
 
             showSavedToast();
             updateSubmitButton();
+        });
+
+        $('#step3Submit').click(function(){
+            $.post('/client/newProjectSetUp/setStep3Submitted', {
+                project_id: '{{$project->id}}',
+            })
+
+            $.toast({
+                heading: 'Submitted!',
+                showHideTransition: 'slide',
+                icon: 'success',
+                hideAfter: 1000,
+                position: 'bottom-right'
+            })
         });
 
         $('#step4Submit').click(function(){

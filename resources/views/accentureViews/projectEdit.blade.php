@@ -533,25 +533,6 @@
             updateSubmitButton();
         });
 
-        $('#step4Submit').click(function(){
-            $.post('/accenture/newProjectSetUp/setStep4Submitted', {
-                project_id: '{{$project->id}}',
-            })
-
-            $.toast({
-                heading: 'Submitted!',
-                showHideTransition: 'slide',
-                icon: 'success',
-                hideAfter: 1000,
-                position: 'bottom-right'
-            })
-
-            // If the client has already accepted, set it as active
-            if($('#publishButton').data('clienthasfinished') == '1'){
-                $('#publishButton').attr('disabled', false);
-            }
-        });
-
         $('#vendorSelection').change(function(){
             $.post('/accenture/newProjectSetUp/updateVendors', {
                 project_id: '{{$project->id}}',

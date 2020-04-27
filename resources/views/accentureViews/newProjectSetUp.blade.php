@@ -135,7 +135,7 @@
 
                                         <br><br>
 
-                                        <button id="submitSizingInfo" class="btn btn-primary">
+                                        <button id="step3Submit" class="btn btn-primary">
                                             Submit
                                         </button>
                                     </section>
@@ -414,14 +414,14 @@
         }, true)
     }
 
-    function updateSubmitButton()
+    function updateSubmitStep3()
     {
         // If we filled all the fields, remove the disabled from the button.
         let fieldsAreEmtpy = !checkIfAllRequiredsAreFilled();
         if(fieldsAreEmtpy){
-            $('#submitSizingInfo').attr('disabled', true)
+            $('#step3Submit').attr('disabled', true)
         } else {
-            $('#submitSizingInfo').attr('disabled', false)
+            $('#step3Submit').attr('disabled', false)
         }
     }
 
@@ -516,7 +516,7 @@
             })
 
             showSavedToast();
-            updateSubmitButton();
+            updateSubmitStep3();
         });
 
         $('#chooseClientSelect').change(function (e) {
@@ -527,7 +527,7 @@
             })
 
             showSavedToast();
-            updateSubmitButton();
+            updateSubmitStep3();
         });
 
         $('#valueTargeting').change(function (e) {
@@ -538,7 +538,7 @@
             })
 
             showSavedToast();
-            updateSubmitButton();
+            updateSubmitStep3();
         });
 
         $('#bindingOption').change(function (e) {
@@ -549,7 +549,7 @@
             })
 
             showSavedToast();
-            updateSubmitButton();
+            updateSubmitStep3();
         });
 
         $('#practiceSelect').change(function (e) {
@@ -561,7 +561,7 @@
             })
 
             showSavedToast();
-            updateSubmitButton();
+            updateSubmitStep3();
 
             updateShownQuestionsAccordingToPractice();
             updateShownSubpracticeOptionsAccordingToPractice();
@@ -575,7 +575,21 @@
             })
 
             showSavedToast();
-            updateSubmitButton();
+            updateSubmitStep3();
+        });
+
+        $('#step3Submit').click(function(){
+            $.post('/accenture/newProjectSetUp/setStep3Submitted', {
+                project_id: '{{$project->id}}',
+            })
+
+            $.toast({
+                heading: 'Submitted!',
+                showHideTransition: 'slide',
+                icon: 'success',
+                hideAfter: 1000,
+                position: 'bottom-right'
+            })
         });
 
         $('#step4Submit').click(function(){
@@ -626,7 +640,7 @@
                 })
 
                 showSavedToast();
-                updateSubmitButton();
+                updateSubmitStep3();
             });
 
         $('.sizingQuestion input,.sizingQuestion textarea,.sizingQuestion select')
@@ -645,7 +659,7 @@
                 })
 
                 showSavedToast();
-                updateSubmitButton();
+                updateSubmitStep3();
             });
 
         $('.sizingQuestion .checkboxesDiv input')
@@ -656,7 +670,7 @@
                 })
 
                 showSavedToast();
-                updateSubmitButton();
+                updateSubmitStep3();
             });
 
         $(".js-example-basic-single").select2();
@@ -675,7 +689,7 @@
 
         updateShownQuestionsAccordingToPractice();
         updateShownSubpracticeOptionsAccordingToPractice(false);
-        updateSubmitButton();
+        updateSubmitStep3();
     });
 </script>
 @endsection
