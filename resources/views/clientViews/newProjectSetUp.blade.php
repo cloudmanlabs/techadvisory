@@ -533,7 +533,7 @@
         });
 
         $('#step4Submit').click(function(){
-            $.post('/client/newProjectSetUp/setStep4Finished', {
+            $.post('/client/newProjectSetUp/setStep4Submitted', {
                 project_id: '{{$project->id}}',
             })
 

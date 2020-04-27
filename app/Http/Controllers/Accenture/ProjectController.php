@@ -195,7 +195,27 @@ class ProjectController extends Controller
         ]);
     }
 
-    public function setStep4Finished(Request $request)
+    public function setStep3Submitted(Request $request)
+    {
+        $request->validate([
+            'project_id' => 'required|numeric',
+        ]);
+
+        $project = Project::find($request->project_id);
+        if ($project == null) {
+            abort(404);
+        }
+
+        $project->step3SubmittedAccenture = true;
+        $project->save();
+
+        return \response()->json([
+            'status' => 200,
+            'message' => 'Success'
+        ]);
+    }
+
+    public function setStep4Submitted(Request $request)
     {
         $request->validate([
             'project_id' => 'required|numeric',

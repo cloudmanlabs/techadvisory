@@ -323,7 +323,26 @@ class ProjectsTest extends TestCase
         $this->assertCount(2, $project->subpractices);
     }
 
-    public function testCanSetStep4FinishedForAccenture()
+    public function testCanSetStep3SubmittedForAccenture()
+    {
+        $user = factory(User::class)->states('accenture')->create();
+        $project = factory(Project::class)->create();
+
+        $this->assertFalse(boolval($project->step3SubmittedAccenture));
+
+        $request = $this
+            ->actingAs($user)
+            ->post('/accenture/newProjectSetUp/setStep3Submitted', [
+                'project_id' => $project->id,
+            ]);
+
+        $request->assertOk();
+
+        $project->refresh();
+        $this->assertTrue($project->step3SubmittedAccenture);
+    }
+
+    public function testCansetStep4SubmittedForAccenture()
     {
         $user = factory(User::class)->states('accenture')->create();
         $project = factory(Project::class)->create();
@@ -332,7 +351,7 @@ class ProjectsTest extends TestCase
 
         $request = $this
             ->actingAs($user)
-            ->post('/accenture/newProjectSetUp/setStep4Finished', [
+            ->post('/accenture/newProjectSetUp/setStep4Submitted', [
                 'project_id' => $project->id,
             ]);
 
@@ -342,7 +361,26 @@ class ProjectsTest extends TestCase
         $this->assertTrue($project->step4SubmittedAccenture);
     }
 
-    public function testCanSetStep4FinishedForClient()
+    public function testCanSetStep3SubmittedForClient()
+    {
+        $user = factory(User::class)->states(['client', 'finishedSetup'])->create();
+        $project = factory(Project::class)->create();
+
+        $this->assertFalse(boolval($project->step3SubmittedClient));
+
+        $request = $this
+            ->actingAs($user)
+            ->post('/client/newProjectSetUp/setStep3Submitted', [
+                'project_id' => $project->id,
+            ]);
+
+        $request->assertOk();
+
+        $project->refresh();
+        $this->assertTrue($project->step3SubmittedClient);
+    }
+
+    public function testCansetStep4SubmittedForClient()
     {
         $user = factory(User::class)->states(['client', 'finishedSetup'])->create();
         $project = factory(Project::class)->create();
@@ -351,7 +389,7 @@ class ProjectsTest extends TestCase
 
         $request = $this
             ->actingAs($user)
-            ->post('/client/newProjectSetUp/setStep4Finished', [
+            ->post('/client/newProjectSetUp/setStep4Submitted', [
                 'project_id' => $project->id,
             ]);
 

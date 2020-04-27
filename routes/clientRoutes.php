@@ -55,7 +55,8 @@ Route::prefix('client')
                     Route::post('/newProjectSetUp/changeProjectIsBinding', 'ProjectController@changeProjectIsBinding');
                     Route::post('/newProjectSetUp/changePractice', 'ProjectController@changePractice');
                     Route::post('/newProjectSetUp/changeSubpractice', 'ProjectController@changeSubpractice');
-                    Route::post('/newProjectSetUp/setStep4Finished', 'ProjectController@setStep4Finished');
+                    Route::post('/newProjectSetUp/setStep3Submitted', 'ProjectController@setStep3Submitted');
+                    Route::post('/newProjectSetUp/setStep4Submitted', 'ProjectController@setStep4Submitted');
                     Route::post('/newProjectSetUp/updateScoringValues', 'ProjectController@updateScoringValues');
 
                     Route::get('project/home/{project}', 'ProjectController@home')

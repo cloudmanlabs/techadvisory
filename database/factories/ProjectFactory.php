@@ -42,6 +42,8 @@ $factory->define(Project::class, function (Faker $faker) {
 
 $factory->state(Project::class, 'open', [
     'currentPhase' => 'open',
+    'step3SubmittedAccenture' => true,
+    'step3SubmittedClient' => true,
     'step4SubmittedAccenture' => true,
     'step4SubmittedClient' => true,
 ]);
@@ -52,6 +54,8 @@ $factory->state(Project::class, 'preparation', [
 
 $factory->state(Project::class, 'old', [
     'currentPhase' => 'old',
+    'step3SubmittedAccenture' => true,
+    'step3SubmittedClient' => true,
     'step4SubmittedAccenture' => true,
     'step4SubmittedClient' => true,
 ]);

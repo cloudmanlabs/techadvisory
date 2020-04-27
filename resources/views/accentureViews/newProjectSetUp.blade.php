@@ -579,7 +579,7 @@
         });
 
         $('#step4Submit').click(function(){
-            $.post('/accenture/newProjectSetUp/setStep4Finished', {
+            $.post('/accenture/newProjectSetUp/setStep4Submitted', {
                 project_id: '{{$project->id}}',
             })
 

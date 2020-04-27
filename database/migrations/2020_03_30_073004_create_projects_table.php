@@ -37,6 +37,8 @@ class CreateProjectsTable extends Migration
 
             $table->boolean('isBinding')->default(false);
 
+            $table->boolean('step3SubmittedAccenture')->default(false);
+            $table->boolean('step3SubmittedClient')->default(false);
             $table->boolean('step4SubmittedAccenture')->default(false);
             $table->boolean('step4SubmittedClient')->default(false);
 
