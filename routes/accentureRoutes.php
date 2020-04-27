@@ -40,6 +40,7 @@ Route::
             Route::post('/newProjectSetUp/changeSubpractice', 'ProjectController@changeSubpractice');
             Route::post('/newProjectSetUp/setStep3Submitted', 'ProjectController@setStep3Submitted');
             Route::post('/newProjectSetUp/setStep4Submitted', 'ProjectController@setStep4Submitted');
+            Route::post('/newProjectSetUp/publishProject', 'ProjectController@publishProject');
             Route::post('/newProjectSetUp/updateVendors', 'ProjectController@updateVendors');
             Route::post('/newProjectSetUp/updateScoringValues', 'ProjectController@updateScoringValues');
 

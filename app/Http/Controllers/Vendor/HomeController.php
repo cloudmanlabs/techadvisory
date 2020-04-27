@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Practice;
 use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class HomeController extends Controller
 {
@@ -16,7 +17,9 @@ class HomeController extends Controller
 
         $practices = Practice::all()->pluck('name');
 
-        $invitationProjects = $vendor->vendorAppliedProjects(['invitation'])->get();
+        $invitationProjects = $vendor->vendorAppliedProjects(['invitation'])->get()->filter(function($element){
+            return $element->currentPhase == 'open';
+        });
         $startedProjects = $vendor->vendorAppliedProjects(['applicating'])->get();
         $submittedProjects = $vendor->vendorAppliedProjects(['pendingEvaluation', 'evaluated', 'submitted'])->get();
         $rejectedProjects = $vendor->vendorAppliedProjects(['rejected'])->get();

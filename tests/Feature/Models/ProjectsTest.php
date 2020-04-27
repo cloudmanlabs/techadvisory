@@ -342,7 +342,7 @@ class ProjectsTest extends TestCase
         $this->assertTrue($project->step3SubmittedAccenture);
     }
 
-    public function testCansetStep4SubmittedForAccenture()
+    public function testCanSetStep4SubmittedForAccenture()
     {
         $user = factory(User::class)->states('accenture')->create();
         $project = factory(Project::class)->create();
@@ -380,7 +380,7 @@ class ProjectsTest extends TestCase
         $this->assertTrue($project->step3SubmittedClient);
     }
 
-    public function testCansetStep4SubmittedForClient()
+    public function testCanSetStep4SubmittedForClient()
     {
         $user = factory(User::class)->states(['client', 'finishedSetup'])->create();
         $project = factory(Project::class)->create();
@@ -398,6 +398,27 @@ class ProjectsTest extends TestCase
         $project->refresh();
         $this->assertTrue($project->step4SubmittedClient);
     }
+
+    public function testAccentureCanPublishProject()
+    {
+        $user = factory(User::class)->states('accenture')->create();
+        $project = factory(Project::class)->create();
+
+        $this->assertEquals('preparation', $project->currentPhase);
+
+        $request = $this
+            ->actingAs($user)
+            ->post('/accenture/newProjectSetUp/publishProject', [
+                'project_id' => $project->id,
+            ]);
+
+        $request->assertOk();
+
+        $project->refresh();
+        $this->assertEquals('open', $project->currentPhase);
+    }
+
+
 
     public function testAccentureCanUpdateScoringValues()
     {

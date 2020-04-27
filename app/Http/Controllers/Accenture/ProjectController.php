@@ -235,6 +235,25 @@ class ProjectController extends Controller
         ]);
     }
 
+    public function publishProject(Request $request)
+    {
+        $request->validate([
+            'project_id' => 'required|numeric',
+        ]);
+
+        $project = Project::find($request->project_id);
+        if ($project == null) {
+            abort(404);
+        }
+
+        $project->publish();
+
+        return \response()->json([
+            'status' => 200,
+            'message' => 'Success'
+        ]);
+    }
+
     public function updateVendors(Request $request)
     {
         $request->validate([

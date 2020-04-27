@@ -142,6 +142,13 @@ class Project extends Model
 
 
 
+    public function publish()
+    {
+        $this->currentPhase = 'open';
+        $this->save();
+
+        return $this;
+    }
 
 
 

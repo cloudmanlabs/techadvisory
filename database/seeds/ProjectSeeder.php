@@ -13,7 +13,7 @@ class ProjectSeeder extends Seeder
      */
     public function run()
     {
-        factory(Project::class, 6)->states(['preparation'])->create();
+        factory(Project::class, 6)->create();
         factory(Project::class, 4)->states(['open'])->create();
         factory(Project::class, 3)->states(['old'])->create();
     }

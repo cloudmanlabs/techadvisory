@@ -36,6 +36,8 @@ $factory->define(Project::class, function (Faker $faker) {
 
         'client_id' => $faker->randomElement($clientIds),
         'practice_id' => $faker->randomElement($practiceIds),
+
+        'currentPhase' => 'preparation',
     ];
 });
 
@@ -46,10 +48,6 @@ $factory->state(Project::class, 'open', [
     'step3SubmittedClient' => true,
     'step4SubmittedAccenture' => true,
     'step4SubmittedClient' => true,
-]);
-
-$factory->state(Project::class, 'preparation', [
-    'currentPhase' => 'preparation',
 ]);
 
 $factory->state(Project::class, 'old', [

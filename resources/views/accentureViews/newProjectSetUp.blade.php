@@ -611,6 +611,24 @@
             }
         });
 
+        $('#publishButton').click(function(){
+            $.post('/accenture/newProjectSetUp/publishProject', {
+                project_id: '{{$project->id}}',
+            })
+
+            $.toast({
+                heading: 'Published!',
+                showHideTransition: 'slide',
+                icon: 'success',
+                hideAfter: 1000,
+                position: 'bottom-right'
+            })
+        });
+
+
+
+
+
         $('#vendorSelection').change(function(){
             $.post('/accenture/newProjectSetUp/updateVendors', {
                 project_id: '{{$project->id}}',

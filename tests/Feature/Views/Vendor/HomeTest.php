@@ -35,8 +35,24 @@ class HomeTest extends TestCase
     public function testShowsListOfInvitedProjects()
     {
         $project = factory(Project::class)->create();
-        $vendor = factory(User::class)->states(['vendor', 'finishedSetup'])->create();
 
+        $vendor = factory(User::class)->states(['vendor', 'finishedSetup'])->create();
+        $vendor->applyToProject($project);
+
+        $response = $this
+            ->actingAs($vendor)
+            ->get('/vendors/home');
+
+        $response->assertStatus(200)
+            ->assertDontSee($project->name);
+    }
+
+    public function testPreparationProjectsDontShow()
+    {
+        $project = factory(Project::class)->create();
+        $project->publish();
+
+        $vendor = factory(User::class)->states(['vendor', 'finishedSetup'])->create();
         $vendor->applyToProject($project);
 
         $response = $this
