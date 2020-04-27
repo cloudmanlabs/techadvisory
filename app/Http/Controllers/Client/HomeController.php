@@ -16,7 +16,9 @@ class HomeController extends Controller
 
         // Get projects
         $openProjects = Project::openProjects()->where('client_id', $clientId)->get();
-        $preparationProjects = Project::preparationProjects()->where('client_id', $clientId)->get();
+        $preparationProjects = Project::preparationProjects()->where('client_id', $clientId)->get()->filter(function ($project) {
+            return $project->step3SubmittedAccenture;
+        });
         $oldProjects = Project::oldProjects()->where('client_id', $clientId)->get();
 
         $practices = Practice::all()->pluck('name');

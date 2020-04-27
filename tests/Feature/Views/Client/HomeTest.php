@@ -31,12 +31,14 @@ class HomeTest extends TestCase
         $client = factory(User::class)->states(['client', 'finishedSetup'])->create([
             'name' => 'SOme Client nameee'
         ]);
-        factory(Project::class)->create([
+        $project = factory(Project::class)->create([
             'name' => 'Project name',
             'currentPhase' => 'preparation',
 
             'practice_id' => $practice->id,
             'client_id' => $client->id,
+
+            'step3SubmittedAccenture' => true
         ]);
 
         $response = $this->actingAs($client)
@@ -44,6 +46,31 @@ class HomeTest extends TestCase
         $response->assertStatus(200)
             ->assertSee('Project name')
             ->assertSee('praaactice');
+    }
+
+    public function testDoesntShowPreparationProjectsNotSubmittedPage3ByAccenture()
+    {
+        $practice = factory(Practice::class)->create([
+            'name' => 'praaacticeeeeeee'
+        ]);
+        $client = factory(User::class)->states(['client', 'finishedSetup'])->create([
+            'name' => 'SOme Client nameee'
+        ]);
+        $project = factory(Project::class)->create([
+            'name' => 'prroooooooject',
+            'currentPhase' => 'preparation',
+
+            'practice_id' => $practice->id,
+            'client_id' => $client->id,
+
+            'step3SubmittedAccenture' => false
+        ]);
+
+        $response = $this->actingAs($client)
+            ->get('/client/home');
+        $response->assertStatus(200)
+            ->assertDontSee('prroooooooject')
+            ->assertDontSee('praaactice');
     }
 
     public function testPreparationProjectFromAnotherClientDoesntShow()

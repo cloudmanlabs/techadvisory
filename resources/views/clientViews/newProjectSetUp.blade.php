@@ -453,9 +453,21 @@
                 finish: 'Submit general set up'
             },
             onFinishing: function (event, currentIndex) {
-                // TODO Only let the client submit if all the fields are full
-
                 window.location.replace("/client/home");
+            },
+            onStepChanging: function (e, c, n) {
+                if (n == 2) {
+                    weAreOnPage3 = true;
+
+                    if({{$project->step4SubmittedAccenture ? 'false' : 'true'}}){
+                        $('#wizard_client_newProjectSetUp-next').addClass('disabled')
+                    }
+                } else {
+                    weAreOnPage3 = false;
+                    $('#wizard_client_newProjectSetUp-next').removeClass('disabled')
+                    $('#wizard_client_newProjectSetUp-next').html('Next')
+                }
+                return true
             },
             onStepChanged: function (e, c, p) {
                 for (let i = 0; i < 10; i++) {

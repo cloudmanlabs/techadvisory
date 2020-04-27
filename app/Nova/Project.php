@@ -70,9 +70,13 @@ class Project extends Resource
             Boolean::make('Orals', 'hasOrals'),
             Boolean::make('Value Targeting', 'hasValueTargeting'),
 
-            Boolean::make('Accenture finished Selection Criteria', 'step4FinishedAccenture')
+            Boolean::make('Accenture submitted First 3 pages', 'step3SubmittedAccenture')
                 ->hideFromIndex(),
-            Boolean::make('Client finished Selection Criteria', 'step4FinishedClient')
+            Boolean::make('Client submitted First 3 pages', 'step3SubmittedClient')
+                ->hideFromIndex(),
+            Boolean::make('Accenture submitted Selection Criteria', 'step4SubmittedAccenture')
+                ->hideFromIndex(),
+            Boolean::make('Client submitted Selection Criteria', 'step4SubmittedClient')
                 ->hideFromIndex(),
 
             Number::make('Set Up Progress', 'progressSetUp')
