@@ -1,6 +1,7 @@
 <?php
 
 use App\User;
+use App\VendorSolution;
 use Illuminate\Database\Seeder;
 
 class UserSeeder extends Seeder
@@ -50,7 +51,12 @@ class UserSeeder extends Seeder
             ->create();
         factory(User::class, 4)
             ->states(['vendor', 'finishedSetup'])
-            ->create();
+            ->create()
+            ->each(function($vendor){
+                $vendor->vendorSolutions()->save(factory(VendorSolution::class)->create([
+                    'vendor_id' => $vendor->id
+                ]));
+            });
 
 
         // Create some that haven't finished set up
@@ -65,7 +71,12 @@ class UserSeeder extends Seeder
             ->create([
                 'name' => 'New',
                 'email' => 'new@vendor.com',
-            ]);
+            ])
+            ->each(function ($vendor) {
+                $vendor->vendorSolutions()->save(factory(VendorSolution::class)->create([
+                    'vendor_id' => $vendor->id
+                ]));
+            });
 
 
 
