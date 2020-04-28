@@ -22,6 +22,13 @@
         <link rel="stylesheet" href="{{url('assets/css/techadvisory/extra.css')}}">
         <link rel="stylesheet" href="{{url('assets/css/jquery.toast.min.css')}}">
         <link rel="stylesheet" href="{{url('css/custom.css')}}">
+
+        <link rel="stylesheet" href="{{url('assets/fonts/graphik/font.css')}}">
+        <style>
+            * {
+                font-family: 'Graphik'
+            }
+        </style>
     @show
 </head>
 

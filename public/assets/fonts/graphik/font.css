@@ -1,0 +1,44 @@
+@font-face {
+    font-family: 'Graphik';
+    src: url('/assets/fonts/graphik/Graphik-Regular.ttf') format('truetype');
+    src: url('/assets/fonts/graphik/graphik-regular-web.eot'), url('/assets/fonts/graphik/graphik-regular-web.eot?#iefix') format('embedded-opentype'), url('/assets/fonts/graphik/graphik-regular-web.woff2') format('woff2'), url('/assets/fonts/graphik/graphik-regular-web.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Graphik';
+    src: url('/assets/fonts/graphik/Graphik-Bold.ttf') format('truetype');
+    src: url('/assets/fonts/graphik/graphik-bold-web.eot'), url('/assets/fonts/graphik/graphik-bold-web.eot?#iefix') format('embedded-opentype'), url('/assets/fonts/graphik/graphik-bold-web.woff2') format('woff2'), url('/assets/fonts/graphik/graphik-bold-web.woff') format('woff');
+    font-weight: bold;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Graphik';
+    src: url('/assets/fonts/graphik/Graphik-Medium.ttf') format('truetype');
+    src: url('/assets/fonts/graphik/graphik-medium-web.eot'), url('/assets/fonts/graphik/graphik-medium-web.eot?#iefix') format('embedded-opentype'), url('/assets/fonts/graphik/graphik-medium-web.woff2') format('woff2'), url('/assets/fonts/graphik/graphik-medium-web.woff') format('woff');
+    font-weight: medium;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Graphik';
+    src: url('/assets/fonts/graphik/Graphik-RegularItalic.ttf') format('truetype');
+    font-weight: normal;
+    font-style: italic;
+}
+
+@font-face {
+    font-family: 'Graphik';
+    src: url('/assets/fonts/graphik/Graphik-MediumItalic.ttf') format('truetype');
+    font-weight: medium;
+    font-style: italic;
+}
+
+@font-face {
+    font-family: 'Graphik';
+    src: url('/assets/fonts/graphik/Graphik-BoldItalic.ttf') format('truetype');
+    font-weight: bold;
+    font-style: italic;
+}

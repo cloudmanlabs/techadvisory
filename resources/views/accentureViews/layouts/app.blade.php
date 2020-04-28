@@ -20,6 +20,13 @@
         <link href="{{url('/assets/vendors_techadvisory/countdown/countdown.css')}}" rel="stylesheet">
         <link rel="stylesheet" href="{{url('assets/vendors/select2/select2.min.css')}}">
         <link rel="stylesheet" href="{{url('css/custom.css')}}">
+
+        <link rel="stylesheet" href="{{url('assets/fonts/graphik/font.css')}}">
+        <style>
+            * {
+                font-family: 'Graphik'
+            }
+        </style>
     @show
 </head>
 <body>
