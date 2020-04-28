@@ -6,13 +6,6 @@
 
         <div class="page-wrapper">
             <div class="page-content">
-
-                <div class="d-flex justify-content-between align-items-center flex-wrap grid-margin">
-                    <div>
-                        <h2>Accenture's <span class="badge badge-primary">Tech Advisory Platform</span></h2>
-                    </div>
-                </div>
-
                 <x-video :src="nova_get_setting('vendor_Home')" />
                 <br><br>
 

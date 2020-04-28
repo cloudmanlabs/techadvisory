@@ -6,20 +6,11 @@
 
         <div class="page-wrapper">
             <div class="page-content">
-                <div class="d-flex justify-content-between align-items-center flex-wrap grid-margin">
-                    <div>
-                        <h2>Accenture's <span class="badge badge-primary">Tech Advisory Platform</span></h2>
-                    </div>
-                </div>
-
-
-
                 <div class="row" style="margin-top: 25px;">
                     <div class="col-md-12 grid-margin stretch-card">
                         <div class="card">
                             <div class="card-body">
                                 <h3>Add a solution</h3>
-
 
                                 <p class="welcome_text extra-top-15px">Please add your solutions to complete your
                                     profile and get ready to use the platform. It won't take you more than just a few
