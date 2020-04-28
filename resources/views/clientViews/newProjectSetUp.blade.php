@@ -504,7 +504,7 @@
             })
 
             showSavedToast();
-            updateSubmitButton();
+            updateSubmitStep3();
         });
 
         $('#valueTargeting').change(function (e) {
@@ -515,7 +515,7 @@
             })
 
             showSavedToast();
-            updateSubmitButton();
+            updateSubmitStep3();
         });
 
         $('#bindingOption').change(function (e) {
@@ -526,7 +526,7 @@
             })
 
             showSavedToast();
-            updateSubmitButton();
+            updateSubmitStep3();
         });
 
         $('#practiceSelect').change(function (e) {
@@ -538,7 +538,7 @@
             })
 
             showSavedToast();
-            updateSubmitButton();
+            updateSubmitStep3();
 
             updateShownQuestionsAccordingToPractice();
             updateShownSubpracticeOptionsAccordingToPractice();
@@ -552,7 +552,7 @@
             })
 
             showSavedToast();
-            updateSubmitButton();
+            updateSubmitStep3();
         });
 
         $('#step3Submit').click(function(){
@@ -598,7 +598,6 @@
                 return $( this ).data('changing') !== undefined
             })
             .change(function (e) {
-                console.log('general');
                 var value = $(this).val();
                 if($.isArray(value) && value.length == 0 && $(this).attr('multiple') !== undefined){
                     value = '[]'
@@ -610,7 +609,7 @@
                 })
 
                 showSavedToast();
-                updateSubmitButton();
+                updateSubmitStep3();
             });
 
         $('.sizingQuestion input,.sizingQuestion textarea,.sizingQuestion select')
@@ -618,8 +617,6 @@
                 return $( this ).data('changing') !== undefined
             })
             .change(function (e) {
-                console.log('sizing');
-
                 var value = $(this).val();
                 if($.isArray(value) && value.length == 0 && $(this).attr('multiple') !== undefined){
                     value = '[]'
@@ -631,7 +628,7 @@
                 })
 
                 showSavedToast();
-                updateSubmitButton();
+                updateSubmitStep3();
             });
 
         $(".js-example-basic-single").select2();

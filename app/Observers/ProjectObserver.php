@@ -10,6 +10,7 @@ use App\SelectionCriteriaQuestionProjectPivot;
 use App\SelectionCriteriaQuestionResponse;
 use App\SizingQuestion;
 use App\SizingQuestionResponse;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Log;
 
 class ProjectObserver
@@ -18,6 +19,10 @@ class ProjectObserver
     {
         if($project->scoringValues == null){
             $project->scoringValues = [0, 0, 0, 0, 0];
+        }
+
+        if ($project->deadline == null) {
+            $project->deadline = Carbon::now()->addYear();
         }
     }
 
