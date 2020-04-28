@@ -507,49 +507,49 @@ class ProjectController extends Controller
 
     public function benchmark(Project $project)
     {
-        // $vendors = $project->vendorsApplied()->get();
-        $applications = $project->vendorApplications;
-
         return view('accentureViews.projectBenchmark', [
             'project' => $project,
-
-            // 'vendors' => $vendors,
-            'applications' => $applications,
+            'applications' => $project->vendorApplications,
         ]);
     }
 
     public function benchmarkFitgap(Project $project)
     {
         return view('accentureViews.projectBenchmarkFitgap', [
-            'project' => $project
+            'project' => $project,
+            'applications' => $project->vendorApplications,
         ]);
     }
 
     public function benchmarkVendor(Project $project)
     {
         return view('accentureViews.projectBenchmarkVendor', [
-            'project' => $project
+            'project' => $project,
+            'applications' => $project->vendorApplications,
         ]);
     }
 
     public function benchmarkExperience(Project $project)
     {
         return view('accentureViews.projectBenchmarkExperience', [
-            'project' => $project
+            'project' => $project,
+            'applications' => $project->vendorApplications,
         ]);
     }
 
     public function benchmarkInnovation(Project $project)
     {
         return view('accentureViews.projectBenchmarkInnovation', [
-            'project' => $project
+            'project' => $project,
+            'applications' => $project->vendorApplications,
         ]);
     }
 
     public function benchmarkImplementation(Project $project)
     {
         return view('accentureViews.projectBenchmarkImplementation', [
-            'project' => $project
+            'project' => $project,
+            'applications' => $project->vendorApplications,
         ]);
     }
 

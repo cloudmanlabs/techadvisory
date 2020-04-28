@@ -10,42 +10,7 @@
                 <x-accenture.projectNavbar section="projectBenchmark" subsection="vendor" :project="$project" />
 
                 <br>
-                <div class="row">
-                    <div class="col-12 col-xl-12 stretch-card">
-                        <div class="card">
-                            <div class="card-body">
-                                <div style="float: left;">
-                                    <h3>Benchmark and Analytics</h3>
-                                </div>
-                                <br><br>
-                                <div class="welcome_text welcome_box" style="clear: both; margin-top: 20px;">
-                                    <div class="media d-block d-sm-flex">
-                                        <div class="media-body" style="padding: 20px;">
-                                            Please choose the Vendors you'd like to add in the comparison tables:
-                                            <br><br>
-                                            <select class="js-example-basic-multiple w-100" multiple="multiple"
-                                                required>
-                                                <option selected>Vendor 1</option>
-                                                <option selected>Vendor 2</option>
-                                                <option selected>Vendor 3</option>
-                                                <option selected>Vendor 4</option>
-                                                <option selected>Vendor 5</option>
-                                                <option>Vendor 6</option>
-                                                <option>Vendor 7</option>
-                                                <option>Vendor 8</option>
-                                                <option>Vendor 9</option>
-                                                <option>Vendor 10</option>
-                                            </select>
-
-                                        </div>
-
-                                    </div>
-                                </div>
-
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                <x-projectBenchmarkVendorFilter :applications="$applications" />
 
                 <br><br>
 
