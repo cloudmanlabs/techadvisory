@@ -11,6 +11,62 @@ class VendorApplication extends Model
 {
     public $guarded = [];
 
+    public function vendor()
+    {
+        return $this->belongsTo(User::class, 'vendor_id');
+    }
+
+    public function project()
+    {
+        return $this->belongsTo(Project::class, 'project_id');
+    }
+
+
+
+
+
+
+
+
+
+    public function totalScore()
+    {
+        // TODO Implement the calculations here
+        return random_int(3, 8);
+    }
+
+    public function fitgapScore()
+    {
+        return random_int(3, 8);
+    }
+
+    public function vendorScore()
+    {
+        return random_int(3, 8);
+    }
+
+    public function experienceScore()
+    {
+        return random_int(3, 8);
+    }
+
+    public function innovationScore()
+    {
+        return random_int(3, 8);
+    }
+
+    public function implementationScore()
+    {
+        return random_int(3, 8);
+    }
+
+
+
+
+
+
+
+
     public function setApplicating() : VendorApplication
     {
         $this->phase = 'applicating';

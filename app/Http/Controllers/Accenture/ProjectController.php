@@ -507,8 +507,14 @@ class ProjectController extends Controller
 
     public function benchmark(Project $project)
     {
+        // $vendors = $project->vendorsApplied()->get();
+        $applications = $project->vendorApplications;
+
         return view('accentureViews.projectBenchmark', [
-            'project' => $project
+            'project' => $project,
+
+            // 'vendors' => $vendors,
+            'applications' => $applications,
         ]);
     }
 

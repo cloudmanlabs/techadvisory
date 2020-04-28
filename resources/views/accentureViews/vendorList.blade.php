@@ -179,13 +179,9 @@
                     });
                 }
 
-                console.log(selectedVendors)
-
                 // Add a display none to the one which don't have this tags
                 $('#solutionContainer').children().each(function () {
                     const vendor = $(this).data('vendor');
-
-                    console.log($.inArray(vendor, selectedVendors))
 
                     if ($.inArray(vendor, selectedVendors) !== -1) {
                         $(this).css('display', 'flex')
