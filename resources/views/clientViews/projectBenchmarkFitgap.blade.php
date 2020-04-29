@@ -1,5 +1,18 @@
 @extends('clientViews.layouts.benchmark')
 
+
+@php
+    //NOTE This is basically to have the table ordered when the scores are random
+    $orderedApps = $applications->map(function($application, $key){
+        return (object)[
+            'name' => $application->vendor->name,
+            'score' => $application->fitgapScore()
+        ];
+    })
+    ->sortByDesc('score');
+@endphp
+
+
 @section('content')
     <div class="main-wrapper">
         <x-client.navbar activeSection="sections" />
@@ -10,42 +23,7 @@
                 <x-client.projectNavbar section="projectBenchmark" subsection="fitgap" :project="$project" />
 
                 <br>
-                <div class="row">
-                    <div class="col-12 col-xl-12 stretch-card">
-                        <div class="card">
-                            <div class="card-body">
-                                <div style="float: left;">
-                                    <h3>Benchmark and Analytics</h3>
-                                </div>
-                                <br><br>
-                                <div class="welcome_text welcome_box" style="clear: both; margin-top: 20px;">
-                                    <div class="media d-block d-sm-flex">
-                                        <div class="media-body" style="padding: 20px;">
-                                            Please choose the Vendors you'd like to add in the comparison tables:
-                                            <br><br>
-                                            <select class="js-example-basic-multiple w-100" multiple="multiple"
-                                                required>
-                                                <option selected>Vendor 1</option>
-                                                <option selected>Vendor 2</option>
-                                                <option selected>Vendor 3</option>
-                                                <option selected>Vendor 4</option>
-                                                <option selected>Vendor 5</option>
-                                                <option>Vendor 6</option>
-                                                <option>Vendor 7</option>
-                                                <option>Vendor 8</option>
-                                                <option>Vendor 9</option>
-                                                <option>Vendor 10</option>
-                                            </select>
-
-                                        </div>
-
-                                    </div>
-                                </div>
-
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                <x-projectBenchmarkVendorFilter :applications="$applications" />
 
                 <br><br>
 
@@ -71,31 +49,13 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                <tr>
-                                                    <th class="table-dark">1</th>
-                                                    <td>Vendor 3</td>
-                                                    <td>9</td>
+                                                @foreach ($orderedApps as $obj)
+                                                <tr class="filterByVendor" data-vendor="{{$obj->name}}">
+                                                    <th class="table-dark">{{ $loop->iteration }}</th>
+                                                    <td>{{$obj->name}}</td>
+                                                    <td>{{$obj->score}}</td>
                                                 </tr>
-                                                <tr>
-                                                    <th class="table-dark">2</th>
-                                                    <td>Vendor 4</td>
-                                                    <td>8,5</td>
-                                                </tr>
-                                                <tr>
-                                                    <th class="table-dark">3</th>
-                                                    <td>Vendor 2</td>
-                                                    <td>7</td>
-                                                </tr>
-                                                <tr>
-                                                    <th class="table-dark">4</th>
-                                                    <td>Vendor 1</td>
-                                                    <td>3,2</td>
-                                                </tr>
-                                                <tr>
-                                                    <th class="table-dark">5</th>
-                                                    <td>Vendor 5</td>
-                                                    <td>1</td>
-                                                </tr>
+                                                @endforeach
                                             </tbody>
                                         </table>
                                     </div>
@@ -125,7 +85,7 @@
                                             <div class="card-body">
                                                 <h4>Vendors sorted by Fit Gap score</h4>
                                                 <br>
-                                                <canvas id="chartjsBar2"></canvas>
+                                                <canvas id="fitgapScoreGraph"></canvas>
                                             </div>
                                         </div>
                                     </div>
@@ -142,12 +102,11 @@
                                                     <p class="welcome_text">
                                                         Please choose the Requirement Types you'd like to see:
                                                     </p>
-                                                    <select class="js-example-basic-multiple w-100" multiple="multiple" required>
-                                                        <option selected>Requirement 1</option>
-                                                        <option selected>Requirement 2</option>
-                                                        <option>Requirement 3</option>
-                                                        <option>Requirement 4</option>
-                                                        <option>Requirement 5</option>
+                                                    <select id="requirementSelect" class="w-100" multiple="multiple" required>
+                                                        <option>Functional</option>
+                                                        <option>Technical</option>
+                                                        <option>Service</option>
+                                                        <option>Other</option>
                                                     </select>
                                                 </div>
                                                 <div class="table-responsive">
@@ -155,45 +114,40 @@
                                                         <thead>
                                                             <tr class="table-dark">
                                                                 <th>Requirement type</th>
-                                                                <th>Vendor 1</th>
-                                                                <th>Vendor 2</th>
-                                                                <th>Vendor 3</th>
-                                                                <th>Vendor 4</th>
-                                                                <th>Vendor 5</th>
+                                                                @foreach ($applications as $application)
+                                                                <th class="filterByVendor" data-vendor="{{$application->vendor->name}}">
+                                                                    {{$application->vendor->name}}</th>
+                                                                @endforeach
                                                             </tr>
                                                         </thead>
                                                         <tbody>
-                                                            <tr>
+                                                            <tr class="filterByRequirement" data-requirement="Functional">
                                                                 <th class="table-dark">Functional</th>
-                                                                <td>2,9</td>
-                                                                <td>6,3</td>
-                                                                <td>8,1</td>
-                                                                <td>7,7</td>
-                                                                <td>0,9</td>
+                                                                @foreach ($applications as $application)
+                                                                <td class="filterByVendor" data-vendor="{{$application->vendor->name}}">
+                                                                    {{$application->fitgapFunctionalScore()}}</td>
+                                                                @endforeach
                                                             </tr>
-                                                            <tr>
+                                                            <tr class="filterByRequirement" data-requirement="Technical">
                                                                 <th class="table-dark">Technical</th>
-                                                                <td>3,8</td>
-                                                                <td>8,4</td>
-                                                                <td>9,9</td>
-                                                                <td>9,4</td>
-                                                                <td>1,2</td>
+                                                                @foreach ($applications as $application)
+                                                                <td class="filterByVendor" data-vendor="{{$application->vendor->name}}">
+                                                                    {{$application->fitgapTechnicalScore()}}</td>
+                                                                @endforeach
                                                             </tr>
-                                                            <tr>
+                                                            <tr class="filterByRequirement" data-requirement="Service">
                                                                 <th class="table-dark">Service</th>
-                                                                <td>3,5</td>
-                                                                <td>7,7</td>
-                                                                <td>9,9</td>
-                                                                <td>9,4</td>
-                                                                <td>1,1</td>
+                                                                @foreach ($applications as $application)
+                                                                <td class="filterByVendor" data-vendor="{{$application->vendor->name}}">
+                                                                    {{$application->fitgapServiceScore()}}</td>
+                                                                @endforeach
                                                             </tr>
-                                                            <tr>
+                                                            <tr class="filterByRequirement" data-requirement="Other">
                                                                 <th class="table-dark">Other</th>
-                                                                <td>2,6</td>
-                                                                <td>5,6</td>
-                                                                <td>8,1</td>
-                                                                <td>7,7</td>
-                                                                <td>0,8</td>
+                                                                @foreach ($applications as $application)
+                                                                <td class="filterByVendor" data-vendor="{{$application->vendor->name}}">
+                                                                    {{$application->fitgapOtherScore()}}</td>
+                                                                @endforeach
                                                             </tr>
                                                         </tbody>
                                                     </table>
@@ -227,5 +181,158 @@
 
 @section('scripts')
 @parent
-<script src="{{url('assets/js/chartsjs_techadvisory_client_benchmarks_view_fitgap.js')}}"></script>
+<script>
+    $(function () {
+    function filterRequirements() {
+        // Get all selected practices. If there are none, get all of them
+        var selectedRequirements = $('#requirementSelect').select2('data').map((el) => {
+            return el.text
+        });
+        if(selectedRequirements.length == 0){
+            selectedRequirements = $('#requirementSelect').children().toArray().map((el) => {
+                return el.innerHTML
+            });
+        }
+
+        // Add a display none to the one which don't have this tags
+        $('.filterByRequirement').each(function () {
+            const requirement = $(this).data('requirement');
+
+            if ($.inArray(requirement, selectedRequirements) !== -1) {
+                $(this).css('display', '')
+            } else {
+                $(this).css('display', 'none')
+            }
+        });
+    }
+
+    $('#requirementSelect').select2();
+    $('#requirementSelect').on('change', function (e) {
+        filterRequirements();
+    });
+    filterRequirements();
+
+
+
+
+
+
+
+
+  // COMPLETE: ["#27003d","#410066","#5a008f", "#7400b8","#8e00e0","#9b00f5","#a50aff","#c35cff","#d285ff","#e9c2ff","#f0d6ff","#f8ebff"],
+  // SIMPLIFIED: ["#27003d","#5a008f","#8e00e0","#a50aff","#d285ff","#e9c2ff","#f8ebff"],
+
+    new Chart($("#fitgapScoreGraph"), {
+      type: 'bar',
+      data: {
+        labels: [
+            @foreach ($orderedApps as $obj)
+                "{{$obj->name}}",
+            @endforeach
+        ],
+        datasets: [
+          {
+            label: "",
+            backgroundColor: ["#27003d","#410066","#5a008f", "#7400b8","#8e00e0","#9b00f5","#a50aff","#c35cff","#d285ff","#e9c2ff","#f0d6ff","#f8ebff"],
+            data: [
+                @foreach ($orderedApps as $obj)
+                {{$obj->score}},
+                @endforeach
+            ]
+          }
+        ]
+      },
+      options: {
+        legend: { display: false },
+        scales: {
+          yAxes: [{
+            ticks: {
+              beginAtZero: true,
+              max: 10,
+              fontSize: 17,
+            }
+          }],
+          xAxes: [{
+            ticks: {
+              stacked: true,
+              fontSize: 17,
+            }
+          }]
+        }
+      }
+    });
+
+    new Chart($("#chartjsBar3"), {
+      type: 'bar',
+      data: {
+        labels: [
+            @foreach ($orderedApps as $obj)
+            "{{$obj->name}}",
+            @endforeach
+        ],
+        datasets: [
+          {
+            label: "Functional",
+            backgroundColor: ["#27003d", "#27003d", "#27003d", "#27003d", "#27003d", "#27003d", "#27003d"],
+            data: [
+                @foreach ($applications as $obj)
+                {{$obj->fitgapScore()}},
+                @endforeach
+            ],
+            stack: 'Stack 0'
+          },
+          {
+            label: "Technical",
+            backgroundColor: ["#5a008f", "#5a008f", "#5a008f", "#5a008f", "#5a008f", "#5a008f", "#5a008f"],
+            data: [
+                @foreach ($applications as $obj)
+                {{$obj->fitgapScore()}},
+                @endforeach
+            ],
+            stack: 'Stack 0'
+          },
+          {
+            label: "Service",
+            backgroundColor: ["#8e00e0", "#8e00e0", "#8e00e0", "#8e00e0", "#8e00e0", "#8e00e0", "#8e00e0"],
+            data: [
+                @foreach ($applications as $obj)
+                {{$obj->fitgapScore()}},
+                @endforeach
+            ],
+            stack: 'Stack 0'
+          },
+          {
+            label: "Other",
+            backgroundColor: ["#a50aff", "#a50aff", "#a50aff", "#a50aff", "#a50aff", "#a50aff", "#a50aff"],
+            data: [
+                @foreach ($applications as $obj)
+                {{$obj->fitgapScore()}},
+                @endforeach
+            ],
+            stack: 'Stack 0'
+          }
+        ]
+      },
+      options: {
+        legend: { display: true },
+        scales: {
+          yAxes: [{
+            ticks: {
+              beginAtZero: true,
+              fontSize: 17,
+              max: 50,
+              stacked: true
+            }
+          }],
+          xAxes: [{
+            ticks: {
+              stacked: true,
+              fontSize: 17,
+            }
+          }]
+        }
+      }
+    });
+});
+</script>
 @endsection

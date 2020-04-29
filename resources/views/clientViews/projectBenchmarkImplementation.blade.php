@@ -1,5 +1,16 @@
 @extends('clientViews.layouts.benchmark')
 
+@php
+    //NOTE This is basically to have the table ordered when the scores are random
+    $orderedApps = $applications->map(function($application, $key){
+        return (object)[
+            'name' => $application->vendor->name,
+            'score' => $application->implementationScore()
+        ];
+    })
+    ->sortByDesc('score');
+@endphp
+
 @section('content')
 <div class="main-wrapper">
     <x-client.navbar activeSection="sections" />
@@ -11,42 +22,7 @@
 
                 <br>
 
-                <div class="row">
-                    <div class="col-12 col-xl-12 stretch-card">
-                        <div class="card">
-                            <div class="card-body">
-                                <div style="float: left;">
-                                    <h3>Benchmark and Analytics</h3>
-                                </div>
-                                <br><br>
-                                <div class="welcome_text welcome_box" style="clear: both; margin-top: 20px;">
-                                    <div class="media d-block d-sm-flex">
-                                        <div class="media-body" style="padding: 20px;">
-                                            Please choose the Vendors you'd like to add in the comparison tables:
-                                            <br><br>
-                                            <select class="js-example-basic-multiple w-100" multiple="multiple"
-                                                required>
-                                                <option selected>Vendor 1</option>
-                                                <option selected>Vendor 2</option>
-                                                <option selected>Vendor 3</option>
-                                                <option selected>Vendor 4</option>
-                                                <option selected>Vendor 5</option>
-                                                <option>Vendor 6</option>
-                                                <option>Vendor 7</option>
-                                                <option>Vendor 8</option>
-                                                <option>Vendor 9</option>
-                                                <option>Vendor 10</option>
-                                            </select>
-
-                                        </div>
-
-                                    </div>
-                                </div>
-
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                <x-projectBenchmarkVendorFilter :applications="$applications" />
 
                 <br><br>
 
@@ -72,31 +48,13 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                <tr>
-                                                    <th class="table-dark">1</th>
-                                                    <td>Vendor 3</td>
-                                                    <td>7</td>
+                                                @foreach ($orderedApps as $obj)
+                                                <tr class="filterByVendor" data-vendor="{{$obj->name}}">
+                                                    <th class="table-dark">{{ $loop->iteration }}</th>
+                                                    <td>{{$obj->name}}</td>
+                                                    <td>{{$obj->score}}</td>
                                                 </tr>
-                                                <tr>
-                                                    <th class="table-dark">2</th>
-                                                    <td>Vendor 5</td>
-                                                    <td>6</td>
-                                                </tr>
-                                                <tr>
-                                                    <th class="table-dark">3</th>
-                                                    <td>Vendor 1</td>
-                                                    <td>4</td>
-                                                </tr>
-                                                <tr>
-                                                    <th class="table-dark">4</th>
-                                                    <td>Vendor 2</td>
-                                                    <td>3,2</td>
-                                                </tr>
-                                                <tr>
-                                                    <th class="table-dark">5</th>
-                                                    <td>Vendor 4</td>
-                                                    <td>2,1</td>
-                                                </tr>
+                                                @endforeach
                                             </tbody>
                                         </table>
                                     </div>
@@ -125,7 +83,7 @@
                                             <div class="card-body">
                                                 <h4>VENDORS SORTED BY TOTAL COST OF OWNERSHIP</h4>
                                                 <br>
-                                                <canvas id="chartjsBar1"></canvas>
+                                                <canvas id="innovationScoreGraph"></canvas>
                                             </div>
                                         </div>
                                     </div>
@@ -143,29 +101,25 @@
                                                         <thead>
                                                             <tr class="table-dark">
                                                                 <th>Cost</th>
-                                                                <th>Vendor 1</th>
-                                                                <th>Vendor 2</th>
-                                                                <th>Vendor 3</th>
-                                                                <th>Vendor 4</th>
-                                                                <th>Vendor 5</th>
+                                                                @foreach ($applications as $application) <th class="filterByVendor"
+                                                                    data-vendor="{{$application->vendor->name}}">{{$application->vendor->name}}</th>
+                                                                    @endforeach
                                                             </tr>
                                                         </thead>
                                                         <tbody>
                                                             <tr>
                                                                 <th class="table-dark">Implementation</th>
-                                                                <td>$ 1.000.000</td>
-                                                                <td>$ 2.000.000</td>
-                                                                <td>$ 1.000.000</td>
-                                                                <td>$ 800.000</td>
-                                                                <td>$ 2.000.000</td>
+                                                                @foreach ($applications as $application)
+                                                                <td class="filterByVendor" data-vendor="{{$application->vendor->name}}">$
+                                                                    {{$application->implementationMoney()}}</td>
+                                                                @endforeach
                                                             </tr>
                                                             <tr>
                                                                 <th class="table-dark">Run (5 years)</th>
-                                                                <td>$ 3.000.000</td>
-                                                                <td>$ 2.500.000</td>
-                                                                <td>$ 1.000.000</td>
-                                                                <td>$ 4.000.000</td>
-                                                                <td>$ 1.900.000</td>
+                                                                @foreach ($applications as $application)
+                                                                <td class="filterByVendor" data-vendor="{{$application->vendor->name}}">$ {{$application->runMoney()}}
+                                                                </td>
+                                                                @endforeach
                                                             </tr>
                                                         </tbody>
                                                     </table>
@@ -201,5 +155,102 @@
 
 @section('scripts')
 @parent
-<script src="{{url('assets/js/chartsjs_techadvisory_client_benchmarks_view_implementation.js')}}"></script>
+<script>
+    $(function () {
+        new Chart($("#innovationScoreGraph"), {
+            type: 'bar',
+            data: {
+                labels: [
+                    @foreach ($orderedApps as $obj)
+                        "{{$obj->name}}",
+                    @endforeach
+                ],
+                datasets: [
+                    {
+                        label: "",
+                        backgroundColor: ["#27003d", "#5a008f", "#8e00e0", "#a50aff", "#d285ff", "#e9c2ff", "#f8ebff"],
+                        data: [
+                            @foreach ($orderedApps as $obj)
+                                {{$obj->score}},
+                            @endforeach
+                        ]
+                    }
+                ]
+            },
+            options: {
+                legend: { display: false },
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero: true,
+                            max: 10,
+                            fontSize: 17
+                        }
+                    }],
+                    xAxes: [{
+                        ticks: {
+                            stacked: true,
+                            fontSize: 17,
+                        }
+                    }]
+                }
+            }
+        });
+
+        new Chart($("#chartjsBar2"), {
+            type: 'bar',
+            data: {
+                labels: [
+                    @foreach ($applications as $application)
+                    "{{$application->vendor->name}}",
+                    @endforeach
+                ],
+                datasets: [
+                    {
+                        label: "Implementation",
+                        backgroundColor: ["#27003d", "#27003d", "#27003d", "#27003d", "#27003d", "#27003d", "#27003d"],
+                        data: [
+                            @foreach ($applications as $application)
+                            {{$application->implementationMoney()}},
+                            @endforeach
+                        ],
+                        stack: 'Stack 0'
+                    },
+                    {
+                        label: "Run (5 years)",
+                        backgroundColor: ["#5a008f", "#5a008f", "#5a008f", "#5a008f", "#5a008f", "#5a008f", "#5a008f"],
+                        data: [
+                            @foreach ($applications as $application)
+                            {{$application->runMoney()}},
+                            @endforeach
+                        ],
+                        stack: 'Stack 0'
+                    }
+                ]
+            },
+            options: {
+                legend: {
+                    display: true,
+                },
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero: true,
+                            stacked: true,
+                            callback: function (value, index, values) {
+                                return '$' + value;
+                            },
+                            fontSize: 17
+                        }
+                    }], xAxes: [{
+                        ticks: {
+                            stacked: true,
+                            fontSize: 17
+                        }
+                    }]
+                }
+            }
+        });
+});
+</script>
 @endsection

@@ -9,39 +9,7 @@
                 <x-client.projectNavbar section="projectBenchmark" subsection="overall" :project="$project" />
 
                 <br>
-                <div class="row">
-                    <div class="col-12 col-xl-12 stretch-card">
-                        <div class="card">
-                            <div class="card-body">
-                                <div style="float: left;">
-                                    <h3>Benchmark and Analytics</h3>
-                                </div>
-                                <br><br>
-                                <div class="welcome_text welcome_box" style="clear: both; margin-top: 20px;">
-                                    <div class="media d-block d-sm-flex">
-                                        <div class="media-body" style="padding: 20px;">
-                                            Please choose the Vendors you'd like to add in the comparison tables:
-                                            <br><br>
-                                            <select class="js-example-basic-multiple w-100" multiple="multiple" required>
-                                                <option selected>Vendor 1</option>
-                                                <option selected>Vendor 2</option>
-                                                <option selected>Vendor 3</option>
-                                                <option selected>Vendor 4</option>
-                                                <option selected>Vendor 5</option>
-                                                <option>Vendor 6</option>
-                                                <option>Vendor 7</option>
-                                                <option>Vendor 8</option>
-                                                <option>Vendor 9</option>
-                                                <option>Vendor 10</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
+                <x-projectBenchmarkVendorFilter :applications="$applications" />
                 <br><br>
 
                 <div class="row">
@@ -59,26 +27,12 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <tr>
-                                                <th>Vendor 1</th>
-                                                <td>7</td>
+                                            @foreach ($applications as $application)
+                                            <tr class="filterByVendor" data-vendor="{{$application->vendor->name}}">
+                                                <th>{{$application->vendor->name}}</th>
+                                                <td>{{$application->totalScore()}}</td>
                                             </tr>
-                                            <tr>
-                                                <th>Vendor 2</th>
-                                                <td>5</td>
-                                            </tr>
-                                            <tr>
-                                                <th>Vendor 3</th>
-                                                <td>4</td>
-                                            </tr>
-                                            <tr>
-                                                <th>Vendor 4</th>
-                                                <td>3</td>
-                                            </tr>
-                                            <tr>
-                                                <th>Vendor 5</th>
-                                                <td>2</td>
-                                            </tr>
+                                            @endforeach
                                         </tbody>
                                     </table>
                                 </div>
@@ -94,7 +48,10 @@
                         <div class="card">
                             <div class="card-body">
                                 <h3>Overall score table</h3>
-                                <p class="welcome_text extra-top-15px">In order to start using the Tech Advisory Platform, you'll need to follow some steps to complete your profile and set up your first project. Please check below the timeline and click "Let's start" when you are ready.</p>
+                                <p class="welcome_text extra-top-15px">In order to start using the Tech Advisory
+                                    Platform, you'll need to follow some steps to complete your profile and set up your
+                                    first project. Please check below the timeline and click "Let's start" when you are
+                                    ready.</p>
                                 <br>
                                 <br>
                                 <div class="table-responsive">
@@ -102,61 +59,54 @@
                                         <thead>
                                             <tr class="table-dark">
                                                 <th>Criteria</th>
-                                                <th>Vendor 1</th>
-                                                <th>Vendor 2</th>
-                                                <th>Vendor 3</th>
-                                                <th>Vendor 4</th>
-                                                <th>Vendor 5</th>
+                                                @foreach ($applications as $application)
+                                                <th class="filterByVendor" data-vendor="{{$application->vendor->name}}">
+                                                    {{$application->vendor->name}}</th>
+                                                @endforeach
                                             </tr>
                                         </thead>
                                         <tbody>
                                             <tr>
-                                                <th>1.Fit Gap</th>
-                                                <td>3,2</td>
-                                                <td>7</td>
-                                                <td>9</td>
-                                                <td>8,5</td>
-                                                <td>1</td>
+                                                <th>1. Fit Gap</th>
+                                                @foreach ($applications as $application)
+                                                <th class="filterByVendor" data-vendor="{{$application->vendor->name}}">
+                                                    {{$application->fitgapScore()}}</th>
+                                                @endforeach
                                             </tr>
                                             <tr>
                                                 <th>2. Vendor</th>
-                                                <td>5</td>
-                                                <td>5,2</td>
-                                                <td>9</td>
-                                                <td>9,8</td>
-                                                <td>2</td>
+                                                @foreach ($applications as $application)
+                                                <th class="filterByVendor" data-vendor="{{$application->vendor->name}}">
+                                                    {{$application->vendorScore()}}</th>
+                                                @endforeach
                                             </tr>
                                             <tr>
                                                 <th>3.Experience</th>
-                                                <td>3</td>
-                                                <td>5</td>
-                                                <td>7</td>
-                                                <td>8</td>
-                                                <td>4,3</td>
+                                                @foreach ($applications as $application)
+                                                <th class="filterByVendor" data-vendor="{{$application->vendor->name}}">
+                                                    {{$application->experienceScore()}}</th>
+                                                @endforeach
                                             </tr>
                                             <tr>
                                                 <th>4.Innovation</th>
-                                                <td>3,2</td>
-                                                <td>5</td>
-                                                <td>7,5</td>
-                                                <td>5</td>
-                                                <td>2</td>
+                                                @foreach ($applications as $application)
+                                                <th class="filterByVendor" data-vendor="{{$application->vendor->name}}">
+                                                    {{$application->innovationScore()}}</th>
+                                                @endforeach
                                             </tr>
                                             <tr>
                                                 <th>5.Implementation and Commercials</th>
-                                                <td>4</td>
-                                                <td>3,2</td>
-                                                <td>7</td>
-                                                <td>2,1</td>
-                                                <td>6</td>
+                                                @foreach ($applications as $application)
+                                                <th class="filterByVendor" data-vendor="{{$application->vendor->name}}">
+                                                    {{$application->implementationScore()}}</th>
+                                                @endforeach
                                             </tr>
                                             <tr class="table-dark">
                                                 <th>OVERALL SCORE</th>
-                                                <td>3,68</td>
-                                                <td>5,08</td>
-                                                <td>7,90</td>
-                                                <td>6,68</td>
-                                                <td>3,06</td>
+                                                @foreach ($applications as $application)
+                                                <th class="filterByVendor" data-vendor="{{$application->vendor->name}}">
+                                                    {{$application->totalScore()}}</th>
+                                                @endforeach
                                             </tr class="table-dark">
                                         </tbody>
                                     </table>
@@ -166,7 +116,6 @@
                         </div>
                     </div>
                 </div>
-
                 <br><br>
 
                 <div class="row">
@@ -234,4 +183,121 @@
             <x-footer />
         </div>
     </div>
+@endsection
+
+@section('scripts')
+@parent
+<script>
+    $(document).ready(function() {
+    // Apex Radar chart start
+    let radarChart = new ApexCharts(document.querySelector("#apexRadar1"), {
+        chart: {
+            height: 600,
+            type: "radar",
+            parentHeightOffset: 0
+        },
+        colors: ["#7a00c3", "#f77fb9", "#4d8af0", "#01e396", "#fbbc06"],
+        grid: {
+            borderColor: "rgba(77, 138, 240, .1)",
+            padding: {
+                bottom: -15
+            }
+        },
+        legend: {
+            position: "top",
+            horizontalAlign: "left"
+        },
+        series: [
+            @foreach ($applications as $application)
+            {
+                name: "{{$application->vendor->name}}",
+                data: [
+                    {{$application->fitgapScore()}},
+                    {{$application->vendorScore()}},
+                    {{$application->experienceScore()}},
+                    {{$application->innovationScore()}},
+                    {{$application->implementationScore()}}
+                ]
+            },
+            @endforeach
+        ],
+
+        stroke: {
+            width: 0
+        },
+        fill: {
+            opacity: 0.4
+        },
+        markers: {
+            size: 0
+        },
+        labels: [
+            "Fit Gap",
+            "Vendor",
+            "Experience",
+            "Innovation",
+            "Implementation and Commercials"
+        ]
+    });
+    radarChart.render();
+
+
+
+    // Apex Heat chart start
+    var heatChart = new ApexCharts(document.querySelector("#apexHeatMap"), {
+        chart: {
+            height: 300,
+            type: "heatmap",
+            parentHeightOffset: 0
+        },
+        grid: {
+            borderColor: "rgba(77, 138, 240, .1)",
+            padding: {
+                bottom: -15
+            }
+        },
+        dataLabels: {
+            enabled: false
+        },
+        colors: ["#7a00c3"],
+        series: [
+            @foreach ($applications as $application)
+            {
+                name: "{{$application->vendor->name}}",
+                data: [
+                    { x: 'w1',  y: {{$application->fitgapScore()}} },
+                    { x: 'w2',  y: {{$application->vendorScore()}} },
+                    { x: 'w3',  y: {{$application->experienceScore()}} },
+                    { x: 'w4',  y: {{$application->innovationScore()}} },
+                    { x: 'w5',  y: {{$application->implementationScore()}} },
+                ]
+            },
+            @endforeach
+        ],
+        xaxis: {
+            type: "category",
+            categories: [
+                "Fit Gap",
+                "Vendor",
+                "Experience",
+                "Innovation",
+                "Implementation"
+            ],
+            labels: {
+                style: {
+                    fontSize: "17px"
+                }
+            }
+        },
+        yaxis: {
+            labels: {
+                style: {
+                    fontSize: "17px"
+                }
+            }
+        }
+    });
+    heatChart.render();
+});
+</script>
 @endsection

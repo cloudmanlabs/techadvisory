@@ -11,7 +11,6 @@
     ->sortByDesc('score');
 @endphp
 
-
 @section('content')
 <div class="main-wrapper">
     <x-accenture.navbar activeSection="sections" />
@@ -102,7 +101,7 @@
                                                         <thead>
                                                             <tr class="table-dark">
                                                                 <th>Cost</th>
-                                                                <@foreach ($applications as $application)
+                                                                @foreach ($applications as $application)
                                                                 <th class="filterByVendor" data-vendor="{{$application->vendor->name}}">{{$application->vendor->name}}</th>
                                                                 @endforeach
                                                             </tr>

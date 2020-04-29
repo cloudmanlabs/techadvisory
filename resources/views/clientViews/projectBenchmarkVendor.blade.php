@@ -1,5 +1,17 @@
 @extends('clientViews.layouts.benchmark')
 
+@php
+    //NOTE This is basically to have the table ordered when the scores are random
+    $orderedApps = $applications->map(function($application, $key){
+        return (object)[
+            'name' => $application->vendor->name,
+            'score' => $application->vendorScore()
+        ];
+    })
+    ->sortByDesc('score');
+@endphp
+
+
 @section('content')
 <div class="main-wrapper">
     <x-client.navbar activeSection="sections" />
@@ -10,42 +22,7 @@
                 <x-client.projectNavbar section="projectBenchmark" subsection="vendor" :project="$project" />
 
                 <br>
-                <div class="row">
-                    <div class="col-12 col-xl-12 stretch-card">
-                        <div class="card">
-                            <div class="card-body">
-                                <div style="float: left;">
-                                    <h3>Benchmark and Analytics</h3>
-                                </div>
-                                <br><br>
-                                <div class="welcome_text welcome_box" style="clear: both; margin-top: 20px;">
-                                    <div class="media d-block d-sm-flex">
-                                        <div class="media-body" style="padding: 20px;">
-                                            Please choose the Vendors you'd like to add in the comparison tables:
-                                            <br><br>
-                                            <select class="js-example-basic-multiple w-100" multiple="multiple"
-                                                required>
-                                                <option selected>Vendor 1</option>
-                                                <option selected>Vendor 2</option>
-                                                <option selected>Vendor 3</option>
-                                                <option selected>Vendor 4</option>
-                                                <option selected>Vendor 5</option>
-                                                <option>Vendor 6</option>
-                                                <option>Vendor 7</option>
-                                                <option>Vendor 8</option>
-                                                <option>Vendor 9</option>
-                                                <option>Vendor 10</option>
-                                            </select>
-
-                                        </div>
-
-                                    </div>
-                                </div>
-
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                <x-projectBenchmarkVendorFilter :applications="$applications" />
 
                 <br><br>
 
@@ -71,31 +48,13 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                <tr>
-                                                    <th class="table-dark">1</th>
-                                                    <td>Vendor 4</td>
-                                                    <td>9,8</td>
+                                                @foreach ($orderedApps as $obj)
+                                                <tr class="filterByVendor" data-vendor="{{$obj->name}}">
+                                                    <th class="table-dark">{{ $loop->iteration }}</th>
+                                                    <td>{{$obj->name}}</td>
+                                                    <td>{{$obj->score}}</td>
                                                 </tr>
-                                                <tr>
-                                                    <th class="table-dark">2</th>
-                                                    <td>Vendor 3</td>
-                                                    <td>9</td>
-                                                </tr>
-                                                <tr>
-                                                    <th class="table-dark">3</th>
-                                                    <td>Vendor 2</td>
-                                                    <td>5,2</td>
-                                                </tr>
-                                                <tr>
-                                                    <th class="table-dark">4</th>
-                                                    <td>Vendor 1</td>
-                                                    <td>5</td>
-                                                </tr>
-                                                <tr>
-                                                    <th class="table-dark">5</th>
-                                                    <td>Vendor 5</td>
-                                                    <td>2</td>
-                                                </tr>
+                                                @endforeach
                                             </tbody>
                                         </table>
                                     </div>
@@ -125,7 +84,7 @@
                                             <div class="card-body">
                                                 <h4>Vendors sorted by vendor score</h4>
                                                 <br>
-                                                <canvas id="chartjsBar1"></canvas>
+                                                <canvas id="vendorScoreGraph"></canvas>
                                             </div>
                                         </div>
                                     </div>
@@ -152,5 +111,51 @@
 
 @section('scripts')
 @parent
-<script src="{{url('assets/js/chartsjs_techadvisory_client_benchmarks_view_vendor.js')}}"></script>
+<script>
+    $(function () {
+  'use strict';
+  // COMPLETE: ["#27003d","#410066","#5a008f", "#7400b8","#8e00e0","#9b00f5","#a50aff","#c35cff","#d285ff","#e9c2ff","#f0d6ff","#f8ebff"],
+  // SIMPLIFIED: ["#27003d","#5a008f","#8e00e0","#a50aff","#d285ff","#e9c2ff","#f8ebff"],
+
+    new Chart($("#vendorScoreGraph"), {
+      type: 'bar',
+      data: {
+        labels: [
+            @foreach ($orderedApps as $obj)
+            "{{$obj->name}}",
+            @endforeach
+        ],
+        datasets: [
+          {
+            label: "",
+            backgroundColor: ["#27003d","#410066","#5a008f", "#7400b8","#8e00e0","#9b00f5","#a50aff","#c35cff","#d285ff","#e9c2ff","#f0d6ff","#f8ebff"],
+            data: [
+                @foreach ($orderedApps as $obj)
+                {{$obj->score}},
+                @endforeach
+            ]
+          }
+        ]
+      },
+      options: {
+        legend: { display: false },
+        scales: {
+          yAxes: [{
+            ticks: {
+              beginAtZero: true,
+              max: 10,
+              fontSize: 17
+            }
+          }],
+          xAxes: [{
+            ticks: {
+              stacked: true,
+              fontSize: 17,
+            }
+          }]
+        }
+      }
+    });
+});
+</script>
 @endsection
