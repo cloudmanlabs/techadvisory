@@ -1,5 +1,16 @@
 @extends('accentureViews.layouts.benchmark')
 
+@php
+    //NOTE This is basically to have the table ordered when the scores are random
+    $orderedApps = $applications->map(function($application, $key){
+        return (object)[
+            'name' => $application->vendor->name,
+            'score' => $application->innovationScore()
+        ];
+    })
+    ->sortByDesc('score');
+@endphp
+
 @section('content')
 <div class="main-wrapper">
     <x-accenture.navbar activeSection="sections" />
@@ -35,31 +46,13 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                <tr>
-                                                    <th class="table-dark">1</th>
-                                                    <td>Vendor 3</td>
-                                                    <td>7.5</td>
+                                                @foreach ($orderedApps as $obj)
+                                                <tr class="filterByVendor" data-vendor="{{$obj->name}}">
+                                                    <th class="table-dark">{{ $loop->iteration }}</th>
+                                                    <td>{{$obj->name}}</td>
+                                                    <td>{{$obj->score}}</td>
                                                 </tr>
-                                                <tr>
-                                                    <th class="table-dark">2</th>
-                                                    <td>Vendor 2</td>
-                                                    <td>5</td>
-                                                </tr>
-                                                <tr>
-                                                    <th class="table-dark">3</th>
-                                                    <td>Vendor 4</td>
-                                                    <td>5</td>
-                                                </tr>
-                                                <tr>
-                                                    <th class="table-dark">4</th>
-                                                    <td>Vendor 1</td>
-                                                    <td>3,2</td>
-                                                </tr>
-                                                <tr>
-                                                    <th class="table-dark">5</th>
-                                                    <td>Vendor 5</td>
-                                                    <td>2</td>
-                                                </tr>
+                                                @endforeach
                                             </tbody>
                                         </table>
                                     </div>
@@ -89,7 +82,7 @@
                                             <div class="card-body">
                                                 <h4>Vendors sorted by Innovation&Vision score</h4>
                                                 <br>
-                                                <canvas id="chartjsBar1"></canvas>
+                                                <canvas id="innovationScoreGraph"></canvas>
                                             </div>
                                         </div>
                                     </div>
@@ -116,5 +109,48 @@
 
 @section('scripts')
 @parent
-<script src="{{url('assets/js/chartsjs_techadvisory_client_benchmarks_view_innovation.js')}}"></script>
+<script>
+$(function () {
+    new Chart($("#innovationScoreGraph"), {
+      type: 'bar',
+      data: {
+        labels: [
+            @foreach ($orderedApps as $obj)
+                "{{$obj->name}}",
+            @endforeach
+        ],
+        datasets: [
+          {
+            label: "",
+            backgroundColor: ["#27003d","#410066","#5a008f",
+            "#7400b8","#8e00e0","#9b00f5","#a50aff","#c35cff","#d285ff","#e9c2ff","#f0d6ff","#f8ebff"],
+            data: [
+                @foreach ($orderedApps as $obj)
+                {{$obj->score}},
+                @endforeach
+            ]
+          }
+        ]
+      },
+      options: {
+        legend: { display: false },
+        scales: {
+          yAxes: [{
+            ticks: {
+              beginAtZero: true,
+              max: 10,
+              fontSize: 17
+            }
+          }],
+          xAxes: [{
+            ticks: {
+              stacked: true,
+              fontSize: 17,
+            }
+          }]
+        }
+      }
+    });
+});
+</script>
 @endsection

@@ -40,6 +40,26 @@ class VendorApplication extends Model
         return random_int(3, 8);
     }
 
+    public function fitgapFunctionalScore()
+    {
+        return random_int(3, 8);
+    }
+
+    public function fitgapTechnicalScore()
+    {
+        return random_int(3, 8);
+    }
+
+    public function fitgapServiceScore()
+    {
+        return random_int(3, 8);
+    }
+
+    public function fitgapOtherScore()
+    {
+        return random_int(3, 8);
+    }
+
     public function vendorScore()
     {
         return random_int(3, 8);
@@ -60,6 +80,15 @@ class VendorApplication extends Model
         return random_int(3, 8);
     }
 
+    public function implementationMoney()
+    {
+        return 350000 + $this->id * 10000;
+    }
+
+    public function runMoney()
+    {
+        return 1250000 + $this->id * 25004;
+    }
 
 
 
