@@ -45,7 +45,6 @@
         <script src="{{url('assets/js/dashboard.js')}}"></script>
         <script src="{{url('assets/js/datepicker.js')}}"></script>
         <script src="{{url('assets/js/select2.js')}}"></script>
-        {{-- <script src="{{url('assets/js/apexcharts_techadvisory_demo.js')}}"></script> --}}
         <script src="{{url('assets/vendors/chartjs/Chart.min.js')}}"></script>
 
         <script>

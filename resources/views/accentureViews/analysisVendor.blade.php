@@ -51,7 +51,7 @@
                                             <div class="card-body">
                                                 <h4>AVERAGE RESPONSE PER PRACTICE</h4>
                                                 <br><br>
-                                                <canvas id="chartjsBar"></canvas>
+                                                <canvas id="responsePerPracticeChart"></canvas>
                                             </div>
                                         </div>
                                     </div>
@@ -64,7 +64,7 @@
                                             <div class="card-body">
                                                 <h4>PROJECTS ANSWERED BY VENDOR</h4>
                                                 <br><br>
-                                                <canvas id="chartjsGroupedBar"></canvas>
+                                                <canvas id="responsePerVendor"></canvas>
                                             </div>
                                         </div>
                                     </div>
@@ -76,7 +76,7 @@
                                             <div class="card-body">
                                                 <h4>VENDOR PERFOMANCE OVERVIEW</h4>
                                                 <br><br>
-                                                <canvas id="chartjsBubble"></canvas>
+                                                <canvas id="vendorPerformance"></canvas>
                                             </div>
                                         </div>
                                     </div>
@@ -94,5 +94,153 @@
 
 @section('scripts')
 @parent
-<script src="{{url('assets/js/chartsjs_techadvisory_vendor.js')}}"></script>
+<script>
+$(function () {
+    // Bar chart
+    new Chart($("#responsePerPracticeChart"), {
+        type: 'bar',
+        data: {
+            labels: [
+                @foreach($practices as $practice)
+                    "{{$practice->name}}",
+                @endforeach
+            ],
+            datasets: [
+                {
+                    label: "Population",
+                    backgroundColor: ["#27003d", "#5a008f", "#8e00e0", "#a50aff", "#d285ff", "#e9c2ff", "#f8ebff"],
+                    data: [
+                        @foreach($practices as $practice)
+                        "{{$practice->applicationsInProjectsWithThisPractice()}}",
+                        @endforeach
+                    ]
+                }
+            ]
+        },
+        options: {
+            legend: { display: false },
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        beginAtZero: true,
+                        max: 7,
+                        fontSize: 17
+                    }
+                }],
+                xAxes: [{
+                    ticks: {
+                        stacked: true,
+                        fontSize: 17,
+                    }
+                }]
+            }
+        }
+    });
+
+
+    new Chart($('#responsePerVendor'), {
+        type: 'bar',
+        data: {
+            labels: [
+                @foreach($practices as $practice)
+                    "{{$practice->name}}",
+                @endforeach
+            ],
+            datasets: [
+                @foreach($vendors as $vendor)
+                    {
+                        label: "{{$vendor->name}}",
+                        backgroundColor: ["#27003d","#410066","#5a008f",
+                        "#7400b8","#8e00e0","#9b00f5","#a50aff","#c35cff","#d285ff","#e9c2ff","#f0d6ff","#f8ebff"][{{$loop->index}} % 12],
+                        data: [
+                            @foreach($practices as $practice)
+                            "{{$practice->numberOfProjectsByVendor($vendor)}}",
+                            @endforeach
+                        ]
+                    },
+                @endforeach
+            ]
+        },
+        options: {
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        beginAtZero: true,
+                        max: 9,
+                        fontSize: 17
+                    }
+                }],
+                xAxes: [{
+                    ticks: {
+                        fontSize: 17
+                    }
+                }]
+            }
+        }
+    });
+
+    new Chart($('#vendorPerformance'), {
+        type: 'bubble',
+        data: {
+            labels: "",
+            datasets: [
+                @foreach($vendors as $vendor)
+                    @php
+                        // NOTE: We use 10 - val so we get the chart flipped horizontally
+                        $ranking = 10 - $vendor->averageRanking();
+                        $score = $vendor->averageScore();
+                    @endphp
+                    {
+                        label: ["{{$vendor->name}}"],
+                        backgroundColor: ["#27003d","#410066","#5a008f",
+                        "#7400b8","#8e00e0","#9b00f5","#a50aff","#c35cff","#d285ff","#e9c2ff","#f0d6ff","#f8ebff"][{{$loop->index}} % 12],
+                        borderColor: ["#27003d","#410066","#5a008f",
+                        "#7400b8","#8e00e0","#9b00f5","#a50aff","#c35cff","#d285ff","#e9c2ff","#f0d6ff","#f8ebff"][{{$loop->index}} % 12],
+                        data: [
+                            {
+                                x: {{$ranking}},
+                                y: {{$score}},
+                                r: {{ ($ranking + $score) * 3 }}
+                            }
+                        ]
+                    },
+                @endforeach
+            ]
+        },
+        options: {
+            scales: {
+                yAxes: [{
+                    scaleLabel: {
+                        display: true,
+                        labelString: "Av. Score",
+                        fontSize: 17
+                    },
+                    ticks: {
+                        beginAtZero: false,
+                        min: 1,
+                        max: 10,
+                        fontSize: 17
+                    }
+                }],
+                xAxes: [{
+                    scaleLabel: {
+                        display: true,
+                        labelString: "Av. Ranking",
+                        fontSize: 17
+                    },
+                    ticks: {
+                        beginAtZero: false,
+                        min: 1,
+                        max: 10,
+                        fontSize: 17,
+                        callback: function (tick, index, ticks) {
+                            return (11 - tick).toString();
+                        }
+                    }
+                }]
+            }
+        }
+    });
+});
+</script>
 @endsection

@@ -44,7 +44,6 @@ Route::
             Route::post('/newProjectSetUp/updateVendors', 'ProjectController@updateVendors');
             Route::post('/newProjectSetUp/updateScoringValues', 'ProjectController@updateScoringValues');
 
-
             Route::post('createClient', 'ClientVendorListController@createClientPost')
                 ->name('createClient');
             Route::get('clientList', 'ClientVendorListController@clientList')
@@ -55,7 +54,6 @@ Route::
             Route::post('clientProfileEdit/changeName', 'ClientVendorListController@changeClientName');
             Route::get('clientProfileView/{client}', 'ClientVendorListController@clientProfileView')
                 ->name('clientProfileView');
-
 
             Route::post('createVendor', 'ClientVendorListController@createVendorPost')
                 ->name('createVendor');
@@ -118,9 +116,9 @@ Route::
             Route::post('project/submitEvaluation/{project}/{vendor}', 'ProjectController@submitEvaluation')
                 ->name('project.submitEvaluation');
 
-            Route::view('analysis/vendor', 'accentureViews.analysisVendor')
+            Route::get('analysis/vendor', 'AnalysisController@vendor')
                 ->name('analysisVendor');
-            Route::view('analysis/client', 'accentureViews.analysisClient')
+            Route::get('analysis/client', 'AnalysisController@vendor')
                 ->name('analysisClient');
             Route::view('analysis/historical', 'accentureViews.analysisHistorical')
                 ->name('analysisHistorical');

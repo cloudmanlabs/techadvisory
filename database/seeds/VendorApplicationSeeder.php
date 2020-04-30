@@ -18,6 +18,9 @@ class VendorApplicationSeeder extends Seeder
 
         foreach ($projects as $key1 => $project) {
             foreach ($vendors as $key2 => $vendor) {
+                if(random_int(0, 10) > 5){
+                    continue;
+                }
                 $application = $vendor->applyToProject($project);
                 switch (($key1 + $key2 + 2) % 7) {
                     case 0:

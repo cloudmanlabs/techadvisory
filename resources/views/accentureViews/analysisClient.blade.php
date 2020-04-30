@@ -52,7 +52,7 @@
                                             <div class="card-body">
                                                 <h4># PROJECTS PER PRACTICE</h4>
                                                 <br><br>
-                                                <canvas id="chartjsBar1"></canvas>
+                                                <canvas id="projectsPerPractice"></canvas>
                                             </div>
                                         </div>
                                     </div>
@@ -108,5 +108,145 @@
 
 @section('scripts')
 @parent
-<script src="{{url('assets/js/chartsjs_techadvisory_client.js')}}"></script>
+<script>
+    $(function () {
+    // COMPLETE: ["#27003d","#410066","#5a008f", "#7400b8","#8e00e0","#9b00f5","#a50aff","#c35cff","#d285ff","#e9c2ff","#f0d6ff","#f8ebff"],
+    // SIMPLIFIED: ["#27003d","#5a008f","#8e00e0","#a50aff","#d285ff","#e9c2ff","#f8ebff"],
+
+        new Chart($("#projectsPerPractice"), {
+            type: 'bar',
+            data: {
+                labels: [
+                    @foreach($practices as $practice)
+                    "{{$practice->name}}",
+                    @endforeach
+                ],
+                datasets: [
+                    {
+                        label: "",
+                        backgroundColor: ["#27003d", "#5a008f", "#8e00e0", "#a50aff", "#d285ff", "#e9c2ff", "#f8ebff"],
+                        data: [
+                            @foreach($practices as $practice)
+                            "{{$practice->projects->count()}}",
+                            @endforeach
+                        ]
+                    }
+                ]
+            },
+            options: {
+                legend: { display: false },
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero: true,
+                            max: 7,
+                            fontSize: 17
+                        }
+                    }],
+                    xAxes: [{
+                        ticks: {
+                            stacked: true,
+                            fontSize: 17,
+                        }
+                    }]
+                }
+            }
+        });
+
+        new Chart($("#chartjsBar2"), {
+            type: 'bar',
+            data: {
+                labels: ["CARREFOUR", "COCACOLA", "NIKE", "PEPSI", "REPSOL", "ROCHE", "SEAT"],
+                datasets: [
+                    {
+                        label: "",
+                        backgroundColor: ["#27003d", "#5a008f", "#8e00e0", "#a50aff", "#d285ff", "#e9c2ff", "#f8ebff"],
+                        data: [1, 3, 1, 2, 2, 1, 1]
+                    }
+                ]
+            },
+            options: {
+                legend: { display: false },
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero: true,
+                            max: 7,
+                            fontSize: 17
+                        }
+                    }],
+                    xAxes: [{
+                        ticks: {
+                            stacked: true,
+                            fontSize: 17,
+                        }
+                    }]
+                }
+            }
+        });
+
+        new Chart($("#chartjsBar3"), {
+            type: 'bar',
+            data: {
+                labels: ["Chemical", "Energy", "Automative", "Consumer goods & services", "Retail"],
+                datasets: [
+                    {
+                        label: "",
+                        backgroundColor: ["#27003d", "#5a008f", "#8e00e0", "#a50aff", "#d285ff", "#e9c2ff", "#f8ebff"],
+                        data: [1, 2, 1, 5, 2]
+                    }
+                ]
+            },
+            options: {
+                legend: { display: false },
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero: true,
+                            max: 7,
+                            fontSize: 17
+                        }
+                    }],
+                    xAxes: [{
+                        ticks: {
+                            stacked: true,
+                            fontSize: 17,
+                        }
+                    }]
+                }
+            }
+        });
+        new Chart($("#chartjsBar4"), {
+            type: 'bar',
+            data: {
+                labels: ["APAC", "EMEA", "LATAM", "NA"],
+                datasets: [
+                    {
+                        label: "",
+                        backgroundColor: ["#27003d", "#5a008f", "#8e00e0", "#a50aff", "#d285ff", "#e9c2ff", "#f8ebff"],
+                        data: [1, 5, 4, 1]
+                    }
+                ]
+            },
+            options: {
+                legend: { display: false },
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero: true,
+                            max: 7,
+                            fontSize: 17
+                        }
+                    }],
+                    xAxes: [{
+                        ticks: {
+                            stacked: true,
+                            fontSize: 17,
+                        }
+                    }]
+                }
+            }
+        });
+});
+</script>
 @endsection

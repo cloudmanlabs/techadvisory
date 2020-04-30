@@ -15,4 +15,19 @@ class Practice extends Model
     {
         return $this->hasMany(Project::class);
     }
+
+
+    public function applicationsInProjectsWithThisPractice()
+    {
+        return $this->projects->map(function (Project $project){
+            return $project->vendorApplications->count();
+        })->sum();
+    }
+
+    public function numberOfProjectsByVendor(User $vendor)
+    {
+        return $this->projects->filter(function(Project $project) use ($vendor){
+            return $vendor->hasAppliedToProject($project);
+        })->count();
+    }
 }

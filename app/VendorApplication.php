@@ -27,11 +27,14 @@ class VendorApplication extends Model
 
 
 
-
+    public function ranking()
+    {
+        // TODO Implement the calculations here
+        return random_int(1, 8);
+    }
 
     public function totalScore()
     {
-        // TODO Implement the calculations here
         return random_int(3, 8);
     }
 

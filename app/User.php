@@ -163,6 +163,24 @@ class User extends Authenticatable
         }
     }
 
+    public function averageScore()
+    {
+        return $this->vendorApplications
+            ->map(function ($application){
+                return $application->totalScore();
+            })
+            ->average();
+    }
+
+    public function averageRanking()
+    {
+        return $this->vendorApplications
+            ->map(function ($application) {
+                return $application->ranking();
+            })
+            ->average();
+    }
+
 
 
     /**
