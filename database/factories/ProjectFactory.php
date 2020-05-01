@@ -38,6 +38,8 @@ $factory->define(Project::class, function (Faker $faker) {
         'practice_id' => $faker->randomElement($practiceIds),
 
         'currentPhase' => 'preparation',
+
+        'created_at' => $faker->dateTimeBetween('-2 years', 'now'),
     ];
 });
 

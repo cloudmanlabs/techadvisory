@@ -65,7 +65,7 @@
                                             <div class="card-body">
                                                 <h4># PROJECTS PER CLIENT</h4>
                                                 <br><br>
-                                                <canvas id="chartjsBar2"></canvas>
+                                                <canvas id="projectsPerClient"></canvas>
                                             </div>
                                         </div>
                                     </div>
@@ -78,7 +78,7 @@
                                             <div class="card-body">
                                                 <h4># PROJECTS PER INDUSTRY</h4>
                                                 <br><br>
-                                                <canvas id="chartjsBar3"></canvas>
+                                                <canvas id="projectsPerIndustry"></canvas>
                                             </div>
                                         </div>
                                     </div>
@@ -90,7 +90,7 @@
                                             <div class="card-body">
                                                 <h4># PROJECTS PER REGION</h4>
                                                 <br><br>
-                                                <canvas id="chartjsBar4"></canvas>
+                                                <canvas id="projectsPerRegion"></canvas>
                                             </div>
                                         </div>
                                     </div>
@@ -113,6 +113,13 @@
     // COMPLETE: ["#27003d","#410066","#5a008f", "#7400b8","#8e00e0","#9b00f5","#a50aff","#c35cff","#d285ff","#e9c2ff","#f0d6ff","#f8ebff"],
     // SIMPLIFIED: ["#27003d","#5a008f","#8e00e0","#a50aff","#d285ff","#e9c2ff","#f8ebff"],
 
+        const colors = ["#27003d","#410066","#5a008f", "#7400b8","#8e00e0","#9b00f5","#a50aff","#c35cff","#d285ff","#e9c2ff","#f0d6ff","#f8ebff"];
+        const longColorArray = [
+            ...colors,
+            ...colors.splice(0,colors.length-1).reverse(), // We use the split so we don't repeat a color
+            ...colors.splice(1,colors.length)
+        ]
+
         new Chart($("#projectsPerPractice"), {
             type: 'bar',
             data: {
@@ -124,7 +131,7 @@
                 datasets: [
                     {
                         label: "",
-                        backgroundColor: ["#27003d", "#5a008f", "#8e00e0", "#a50aff", "#d285ff", "#e9c2ff", "#f8ebff"],
+                        backgroundColor: longColorArray,
                         data: [
                             @foreach($practices as $practice)
                             "{{$practice->projects->count()}}",
@@ -153,15 +160,23 @@
             }
         });
 
-        new Chart($("#chartjsBar2"), {
+        new Chart($("#projectsPerClient"), {
             type: 'bar',
             data: {
-                labels: ["CARREFOUR", "COCACOLA", "NIKE", "PEPSI", "REPSOL", "ROCHE", "SEAT"],
+                labels: [
+                    @foreach($clients as $client)
+                    "{{$client->name}}",
+                    @endforeach
+                ],
                 datasets: [
                     {
                         label: "",
-                        backgroundColor: ["#27003d", "#5a008f", "#8e00e0", "#a50aff", "#d285ff", "#e9c2ff", "#f8ebff"],
-                        data: [1, 3, 1, 2, 2, 1, 1]
+                        backgroundColor: longColorArray,
+                        data: [
+                            @foreach($clients as $client)
+                            "{{$client->projectsClient->count()}}",
+                            @endforeach
+                        ]
                     }
                 ]
             },
@@ -185,15 +200,23 @@
             }
         });
 
-        new Chart($("#chartjsBar3"), {
+        new Chart($("#projectsPerIndustry"), {
             type: 'bar',
             data: {
-                labels: ["Chemical", "Energy", "Automative", "Consumer goods & services", "Retail"],
+                labels: [
+                    @foreach($industries as $industry)
+                    "{{$industry->name}}",
+                    @endforeach
+                ],
                 datasets: [
                     {
                         label: "",
-                        backgroundColor: ["#27003d", "#5a008f", "#8e00e0", "#a50aff", "#d285ff", "#e9c2ff", "#f8ebff"],
-                        data: [1, 2, 1, 5, 2]
+                        backgroundColor: longColorArray,
+                        data: [
+                            @foreach($industries as $industry)
+                            {{$industry->projectCount}},
+                            @endforeach
+                        ]
                     }
                 ]
             },
@@ -216,15 +239,23 @@
                 }
             }
         });
-        new Chart($("#chartjsBar4"), {
+        new Chart($("#projectsPerRegion"), {
             type: 'bar',
             data: {
-                labels: ["APAC", "EMEA", "LATAM", "NA"],
+                labels: [
+                    @foreach($regions as $region)
+                    "{{$region->name}}",
+                    @endforeach
+                ],
                 datasets: [
                     {
                         label: "",
-                        backgroundColor: ["#27003d", "#5a008f", "#8e00e0", "#a50aff", "#d285ff", "#e9c2ff", "#f8ebff"],
-                        data: [1, 5, 4, 1]
+                        backgroundColor: longColorArray,
+                        data: [
+                            @foreach($regions as $region)
+                            "{{$region->projectCount}}",
+                            @endforeach
+                        ]
                     }
                 ]
             },

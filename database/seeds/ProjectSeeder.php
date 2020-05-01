@@ -18,9 +18,11 @@ class ProjectSeeder extends Seeder
         factory(Project::class, 3)->states(['old'])->create();
 
         $user = User::where('email', 'client@client.com')->first();
-        $user->projectsClient()->save(factory(Project::class)->create([
-            'step3SubmittedAccenture' => true,
-        ]));
-        $user->projectsClient()->save(factory(Project::class)->states(['open'])->create());
+        if($user != null){
+            $user->projectsClient()->save(factory(Project::class)->create([
+                'step3SubmittedAccenture' => true,
+                ]));
+            $user->projectsClient()->save(factory(Project::class)->states(['open'])->create());
+        }
     }
 }

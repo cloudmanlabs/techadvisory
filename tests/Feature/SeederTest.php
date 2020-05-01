@@ -7,6 +7,8 @@ use App\Project;
 use App\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
+use PracticeSeeder;
+use ProjectSeeder;
 use Tests\TestCase;
 
 class SeederTest extends TestCase
@@ -16,8 +18,6 @@ class SeederTest extends TestCase
     public function testSeederWorks()
     {
         $this->seed();
-
-
 
         $this->assertDatabaseHas('users', [
             'email' => 'admin@admin.com',
@@ -34,5 +34,19 @@ class SeederTest extends TestCase
 
         $this->assertGreaterThan(0, Practice::count());
         $this->assertGreaterThan(0, Project::count());
+    }
+
+    public function testProjectSeederWorksAlone()
+    {
+        $this->seed(ProjectSeeder::class);
+
+        $this->assertGreaterThan(0, Project::count());
+    }
+
+    public function testPracticeSeederWorksAlone()
+    {
+        $this->seed(PracticeSeeder::class);
+
+        $this->assertGreaterThan(0, Practice::count());
     }
 }

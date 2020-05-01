@@ -51,7 +51,7 @@
                                             <div class="card-body">
                                                 <h4>TOTAL</h4>
                                                 <br><br>
-                                                <canvas id="chartjsLine1"></canvas>
+                                                <canvas id="projectsByYear"></canvas>
                                             </div>
                                         </div>
                                     </div>
@@ -64,7 +64,7 @@
                                             <div class="card-body">
                                                 <h4>BY PRACTICE</h4>
                                                 <br><br>
-                                                <canvas id="chartjsLine2"></canvas>
+                                                <canvas id="projectsByYearAndPractice"></canvas>
                                             </div>
                                         </div>
                                     </div>
@@ -77,7 +77,7 @@
                                             <div class="card-body">
                                                 <h4>BY REGION</h4>
                                                 <br><br>
-                                                <canvas id="chartjsLine3"></canvas>
+                                                <canvas id="projectsByYearnAndRegion"></canvas>
                                             </div>
                                         </div>
                                     </div>
@@ -89,7 +89,7 @@
                                             <div class="card-body">
                                                 <h4>BY INDUSTRY</h4>
                                                 <br><br>
-                                                <canvas id="chartjsLine4"></canvas>
+                                                <canvas id="projectsByYearAndIndustry"></canvas>
                                             </div>
                                         </div>
                                     </div>
@@ -107,5 +107,206 @@
 
 @section('scripts')
 @parent
-<script src="{{url('assets/js/chartsjs_techadvisory_historic.js')}}"></script>
+<script>
+    $(function () {
+        const colors = ["#27003d","#410066","#5a008f", "#7400b8","#8e00e0","#9b00f5","#a50aff","#c35cff","#d285ff","#e9c2ff","#f0d6ff","#f8ebff"];
+        const longColorArray = [
+            ...colors,
+            ...colors.splice(0,colors.length-1).reverse(), // We use the split so we don't repeat a color
+            ...colors.splice(1,colors.length)
+        ]
+
+        new Chart($('#projectsByYear'), {
+            type: 'line',
+            data: {
+                labels: [
+                    @foreach($years as $year)
+                    {{$year->year}},
+                    @endforeach
+                ],
+                datasets: [{
+                    data: [
+                        @foreach($years as $year)
+                        {{$year->projectCount}},
+                        @endforeach
+                    ],
+                    label: "Total",
+                    borderColor: "#27003d",
+                    backgroundColor: "rgba(0,0,0,0)",
+                    fill: false
+                }]
+            },
+            options: {
+                elements: {
+                    line: {
+                        tension: 0.000001
+                    }
+                },
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero: true,
+                            // max: 7,
+                            fontSize: 17
+                        }
+                    }],
+                    xAxes: [{
+                        ticks: {
+                            stacked: true,
+                            fontSize: 17,
+                        }
+                    }]
+                }
+            }
+        });
+
+    // SIMPLIFIED: ["#27003d","#5a008f","#8e00e0","#a50aff","#d285ff","#e9c2ff","#f8ebff"],
+
+        new Chart($('#projectsByYearAndPractice'), {
+            type: 'line',
+            data: {
+                labels: [
+                    @foreach($years as $year)
+                    {{$year->year}},
+                    @endforeach
+                ],
+                datasets: [
+                    @foreach($practices as $practice)
+                    {
+                        data: [
+                            @foreach($years as $year)
+                            {{$practice->projects->filter(function($project) use ($year){
+                                return $project->created_at->year == $year->year;
+                            })->count()}},
+                            @endforeach
+                        ],
+                        label: "{{$practice->name}}",
+                        borderColor: longColorArray[{{$loop->index}} % 12],
+                        backgroundColor: "rgba(0,0,0,0)",
+                        fill: false
+                    },
+                    @endforeach
+                ]
+            },
+            options: {
+                elements: {
+                    line: {
+                        tension: 0.000001
+                    }
+                },
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero: true,
+                            stepSize: 1,
+                            fontSize: 17
+                        }
+                    }],
+                    xAxes: [{
+                        ticks: {
+                            stacked: true,
+                            fontSize: 17,
+                        }
+                    }]
+                }
+            }
+        });
+
+        new Chart($('#projectsByYearnAndRegion'), {
+            type: 'line',
+            data: {
+                labels: [
+                    @foreach($years as $year)
+                    {{$year->year}},
+                    @endforeach
+                ],
+                datasets: [
+                    @foreach($regions as $region)
+                    {
+                        data: [
+                            @foreach($region->projectCounts as $count)
+                            {{$count}},
+                            @endforeach
+                        ],
+                        label: "{{$region->name}}",
+                        borderColor: longColorArray[{{$loop->index}} % 12],
+                        backgroundColor: "rgba(0,0,0,0)",
+                        fill: false
+                    },
+                    @endforeach
+                ]
+            },
+            options: {
+                elements: {
+                    line: {
+                        tension: 0.000001
+                    }
+                },
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero: true,
+                            stepSize: 1,
+                            fontSize: 17
+                        }
+                    }],
+                    xAxes: [{
+                        ticks: {
+                            stacked: true,
+                            fontSize: 17,
+                        }
+                    }]
+                }
+            }
+        });
+
+        new Chart($('#projectsByYearAndIndustry'), {
+            type: 'line',
+            data: {
+                labels: [
+                    @foreach($years as $year)
+                    {{$year->year}},
+                    @endforeach
+                ],
+                datasets: [
+                    @foreach($industries as $industry)
+                    {
+                        data: [
+                            @foreach($industry->projectCounts as $count)
+                            {{$count}},
+                            @endforeach
+                        ],
+                        label: "{{$industry->name}}",
+                        borderColor: longColorArray[{{$loop->index}} % 12],
+                        backgroundColor: "rgba(0,0,0,0)",
+                        fill: false
+                    },
+                    @endforeach
+                ]
+            },
+            options: {
+                elements: {
+                    line: {
+                        tension: 0.000001
+                    }
+                },
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero: true,
+                            stepSize: 1,
+                            fontSize: 17
+                        }
+                    }],
+                    xAxes: [{
+                        ticks: {
+                            stacked: true,
+                            fontSize: 17,
+                        }
+                    }]
+                }
+            }
+        });
+    });
+</script>
 @endsection

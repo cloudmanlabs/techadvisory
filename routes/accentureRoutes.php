@@ -118,9 +118,9 @@ Route::
 
             Route::get('analysis/vendor', 'AnalysisController@vendor')
                 ->name('analysisVendor');
-            Route::get('analysis/client', 'AnalysisController@vendor')
+            Route::get('analysis/client', 'AnalysisController@client')
                 ->name('analysisClient');
-            Route::view('analysis/historical', 'accentureViews.analysisHistorical')
+            Route::get('analysis/historical', 'AnalysisController@historical')
                 ->name('analysisHistorical');
             Route::view('analysis/other', 'accentureViews.analysisOther')
                 ->name('analysisOther');
