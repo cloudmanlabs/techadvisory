@@ -236,7 +236,7 @@
                                 <h5>{{$project->deadline->format('F j Y, \a\t H:i')}}</h5>
                                 <br>
 
-                                @if (! $project->deadline->isPast())
+                                @if ($project->deadline != null && !$project->deadline->isPast())
                                     <div class="card" style="margin-bottom: 30px;">
                                         <div class="card-body">
                                             <div style="text-align: center;">

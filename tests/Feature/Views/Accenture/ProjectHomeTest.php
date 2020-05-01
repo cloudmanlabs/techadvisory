@@ -51,6 +51,19 @@ class ProjectHomeTest extends TestCase
                 ->assertSee('SOme Clieneet nameee');
     }
 
+    public function testProjectWIthNullDeadline()
+    {
+        $user = factory(User::class)->states('accenture')->create();
+        $project = factory(Project::class)->create([
+            'deadline' => null,
+        ]);
+        $response = $this
+            ->actingAs($user)
+            ->get('/accenture/project/home/' . $project->id);
+
+        $response->assertStatus(200);
+    }
+
     public function testShowsInvitedVendors()
     {
         $user = factory(User::class)->states('accenture')->create();

@@ -48,6 +48,19 @@ class ProjectHomeTest extends TestCase
             ->assertSee('praaacticeeeee');
     }
 
+    public function testProjectWIthNullDeadline()
+    {
+        $user = factory(User::class)->states(['client', 'finishedSetup'])->create();
+        $project = factory(Project::class)->create([
+            'deadline' => null,
+        ]);
+        $response = $this
+            ->actingAs($user)
+            ->get('/client/project/home/' . $project->id);
+
+        $response->assertStatus(200);
+    }
+
     public function testClientProjectHomeWithNotOwnedProject()
     {
         $user = factory(User::class)->states(['client', 'finishedSetup'])->create();
