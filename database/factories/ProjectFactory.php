@@ -33,6 +33,8 @@ $factory->define(Project::class, function (Faker $faker) {
         'progressConclusions' => $faker->numberBetween(0, 5),
 
         'deadline' => $faker->dateTimeBetween('+1 month', '+30 months'),
+        'regions' => [$faker->randomElement(config('arrays.regions')), $faker->randomElement(config('arrays.regions')),],
+        'industry' => $faker->randomElement(config('arrays.industryExperience')),
 
         'client_id' => $faker->randomElement($clientIds),
         'practice_id' => $faker->randomElement($practiceIds),

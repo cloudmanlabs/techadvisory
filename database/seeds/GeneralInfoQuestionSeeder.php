@@ -66,13 +66,6 @@ class GeneralInfoQuestionSeeder extends Seeder
         $transportPractice = Practice::where('name', 'Transport')->first();
         factory(GeneralInfoQuestion::class)->create([
             'type' => 'selectMultiple',
-            'label' => 'Region Served',
-            'required' => false,
-            'presetOption' => 'countries',
-            'practice_id' => $transportPractice->id
-        ]);
-        factory(GeneralInfoQuestion::class)->create([
-            'type' => 'selectMultiple',
             'label' => 'Transport Flows',
             'required' => false,
             'presetOption' => 'transportFlows',

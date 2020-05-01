@@ -27,13 +27,17 @@ class AnalysisController extends Controller
             'industries' => collect(config('arrays.industryExperience'))->map(function($industry){
                 return (object)[
                     'name' => $industry,
-                    'projectCount' => random_int(1, 9), // TODO Implement the actual count
+                    'projectCount' => Project::all()->filter(function ($project) use ($industry) {
+                        return $project->industry == $industry;
+                    })->count()
                 ];
             }),
             'regions' => collect(config('arrays.regions'))->map(function ($region) {
                 return (object)[
                     'name' => $region,
-                    'projectCount' => random_int(1, 9), // TODO Implement the actual count
+                    'projectCount' => Project::all()->filter(function ($project) use ($region) {
+                        return in_array($region, $project->regions ?? []);
+                    })->count()
                 ];
             }),
         ]);
@@ -59,8 +63,7 @@ class AnalysisController extends Controller
                     'name' => $industry,
                     'projectCounts' => collect(range(2017, intval(date('Y')) ))->map(function($year) use ($industry){
                         return Project::all()->filter(function ($project) use ($year, $industry) {
-                            // TODO Implement filtering by industry here and remove this shitty thing that provides random data
-                            return $project->created_at->year == $year && $project->id % 20 > strlen($industry);
+                            return $project->created_at->year == $year && $project->industry == $industry;
                         })->count();
                     }),
                 ];
@@ -70,8 +73,7 @@ class AnalysisController extends Controller
                     'name' => $region,
                     'projectCounts' => collect(range(2017, intval(date('Y')) ))->map(function($year) use ($region){
                         return Project::all()->filter(function ($project) use ($year, $region) {
-                            // TODO Implement filtering by region here and remove this shitty thing that provides random data
-                            return $project->created_at->year == $year && $project->id % 7 > strlen($region);
+                            return $project->created_at->year == $year && in_array($region, $project->regions ?? []);
                         })->count();
                     }),
                 ];
