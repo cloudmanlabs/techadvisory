@@ -1,8 +1,8 @@
 @props(['selected'])
-
+{{--
 <option disabled {{count($selected)  == 0 ? 'selected' : ''}}>
     Please select the range
-</option>
+</option> --}}
 
 <option value="worldwide" {{in_array('worldwide', $selected) ? 'selected' : ''}}>
     Worldwide

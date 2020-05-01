@@ -323,6 +323,67 @@ class ProjectsTest extends TestCase
         $this->assertCount(2, $project->subpractices);
     }
 
+    public function testCanChangeIndustryInProject()
+    {
+        $user = factory(User::class)->states('accenture')->create();
+
+        $project = factory(Project::class)->create();
+
+        $request = $this
+            ->actingAs($user)
+            ->post('/accenture/newProjectSetUp/changeIndustry', [
+                'project_id' => $project->id,
+                'value' => 'consumer'
+            ]);
+
+        $request->assertOk();
+
+        $project->refresh();
+        $this->assertEquals('consumer', $project->industry);
+    }
+
+    public function testCanChangeRegionsInProject()
+    {
+        $user = factory(User::class)->states('accenture')->create();
+
+        $project = factory(Project::class)->create();
+
+        $request = $this
+            ->actingAs($user)
+            ->post('/accenture/newProjectSetUp/changeRegions', [
+                'project_id' => $project->id,
+                'value' => ['latam', 'apac']
+            ]);
+
+        $request->assertOk();
+
+        $project->refresh();
+        $this->assertTrue(in_array('latam', $project->regions));
+    }
+
+    public function testCanChangeDeadlineInProject()
+    {
+        $this->withoutExceptionHandling();
+        $user = factory(User::class)->states('accenture')->create();
+
+        $project = factory(Project::class)->create();
+
+        $request = $this
+            ->actingAs($user)
+            ->post('/accenture/newProjectSetUp/changeDeadline', [
+                'project_id' => $project->id,
+                'value' => '10/23/2030'
+            ]);
+
+        $request->assertOk();
+
+        $project->refresh();
+        $this->assertEquals('23', $project->deadline->day);
+        $this->assertEquals('10', $project->deadline->month);
+        $this->assertEquals('2030', $project->deadline->year);
+    }
+
+
     public function testCanSetStep3SubmittedForAccenture()
     {
         $user = factory(User::class)->states('accenture')->create();

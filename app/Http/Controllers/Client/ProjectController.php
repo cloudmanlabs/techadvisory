@@ -8,6 +8,7 @@ use App\Http\Controllers\Controller;
 use App\Practice;
 use App\User;
 use App\VendorApplication;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Log;
 
 class ProjectController extends Controller
@@ -176,6 +177,69 @@ class ProjectController extends Controller
         }
 
         $project->subpractices()->sync($request->subpractices);
+        $project->save();
+
+        return \response()->json([
+            'status' => 200,
+            'message' => 'Success'
+        ]);
+    }
+
+    public function changeIndustry(Request $request)
+    {
+        $request->validate([
+            'project_id' => 'required|numeric',
+            'value' => 'required|string'
+        ]);
+
+        $project = Project::find($request->project_id);
+        if ($project == null) {
+            abort(404);
+        }
+
+        $project->industry = $request->value;
+        $project->save();
+
+        return \response()->json([
+            'status' => 200,
+            'message' => 'Success'
+        ]);
+    }
+
+    public function changeRegions(Request $request)
+    {
+        $request->validate([
+            'project_id' => 'required|numeric',
+            'value' => 'required|array'
+        ]);
+
+        $project = Project::find($request->project_id);
+        if ($project == null) {
+            abort(404);
+        }
+
+        $project->regions = $request->value;
+        $project->save();
+
+        return \response()->json([
+            'status' => 200,
+            'message' => 'Success'
+        ]);
+    }
+
+    public function changeDeadline(Request $request)
+    {
+        $request->validate([
+            'project_id' => 'required|numeric',
+            'value' => 'required|string'
+        ]);
+
+        $project = Project::find($request->project_id);
+        if ($project == null) {
+            abort(404);
+        }
+
+        $project->deadline = Carbon::createFromFormat('m/d/Y', $request->value)->toDateTimeString();
         $project->save();
 
         return \response()->json([

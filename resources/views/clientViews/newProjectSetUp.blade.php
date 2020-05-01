@@ -104,6 +104,28 @@
                                             </select>
                                         </div>
 
+                                        <div class="form-group">
+                                            <label for="industrySelect">Industry*</label>
+                                            <select class="form-control" id="industrySelect" required>
+                                                <x-options.industryExperience :selected="$project->industry ?? ''" />
+                                            </select>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="regionSelect">Regions*</label>
+                                            <select class="js-example-basic-multiple w-100" id="regionSelect" multiple="multiple" required>
+                                                <x-options.geographies :selected="$project->regions ?? []" />
+                                            </select>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="deadline">Deadline*</label>
+                                            <div class="input-group date datepicker" data-initialValue="{{$project->deadline}}">
+                                                <input required id="deadline" value="{{$project->deadline}}" type="text" class="form-control">
+                                                <span class="input-group-addon"><i data-feather="calendar"></i></span>
+                                            </div>
+                                        </div>
+
                                         <x-questionForeach :questions="$generalInfoQuestions" :class="'generalQuestion'" :disabled="false" :required="false" />
 
                                         <br>
@@ -549,6 +571,36 @@
             $.post('/client/newProjectSetUp/changeSubpractice', {
                 project_id: '{{$project->id}}',
                 subpractices: value
+            })
+
+            showSavedToast();
+            updateSubmitStep3();
+        });
+        $('#industrySelect').change(function (e) {
+            var value = $(this).val();
+            $.post('/client/newProjectSetUp/changeIndustry', {
+                project_id: '{{$project->id}}',
+                value
+            })
+
+            showSavedToast();
+            updateSubmitStep3();
+        });
+        $('#regionSelect').change(function (e) {
+            var value = $(this).val();
+            $.post('/client/newProjectSetUp/changeRegions', {
+                project_id: '{{$project->id}}',
+                value
+            })
+
+            showSavedToast();
+            updateSubmitStep3();
+        });
+        $('#deadline').change(function (e) {
+            var value = $(this).val();
+            $.post('/client/newProjectSetUp/changeDeadline', {
+                project_id: '{{$project->id}}',
+                value
             })
 
             showSavedToast();

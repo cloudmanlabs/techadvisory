@@ -38,6 +38,9 @@ Route::
             Route::post('/newProjectSetUp/changeProjectIsBinding', 'ProjectController@changeProjectIsBinding');
             Route::post('/newProjectSetUp/changePractice', 'ProjectController@changePractice');
             Route::post('/newProjectSetUp/changeSubpractice', 'ProjectController@changeSubpractice');
+            Route::post('/newProjectSetUp/changeIndustry', 'ProjectController@changeIndustry');
+            Route::post('/newProjectSetUp/changeRegions', 'ProjectController@changeRegions');
+            Route::post('/newProjectSetUp/changeDeadline', 'ProjectController@changeDeadline');
             Route::post('/newProjectSetUp/setStep3Submitted', 'ProjectController@setStep3Submitted');
             Route::post('/newProjectSetUp/setStep4Submitted', 'ProjectController@setStep4Submitted');
             Route::post('/newProjectSetUp/publishProject', 'ProjectController@publishProject');

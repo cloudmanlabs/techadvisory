@@ -71,7 +71,6 @@
                                             </select>
                                         </div>
 
-
                                         <div class="form-group">
                                             <label for="subpracticeSelect">Subpractice*</label>
                                             <select class="js-example-basic-multiple w-100" id="subpracticeSelect" multiple="multiple" disabled>
@@ -80,6 +79,28 @@
                                                 @endphp
                                                 <x-options.subpractices :selected="$select" />
                                             </select>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="industrySelect">Industry*</label>
+                                            <select class="form-control" id="industrySelect" disabled>
+                                                <x-options.industryExperience :selected="$project->industry ?? ''" />
+                                            </select>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="regionSelect">Regions*</label>
+                                            <select class="js-example-basic-multiple w-100" id="regionSelect" multiple="multiple" disabled>
+                                                <x-options.geographies :selected="$project->regions ?? []" />
+                                            </select>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="deadline">Deadline*</label>
+                                            <div class="input-group date datepicker" data-initialValue="{{$project->deadline}}">
+                                                <input disabled id="deadline" value="{{$project->deadline}}" type="text" class="form-control">
+                                                <span class="input-group-addon"><i data-feather="calendar"></i></span>
+                                            </div>
                                         </div>
 
                                         <x-questionForeach :questions="$generalInfoQuestions" :class="'generalQuestion'" :disabled="true" :required="false" />

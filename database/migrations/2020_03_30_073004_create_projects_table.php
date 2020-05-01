@@ -36,6 +36,8 @@ class CreateProjectsTable extends Migration
             $table->unsignedBigInteger('client_id')->nullable();
 
             $table->boolean('isBinding')->default(false);
+            $table->string('industry')->nullable();
+            $table->string('regions')->nullable();
 
             $table->boolean('step3SubmittedAccenture')->default(false);
             $table->boolean('step3SubmittedClient')->default(false);

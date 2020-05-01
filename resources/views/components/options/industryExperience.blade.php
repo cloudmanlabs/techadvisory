@@ -1,63 +1,63 @@
 @props(['selected'])
 
-<option disabled {{count($selected)  == 0 ? 'selected' : ''}}>
+<option disabled {{strlen($selected)  == 0 ? 'selected' : ''}}>
     Please select the range
 </option>
 
-<option value="automative" {{in_array('automative', $selected) ? 'selected' : ''}}>
+<option value="automative" {{('automative' == $selected) ? 'selected' : ''}}>
     Automative
 </option>
-<option value="consumer" {{in_array('consumer', $selected) ? 'selected' : ''}}>
+<option value="consumer" {{('consumer' == $selected) ? 'selected' : ''}}>
     Consumer goods & services
 </option>
-<option value="industrial" {{in_array('industrial', $selected) ? 'selected' : ''}}>
+<option value="industrial" {{('industrial' == $selected) ? 'selected' : ''}}>
     Industrial Equipement
 </option>
-<option value="life" {{in_array('life', $selected) ? 'selected' : ''}}>
+<option value="life" {{('life' == $selected) ? 'selected' : ''}}>
     Life Sciences
 </option>
-<option value="retail" {{in_array('retail', $selected) ? 'selected' : ''}}>
+<option value="retail" {{('retail' == $selected) ? 'selected' : ''}}>
     Retail
 </option>
-<option value="transport" {{in_array('transport', $selected) ? 'selected' : ''}}>
+<option value="transport" {{('transport' == $selected) ? 'selected' : ''}}>
     Transport services
 </option>
-<option value="travel" {{in_array('travel', $selected) ? 'selected' : ''}}>
+<option value="travel" {{('travel' == $selected) ? 'selected' : ''}}>
     Travel
 </option>
-<option value="chemical" {{in_array('chemical', $selected) ? 'selected' : ''}}>
+<option value="chemical" {{('chemical' == $selected) ? 'selected' : ''}}>
     Chemical
 </option>
-<option value="energy" {{in_array('energy', $selected) ? 'selected' : ''}}>
+<option value="energy" {{('energy' == $selected) ? 'selected' : ''}}>
     Energy
 </option>
-<option value="natural" {{in_array('natural', $selected) ? 'selected' : ''}}>
+<option value="natural" {{('natural' == $selected) ? 'selected' : ''}}>
     Natural Resources
 </option>
-<option value="utilities" {{in_array('utilities', $selected) ? 'selected' : ''}}>
+<option value="utilities" {{('utilities' == $selected) ? 'selected' : ''}}>
     Utilities
 </option>
-<option value="communications" {{in_array('communications', $selected) ? 'selected' : ''}}>
+<option value="communications" {{('communications' == $selected) ? 'selected' : ''}}>
     Communications & Media
 </option>
-<option value="high" {{in_array('high', $selected) ? 'selected' : ''}}>
+<option value="high" {{('high' == $selected) ? 'selected' : ''}}>
     High tech
 </option>
-<option value="cmt" {{in_array('cmt', $selected) ? 'selected' : ''}}>
+<option value="cmt" {{('cmt' == $selected) ? 'selected' : ''}}>
     CMT SW&P
 </option>
-<option value="health" {{in_array('health', $selected) ? 'selected' : ''}}>
+<option value="health" {{('health' == $selected) ? 'selected' : ''}}>
     Health
 </option>
-<option value="public" {{in_array('public', $selected) ? 'selected' : ''}}>
+<option value="public" {{('public' == $selected) ? 'selected' : ''}}>
     Public Service
 </option>
-<option value="banking" {{in_array('banking', $selected) ? 'selected' : ''}}>
+<option value="banking" {{('banking' == $selected) ? 'selected' : ''}}>
     Banking
 </option>
-<option value="capital" {{in_array('capital', $selected) ? 'selected' : ''}}>
+<option value="capital" {{('capital' == $selected) ? 'selected' : ''}}>
     Capital Markets
 </option>
-<option value="insurance" {{in_array('insurance', $selected) ? 'selected' : ''}}>
+<option value="insurance" {{('insurance' == $selected) ? 'selected' : ''}}>
     Insurance
 </option>

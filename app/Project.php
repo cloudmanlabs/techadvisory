@@ -14,6 +14,9 @@ use Illuminate\Support\Facades\Log;
  * @property boolean $hasValueTargeting
  * @property boolean $isBinding
  *
+ * @property array $regions
+ * @property string $industry
+ *
  * @property integer $progressSetUp
  * @property integer $progressValue
  * @property integer $progressResponse
@@ -43,7 +46,8 @@ class Project extends Model
         'step4SubmittedAccenture' => 'boolean',
         'step4SubmittedClient' => 'boolean',
 
-        'scoringValues' => 'array'
+        'scoringValues' => 'array',
+        'regions' => 'array',
     ];
 
     public function conclusionsFolder()

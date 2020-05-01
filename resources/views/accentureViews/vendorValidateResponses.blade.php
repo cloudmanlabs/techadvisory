@@ -125,7 +125,7 @@
                                         <x-accenture.validateInputGroup>
                                             <label for="exampleFormControlSelect1">Industry Experience</label>
                                             <select class="form-control" disabled>
-                                                <x-options.industryExperience :selected="['consumer']" />
+                                                <x-options.industryExperience :selected="'consumer'" />
                                             </select>
                                         </x-accenture.validateInputGroup>
 
