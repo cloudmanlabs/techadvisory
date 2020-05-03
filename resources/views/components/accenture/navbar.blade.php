@@ -5,7 +5,7 @@
         <div class="container">
             <div class="navbar-content">
                 <a class="navbar-brand" href="{{route('accenture.main')}}">
-                    <img src="@logo" style="max-height: 37px;">
+                    <img src="{{url('/assets/images/accenture-logo.svg')}}" style="height: 30px;">
                 </a>
 
                 <form class="search-form">
@@ -61,6 +61,14 @@
 
     <nav class="bottom-navbar">
         <div class="container">
+            <div style="position: relative; float: left">
+                <a href="{{route('accenture.main')}}">
+                    <p style="color: #A100FF; font-size: 2rem; margin-top: 5px">
+                        <span style="font-weight: bold">Tech</span>Advisory Platform
+                    </p>
+                    {{-- <img src="{{url('/assets/images/simple-logo.png')}}" style="height: 50px; margin-top: 4px"> --}}
+                </a>
+            </div>
             <ul class="nav page-navigation">
                 <li class="nav-item {{$activeSection == 'home' ? 'active' : ''}}">
                     <a class="nav-link" href="{{route('accenture.home')}}">
