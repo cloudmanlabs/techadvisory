@@ -54,8 +54,8 @@
 
 
                                         <div class="form-check form-check-flat form-check-primary">
-                                            <label class="form-check-label"><input class="form-check-input"
-                                                    type="checkbox"> Remember me</label>
+                                            <label class="form-check-label">
+                                                <input class="form-check-input" name="remember" type="checkbox"> Remember me</label>
                                         </div>
 
                                         <a href="{{route('password.request')}}" class="purpleColor">I forgot my

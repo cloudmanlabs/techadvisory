@@ -46,6 +46,13 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
+
+    public function credentials()
+    {
+        return $this->hasMany(UserCredential::class, 'user_id');
+    }
+
+
     public function profileFolder()
     {
         return $this->morphOne(Folder::class, 'folderable');

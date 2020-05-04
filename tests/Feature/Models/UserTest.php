@@ -16,7 +16,7 @@ class UserTest extends TestCase
 
     public function testCanCreateAdmin()
     {
-        $user = factory(User::class)->states('admin')->create([
+        factory(User::class)->states('admin')->create([
             'name' => 'admin',
             'email' => 'admin@admin.com',
         ]);
@@ -28,7 +28,7 @@ class UserTest extends TestCase
 
     public function testCanCreateClient()
     {
-        $user = factory(User::class)->states(['client', 'finishedSetup'])->create([
+        factory(User::class)->states(['client', 'finishedSetup'])->create([
             'name' => 'client',
             'email' => 'client@client.com',
         ]);
@@ -43,7 +43,7 @@ class UserTest extends TestCase
 
     public function testCanCreateAccenture()
     {
-        $user = factory(User::class)->states('accenture')->create([
+        factory(User::class)->states('accenture')->create([
             'name' => 'accenture',
             'email' => 'accenture@accenture.com',
         ]);
@@ -58,7 +58,7 @@ class UserTest extends TestCase
 
     public function testCanCreateVendor()
     {
-        $user = factory(User::class)->states('vendor')->create([
+        factory(User::class)->states('vendor')->create([
             'name' => 'vendor',
             'email' => 'vendor@vendor.com',
         ]);
