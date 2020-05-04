@@ -17,6 +17,7 @@ class CreateUserCredentialsTable extends Migration
             $table->id();
             $table->timestamps();
 
+            $table->string('name');
             $table->string('email');
             $table->string('password');
 

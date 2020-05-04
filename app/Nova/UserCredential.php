@@ -2,7 +2,6 @@
 
 namespace App\Nova;
 
-use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Laravel\Nova\Fields\BelongsTo;
@@ -11,29 +10,29 @@ use Laravel\Nova\Fields\Boolean;
 use Laravel\Nova\Fields\HasMany;
 use Laravel\Nova\Fields\HasOne;
 use Laravel\Nova\Fields\ID;
-use Laravel\Nova\Fields\Image;
-use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Password;
+use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Panel;
-use Outhebox\NovaHiddenField\HiddenField;
 
-class Client extends Resource
+class UserCredential extends Resource
 {
+    public static $displayInNavigation = false;
+
     /**
      * The model the resource corresponds to.
      *
      * @var string
      */
-    public static $model = 'App\User';
+    public static $model = 'App\UserCredential';
 
     /**
      * The single value that should be used to represent the resource when being displayed.
      *
      * @var string
      */
-    public static $title = 'name';
+    public static $title = 'email';
 
     /**
      * The columns that should be searched.
@@ -41,7 +40,7 @@ class Client extends Resource
      * @var array
      */
     public static $search = [
-        'id', 'name', 'email',
+        'email',
     ];
 
     /**
@@ -61,37 +60,14 @@ class Client extends Resource
 
             Text::make('Email')
                 ->sortable()
-                ->rules('required', 'email', 'max:254')
-                ->creationRules('unique:users,email')
-                ->updateRules('unique:users,email,{{resourceId}}'),
-
-
-            Image::make('logo'),
+                ->rules('required', 'email', 'max:254'),
 
             Password::make('Password')
                 ->onlyOnForms()
                 ->creationRules('required', 'string', 'min:8')
                 ->updateRules('nullable', 'string', 'min:8'),
-
-            HasMany::make('Projects', 'projectsClient', \App\Nova\Project::class),
-
-            // This sets the correct value for userType
-            HiddenField::make('userType')
-                ->hideFromIndex()
-                ->hideFromDetail()
-                ->default('client'),
-
-            HasMany::make('Other Login Credentials', 'credentials', \App\Nova\UserCredential::class),
-
-            HasMany::make('Profile Questions', 'clientProfileQuestions', \App\Nova\ClientProfileQuestionResponse::class),
         ];
     }
-
-    public static function indexQuery(NovaRequest $request, $query)
-    {
-        return $query->whereIn('userType', User::clientTypes);
-    }
-
 
     /**
      * Get the cards available for the request.

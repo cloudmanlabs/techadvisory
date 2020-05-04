@@ -77,6 +77,8 @@ class Vendor extends Resource
                 ->hideFromDetail()
                 ->default('vendor'),
 
+            HasMany::make('Other Login Credentials', 'credentials', \App\Nova\UserCredential::class),
+
             HasMany::make('Profile Questions', 'vendorProfileQuestions', 'App\Nova\VendorProfileQuestionResponse'),
             HasMany::make('Solutions', 'vendorSolutions', 'App\Nova\VendorSolution'),
 

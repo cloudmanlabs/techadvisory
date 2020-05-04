@@ -67,7 +67,7 @@
     <nav class="bottom-navbar">
         <div class="container">
             <div style="position: relative; float: left">
-                <a href="{{route('accenture.main')}}">
+                <a href="{{route('client.main')}}">
                     <p style="color: #A100FF; font-size: 2rem; margin-top: 5px">
                         <span style="font-weight: bold">Tech</span>Advisory Platform
                     </p>

@@ -17,6 +17,7 @@ class UserCredentialsTest extends TestCase
         $user = factory(User::class)->create();
 
         $credential = new UserCredential([
+            'name' => 'nameeee',
             'email' => 'test@test.com',
             'password' => 'password',
 
@@ -32,6 +33,7 @@ class UserCredentialsTest extends TestCase
         $user = factory(User::class)->create();
 
         $credential = new UserCredential([
+            'name' => 'nameeee',
             'email' => 'test@test.com',
             'password' => 'password',
 
@@ -63,6 +65,7 @@ class UserCredentialsTest extends TestCase
     {
         $user = factory(User::class)->states('client')->create();
         $user->credentials()->save(new UserCredential([
+            'name' => 'nameeee',
             'email' => 'test@test.com',
             'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi'
         ]));
@@ -96,6 +99,7 @@ class UserCredentialsTest extends TestCase
     {
         $user = factory(User::class)->states('vendor')->create();
         $user->credentials()->save(new UserCredential([
+            'name' => 'nameeee',
             'email' => 'test@test.com',
             'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi'
         ]));
