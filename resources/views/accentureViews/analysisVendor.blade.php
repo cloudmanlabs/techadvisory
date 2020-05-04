@@ -179,7 +179,7 @@ $(function () {
         }
     });
 
-    new Chart($('#vendorPerformance'), {
+    var vendorPerformance = new Chart($('#vendorPerformance'), {
         type: 'bubble',
         data: {
             labels: "",
@@ -202,7 +202,8 @@ $(function () {
                                 y: {{$score}},
                                 r: {{ ($ranking + $score) * 3 }}
                             }
-                        ]
+                        ],
+                        hidden: {{$loop->index > 3 ? 'true' : 'false'}},
                     },
                 @endforeach
             ]

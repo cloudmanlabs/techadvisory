@@ -2,7 +2,9 @@
 
 namespace Tests\Feature\Models;
 
+use App\SelectionCriteriaQuestionResponse;
 use App\Project;
+use App\SelectionCriteriaQuestion;
 use App\User;
 use App\VendorApplication;
 use Exception;
@@ -174,5 +176,181 @@ class VendorApplicationTest extends TestCase
 
         $application->refresh();
         $this->assertEquals('applicating', $application->phase);
+    }
+
+
+
+
+
+    public function testCanGetTotalScore()
+    {
+        $question1 = factory(SelectionCriteriaQuestion::class)->create();
+        $question2 = factory(SelectionCriteriaQuestion::class)->create();
+
+        $project = factory(Project::class)->create();
+        /** @var User $vendor */
+        $vendor = factory(User::class)->states(['vendor', 'finishedSetup'])->create();
+
+        $application = $vendor->applyToProject($project);
+
+        $response = new SelectionCriteriaQuestionResponse([
+            'question_id' => $question1->id,
+            'project_id' => $project->id,
+            'vendor_id' => $vendor->id,
+            'response' => 'hello',
+            'score' => 3
+        ]);
+        $response->save();
+        $response = new SelectionCriteriaQuestionResponse([
+            'question_id' => $question2->id,
+            'project_id' => $project->id,
+            'vendor_id' => $vendor->id,
+            'response' => 'hello',
+            'score' => 9
+        ]);
+        $response->save();
+
+        // We don't check that it's the actual average of the scores, because we have the fitgap that messes it up
+        $this->assertGreaterThan(0, $application->totalScore());
+    }
+
+    public function testCanGetVendorScore()
+    {
+        $question1 = factory(SelectionCriteriaQuestion::class)->create([
+            'page' => 'vendor_corporate'
+        ]);
+        $question2 = factory(SelectionCriteriaQuestion::class)->create([
+            'page' => 'vendor_market'
+        ]);
+
+        $project = factory(Project::class)->create();
+        /** @var User $vendor */
+        $vendor = factory(User::class)->states(['vendor', 'finishedSetup'])->create();
+
+        $application = $vendor->applyToProject($project);
+
+        $response = new SelectionCriteriaQuestionResponse([
+            'question_id' => $question1->id,
+            'project_id' => $project->id,
+            'vendor_id' => $vendor->id,
+            'response' => 'hello',
+            'score' => 2
+        ]);
+        $response->save();
+        $response = new SelectionCriteriaQuestionResponse([
+            'question_id' => $question2->id,
+            'project_id' => $project->id,
+            'vendor_id' => $vendor->id,
+            'response' => 'hello',
+            'score' => 4
+        ]);
+        $response->save();
+
+        $this->assertEquals(3, $application->vendorScore());
+    }
+
+    public function testCanGetExperienceScore()
+    {
+        $question1 = factory(SelectionCriteriaQuestion::class)->create([
+            'page' => 'experience'
+        ]);
+        $question2 = factory(SelectionCriteriaQuestion::class)->create([
+            'page' => 'experience'
+        ]);
+
+        $project = factory(Project::class)->create();
+        /** @var User $vendor */
+        $vendor = factory(User::class)->states(['vendor', 'finishedSetup'])->create();
+
+        $application = $vendor->applyToProject($project);
+
+        $response = new SelectionCriteriaQuestionResponse([
+            'question_id' => $question1->id,
+            'project_id' => $project->id,
+            'vendor_id' => $vendor->id,
+            'response' => 'hello',
+            'score' => 8
+        ]);
+        $response->save();
+        $response = new SelectionCriteriaQuestionResponse([
+            'question_id' => $question2->id,
+            'project_id' => $project->id,
+            'vendor_id' => $vendor->id,
+            'response' => 'hello',
+            'score' => 10
+        ]);
+        $response->save();
+
+        $this->assertEquals(9, $application->experienceScore());
+    }
+
+    public function testCanGetInnovationScore()
+    {
+        $question1 = factory(SelectionCriteriaQuestion::class)->create([
+            'page' => 'innovation_digitalEnablers'
+        ]);
+        $question2 = factory(SelectionCriteriaQuestion::class)->create([
+            'page' => 'innovation_product'
+        ]);
+
+        $project = factory(Project::class)->create();
+        /** @var User $vendor */
+        $vendor = factory(User::class)->states(['vendor', 'finishedSetup'])->create();
+
+        $application = $vendor->applyToProject($project);
+
+        $response = new SelectionCriteriaQuestionResponse([
+            'question_id' => $question1->id,
+            'project_id' => $project->id,
+            'vendor_id' => $vendor->id,
+            'response' => 'hello',
+            'score' => 8
+        ]);
+        $response->save();
+        $response = new SelectionCriteriaQuestionResponse([
+            'question_id' => $question2->id,
+            'project_id' => $project->id,
+            'vendor_id' => $vendor->id,
+            'response' => 'hello',
+            'score' => 10
+        ]);
+        $response->save();
+
+        $this->assertEquals(9, $application->innovationScore());
+    }
+
+    public function testCanGetImplementationScore()
+    {
+        $question1 = factory(SelectionCriteriaQuestion::class)->create([
+            'page' => 'implementation_implementation'
+        ]);
+        $question2 = factory(SelectionCriteriaQuestion::class)->create([
+            'page' => 'implementation_run'
+        ]);
+
+        $project = factory(Project::class)->create();
+        /** @var User $vendor */
+        $vendor = factory(User::class)->states(['vendor', 'finishedSetup'])->create();
+
+        $application = $vendor->applyToProject($project);
+
+        $response = new SelectionCriteriaQuestionResponse([
+            'question_id' => $question1->id,
+            'project_id' => $project->id,
+            'vendor_id' => $vendor->id,
+            'response' => 'hello',
+            'score' => 5
+        ]);
+        $response->save();
+        $response = new SelectionCriteriaQuestionResponse([
+            'question_id' => $question2->id,
+            'project_id' => $project->id,
+            'vendor_id' => $vendor->id,
+            'response' => 'hello',
+            'score' => 9
+        ]);
+        $response->save();
+
+        $this->assertEquals(7, $application->implementationScore());
     }
 }

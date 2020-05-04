@@ -6,15 +6,11 @@ use Illuminate\Database\Eloquent\Model;
 
 /**
  * @property string $response
- * @property boolean $shouldShow
+ * @property int $score
  */
 class SelectionCriteriaQuestionResponse extends Model
 {
     public $guarded = [];
-
-    public $casts = [
-        'shouldShow' => 'boolean'
-    ];
 
     public function original()
     {

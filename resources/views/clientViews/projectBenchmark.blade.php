@@ -30,7 +30,7 @@
                                             @foreach ($applications as $application)
                                             <tr class="filterByVendor" data-vendor="{{$application->vendor->name}}">
                                                 <th>{{$application->vendor->name}}</th>
-                                                <td>{{$application->totalScore()}}</td>
+                                                <td>{{$application->totalScore() ?? '-'}}</td>
                                             </tr>
                                             @endforeach
                                         </tbody>
@@ -105,7 +105,7 @@
                                                 <th>OVERALL SCORE</th>
                                                 @foreach ($applications as $application)
                                                 <th class="filterByVendor" data-vendor="{{$application->vendor->name}}">
-                                                    {{$application->totalScore()}}</th>
+                                                    {{$application->totalScore() ?? '-'}}</th>
                                                 @endforeach
                                             </tr class="table-dark">
                                         </tbody>

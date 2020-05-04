@@ -28,6 +28,7 @@ class SelectionCriteriaQuestion extends Question
         'fitgap' => 'Fitgap',
         'vendor_corporate' => 'Vendor - Corporate',
         'vendor_market' => 'Vendor - Market',
+        'experience' => 'Experience',
         'innovation_digitalEnablers' => 'Innovation - Digital Enablers',
         'innovation_alliances' => 'Innovation - Alliances',
         'innovation_product' => 'Innovation - Product',

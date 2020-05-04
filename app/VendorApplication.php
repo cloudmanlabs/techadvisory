@@ -35,11 +35,18 @@ class VendorApplication extends Model
 
     public function totalScore()
     {
-        return random_int(3, 8);
+        return collect([
+            $this->fitgapScore(),
+            $this->vendorScore(),
+            $this->experienceScore(),
+            $this->innovationScore(),
+            $this->implementationScore(),
+        ])->avg();
     }
 
     public function fitgapScore()
     {
+        // TODO Implement this after we do the actual fitgap
         return random_int(3, 8);
     }
 
@@ -65,22 +72,39 @@ class VendorApplication extends Model
 
     public function vendorScore()
     {
-        return random_int(3, 8);
+        return $this->project->selectionCriteriaQuestionsForVendor($this->vendor)->whereHas('original', function ($query) {
+            $query
+                ->where('page', 'vendor_corporate')
+                ->orWhere('page', 'vendor_market');
+        })->avg('score') ?? 0;
     }
 
     public function experienceScore()
     {
-        return random_int(3, 8);
+        return $this->project->selectionCriteriaQuestionsForVendor($this->vendor)->whereHas('original', function ($query) {
+            $query
+                ->where('page', 'experience');
+        })->avg('score') ?? 0;
     }
 
     public function innovationScore()
     {
-        return random_int(3, 8);
+        return $this->project->selectionCriteriaQuestionsForVendor($this->vendor)->whereHas('original', function ($query) {
+            $query
+                ->where('page', 'innovation_digitalEnablers')
+                ->orWhere('page', 'innovation_alliances')
+                ->orWhere('page', 'innovation_product')
+                ->orWhere('page', 'innovation_sustainability');
+        })->avg('score') ?? 0;
     }
 
     public function implementationScore()
     {
-        return random_int(3, 8);
+        return $this->project->selectionCriteriaQuestionsForVendor($this->vendor)->whereHas('original', function ($query) {
+            $query
+                ->where('page', 'implementation_implementation')
+                ->orWhere('page', 'implementation_run');
+        })->avg('score') ?? 0;
     }
 
     public function implementationMoney()
