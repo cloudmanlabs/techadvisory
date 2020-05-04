@@ -2,6 +2,7 @@
 
 namespace App;
 
+use Exception;
 use Illuminate\Database\Eloquent\Model;
 
 /**
@@ -29,8 +30,20 @@ class VendorApplication extends Model
 
     public function ranking()
     {
-        // TODO Implement the calculations here
-        return random_int(1, 8);
+        $applications = $this->project->vendorApplications->sortByDesc(function($application){
+            return $application->totalScore();
+        });
+
+        $rank = 1;
+        foreach ($applications as $key => $app) {
+            if($app->is($this)){
+                return $rank;
+            } else {
+                $rank++;
+            }
+        }
+
+        throw new Exception('This exception is literally impossible to reach. VendorApplication::ranking');
     }
 
     public function totalScore()
