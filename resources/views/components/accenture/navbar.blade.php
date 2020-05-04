@@ -130,7 +130,7 @@
                     </a>
                     <div class="submenu">
                         <ul class="submenu-item">
-                            <li class="category-heading">Benchmark & Analytics</li>
+                            <li class="category-heading">Client</li>
                             <li class="nav-item">
                                 <a class="nav-link" href="{{route('accenture.analysisVendor')}}">
                                     By Vendor
@@ -148,7 +148,18 @@
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="{{route('accenture.analysisOther')}}">
+                                    Custom Queries
+                                </a>
+                            </li>
+                            <li class="category-heading">Vendor</li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{route('accenture.analysisOther')}}">
                                     Other queries
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{route('accenture.analysisOther')}}">
+                                    Custom Queries
                                 </a>
                             </li>
                         </ul>
