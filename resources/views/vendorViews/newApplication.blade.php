@@ -93,6 +93,13 @@
                                         </div>
 
                                         <div class="form-group">
+                                            <label for="projectType">Project Type*</label>
+                                            <select class="form-control" id="projectType" disabled>
+                                                <x-options.projectType :selected="$project->projectType ?? ''" />
+                                            </select>
+                                        </div>
+
+                                        <div class="form-group">
                                             <label for="deadline">Deadline*</label>
                                             <div class="input-group date datepicker" data-initialValue="{{$project->deadline}}">
                                                 <input disabled id="deadline" value="{{$project->deadline}}" type="text" class="form-control">

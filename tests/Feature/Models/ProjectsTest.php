@@ -361,6 +361,26 @@ class ProjectsTest extends TestCase
         $this->assertTrue(in_array('latam', $project->regions));
     }
 
+    public function testCanChangeProjectTypeInProject()
+    {
+        $user = factory(User::class)->states('accenture')->create();
+
+        $project = factory(Project::class)->create();
+
+        $request = $this
+            ->actingAs($user)
+            ->post('/accenture/newProjectSetUp/changeProjectType', [
+                'project_id' => $project->id,
+                'value' => 'Business Case'
+            ]);
+
+        $request->assertOk();
+
+        $project->refresh();
+        $this->assertEquals('Business Case', $project->projectType);
+    }
+
+
     public function testCanChangeDeadlineInProject()
     {
         $this->withoutExceptionHandling();

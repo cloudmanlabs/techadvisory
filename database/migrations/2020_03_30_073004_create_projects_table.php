@@ -37,6 +37,7 @@ class CreateProjectsTable extends Migration
 
             $table->boolean('isBinding')->default(false);
             $table->string('industry')->nullable();
+            $table->string('projectType')->nullable();
             $table->string('regions')->nullable();
 
             $table->boolean('step3SubmittedAccenture')->default(false);

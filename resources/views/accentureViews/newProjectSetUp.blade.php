@@ -111,6 +111,13 @@
                                         </div>
 
                                         <div class="form-group">
+                                            <label for="projectType">Project Type*</label>
+                                            <select class="form-control" id="projectType" required>
+                                                <x-options.projectType :selected="$project->projectType ?? ''" />
+                                            </select>
+                                        </div>
+
+                                        <div class="form-group">
                                             <label for="deadline">Deadline*</label>
                                             <div class="input-group date datepicker" data-initialValue="{{$project->deadline}}">
                                                 <input required
@@ -623,6 +630,16 @@
         $('#regionSelect').change(function (e) {
             var value = $(this).val();
             $.post('/accenture/newProjectSetUp/changeRegions', {
+                project_id: '{{$project->id}}',
+                value
+            })
+
+            showSavedToast();
+            updateSubmitStep3();
+        });
+        $('#projectType').change(function (e) {
+            var value = $(this).val();
+            $.post('/accenture/newProjectSetUp/changeProjectType', {
                 project_id: '{{$project->id}}',
                 value
             })

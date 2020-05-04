@@ -45,13 +45,6 @@ class GeneralInfoQuestionSeeder extends Seeder
 
         factory(GeneralInfoQuestion::class)->create([
             'type' => 'selectSingle',
-            'label' => 'Project Type',
-            'placeholder' => 'Please select the Project Type',
-            'required' => true,
-            'presetOption' => 'projectTypes',
-        ]);
-        factory(GeneralInfoQuestion::class)->create([
-            'type' => 'selectSingle',
             'label' => 'Project Currency',
             'placeholder' => 'Please select the Project Currency',
             'required' => true,
