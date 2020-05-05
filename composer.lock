@@ -860,12 +860,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/guimcaballero/laravel-folders.git",
-                "reference": "ebd44004b9dc7e77477c907b22707fc3331d1a73"
+                "reference": "d3826ae2d8071d2951407f36b0fb4c97ceff0732"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/guimcaballero/laravel-folders/zipball/ebd44004b9dc7e77477c907b22707fc3331d1a73",
-                "reference": "ebd44004b9dc7e77477c907b22707fc3331d1a73",
+                "url": "https://api.github.com/repos/guimcaballero/laravel-folders/zipball/d3826ae2d8071d2951407f36b0fb4c97ceff0732",
+                "reference": "d3826ae2d8071d2951407f36b0fb4c97ceff0732",
                 "shasum": ""
             },
             "require": {
@@ -909,7 +909,7 @@
                 "guimcaballero",
                 "laravel-folders"
             ],
-            "time": "2020-05-05T07:14:23+00:00"
+            "time": "2020-05-05T10:15:45+00:00"
         },
         {
             "name": "guzzlehttp/guzzle",

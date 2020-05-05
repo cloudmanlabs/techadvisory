@@ -71,7 +71,7 @@
                                                     href="{{route('client.newProjectSetUp', ['project' => $project])}}">Complete <i
                                                         class="btn-icon-prepend" data-feather="arrow-right"></i></a>
                                                 <br>
-                                                @if ($project->hasValueTargeting)
+                                                @if ($project->hasValueTargeting && $project->hasValueTargetingFiles())
                                                 <a href="{{route('client.projectValueTargeting', ['project' => $project])}}">Value
                                                     targeting</a>
                                                 @endif

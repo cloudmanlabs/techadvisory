@@ -54,6 +54,15 @@ class Project extends Model
     {
         return $this->morphOne(Folder::class, 'folderable')->where('folderable_group', 'conclusions');
     }
+
+    public function hasValueTargetingFiles()
+    {
+        return
+            $this->selectedValueLeversFolder->hasFiles() ||
+            $this->businessOpportunityFolder->hasFiles() ||
+            $this->vtConclusionsFolder->hasFiles();
+    }
+
     public function selectedValueLeversFolder()
     {
         return $this->morphOne(Folder::class, 'folderable')->where('folderable_group', 'selectedValueLevers');
