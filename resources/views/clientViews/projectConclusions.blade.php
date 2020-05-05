@@ -20,31 +20,22 @@
                             </div>
                             <br><br>
 
-                            <p class="welcome_text extra-top-15px">In order to start using the Tech Advisory Platform, you'll need to follow some steps to complete your profile and set up your first project. Please check below the timeline and click "Let's start" when you are ready.</p>
+                            <p class="welcome_text extra-top-15px">
+                                In order to start using the Tech Advisory Platform, you'll need to follow some steps to complete your profile and set up your first project. Please check below the timeline and click "Let's start" when you are ready.
+                            </p>
                             <br>
                             <br>
                             <div class="row">
                                 <div class="col-12 col-md-12 col-xl-12">
-                                    <div class="card">
-                                        <img src="{{url("/assets/images/ConclusionsDemo/conclusions.jpg")}}" class="card-img-top card-shadow">
-                                        <div class="card-body">
-                                            <div style="text-align: center; margin-top: 5px;"><a href="#" class="btn btn-primary">View / Download</a></div>
-                                        </div>
-                                    </div>
+                                    <x-folderFileUploader :folder="$project->conclusionsFolder" />
                                 </div>
-
                             </div>
-
                         </div>
                     </div>
                 </div>
             </div>
-
             <br><br>
-
-
         </div>
-
 
         <x-footer />
     </div>

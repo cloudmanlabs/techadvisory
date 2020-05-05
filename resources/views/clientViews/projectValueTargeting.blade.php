@@ -41,61 +41,8 @@
                                 <p class="welcome_text extra-top-15px">In order to start using the Tech Advisory Platform, you'll need to follow some steps to complete your profile and set up your first project. Please check below the timeline and click "Let's start" when you are ready.</p>
                                 <br>
                                 <br>
-                                <div class="row">
-                                    <div class="col-12 col-md-6 col-xl-4">
-                                        <div class="card">
-                                            <img src="{{url('/assets/images/DiscoveryWeekDemo/VL1.jpg')}}" class="card-img-top card-shadow">
-                                            <div class="card-body">
-                                                <h5 class="card-title">Palletization</h5>
-                                                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                                                <div style="text-align: center; margin-top: 5px;"><a href="#" class="btn btn-primary">View / Download</a></div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-12 col-md-6 col-xl-4">
-                                        <div class="card">
-                                            <img src="{{url('/assets/images/DiscoveryWeekDemo/VL2.jpg')}}" class="card-img-top card-shadow">
-                                            <div class="card-body">
-                                                <h5 class="card-title">Carrier Selection</h5>
-                                                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                                                <div style="text-align: center; margin-top: 5px;"><a href="#" class="btn btn-primary">View / Download</a></div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-12 col-md-6 col-xl-4">
-                                        <div class="card">
-                                            <img src="{{url('/assets/images/DiscoveryWeekDemo/VL3.jpg')}}" class="card-img-top card-shadow">
-                                            <div class="card-body">
-                                                <h5 class="card-title">Direct Shipment</h5>
-                                                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                                                <div style="text-align: center; margin-top: 5px;"><a href="#" class="btn btn-primary">View / Download</a></div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <br><br>
-                                <div class="row">
-                                    <div class="col-12 col-md-6 col-xl-4">
-                                        <div class="card">
-                                            <img src="{{url('/assets/images/DiscoveryWeekDemo/VL4.jpg')}}" class="card-img-top card-shadow">
-                                            <div class="card-body">
-                                                <h5 class="card-title">Triangular Movements</h5>
-                                                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                                                <div style="text-align: center; margin-top: 5px;"><a href="#" class="btn btn-primary">View / Download</a></div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-12 col-md-6 col-xl-4">
-                                        <div class="card">
-                                            <img src="{{url('/assets/images/DiscoveryWeekDemo/VL5.jpg')}}" class="card-img-top card-shadow">
-                                            <div class="card-body">
-                                                <h5 class="card-title">Shipment Scheduler</h5>
-                                                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                                                <div style="text-align: center; margin-top: 5px;"><a href="#" class="btn btn-primary">View / Download</a></div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+
+                                <x-folderFileUploader :folder="$project->selectedValueLeversFolder" />
 
                                 <br><br><br>
 
@@ -103,30 +50,8 @@
                                 <p class="welcome_text extra-top-15px">In order to start using the Tech Advisory Platform, you'll need to follow some steps to complete your profile and set up your first project. Please check below the timeline and click "Let's start" when you are ready.</p>
                                 <br>
                                 <br>
-                                <div class="row">
-                                    <div class="col-12 col-md-6 col-xl-6">
-                                        <div class="card">
-                                            <img src="{{url('/assets/images/DiscoveryWeekDemo/BO1.jpg')}}" class="card-img-top card-shadow">
-                                            <div class="card-body">
-                                                <h5 class="card-title">ABInBev - Global Transport Transformation</h5>
-                                                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                                                <div style="text-align: center; margin-top: 5px;"><a href="#" class="btn btn-primary">View / Download</a></div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-12 col-md-6 col-xl-6">
-                                        <div class="card">
-                                            <img src="{{url('/assets/images/DiscoveryWeekDemo/BO2.jpg')}}" class="card-img-top card-shadow">
-                                            <div class="card-body">
-                                                <h5 class="card-title">Implementation Journey</h5>
-                                                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                                                <div style="text-align: center; margin-top: 5px;"><a href="#" class="btn btn-primary">View / Download</a></div>
-                                            </div>
-                                        </div>
-                                    </div>
 
-                                </div>
-
+                                <x-folderFileUploader :folder="$project->businessOpportunityFolder" />
 
                                 <br><br><br>
 
@@ -134,18 +59,7 @@
                                 <p class="welcome_text extra-top-15px">In order to start using the Tech Advisory Platform, you'll need to follow some steps to complete your profile and set up your first project. Please check below the timeline and click "Let's start" when you are ready.</p>
                                 <br>
                                 <br>
-                                <div class="row">
-                                    <div class="col-12 col-md-12 col-xl-12">
-                                        <div class="card">
-                                            <img src="{{url('/assets/images/DiscoveryWeekDemo/outcomes.jpg')}}" class="card-img-top card-shadow">
-                                            <div class="card-body">
-                                                <h5 class="card-title">DISCOVERY WEEK OUTCOMES – INDIA| Nov, 22th </h5>
-                                                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                                                <div style="text-align: center; margin-top: 5px;"><a href="#" class="btn btn-primary">View / Download</a></div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+                                <x-folderFileUploader :folder="$project->vtConclusionsFolder" />
 
                                 <div style="float: right; margin-top: 20px;">
                                     <a class="btn btn-primary btn-lg btn-icon-text" href="{{route('client.projectHome', ['project' => $project])}}">

@@ -49,13 +49,8 @@
                                     first project. Please check below the timeline and click "Let's start" when you are
                                     ready.</p>
                                 <br>
-                                <div class="form-group">
-                                    <label for="exampleInputText1">Upload Value Levers</label>
+                                <x-folderFileUploader :folder="$project->selectedValueLeversFolder" />
 
-                                    <form action="/file-upload" class="dropzone" id="exampleDropzone"
-                                        name="exampleDropzone">
-                                    </form>
-                                </div>
                                 <br><br><br>
 
                                 <h3>Business Opportunity Details</h3>
@@ -64,15 +59,7 @@
                                     first project. Please check below the timeline and click "Let's start" when you are
                                     ready.</p>
                                 <br>
-                                <div class="form-group">
-                                    <label for="exampleInputText1">Upload Opportunity Details</label>
-
-                                    <form action="/file-upload" class="dropzone" id="exampleDropzone"
-                                        name="exampleDropzone">
-                                    </form>
-                                </div>
-
-
+                                <x-folderFileUploader :folder="$project->businessOpportunityFolder" />
 
                                 <br><br><br>
 
@@ -82,16 +69,7 @@
                                     first project. Please check below the timeline and click "Let's start" when you are
                                     ready.</p>
                                 <br>
-                                <div class="form-group">
-                                    <label for="exampleInputText1">Upload Conclusions</label>
-
-                                    <form action="/file-upload" class="dropzone" id="exampleDropzone"
-                                        name="exampleDropzone">
-                                    </form>
-                                </div>
-
-
-
+                                <x-folderFileUploader :folder="$project->vtConclusionsFolder" />
 
                                 <div style="float: right; margin-top: 20px;">
                                     <a class="btn btn-primary btn-lg btn-icon-text" href="accenture_project_home.html">

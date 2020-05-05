@@ -11,6 +11,7 @@ use App\SelectionCriteriaQuestionResponse;
 use App\SizingQuestion;
 use App\SizingQuestionResponse;
 use Carbon\Carbon;
+use Guimcaballero\LaravelFolders\Models\Folder;
 use Illuminate\Support\Facades\Log;
 
 class ProjectObserver
@@ -53,6 +54,12 @@ class ProjectObserver
             ]);
             $response->save();
         }
+
+        // Create all the folders
+        $project->conclusionsFolder()->save(Folder::createNewRandomFolder('conclusions'));
+        $project->selectedValueLeversFolder()->save(Folder::createNewRandomFolder('selectedValueLevers'));
+        $project->businessOpportunityFolder()->save(Folder::createNewRandomFolder('businessOpportunity'));
+        $project->vtConclusionsFolder()->save(Folder::createNewRandomFolder('vtConclusions'));
     }
 
     // public function deleting(Project $project)

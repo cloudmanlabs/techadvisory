@@ -52,19 +52,19 @@ class Project extends Model
 
     public function conclusionsFolder()
     {
-        return $this->morphOne(Folder::class, 'folderable');
+        return $this->morphOne(Folder::class, 'folderable')->where('folderable_group', 'conclusions');
     }
     public function selectedValueLeversFolder()
     {
-        return $this->morphOne(Folder::class, 'folderable');
+        return $this->morphOne(Folder::class, 'folderable')->where('folderable_group', 'selectedValueLevers');
     }
     public function businessOpportunityFolder()
     {
-        return $this->morphOne(Folder::class, 'folderable');
+        return $this->morphOne(Folder::class, 'folderable')->where('folderable_group', 'businessOpportunity');
     }
     public function vtConclusionsFolder()
     {
-        return $this->morphOne(Folder::class, 'folderable');
+        return $this->morphOne(Folder::class, 'folderable')->where('folderable_group', 'vtConclusions');
     }
 
     public function practice()

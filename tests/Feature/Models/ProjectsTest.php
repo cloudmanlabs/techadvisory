@@ -74,24 +74,9 @@ class ProjectsTest extends TestCase
         $this->assertCount(0, Project::oldProjects()->get());
     }
 
-    public function testCanAddFoldersToProject()
+    public function testObserverAddsFoldersToProject()
     {
-        $folder = Folder::createNewRandomFolder();
-        $folder1 = Folder::createNewRandomFolder();
-        $folder2 = Folder::createNewRandomFolder();
-        $folder3 = Folder::createNewRandomFolder();
-
         $project = factory(Project::class)->create();
-
-        $this->assertNull($project->conclusionsFolder);
-        $this->assertNull($project->selectedValueLeversFolder);
-        $this->assertNull($project->businessOpportunityFolder);
-        $this->assertNull($project->vtConclusionsFolder);
-
-        $project->conclusionsFolder = $folder;
-        $project->selectedValueLeversFolder = $folder1;
-        $project->businessOpportunityFolder = $folder2;
-        $project->vtConclusionsFolder = $folder3;
 
         $this->assertNotNull($project->conclusionsFolder);
         $this->assertNotNull($project->selectedValueLeversFolder);

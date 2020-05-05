@@ -20,23 +20,20 @@
                                 <div style="float: left;">
                                     <h3>Project conclusions</h3>
                                 </div>
+
                                 <br><br>
 
-                                <p class="welcome_text extra-top-15px">In order to start using the Tech Advisory
+                                <p class="welcome_text extra-top-15px">
+                                    In order to start using the Tech Advisory
                                     Platform, you'll need to follow some steps to complete your profile and set up your
                                     first project. Please check below the timeline and click "Let's start" when you are
-                                    ready.</p>
+                                    ready.
+                                </p>
                                 <br>
                                 <br>
                                 <div class="row">
                                     <div class="col-12 col-md-12 col-xl-12">
-                                        <div class="form-group">
-                                            <label for="exampleInputText1">Upload files</label>
-
-                                            <form action="/file-upload" class="dropzone" id="exampleDropzone" name="exampleDropzone" disabled
-                                                aria-disabled="true">
-                                            </form>
-                                        </div>
+                                        <x-folderFileUploader :folder="$project->conclusionsFolder" />
                                     </div>
                                 </div>
                             </div>
