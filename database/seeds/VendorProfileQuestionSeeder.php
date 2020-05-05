@@ -14,6 +14,46 @@ class VendorProfileQuestionSeeder extends Seeder
     {
         factory(VendorProfileQuestion::class)->create([
             'page' => 'general',
+            'label' => 'Vendor segment',
+            'type' => 'selectSingle',
+            'presetOption' => 'custom',
+            'options' => 'Megasuite, SCM suite, Specific solution',
+
+            'fixed' => true,
+            'fixedQuestionIdentifier' => 'vendorSegment',
+        ]);
+        factory(VendorProfileQuestion::class)->create([
+            'page' => 'general',
+            'label' => 'Geographies with solution implementations',
+            'type' => 'selectMultiple',
+            'presetOption' => 'regions',
+
+            'fixed' => true,
+            'fixedQuestionIdentifier' => 'vendorRegions',
+        ]);
+        factory(VendorProfileQuestion::class)->create([
+            'page' => 'general',
+            'label' => 'Industry Experience',
+            'type' => 'selectSingle',
+            'presetOption' => 'industryExperience',
+
+            'fixed' => true,
+            'fixedQuestionIdentifier' => 'vendorIndustry',
+        ]);
+        factory(VendorProfileQuestion::class)->create([
+            'page' => 'general',
+            'label' => 'Practice',
+            'type' => 'selectSingle',
+            'presetOption' => 'practices',
+
+            'fixed' => true,
+            'fixedQuestionIdentifier' => 'vendorPractice',
+        ]);
+
+
+
+        factory(VendorProfileQuestion::class)->create([
+            'page' => 'general',
             'label' => 'Vendor contact role',
             'type' => 'text',
         ]);
@@ -77,14 +117,6 @@ class VendorProfileQuestionSeeder extends Seeder
 
         factory(VendorProfileQuestion::class)->create([
             'page' => 'general',
-            'label' => 'Vendor segment',
-            'type' => 'selectSingle',
-            'presetOption' => 'custom',
-            'options' =>'Megasuite, SCM suite, Specific solution'
-        ]);
-
-        factory(VendorProfileQuestion::class)->create([
-            'page' => 'general',
             'label' => 'Number of employees',
             'type' => 'selectSingle',
             'presetOption' => 'custom',
@@ -96,18 +128,6 @@ class VendorProfileQuestionSeeder extends Seeder
             'label' => 'Number of employees in R&D',
             'type' => 'number',
             'placeholder' => 'Enter number',
-        ]);
-        factory(VendorProfileQuestion::class)->create([
-            'page' => 'general',
-            'label' => 'Geographies with solution implementations',
-            'type' => 'selectMultiple',
-            'presetOption' => 'regions',
-        ]);
-        factory(VendorProfileQuestion::class)->create([
-            'page' => 'general',
-            'label' => 'Industry Experience',
-            'type' => 'selectSingle',
-            'presetOption' => 'industryExperience',
         ]);
 
         factory(VendorProfileQuestion::class)->create([

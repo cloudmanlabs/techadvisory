@@ -160,4 +160,56 @@ class VendorProfileQuestionsTest extends TestCase
         $qResponse->refresh();
         $this->assertNull($qResponse->response);
     }
+
+    public function testCanCreateFixedQuestion()
+    {
+        $this->assertCount(0, VendorProfileQuestion::all());
+
+        $question = new VendorProfileQuestion([
+            'label' => 'How are you?',
+            'type' => 'text',
+
+            'fixed' => true,
+            'fixedQuestionIdentifier' => 'vendorPractice',
+        ]);
+        $question->save();
+
+        $this->assertCount(1, VendorProfileQuestion::all());
+    }
+
+    public function testCanGetFixedQuestionFromVendor()
+    {
+        factory(VendorProfileQuestion::class)->create([
+            'page' => 'general',
+            'label' => 'Practice',
+            'type' => 'selectSingle',
+            'presetOption' => 'practices',
+
+            'fixed' => true,
+            'fixedQuestionIdentifier' => 'vendorPractice',
+        ]);
+        $vendor = factory(User::class)->states(['vendor', 'finishedSetup'])->create();
+
+        // Set a response
+        $response = VendorProfileQuestionResponse::first();
+        $response->response = 'hello';
+        $response->save();
+
+        $this->assertEquals('hello', $vendor->getVendorResponse('vendorPractice'));
+    }
+
+    public function testAQuestionNotAnsweredReturnsTheDefaultValue()
+    {
+        factory(VendorProfileQuestion::class)->create([
+            'page' => 'general',
+            'label' => 'Practice',
+            'type' => 'selectSingle',
+            'presetOption' => 'practices',
+
+            'fixed' => true,
+            'fixedQuestionIdentifier' => 'vendorPractice',
+        ]);
+        $vendor = factory(User::class)->states(['vendor', 'finishedSetup'])->create();
+        $this->assertEquals('default', $vendor->getVendorResponse('vendorPractice', 'default'));
+    }
 }

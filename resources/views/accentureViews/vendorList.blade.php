@@ -28,7 +28,7 @@
                                             class="btn-icon-prepend" data-feather="arrow-right"></i></a>
                                         </div>
                                         <div style="float: right; width: 20%; margin-right: 10%;">
-                                            <h5>Segment name</h5>
+                                            <h5>{{$vendor->getVendorResponse('vendorSegment', '-')}}</h5>
                                         </div>
                                         <div style="float: right; width: 10%; margin-right: 10%;">
                                             <img alt="profile" src="{{url($vendor->logo ? ('/storage/' . $vendor->logo) : '/assets/images/user.png')}}" style="height: 20px">
@@ -61,7 +61,7 @@
                                                 href="{{route('accenture.vendorValidateResponses', ['vendor' => $vendor])}}">Validate</a>
                                         </div>
                                         <div style="float: right; width: 20%; margin-right: 10%;">
-                                            <h5>Segment name</h5>
+                                            <h5>{{$vendor->getVendorResponse('vendorSegment', '-')}}</h5>
                                         </div>
                                         <div style="float: right; width: 10%; margin-right: 10%;">
                                             <img alt="profile" src="{{url($vendor->logo ? ('/storage/' . $vendor->logo) : '/assets/images/user.png')}}"

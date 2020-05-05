@@ -25,6 +25,9 @@ class CreateVendorProfileQuestionsTable extends Migration
             $table->string('options')->nullable();
 
             $table->string('page')->default('general');
+
+            $table->boolean('fixed')->default(false);
+            $table->string('fixedQuestionIdentifier')->nullable();
         });
     }
 

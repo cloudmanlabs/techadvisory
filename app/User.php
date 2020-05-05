@@ -84,6 +84,15 @@ class User extends Authenticatable
         return $this->hasMany(VendorApplication::class, 'vendor_id');
     }
 
+    public function getVendorResponse(string $identifier, $default = null)
+    {
+        $response = $this->vendorProfileQuestions()->whereHas('original', function ($query) use ($identifier) {
+            $query->where('fixed', true)->where('fixedQuestionIdentifier', $identifier);
+        })->first();
+
+        return $response->response ?? $default;
+    }
+
     /**
      * Returns the project this vendor has applied to
      *

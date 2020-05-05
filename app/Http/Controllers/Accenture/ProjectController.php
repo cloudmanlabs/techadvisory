@@ -577,7 +577,8 @@ class ProjectController extends Controller
         }
 
         return view('accentureViews.projectOrals', [
-            'project' => $project
+            'project' => $project,
+            'vendors' => $project->vendorsApplied()->get(),
         ]);
     }
 

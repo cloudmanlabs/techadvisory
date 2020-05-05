@@ -51,7 +51,7 @@
                                             placeholder="Location" required>
                                     </div>
                                 </div>
-                                <br> <br>
+                                <br>
                                 <label for="exampleFormControlSelect1">From Date</label>
                                 <div class="input-group date datepicker" id="datePicker1">
                                     <input type="text" class="form-control"><span class="input-group-addon"><i
@@ -83,9 +83,10 @@
                                             </tr>
                                         </thead>
                                         <tbody>
+                                            @foreach ($vendors as $vendor)
                                             <tr>
-                                                <td>Vendor 1</td>
-                                                <td>Segment 1</td>
+                                                <td>{{$vendor->name}}</td>
+                                                <td>{{$vendor->getVendorResponse('vendorSegment', '-')}}</td>
                                                 <td>
                                                     <input type="checkbox" name="dfas" id="afs" checked>
                                                 </td>
@@ -93,36 +94,7 @@
                                                     <input type="checkbox" name="dfas" id="afs">
                                                 </td>
                                             </tr>
-                                            <tr>
-                                                <td>Vendor 2</td>
-                                                <td>Segment 1</td>
-                                                <td>
-                                                    <input type="checkbox" name="dfas" id="afs" checked>
-                                                </td>
-                                                <td>
-                                                    <input type="checkbox" name="dfas" id="afs">
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>Vendor 3</td>
-                                                <td>Segment 1</td>
-                                                <td>
-                                                    <input type="checkbox" name="dfas" id="afs" checked>
-                                                </td>
-                                                <td>
-                                                    <input type="checkbox" name="dfas" id="afs" checked>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>Vendor 4</td>
-                                                <td>Segment 1</td>
-                                                <td>
-                                                    <input type="checkbox" name="dfas" id="afs">
-                                                </td>
-                                                <td>
-                                                    <input type="checkbox" name="dfas" id="afs">
-                                                </td>
-                                            </tr>
+                                            @endforeach
                                         </tbody>
                                     </table>
                                 </div>
