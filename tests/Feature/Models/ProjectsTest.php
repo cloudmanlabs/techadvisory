@@ -240,6 +240,26 @@ class ProjectsTest extends TestCase
         $this->assertEquals(1, $project->hasValueTargeting);
     }
 
+    public function testCanChangeHasOralsInProject()
+    {
+        $user = factory(User::class)->states('accenture')->create();
+        $project = factory(Project::class)->create([
+            'hasOrals' => false
+        ]);
+
+        $request = $this
+            ->actingAs($user)
+            ->post('/accenture/newProjectSetUp/changeProjectHasOrals', [
+                'project_id' => $project->id,
+                'value' => 'yes'
+            ]);
+
+        $request->assertOk();
+
+        $project->refresh();
+        $this->assertEquals(1, $project->hasOrals);
+    }
+
     public function testCanChangeIsBindingInProject()
     {
         $user = factory(User::class)->states('accenture')->create();

@@ -128,6 +128,27 @@ class ProjectController extends Controller
         ]);
     }
 
+    public function changeProjectHasOrals(Request $request)
+    {
+        $request->validate([
+            'project_id' => 'required|numeric',
+            'value' => 'required|string'
+        ]);
+
+        $project = Project::find($request->project_id);
+        if ($project == null) {
+            abort(404);
+        }
+
+        $project->hasOrals = $request->value === 'yes';
+        $project->save();
+
+        return \response()->json([
+            'status' => 200,
+            'message' => 'Success'
+        ]);
+    }
+
     public function changeProjectIsBinding(Request $request)
     {
         $request->validate([

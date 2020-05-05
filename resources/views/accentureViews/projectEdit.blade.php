@@ -60,6 +60,15 @@
                                         </div>
 
                                         <div class="form-group">
+                                            <label for="oralsSelect">Orals*</label>
+                                            <select class="form-control" id="oralsSelect" required>
+                                                <option disabled="">Please select an option</option>
+                                                <option value="yes" @if($project->hasOrals) selected @endif>Yes</option>
+                                                <option value="no" @if(!$project->hasOrals) selected @endif>No</option>
+                                            </select>
+                                        </div>
+
+                                        <div class="form-group">
                                             <label for="bindingOption">Binding/Non-binding*</label>
                                             <select class="form-control" id="bindingOption" required>
                                                 <option disabled="">Please select the Project Type</option>
@@ -512,6 +521,17 @@
         $('#valueTargeting').change(function (e) {
             var value = $(this).val();
             $.post('/accenture/newProjectSetUp/changeProjectHasValueTargeting', {
+                project_id: '{{$project->id}}',
+                value
+            })
+
+            showSavedToast();
+            updateSubmitButton();
+        });
+
+        $('#oraslsSelect').change(function (e) {
+            var value = $(this).val();
+            $.post('/accenture/newProjectSetUp/changeProjectHasOrals', {
                 project_id: '{{$project->id}}',
                 value
             })

@@ -52,6 +52,7 @@ Route::prefix('client')
                         ->name('newProjectSetUp');
                     Route::post('/newProjectSetUp/changeProjectName', 'ProjectController@changeProjectName');
                     Route::post('/newProjectSetUp/changeProjectHasValueTargeting', 'ProjectController@changeProjectHasValueTargeting');
+                    Route::post('/newProjectSetUp/changeProjectHasOrals', 'ProjectController@changeProjectHasOrals');
                     Route::post('/newProjectSetUp/changeProjectIsBinding', 'ProjectController@changeProjectIsBinding');
                     Route::post('/newProjectSetUp/changePractice', 'ProjectController@changePractice');
                     Route::post('/newProjectSetUp/changeSubpractice', 'ProjectController@changeSubpractice');

@@ -49,16 +49,25 @@
                                         <div class="form-group">
                                             <label for="valueTargeting">Value Targeting*</label>
                                             <select class="form-control" id="valueTargeting" disabled>
-                                                <option disabled="">Please select the Project Type</option>
+                                                <option disabled="">Please select an option</option>
                                                 <option value="yes" @if($project->hasValueTargeting) selected @endif>Yes</option>
                                                 <option value="no" @if(!$project->hasValueTargeting) selected @endif>No</option>
                                             </select>
                                         </div>
 
                                         <div class="form-group">
+                                            <label for="oralsSelect">Orals*</label>
+                                            <select class="form-control" id="oralsSelect" disabled>
+                                                <option disabled="">Please select an option</option>
+                                                <option value="yes" @if($project->hasOrals) selected @endif>Yes</option>
+                                                <option value="no" @if(!$project->hasOrals) selected @endif>No</option>
+                                            </select>
+                                        </div>
+
+                                        <div class="form-group">
                                             <label for="bindingOption">Binding/Non-binding*</label>
                                             <select class="form-control" id="bindingOption" disabled>
-                                                <option disabled="">Please select the Project Type</option>
+                                                <option disabled="">Please select an option</option>
                                                 <option value="yes" @if($project->isBinding) selected @endif>Binding</option>
                                                 <option value="no" @if(!$project->isBinding) selected @endif>Non-binding</option>
                                             </select>

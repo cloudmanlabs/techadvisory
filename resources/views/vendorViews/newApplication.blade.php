@@ -52,6 +52,15 @@
                                         </div>
 
                                         <div class="form-group">
+                                            <label for="oralsSelect">Orals*</label>
+                                            <select class="form-control" id="oralsSelect" disabled>
+                                                <option disabled="">Please select an option</option>
+                                                <option value="yes" @if($project->hasOrals) selected @endif>Yes</option>
+                                                <option value="no" @if(!$project->hasOrals) selected @endif>No</option>
+                                            </select>
+                                        </div>
+
+                                        <div class="form-group">
                                             <label for="bindingOption">Binding/Non-binding*</label>
                                             <select class="form-control" id="bindingOption" disabled>
                                                 <option disabled="">Please select the Project Type</option>
