@@ -36,7 +36,7 @@
 
                                         <div class="form-group">
                                             <label for="exampleInputEmail1">Email address</label>
-                                            <input class="form-control" name="email" placeholder="Email" type="email">
+                                            <input required class="form-control" name="email" placeholder="Email" type="email">
                                             @if ($errors->has('email'))
                                                 <span class="invalid-feedback" style="display: block;" role="alert">
                                                     <strong>{{ $errors->first('email') }}</strong>
@@ -47,7 +47,7 @@
 
                                         <div class="form-group">
                                             <label for="exampleInputPassword1">Password</label>
-                                            <input autocomplete="current-password" class="form-control" name="password" placeholder="Password" type="password">
+                                            <input required autocomplete="current-password" class="form-control" name="password" placeholder="Password" type="password">
                                             @if ($errors->has('password'))
                                             <span class="invalid-feedback" style="display: block;" role="alert">
                                                 <strong>{{ $errors->first('password') }}</strong>
@@ -59,6 +59,13 @@
                                         <div class="form-check form-check-flat form-check-primary">
                                             <label class="form-check-label">
                                                 <input class="form-check-input" name="remember" type="checkbox"> Remember me</label>
+                                        </div>
+
+                                        <div class="form-check form-check-flat form-check-primary">
+                                            <label class="form-check-label">
+                                                <input class="form-check-input" type="checkbox" name="remember" required>
+                                                I accept the terms and conditions
+                                            </label>
                                         </div>
 
                                         <a href="{{route('password.request')}}" class="purpleColor">I forgot my

@@ -34,7 +34,7 @@
                                         @csrf
                                         <div class="form-group">
                                             <label for="exampleInputEmail1">Email address</label>
-                                            <input class="form-control" name="email" placeholder="Email" type="email">
+                                            <input class="form-control" name="email" placeholder="Email" type="email" required>
                                             @if ($errors->has('email'))
                                                 <span class="invalid-feedback" style="display: block;" role="alert">
                                                     <strong>{{ $errors->first('email') }}</strong>
@@ -44,7 +44,7 @@
 
                                         <div class="form-group">
                                             <label for="exampleInputPassword1">Password</label>
-                                            <input autocomplete="current-password" class="form-control" name="password" placeholder="Password" type="password">
+                                            <input autocomplete="current-password" class="form-control" name="password" placeholder="Password" type="password" required>
                                             @if ($errors->has('password'))
                                             <span class="invalid-feedback" style="display: block;" role="alert">
                                                 <strong>{{ $errors->first('password') }}</strong>
