@@ -116,3 +116,32 @@
     </div>
 @endsection
 
+@section('head')
+@parent
+
+<style>
+    select.form-control {
+        color: #495057;
+    }
+</style>
+@endsection
+
+
+@section('scripts')
+@parent
+<script>
+    $(document).ready(function() {
+        $('.datepicker').each(function(){
+            var date = new Date($(this).data('initialvalue'));
+
+            $(this).datepicker({
+                format: "mm/dd/yyyy",
+                todayHighlight: true,
+                autoclose: true
+            });
+            $(this).datepicker('setDate', date);
+        });
+    });
+</script>
+@endsection
+

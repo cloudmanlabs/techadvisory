@@ -41,31 +41,37 @@
                     <div class="col-lg-12 grid-margin stretch-card">
                         <div class="card">
                             <div class="card-body">
-                                <h3>Session details</h3>
-                                <div class="form-group">
+                                @if ($application->invitedToOrals)
+                                    <h3>Session details</h3>
                                     <div class="form-group">
-                                        <label for="exampleInputText1">Location</label>
-                                        <input type="text" class="form-control" id="exampleInputText1"
-                                            value="Barcelona" disabled>
+                                        <div class="form-group">
+                                            <label for="exampleInputText1">Location</label>
+                                            <input type="text" class="form-control" id="exampleInputText1"
+                                                value="{{$project->oralsLocation}}" disabled>
+                                        </div>
                                     </div>
-                                </div>
-                                <br> <br>
-                                <label for="exampleFormControlSelect1">From Date</label>
-                                <div class="input-group date datepicker" id="datePicker1">
-                                    <input type="text" class="form-control" disabled>
-                                    <span class="input-group-addon">
-                                        <i data-feather="calendar"></i>
-                                    </span>
-                                </div>
-                                <br> <br>
-                                <label for="exampleFormControlSelect1">To Date</label>
-                                <div class="input-group date datepicker" id="datePicker2">
-                                    <input type="text" class="form-control" disabled>
-                                    <span class="input-group-addon">
-                                        <i data-feather="calendar"></i>
-                                    </span>
-                                </div>
-                                <br><br><br>
+                                    <br> <br>
+                                    <label for="exampleFormControlSelect1">From Date</label>
+                                    <div class="input-group date datepicker" id="datePicker1" data-initialvalue="{{$project->oralsFromDate}}">
+                                        <input type="text" class="form-control" disabled value="{{$project->oralsFromDate}}">
+                                        <span class="input-group-addon">
+                                            <i data-feather="calendar"></i>
+                                        </span>
+                                    </div>
+                                    <br> <br>
+                                    <label for="exampleFormControlSelect1">To Date</label>
+                                    <div class="input-group date datepicker" id="datePicker2" data-initialvalue="{{$project->oralsToDate}}">
+                                        <input type="text" class="form-control" disabled value="{{$project->oralsToDate}}">
+                                        <span class="input-group-addon">
+                                            <i data-feather="calendar"></i>
+                                        </span>
+                                    </div>
+                                    <br><br>
+                                @else
+                                    <h3>You haven't been invited to Orals</h3>
+                                @endif
+
+                                <br>
 
                                 <div style="float: right; margin-top: 20px;">
                                     <a class="btn btn-primary btn-lg btn-icon-text" href="{{route('vendor.newApplication', ['project' => $project])}}">
@@ -84,3 +90,31 @@
     </div>
 @endsection
 
+@section('head')
+@parent
+
+<style>
+    select.form-control {
+        color: #495057;
+    }
+</style>
+@endsection
+
+
+@section('scripts')
+@parent
+<script>
+    $(document).ready(function() {
+        $('.datepicker').each(function(){
+            var date = new Date($(this).data('initialvalue'));
+
+            $(this).datepicker({
+                format: "mm/dd/yyyy",
+                todayHighlight: true,
+                autoclose: true
+            });
+            $(this).datepicker('setDate', date);
+        });
+    });
+</script>
+@endsection

@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Practice;
 use App\Project;
 use App\User;
+use Illuminate\Support\Facades\Log;
 
 class HomeController extends Controller
 {

@@ -141,7 +141,13 @@ class ProjectController extends Controller
     {
         /** @var User $vendor */
         $vendor = auth()->user();
-        if (!$vendor->hasAppliedToProject($project)) {
+
+        $application = VendorApplication::where([
+            'project_id' => $project->id,
+            'vendor_id' => $vendor->id
+        ])->first();
+
+        if ($application == null) {
             abort(404);
         }
 
@@ -150,7 +156,8 @@ class ProjectController extends Controller
         }
 
         return view('vendorViews.newApplicationOrals', [
-            'project' => $project
+            'project' => $project,
+            'application' => $application
         ]);
     }
 
