@@ -46,22 +46,22 @@
                                 <div class="form-group">
                                     <div class="form-group">
                                         <label for="exampleInputText1">Location</label>
-                                        <input type="text" class="form-control" id="exampleInputText1"
+                                        <input value="{{$project->oralsLocation}}" type="text" class="form-control" id="exampleInputText1"
                                             value="Barcelona" disabled>
                                     </div>
                                 </div>
                                 <br> <br>
                                 <label for="exampleFormControlSelect1">From Date</label>
-                                <div class="input-group date datepicker" id="datePicker1">
-                                    <input type="text" class="form-control" disabled>
+                                <div class="input-group date datepicker" id="datePicker1" data-initialvalue="{{$project->oralsFromDate}}">
+                                    <input type="text" class="form-control" disabled value="{{$project->oralsFromDate}}">
                                     <span class="input-group-addon">
                                         <i data-feather="calendar"></i>
                                     </span>
                                 </div>
                                 <br> <br>
                                 <label for="exampleFormControlSelect1">To Date</label>
-                                <div class="input-group date datepicker" id="datePicker2">
-                                    <input type="text" class="form-control" disabled>
+                                <div class="input-group date datepicker" id="datePicker2" data-initialvalue="{{$project->oralsToDate}}">
+                                    <input type="text" class="form-control" disabled value="{{$project->oralsToDate}}">
                                     <span class="input-group-addon">
                                         <i data-feather="calendar"></i>
                                     </span>
@@ -81,46 +81,20 @@
                                             </tr>
                                         </thead>
                                         <tbody>
+                                            @foreach ($applications as $application)
                                             <tr>
-                                                <td>Vendor 1</td>
-                                                <td>Segment 1</td>
+                                                <td>{{$application->vendor->name}}</td>
+                                                <td>{{$application->vendor->getVendorResponse('vendorSegment', '-')}}</td>
                                                 <td>
-                                                    <input disabled type="checkbox" name="dfas" id="afs" checked>
+                                                    <input disabled type="checkbox" class="invitedToOrals"
+                                                        {{$application->invitedToOrals ? 'checked' : ''}}>
                                                 </td>
                                                 <td>
-                                                    <input disabled type="checkbox" name="dfas" id="afs">
+                                                    <input disabled type="checkbox" class="oralsCompleted"
+                                                        {{$application->oralsCompleted ? 'checked' : ''}}>
                                                 </td>
                                             </tr>
-                                            <tr>
-                                                <td>Vendor 2</td>
-                                                <td>Segment 1</td>
-                                                <td>
-                                                    <input disabled type="checkbox" name="dfas" id="afs" checked>
-                                                </td>
-                                                <td>
-                                                    <input disabled type="checkbox" name="dfas" id="afs">
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>Vendor 3</td>
-                                                <td>Segment 1</td>
-                                                <td>
-                                                    <input disabled type="checkbox" name="dfas" id="afs" checked>
-                                                </td>
-                                                <td>
-                                                    <input disabled type="checkbox" name="dfas" id="afs" checked>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>Vendor 4</td>
-                                                <td>Segment 1</td>
-                                                <td>
-                                                    <input disabled type="checkbox" name="dfas" id="afs">
-                                                </td>
-                                                <td>
-                                                    <input disabled type="checkbox" name="dfas" id="afs">
-                                                </td>
-                                            </tr>
+                                            @endforeach
                                         </tbody>
                                     </table>
                                 </div>

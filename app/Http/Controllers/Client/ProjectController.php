@@ -414,7 +414,8 @@ class ProjectController extends Controller
         }
 
         return view('clientViews.projectOrals', [
-            'project' => $project
+            'project' => $project,
+            'applications' => $project->vendorApplications
         ]);
     }
 

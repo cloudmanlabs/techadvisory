@@ -26,7 +26,7 @@ class AuthController extends Controller
             'email' => 'required|string',
             'password' => 'required|string',
 
-            'remember' => 'nullable|boolean'
+            'remember' => 'nullable|string'
         ]);
 
 
@@ -67,7 +67,7 @@ class AuthController extends Controller
                 ->withErrors(['notVendor' => 'You\'re not a Vendor User, please use your corresponding login page.']);
         }
 
-        $remember = $request->input('remember') ?? false;
+        $remember = $request->input('remember') === 'on';
         Auth::login($user, $remember);
 
         return redirect('/vendors');

@@ -9,6 +9,7 @@ use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Validation\Rule;
 
 class AuthController extends Controller
@@ -26,8 +27,9 @@ class AuthController extends Controller
             'email' => 'required|string',
             'password' => 'required|string',
 
-            'remember' => 'nullable|boolean'
+            'remember' => 'nullable|string'
         ]);
+
 
         $user = User::where('email', $request->input('email'))->first();
         if($user != null){
@@ -66,7 +68,7 @@ class AuthController extends Controller
                 ->withErrors(['notClient' => 'You\'re not a Client User, please use your corresponding login page.']);
         }
 
-        $remember = $request->input('remember') ?? false;
+        $remember = $request->input('remember') === 'on';
         Auth::login($user, $remember);
 
         return redirect('/client');

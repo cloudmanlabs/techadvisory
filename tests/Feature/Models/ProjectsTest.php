@@ -42,6 +42,15 @@ class ProjectsTest extends TestCase
 
             'practice_id' => 1,
             'client_id' => 1,
+
+            'oralsLocation' => 'My house',
+            'oralsFromDate' => Carbon::now()
+                                    ->addWeek()
+                                    ->toDateTimeString(),
+            'oralsToDate' => Carbon::now()
+                                    ->addMonth()
+                                    ->addWeek()
+                                    ->toDateTimeString(),
         ]);
         $project->save();
 
@@ -388,7 +397,6 @@ class ProjectsTest extends TestCase
 
     public function testCanChangeDeadlineInProject()
     {
-        $this->withoutExceptionHandling();
         $user = factory(User::class)->states('accenture')->create();
 
         $project = factory(Project::class)->create();
@@ -576,5 +584,65 @@ class ProjectsTest extends TestCase
 
         $project->refresh();
         $this->assertEquals([1, 3, 2, 2, 1], $project->scoringValues);
+    }
+
+    public function testAccentureCanChangeOralsLocations()
+    {
+        $user = factory(User::class)->states(['accenture'])->create();
+        $project = factory(Project::class)->create();
+
+        $request = $this
+            ->actingAs($user)
+            ->post('/accenture/orals/changeLocation', [
+                'project_id' => $project->id,
+                'location' => 'Barcelona'
+            ]);
+
+        $request->assertOk();
+
+        $project->refresh();
+        $this->assertEquals('Barcelona', $project->oralsLocation);
+    }
+
+    public function testCanChangeOralsFromDateInProject()
+    {
+        $user = factory(User::class)->states('accenture')->create();
+
+        $project = factory(Project::class)->create();
+
+        $request = $this
+            ->actingAs($user)
+            ->post('/accenture/orals/changeFromDate', [
+                'project_id' => $project->id,
+                'value' => '10/23/2030'
+            ]);
+
+        $request->assertOk();
+
+        $project->refresh();
+        $this->assertEquals('23', $project->oralsFromDate->day);
+        $this->assertEquals('10', $project->oralsFromDate->month);
+        $this->assertEquals('2030', $project->oralsFromDate->year);
+    }
+
+    public function testCanChangeToDateInProject()
+    {
+        $user = factory(User::class)->states('accenture')->create();
+
+        $project = factory(Project::class)->create();
+
+        $request = $this
+            ->actingAs($user)
+            ->post('/accenture/orals/changeToDate', [
+                'project_id' => $project->id,
+                'value' => '10/23/2030'
+            ]);
+
+        $request->assertOk();
+
+        $project->refresh();
+        $this->assertEquals('23', $project->oralsToDate->day);
+        $this->assertEquals('10', $project->oralsToDate->month);
+        $this->assertEquals('2030', $project->oralsToDate->year);
     }
 }

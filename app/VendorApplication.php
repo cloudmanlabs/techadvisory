@@ -7,10 +7,18 @@ use Illuminate\Database\Eloquent\Model;
 
 /**
  * @property string $phase One of invitation, applicating, pendingEvaluation, evaluated, submitted, disqualified, rejected
+ * @property boolean $invitedToOrals
+ * @property boolean $oralsCompleted
  */
 class VendorApplication extends Model
 {
     public $guarded = [];
+
+    protected $casts = [
+        'invitedToOrals' => 'boolean',
+        'oralsCompleted' => 'boolean',
+    ];
+
 
     public function vendor()
     {

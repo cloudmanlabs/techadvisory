@@ -49,6 +49,15 @@ Route::
             Route::post('/newProjectSetUp/updateVendors', 'ProjectController@updateVendors');
             Route::post('/newProjectSetUp/updateScoringValues', 'ProjectController@updateScoringValues');
 
+            Route::post('/orals/changeLocation', 'ProjectController@changeOralsLocation');
+            Route::post('/orals/changeFromDate', 'ProjectController@changeOralsFromDate');
+            Route::post('/orals/changeToDate', 'ProjectController@changeOralsToDate');
+
+            Route::post('/orals/changeInvitedToOrals', 'VendorApplicationController@changeInvitedToOrals');
+            Route::post('/orals/changeOralsCompleted', 'VendorApplicationController@changeOralsCompleted');
+
+
+
             Route::post('createClient', 'ClientVendorListController@createClientPost')
                 ->name('createClient');
             Route::get('clientList', 'ClientVendorListController@clientList')

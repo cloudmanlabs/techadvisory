@@ -26,7 +26,10 @@ class VendorApplicationTest extends TestCase
 
         $application = new VendorApplication([
             'project_id' => $project->id,
-            'vendor_id' => $vendor->id
+            'vendor_id' => $vendor->id,
+
+            'invitedToOrals' => true,
+            'oralsCompleted' => true,
         ]);
         $application->save();
 
@@ -352,5 +355,57 @@ class VendorApplicationTest extends TestCase
         $response->save();
 
         $this->assertEquals(7, $application->implementationScore());
+    }
+
+
+
+    public function testCanChangeInvitedToOrals()
+    {
+        $this->withoutExceptionHandling();
+
+        $user = factory(User::class)->states(['accenture'])->create();
+        $project = factory(Project::class)->create();
+
+        /** @var User $vendor */
+        $vendor = factory(User::class)->states(['vendor', 'finishedSetup'])->create();
+        $application = $vendor->applyToProject($project);
+
+        $this->assertFalse(boolval($application->invitedToOrals));
+
+        $request = $this
+            ->actingAs($user)
+            ->post('/accenture/orals/changeInvitedToOrals', [
+                'changing' => $application->id,
+                'value' => 'true'
+            ]);
+
+        $request->assertOk();
+
+        $application->refresh();
+        $this->assertTrue($application->invitedToOrals);
+    }
+
+    public function testCanChangeOralsCompleted()
+    {
+        $user = factory(User::class)->states(['accenture'])->create();
+        $project = factory(Project::class)->create();
+
+        /** @var User $vendor */
+        $vendor = factory(User::class)->states(['vendor', 'finishedSetup'])->create();
+        $application = $vendor->applyToProject($project);
+
+        $this->assertFalse(boolval($application->oralsCompleted));
+
+        $request = $this
+            ->actingAs($user)
+            ->post('/accenture/orals/changeOralsCompleted', [
+                'changing' => $application->id,
+                'value' => 'true'
+            ]);
+
+        $request->assertOk();
+
+        $application->refresh();
+        $this->assertTrue($application->oralsCompleted);
     }
 }

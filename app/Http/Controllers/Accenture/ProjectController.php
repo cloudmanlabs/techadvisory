@@ -430,6 +430,76 @@ class ProjectController extends Controller
     }
 
 
+    public function changeOralsLocation(Request $request)
+    {
+        $request->validate([
+            'project_id' => 'required|numeric',
+            'location' => 'required|string'
+        ]);
+
+        $project = Project::find($request->project_id);
+        if ($project == null) {
+            abort(404);
+        }
+
+        $project->oralsLocation = $request->location;
+        $project->save();
+
+        return \response()->json([
+            'status' => 200,
+            'message' => 'Success'
+        ]);
+    }
+
+    public function changeOralsFromDate(Request $request)
+    {
+        $request->validate([
+            'project_id' => 'required|numeric',
+            'value' => 'required|string'
+        ]);
+
+        $project = Project::find($request->project_id);
+        if ($project == null) {
+            abort(404);
+        }
+
+        $project->oralsFromDate = Carbon::createFromFormat('m/d/Y', $request->value)->toDateTimeString();
+        $project->save();
+
+        return \response()->json([
+            'status' => 200,
+            'message' => 'Success'
+        ]);
+    }
+
+    public function changeOralsToDate(Request $request)
+    {
+        $request->validate([
+            'project_id' => 'required|numeric',
+            'value' => 'required|string'
+        ]);
+
+        $project = Project::find($request->project_id);
+        if ($project == null) {
+            abort(404);
+        }
+
+        $project->oralsToDate = Carbon::createFromFormat('m/d/Y', $request->value)->toDateTimeString();
+        $project->save();
+
+        return \response()->json([
+            'status' => 200,
+            'message' => 'Success'
+        ]);
+    }
+
+
+
+
+
+
+
+
 
 
     public function home(Project $project)
@@ -599,7 +669,7 @@ class ProjectController extends Controller
 
         return view('accentureViews.projectOrals', [
             'project' => $project,
-            'vendors' => $project->vendorsApplied()->get(),
+            'applications' => $project->vendorApplications,
         ]);
     }
 

@@ -31,13 +31,19 @@ use Illuminate\Support\Facades\Log;
  * @property boolean $step4SubmittedClient
  *
  * @property array $scoringValues
+ *
+ * @property \Carbon\Carbon $deadline
+ * @property \Carbon\Carbon $oralsFromDate
+ * @property \Carbon\Carbon $oralsToDate
  */
 class Project extends Model
 {
     public $guarded = [];
 
     protected $dates = [
-        'deadline'
+        'deadline',
+        'oralsFromDate',
+        'oralsToDate'
     ];
 
     protected $casts = [

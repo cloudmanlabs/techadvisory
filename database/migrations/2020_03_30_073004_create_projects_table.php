@@ -45,6 +45,10 @@ class CreateProjectsTable extends Migration
             $table->boolean('step4SubmittedAccenture')->default(false);
             $table->boolean('step4SubmittedClient')->default(false);
 
+            $table->string('oralsLocation')->nullable();
+            $table->dateTime('oralsFromDate')->nullable();
+            $table->dateTime('oralsToDate')->nullable();
+
             $table->json('scoringValues');
         });
     }

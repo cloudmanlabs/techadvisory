@@ -21,6 +21,9 @@ class CreateVendorApplicationsTable extends Migration
             $table->unsignedBigInteger('vendor_id');
 
             $table->string('phase')->default('invitation');
+
+            $table->boolean('invitedToOrals')->default(false);
+            $table->boolean('oralsCompleted')->default(false);
         });
     }
 
