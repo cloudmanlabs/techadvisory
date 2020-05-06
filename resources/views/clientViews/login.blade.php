@@ -15,8 +15,10 @@
                             <div class="col-md-8 pl-md-0">
                                 <div class="auth-form-wrapper px-4 py-5">
                                     <div style="text-align: center;">
-                                        <img src="@logo"
-                                            style="max-height: 80px; margin-bottom: 50px;">
+                                        <img src="{{url('/assets/images/accenture-logo.svg')}}" style="max-height: 60px;">
+                                        <p style="color: #A100FF; font-size: 2rem; margin-top: 5px; margin-bottom: 2rem">
+                                            <span style="font-weight: bold">Tech</span>Advisory Platform
+                                        </p>
                                     </div>
 
                                     @if ($errors->has('notClient'))
