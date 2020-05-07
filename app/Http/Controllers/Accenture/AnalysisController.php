@@ -129,7 +129,12 @@ class AnalysisController extends Controller
     public function vendorCustom()
     {
         return view('accentureViews.analysisVendorCustom', [
-            'practices' => Practice::all(),
+            'segments' => collect(['Megasuite', 'SCM suite', 'Specific solution']),
+            'practices' => Practice::pluck('name')->toArray(),
+            'regions' => collect(config('arrays.regions')),
+            'industries' => collect(config('arrays.industryExperience')),
+            'years' => collect(range(2017, intval(date('Y')))),
+
             'vendors' => User::vendorUsers()->where('hasFinishedSetup', true)->get()
         ]);
     }
