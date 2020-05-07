@@ -9,7 +9,7 @@ use Illuminate\Foundation\Testing\WithFaker;
 use ProjectSeeder;
 use Tests\TestCase;
 
-class AnalysisHistoricalTest extends TestCase
+class AnalysisProjectHistoricalTest extends TestCase
 {
     use RefreshDatabase;
 
@@ -19,7 +19,7 @@ class AnalysisHistoricalTest extends TestCase
 
         $response = $this
             ->actingAs($user)
-            ->get('/accenture/analysis/historical');
+            ->get('/accenture/analysis/project/historical');
 
         $response->assertStatus(200);
     }
@@ -32,7 +32,7 @@ class AnalysisHistoricalTest extends TestCase
 
         $response = $this
             ->actingAs($user)
-            ->get('/accenture/analysis/historical');
+            ->get('/accenture/analysis/project/historical');
 
         $response->assertStatus(200);
     }

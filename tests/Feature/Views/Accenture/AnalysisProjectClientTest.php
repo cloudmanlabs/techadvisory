@@ -7,7 +7,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
-class AnalysisVendorTest extends TestCase
+class AnalysisProjectClientTest extends TestCase
 {
     use RefreshDatabase;
 
@@ -17,7 +17,7 @@ class AnalysisVendorTest extends TestCase
 
         $response = $this
             ->actingAs($user)
-            ->get('/accenture/analysis/vendor');
+            ->get('/accenture/analysis/project/client');
 
         $response->assertStatus(200);
     }

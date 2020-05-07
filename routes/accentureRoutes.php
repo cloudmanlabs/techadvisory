@@ -131,13 +131,18 @@ Route::
             Route::post('project/submitEvaluation/{project}/{vendor}', 'ProjectController@submitEvaluation')
                 ->name('project.submitEvaluation');
 
-            Route::get('analysis/vendor', 'AnalysisController@vendor')
-                ->name('analysisVendor');
-            Route::get('analysis/client', 'AnalysisController@client')
-                ->name('analysisClient');
-            Route::get('analysis/historical', 'AnalysisController@historical')
-                ->name('analysisHistorical');
-            Route::view('analysis/other', 'accentureViews.analysisOther')
-                ->name('analysisOther');
+            Route::get('analysis/project/vendor', 'AnalysisController@projectVendor')
+                ->name('analysis.project.vendor');
+            Route::get('analysis/project/client', 'AnalysisController@projectClient')
+                ->name('analysis.project.client');
+            Route::get('analysis/project/historical', 'AnalysisController@projectHistorical')
+                ->name('analysis.project.historical');
+            Route::get('analysis/project/custom', 'AnalysisController@projectCustom')
+                ->name('analysis.project.custom');
+
+            Route::get('analysis/vendor/graphs', 'AnalysisController@vendorGraphs')
+                ->name('analysis.vendor.graphs');
+            Route::get('analysis/vendor/custom', 'AnalysisController@vendorCustom')
+                ->name('analysis.vendor.custom');
         });
     });

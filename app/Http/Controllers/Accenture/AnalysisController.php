@@ -10,17 +10,17 @@ use Illuminate\Http\Request;
 
 class AnalysisController extends Controller
 {
-    public function vendor()
+    public function projectVendor()
     {
-        return view('accentureViews.analysisVendor', [
+        return view('accentureViews.analysisProjectVendor', [
             'practices' => Practice::all(),
             'vendors' => User::vendorUsers()->where('hasFinishedSetup', true)->get()
         ]);
     }
 
-    public function client()
+    public function projectClient()
     {
-        return view('accentureViews.analysisClient', [
+        return view('accentureViews.analysisProjectClient', [
             'practices' => Practice::all(),
             'clients' => User::clientUsers()->where('hasFinishedSetup', true)->get(),
 
@@ -43,12 +43,12 @@ class AnalysisController extends Controller
         ]);
     }
 
-    public function historical()
+    public function projectHistorical()
     {
         // Holy shit this code is attrocious
         // Pls clean up sometime b4 the next 3 years
 
-        return view('accentureViews.analysisHistorical', [
+        return view('accentureViews.analysisProjectHistorical', [
             'practices' => Practice::all(),
             'years' => collect(range(2017, intval(date('Y')) ))->map(function($year){
                 return (object)[
@@ -78,6 +78,31 @@ class AnalysisController extends Controller
                     }),
                 ];
             }),
+        ]);
+    }
+
+    public function projectCustom()
+    {
+        return view('accentureViews.analysisProjectCustom', [
+            'practices' => Practice::all(),
+            'vendors' => User::vendorUsers()->where('hasFinishedSetup', true)->get()
+        ]);
+    }
+
+
+    public function vendorGraphs()
+    {
+        return view('accentureViews.analysisVendorGraphs', [
+            'practices' => Practice::all(),
+            'vendors' => User::vendorUsers()->where('hasFinishedSetup', true)->get()
+        ]);
+    }
+
+    public function vendorCustom()
+    {
+        return view('accentureViews.analysisVendorCustom', [
+            'practices' => Practice::all(),
+            'vendors' => User::vendorUsers()->where('hasFinishedSetup', true)->get()
         ]);
     }
 }

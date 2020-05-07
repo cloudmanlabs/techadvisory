@@ -130,36 +130,36 @@
                     </a>
                     <div class="submenu">
                         <ul class="submenu-item">
-                            <li class="category-heading">Client</li>
+                            <li class="category-heading">Analytics by projects</li>
                             <li class="nav-item">
-                                <a class="nav-link" href="{{route('accenture.analysisVendor')}}">
-                                    By Vendor
+                                <a class="nav-link" href="{{route('accenture.analysis.project.vendor')}}">
+                                    From vendor side
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="{{route('accenture.analysisClient')}}">
-                                    By Client
+                                <a class="nav-link" href="{{route('accenture.analysis.project.client')}}">
+                                    From client side
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="{{route('accenture.analysisHistorical')}}">
-                                    Historical
+                                <a class="nav-link" href="{{route('accenture.analysis.project.historical')}}">
+                                    From historcal side
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="{{route('accenture.analysisOther')}}">
-                                    Custom Queries
+                                <a class="nav-link" href="{{route('accenture.analysis.project.custom')}}">
+                                    Custom searches
                                 </a>
                             </li>
-                            <li class="category-heading">Vendor</li>
+                            <li class="category-heading">Vendors Benchmark</li>
                             <li class="nav-item">
-                                <a class="nav-link" href="{{route('accenture.analysisOther')}}">
-                                    Other queries
+                                <a class="nav-link" href="{{route('accenture.analysis.vendor.graphs')}}">
+                                    Graphs
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="{{route('accenture.analysisOther')}}">
-                                    Custom Queries
+                                <a class="nav-link" href="{{route('accenture.analysis.vendor.custom')}}">
+                                    Custom searches
                                 </a>
                             </li>
                         </ul>
