@@ -145,21 +145,12 @@
                                     <section>
                                         <h4>2.1 Upload your RFP</h4>
                                         <br>
+                                        <x-folderFileUploader :folder="$project->rfpFolder" label="Upload your RFP" :timeout="1000" />
+
                                         <div class="form-group">
-                                            <label>Upload your RFP</label>
-
-                                            <div class="form-group">
-                                                <form action="/file-upload" class="dropzone" id="exampleDropzone"
-                                                    name="exampleDropzone">
-                                                </form>
-                                            </div>
-
-                                            <div class="form-group">
-                                                <label for="otherInformation">Other information</label>
-                                                <textarea class="form-control" id="otherInformation"
-                                                    rows="14"></textarea>
-                                            </div>
-
+                                            <label for="rfpOtherInfo">Other information</label>
+                                            <textarea class="form-control" id="rfpOtherInfo"
+                                            rows="14">{{$project->rfpOtherInfo}}</textarea>
                                         </div>
                                     </section>
 
@@ -676,6 +667,15 @@
 
             showSavedToast();
             updateSubmitStep3();
+        });
+        $('#rfpOtherInfo').change(function (e) {
+            var value = $(this).val();
+            $.post('/accenture/newProjectSetUp/changeRFPOtherInfo', {
+                project_id: '{{$project->id}}',
+                value
+            })
+
+            showSavedToast();
         });
 
         $('#step3Submit').click(function(){

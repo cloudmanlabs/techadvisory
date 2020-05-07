@@ -51,6 +51,8 @@ class ProjectsTest extends TestCase
                                     ->addMonth()
                                     ->addWeek()
                                     ->toDateTimeString(),
+
+            'rfpOtherInfo' => 'Hello my friends'
         ]);
         $project->save();
 
@@ -91,6 +93,7 @@ class ProjectsTest extends TestCase
         $this->assertNotNull($project->selectedValueLeversFolder);
         $this->assertNotNull($project->businessOpportunityFolder);
         $this->assertNotNull($project->vtConclusionsFolder);
+        $this->assertNotNull($project->rfpFolder);
     }
 
     public function testCanAddPracticesToProject()
@@ -414,6 +417,25 @@ class ProjectsTest extends TestCase
         $this->assertEquals('23', $project->deadline->day);
         $this->assertEquals('10', $project->deadline->month);
         $this->assertEquals('2030', $project->deadline->year);
+    }
+
+    public function testCanChangeRFPOtherInfoProject()
+    {
+        $user = factory(User::class)->states('accenture')->create();
+
+        $project = factory(Project::class)->create();
+
+        $request = $this
+            ->actingAs($user)
+            ->post('/accenture/newProjectSetUp/changeRFPOtherInfo', [
+                'project_id' => $project->id,
+                'value' => 'Hey hey hey my friendooos'
+            ]);
+
+        $request->assertOk();
+
+        $project->refresh();
+        $this->assertEquals('Hey hey hey my friendooos', $project->rfpOtherInfo);
     }
 
 

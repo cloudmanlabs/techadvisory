@@ -32,6 +32,8 @@ use Illuminate\Support\Facades\Log;
  *
  * @property array $scoringValues
  *
+ * @property string $rfpOtherInfo
+ *
  * @property \Carbon\Carbon $deadline
  * @property \Carbon\Carbon $oralsFromDate
  * @property \Carbon\Carbon $oralsToDate
@@ -80,6 +82,10 @@ class Project extends Model
     public function vtConclusionsFolder()
     {
         return $this->morphOne(Folder::class, 'folderable')->where('folderable_group', 'vtConclusions');
+    }
+    public function rfpFolder()
+    {
+        return $this->morphOne(Folder::class, 'folderable')->where('folderable_group', 'rfp');
     }
 
     public function practice()

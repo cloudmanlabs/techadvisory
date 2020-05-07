@@ -21,7 +21,7 @@ class CreateSelectionCriteriaQuestionResponsesTable extends Migration
             $table->unsignedBigInteger('project_id');
             $table->unsignedBigInteger('vendor_id');
 
-            $table->string('response')->nullable();
+            $table->text('response')->nullable();
             $table->integer('score')->nullable();
         });
     }

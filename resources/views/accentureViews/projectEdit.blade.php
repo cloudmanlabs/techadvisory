@@ -134,20 +134,11 @@
                                     <section>
                                         <h4>2.1 Upload your RFP</h4>
                                         <br>
+                                        <x-folderFileUploader :folder="$project->rfpFolder" label="Upload your RFP" :timeout="1000" />
+
                                         <div class="form-group">
-                                            <label>Upload your RFP</label>
-
-                                            <div class="form-group">
-                                                <form action="/file-upload" class="dropzone" id="exampleDropzone"
-                                                    name="exampleDropzone">
-                                                </form>
-                                            </div>
-
-                                            <div class="form-group">
-                                                <label for="exampleFormControlTextarea1">Other information</label>
-                                                <textarea class="form-control" id="exampleFormControlTextarea1" rows="14" required></textarea>
-                                            </div>
-
+                                            <label for="rfpOtherInfo">Other information</label>
+                                            <textarea class="form-control" id="rfpOtherInfo" rows="14">{{$project->rfpOtherInfo}}</textarea>
                                         </div>
                                     </section>
 
@@ -616,6 +607,15 @@
 
             showSavedToast();
             updateSubmitButton();
+        });
+        $('#rfpOtherInfo').change(function (e) {
+            var value = $(this).val();
+            $.post('/accenture/newProjectSetUp/changeRFPOtherInfo', {
+                project_id: '{{$project->id}}',
+                value
+            })
+
+            showSavedToast();
         });
 
         $('#vendorSelection').change(function(){

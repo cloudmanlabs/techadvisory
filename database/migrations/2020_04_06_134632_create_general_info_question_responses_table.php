@@ -20,7 +20,7 @@ class CreateGeneralInfoQuestionResponsesTable extends Migration
             $table->unsignedBigInteger('question_id');
             $table->unsignedBigInteger('project_id');
 
-            $table->string('response')->nullable();
+            $table->text('response')->nullable();
         });
     }
 

@@ -20,7 +20,7 @@ class CreateClientProfileQuestionResponsesTable extends Migration
             $table->unsignedBigInteger('question_id');
             $table->unsignedBigInteger('client_id');
 
-            $table->string('response')->nullable();
+            $table->text('response')->nullable();
         });
     }
 

@@ -290,6 +290,29 @@ class ProjectController extends Controller
         ]);
     }
 
+
+
+    public function changeRFPOtherInfo(Request $request)
+    {
+        $request->validate([
+            'project_id' => 'required|numeric',
+            'value' => 'required|string'
+        ]);
+
+        $project = Project::find($request->project_id);
+        if ($project == null) {
+            abort(404);
+        }
+
+        $project->rfpOtherInfo = $request->value;
+        $project->save();
+
+        return \response()->json([
+            'status' => 200,
+            'message' => 'Success'
+        ]);
+    }
+
     public function setStep3Submitted(Request $request)
     {
         $request->validate([

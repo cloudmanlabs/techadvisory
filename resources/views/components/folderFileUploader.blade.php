@@ -1,11 +1,11 @@
-@props(['folder', 'disabled'])
+@props(['folder', 'disabled', 'label', 'timeout'])
 
 @php
     $disabled = $disabled ?? false;
 @endphp
 
 <div class="form-group">
-    <label for="exampleInputText1">Upload any extra files</label>
+    <label for="exampleInputText1">{{ $label ?? 'Upload any extra files'}}</label>
 
     <form action="/folder/uploadSingleFileToFolder" class="dropzone" id="{{$folder->name}}">
         @csrf
@@ -73,44 +73,57 @@
     </form>
 </div>
 
-
-
 @section('scripts')
 @parent
 <script>
-    Dropzone.options['{{$folder->name}}'] = {
-        maxFilesize: 50, // MB
-        addRemoveLinks: true,
-        {{$disabled ? 'clickable: false,' : ''}}
+    const timeout = {{$timeout ?? 0}};
 
-        init: function() {
-            this.on("removedfile", function(file) {
-                $.post('/folder/removeFile',{
-                    file: file.name,
-                    folder_id: {{$folder->id}}
-                })
-            });
-            this.on("addedfile", function(file) {
-                $(file.previewElement).click(function(){
-                    console.log(file.name)
-                    window.open('/storage/folders/{{$folder->name}}/'+file.name, '_blank');
-                })
-            });
-        }
-    };
+    // Disable autodiscover so jquery.steps doesn't fuck it up
+    // We create it programmatically after timeout
+    Dropzone.options['{{$folder->name}}'] = false;
 
-    $('.dz-remove').click(function(e){
-        e.preventDefault()
-        $(this).parent().remove();
+    function setup(){
+        $("form#{{$folder->name}}").dropzone({
+            url: "/folder/uploadSingleFileToFolder",
+            maxFilesize: 50, // MB
+            addRemoveLinks: true,
+            {{$disabled ? 'clickable: false,' : ''}}
 
-        $.post('/folder/removeFile',{
-            file: $(this).data('dz-remove'),
-            folder_id: {{$folder->id}}
+            init: function() {
+                this.on("removedfile", function(file) {
+                    $.post('/folder/removeFile',{
+                        file: file.name,
+                        folder_id: {{$folder->id}}
+                    })
+                });
+                this.on("addedfile", function(file) {
+                    $(file.previewElement).click(function(){
+                        console.log(file.name)
+                        window.open('/storage/folders/{{$folder->name}}/'+file.name, '_blank');
+                    })
+                });
+            }
+        });
+
+        $('.dz-remove').click(function(e){
+            e.preventDefault()
+            $(this).parent().remove();
+
+            $.post('/folder/removeFile',{
+                file: $(this).data('dz-remove'),
+                folder_id: {{$folder->id}}
+            })
         })
-    })
 
-    $('.dz-preview').click(function(){
-        window.open('/storage/folders/{{$folder->name}}/' + $(this).data('filename'), '_blank');
-    })
+        $('.dz-preview').click(function(){
+            window.open('/storage/folders/{{$folder->name}}/' + $(this).data('filename'), '_blank');
+        })
+    }
+
+    if(timeout > 0){
+        setTimeout(setup, timeout);
+    } else {
+        setup()
+    }
 </script>
 @endsection

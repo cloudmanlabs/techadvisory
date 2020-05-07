@@ -151,18 +151,11 @@
                                     <section>
                                         <h4>2.1 Upload your RFP</h4>
                                         <br>
-                                        <div class="form-group">
-                                            <label>Upload your RFP</label>
+                                        <x-folderFileUploader :folder="$project->rfpFolder" label="Upload your RFP" :timeout="1000" />
 
-                                            <div class="form-group">
-                                                <form action="/file-upload" class="dropzone" id="exampleDropzone" name="exampleDropzone">
-                                                </form>
-                                            </div>
-                                        </div>
-                                        <br>
                                         <div class="form-group">
-                                            <label for="exampleFormControlTextarea1">Extra information</label>
-                                            <textarea class="form-control" id="exampleFormControlTextarea1" rows="14" required></textarea>
+                                            <label for="rfpOtherInfo">Other information</label>
+                                            <textarea class="form-control" id="rfpOtherInfo" rows="14">{{$project->rfpOtherInfo}}</textarea>
                                         </div>
                                     </section>
 
@@ -642,6 +635,15 @@
 
             showSavedToast();
             updateSubmitStep3();
+        });
+        $('#rfpOtherInfo').change(function (e) {
+            var value = $(this).val();
+            $.post('/client/newProjectSetUp/changeRFPOtherInfo', {
+                project_id: '{{$project->id}}',
+                value
+            })
+
+            showSavedToast();
         });
 
         $('#step3Submit').click(function(){

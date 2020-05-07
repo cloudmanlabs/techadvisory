@@ -49,6 +49,8 @@ class CreateProjectsTable extends Migration
             $table->dateTime('oralsFromDate')->nullable();
             $table->dateTime('oralsToDate')->nullable();
 
+            $table->text('rfpOtherInfo')->nullable();
+
             $table->json('scoringValues');
         });
     }

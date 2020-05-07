@@ -20,7 +20,7 @@ class CreateVendorProfileQuestionResponsesTable extends Migration
             $table->unsignedBigInteger('question_id');
             $table->unsignedBigInteger('vendor_id');
 
-            $table->string('response')->nullable();
+            $table->text('response')->nullable();
         });
     }
 

@@ -60,6 +60,7 @@ class ProjectObserver
         $project->selectedValueLeversFolder()->save(Folder::createNewRandomFolder('selectedValueLevers'));
         $project->businessOpportunityFolder()->save(Folder::createNewRandomFolder('businessOpportunity'));
         $project->vtConclusionsFolder()->save(Folder::createNewRandomFolder('vtConclusions'));
+        $project->rfpFolder()->save(Folder::createNewRandomFolder('rfp'));
     }
 
     // public function deleting(Project $project)

@@ -130,15 +130,11 @@
                                     <section>
                                         <h4>2.1 Upload your RFP</h4>
                                         <br>
+                                        <x-folderFileUploader :folder="$project->rfpFolder" label="Upload your RFP" :disabled="true" :timeout="1000" />
+
                                         <div class="form-group">
-                                            <label>Upload your RFP</label>
-
-                                            <div class="form-group">
-                                                <form action="/file-upload" class="dropzone" id="exampleDropzone"
-                                                    name="exampleDropzone" disabled aria-disabled="true">
-                                                </form>
-                                            </div>
-
+                                            <label for="rfpOtherInfo">Other information</label>
+                                            <textarea class="form-control" id="rfpOtherInfo" rows="14" disabled>{{$project->rfpOtherInfo}}</textarea>
                                         </div>
                                     </section>
 
