@@ -21,4 +21,6 @@ class AnalysisVendorGraphsTest extends TestCase
 
         $response->assertStatus(200);
     }
+
+    // TODO Write a test here generating a ton of vendors with anwsers to the questions
 }

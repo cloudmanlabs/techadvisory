@@ -84,8 +84,14 @@ class AnalysisController extends Controller
     public function projectCustom()
     {
         return view('accentureViews.analysisProjectCustom', [
-            'practices' => Practice::all(),
-            'vendors' => User::vendorUsers()->where('hasFinishedSetup', true)->get()
+            'practices' => Practice::pluck('name')->toArray(),
+            'clients' => User::clientUsers()->where('hasFinishedSetup', true)->pluck('name')->toArray(),
+            'vendors' => User::vendorUsers()->where('hasFinishedSetup', true)->pluck('name')->toArray(),
+            'regions' => collect(config('arrays.regions')),
+            'industries' => collect(config('arrays.industryExperience')),
+            'years' => collect(range(2017, intval(date('Y')))),
+
+            'projects' => Project::all(),
         ]);
     }
 
@@ -93,8 +99,30 @@ class AnalysisController extends Controller
     public function vendorGraphs()
     {
         return view('accentureViews.analysisVendorGraphs', [
-            'practices' => Practice::all(),
-            'vendors' => User::vendorUsers()->where('hasFinishedSetup', true)->get()
+            'practices' => Practice::all()->map(function(Practice $practice) {
+                return (object)[
+                    'name' => $practice->name,
+                    'count' => User::vendorUsers()->get()->filter(function(User $vendor) use ($practice){
+                        return $vendor->getVendorResponse('vendorPractice') == $practice->name;
+                    })->count(),
+                ];
+            }),
+            'industries' => collect(config('arrays.industryExperience'))->map(function ($industry) {
+                return (object) [
+                    'name' => $industry,
+                    'count' => User::vendorUsers()->get()->filter(function (User $vendor) use ($industry) {
+                        return $vendor->getVendorResponse('vendorIndustry') == $industry;
+                    })->count(),
+                ];
+            }),
+            'regions' => collect(config('arrays.regions'))->map(function ($region) {
+                return (object) [
+                    'name' => $region,
+                    'count' => User::vendorUsers()->get()->filter(function (User $vendor) use ($region) {
+                        return in_array($region, json_decode($vendor->getVendorResponse('vendorRegions')) ?? []);
+                    })->count(),
+                ];
+            }),
         ]);
     }
 
