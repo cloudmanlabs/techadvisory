@@ -51,6 +51,14 @@ Route::middleware(['auth'])->group(function () {
     Route::post('folder/uploadFilesToFolder', 'FolderController@uploadFiles');
     Route::post('folder/uploadSingleFileToFolder', 'FolderController@uploadSingleFile');
     Route::post('folder/removeFile', 'FolderController@removeFile');
+
+
+    Route::get('fitgapVendorIframe/{vendor}/{project}', 'FitgapController@vendorIframe')
+        ->name('fitgapVendorIframe');
+    Route::get('fitgapVendorJson/{vendor}/{project}', 'FitgapController@vendorJson')
+        ->name('fitgapVendorJson');
+    Route::post('fitgapVendorJson/{vendor}/{project}', 'FitgapController@vendorJsonUpload')
+        ->name('fitgapVendorJsonUpload');
 });
 
 

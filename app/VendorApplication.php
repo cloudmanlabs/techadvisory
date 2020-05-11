@@ -16,6 +16,8 @@ use Illuminate\Database\Eloquent\Model;
  * @property integer $progressInnovation
  * @property integer $progressImplementation
  * @property integer $progressSubmit
+
+ * @property array $fitgapData
  */
 class VendorApplication extends Model
 {
@@ -24,6 +26,8 @@ class VendorApplication extends Model
     protected $casts = [
         'invitedToOrals' => 'boolean',
         'oralsCompleted' => 'boolean',
+
+        'fitgapData' => 'array'
     ];
 
 

@@ -31,6 +31,8 @@ class CreateVendorApplicationsTable extends Migration
             $table->integer('progressInnovation')->default(0);
             $table->integer('progressImplementation')->default(0);
             $table->integer('progressSubmit')->default(0);
+
+            $table->text('fitgapData')->nullable();
         });
     }
 

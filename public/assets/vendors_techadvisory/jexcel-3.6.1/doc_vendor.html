@@ -1,34 +1,58 @@
 <html>
-<script src="./dist/jexcel.js"></script>
-<link rel="stylesheet" href="./dist/jexcel.css" type="text/css" />
-<link rel="stylesheet" href="./dist/extra.css" type="text/css" />
-<script src="./dist/jsuites.js"></script>
-<link rel="stylesheet" href="./dist/jsuites.css" type="text/css" />
-<body style="background-color: white !important;">
-<div id="spreadsheet"></div>
+    <script src="./dist/jexcel.js"></script>
+    <link rel="stylesheet" href="./dist/jexcel.css" type="text/css" />
+    <link rel="stylesheet" href="./dist/extra.css" type="text/css" />
+    <script src="./dist/jsuites.js"></script>
+    <link rel="stylesheet" href="./dist/jsuites.css" type="text/css" />
+    <body style="background-color: white !important;">
+        <div id="spreadsheet"></div>
 
-<p><button id='download'>Export document as CSV</button></p>
+        <p><button id="download">Export document as CSV</button></p>
 
-<script>
-mySpreadsheet = jexcel(document.getElementById('spreadsheet'), {
-    url:'fitgap_demo_vendor.json',
-    tableOverflow:false,
-    contextMenu: false,
-    columns: [
-        { type:'text', title:'Type', readOnly:true, width:110 },
-        { type:'text', title:'Level 1', readOnly:true, width:140 },
-        { type:'text', title:'Level 2', readOnly:true, width:200 },
-        { type:'text', title:'Level 3', readOnly:true, width:190 },
-        { type:'text', title:'Requirement', readOnly:true, width:150 },
-        { type:'dropdown', title:'Vendor Score', width:140, source:['Must have','Required','Nice to have'] },
-        { type:'text', title:'Comments',  width:110 },
-     ]
-});
+        <script>
+            mySpreadsheet = jexcel(document.getElementById("spreadsheet"), {
+                url: "fitgap_demo_vendor.json",
+                tableOverflow: false,
+                contextMenu: false,
+                columns: [
+                    { type: "text", title: "Type", readOnly: true, width: 110 },
+                    {
+                        type: "text",
+                        title: "Level 1",
+                        readOnly: true,
+                        width: 140
+                    },
+                    {
+                        type: "text",
+                        title: "Level 2",
+                        readOnly: true,
+                        width: 200
+                    },
+                    {
+                        type: "text",
+                        title: "Level 3",
+                        readOnly: true,
+                        width: 190
+                    },
+                    {
+                        type: "text",
+                        title: "Requirement",
+                        readOnly: true,
+                        width: 150
+                    },
+                    {
+                        type: "dropdown",
+                        title: "Vendor Score",
+                        width: 140,
+                        source: ["Must have", "Required", "Nice to have"]
+                    },
+                    { type: "text", title: "Comments", width: 110 }
+                ]
+            });
 
-
-document.getElementById('download').onclick = function () {
-    mySpreadsheet.download();
-}
-</script>
-</body>
+            document.getElementById("download").onclick = function() {
+                mySpreadsheet.download();
+            };
+        </script>
+    </body>
 </html>

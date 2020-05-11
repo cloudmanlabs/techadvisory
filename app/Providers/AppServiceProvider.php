@@ -10,6 +10,7 @@ use App\Observers\ProjectObserver;
 use App\Observers\SelectionCriteriaQuestionObserver;
 use App\Observers\SizingQuestionObserver;
 use App\Observers\UserObserver;
+use App\Observers\VendorApplicationObserver;
 use App\Observers\VendorProfileQuestionObserver;
 use App\Observers\VendorSolutionObserver;
 use App\Observers\VendorSolutionQuestionObserver;
@@ -17,6 +18,7 @@ use App\Project;
 use App\SelectionCriteriaQuestion;
 use App\SizingQuestion;
 use App\User;
+use App\VendorApplication;
 use App\VendorProfileQuestion;
 use App\VendorSolution;
 use App\VendorSolutionQuestion;
@@ -53,6 +55,7 @@ class AppServiceProvider extends ServiceProvider
         VendorProfileQuestion::observe(VendorProfileQuestionObserver::class);
         VendorSolutionQuestion::observe(VendorSolutionQuestionObserver::class);
         VendorSolution::observe(VendorSolutionObserver::class);
+        VendorApplication::observe(VendorApplicationObserver::class);
 
         Blade::directive('logo', function () {
             return "<?php echo url('/assets/images/techadvisory-logo.png'); ?>";
