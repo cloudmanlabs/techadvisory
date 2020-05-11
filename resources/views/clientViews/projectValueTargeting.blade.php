@@ -42,7 +42,7 @@
                                 <br>
                                 <br>
 
-                                <x-folderFileUploader :folder="$project->selectedValueLeversFolder" />
+                                <x-folderFileUploader :disabled="true" :folder="$project->selectedValueLeversFolder" />
 
                                 <br><br><br>
 
@@ -51,7 +51,7 @@
                                 <br>
                                 <br>
 
-                                <x-folderFileUploader :folder="$project->businessOpportunityFolder" />
+                                <x-folderFileUploader :disabled="true" :folder="$project->businessOpportunityFolder" />
 
                                 <br><br><br>
 
@@ -59,7 +59,7 @@
                                 <p class="welcome_text extra-top-15px">In order to start using the Tech Advisory Platform, you'll need to follow some steps to complete your profile and set up your first project. Please check below the timeline and click "Let's start" when you are ready.</p>
                                 <br>
                                 <br>
-                                <x-folderFileUploader :folder="$project->vtConclusionsFolder" />
+                                <x-folderFileUploader :disabled="true" :folder="$project->vtConclusionsFolder" />
 
                                 <div style="float: right; margin-top: 20px;">
                                     <a class="btn btn-primary btn-lg btn-icon-text" href="{{route('client.projectHome', ['project' => $project])}}">

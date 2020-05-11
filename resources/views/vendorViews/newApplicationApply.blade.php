@@ -158,7 +158,6 @@
     </div>
 @endsection
 
-
 @section('head')
 @parent
 
@@ -172,7 +171,6 @@
     }
 </style>
 @endsection
-
 
 @section('scripts')
 @parent
