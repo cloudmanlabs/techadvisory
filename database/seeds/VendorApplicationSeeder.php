@@ -45,6 +45,15 @@ class VendorApplicationSeeder extends Seeder
                         $application->setRejected();
                         break;
                 }
+
+                $application->progressFitgap = random_int(0, 10);
+                $application->progressVendor = random_int(0, 10);
+                $application->progressExperience = random_int(0, 10);
+                $application->progressInnovation = random_int(0, 10);
+                $application->progressImplementation = random_int(0, 10);
+                $application->progressSubmit = random_int(0, 10);
+
+                $application->save();
             }
         }
     }

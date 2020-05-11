@@ -9,6 +9,13 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $phase One of invitation, applicating, pendingEvaluation, evaluated, submitted, disqualified, rejected
  * @property boolean $invitedToOrals
  * @property boolean $oralsCompleted
+ *
+ * @property integer $progressFitgap
+ * @property integer $progressVendor
+ * @property integer $progressExperience
+ * @property integer $progressInnovation
+ * @property integer $progressImplementation
+ * @property integer $progressSubmit
  */
 class VendorApplication extends Model
 {

@@ -1,5 +1,13 @@
 @props(['section', 'subsection', 'project'])
 
+
+@php
+$vendorApplication = \App\VendorApplication::where('project_id', $project->id)->where('vendor_id',
+auth()->id())->first();
+
+$showApply = $vendorApplication->phase == 'applicating';
+@endphp
+
 <div class="row">
     <div class="col-12 col-xl-12 stretch-card">
         <div class="card">
@@ -9,18 +17,11 @@
                     <h5>{{$project->practice->name}}</h5>
                 </div>
 
-                <x-applicationProgressBar progressFitgap="20" progressVendor="10" progressExperience="0" progressInnovation="0"
-                    progressImplementation="0" progressSubmit="0" />
+                <x-applicationProgressBar :application="$vendorApplication" />
             </div>
         </div>
     </div>
 </div>
-
-@php
-    $vendorApplication = \App\VendorApplication::where('project_id', $project->id)->where('vendor_id', auth()->id())->first();
-
-    $showApply = $vendorApplication->phase == 'applicating';
-@endphp
 
 <div class="profile-page">
     <div class="row">

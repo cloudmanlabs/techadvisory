@@ -24,7 +24,7 @@
                                 <br>
 
                                 @foreach ($startedVendors as $vendor)
-                                <x-vendorCard :vendor="$vendor">
+                                <x-vendorCard :vendor="$vendor" :project="$project">
                                 </x-vendorCard>
                                 @endforeach
                             </div>
@@ -44,7 +44,7 @@
                                 <br>
 
                                 @foreach ($submittedVendors as $vendor)
-                                <x-vendorCard :showProgressBar="false" :vendor="$vendor">
+                                <x-vendorCard :showProgressBar="false" :vendor="$vendor" :project="$project">
                                     <div style="text-align: right; width: 15%;">
                                         <a class="btn btn-primary btn-lg btn-icon-text" href="#">Download response
                                         </a>

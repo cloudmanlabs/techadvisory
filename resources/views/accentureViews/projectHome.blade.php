@@ -22,7 +22,7 @@
                                 <br>
 
                                 @foreach ($invitedVendors as $vendor)
-                                <x-vendorCard :showProgressBar="false" :vendor="$vendor">
+                                <x-vendorCard :showProgressBar="false" :vendor="$vendor" :project="$project">
                                     <div style="float: right; text-align: right; width: 25%;">
                                         <a class="btn btn-primary btn-lg btn-icon-text" href="#" data-toggle="modal"
                                             data-target="#resend_invite_modal">Resend invite <i class="btn-icon-prepend"
@@ -76,7 +76,7 @@
                                 <br>
 
                                 @foreach ($applicatingVendors as $vendor)
-                                <x-vendorCard :vendor="$vendor">
+                                <x-vendorCard :vendor="$vendor" :project="$project">
                                     <div style=" text-align: right; width: 7%;">
                                         <a class="btn btn-primary btn-lg btn-icon-text" href="{{route('accenture.viewVendorProposal', ['project' => $project, 'vendor' => $vendor])}}">
                                             View
@@ -106,7 +106,7 @@
                                 <br>
 
                                 @foreach ($pendingEvaluationVendors as $vendor)
-                                <x-vendorCard :vendor="$vendor">
+                                <x-vendorCard :vendor="$vendor" :project="$project">
                                     <div style="text-align: right; width: 15%;">
                                         <a class="btn btn-primary btn-lg btn-icon-text" href="{{route('accenture.viewVendorProposalEvaluation', ['project' => $project, 'vendor' => $vendor])}}">Evaluate
                                             Response
@@ -129,7 +129,7 @@
                                 <br>
 
                                 @foreach ($evaluatedVendors as $vendor)
-                                <x-vendorCard :showProgressBar="false" :vendor="$vendor">
+                                <x-vendorCard :showProgressBar="false" :vendor="$vendor" :project="$project">
                                     <div style="text-align: right; width: 15%; ">
                                         <a class="btn btn-primary btn-lg btn-icon-text"
                                             href="{{route('accenture.project.disqualifyVendor', ['project' => $project, 'vendor' => $vendor])}}"
@@ -172,7 +172,7 @@
                                 <br>
 
                                 @foreach ($submittedVendors as $vendor)
-                                <x-vendorCard :showProgressBar="false" :vendor="$vendor">
+                                <x-vendorCard :showProgressBar="false" :vendor="$vendor" :project="$project">
                                     <div style="text-align: right; width: 15%;">
                                         <a class="btn btn-primary btn-lg btn-icon-text" href="{{route('accenture.viewVendorProposal', ['project' => $project, 'vendor' => $vendor])}}">View response
                                         </a>
@@ -198,7 +198,7 @@
                                 <br>
 
                                 @foreach ($disqualifiedVendors as $vendor)
-                                <x-vendorCard :vendor="$vendor">
+                                <x-vendorCard :vendor="$vendor" :project="$project">
                                     <a class="btn btn-primary btn-lg btn-icon-text" href="{{route('accenture.viewVendorProposal', ['project' => $project, 'vendor' => $vendor])}}">View Response</a>
                                 </x-vendorCard>
                                 @endforeach
@@ -218,7 +218,7 @@
                                 <br>
 
                                 @foreach ($rejectedVendors as $vendor)
-                                <x-vendorCard :showProgressBar="false" :vendor="$vendor">
+                                <x-vendorCard :showProgressBar="false" :vendor="$vendor" :project="$project">
                                     <a class="btn btn-primary btn-lg btn-icon-text"
                                     href="{{route('accenture.viewVendorProposal', ['project' => $project, 'vendor' => $vendor])}}">View Response</a>
                                 </x-vendorCard>

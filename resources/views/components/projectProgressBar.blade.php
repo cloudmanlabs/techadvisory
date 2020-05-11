@@ -19,7 +19,6 @@
     <div class="progress">
         <div style="width: 100%; border-left: 1px solid black">
             <div
-            title="Value Targeting"
             class="progress-bar"
             role="progressbar"
             style="width: {{($totalProgress / 100) * 100}}%;

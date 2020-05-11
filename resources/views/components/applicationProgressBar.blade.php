@@ -1,104 +1,64 @@
-@props(['progressFitgap', 'progressVendor','progressExperience','progressInnovation','progressImplementation', 'progressSubmit', 'title'])
+@props(['application', 'title'])
+
+@php
+    $progressSetUp = $application->progressFitgap;
+    $progressValue = $application->progressVendor;
+    $progressResponse = $application->progressExperience;
+    $progressAnalytics = $application->progressInnovation;
+    $progressConclusions = $application->progressImplementation;
+    $progressConclusions = $application->progressSubmit;
+
+    $totalProgress = $progressSetUp +
+                        $progressValue +
+                        $progressResponse +
+                        $progressAnalytics +
+                        $progressConclusions +
+                        $progressConclusions;
+@endphp
 
 <div style="float: right; width: 35%; margin-right: 5%;">
-    {{$title ?? 'Application status'}}: {{
-                    $progressFitgap +
-                    $progressVendor +
-                    $progressExperience +
-                    $progressInnovation +
-                    $progressImplementation +
-                    $progressSubmit
-                }}%
+    {{$title ?? 'Application status'}}: {{ $totalProgress }}%
     <div class="progress">
-        <div style="width: 30%;">
+        <div style="width: 100%; border-left: 1px solid black">
             <div
-            title="Fit Gap"
             class="progress-bar"
             role="progressbar"
-            style="width: {{($progressFitgap / 30) * 100}}%;
-            background-color: #27003d;
-            color: {{$progressFitgap == 0 ? 'black' : 'white'}}"
-            aria-valuenow="{{$progressFitgap}}"
-            aria-valuemin="0"
-            aria-valuemax="30"
-            >
-                {{$progressFitgap}}%
-            </div>
-        </div>
-        <div style="width: 10%; border-left: 1px solid black">
-            <div
-            title="Vendor"
-            class="progress-bar"
-            role="progressbar"
-            style="width: {{($progressVendor / 10) * 100}}%;
+            style="width: {{($totalProgress / 100) * 100}}%;
             background-color: #5a008f;
-            color: {{$progressVendor == 0 ? 'black' : 'white'}}"
-            aria-valuenow="{{$progressVendor}}"
+            color: {{$totalProgress == 0 ? 'black' : 'white'}}"
+            aria-valuenow="{{$totalProgress}}"
             aria-valuemin="0"
-            aria-valuemax="10"
+            aria-valuemax="100"
             >
-                {{$progressVendor}}%
-            </div>
-        </div>
-        <div style="width: 10%; border-left: 1px solid black">
-            <div
-                title="Experience"
-                class="progress-bar"
-                role="progressbar"
-                style="width: {{($progressExperience / 10) * 100}}%;
-                background-color: #8e00e0;
-                color: {{$progressExperience == 0 ? 'black' : 'white'}}"
-                aria-valuenow="{{$progressExperience}}"
-                aria-valuemin="0"
-                aria-valuemax="10"
-            >
-                {{$progressExperience}}%
-            </div>
-        </div>
-        <div style="width: 10%; border-left: 1px solid black">
-            <div
-                title="Innovation & Vision"
-                class="progress-bar"
-                role="progressbar"
-                style="width: {{($progressInnovation / 10) * 100}}%;
-                background-color: #a50aff;
-                color: {{$progressInnovation == 0 ? 'black' : 'white'}}"
-                aria-valuenow="{{$progressInnovation}}"
-                aria-valuemin="0"
-                aria-valuemax="10"
-            >
-                {{$progressInnovation}}%
-            </div>
-        </div>
-        <div style="width: 30%; border-left: 1px solid black">
-            <div
-                title="Implementation & Commercial"
-                class="progress-bar"
-                role="progressbar"
-                style="width: {{($progressImplementation / 30) * 100}}%;
-                background-color: #d285ff;
-                color: {{$progressImplementation == 0 ? 'black' : 'white'}}"
-                aria-valuenow="{{$progressImplementation}}"
-                aria-valuemin="0"
-                aria-valuemax="30"
-            >
-                {{$progressImplementation}}%
-            </div>
-        </div>
-        <div style="width: 10%; border-left: 1px solid black">
-            <div
-                title="Submit responses"
-                class="progress-bar"
-                role="progressbar"
-                style="width: {{($progressSubmit / 10) * 100}}%;
-                background-color: #d285ff;
-                color: {{$progressSubmit == 0 ? 'black' : 'white'}}"
-                aria-valuenow="{{$progressSubmit}}"
-                aria-valuemin="0"
-                aria-valuemax="10"
-            >
-                {{$progressSubmit}}%
+                {{$totalProgress}}%
             </div>
         </div>
     </div>
+
+    @php
+        $finishedPhases = [];
+
+        if($progressSetUp == 30){
+            $finishedPhases[] = 'Fitgap';
+        }
+        if($progressValue == 10){
+            $finishedPhases[] = 'Vendor';
+        }
+        if($progressResponse == 10){
+            $finishedPhases[] = 'Experience';
+        }
+        if($progressAnalytics == 10){
+            $finishedPhases[] = 'Innovation & Vision';
+        }
+        if($progressConclusions == 30){
+            $finishedPhases[] = 'Implementation & Commercial';
+        }
+        if($progressConclusions == 10){
+            $finishedPhases[] = 'Submit';
+        }
+
+        if(count($finishedPhases)  > 0){
+            echo 'Finished phases: ' . implode(', ', $finishedPhases);
+        }
+    @endphp
 </div>

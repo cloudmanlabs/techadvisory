@@ -1,4 +1,4 @@
-@props(['showProgressBar', 'vendor'])
+@props(['showProgressBar', 'vendor', 'application', 'project'])
 
 <div class="card" style="margin-bottom: 30px;">
     <div class="card-body" style="display: flex; flex-direction: row; justify-content: space-between; align-items: center">
@@ -13,8 +13,10 @@
         </div>
 
         @if($showProgressBar ?? true)
-            <x-applicationProgressBar progressFitgap="20" progressVendor="10" progressExperience="0" progressInnovation="0"
-            progressImplementation="0" progressSubmit="0" />
+            @php
+            $application = \App\VendorApplication::where('project_id', $project->id)->where('vendor_id', $vendor->id)->first();
+            @endphp
+            <x-applicationProgressBar :application="$application" />
         @else
             <p>
                 &nbsp;

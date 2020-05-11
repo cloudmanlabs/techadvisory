@@ -88,8 +88,11 @@
                                                 <a class="btn btn-primary btn-lg btn-icon-text" href="{{route('vendor.newApplication.apply', ['project' => $project])}}">View <i
                                                         class="btn-icon-prepend" data-feather="arrow-right"></i></a>
                                             </div>
-                                            <x-applicationProgressBar progressFitgap="20" progressVendor="10" progressExperience="0" progressInnovation="0"
-                                                progressImplementation="0" progressSubmit="0" />
+                                            @php
+                                            $vendorApplication = \App\VendorApplication::where('project_id', $project->id)->where('vendor_id',
+                                            auth()->id())->first();
+                                            @endphp
+                                            <x-applicationProgressBar :application="$vendorApplication" />
                                         </div>
                                     </div>
                                     @endforeach
@@ -124,8 +127,11 @@
                                                 <a class="btn btn-primary btn-lg btn-icon-text" href="{{route('vendor.submittedApplication', ['project' => $project])}}">View <i
                                                         class="btn-icon-prepend" data-feather="arrow-right"></i></a>
                                             </div>
-                                            <x-applicationProgressBar progressFitgap="30" progressVendor="10" progressExperience="10" progressInnovation="10"
-                                                progressImplementation="30" progressSubmit="10" />
+                                            @php
+                                            $vendorApplication = \App\VendorApplication::where('project_id', $project->id)->where('vendor_id',
+                                            auth()->id())->first();
+                                            @endphp
+                                            <x-applicationProgressBar :application="$vendorApplication" />
                                         </div>
                                     </div>
                                     @endforeach
