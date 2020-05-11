@@ -109,7 +109,7 @@ class Project extends Resource
             HasMany::make('Selection Criteria Responses', 'selectionCriteriaQuestions', 'App\Nova\SelectionCriteriaQuestionResponse'),
 
 
-            HasMany::make('Applied vendors', 'vendorsApplied', 'App\Nova\Vendor'),
+            HasMany::make('Applied vendors', 'vendorApplications', 'App\Nova\VendorApplication'),
         ];
     }
 
