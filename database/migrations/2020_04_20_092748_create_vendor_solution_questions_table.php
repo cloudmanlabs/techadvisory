@@ -22,7 +22,7 @@ class CreateVendorSolutionQuestionsTable extends Migration
 
             $table->string('placeholder')->nullable();
             $table->string('presetOption')->nullable();
-            $table->string('options')->nullable();
+            $table->text('options')->nullable();
         });
     }
 

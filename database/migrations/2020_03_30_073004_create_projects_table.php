@@ -38,7 +38,7 @@ class CreateProjectsTable extends Migration
             $table->boolean('isBinding')->default(false);
             $table->string('industry')->nullable();
             $table->string('projectType')->nullable();
-            $table->string('regions')->nullable();
+            $table->text('regions')->nullable();
 
             $table->boolean('step3SubmittedAccenture')->default(false);
             $table->boolean('step3SubmittedClient')->default(false);
@@ -51,7 +51,7 @@ class CreateProjectsTable extends Migration
 
             $table->text('rfpOtherInfo')->nullable();
 
-            $table->json('scoringValues');
+            $table->text('scoringValues');
         });
     }
 

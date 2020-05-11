@@ -23,7 +23,7 @@ class CreateSizingQuestionsTable extends Migration
             $table->string('placeholder')->nullable();
             $table->boolean('required')->default(false);
             $table->string('presetOption')->nullable();
-            $table->string('options')->nullable();
+            $table->text('options')->nullable();
 
             $table->unsignedBigInteger('practice_id')->nullable();
         });
