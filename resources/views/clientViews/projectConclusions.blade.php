@@ -9,7 +9,7 @@
 
             <x-client.projectNavbar section="projectConclusions" :project="$project" />
 
-            <x-video :src="nova_get_setting('client_Conclusions')" />
+            <x-video :src="nova_get_setting('video_conclusions')" />
             <br>
             <div class="row">
                 <div class="col-12 col-xl-12 stretch-card">

@@ -32,24 +32,11 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
         \OptimistDigital\NovaSettings\NovaSettings::addSettingsFields(function () {
             return [
                 new Panel('Videos', [
-                    Text::make('Accenture Home', 'accenture_Home'),
-                    Text::make('Accenture New Project Set Up', 'accenture_NewProjectSetUp'),
-                    Text::make('Accenture Value Targeting', 'accenture_ValueTargeting'),
-                    Text::make('Accenture Conclusions', 'accenture_Conclusions'),
-
-                    Text::make('Client Home', 'client_Home'),
-                    Text::make('Client New Project Set Up', 'client_NewProjectSetUp'),
-                    Text::make('Client Conclusions', 'client_Conclusions'),
-                    Text::make('Client First Login', 'client_firstLogin'),
-                    Text::make('Client Profile', 'client_Profile'),
-                    Text::make('Client Profile Create', 'client_ProfileCreate'),
-
-                    Text::make('Vendor First Login', 'vendor_firstLogin'),
-                    Text::make('Vendor Home', 'vendor_Home'),
-                    Text::make('Vendor Profile', 'vendor_Profile'),
-                    Text::make('Vendor Profile Create', 'vendor_ProfileCreate'),
-                    Text::make('Vendor New Application', 'vendor_NewApplication'),
-                    Text::make('Vendor Solutions Home', 'vendor_SolutionsHome'),
+                    Text::make('Opening video', 'video_opening'),
+                    Text::make('New project creation video', 'video_newProject'),
+                    Text::make('Value targeting video', 'video_valueTargeting'),
+                    Text::make('Vendor application', 'video_application'),
+                    Text::make('Conclusions & recommendations', 'video_conclusions'),
                 ]),
                 new Panel('Texts', [
                     Text::make('Accenture Home Open Projects', 'accenture_Home_Open'),

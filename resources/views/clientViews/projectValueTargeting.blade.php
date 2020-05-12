@@ -8,6 +8,8 @@
             <div class="page-content">
                 <x-client.projectNavbar section="projectDiscovery" :project="$project" />
 
+                <x-video :src="nova_get_setting('video_valueTargeting')" />
+
                 <br>
                 <div class="row">
                     <div class="col-12 col-xl-12 stretch-card">

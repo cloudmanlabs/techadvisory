@@ -9,7 +9,7 @@
             <div class="page-content">
                 <x-vendor.projectNavbar section="apply" :project="$project"/>
 
-                <x-video :src="nova_get_setting('vendor_NewApplication')" />
+                <x-video :src="nova_get_setting('video_application')" />
 
                 <div class="row" style="margin-top: 25px;">
                     <div class="col-md-12 grid-margin stretch-card">

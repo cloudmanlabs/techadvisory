@@ -7,7 +7,7 @@
         <div class="page-wrapper">
             <div class="page-content">
 
-                <x-video :src="nova_get_setting('client_firstLogin')"/>
+                <x-video :src="nova_get_setting('video_opening')"/>
 
                 <br>
                 <br>

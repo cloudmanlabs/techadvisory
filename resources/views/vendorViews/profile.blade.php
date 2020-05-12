@@ -7,7 +7,7 @@
         <div class="page-wrapper">
             <div class="page-content">
 
-                <x-video :src="nova_get_setting('vendor_Profile')" />
+                <x-video :src="nova_get_setting('video_opening')" />
 
                 <br>
                 <br>

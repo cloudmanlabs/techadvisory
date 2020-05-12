@@ -8,7 +8,7 @@
             <div class="page-content">
                 <x-accenture.projectNavbar section="projectValueTargeting" :project="$project" />
 
-                <x-video :src="nova_get_setting('accenture_ValueTargeting')" />
+                <x-video :src="nova_get_setting('video_valueTargeting')" />
 
                 <br>
                 <div class="row">
