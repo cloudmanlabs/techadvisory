@@ -480,7 +480,9 @@ class ProjectsTest extends TestCase
     public function testCanSetStep3SubmittedForClient()
     {
         $user = factory(User::class)->states(['client', 'finishedSetup'])->create();
-        $project = factory(Project::class)->create();
+        $project = factory(Project::class)->create([
+            'step3SubmittedAccenture' => true
+        ]);
 
         $this->assertFalse(boolval($project->step3SubmittedClient));
 
@@ -499,7 +501,9 @@ class ProjectsTest extends TestCase
     public function testCanSetStep4SubmittedForClient()
     {
         $user = factory(User::class)->states(['client', 'finishedSetup'])->create();
-        $project = factory(Project::class)->create();
+        $project = factory(Project::class)->create([
+            'step4SubmittedAccenture' => true
+        ]);
 
         $this->assertFalse(boolval($project->step4SubmittedClient));
 
@@ -666,5 +670,43 @@ class ProjectsTest extends TestCase
         $this->assertEquals('23', $project->oralsToDate->day);
         $this->assertEquals('10', $project->oralsToDate->month);
         $this->assertEquals('2030', $project->oralsToDate->year);
+    }
+
+    public function testSettingStep3AccentureAsFalseChangesForClient()
+    {
+        $user = factory(User::class)->states('accenture')->create();
+        $project = factory(Project::class)->create([
+            'step3SubmittedAccenture' => true,
+            'step3SubmittedClient' => true,
+        ]);
+
+        $this->assertTrue($project->step3SubmittedAccenture);
+        $this->assertTrue($project->step3SubmittedClient);
+
+        $project->step3SubmittedAccenture = false;
+        $project->save();
+        $project->refresh();
+
+        $this->assertFalse($project->step3SubmittedAccenture);
+        $this->assertFalse($project->step3SubmittedClient);
+    }
+
+    public function testSettingStep4AccentureAsFalseChangesForClient()
+    {
+        $user = factory(User::class)->states('accenture')->create();
+        $project = factory(Project::class)->create([
+            'step4SubmittedAccenture' => true,
+            'step4SubmittedClient' => true,
+        ]);
+
+        $this->assertTrue($project->step4SubmittedAccenture);
+        $this->assertTrue($project->step4SubmittedClient);
+
+        $project->step4SubmittedAccenture = false;
+        $project->save();
+        $project->refresh();
+
+        $this->assertFalse($project->step4SubmittedAccenture);
+        $this->assertFalse($project->step4SubmittedClient);
     }
 }

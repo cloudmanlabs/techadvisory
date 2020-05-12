@@ -63,6 +63,16 @@ class ProjectObserver
         $project->rfpFolder()->save(Folder::createNewRandomFolder('rfp'));
     }
 
+    public function saving(Project $project)
+    {
+        if(! $project->step3SubmittedAccenture){
+            $project->step3SubmittedClient = false;
+        }
+        if(! $project->step4SubmittedAccenture){
+            $project->step4SubmittedClient = false;
+        }
+    }
+
     // public function deleting(Project $project)
     // {
     //     foreach ($project->generalInfoQuestions as $key => $question) {
