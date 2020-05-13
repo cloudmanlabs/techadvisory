@@ -22,7 +22,10 @@ class ProjectSeeder extends Seeder
             $user->projectsClient()->save(factory(Project::class)->create([
                 'step3SubmittedAccenture' => true,
                 ]));
-            $user->projectsClient()->save(factory(Project::class)->states(['open'])->create());
+            $user->projectsClient()->save(($project2 = factory(Project::class)->states(['open'])->create()));
+
+            $vendor = User::where('email', 'vendor@vendor.com')->first();
+            $vendor->applyToProject($project2);
         }
     }
 }

@@ -26,7 +26,7 @@
                                         suscipit mauris, et aliquet urna. Fusce sed ipsum eu nunc pellentesque luctus. ipsum dolor sit amet.
                                         <br><br>
 
-                                        <x-fitgapExcelModal :vendor="auth()->user()" :project="$project" />
+                                        <x-fitgapVendorModal :vendor="auth()->user()" :project="$project" />
 
                                         <br><br>
                                         <h4>Questions</h4>

@@ -65,7 +65,9 @@ class HomeTest extends TestCase
 
     public function testShowsListOfStartedProjects()
     {
+        /** @var Project $project */
         $project = factory(Project::class)->create();
+        $project->publish();
         $vendor = factory(User::class)->states(['vendor', 'finishedSetup'])->create();
 
         $application = $vendor->applyToProject($project);
@@ -82,6 +84,7 @@ class HomeTest extends TestCase
     public function testShowsListOfSubmittedProjects()
     {
         $project = factory(Project::class)->create();
+        $project->publish();
         $vendor = factory(User::class)->states(['vendor', 'finishedSetup'])->create();
 
         $application = $vendor->applyToProject($project);

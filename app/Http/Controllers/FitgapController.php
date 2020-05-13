@@ -64,4 +64,34 @@ class FitgapController extends Controller
             'message' => 'Success'
         ]);
     }
+
+
+
+    public function mainIframe(Request $request, Project $project)
+    {
+        return view('fitgap.mainIframe', [
+            'project' => $project,
+            'disabled' => $request->disabled ?? false
+        ]);
+    }
+
+    public function mainJson(Project $project)
+    {
+        return $project->fitgapData;
+    }
+
+    public function mainJsonUpload(Request $request, Project $project)
+    {
+        $request->validate([
+            'data' => 'required|array'
+        ]);
+
+        $project->fitgapData = $request->data;
+        $project->save();
+
+        return \response()->json([
+            'status' => 200,
+            'message' => 'Success'
+        ]);
+    }
 }

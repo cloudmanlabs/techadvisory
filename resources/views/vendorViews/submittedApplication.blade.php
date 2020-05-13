@@ -36,7 +36,7 @@
                                         </p>
                                         <br><br>
 
-                                        <x-fitgapExcelModal :vendor="auth()->user()" :project="$project" :disabled="true" />
+                                        <x-fitgapVendorModal :vendor="auth()->user()" :project="$project" :disabled="true" />
 
                                         <br><br>
                                         <h4>Questions</h4>

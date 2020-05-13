@@ -59,6 +59,13 @@ Route::middleware(['auth'])->group(function () {
         ->name('fitgapVendorJson');
     Route::post('fitgapVendorJson/{vendor}/{project}', 'FitgapController@vendorJsonUpload')
         ->name('fitgapVendorJsonUpload');
+
+    Route::get('fitgapMainIframe/{project}', 'FitgapController@mainIframe')
+        ->name('fitgapMainIframe');
+    Route::get('fitgapMainJson/{project}', 'FitgapController@mainJson')
+        ->name('fitgapMainJson');
+    Route::post('fitgapMainJson/{project}', 'FitgapController@mainJsonUpload')
+        ->name('fitgapMainJsonUpload');
 });
 
 

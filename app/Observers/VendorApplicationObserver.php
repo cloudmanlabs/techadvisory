@@ -6,18 +6,9 @@ use App\VendorApplication;
 
 class VendorApplicationObserver
 {
-    public function creating(VendorApplication $application)
+    public function created(VendorApplication $application)
     {
-        $application->fitgapData = [
-            [
-                "Requirement Type" => "Functional",
-                "Level 1" => "Transportation",
-                "Level 2" => "Transport planning",
-                "Level 3" => "Optimization",
-                "Requirement" => "Requierement 1",
-                "Client" => "Nice to have",
-                "Comments" => ""
-            ]
-        ];
+        // TODO Change some stuff here or smth
+        $application->fitgapData = $application->project->fitgapData;
     }
 }

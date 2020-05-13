@@ -25,6 +25,117 @@ class ProjectObserver
         if ($project->deadline == null) {
             $project->deadline = Carbon::now()->addYear();
         }
+
+        $project->fitgapData = [
+            [
+                "Requirement Type" => "Functional",
+                "Level 1" => "Transportation",
+                "Level 2" => "Transport planning",
+                "Level 3" => "Optimization",
+                "Requirement" => "Requierement 1",
+                "Client" => "",
+                "Business Opportunity" => "Yes"
+            ],
+            [
+                "Requirement Type" => "Functional",
+                "Level 1" => "Transportation",
+                "Level 2" => "Order management",
+                "Level 3" => "Input",
+                "Requirement" => "Requierement 2",
+                "Client" => "",
+                "Business Opportunity" => "Yes"
+            ],
+            [
+                "Requirement Type" => "Functional",
+                "Level 1" => "Transportation",
+                "Level 2" => "Tendering & Spot Buying",
+                "Level 3" => "Tendering",
+                "Requirement" => "Requierement 3",
+                "Client" => "",
+                "Business Opportunity" => "Yes"
+            ],
+            [
+                "Requirement Type" => "Functional",
+                "Level 1" => "Transportation",
+                "Level 2" => "Executuin & Visbility",
+                "Level 3" => "Real time track & trace",
+                "Requirement" => "Requierement 4",
+                "Client" => "",
+                "Business Opportunity" => "No"
+            ],
+            [
+                "Requirement Type" => "Technical",
+                "Level 1" => "IT",
+                "Level 2" => "Administration",
+                "Level 3" => "Users",
+                "Requirement" => "Requierement 5",
+                "Client" => "",
+                "Business Opportunity" => "Yes"
+            ],
+            [
+                "Requirement Type" => "Technical",
+                "Level 1" => "IT",
+                "Level 2" => "Architecture",
+                "Level 3" => "Servers location",
+                "Requirement" => "Requierement 6",
+                "Client" => "",
+                "Business Opportunity" => "Yes"
+            ],
+            [
+                "Requirement Type" => "Technical",
+                "Level 1" => "IT",
+                "Level 2" => "Integration",
+                "Level 3" => "Integration",
+                "Requirement" => "Requierement 7",
+                "Client" => "",
+                "Business Opportunity" => "Yes"
+            ],
+            [
+                "Requirement Type" => "Service",
+                "Level 1" => "General",
+                "Level 2" => "Education & Training",
+                "Level 3" => "Resources",
+                "Requirement" => "Requierement 8",
+                "Client" => "",
+                "Business Opportunity" => "No"
+            ],
+            [
+                "Requirement Type" => "Service",
+                "Level 1" => "General",
+                "Level 2" => "Maintenance Support",
+                "Level 3" => "Application updates",
+                "Requirement" => "Requierement 9",
+                "Client" => "",
+                "Business Opportunity" => "No"
+            ],
+            [
+                "Requirement Type" => "Service",
+                "Level 1" => "General",
+                "Level 2" => "Education & Training",
+                "Level 3" => "Training",
+                "Requirement" => "Requierement 10",
+                "Client" => "",
+                "Business Opportunity" => "Yes"
+            ],
+            [
+                "Requirement Type" => "Others",
+                "Level 1" => "General",
+                "Level 2" => "Other",
+                "Level 3" => "Training",
+                "Requirement" => "Requierement 11",
+                "Client" => "",
+                "Business Opportunity" => "No"
+            ],
+            [
+                "Requirement Type" => "Others",
+                "Level 1" => "General",
+                "Level 2" => "Other",
+                "Level 3" => "Training",
+                "Requirement" => "Requierement 12",
+                "Client" => "",
+                "Business Opportunity" => "Yes"
+            ]
+        ];
     }
 
     public function created(Project $project)

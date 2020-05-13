@@ -34,6 +34,12 @@
 
                             <div class="dropdown-body">
                                 <ul class="profile-nav p-0 pt-3">
+                                    <li class="nav-item" style="display: flex; justify-content: center">
+                                        {{auth()->user()->email}}
+                                    </li>
+                                    <li class="nav-item" style="display: flex; justify-content: center">
+                                        Barcelona
+                                    </li>
                                     <li class="nav-item">
                                         <a
                                             class="nav-link"

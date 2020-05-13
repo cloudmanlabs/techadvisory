@@ -20,8 +20,12 @@ class HomeController extends Controller
         $invitationProjects = $vendor->vendorAppliedProjects(['invitation'])->get()->filter(function($project){
             return $project->currentPhase == 'open';
         });
-        $startedProjects = $vendor->vendorAppliedProjects(['applicating'])->get();
-        $submittedProjects = $vendor->vendorAppliedProjects(['pendingEvaluation', 'evaluated', 'submitted'])->get();
+        $startedProjects = $vendor->vendorAppliedProjects(['applicating'])->get()->filter(function ($project) {
+            return $project->currentPhase == 'open';
+        });
+        $submittedProjects = $vendor->vendorAppliedProjects(['pendingEvaluation', 'evaluated', 'submitted'])->get()->filter(function ($project) {
+            return $project->currentPhase == 'open';
+        });
         $rejectedProjects = $vendor->vendorAppliedProjects(['rejected'])->get();
 
         return view('vendorViews.home', [

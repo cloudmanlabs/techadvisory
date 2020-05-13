@@ -37,7 +37,7 @@
                                     </p>
                                     <br><br>
 
-                                    <x-fitgapExcelModal :vendor="$vendor" :project="$project" />
+                                    <x-fitgapVendorModal :vendor="$vendor" :project="$project" />
 
                                     <br><br>
                                     <h4>Questions</h4>
