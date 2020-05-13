@@ -674,7 +674,6 @@ class ProjectsTest extends TestCase
 
     public function testSettingStep3AccentureAsFalseChangesForClient()
     {
-        $user = factory(User::class)->states('accenture')->create();
         $project = factory(Project::class)->create([
             'step3SubmittedAccenture' => true,
             'step3SubmittedClient' => true,
@@ -693,7 +692,6 @@ class ProjectsTest extends TestCase
 
     public function testSettingStep4AccentureAsFalseChangesForClient()
     {
-        $user = factory(User::class)->states('accenture')->create();
         $project = factory(Project::class)->create([
             'step4SubmittedAccenture' => true,
             'step4SubmittedClient' => true,
