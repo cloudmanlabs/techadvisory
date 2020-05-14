@@ -1,7 +1,8 @@
-@props(['project', 'vendor', 'disabled'])
+@props(['project', 'vendor', 'disabled', 'review'])
 
 @php
 $disabled = $disabled ?? false;
+$review = $review ?? false;
 @endphp
 
 <div style="text-align: center;">
@@ -24,7 +25,7 @@ $disabled = $disabled ?? false;
                     </button>
                 </div>
                 <div class="modal-body">
-                    <iframe src="{{route('fitgapVendorIframe', ['project' => $project, 'vendor' => $vendor, 'disabled' => $disabled ])}}"
+                    <iframe src="{{route('fitgapVendorIframe', ['project' => $project, 'vendor' => $vendor, 'disabled' => $disabled, 'review' => $review ])}}"
                         style="width: 100%; min-height: 600px; border: none;"></iframe>
                 </div>
                 <div class="modal-footer">

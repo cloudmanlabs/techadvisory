@@ -23,7 +23,10 @@ class FitgapTest extends TestCase
         $response = $this->actingAs($vendor)
                          ->post(route('fitgapVendorJsonUpload', ['vendor' => $vendor, 'project' => $project]), [
                             'data' => [
-                                'hello' => 'hey'
+                                [
+                                    'hey' => 'hi',
+                                    'Score' => 'hello'
+                                ]
                             ]
                          ]);
 
@@ -36,6 +39,8 @@ class FitgapTest extends TestCase
 
     public function testCanGetVendorFitgapJsonFromRoute()
     {
+        $this->withoutExceptionHandling();
+
         $project = factory(Project::class)->create();
         /** @var User $vendor */
         $vendor = factory(User::class)->states(['vendor', 'finishedSetup'])->create();
@@ -43,7 +48,10 @@ class FitgapTest extends TestCase
         $application = $vendor->applyToProject($project);
 
         $application->fitgapData = [
-            'hey' => 'hi'
+            [
+                'hey' => 'hi',
+                'Score' => 'hello'
+            ]
         ];
         $application->save();
 
@@ -51,8 +59,36 @@ class FitgapTest extends TestCase
             ->get(route('fitgapVendorJson', ['vendor' => $vendor, 'project' => $project]));
 
         $response->assertOk()
-            ->assertJson([
+            ->assertExactJson([
+                ['hey' => 'hi',]
+            ]);
+    }
+
+    public function testCanGetVendorFitgapJsonInReviewMode()
+    {
+        $project = factory(Project::class)->create();
+        /** @var User $vendor */
+        $vendor = factory(User::class)->states(['vendor', 'finishedSetup'])->create();
+
+        $application = $vendor->applyToProject($project);
+
+        $application->fitgapData = [
+            [
                 'hey' => 'hi',
+                'Score' => 'hello'
+            ]
+        ];
+        $application->save();
+
+        $response = $this->actingAs($vendor)
+            ->get(route('fitgapVendorJson', ['vendor' => $vendor, 'project' => $project, 'review' => true]));
+
+        $response->assertOk()
+            ->assertExactJson([
+                [
+                    'hey' => 'hi',
+                    'Score' => 'hello'
+                ]
             ]);
     }
 
@@ -65,7 +101,10 @@ class FitgapTest extends TestCase
         $application = $vendor->applyToProject($project);
 
         $application->fitgapData = [
-            'hey' => 'hi'
+            [
+                'hey' => 'hi',
+                'Score' => 'hello'
+            ]
         ];
         $application->save();
 
@@ -81,6 +120,8 @@ class FitgapTest extends TestCase
     }
 
 
+
+
     public function testCanChangeMainFitgapInProject()
     {
         $this->withoutExceptionHandling();
@@ -93,7 +134,10 @@ class FitgapTest extends TestCase
         $response = $this->actingAs($accenture)
             ->post(route('fitgapMainJsonUpload', ['project' => $project]), [
                 'data' => [
-                    'hello' => 'hey'
+                    [
+                        'hey' => 'hi',
+                        'Score' => 'hello'
+                    ]
                 ]
             ]);
 
@@ -110,7 +154,10 @@ class FitgapTest extends TestCase
         $accenture = factory(User::class)->states(['accenture'])->create();
 
         $project->fitgapData = [
-            'hey' => 'hi'
+            [
+                'hey' => 'hi',
+                'Score' => 'hello'
+            ]
         ];
         $project->save();
 
@@ -118,8 +165,11 @@ class FitgapTest extends TestCase
             ->get(route('fitgapMainJson', ['project' => $project]));
 
         $response->assertOk()
-            ->assertJson([
-                'hey' => 'hi',
+            ->assertExactJson([
+                [
+                    'hey' => 'hi',
+                    'Score' => 'hello'
+                ]
             ]);
     }
 
@@ -129,7 +179,10 @@ class FitgapTest extends TestCase
         $accenture = factory(User::class)->states(['accenture'])->create();
 
         $project->fitgapData = [
-            'hey' => 'hi'
+            [
+                'hey' => 'hi',
+                'Score' => 'hello'
+            ]
         ];
         $project->save();
 

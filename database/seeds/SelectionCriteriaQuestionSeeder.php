@@ -27,5 +27,16 @@ class SelectionCriteriaQuestionSeeder extends Seeder
             'label' => 'Vendor contact role',
             'type' => 'text',
         ]);
+
+
+        factory(SelectionCriteriaQuestion::class)->create([
+            'page' => 'implementation_implementation',
+
+            'label' => 'Solutions used',
+            'type' => 'selectMultiple',
+            'presetOption' => 'countries',
+            'fixed' => true,
+            'fixedQuestionIdentifier' => 'vendor_market_countries'
+        ]);
     }
 }

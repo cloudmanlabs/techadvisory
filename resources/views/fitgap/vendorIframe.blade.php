@@ -24,7 +24,7 @@
 
 
             var mySpreadsheet = jexcel(document.getElementById('spreadsheet'), {
-                url:"{{route('fitgapVendorJson', ['vendor' => $vendor, 'project' => $project])}}",
+                url:"{{route('fitgapVendorJson', ['vendor' => $vendor, 'project' => $project, 'review' => $review])}}",
                 tableOverflow:false,
                 contextMenu: false,
                 columns: [
@@ -73,6 +73,13 @@
                         title: 'Comments',
                         width: 110
                     },
+                    @if($review)
+                    {
+                        type: 'text',
+                        title: 'Score',
+                        width: 110
+                    },
+                    @endif
                 ],
                 onchange: function(instance, cell, x, y, value) {
                     @if($disabled)

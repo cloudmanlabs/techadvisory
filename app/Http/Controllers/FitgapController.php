@@ -23,11 +23,12 @@ class FitgapController extends Controller
         return view('fitgap.vendorIframe', [
             'project' => $project,
             'vendor' => $vendor,
-            'disabled' => $request->disabled ?? false
+            'disabled' => $request->disabled ?? false,
+            'review' => $request->review ?? false,
         ]);
     }
 
-    public function vendorJson(User $vendor, Project $project)
+    public function vendorJson(Request $request, User $vendor, Project $project)
     {
         $vendorApplication = VendorApplication::where([
             'project_id' => $project->id,
@@ -38,7 +39,19 @@ class FitgapController extends Controller
             abort(404);
         }
 
-        return $vendorApplication->fitgapData;
+        $fitgap = $vendorApplication->fitgapData;
+        $result = [];
+
+        // If we're not in review mode, remove the score
+        $review = $request->review ?? false;
+        foreach ($fitgap as $key => $row) {
+            if(! $review){
+                unset($row['Score']);
+            }
+            $result[] = $row;
+        }
+
+        return $result;
     }
 
     public function vendorJsonUpload(Request $request, User $vendor, Project $project)

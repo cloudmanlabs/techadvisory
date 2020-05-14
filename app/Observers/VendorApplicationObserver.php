@@ -9,6 +9,14 @@ class VendorApplicationObserver
     public function created(VendorApplication $application)
     {
         // TODO Change some stuff here or smth
-        $application->fitgapData = $application->project->fitgapData;
+        $result = [];
+
+        foreach ($application->project->fitgapData as $key => $row) {
+            $row['Score'] = 0;
+            $result[] = $row;
+        }
+
+        $application->fitgapData = $result;
+        $application->save();
     }
 }
