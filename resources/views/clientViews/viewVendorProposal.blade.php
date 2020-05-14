@@ -38,7 +38,7 @@
                                     </p>
                                     <br><br>
 
-                                    <x-fitgapVendorModal :vendor="$vendor" :project="$project" :reveiw="true" />
+                                    <x-fitgapEvaluationModal :vendor="$vendor" :project="$project" :disabled="true" />
 
                                     <br><br>
                                     <h4>Questions</h4>

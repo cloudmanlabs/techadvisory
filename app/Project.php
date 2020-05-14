@@ -31,7 +31,8 @@ use Illuminate\Support\Facades\Log;
  * @property boolean $step4SubmittedClient
  *
  * @property array $scoringValues
- * @property array $fitgapData
+ * @property array $fitgap5Columns
+ * @property array $fitgapClientColumns
  *
  * @property string $rfpOtherInfo
  *
@@ -56,7 +57,8 @@ class Project extends Model
         'step4SubmittedClient' => 'boolean',
 
         'scoringValues' => 'array',
-        'fitgapData' => 'array',
+        'fitgap5Columns' => 'array',
+        'fitgapClientColumns' => 'array',
         'regions' => 'array',
     ];
 

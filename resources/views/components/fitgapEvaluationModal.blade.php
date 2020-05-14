@@ -1,7 +1,8 @@
-@props(['project', 'disabled'])
+@props(['project', 'vendor', 'disabled'])
 
 @php
 $disabled = $disabled ?? false;
+$review = $review ?? false;
 @endphp
 
 <div style="text-align: center;">
@@ -18,13 +19,13 @@ $disabled = $disabled ?? false;
         <div class="modal-dialog modal-xl">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Edit fitgap table</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">Please complete the Fit Gap table</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 <div class="modal-body">
-                    <iframe src="{{route('fitgapMainIframe', ['project' => $project, 'disabled' => $disabled ])}}"
+                    <iframe src="{{route('fitgapEvaluationIframe', ['project' => $project, 'vendor' => $vendor, 'disabled' => $disabled])}}"
                         style="width: 100%; min-height: 600px; border: none;"></iframe>
                 </div>
                 <div class="modal-footer">

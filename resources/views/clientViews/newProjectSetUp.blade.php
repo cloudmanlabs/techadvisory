@@ -195,7 +195,7 @@
                                                 </p>
                                                 <br><br>
 
-                                                <x-fitgapMainModal :project="$project" />
+                                                <x-fitgapClientModal :project="$project" />
 
                                                 <br><br>
                                                 <h4>Questions</h4>

@@ -24,7 +24,7 @@
 
 
             var mySpreadsheet = jexcel(document.getElementById('spreadsheet'), {
-                url:"{{route('fitgapVendorJson', ['vendor' => $vendor, 'project' => $project])}}",
+                url:"{{route('fitgapEvaluationJson', ['vendor' => $vendor, 'project' => $project])}}",
                 tableOverflow:false,
                 contextMenu: false,
                 columns: [
@@ -68,14 +68,17 @@
                             'Product partially supports the functionality',
                             'Product fully supports the functionality'
                         ],
-
-                        @if($disabled)
                         readOnly: true,
-                        @endif
                     },
                     {
                         type: 'text',
                         title: 'Comments',
+                        width: 110,
+                        readOnly: true,
+                    },
+                    {
+                        type: 'text',
+                        title: 'Score',
                         width: 110,
 
                         @if($disabled)
@@ -86,7 +89,7 @@
                 onchange: function(instance, cell, x, y, value) {
                     @if(! $disabled)
                         mySpreadsheet.undo()
-                        $.post("{{route('fitgapVendorJsonUpload', ['vendor' => $vendor, 'project' => $project])}}", {
+                        $.post("{{route('fitgapEvaluationJsonUpload', ['vendor' => $vendor, 'project' => $project])}}", {
                             data: mySpreadsheet.getJson()
                         })
                     @endif

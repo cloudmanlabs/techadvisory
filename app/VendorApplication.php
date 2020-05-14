@@ -17,7 +17,8 @@ use Illuminate\Database\Eloquent\Model;
  * @property integer $progressImplementation
  * @property integer $progressSubmit
 
- * @property array $fitgapData
+ * @property array $fitgapVendorColumns
+ * @property array $fitgapVendorScores
  */
 class VendorApplication extends Model
 {
@@ -27,7 +28,8 @@ class VendorApplication extends Model
         'invitedToOrals' => 'boolean',
         'oralsCompleted' => 'boolean',
 
-        'fitgapData' => 'array'
+        'fitgapVendorColumns' => 'array',
+        'fitgapVendorScores' => 'array'
     ];
 
 

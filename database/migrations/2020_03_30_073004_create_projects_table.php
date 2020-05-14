@@ -50,7 +50,9 @@ class CreateProjectsTable extends Migration
             $table->dateTime('oralsToDate')->nullable();
 
             $table->text('rfpOtherInfo')->nullable();
-            $table->text('fitgapData')->nullable();
+
+            $table->text('fitgap5Columns')->nullable();
+            $table->text('fitgapClientColumns')->nullable();
 
             $table->text('scoringValues');
         });

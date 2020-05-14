@@ -53,19 +53,28 @@ Route::middleware(['auth'])->group(function () {
     Route::post('folder/removeFile', 'FolderController@removeFile');
 
 
-    Route::get('fitgapVendorIframe/{vendor}/{project}', 'FitgapController@vendorIframe')
-        ->name('fitgapVendorIframe');
+
+    Route::get('fitgapClientJson/{project}', 'FitgapController@clientJson')
+        ->name('fitgapClientJson');
     Route::get('fitgapVendorJson/{vendor}/{project}', 'FitgapController@vendorJson')
         ->name('fitgapVendorJson');
+    Route::get('fitgapEvaluationJson/{vendor}/{project}', 'FitgapController@evaluationJson')
+        ->name('fitgapEvaluationJson');
+
+    Route::post('fitgapClientJson/{project}', 'FitgapController@clientJsonUpload')
+        ->name('fitgapClientJsonUpload');
     Route::post('fitgapVendorJson/{vendor}/{project}', 'FitgapController@vendorJsonUpload')
         ->name('fitgapVendorJsonUpload');
+    Route::post('fitgapEvaluationJson/{vendor}/{project}', 'FitgapController@evaluationJsonUpload')
+        ->name('fitgapEvaluationJsonUpload');
 
-    Route::get('fitgapMainIframe/{project}', 'FitgapController@mainIframe')
-        ->name('fitgapMainIframe');
-    Route::get('fitgapMainJson/{project}', 'FitgapController@mainJson')
-        ->name('fitgapMainJson');
-    Route::post('fitgapMainJson/{project}', 'FitgapController@mainJsonUpload')
-        ->name('fitgapMainJsonUpload');
+
+    Route::get('fitgapClientIframe/{project}', 'FitgapController@clientIframe')
+        ->name('fitgapClientIframe');
+    Route::get('fitgapVendorIframe/{vendor}/{project}', 'FitgapController@vendorIframe')
+        ->name('fitgapVendorIframe');
+    Route::get('fitgapEvaluationIframe/{vendor}/{project}', 'FitgapController@evaluationIframe')
+        ->name('fitgapEvaluationIframe');
 });
 
 

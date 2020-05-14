@@ -3,12 +3,10 @@
     <link rel="stylesheet" href="{{url('/assets/vendors_techadvisory/jexcel-3.6.1/dist/jexcel.css')}}" type="text/css" />
     <link rel="stylesheet" href="{{url('/assets/vendors_techadvisory/jexcel-3.6.1/dist/jsuites.css')}}" type="text/css" />
     <link rel="stylesheet" href="{{url('/assets/vendors_techadvisory/jexcel-3.6.1/dist/extra.css')}}" type="text/css" />
-    <link rel="stylesheet" href="{{url('assets/css/jquery.toast.min.css')}}">
 
     <script src="{{url('assets/vendors/core/core.js')}}"></script>
     <script src="{{url('/assets/vendors_techadvisory/jexcel-3.6.1/dist/jexcel.js')}}"></script>
     <script src="{{url('/assets/vendors_techadvisory/jexcel-3.6.1/dist/jsuites.js')}}"></script>
-    <script src="{{url('assets/js/jquery.toast.min.js')}}"></script>
 
     <body style="background-color: white !important;">
         <div id="spreadsheet"></div>
@@ -16,17 +14,6 @@
         <p><button id='download'>Export document as CSV</button></p>
 
         <script>
-            function showSavedToast()
-            {
-                $.toast({
-                    heading: 'Saved!',
-                    showHideTransition: 'slide',
-                    icon: 'success',
-                    hideAfter: 1000,
-                    position: 'bottom-right'
-                })
-            }
-
             $(function () {
                 $.ajaxSetup({
                     headers: {
@@ -37,7 +24,7 @@
 
 
             var mySpreadsheet = jexcel(document.getElementById('spreadsheet'), {
-                url:"{{route('fitgapMainJson', ['project' => $project])}}",
+                url:"{{route('fitgapClientJson', ['project' => $project])}}",
                 tableOverflow:false,
                 contextMenu: false,
                 columns: [
@@ -73,37 +60,38 @@
                     },
                     {
                         type: 'dropdown',
-                        title: 'Vendor Score',
+                        title: 'Client',
                         width: 140,
                         source: [
-                            'Must have',
+                            'Must',
                             'Required',
-                            'Nice to have'
-                        ]
+                            'Nice to have',
+                        ],
+
+                        @if($disabled)
+                        readOnly: true,
+                        @endif
                     },
                     {
                         type: 'text',
-                        title: 'Comments',
-                        width: 110
-                    },
+                        title: 'Business Oportunity',
+                        width: 110,
+
+                        @if($disabled)
+                        readOnly: true,
+                        @endif
+                    }
                 ],
                 onchange: function(instance, cell, x, y, value) {
-                    @if($disabled)
+                    @if(! $disabled)
                         mySpreadsheet.undo()
-                    @else
-                        $.post("{{route('fitgapMainJsonUpload', ['project' => $project])}}", {
+                        $.post("{{route('fitgapClientJsonUpload', ['project' => $project])}}", {
                             data: mySpreadsheet.getJson()
                         })
-
-                        showSavedToast()
                     @endif
-                },
-                @if($disabled)
-                onselection: function(){
-                    mySpreadsheet.undo()
                 }
-                @endif
             });
+
 
             document.getElementById('download').onclick = function () {
                 mySpreadsheet.download();

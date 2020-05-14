@@ -8,15 +8,19 @@ class VendorApplicationObserver
 {
     public function created(VendorApplication $application)
     {
-        // TODO Change some stuff here or smth
-        $result = [];
-
-        foreach ($application->project->fitgapData as $key => $row) {
-            $row['Score'] = 0;
-            $result[] = $row;
+        // We add a row for each one on the fitgap
+        $fitgapColumns = [];
+        $scores = [];
+        foreach ($application->project->fitgap5Columns as $key => $row) {
+            $fitgapColumns[] = [
+                'Vendor Response' => '',
+                'Comments' => '',
+            ];
+            $scores[] = 5;
         }
 
-        $application->fitgapData = $result;
+        $application->fitgapVendorColumns = $fitgapColumns;
+        $application->fitgapVendorScores = $scores;
         $application->save();
     }
 }

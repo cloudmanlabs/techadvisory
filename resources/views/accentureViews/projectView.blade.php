@@ -161,7 +161,7 @@
                                                 </p>
                                                 <br><br>
 
-                                                <x-fitgapMainModal :project="$project" />
+                                                <x-fitgapClientModal :project="$project" :disabled="true" />
 
                                                 <br><br>
                                                 <h4>Questions</h4>
