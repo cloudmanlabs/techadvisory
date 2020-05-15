@@ -53,6 +53,9 @@ class CreateProjectsTable extends Migration
 
             $table->text('fitgap5Columns')->nullable();
             $table->text('fitgapClientColumns')->nullable();
+            $table->unsignedInteger('fitgapWeightMust')->default(10);
+            $table->unsignedInteger('fitgapWeightRequired')->default(5);
+            $table->unsignedInteger('fitgapWeightNiceToHave')->default(1);
 
             $table->text('scoringValues');
         });

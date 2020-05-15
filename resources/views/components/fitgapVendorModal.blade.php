@@ -2,7 +2,6 @@
 
 @php
 $disabled = $disabled ?? false;
-$review = $review ?? false;
 @endphp
 
 <div style="text-align: center;">

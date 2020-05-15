@@ -31,10 +31,13 @@ use Illuminate\Support\Facades\Log;
  * @property boolean $step4SubmittedClient
  *
  * @property array $scoringValues
+ * @property string $rfpOtherInfo
+ *
  * @property array $fitgap5Columns
  * @property array $fitgapClientColumns
- *
- * @property string $rfpOtherInfo
+ * @property integer $fitgapWeightMust
+ * @property integer $fitgapWeightRequired
+ * @property integer $fitgapWeightNiceToHave
  *
  * @property \Carbon\Carbon $deadline
  * @property \Carbon\Carbon $oralsFromDate

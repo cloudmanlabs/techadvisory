@@ -52,11 +52,40 @@ class ProjectsTest extends TestCase
                                     ->addWeek()
                                     ->toDateTimeString(),
 
-            'rfpOtherInfo' => 'Hello my friends'
+            'rfpOtherInfo' => 'Hello my friends',
+
+            'fitgapWeightMust' => 10,
+            'fitgapWeightRequired' => 10,
+            'fitgapWeightNiceToHave' => 10,
         ]);
         $project->save();
 
         $this->assertCount(1, Project::all());
+    }
+
+    public function testCreatingAProjectWithoutWeightsSetsTheValuesToTheDefaults()
+    {
+        factory(Practice::class)->create();
+
+        $project = new Project([
+            'name' => 'New Project',
+            'hasOrals' => false,
+            'hasValueTargeting' => false,
+
+            'deadline' => Carbon::now()
+                ->addMonth()
+                ->addWeek()
+                ->toDateTimeString(),
+
+            'practice_id' => 1,
+            'client_id' => 1,
+        ]);
+        $project->save();
+
+        $project->refresh();
+        $this->assertEquals(10, $project->fitgapWeightMust);
+        $this->assertEquals(5, $project->fitgapWeightRequired);
+        $this->assertEquals(1, $project->fitgapWeightNiceToHave);
     }
 
     public function testProjectDefaultPhaseIsPreparation()

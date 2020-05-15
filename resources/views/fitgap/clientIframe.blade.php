@@ -11,7 +11,7 @@
     <body style="background-color: white !important;">
         <div id="spreadsheet"></div>
 
-        <p><button id='download'>Export document as CSV</button></p>
+        <p><button id='download'>Export document</button></p>
 
         <script>
             $(function () {
@@ -84,7 +84,6 @@
                 ],
                 onchange: function(instance, cell, x, y, value) {
                     @if(! $disabled)
-                        mySpreadsheet.undo()
                         $.post("{{route('fitgapClientJsonUpload', ['project' => $project])}}", {
                             data: mySpreadsheet.getJson()
                         })

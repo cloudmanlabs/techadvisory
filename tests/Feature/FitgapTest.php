@@ -422,7 +422,7 @@ class FitgapTest extends TestCase
             ->get(route('fitgapClientIframe', ['project' => $project]));
 
         $response->assertOk()
-            ->assertSee('Export document as CSV')
+            ->assertSee('Export document')
             ->assertSee('fitgapClientJson')
             ->assertDontSee('fitgapVendorJson')
             ->assertDontSee('fitgapEvaluationJson')
@@ -441,7 +441,7 @@ class FitgapTest extends TestCase
             ->get(route('fitgapVendorIframe', ['vendor' => $vendor, 'project' => $project]));
 
         $response->assertOk()
-            ->assertSee('Export document as CSV')
+            ->assertSee('Export document')
             ->assertDontSee('fitgapClientJson')
             ->assertSee('fitgapVendorJson')
             ->assertDontSee('fitgapEvaluationJson')
@@ -461,11 +461,111 @@ class FitgapTest extends TestCase
             ->get(route('fitgapEvaluationIframe', ['vendor' => $vendor, 'project' => $project]));
 
         $response->assertOk()
-            ->assertSee('Export document as CSV')
+            ->assertSee('Export document')
             ->assertDontSee('fitgapClientJson')
             ->assertDontSee('fitgapVendorJson')
             ->assertSee('fitgapEvaluationJson')
             ->assertSee($vendor->id)
             ->assertSee($project->id);
+    }
+
+
+
+
+
+    public function testAddingMoreRowsToThe5ColsDoesntBreakTheClientGets()
+    {
+        $project = factory(Project::class)->create([
+            'fitgap5Columns' => [
+                [
+                    'Requirement Type' => 'row 1',
+                    'Level 1' => 'hye',
+                    'Level 2' => 'hye',
+                    'Level 3' => 'hye',
+                    'Requirement' => 'hye',
+                ],
+                [
+                    'Requirement Type' => 'row 2',
+                    'Level 1' => 'asdf',
+                    'Level 2' => 'xzcv',
+                    'Level 3' => 'qwre',
+                    'Requirement' => 'okk',
+                ]
+            ],
+            'fitgapClientColumns' => [
+                [
+                    'Client' => 'Must',
+                    'Business Oportunity' => 'Yes',
+                ],
+                [
+                    'Client' => 'Must',
+                    'Business Oportunity' => 'No',
+                ]
+            ]
+        ]);
+
+
+        $project->fitgap5Columns = [
+            [
+                'Requirement Type' => 'row 1',
+                'Level 1' => 'hye',
+                'Level 2' => 'hye',
+                'Level 3' => 'hye',
+                'Requirement' => 'hye',
+            ],
+            [
+                'Requirement Type' => 'row 2',
+                'Level 1' => 'asdf',
+                'Level 2' => 'xzcv',
+                'Level 3' => 'qwre',
+                'Requirement' => 'okk',
+            ],
+            [
+                'Requirement Type' => 'row 3',
+                'Level 1' => 'asdf',
+                'Level 2' => 'pljknm',
+                'Level 3' => 'qwre',
+                'Requirement' => 'bvgt',
+            ]
+        ];
+        $project->save();
+
+
+        /** @var User $accenture */
+        $accenture = factory(User::class)->states(['accenture'])->create();
+
+        $response = $this->actingAs($accenture)
+            ->get(route('fitgapClientJson', ['project' => $project]));
+
+        $response->assertOk()
+            ->assertExactJson([
+                [
+                    'Requirement Type' => 'row 1',
+                    'Level 1' => 'hye',
+                    'Level 2' => 'hye',
+                    'Level 3' => 'hye',
+                    'Requirement' => 'hye',
+                    'Client' => 'Must',
+                    'Business Oportunity' => 'Yes',
+                ],
+                [
+                    'Requirement Type' => 'row 2',
+                    'Level 1' => 'asdf',
+                    'Level 2' => 'xzcv',
+                    'Level 3' => 'qwre',
+                    'Requirement' => 'okk',
+                    'Client' => 'Must',
+                    'Business Oportunity' => 'No',
+                ],
+                [
+                    'Requirement Type' => 'row 3',
+                    'Level 1' => 'asdf',
+                    'Level 2' => 'pljknm',
+                    'Level 3' => 'qwre',
+                    'Requirement' => 'bvgt',
+                    'Client' => '',
+                    'Business Oportunity' => '',
+                ]
+            ]);
     }
 }

@@ -100,6 +100,13 @@ class Project extends Resource
             BelongsTo::make('Practice', 'practice', 'App\Nova\Practice')
                 ->sortable(),
 
+            Number::make('Fitgap Weight: Must', 'fitgapWeightMust')
+                ->hideFromIndex(),
+            Number::make('Fitgap Weight: Required', 'fitgapWeightRequired')
+                ->hideFromIndex(),
+            Number::make('Fitgap Weight: Nice to have', 'fitgapWeightNiceToHave')
+                ->hideFromIndex(),
+
             BelongsToMany::make('Subpractices', 'subpractices', 'App\Nova\Subpractice'),
 
             HasMany::make('General Info Questions', 'generalInfoQuestions', 'App\Nova\GeneralInfoQuestionResponse'),
@@ -107,7 +114,6 @@ class Project extends Resource
 
             HasMany::make('Selection Criteria Questions', 'selectionCriteriaQuestionsPivots', 'App\Nova\SelectionCriteriaQuestionProjectPivot'),
             HasMany::make('Selection Criteria Responses', 'selectionCriteriaQuestions', 'App\Nova\SelectionCriteriaQuestionResponse'),
-
 
             HasMany::make('Applied vendors', 'vendorApplications', 'App\Nova\VendorApplication'),
         ];
