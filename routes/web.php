@@ -54,6 +54,10 @@ Route::middleware(['auth'])->group(function () {
 
 
 
+
+    Route::post('import5Columns/{project}', 'FitgapController@import5Columns')
+        ->name('import5Columns');
+
     Route::get('fitgapClientJson/{project}', 'FitgapController@clientJson')
         ->name('fitgapClientJson');
     Route::get('fitgapVendorJson/{vendor}/{project}', 'FitgapController@vendorJson')
@@ -67,7 +71,6 @@ Route::middleware(['auth'])->group(function () {
         ->name('fitgapVendorJsonUpload');
     Route::post('fitgapEvaluationJson/{vendor}/{project}', 'FitgapController@evaluationJsonUpload')
         ->name('fitgapEvaluationJsonUpload');
-
 
     Route::get('fitgapClientIframe/{project}', 'FitgapController@clientIframe')
         ->name('fitgapClientIframe');

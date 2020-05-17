@@ -174,6 +174,24 @@
                                                     ipsum
                                                     dolor sit amet.
                                                 </p>
+
+                                                <br>
+
+                                                <div class="form-group">
+                                                    <label>Upload a new Fitgap</label>
+                                                    <input id="fitgapUpload" class="file-upload-default" name="img" type="file">
+
+                                                    <div class="input-group col-xs-12">
+                                                        <input id="fileNameInput" disabled class="form-control file-upload-info" value="No file selected" type="text">
+                                                        <span class="input-group-append">
+                                                            <button class="file-upload-browse btn btn-primary" type="button">
+                                                                <span class="input-group-append" id="logoUploadButton">Select file</span>
+                                                            </button>
+                                                        </span>
+                                                    </div>
+                                                </div>
+
+
                                                 <br><br>
                                                 <x-fitgapClientModal :project="$project" />
 
@@ -651,6 +669,37 @@
                 autoclose: true
             });
             $(this).datepicker('setDate', date);
+        });
+
+
+        $('.file-upload-browse').on('click', function(e) {
+            $("#fitgapUpload").trigger('click');
+        });
+
+        $("#fitgapUpload").change(function (){
+            var fileName = $(this).val().split('\\').pop();;
+
+            $("#fileNameInput").val(fileName);
+
+            var formData = new FormData();
+            formData.append('excel', $(this).get(0).files[0]);
+            $.ajax({
+                url : "/import5Columns/{{$project->id}}",
+                type: "POST",
+                data : formData,
+                processData: false,
+                contentType: false,
+
+                success: function(){
+                    console.log('hello')
+                    $("iframe").each(function(){
+                        $(this).attr("src", function(index, attr){
+                            return attr;
+                        });
+                    })
+                    showSavedToast();
+                }
+            });
         });
 
         updateShownQuestionsAccordingToPractice();

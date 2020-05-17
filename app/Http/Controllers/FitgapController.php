@@ -2,14 +2,55 @@
 
 namespace App\Http\Controllers;
 
+use App\Imports\FitgapImport;
 use App\Project;
 use App\User;
 use App\VendorApplication;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
+use Maatwebsite\Excel\Facades\Excel;
 
 class FitgapController extends Controller
 {
+    public function import5Columns(Request $request, Project $project)
+    {
+        $request->validate([
+            'excel' => 'required|file'
+        ]);
+
+        $collection = Excel::toCollection(new FitgapImport, $request->file('excel'));
+        $rows = $collection[0];
+
+        $result = [];
+        for ($i = 2; isset($rows[$i][0]) && $rows[$i][0] != null; $i++) {
+            $row = $rows[$i];
+
+            $result[] = [
+                'Requirement Type' => $row[0], // This one won't be null cause we check it in the for
+                'Level 1' => $row[1] ?? '',
+                'Level 2' => $row[2] ?? '',
+                'Level 3' => $row[3] ?? '',
+                'Requirement' => $row[4] ?? '',
+            ];
+
+        }
+
+        $project->fitgap5Columns = $result;
+        $project->save();
+
+        return \response()->json([
+            'status' => 200,
+            'message' => 'Success'
+        ]);
+    }
+
+
+
+
+
+
+
+
     public function clientJson(Project $project)
     {
         $result = [];
