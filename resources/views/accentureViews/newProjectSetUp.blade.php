@@ -485,9 +485,8 @@
             bodyTag: "section",
             transitionEffect: "slideLeft",
             forceMoveForward: false,
-            labels: {
-                finish: 'Submit general set up'
-            },
+            showFinishButtonAlways: false,
+            enableFinishButton: false,
             onFinishing: function (event, currentIndex) {
                 // TODO Only let the client submit if all the fields are full
 

@@ -447,9 +447,8 @@
             bodyTag: "section",
             transitionEffect: "slideLeft",
             forceMoveForward: false,
-            labels: {
-                finish: 'Submit general set up'
-            },
+            showFinishButtonAlways: false,
+            enableFinishButton: false,
             onFinishing: function (event, currentIndex) {
                 window.location.replace("/client/home");
             },
