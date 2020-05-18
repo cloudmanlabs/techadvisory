@@ -154,8 +154,6 @@
                                         </button>
                                     </section>
 
-
-
                                     <h2>Selection Criteria</h2>
                                     <section>
                                         <div id="subwizard">
@@ -306,6 +304,11 @@
                                                 class="js-example-basic-multiple w-100" multiple="multiple" style="width: 100%;">
                                                 <x-options.vendorList :selected="$project->vendorsApplied()->pluck('id')->toArray()" />
                                             </select>
+
+                                            <br><br><br>
+                                            <button id="saveVendorsButton" class="btn btn-primary btn-lg btn-icon-text">
+                                                Save vendors
+                                            </button>
                                         </div>
                                     </section>
                                 </div>
@@ -595,10 +598,10 @@
             showSavedToast();
         });
 
-        $('#vendorSelection').change(function(){
+        $('#saveVendorsButton').click(function(){
             $.post('/accenture/newProjectSetUp/updateVendors', {
                 project_id: '{{$project->id}}',
-                vendorList: $(this).val()
+                vendorList: $('#vendorSelection').val()
             })
 
             showSavedToast();
