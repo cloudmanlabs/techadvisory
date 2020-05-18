@@ -433,24 +433,33 @@
     $(document).ready(function() {
         weAreOnPage3 = false;
 
-        $("#wizard_accenture_newProjectSetUp").steps({
+        $("#projectEditWizard").steps({
             headerTag: "h2",
             bodyTag: "section",
             transitionEffect: "slideLeft",
-            forceMoveForward: false,
             labels: {
-                finish: 'Submit general set up'
+                finish: "Save"
             },
-            onFinishing: function (event, currentIndex) {
-                // TODO Only let the client submit if all the fields are full
+            onFinishing: function(event, currentIndex) {
+                // TODO Here check if all thingies have a value
+                window.location.replace("/accenture/project/view/{{$project->id}}");
+            },
+            // onStepChanging: function(e, c, n) {
+            //     if (n == 2) {
+            //         $("#projectEditWizard-next").html("Submit");
+            //     } else {
+            //         $("#projectEditWizard-next").html("Next");
+            //     }
 
-                window.location.replace("/accenture/home");
-            },
-            onStepChanged: function (e, c, p) {
+            //     return true;
+            // },
+            // HACK Cause otherwise subwizards don't work
+            onStepChanged: function(e, c, p) {
                 for (let i = 0; i < 10; i++) {
-                    $('#wizard_accenture_newProjectSetUp-p-' + i).css('display', 'none')
+                    $("#projectEditWizard-p-" + i).css("display", "none");
                 }
-                $('#wizard_accenture_newProjectSetUp-p-' + c).css('display', 'block')
+
+                $("#projectEditWizard-p-" + c).css("display", "block");
             }
         });
 
