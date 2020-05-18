@@ -21,21 +21,26 @@ class FitgapController extends Controller
         $collection = Excel::toCollection(new FitgapImport, $request->file('excel'));
         $rows = $collection[0];
 
-        $result = [];
+        $result5Cols = [];
+        $resultClient = [];
         for ($i = 2; isset($rows[$i][0]) && $rows[$i][0] != null; $i++) {
             $row = $rows[$i];
 
-            $result[] = [
+            $result5Cols[] = [
                 'Requirement Type' => $row[0], // This one won't be null cause we check it in the for
                 'Level 1' => $row[1] ?? '',
                 'Level 2' => $row[2] ?? '',
                 'Level 3' => $row[3] ?? '',
                 'Requirement' => $row[4] ?? '',
             ];
-
+            $resultClient[] = [
+                'Client' => $row[5] ?? '',
+                'Business Oportunity' => $row[6] ?? '',
+            ];
         }
 
-        $project->fitgap5Columns = $result;
+        $project->fitgap5Columns = $result5Cols;
+        $project->fitgapClientColumns = $resultClient;
         $project->save();
 
         return \response()->json([
