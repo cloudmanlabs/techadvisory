@@ -297,12 +297,51 @@
 
                                                 <br>
                                                 <br>
+
                                                 <button
-                                                    class="btn btn-primary"
-                                                    id="step4Submit"
+                                                    type="button"
+                                                    class="btn btn-primary btn-lg btn-icon-text"
+                                                    data-toggle="modal"
+                                                    data-target="#submitModal"
+                                                    id="submitModalButton"
                                                     {{ !$project->step3SubmittedClient ? 'disabled' : ''}}
                                                     {{ $project->step4SubmittedClient ? 'disabled' : ''}}
-                                                >{{ $project->step4SubmittedClient ? 'Submitted' : 'Submit'}}</button>
+                                                    >
+                                                    {{ $project->step4SubmittedClient ? 'Submitted' : 'Submit'}}
+                                                </button>
+
+                                                <div id="submitModal"
+                                                    class="modal fade bd-example-modal-xl" tabindex="-1" role="dialog" aria-labelledby="myExtraLargeModalLabel"
+                                                    aria-hidden="true">
+                                                    <div class="modal-dialog modal-xl">
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <h5 class="modal-title" id="exampleModalLabel">Edit fitgap table</h5>
+                                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                    <span aria-hidden="true">&times;</span>
+                                                                </button>
+                                                            </div>
+                                                            <div class="modal-body">
+                                                                <div>
+                                                                    <p>Are you sure you want to publish?</p>
+                                                                    <button class="btn btn-primary" id="step4Submit" {{ !$project->step3SubmittedClient ? 'disabled' : ''}}
+                                                                        {{ $project->step4SubmittedClient ? 'disabled' : ''}}>{{ $project->step4SubmittedClient ? 'Submitted' : 'Submit'}}</button>
+                                                                </div>
+                                                            </div>
+                                                            <div class="modal-footer">
+                                                                <button type="button" class="btn btn-primary btn-lg btn-icon-text" data-toggle="modal"
+                                                                    data-target=".bd-example-modal-xl"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                                                        viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                                                        stroke-linejoin="round" class="feather feather-check-square btn-icon-prepend">
+                                                                        <polyline points="9 11 12 14 22 4"></polyline>
+                                                                        <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path>
+                                                                    </svg> Close</button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+
                                             </div>
                                         </div>
                                     </section>
@@ -638,6 +677,9 @@
 
             $(this).attr('disabled', true);
             $(this).html('Submitted')
+
+            $('#submitModalButton').attr('disabled', true);
+            $('#submitModalButton').html('Submitted')
         });
 
 

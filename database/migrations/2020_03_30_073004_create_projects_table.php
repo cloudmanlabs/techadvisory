@@ -22,12 +22,6 @@ class CreateProjectsTable extends Migration
             $table->boolean('hasOrals')->default(false);
             $table->boolean('hasValueTargeting')->default(false);
 
-            $table->integer('progressSetUp')->default(0);
-            $table->integer('progressValue')->default(0);
-            $table->integer('progressResponse')->default(0);
-            $table->integer('progressAnalytics')->default(0);
-            $table->integer('progressConclusions')->default(0);
-
             $table->string('currentPhase')->default('preparation');
 
             $table->dateTime('deadline')->nullable();

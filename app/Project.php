@@ -17,12 +17,6 @@ use Illuminate\Support\Facades\Log;
  * @property array $regions
  * @property string $industry
  *
- * @property integer $progressSetUp
- * @property integer $progressValue
- * @property integer $progressResponse
- * @property integer $progressAnalytics
- * @property integer $progressConclusions
- *
  * @property string $currentPhase
  *
  * @property boolean $step3SubmittedAccenture
@@ -76,6 +70,46 @@ class Project extends Model
             $this->selectedValueLeversFolder->hasFiles() ||
             $this->businessOpportunityFolder->hasFiles() ||
             $this->vtConclusionsFolder->hasFiles();
+    }
+
+    public function hasValueTargetingFilesInEach()
+    {
+        return
+            $this->selectedValueLeversFolder->hasFiles() &&
+            $this->businessOpportunityFolder->hasFiles() &&
+            $this->vtConclusionsFolder->hasFiles();
+    }
+
+    public function hasConclusionFiles()
+    {
+        return
+            $this->conclusionsFolder->hasFiles();
+    }
+
+    /**
+     * Returns if all the rows in Fitgap have a value in Business Opportunity
+     *
+     * @return boolean
+     */
+    public function hasCompletedBusinessOpportunity()
+    {
+        foreach ($this->fitgapClientColumns as $key => $value) {
+            if(!isset($value['Business Opportunity']) || $value['Business Opportunity'] == null || $value['Business Opportunity'] == '') return false;
+        }
+        return true;
+    }
+
+    public function hasSentOrals()
+    {
+        foreach ($this->vendorApplications as $key => $application) {
+            if($application->invitedToOrals){
+                return true;
+            }
+            if ($application->oralsCompleted) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public function selectedValueLeversFolder()
@@ -167,6 +201,77 @@ class Project extends Model
         return $this->hasMany(SelectionCriteriaQuestionResponse::class, 'project_id')->where('vendor_id', $vendor->id);
     }
 
+
+
+
+    public function progressSetUp()
+    {
+        $score = 0;
+        if($this->step3SubmittedAccenture) $score += 5;
+        if($this->step4SubmittedAccenture) $score += 10;
+        if($this->step3SubmittedClient) $score += 10;
+        if($this->step4SubmittedClient) $score += 10;
+        if($this->currentPhase = 'open') {
+            if($this->hasValueTargeting) $score += 5;
+            else $score += 25;
+        }
+
+        return $score;
+    }
+
+    public function progressValue()
+    {
+        $score = 0;
+        if($this->hasValueTargeting){
+            if($this->hasValueTargetingFilesInEach()){
+                $score += 10;
+            }
+
+            if($this->hasCompletedBusinessOpportunity()){
+                $score += 10;
+            }
+        }
+        return $score;
+    }
+
+    public function progressResponse()
+    {
+        $score = 0;
+
+        if($this->vendorsApplied(['pendingEvaluation', 'evaluated', 'submitted'])->count() > 0){
+            $score += 15;
+        }
+
+        if ($this->vendorsApplied(['submitted'])->count() > 0) {
+            $score += 10;
+        }
+
+        return $score;
+    }
+
+    public function progressAnalytics()
+    {
+        $score = 0;
+
+        if($this->publishedAnalytics){
+            $score += 5;
+        }
+
+        if ($this->hasSentOrals() || !$this->hasOrals) {
+            $score += 5;
+        }
+
+        return $score;
+    }
+
+    public function progressConclusions()
+    {
+        $score = 0;
+        if ($this->hasConclusionFiles()) {
+            $score += 5;
+        }
+        return $score;
+    }
 
 
 

@@ -26,12 +26,6 @@ $factory->define(Project::class, function (Faker $faker) {
         'hasOrals' => $faker->boolean,
         'hasValueTargeting' => $faker->boolean,
 
-        'progressSetUp' => $faker->numberBetween(0, 40),
-        'progressValue' => $faker->numberBetween(0, 20),
-        'progressResponse' => $faker->numberBetween(0, 25),
-        'progressAnalytics' => $faker->numberBetween(0, 10),
-        'progressConclusions' => $faker->numberBetween(0, 5),
-
         'deadline' => $faker->dateTimeBetween('+1 month', '+30 months'),
         'regions' => [$faker->randomElement(config('arrays.regions')), $faker->randomElement(config('arrays.regions')),],
         'industry' => $faker->randomElement(config('arrays.industryExperience')),

@@ -118,7 +118,7 @@ class ProjectObserver
         foreach ($project->fitgap5Columns as $key => $value) {
             $clientFitgap[] = [
                 'Client' => '',
-                'Business Oportunity' => '',
+                'Business Opportunity' => '',
             ];
         }
         $project->fitgapClientColumns = $project->fitgapClientColumns ?? $clientFitgap;

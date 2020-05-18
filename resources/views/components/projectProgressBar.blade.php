@@ -1,11 +1,11 @@
 @props(['project', 'title'])
 
 @php
-    $progressSetUp = $project->progressSetUp;
-    $progressValue = $project->progressValue;
-    $progressResponse = $project->progressResponse;
-    $progressAnalytics = $project->progressAnalytics;
-    $progressConclusions = $project->progressConclusions;
+    $progressSetUp = $project->progressSetUp();
+    $progressValue = $project->progressValue();
+    $progressResponse = $project->progressResponse();
+    $progressAnalytics = $project->progressAnalytics();
+    $progressConclusions = $project->progressConclusions();
 
     $totalProgress = $progressSetUp +
                         $progressValue +
@@ -36,23 +36,26 @@
     @php
         $finishedPhases = [];
 
-        if($progressSetUp == 40 ){
+        if($project->hasValueTargeting && $progressSetUp >= 40){
             $finishedPhases[] = 'Set Up';
         }
-        if($progressValue == 20 ){
+        if(! $project->hasValueTargeting && $progressSetUp >= 60){
+            $finishedPhases[] = 'Set Up';
+        }
+        if($project->hasValueTargeting && $progressValue >= 20){
             $finishedPhases[] = 'Value';
         }
-        if($progressResponse == 25 ){
+        if($progressResponse >= 25){
             $finishedPhases[] = 'Response';
         }
-        if($progressAnalytics == 10 ){
+        if($progressAnalytics >= 10){
             $finishedPhases[] = 'Analytics';
         }
-        if($progressConclusions == 5){
+        if($progressConclusions >= 5){
             $finishedPhases[] = 'Conclusions';
         }
 
-        if(count($finishedPhases)  > 0){
+        if(count($finishedPhases) > 0){
             echo 'Finished phases: ' . implode(', ', $finishedPhases);
         }
     @endphp

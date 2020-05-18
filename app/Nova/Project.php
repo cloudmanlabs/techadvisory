@@ -79,19 +79,29 @@ class Project extends Resource
             Boolean::make('Client submitted Selection Criteria', 'step4SubmittedClient')
                 ->hideFromIndex(),
 
-            Number::make('Set Up Progress', 'progressSetUp')
+            Number::make('Set Up Progress', function(){
+                return $this->progressSetUp();
+            })
                 ->exceptOnForms()
                 ->hideFromIndex(),
-            Number::make('Value Progress', 'progressValue')
+            Number::make('Value Progress', function(){
+                return $this->progressValue();
+            })
                 ->exceptOnForms()
                 ->hideFromIndex(),
-            Number::make('Response Progress', 'progressResponse')
+            Number::make('Response Progress', function(){
+                return $this->progressResponse();
+            })
                 ->exceptOnForms()
                 ->hideFromIndex(),
-            Number::make('Analytics Progress', 'progressAnalytics')
+            Number::make('Analytics Progress', function(){
+                return $this->progressAnalytics();
+            })
                 ->exceptOnForms()
                 ->hideFromIndex(),
-            Number::make('Conclusions Progress', 'progressConclusions')
+            Number::make('Conclusions Progress', function(){
+                return $this->progressConclusions();
+            })
                 ->exceptOnForms()
                 ->hideFromIndex(),
 

@@ -74,7 +74,7 @@
                     },
                     {
                         type: 'text',
-                        title: 'Business Oportunity',
+                        title: 'Business Opportunity',
                         width: 110,
 
                         @if($disabled)

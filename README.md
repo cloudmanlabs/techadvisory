@@ -12,10 +12,10 @@ This should only be reviewed by the client, as they're only answered by the vend
 
     Fitgap is a spreadsheet that forms part of the Selection Criteria questions.
 
-    In total it has 10 columns: Requirement Type, Level 1, Level 2, Level 3, Requirement, Client, Business Oportunity, Vendor Response, Comment, Score.
+    In total it has 10 columns: Requirement Type, Level 1, Level 2, Level 3, Requirement, Client, Business Opportunity, Vendor Response, Comment, Score.
 
     There are three sides to the fitgap:
-        Accenture / client see the first 5 and Client, Business Oportunity on newProjectSetup
+        Accenture / client see the first 5 and Client, Business Opportunity on newProjectSetup
             Only the last are editable through the excel
             The first 5 need to be uploaded
 

@@ -41,7 +41,7 @@ class FitgapTest extends TestCase
         $project->fitgapClientColumns = [
             [
                 'Client' => 'Must',
-                'Business Oportunity' => 'Yes',
+                'Business Opportunity' => 'Yes',
             ]
         ];
 
@@ -147,7 +147,7 @@ class FitgapTest extends TestCase
             'fitgapClientColumns' => [
                 [
                     'Client' => 'Must',
-                    'Business Oportunity' => 'Yes',
+                    'Business Opportunity' => 'Yes',
                 ]
             ]
         ]);
@@ -167,7 +167,7 @@ class FitgapTest extends TestCase
                     'Level 3' => 'hye',
                     'Requirement' => 'hye',
                     'Client' => 'Must',
-                    'Business Oportunity' => 'Yes',
+                    'Business Opportunity' => 'Yes',
                 ]
             ]);
     }
@@ -281,11 +281,11 @@ class FitgapTest extends TestCase
             'fitgapClientColumns' => [
                 [
                     'Client' => '',
-                    'Business Oportunity' => '',
+                    'Business Opportunity' => '',
                 ],
                 [
                     'Client' => '',
-                    'Business Oportunity' => '',
+                    'Business Opportunity' => '',
                 ]
             ]
         ]);
@@ -304,7 +304,7 @@ class FitgapTest extends TestCase
                         'Level 3' => 'hye',
                         'Requirement' => 'hye',
                         'Client' => 'Must test string',
-                        'Business Oportunity' => 'Yes yes yes',
+                        'Business Opportunity' => 'Yes yes yes',
                     ],
                     [
                         'Requirement Type' => 'asdf',
@@ -313,7 +313,7 @@ class FitgapTest extends TestCase
                         'Level 3' => 'hye',
                         'Requirement' => 'hye',
                         'Client' => 'Must test string',
-                        'Business Oportunity' => 'no no no',
+                        'Business Opportunity' => 'no no no',
                     ]
                 ]
             ]);
@@ -322,8 +322,8 @@ class FitgapTest extends TestCase
 
         $project->refresh();
         $this->assertEquals('Must test string', $project->fitgapClientColumns[0]['Client']);
-        $this->assertEquals('Yes yes yes', $project->fitgapClientColumns[0]['Business Oportunity']);
-        $this->assertEquals('no no no', $project->fitgapClientColumns[1]['Business Oportunity']);
+        $this->assertEquals('Yes yes yes', $project->fitgapClientColumns[0]['Business Opportunity']);
+        $this->assertEquals('no no no', $project->fitgapClientColumns[1]['Business Opportunity']);
 
     }
 
@@ -495,11 +495,11 @@ class FitgapTest extends TestCase
             'fitgapClientColumns' => [
                 [
                     'Client' => 'Must',
-                    'Business Oportunity' => 'Yes',
+                    'Business Opportunity' => 'Yes',
                 ],
                 [
                     'Client' => 'Must',
-                    'Business Oportunity' => 'No',
+                    'Business Opportunity' => 'No',
                 ]
             ]
         ]);
@@ -546,7 +546,7 @@ class FitgapTest extends TestCase
                     'Level 3' => 'hye',
                     'Requirement' => 'hye',
                     'Client' => 'Must',
-                    'Business Oportunity' => 'Yes',
+                    'Business Opportunity' => 'Yes',
                 ],
                 [
                     'Requirement Type' => 'row 2',
@@ -555,7 +555,7 @@ class FitgapTest extends TestCase
                     'Level 3' => 'qwre',
                     'Requirement' => 'okk',
                     'Client' => 'Must',
-                    'Business Oportunity' => 'No',
+                    'Business Opportunity' => 'No',
                 ],
                 [
                     'Requirement Type' => 'row 3',
@@ -564,7 +564,7 @@ class FitgapTest extends TestCase
                     'Level 3' => 'qwre',
                     'Requirement' => 'bvgt',
                     'Client' => '',
-                    'Business Oportunity' => '',
+                    'Business Opportunity' => '',
                 ]
             ]);
     }

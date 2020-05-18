@@ -35,7 +35,7 @@ class FitgapController extends Controller
             ];
             $resultClient[] = [
                 'Client' => $row[5] ?? '',
-                'Business Oportunity' => $row[6] ?? '',
+                'Business Opportunity' => $row[6] ?? '',
             ];
         }
 
@@ -63,7 +63,7 @@ class FitgapController extends Controller
         foreach ($project->fitgap5Columns as $key => $something) {
             $result[] = array_merge($project->fitgap5Columns[$key], $project->fitgapClientColumns[$key] ?? [
                 'Client' => '',
-                'Business Oportunity' => '',
+                'Business Opportunity' => '',
             ]);
         }
 
@@ -138,7 +138,7 @@ class FitgapController extends Controller
         foreach ($request->data as $key => $row) {
             $result[] = [
                 'Client' => $row['Client'],
-                'Business Oportunity' => $row['Business Oportunity'],
+                'Business Opportunity' => $row['Business Opportunity'],
             ];
         }
 

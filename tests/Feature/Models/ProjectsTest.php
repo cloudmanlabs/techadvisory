@@ -27,12 +27,6 @@ class ProjectsTest extends TestCase
             'hasOrals' => false,
             'hasValueTargeting' => false,
 
-            'progressSetUp' => 20,
-            'progressValue' => 10,
-            'progressResponse' => 0,
-            'progressAnalytics' => 0,
-            'progressConclusions' => 0,
-
             'currentPhase' => 'open',
 
             'deadline' => Carbon::now()
