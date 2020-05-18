@@ -2,11 +2,13 @@
 
 namespace Tests\Feature\Models;
 
+use App\Mail\NewCredentialMail;
 use App\User;
 use App\UserCredential;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
+use Illuminate\Support\Facades\Mail;
 
 class UserCredentialsTest extends TestCase
 {
@@ -14,6 +16,8 @@ class UserCredentialsTest extends TestCase
 
     public function testCanCreateCredentials()
     {
+        Mail::fake();
+
         $user = factory(User::class)->create();
 
         $credential = new UserCredential([
@@ -30,6 +34,8 @@ class UserCredentialsTest extends TestCase
 
     public function testCanCreateHiddenCredential()
     {
+        Mail::fake();
+
         $user = factory(User::class)->create();
 
         $credential = new UserCredential([
@@ -47,6 +53,8 @@ class UserCredentialsTest extends TestCase
 
     public function testClientCanLoginWithNormalEmail()
     {
+        Mail::fake();
+
         $user = factory(User::class)->states('client')->create([
             'email' => 'test@test.com',
             'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi'
@@ -63,6 +71,8 @@ class UserCredentialsTest extends TestCase
 
     public function testClientCanLoginUsingCredentials()
     {
+        Mail::fake();
+
         $user = factory(User::class)->states('client')->create();
         $user->credentials()->save(new UserCredential([
             'name' => 'nameeee',
@@ -81,6 +91,8 @@ class UserCredentialsTest extends TestCase
 
     public function testVendorCanLoginWithNormalEmail()
     {
+        Mail::fake();
+
         $user = factory(User::class)->states('vendor')->create([
             'email' => 'test@test.com',
             'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi'
@@ -97,6 +109,8 @@ class UserCredentialsTest extends TestCase
 
     public function testVendorCanLoginUsingCredentials()
     {
+        Mail::fake();
+
         $user = factory(User::class)->states('vendor')->create();
         $user->credentials()->save(new UserCredential([
             'name' => 'nameeee',
@@ -111,5 +125,21 @@ class UserCredentialsTest extends TestCase
 
         $response->assertRedirect('/vendors');
         $this->assertTrue(auth()->check());
+    }
+
+    public function testCreatingACredentialSendsAnEmailToTheAddress()
+    {
+        Mail::fake();
+
+        $user = factory(User::class)->states('vendor')->create();
+        $user->credentials()->save(new UserCredential([
+            'name' => 'nameeee',
+            'email' => 'test@test.com',
+            'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi'
+        ]));
+
+        Mail::assertSent(NewCredentialMail::class, function ($mail) use ($user) {
+            return $mail->hasTo('test@test.com');
+        });
     }
 }

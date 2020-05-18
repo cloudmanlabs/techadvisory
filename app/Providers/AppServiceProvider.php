@@ -9,6 +9,7 @@ use App\Observers\GeneralInfoQuestionObserver;
 use App\Observers\ProjectObserver;
 use App\Observers\SelectionCriteriaQuestionObserver;
 use App\Observers\SizingQuestionObserver;
+use App\Observers\UserCredentialObserver;
 use App\Observers\UserObserver;
 use App\Observers\VendorApplicationObserver;
 use App\Observers\VendorProfileQuestionObserver;
@@ -18,6 +19,7 @@ use App\Project;
 use App\SelectionCriteriaQuestion;
 use App\SizingQuestion;
 use App\User;
+use App\UserCredential;
 use App\VendorApplication;
 use App\VendorProfileQuestion;
 use App\VendorSolution;
@@ -48,6 +50,7 @@ class AppServiceProvider extends ServiceProvider
     {
         Project::observe(ProjectObserver::class);
         User::observe(UserObserver::class);
+        UserCredential::observe(UserCredentialObserver::class);
         GeneralInfoQuestion::observe(GeneralInfoQuestionObserver::class);
         SizingQuestion::observe(SizingQuestionObserver::class);
         SelectionCriteriaQuestion::observe(SelectionCriteriaQuestionObserver::class);
