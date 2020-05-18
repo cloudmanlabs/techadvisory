@@ -32,7 +32,7 @@
                                         @foreach ($applications as $application)
                                         <tr class="filterByVendor" data-vendor="{{$application->vendor->name}}">
                                             <th>{{$application->vendor->name}}</th>
-                                            <td>{{$application->totalScore()}}</td>
+                                            <td>{{number_format($application->totalScore(), 2)}}</td>
                                         </tr>
                                         @endforeach
                                     </tbody>
@@ -69,37 +69,37 @@
                                         <tr>
                                             <th>1. Fit Gap</th>
                                             @foreach ($applications as $application)
-                                            <th class="filterByVendor" data-vendor="{{$application->vendor->name}}">{{$application->fitgapScore() }}</th>
+                                            <th class="filterByVendor" data-vendor="{{$application->vendor->name}}">{{number_format($application->fitgapScore(), 2) }}</th>
                                             @endforeach
                                         </tr>
                                         <tr>
                                             <th>2. Vendor</th>
                                             @foreach ($applications as $application)
-                                            <th class="filterByVendor" data-vendor="{{$application->vendor->name}}">{{$application->vendorScore() }}</th>
+                                            <th class="filterByVendor" data-vendor="{{$application->vendor->name}}">{{number_format($application->vendorScore(), 2) }}</th>
                                             @endforeach
                                         </tr>
                                         <tr>
                                             <th>3.Experience</th>
                                             @foreach ($applications as $application)
-                                            <th class="filterByVendor" data-vendor="{{$application->vendor->name}}">{{$application->experienceScore() }}</th>
+                                            <th class="filterByVendor" data-vendor="{{$application->vendor->name}}">{{number_format($application->experienceScore(), 2) }}</th>
                                             @endforeach
                                         </tr>
                                         <tr>
                                             <th>4.Innovation</th>
                                             @foreach ($applications as $application)
-                                            <th class="filterByVendor" data-vendor="{{$application->vendor->name}}">{{$application->innovationScore() }}</th>
+                                            <th class="filterByVendor" data-vendor="{{$application->vendor->name}}">{{number_format($application->innovationScore(), 2) }}</th>
                                             @endforeach
                                         </tr>
                                         <tr>
                                             <th>5.Implementation and Commercials</th>
                                             @foreach ($applications as $application)
-                                            <th class="filterByVendor" data-vendor="{{$application->vendor->name}}">{{$application->implementationScore() }}</th>
+                                            <th class="filterByVendor" data-vendor="{{$application->vendor->name}}">{{number_format($application->implementationScore(), 2 )}}</th>
                                             @endforeach
                                         </tr>
                                         <tr class="table-dark">
                                             <th>OVERALL SCORE</th>
                                             @foreach ($applications as $application)
-                                            <th class="filterByVendor" data-vendor="{{$application->vendor->name}}">{{$application->totalScore()}}</th>
+                                            <th class="filterByVendor" data-vendor="{{$application->vendor->name}}">{{number_format($application->totalScore(), 2)}}</th>
                                             @endforeach
                                         </tr class="table-dark">
                                     </tbody>

@@ -35,7 +35,7 @@
                                     ready.</p>
                                 <br>
                                 <br>
-                                <div class="col-lg-4 col-mg-12 offset-lg-4">
+                                <div class="col-lg-6 col-mg-12 offset-lg-3">
                                     <div class="table-responsive">
                                         <table class="table table-hover">
                                             <thead>
@@ -50,7 +50,7 @@
                                                 <tr class="filterByVendor" data-vendor="{{$obj->name}}">
                                                     <th class="table-dark">{{ $loop->iteration }}</th>
                                                     <td>{{$obj->name}}</td>
-                                                    <td>{{$obj->score}}</td>
+                                                    <td>{{number_format($obj->score, 2)}}</td>
                                                 </tr>
                                                 @endforeach
                                             </tbody>

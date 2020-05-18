@@ -37,7 +37,7 @@
                                     ready.</p>
                                 <br>
                                 <br>
-                                <div class="col-lg-4 col-mg-12 offset-lg-4">
+                                <div class="col-lg-6 col-mg-12 offset-lg-3">
                                     <div class="table-responsive">
                                         <table class="table table-hover">
                                             <thead>
@@ -122,25 +122,25 @@
                                                             <tr class="filterByRequirement" data-requirement="Functional">
                                                                 <th class="table-dark">Functional</th>
                                                                 @foreach ($applications as $application)
-                                                                <td class="filterByVendor" data-vendor="{{$application->vendor->name}}">{{$application->fitgapFunctionalScore()}}</td>
+                                                                <td class="filterByVendor" data-vendor="{{$application->vendor->name}}">{{number_format($application->fitgapFunctionalScore(), 2)}}</td>
                                                                 @endforeach
                                                             </tr>
                                                             <tr class="filterByRequirement" data-requirement="Technical">
                                                                 <th class="table-dark">Technical</th>
                                                                 @foreach ($applications as $application)
-                                                                <td class="filterByVendor" data-vendor="{{$application->vendor->name}}">{{$application->fitgapTechnicalScore()}}</td>
+                                                                <td class="filterByVendor" data-vendor="{{$application->vendor->name}}">{{number_format($application->fitgapTechnicalScore(), 2)}}</td>
                                                                 @endforeach
                                                             </tr>
                                                             <tr class="filterByRequirement" data-requirement="Service">
                                                                 <th class="table-dark">Service</th>
                                                                 @foreach ($applications as $application)
-                                                                <td class="filterByVendor" data-vendor="{{$application->vendor->name}}">{{$application->fitgapServiceScore()}}</td>
+                                                                <td class="filterByVendor" data-vendor="{{$application->vendor->name}}">{{number_format($application->fitgapServiceScore(), 2)}}</td>
                                                                 @endforeach
                                                             </tr>
                                                             <tr class="filterByRequirement" data-requirement="Other">
                                                                 <th class="table-dark">Other</th>
                                                                 @foreach ($applications as $application)
-                                                                <td class="filterByVendor" data-vendor="{{$application->vendor->name}}">{{$application->fitgapOtherScore()}}</td>
+                                                                <td class="filterByVendor" data-vendor="{{$application->vendor->name}}">{{number_format($application->fitgapOtherScore(), 2)}}</td>
                                                                 @endforeach
                                                             </tr>
                                                         </tbody>

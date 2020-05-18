@@ -4,6 +4,7 @@ namespace App;
 
 use Exception;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Log;
 
 /**
  * @property string $phase One of invitation, applicating, pendingEvaluation, evaluated, submitted, disqualified, rejected
@@ -78,31 +79,67 @@ class VendorApplication extends Model
         ])->avg();
     }
 
+    /**
+     * Returns average of all fitgap scores
+     *
+     * @return void
+     */
     public function fitgapScore()
     {
-        // TODO Implement this after we do the actual fitgap
-        return random_int(3, 8);
+        $scores = [];
+        foreach ($this->fitgapVendorScores as $key => $value) {
+            $multiplier = $this->fitgapVendorColumns[$key]['Vendor Response'] ?? '';
+
+            $scores[] = $value * $this->getVendorMultiplier($multiplier);
+        }
+
+        return array_sum($scores) / (count($scores) * 3);
+    }
+
+    function getVendorMultiplier(string $response){
+        if($response == 'Product fully supports the functionality') return 3;
+        if($response == 'Product partially supports the functionality') return 2;
+        if($response == 'Functionality planned for a future release') return 1;
+        return 0;
+    }
+
+    function averageScoreOfType(string $type) : float{
+        $fitgap5cols = $this->project->fitgap5Columns;
+
+        $scores = [];
+        foreach ($fitgap5cols as $key => $value) {
+            if ($value['Requirement Type'] == $type) {
+                $multiplier = $this->fitgapVendorColumns[$key]['Vendor Response'] ?? '';
+
+                $scores[] = $this->fitgapVendorScores[$key] * $this->getVendorMultiplier($multiplier);
+            }
+        }
+
+        return array_sum($scores) / (count($scores) * 3);
     }
 
     public function fitgapFunctionalScore()
     {
-        return random_int(3, 8);
+        return $this->averageScoreOfType('Functional');
     }
 
     public function fitgapTechnicalScore()
     {
-        return random_int(3, 8);
+        return $this->averageScoreOfType('Technical');
     }
 
     public function fitgapServiceScore()
     {
-        return random_int(3, 8);
+        return $this->averageScoreOfType('Service');
     }
 
     public function fitgapOtherScore()
     {
-        return random_int(3, 8);
+        return $this->averageScoreOfType('Others');
     }
+
+
+
 
     public function vendorScore()
     {
