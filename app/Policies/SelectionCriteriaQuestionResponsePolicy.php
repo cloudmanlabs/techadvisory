@@ -33,7 +33,7 @@ class SelectionCriteriaQuestionResponsePolicy
     public function delete(User $user, SelectionCriteriaQuestionResponse $question)
     {
         if ($user->isAdmin()) return true;
-        if ($question->original->fixed) return false;
+        if ($question->originalQuestion->fixed) return false;
 
         return true;
     }

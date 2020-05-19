@@ -11,13 +11,6 @@ use Illuminate\Support\Facades\Log;
  * @property boolean $invitedToOrals
  * @property boolean $oralsCompleted
  *
- * @property integer $progressFitgap
- * @property integer $progressVendor
- * @property integer $progressExperience
- * @property integer $progressInnovation
- * @property integer $progressImplementation
- * @property integer $progressSubmit
-
  * @property array $fitgapVendorColumns
  * @property array $fitgapVendorScores
  */
@@ -44,6 +37,108 @@ class VendorApplication extends Model
         return $this->belongsTo(Project::class, 'project_id');
     }
 
+
+
+
+
+
+
+
+
+    public function progressFitgap() : int
+    {
+        $score = 0;
+
+        if($this->hasCompletedFitgap()){
+            $score += 30;
+        }
+
+        return $score;
+    }
+
+    public function progressVendor() : int
+    {
+        $score = 0;
+
+        if ($this->hasCompletedVendorSelectionCriteria()) {
+            $score += 10;
+        }
+
+        return $score;
+    }
+
+    public function progressExperience() : int
+    {
+        $score = 0;
+        if ($this->hasCompletedFitgap()) {
+            $score += 10;
+        }
+        return $score;
+    }
+
+    public function progressInnovation() : int
+    {
+        $score = 0;
+        if ($this->hasCompletedFitgap()) {
+            $score += 10;
+        }
+        return $score;
+    }
+
+    public function progressImplementation() : int
+    {
+        $score = 0;
+        if ($this->hasCompletedFitgap()) {
+            $score += 30;
+        }
+        return $score;
+    }
+
+    public function progressSubmit() : int
+    {
+        $score = 0;
+        if (in_array($this->phase, ['pendingEvaluation', 'evaluated', 'submitted'])) {
+            $score += 10;
+        }
+        return $score;
+    }
+
+    function hasCompletedFitgap()
+    {
+        foreach (($this->fitgapVendorColumns ?? []) as $key => $value) {
+            if (!isset($value['Vendor Response']) || $value['Vendor Response'] == null || $value['Vendor Response'] == '') return false;
+        }
+        return true;
+    }
+
+    function hasCompletedVendorSelectionCriteria(): bool
+    {
+        $vendorQuestions = $this->project
+                                ->selectionCriteriaQuestionsOriginals()
+                                ->whereIn('page', ['vendor_corporate', 'vendor_market'])
+                                ->pluck('selection_criteria_questions.id')
+                                ->toArray();
+
+        $answeredQuestions = $this->project
+                                ->selectionCriteriaQuestionsForVendor($this->vendor)
+                                ->get()
+                                ->map(function($response){
+                                    return $response->originalQuestion;
+                                })
+                                ->filter(function($question){
+                                    return in_array($question->page, ['vendor_corporate', 'vendor_market']);
+                                })
+                                ->pluck('id')
+                                ->toArray();
+
+        foreach ($vendorQuestions as $key => $question) {
+            if(!in_array($question, $answeredQuestions)){
+                return false;
+            }
+        }
+
+        return true;
+    }
 
 
 
@@ -143,7 +238,7 @@ class VendorApplication extends Model
 
     public function vendorScore()
     {
-        return $this->project->selectionCriteriaQuestionsForVendor($this->vendor)->whereHas('original', function ($query) {
+        return $this->project->selectionCriteriaQuestionsForVendor($this->vendor)->whereHas('originalQuestion', function ($query) {
             $query
                 ->where('page', 'vendor_corporate')
                 ->orWhere('page', 'vendor_market');
@@ -152,7 +247,7 @@ class VendorApplication extends Model
 
     public function experienceScore()
     {
-        return $this->project->selectionCriteriaQuestionsForVendor($this->vendor)->whereHas('original', function ($query) {
+        return $this->project->selectionCriteriaQuestionsForVendor($this->vendor)->whereHas('originalQuestion', function ($query) {
             $query
                 ->where('page', 'experience');
         })->avg('score') ?? 0;
@@ -160,7 +255,7 @@ class VendorApplication extends Model
 
     public function innovationScore()
     {
-        return $this->project->selectionCriteriaQuestionsForVendor($this->vendor)->whereHas('original', function ($query) {
+        return $this->project->selectionCriteriaQuestionsForVendor($this->vendor)->whereHas('originalQuestion', function ($query) {
             $query
                 ->where('page', 'innovation_digitalEnablers')
                 ->orWhere('page', 'innovation_alliances')
@@ -171,7 +266,7 @@ class VendorApplication extends Model
 
     public function implementationScore()
     {
-        return $this->project->selectionCriteriaQuestionsForVendor($this->vendor)->whereHas('original', function ($query) {
+        return $this->project->selectionCriteriaQuestionsForVendor($this->vendor)->whereHas('originalQuestion', function ($query) {
             $query
                 ->where('page', 'implementation_implementation')
                 ->orWhere('page', 'implementation_run');

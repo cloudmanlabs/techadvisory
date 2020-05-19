@@ -20,7 +20,7 @@ class SelectionCriteriaQuestionController extends Controller
             abort(404);
         }
 
-        if ($answer->original->type == 'boolean') {
+        if ($answer->originalQuestion->type == 'boolean') {
             $answer->response = $request->value === 'yes';
         } else {
             $answer->response = $request->value;

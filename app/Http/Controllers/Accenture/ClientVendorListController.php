@@ -62,7 +62,7 @@ class ClientVendorListController extends Controller
             abort(404);
         }
 
-        if ($answer->original->type == 'boolean') {
+        if ($answer->originalQuestion->type == 'boolean') {
             $answer->response = $request->value === 'yes';
         } else {
             $answer->response = $request->value;
@@ -124,13 +124,13 @@ class ClientVendorListController extends Controller
     public function vendorProfileView(User $vendor)
     {
         $generalQuestions = $vendor->vendorProfileQuestions->filter(function ($question) {
-            return $question->original->page == 'general';
+            return $question->originalQuestion->page == 'general';
         });
         $economicQuestions = $vendor->vendorProfileQuestions->filter(function ($question) {
-            return $question->original->page == 'economic';
+            return $question->originalQuestion->page == 'economic';
         });
         $legalQuestions = $vendor->vendorProfileQuestions->filter(function ($question) {
-            return $question->original->page == 'legal';
+            return $question->originalQuestion->page == 'legal';
         });
 
         return view('accentureViews.vendorProfileView', [
@@ -144,13 +144,13 @@ class ClientVendorListController extends Controller
     public function vendorProfileEdit(User $vendor)
     {
         $generalQuestions = $vendor->vendorProfileQuestions->filter(function ($question) {
-            return $question->original->page == 'general';
+            return $question->originalQuestion->page == 'general';
         });
         $economicQuestions = $vendor->vendorProfileQuestions->filter(function ($question) {
-            return $question->original->page == 'economic';
+            return $question->originalQuestion->page == 'economic';
         });
         $legalQuestions = $vendor->vendorProfileQuestions->filter(function ($question) {
-            return $question->original->page == 'legal';
+            return $question->originalQuestion->page == 'legal';
         });
 
         return view('accentureViews.vendorProfileEdit', [
@@ -173,7 +173,7 @@ class ClientVendorListController extends Controller
             abort(404);
         }
 
-        if ($answer->original->type == 'boolean') {
+        if ($answer->originalQuestion->type == 'boolean') {
             $answer->response = $request->value === 'yes';
         } else {
             $answer->response = $request->value;
@@ -262,7 +262,7 @@ class ClientVendorListController extends Controller
             abort(404);
         }
 
-        if ($answer->original->type == 'boolean') {
+        if ($answer->originalQuestion->type == 'boolean') {
             $answer->response = $request->value === 'yes';
         } else {
             $answer->response = $request->value;

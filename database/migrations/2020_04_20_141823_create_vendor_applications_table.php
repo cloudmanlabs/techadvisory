@@ -25,13 +25,6 @@ class CreateVendorApplicationsTable extends Migration
             $table->boolean('invitedToOrals')->default(false);
             $table->boolean('oralsCompleted')->default(false);
 
-            $table->integer('progressFitgap')->default(0);
-            $table->integer('progressVendor')->default(0);
-            $table->integer('progressExperience')->default(0);
-            $table->integer('progressInnovation')->default(0);
-            $table->integer('progressImplementation')->default(0);
-            $table->integer('progressSubmit')->default(0);
-
             $table->text('fitgapVendorColumns')->nullable();
             $table->text('fitgapVendorScores')->nullable();
         });

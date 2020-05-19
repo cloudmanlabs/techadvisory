@@ -81,7 +81,7 @@ class SolutionController extends Controller
             abort(403);
         }
 
-        if ($answer->original->type == 'boolean') {
+        if ($answer->originalQuestion->type == 'boolean') {
             $answer->response = $request->value === 'yes';
         } else {
             $answer->response = $request->value;

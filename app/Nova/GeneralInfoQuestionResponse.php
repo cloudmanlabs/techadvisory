@@ -54,7 +54,7 @@ class GeneralInfoQuestionResponse extends Resource
     {
         return [
             BelongsTo::make('Project', 'project', 'App\Nova\Project'),
-            BelongsTo::make('Question', 'original', 'App\Nova\GeneralInfoQuestion'),
+            BelongsTo::make('Question', 'originalQuestion', 'App\Nova\GeneralInfoQuestion'),
 
             Text::make('Response', 'response')
                 ->hideWhenCreating(),

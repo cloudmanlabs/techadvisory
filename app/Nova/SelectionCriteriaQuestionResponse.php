@@ -55,7 +55,7 @@ class SelectionCriteriaQuestionResponse extends Resource
     public function fields(Request $request)
     {
         return [
-            BelongsTo::make('Question', 'original', 'App\Nova\SelectionCriteriaQuestion'),
+            BelongsTo::make('Question', 'originalQuestion', 'App\Nova\SelectionCriteriaQuestion'),
             BelongsTo::make('Project', 'project', 'App\Nova\Project'),
             BelongsTo::make('Vendor', 'vendor', 'App\Nova\User'),
 
@@ -66,7 +66,7 @@ class SelectionCriteriaQuestionResponse extends Resource
                 ->hideWhenCreating(),
 
             Boolean::make('Fixed', function(){
-                return $this->original->fixed;
+                return $this->originalQuestion->fixed;
             }),
         ];
     }

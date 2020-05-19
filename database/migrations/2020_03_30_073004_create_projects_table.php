@@ -25,6 +25,7 @@ class CreateProjectsTable extends Migration
             $table->string('currentPhase')->default('preparation');
 
             $table->dateTime('deadline')->nullable();
+            $table->boolean('publishedAnalytics')->default(false);
 
             $table->unsignedBigInteger('practice_id')->nullable();
             $table->unsignedBigInteger('client_id')->nullable();

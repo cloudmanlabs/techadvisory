@@ -509,35 +509,35 @@ class ProjectController extends Controller
 
 
         $fitgapQuestions = $project->selectionCriteriaQuestionsForVendor($vendor)->get()->filter(function ($question) {
-            return $question->original->page == 'fitgap';
+            return $question->originalQuestion->page == 'fitgap';
         });
         $vendorCorporateQuestions = $project->selectionCriteriaQuestionsForVendor($vendor)->get()->filter(function ($question) {
-            return $question->original->page == 'vendor_corporate';
+            return $question->originalQuestion->page == 'vendor_corporate';
         });
         $vendorMarketQuestions = $project->selectionCriteriaQuestionsForVendor($vendor)->get()->filter(function ($question) {
-            return $question->original->page == 'vendor_market';
+            return $question->originalQuestion->page == 'vendor_market';
         });
         $experienceQuestions = $project->selectionCriteriaQuestionsForVendor($vendor)->get()->filter(function ($question) {
-            return $question->original->page == 'experience';
+            return $question->originalQuestion->page == 'experience';
         });
         $innovationDigitalEnablersQuestions = $project->selectionCriteriaQuestionsForVendor($vendor)->get()->filter(function ($question) {
-            return $question->original->page == 'innovation_digitalEnablers';
+            return $question->originalQuestion->page == 'innovation_digitalEnablers';
         });
         $innovationAlliancesQuestions = $project->selectionCriteriaQuestionsForVendor($vendor)->get()->filter(function ($question) {
-            return $question->original->page == 'innovation_alliances';
+            return $question->originalQuestion->page == 'innovation_alliances';
         });
         $innovationProductQuestions = $project->selectionCriteriaQuestionsForVendor($vendor)->get()->filter(function ($question) {
-            return $question->original->page == 'innovation_product';
+            return $question->originalQuestion->page == 'innovation_product';
         });
         $innovationSustainabilityQuestions = $project->selectionCriteriaQuestionsForVendor($vendor)->get()->filter(function ($question) {
-            return $question->original->page == 'innovation_sustainability';
+            return $question->originalQuestion->page == 'innovation_sustainability';
         });
 
         $implementationImplementationQuestions = $project->selectionCriteriaQuestionsForVendor($vendor)->get()->filter(function ($question) {
-            return $question->original->page == 'implementation_implementation';
+            return $question->originalQuestion->page == 'implementation_implementation';
         });
         $implementationRunQuestions = $project->selectionCriteriaQuestionsForVendor($vendor)->get()->filter(function ($question) {
-            return $question->original->page == 'implementation_run';
+            return $question->originalQuestion->page == 'implementation_run';
         });
 
         return view('clientViews.viewVendorProposal', [

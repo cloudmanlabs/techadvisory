@@ -9,7 +9,7 @@ class VendorProfileQuestionResponse extends Model
     public $guarded = [];
 
 
-    public function original()
+    public function originalQuestion()
     {
         return $this->belongsTo(VendorProfileQuestion::class, 'question_id');
     }

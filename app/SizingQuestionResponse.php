@@ -16,7 +16,7 @@ class SizingQuestionResponse extends Model
         'shouldShow' => 'boolean'
     ];
 
-    public function original()
+    public function originalQuestion()
     {
         return $this->belongsTo(SizingQuestion::class, 'question_id');
     }

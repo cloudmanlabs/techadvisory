@@ -13,13 +13,13 @@ class ProfileController extends Controller
         $vendor = auth()->user();
 
         $generalQuestions = $vendor->vendorProfileQuestions->filter(function ($question) {
-            return $question->original->page == 'general';
+            return $question->originalQuestion->page == 'general';
         });
         $economicQuestions = $vendor->vendorProfileQuestions->filter(function ($question) {
-            return $question->original->page == 'economic';
+            return $question->originalQuestion->page == 'economic';
         });
         $legalQuestions = $vendor->vendorProfileQuestions->filter(function ($question) {
-            return $question->original->page == 'legal';
+            return $question->originalQuestion->page == 'legal';
         });
 
         return view('vendorViews.profile', [
@@ -35,13 +35,13 @@ class ProfileController extends Controller
         $vendor = auth()->user();
 
         $generalQuestions = $vendor->vendorProfileQuestions->filter(function($question){
-            return $question->original->page == 'general';
+            return $question->originalQuestion->page == 'general';
         });
         $economicQuestions = $vendor->vendorProfileQuestions->filter(function($question){
-            return $question->original->page == 'economic';
+            return $question->originalQuestion->page == 'economic';
         });
         $legalQuestions = $vendor->vendorProfileQuestions->filter(function($question){
-            return $question->original->page == 'legal';
+            return $question->originalQuestion->page == 'legal';
         });
 
         return view('vendorViews.homeProfileCreate', [
@@ -69,7 +69,7 @@ class ProfileController extends Controller
             abort(403);
         }
 
-        if ($answer->original->type == 'boolean') {
+        if ($answer->originalQuestion->type == 'boolean') {
             $answer->response = $request->value === 'yes';
         } else {
             $answer->response = $request->value;

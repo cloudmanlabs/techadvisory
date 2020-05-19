@@ -86,7 +86,7 @@ class User extends Authenticatable
 
     public function getVendorResponse(string $identifier, $default = null)
     {
-        $response = $this->vendorProfileQuestions()->whereHas('original', function ($query) use ($identifier) {
+        $response = $this->vendorProfileQuestions()->whereHas('originalQuestion', function ($query) use ($identifier) {
             $query->where('fixed', true)->where('fixedQuestionIdentifier', $identifier);
         })->first();
 

@@ -11,7 +11,7 @@ class GeneralInfoQuestionResponse extends Model
 {
     public $guarded = [];
 
-    public function original()
+    public function originalQuestion()
     {
         return $this->belongsTo(GeneralInfoQuestion::class, 'question_id');
     }

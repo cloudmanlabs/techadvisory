@@ -12,7 +12,7 @@ class SelectionCriteriaQuestionResponse extends Model
 {
     public $guarded = [];
 
-    public function original()
+    public function originalQuestion()
     {
         return $this->belongsTo(SelectionCriteriaQuestion::class, 'question_id');
     }

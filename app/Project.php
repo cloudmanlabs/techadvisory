@@ -93,7 +93,7 @@ class Project extends Model
      */
     public function hasCompletedBusinessOpportunity()
     {
-        foreach ($this->fitgapClientColumns as $key => $value) {
+        foreach (($this->fitgapClientColumns ?? []) as $key => $value) {
             if(!isset($value['Business Opportunity']) || $value['Business Opportunity'] == null || $value['Business Opportunity'] == '') return false;
         }
         return true;

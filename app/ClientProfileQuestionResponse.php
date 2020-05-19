@@ -9,7 +9,7 @@ class ClientProfileQuestionResponse extends Model
     public $guarded = [];
 
 
-    public function original()
+    public function originalQuestion()
     {
         return $this->belongsTo(ClientProfileQuestion::class, 'question_id');
     }

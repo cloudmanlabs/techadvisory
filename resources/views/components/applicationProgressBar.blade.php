@@ -1,12 +1,12 @@
 @props(['application', 'title'])
 
 @php
-    $progressSetUp = $application->progressFitgap;
-    $progressValue = $application->progressVendor;
-    $progressResponse = $application->progressExperience;
-    $progressAnalytics = $application->progressInnovation;
-    $progressConclusions = $application->progressImplementation;
-    $progressConclusions = $application->progressSubmit;
+    $progressSetUp = $application->progressFitgap();
+    $progressValue = $application->progressVendor();
+    $progressResponse = $application->progressExperience();
+    $progressAnalytics = $application->progressInnovation();
+    $progressConclusions = $application->progressImplementation();
+    $progressConclusions = $application->progressSubmit();
 
     $totalProgress = $progressSetUp +
                         $progressValue +
