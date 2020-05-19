@@ -46,7 +46,7 @@
         <script src="{{url('/assets/js/dashboard.js')}}"></script>
         <script src="{{url('/assets/vendors_techadvisory/countdown/countdown.js')}}"></script>
         <script src="{{url('/assets/js/datepicker.js')}}"></script>
-        <script src="{{url('/assets/js/dropzone.js')}}"></script>
+        <script src="{{url('assets/vendors/dropzone/dropzone.min.js')}}"></script>
 
         <script>
             $(function () {

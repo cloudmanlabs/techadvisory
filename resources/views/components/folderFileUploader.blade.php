@@ -76,8 +76,6 @@
 @section('scripts')
 @parent
 <script>
-    const timeout = {{$timeout ?? 0}};
-
     // Disable autodiscover so jquery.steps doesn't fuck it up
     // We create it programmatically after timeout
     Dropzone.options['{{$folder->name}}'] = false;
@@ -105,7 +103,7 @@
             }
         });
 
-        $('.dz-remove').click(function(e){
+        $('#{{$folder->name}} .dz-remove').click(function(e){
             e.preventDefault()
             $(this).parent().remove();
 
@@ -115,13 +113,13 @@
             })
         })
 
-        $('.dz-preview').click(function(){
+        $('#{{$folder->name}} .dz-preview').click(function(){
             window.open('/storage/folders/{{$folder->name}}/' + $(this).data('filename'), '_blank');
         })
     }
 
-    if(timeout > 0){
-        setTimeout(setup, timeout);
+    if({{$timeout ?? 0}} > 0){
+        setTimeout(setup, {{$timeout ?? 0}});
     } else {
         setup()
     }
