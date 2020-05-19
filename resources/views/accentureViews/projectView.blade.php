@@ -213,6 +213,7 @@
                                                     </h6>
                                                 @endforeach
 
+                                                <br><br>
                                                 <h4>Alliances</h4>
                                                 <br>
                                                 @foreach ($innovationAlliancesQuestions as $question)
@@ -221,6 +222,7 @@
                                                     </h6>
                                                 @endforeach
 
+                                                <br><br>
                                                 <h4>Product</h4>
                                                 <br>
                                                 @foreach ($innovationProductQuestions as $question)
@@ -229,6 +231,7 @@
                                                     </h6>
                                                 @endforeach
 
+                                                <br><br>
                                                 <h4>Sustainability</h4>
                                                 <br>
                                                 @foreach ($innovationSustainabilityQuestions as $question)
@@ -248,7 +251,9 @@
                                                     </h6>
                                                 @endforeach
 
+                                                <br><br>
                                                 <h4>Deliverables per phase</h4>
+                                                <br>
                                                 @foreach ($implementationRunQuestions as $question)
                                                     <h6>
                                                         {{$question->label}}

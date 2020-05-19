@@ -29,14 +29,102 @@ class SelectionCriteriaQuestionSeeder extends Seeder
         ]);
 
 
+
+
+        factory(SelectionCriteriaQuestion::class)->create([
+            'page' => 'implementation_implementation',
+
+            'label' => 'Project plan',
+            'type' => 'file',
+            'fixed' => true,
+            'fixedQuestionIdentifier' => 'implementation_implementation_project_plan'
+        ]);
+
         factory(SelectionCriteriaQuestion::class)->create([
             'page' => 'implementation_implementation',
 
             'label' => 'Solutions used',
-            'type' => 'selectMultiple',
-            'presetOption' => 'countries',
+            'type' => 'text',
             'fixed' => true,
-            'fixedQuestionIdentifier' => 'vendor_market_countries'
+            'fixedQuestionIdentifier' => 'implementation_implementation_solutions_used'
+        ]);
+
+        factory(SelectionCriteriaQuestion::class)->create([
+            'page' => 'implementation_implementation',
+
+            'label' => 'Deliverables per phase',
+            'type' => 'empty',
+            'fixed' => true,
+            'fixedQuestionIdentifier' => 'implementation_implementation_deliverables_per_phase'
+        ]);
+
+        factory(SelectionCriteriaQuestion::class)->create([
+            'page' => 'implementation_implementation',
+
+            'label' => 'RACI Matrix',
+            'type' => 'empty',
+            'fixed' => true,
+            'fixedQuestionIdentifier' => 'implementation_implementation_raci_matrix'
+        ]);
+
+        factory(SelectionCriteriaQuestion::class)->create([
+            'page' => 'implementation_implementation',
+
+            'label' => 'Implementation Cost',
+            'type' => 'empty',
+            'fixed' => true,
+            'fixedQuestionIdentifier' => 'implementation_implementation_implementation_cost'
+        ]);
+
+        factory(SelectionCriteriaQuestion::class)->create([
+            'page' => 'implementation_run',
+
+            'label' => 'Pricing model description',
+            'type' => 'text',
+            'fixed' => true,
+            'fixedQuestionIdentifier' => 'implementation_run_pricing_model_description'
+        ]);
+        factory(SelectionCriteriaQuestion::class)->create([
+            'page' => 'implementation_run',
+
+            'label' => 'Pricing model response',
+            'type' => 'text',
+            'fixed' => true,
+            'fixedQuestionIdentifier' => 'implementation_run_pricing_model_response'
+        ]);
+        factory(SelectionCriteriaQuestion::class)->create([
+            'page' => 'implementation_run',
+
+            'label' => 'Pricing model Upload',
+            'type' => 'file',
+            'fixed' => true,
+            'fixedQuestionIdentifier' => 'implementation_run_pricing_model_upload'
+        ]);
+
+        factory(SelectionCriteriaQuestion::class)->create([
+            'page' => 'implementation_run',
+
+            'label' => 'Estimate first 5 years billing plan',
+            'type' => 'empty',
+            'fixed' => true,
+            'fixedQuestionIdentifier' => 'implementation_run_estimate_5_years'
+        ]);
+
+        factory(SelectionCriteriaQuestion::class)->create([
+            'page' => 'implementation_run',
+
+            'label' => 'Detailed breakdown response',
+            'type' => 'text',
+            'fixed' => true,
+            'fixedQuestionIdentifier' => 'implementation_run_detailed_breakdown_response'
+        ]);
+        factory(SelectionCriteriaQuestion::class)->create([
+            'page' => 'implementation_run',
+
+            'label' => 'Detailed breakdown Upload',
+            'type' => 'file',
+            'fixed' => true,
+            'fixedQuestionIdentifier' => 'implementation_run_detailed_breakdown_upload'
         ]);
     }
 }

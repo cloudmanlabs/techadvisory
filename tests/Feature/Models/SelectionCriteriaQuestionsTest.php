@@ -9,6 +9,8 @@ use App\User;
 use App\VendorApplication;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Storage;
 use Tests\TestCase;
 
 class SelectionCriteriaQuestionsTest extends TestCase
@@ -295,5 +297,34 @@ class SelectionCriteriaQuestionsTest extends TestCase
 
         $qResponse->refresh();
         $this->assertEquals(9, $qResponse->score);
+    }
+
+
+    public function testCanUploadFileWithPost()
+    {
+        $user = factory(User::class)->create();
+
+        $question = factory(SelectionCriteriaQuestion::class)->create();
+        $project = factory(Project::class)->create();
+        $vendor = factory(User::class)->states(['vendor', 'finishedSetup'])->create();
+        $vendor->applyToProject($project);
+
+        $this->assertCount(1, SelectionCriteriaQuestionResponse::all()); // Just making sure
+        $qResponse = SelectionCriteriaQuestionResponse::first();
+
+        $this->assertNull($qResponse->response);
+
+        Storage::fake('public');
+
+        $response = $this->actingAs($user)
+            ->post('/selectionCriteriaQuestion/uploadFile', [
+                'changing' => $qResponse->id,
+                'value' => UploadedFile::fake()->image('image1.jpg')
+            ]);
+
+        $response->assertOk();
+
+        $qResponse->refresh();
+        $this->assertNotNull($qResponse->response);
     }
 }

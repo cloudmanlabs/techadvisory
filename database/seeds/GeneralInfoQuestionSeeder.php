@@ -14,6 +14,16 @@ class GeneralInfoQuestionSeeder extends Seeder
     public function run()
     {
         factory(GeneralInfoQuestion::class)->create([
+            'type' => 'file',
+            'label' => 'REMOVE ME PLEASE',
+        ]);
+
+
+
+
+
+
+        factory(GeneralInfoQuestion::class)->create([
             'type' => 'textarea',
             'label' => 'Short Description',
             'required' => true

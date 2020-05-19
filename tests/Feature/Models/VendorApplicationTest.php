@@ -354,7 +354,7 @@ class VendorApplicationTest extends TestCase
         ]);
         $response->save();
 
-        $this->assertEquals(7, $application->implementationScore());
+        $this->assertEquals(8.2, $application->implementationScore());
     }
 
 

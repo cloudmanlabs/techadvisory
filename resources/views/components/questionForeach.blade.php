@@ -1,4 +1,4 @@
-@props(['questions', 'class', 'disabled', 'required'])
+@props(['questions', 'class', 'disabled', 'required', 'fileUploadRoute'])
 
 @foreach ($questions as $question)
     @switch($question->originalQuestion->type)
@@ -104,6 +104,16 @@
                     {{$question->originalQuestion->required ? 'required' : ''}}
                     value="{{$question->response}}"
                     placeholder="{{$question->originalQuestion->placeholder}}">
+            </div>
+            @break
+        @case('file')
+            <div class="form-group questionDiv" data-practice="{{$question->originalQuestion->practice->id ?? ''}}">
+                <x-questionFileUploader
+                    :question="$question"
+                    :fileUploadRoute="$fileUploadRoute ?? ''"
+                    :disabled="$disabled"
+                    :required="$required"
+                />
             </div>
             @break
         @default

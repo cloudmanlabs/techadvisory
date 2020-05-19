@@ -179,11 +179,11 @@ class VendorApplication extends Model
         }
 
         return
-                $this->fitgapScore() * $weights[0] +
-                $this->vendorScore() * $weights[1] +
-                $this->experienceScore() * $weights[2] +
-                $this->innovationScore() * $weights[3] +
-                $this->implementationScore() * $weights[4];
+                $this->fitgapScore() * ($weights[0] / 100) +
+                $this->vendorScore() * ($weights[1] / 100) +
+                $this->experienceScore() * ($weights[2] / 100) +
+                $this->innovationScore() * ($weights[3] / 100) +
+                $this->implementationScore() * ($weights[4] / 100);
     }
 
     /**
@@ -278,11 +278,17 @@ class VendorApplication extends Model
 
     public function implementationScore()
     {
-        return $this->project->selectionCriteriaQuestionsForVendor($this->vendor)->whereHas('originalQuestion', function ($query) {
+        $impScore = $this->project->selectionCriteriaQuestionsForVendor($this->vendor)->whereHas('originalQuestion', function ($query) {
             $query
-                ->where('page', 'implementation_implementation')
-                ->orWhere('page', 'implementation_run');
+                ->where('page', 'implementation_implementation');
         })->avg('score') ?? 0;
+
+        $runScore = $this->project->selectionCriteriaQuestionsForVendor($this->vendor)->whereHas('originalQuestion', function ($query) {
+            $query
+                ->where('page', 'implementation_run');
+        })->avg('score') ?? 0;
+
+        return 0.2 * $impScore + 0.8 * $runScore;
     }
 
     public function implementationMoney()
