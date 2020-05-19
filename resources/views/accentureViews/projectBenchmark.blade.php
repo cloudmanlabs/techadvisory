@@ -165,9 +165,13 @@
                             </div>
 
                             <div style="float: left; margin-top: 20px;">
-                                <a class="btn btn-primary btn-lg btn-icon-text" href="{{route('accenture.projectBenchmark', ['project' => $project])}}">
-                                    Publish Analytics
-                                </a>
+                                <button
+                                    class="btn btn-primary btn-lg btn-icon-text"
+                                    id="publishAnalytics"
+                                    {{$project->publishedAnalytics ? 'disabled' : ''}}
+                                >
+                                    {{$project->publishedAnalytics ? 'Published' : 'Publish Analytics'}}
+                                </button>
                             </div>
 
                             <div style="float: right; margin-top: 20px;">
@@ -192,6 +196,24 @@
 
 <script>
 $(document).ready(function() {
+    $('#publishAnalytics').click(function(){
+        $.post('/accenture/newProjectSetUp/publishProjectAnalytics', {
+            project_id: '{{$project->id}}',
+        })
+
+        $(this).html('Published')
+        $(this).attr('disabled', true)
+
+        $.toast({
+            heading: 'Published!',
+            showHideTransition: 'slide',
+            icon: 'success',
+            hideAfter: 1000,
+            position: 'bottom-right'
+        })
+    });
+
+
     // Apex Radar chart start
     let radarChart = new ApexCharts(document.querySelector("#apexRadar1"), {
         chart: {

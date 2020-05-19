@@ -67,6 +67,9 @@ class Project extends Resource
             DateTime::make('Deadline', 'deadline')
                 ->sortable(),
 
+            Boolean::make('Published analytics', 'publishedAnalytics')
+                    ->hideFromIndex(),
+
             Boolean::make('Orals', 'hasOrals'),
             Boolean::make('Value Targeting', 'hasValueTargeting'),
 

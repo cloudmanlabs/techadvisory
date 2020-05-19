@@ -14,6 +14,8 @@ use Illuminate\Support\Facades\Log;
  * @property boolean $hasValueTargeting
  * @property boolean $isBinding
  *
+ * @property boolean $publishedAnalytics
+ *
  * @property array $regions
  * @property string $industry
  *
@@ -52,6 +54,11 @@ class Project extends Model
         'step3SubmittedClient' => 'boolean',
         'step4SubmittedAccenture' => 'boolean',
         'step4SubmittedClient' => 'boolean',
+
+        'publishedAnalytics' => 'boolean',
+        'hasOrals' => 'boolean',
+        'hasValueTargeting' => 'boolean',
+        'isBinding' => 'boolean',
 
         'scoringValues' => 'array',
         'fitgap5Columns' => 'array',

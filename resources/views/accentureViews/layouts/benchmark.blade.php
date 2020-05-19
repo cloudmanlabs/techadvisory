@@ -19,6 +19,7 @@
         <link rel="stylesheet" href="{{url('assets/css/techadvisory/style.css')}}">
         <link rel="stylesheet" href="{{url('assets/css/techadvisory/extra.css')}}">
         <link rel="stylesheet" href="{{url('css/custom.css')}}">
+        <link rel="stylesheet" href="{{url('assets/css/jquery.toast.min.css')}}">
 
         <link rel="stylesheet" href="{{url('assets/fonts/graphik/font.css')}}">
         <style>
@@ -46,6 +47,7 @@
         <script src="{{url('assets/js/datepicker.js')}}"></script>
         <script src="{{url('assets/js/select2.js')}}"></script>
         <script src="{{url('assets/vendors/chartjs/Chart.min.js')}}"></script>
+        <script src="{{url('assets/js/jquery.toast.min.js')}}"></script>
 
         <script>
             $(function () {

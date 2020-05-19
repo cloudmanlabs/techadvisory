@@ -561,6 +561,25 @@ class ProjectsTest extends TestCase
         $this->assertEquals('open', $project->currentPhase);
     }
 
+    public function testAccentureCanPublishAnalyticsInProject()
+    {
+        $user = factory(User::class)->states('accenture')->create();
+        $project = factory(Project::class)->create();
+
+        $this->assertFalse(boolval($project->publishedAnalytics));
+
+        $request = $this
+            ->actingAs($user)
+            ->post('/accenture/newProjectSetUp/publishProjectAnalytics', [
+                'project_id' => $project->id,
+            ]);
+
+        $request->assertOk();
+
+        $project->refresh();
+        $this->assertTrue($project->publishedAnalytics);
+    }
+
 
 
     public function testAccentureCanUpdateScoringValues()
