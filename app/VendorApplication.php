@@ -60,7 +60,7 @@ class VendorApplication extends Model
     {
         $score = 0;
 
-        if ($this->hasCompletedVendorSelectionCriteria()) {
+        if ($this->hasCompletedVendorSelectionCriteriaIn(['vendor_corporate', 'vendor_market'])) {
             $score += 10;
         }
 
@@ -70,7 +70,7 @@ class VendorApplication extends Model
     public function progressExperience() : int
     {
         $score = 0;
-        if ($this->hasCompletedFitgap()) {
+        if ($this->hasCompletedVendorSelectionCriteriaIn(['experience'])) {
             $score += 10;
         }
         return $score;
@@ -79,7 +79,7 @@ class VendorApplication extends Model
     public function progressInnovation() : int
     {
         $score = 0;
-        if ($this->hasCompletedFitgap()) {
+        if ($this->hasCompletedVendorSelectionCriteriaIn(['innovation_digitalEnablers', 'innovation_alliances', 'innovation_product', 'innovation_sustainability'])) {
             $score += 10;
         }
         return $score;
@@ -88,7 +88,7 @@ class VendorApplication extends Model
     public function progressImplementation() : int
     {
         $score = 0;
-        if ($this->hasCompletedFitgap()) {
+        if ($this->hasCompletedVendorSelectionCriteriaIn(['implementation_implementation', 'implementation_run'])) {
             $score += 30;
         }
         return $score;
@@ -111,11 +111,11 @@ class VendorApplication extends Model
         return true;
     }
 
-    function hasCompletedVendorSelectionCriteria(): bool
+    function hasCompletedVendorSelectionCriteriaIn(array $pages = []): bool
     {
         $vendorQuestions = $this->project
                                 ->selectionCriteriaQuestionsOriginals()
-                                ->whereIn('page', ['vendor_corporate', 'vendor_market'])
+                                ->whereIn('page', $pages)
                                 ->pluck('selection_criteria_questions.id')
                                 ->toArray();
 
@@ -125,8 +125,8 @@ class VendorApplication extends Model
                                 ->map(function($response){
                                     return $response->originalQuestion;
                                 })
-                                ->filter(function($question){
-                                    return in_array($question->page, ['vendor_corporate', 'vendor_market']);
+                                ->filter(function($question) use ($pages) {
+                                    return in_array($question->page, $pages);
                                 })
                                 ->pluck('id')
                                 ->toArray();
