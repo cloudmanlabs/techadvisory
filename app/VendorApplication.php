@@ -165,13 +165,25 @@ class VendorApplication extends Model
 
     public function totalScore()
     {
-        return collect([
-            $this->fitgapScore(),
-            $this->vendorScore(),
-            $this->experienceScore(),
-            $this->innovationScore(),
-            $this->implementationScore(),
-        ])->avg();
+        $weights = $this->project->scoringValues ?? [0, 0, 0, 0, 0];
+
+        // If they haven't set the weights, just do the average
+        if(array_sum($weights) == 0){
+            return collect([
+                $this->fitgapScore(),
+                $this->vendorScore(),
+                $this->experienceScore(),
+                $this->innovationScore(),
+                $this->implementationScore(),
+            ])->avg();
+        }
+
+        return
+                $this->fitgapScore() * $weights[0] +
+                $this->vendorScore() * $weights[1] +
+                $this->experienceScore() * $weights[2] +
+                $this->innovationScore() * $weights[3] +
+                $this->implementationScore() * $weights[4];
     }
 
     /**
