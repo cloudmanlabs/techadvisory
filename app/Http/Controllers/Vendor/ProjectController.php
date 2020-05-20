@@ -123,6 +123,7 @@ class ProjectController extends Controller
 
         return view('vendorViews.newApplicationApply', [
             'project' => $project,
+            'vendorApplication' => $vendorApplication,
 
             'fitgapQuestions' => $fitgapQuestions,
             'vendorCorporateQuestions' => $vendorCorporateQuestions,

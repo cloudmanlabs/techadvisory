@@ -97,7 +97,7 @@
                                     <x-questionForeachWithEvaluate :questions="$implementationImplementationQuestions"
                                         :class="'selectionCriteriaQuestion'" :disabled="true" :evalDisabled="true" :required="false" />
 
-                                    <h4>Deliverables per phase</h4>
+                                    <h4>Run</h4>
                                     <br>
                                     <x-questionForeachWithEvaluate :questions="$implementationRunQuestions" :class="'selectionCriteriaQuestion'" :disabled="true" :evalDisabled="true"
                                         :required="false" />

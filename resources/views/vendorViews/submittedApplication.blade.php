@@ -90,7 +90,7 @@
                                         <x-questionForeach :questions="$implementationImplementationQuestions" :class="'selectionCriteriaQuestion'"
                                             :disabled="true" :required="false" />
 
-                                        <h4>Deliverables per phase</h4>
+                                        <h4>Run</h4>
                                         <x-questionForeach :questions="$implementationRunQuestions" :class="'selectionCriteriaQuestion'"
                                             :disabled="true" :required="false" />
                                     </section>

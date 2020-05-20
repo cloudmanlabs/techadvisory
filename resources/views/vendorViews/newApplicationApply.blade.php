@@ -80,7 +80,27 @@
                                         <x-questionForeach :questions="$implementationImplementationQuestions" :class="'selectionCriteriaQuestion'"
                                             :disabled="false" :required="false" />
 
-                                        <h4>Deliverables per phase</h4>
+                                        <div class="form-group">
+                                            <label for="projectName">Deliverables per phase</label>
+
+                                            @forelse ($vendorApplication->deliverables ?? [] as $user)
+                                            <label for="projectName">Phase {{$loop->index}}</label>
+                                            <input type="text" class="form-control"
+                                                data-changing="name"
+                                                placeholder="Project Name"
+                                                value="{{$project->name}}"
+                                                required>
+                                            @empty
+                                            <p>No deliverables set</p>
+                                            @endforelse
+                                            <br>
+                                            <button class="btn btn-primary" id="addDeliverable">
+                                                Add deliverable
+                                            </button>
+                                        </div>
+
+                                        <br>
+                                        <h4>Run</h4>
                                         <x-questionForeach :questions="$implementationRunQuestions" :class="'selectionCriteriaQuestion'"
                                             :disabled="false" :required="false" />
                                     </section>
@@ -192,6 +212,10 @@
             });
             $(this).datepicker('setDate', date);
         });
+
+        $('#addDeliverable').click(function(){
+
+        })
     });
 </script>
 @endsection

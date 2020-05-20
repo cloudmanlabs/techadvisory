@@ -23,7 +23,9 @@ class VendorApplication extends Model
         'oralsCompleted' => 'boolean',
 
         'fitgapVendorColumns' => 'array',
-        'fitgapVendorScores' => 'array'
+        'fitgapVendorScores' => 'array',
+
+        'deliverables' => 'array',
     ];
 
 

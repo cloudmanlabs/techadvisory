@@ -30,6 +30,12 @@ class VendorApplicationTest extends TestCase
 
             'invitedToOrals' => true,
             'oralsCompleted' => true,
+
+            'deliverables' => [
+                'something',
+                'pther',
+                'hey'
+            ]
         ]);
         $application->save();
 

@@ -27,6 +27,8 @@ class CreateVendorApplicationsTable extends Migration
 
             $table->text('fitgapVendorColumns')->nullable();
             $table->text('fitgapVendorScores')->nullable();
+
+            $table->text('deliverables')->nullable();
         });
     }
 
