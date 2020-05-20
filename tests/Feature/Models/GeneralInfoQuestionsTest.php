@@ -58,6 +58,21 @@ class GeneralInfoQuestionsTest extends TestCase
         $this->assertCount(1, GeneralInfoQuestion::all());
     }
 
+    public function testCanCreateGeneralInfoQuestionWithCanVendorSee()
+    {
+        $this->assertCount(0, GeneralInfoQuestion::all());
+
+        $question = new GeneralInfoQuestion([
+            'label' => 'How are you?',
+            'type' => 'text',
+
+            'canVendorSee' => true
+        ]);
+        $question->save();
+
+        $this->assertCount(1, GeneralInfoQuestion::all());
+    }
+
     public function testCanCreateGeneralInfoQuestionWithPracticeDependency()
     {
         $this->assertCount(0, GeneralInfoQuestion::all());

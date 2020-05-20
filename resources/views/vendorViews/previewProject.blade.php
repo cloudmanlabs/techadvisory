@@ -28,20 +28,6 @@
                                         </div>
 
                                         <div class="form-group">
-                                            <label for="chooseClientSelect">Client name*</label>
-                                            <select class="form-control" id="chooseClientSelect" disabled>
-                                                <option selected="" disabled="">Please select the Client Name</option>
-                                                @php
-                                                $currentlySelected = $project->client->id ?? -1;
-                                                @endphp
-                                                @foreach ($clients as $client)
-                                                <option value="{{$client->id}}" @if($currentlySelected==$client->id) selected @endif
-                                                    >{{$client->name}}</option>
-                                                @endforeach
-                                            </select>
-                                        </div>
-
-                                        <div class="form-group">
                                             <label for="valueTargeting">Value Targeting*</label>
                                             <select class="form-control" id="valueTargeting" disabled>
                                                 <option disabled="">Please select the Project Type</option>
@@ -115,7 +101,7 @@
                                         </div>
 
                                         <x-questionForeach :questions="$generalInfoQuestions" :class="'generalQuestion'" :disabled="true"
-                                            :required="false" />
+                                            :required="false" :skipQuestionsInVendor="true" />
                                     </section>
 
                                     <h2>RFP Upload</h2>

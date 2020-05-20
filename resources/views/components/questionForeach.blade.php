@@ -1,4 +1,14 @@
-@props(['questions', 'class', 'disabled', 'required', 'fileUploadRoute'])
+@props(['questions', 'class', 'disabled', 'required', 'fileUploadRoute', 'skipQuestionsInVendor'])
+
+@php
+    $skipQuestionsInVendor = $skipQuestionsInVendor ?? false;
+
+    $questions = $questions->filter(function($question) use ($skipQuestionsInVendor){
+        if(!$skipQuestionsInVendor) return true;
+
+        return $question->originalQuestion->canVendorSee ?? true;
+    });
+@endphp
 
 @foreach ($questions as $question)
     @switch($question->originalQuestion->type)

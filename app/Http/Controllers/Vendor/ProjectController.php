@@ -28,6 +28,65 @@ class ProjectController extends Controller
         ]);
     }
 
+    public function previewProjectApply(Project $project)
+    {
+        /** @var User $vendor */
+        $vendor = auth()->user();
+        if (!$vendor->hasAppliedToProject($project)) {
+            abort(404);
+        }
+
+        $vendorApplication = \App\VendorApplication::where('project_id', $project->id)->where('vendor_id', $vendor->id)->first();
+
+        $fitgapQuestions = $project->selectionCriteriaQuestionsForVendor($vendor)->get()->filter(function ($question) {
+            return $question->originalQuestion->page == 'fitgap';
+        });
+        $vendorCorporateQuestions = $project->selectionCriteriaQuestionsForVendor($vendor)->get()->filter(function ($question) {
+            return $question->originalQuestion->page == 'vendor_corporate';
+        });
+        $vendorMarketQuestions = $project->selectionCriteriaQuestionsForVendor($vendor)->get()->filter(function ($question) {
+            return $question->originalQuestion->page == 'vendor_market';
+        });
+        $experienceQuestions = $project->selectionCriteriaQuestionsForVendor($vendor)->get()->filter(function ($question) {
+            return $question->originalQuestion->page == 'experience';
+        });
+        $innovationDigitalEnablersQuestions = $project->selectionCriteriaQuestionsForVendor($vendor)->get()->filter(function ($question) {
+            return $question->originalQuestion->page == 'innovation_digitalEnablers';
+        });
+        $innovationAlliancesQuestions = $project->selectionCriteriaQuestionsForVendor($vendor)->get()->filter(function ($question) {
+            return $question->originalQuestion->page == 'innovation_alliances';
+        });
+        $innovationProductQuestions = $project->selectionCriteriaQuestionsForVendor($vendor)->get()->filter(function ($question) {
+            return $question->originalQuestion->page == 'innovation_product';
+        });
+        $innovationSustainabilityQuestions = $project->selectionCriteriaQuestionsForVendor($vendor)->get()->filter(function ($question) {
+            return $question->originalQuestion->page == 'innovation_sustainability';
+        });
+
+        $implementationImplementationQuestions = $project->selectionCriteriaQuestionsForVendor($vendor)->get()->filter(function ($question) {
+            return $question->originalQuestion->page == 'implementation_implementation';
+        });
+        $implementationRunQuestions = $project->selectionCriteriaQuestionsForVendor($vendor)->get()->filter(function ($question) {
+            return $question->originalQuestion->page == 'implementation_run';
+        });
+
+        return view('vendorViews.previewProjectApply', [
+            'project' => $project,
+            'vendorApplication' => $vendorApplication,
+
+            'fitgapQuestions' => $fitgapQuestions,
+            'vendorCorporateQuestions' => $vendorCorporateQuestions,
+            'vendorMarketQuestions' => $vendorMarketQuestions,
+            'experienceQuestions' => $experienceQuestions,
+            'innovationDigitalEnablersQuestions' => $innovationDigitalEnablersQuestions,
+            'innovationAlliancesQuestions' => $innovationAlliancesQuestions,
+            'innovationProductQuestions' => $innovationProductQuestions,
+            'innovationSustainabilityQuestions' => $innovationSustainabilityQuestions,
+            'implementationImplementationQuestions' => $implementationImplementationQuestions,
+            'implementationRunQuestions' => $implementationRunQuestions,
+        ]);
+    }
+
     public function setRejected(Request $request, Project $project)
     {
         $application = VendorApplication::where('vendor_id', auth()->id())

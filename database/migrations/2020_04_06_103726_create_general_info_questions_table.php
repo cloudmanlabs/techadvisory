@@ -25,6 +25,7 @@ class CreateGeneralInfoQuestionsTable extends Migration
             $table->string('presetOption')->nullable();
             $table->text('options')->nullable();
 
+            $table->boolean('canVendorSee')->default(true);
             $table->unsignedBigInteger('practice_id')->nullable();
         });
     }

@@ -2,8 +2,7 @@
 
 
 @php
-$vendorApplication = \App\VendorApplication::where('project_id', $project->id)->where('vendor_id',
-auth()->id())->first();
+$vendorApplication = \App\VendorApplication::where('project_id', $project->id)->where('vendor_id', auth()->id())->first();
 
 $showApply = $vendorApplication->phase == 'applicating';
 @endphp
@@ -67,12 +66,19 @@ $showApply = $vendorApplication->phase == 'applicating';
                             </li>
                             @endif
                         @else
-                            <li class="header-link-item d-flex align-items-center active">
+                            <li class="header-link-item ml-3 pl-3 d-flex align-items-center {{$section == 'preview' ? 'active' : ''}}">
                                 <i data-feather="bookmark" style="max-width: 18px; margin-right: 3px; margin-top: -2px"></i>
                                 <a
                                     class="pt-1px d-none d-md-block"
                                     href="{{route('vendor.previewProject', ['project' => $project])}}"
                                 >Project information</a>
+                            </li>
+                            <li class="header-link-item ml-3 pl-3 d-flex align-items-center {{$section == 'apply' ? 'active' : ''}}">
+                                <i data-feather="check-circle" style="max-width: 18px; margin-right: 3px; margin-top: -2px"></i>
+                                <a
+                                    class="pt-1px d-none d-md-block"
+                                    href="{{route('vendor.previewProjectApply', ['project' => $project])}}"
+                                >Application</a>
                             </li>
                         @endif
                     </ul>

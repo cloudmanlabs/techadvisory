@@ -63,6 +63,7 @@ class GeneralInfoQuestion extends Resource
             Text::make('Label', 'label')
                 ->required(),
             Boolean::make('Required', 'required'),
+            Boolean::make('Can vendor see question?', 'canVendorSee'),
 
             BelongsTo::make('Practice', 'practice', 'App\Nova\Practice')
                 ->nullable()

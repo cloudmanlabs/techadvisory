@@ -117,7 +117,7 @@
                                         </div>
 
                                         <x-questionForeach :questions="$generalInfoQuestions" :class="'generalQuestion'" :disabled="true"
-                                            :required="false" />
+                                            :required="false" :skipQuestionsInVendor="true" />
                                     </section>
 
                                     <h2>RFP Upload</h2>
