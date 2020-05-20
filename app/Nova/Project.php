@@ -70,6 +70,8 @@ class Project extends Resource
             Boolean::make('Published analytics', 'publishedAnalytics')
                     ->hideFromIndex(),
 
+            Boolean::make('Is Binding', 'isBinding'),
+
             Boolean::make('Orals', 'hasOrals'),
             Boolean::make('Value Targeting', 'hasValueTargeting'),
 

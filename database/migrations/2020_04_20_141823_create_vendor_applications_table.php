@@ -29,6 +29,26 @@ class CreateVendorApplicationsTable extends Migration
             $table->text('fitgapVendorScores')->nullable();
 
             $table->text('deliverables')->nullable();
+            $table->text('raciMatrix')->nullable();
+            $table->text('staffingCost')->nullable();
+            $table->text('travelCost')->nullable();
+            $table->text('additionalCost')->nullable();
+            $table->text('estimate5Years')->nullable();
+            $table->unsignedInteger('estimate5YearsYear0')->nullable();
+
+            $table->unsignedInteger('overallImplementationMin')->nullable();
+            $table->unsignedInteger('overallImplementationMax')->nullable();
+            $table->unsignedInteger('averageYearlyCostMin')->nullable();
+            $table->unsignedInteger('averageYearlyCostMax')->nullable();
+            $table->unsignedInteger('totalRunCostMin')->nullable();
+            $table->unsignedInteger('totalRunCostMax')->nullable();
+
+            $table->unsignedInteger('staffingCostNonBinding')->nullable();
+            $table->text('staffingCostNonBindingComments')->nullable();
+            $table->unsignedInteger('travelCostNonBinding')->nullable();
+            $table->text('travelCostNonBindingComments')->nullable();
+            $table->unsignedInteger('additionalCostNonBinding')->nullable();
+            $table->text('additionalCostNonBindingComments')->nullable();
         });
     }
 

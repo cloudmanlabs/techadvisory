@@ -80,37 +80,43 @@
                                         <x-questionForeach :questions="$implementationImplementationQuestions" :class="'selectionCriteriaQuestion'"
                                             :disabled="false" :required="false" />
 
-                                        <div class="form-group">
-                                            <label for="projectName">Deliverables per phase</label>
+                                        <br><br>
+                                        <x-selectionCriteria.deliverables :vendorApplication="$vendorApplication" />
 
-                                            <div id="deliverableContainer">
-                                                @foreach ($vendorApplication->deliverables ?? [] as $deliverable)
-                                                <div>
-                                                    <label for="projectName">Phase {{$loop->iteration}}</label>
-                                                    <input type="text" class="form-control deliverableInput"
-                                                        data-changing="name"
-                                                        placeholder="Deliverable"
-                                                        value="{{$deliverable}}"
-                                                        required>
-                                                </div>
-                                                @endforeach
-                                            </div>
+                                        <br>
+                                        <br>
+                                        <x-selectionCriteria.raciMatrix :vendorApplication="$vendorApplication" />
+
+                                        <br>
+                                        <br>
+                                        <b>Implementation Cost</b>
+
+                                        @if ($project->isBinding)
+                                            <x-selectionCriteria.staffingCost :vendorApplication="$vendorApplication" />
 
                                             <br>
-                                            <div style="display: flex; flex-direction: row;">
-                                                <button class="btn btn-primary" id="addDeliverable">
-                                                    Add deliverable
-                                                </button>
-                                                <button class="btn btn-primary" id="removeDeliverable" style="margin-left: 1rem">
-                                                    Remove deliverable
-                                                </button>
-                                            </div>
-                                        </div>
+                                            <x-selectionCriteria.travelCost :vendorApplication="$vendorApplication" />
+
+                                            <br>
+                                            <x-selectionCriteria.additionalCost :vendorApplication="$vendorApplication" />
+
+                                            <p>Overall Implementation Cost: <span id="overallImplementationCost">0</span>$</p>
+                                        @else
+                                            <x-selectionCriteria.nonBindingImplementation :vendorApplication="$vendorApplication" />
+                                        @endif
 
                                         <br>
                                         <h4>Run</h4>
                                         <x-questionForeach :questions="$implementationRunQuestions" :class="'selectionCriteriaQuestion'"
                                             :disabled="false" :required="false" />
+
+                                        <br><br>
+
+                                        @if ($project->isBinding)
+                                        <x-selectionCriteria.estimate5Years :vendorApplication="$vendorApplication" />
+                                        @else
+                                        <x-selectionCriteria.nonBindingEstimate5Years :vendorApplication="$vendorApplication" />
+                                        @endif
                                     </section>
                                 </div>
                             </div>
@@ -221,48 +227,41 @@
             $(this).datepicker('setDate', date);
         });
 
-        // Deliverables section
-        $('#addDeliverable').click(function(){
-            const childrenCount = $('#deliverableContainer').children().toArray().length;
+    });
 
-            let newDeliverable = `
-            <div>
-                <label for="projectName">Phase ${childrenCount + 1}</label>
-                <input type="text" class="form-control deliverableInput" data-changing="name" placeholder="Deliverable"
-                    value="" required>
-            </div>
-            `;
+    function updateTotalImplementation(){
+        let total = 0;
 
-            $('#deliverableContainer').append(newDeliverable)
-
-            setDeliverableEditListener();
-            updateDeliverables();
-        })
-
-        $('#removeDeliverable').click(function(){
-            $('#deliverableContainer').children().last().remove()
-            updateDeliverables()
-        })
-
-        function setDeliverableEditListener(){
-            $('.deliverableInput').change(function(){
-                updateDeliverables();
-            })
-        }
-        function updateDeliverables(){
-            const deliverables = $('#deliverableContainer').children().map(function(){
-                return $(this).children('input').val()
+        let cost = $('#travelCostContainer').children()
+            .map(function(){
+                return $(this).children('.travelCostHoursInput').val()
             }).toArray();
 
-            $.post('/vendorApplication/updateDeliverables', {
-                changing: {{$vendorApplication->id}},
-                value: deliverables
+        total += cost.map((el) => +el).reduce((a, b) => a + b, 0)
+
+        cost = $('#staffingCostContainer').children()
+            .map(function(){
+                return $(this).children().get(1)
             })
+            .map(function(){
+                return {
+                    hours: $(this).children('.staffingCostHoursInput').val(),
+                    rate: $(this).children('.staffingCostRateInput').val(),
+                    cost: $(this).children('.staffingCostCostInput').val(),
+                }
+            }).toArray();
 
-            showSavedToast();
-        }
+        total += cost.map((el) => +el.cost).reduce((a, b) => a + b, 0)
 
-        setDeliverableEditListener();
-    });
+        cost = $('#additionalCostContainer').children()
+            .map(function(){
+                return $(this).children('.additionalCostHoursInput').val()
+            }).toArray();
+
+        total += cost.map((el) => +el).reduce((a, b) => a + b, 0)
+
+
+        $('#overallImplementationCost').html(total);
+    }
 </script>
 @endsection
