@@ -41,4 +41,27 @@ class VendorApplicationController extends Controller
 
         $application->save();
     }
+
+    public function updateDeliverables(Request $request)
+    {
+        $request->validate([
+            'changing' => 'required|numeric',
+            'value' => 'required|array',
+        ]);
+
+        $application = VendorApplication::find($request->changing);
+        if ($application == null) {
+            abort(404);
+        }
+
+        $application->deliverables = $request->value;
+        $application->save();
+
+        Log::debug($application);
+
+        return \response()->json([
+            'status' => 200,
+            'message' => 'Success'
+        ]);
+    }
 }

@@ -43,11 +43,11 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/selectionCriteriaQuestion/uploadFile', 'SelectionCriteriaQuestionController@uploadFile');
     Route::post('/selectionCriteriaQuestion/changeScore', 'SelectionCriteriaQuestionController@changeScore');
 
+    Route::post('/vendorApplication/updateDeliverables', 'Accenture\VendorApplicationController@updateDeliverables');
 
     Route::post('/user/changeLogo', 'UserController@changeLogo');
     Route::post('/accenture/changeSomeoneElsesLogo', 'UserController@changeSomeoneElsesLogo')
         ->middleware('checkAccenture');
-
 
     Route::post('folder/uploadFilesToFolder', 'FolderController@uploadFiles');
     Route::post('folder/uploadSingleFileToFolder', 'FolderController@uploadSingleFile');
