@@ -82,28 +82,28 @@
 
                                         <br><br>
 
-                                        <x-selectionCriteria.deliverables :vendorApplication="$vendorApplication" />
+                                        <x-selectionCriteria.deliverables :vendorApplication="$vendorApplication" :evaluate="false"/>
 
                                         <br>
                                         <br>
-                                        <x-selectionCriteria.raciMatrix :vendorApplication="$vendorApplication" />
+                                        <x-selectionCriteria.raciMatrix :vendorApplication="$vendorApplication" :evaluate="false"/>
 
                                         <br>
                                         <br>
                                         <b>Implementation Cost</b>
 
                                         @if ($project->isBinding)
-                                            <x-selectionCriteria.staffingCost :vendorApplication="$vendorApplication" />
+                                            <x-selectionCriteria.staffingCost :vendorApplication="$vendorApplication" :evaluate="false"/>
 
                                             <br>
-                                            <x-selectionCriteria.travelCost :vendorApplication="$vendorApplication" />
+                                            <x-selectionCriteria.travelCost :vendorApplication="$vendorApplication" :evaluate="false"/>
 
                                             <br>
-                                            <x-selectionCriteria.additionalCost :vendorApplication="$vendorApplication" />
+                                            <x-selectionCriteria.additionalCost :vendorApplication="$vendorApplication" :evaluate="false"/>
 
                                             <p>Overall Implementation Cost: <span id="overallImplementationCost">0</span>$</p>
                                         @else
-                                            <x-selectionCriteria.nonBindingImplementation :vendorApplication="$vendorApplication" />
+                                            <x-selectionCriteria.nonBindingImplementation :vendorApplication="$vendorApplication" :evaluate="false"/>
                                         @endif
 
                                         <br>
@@ -114,9 +114,9 @@
                                         <br><br>
 
                                         @if ($project->isBinding)
-                                            <x-selectionCriteria.estimate5Years :vendorApplication="$vendorApplication" />
+                                            <x-selectionCriteria.estimate5Years :vendorApplication="$vendorApplication" :evaluate="false"/>
                                         @else
-                                            <x-selectionCriteria.nonBindingEstimate5Years :vendorApplication="$vendorApplication" />
+                                            <x-selectionCriteria.nonBindingEstimate5Years :vendorApplication="$vendorApplication" :evaluate="false" />
                                         @endif
                                     </section>
                                 </div>

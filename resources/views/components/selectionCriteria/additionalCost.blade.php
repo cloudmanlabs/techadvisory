@@ -1,7 +1,8 @@
-@props(['vendorApplication', 'disabled'])
+@props(['vendorApplication', 'disabled', 'evaluate', 'evalDisabled'])
 
 @php
     $disabled = $disabled ?? false;
+    $evaluate = $evaluate ?? false;
 @endphp
 
 <div class="form-group">
@@ -28,6 +29,21 @@
             <button class="btn btn-primary" id="removeAdditionalCostRow" style="margin-left: 1rem">
                 Remove row
             </button>
+        </div>
+    @endif
+
+    @if ($evaluate)
+        <div>
+            <label for="additionalCostScore">Additional Cost. Score</label>
+            <input
+                {{$evalDisabled ? 'disabled' : ''}}
+                type="number"
+                name="asdf"
+                id="additionalCostScore"
+                min="0"
+                max="10"
+                value="{{$vendorApplication->additionalCostScore}}"
+                onkeypress="if(event.which &lt; 48 || event.which &gt; 57 ) if(event.which != 8) if(event.keyCode != 9) return false;">
         </div>
     @endif
 </div>
@@ -96,6 +112,18 @@
 
         setAdditionalCostEditListener();
         updateTotalAdditionalCost();
+
+
+
+
+        $('#additionalCostScore').change(function(){
+            $.post('/vendorApplication/updateImplementationScores', {
+                application_id: {{$vendorApplication->id}},
+                changing: 'additionalCostScore',
+                value: $(this).val()
+            })
+            showSavedToast();
+        })
     });
 </script>
 @endsection

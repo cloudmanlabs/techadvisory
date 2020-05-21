@@ -43,6 +43,15 @@ class CreateVendorApplicationsTable extends Migration
             $table->unsignedInteger('totalRunCostMin')->nullable();
             $table->unsignedInteger('totalRunCostMax')->nullable();
 
+            $table->unsignedInteger('additionalCostScore')->nullable();
+            $table->unsignedInteger('deliverablesScore')->nullable();
+            $table->unsignedInteger('estimate5YearsScore')->nullable();
+            $table->unsignedInteger('nonBindingEstimate5YearsScore')->nullable();
+            $table->unsignedInteger('overallCostScore')->nullable();
+            $table->unsignedInteger('raciMatrixScore')->nullable();
+            $table->unsignedInteger('staffingCostScore')->nullable();
+            $table->unsignedInteger('travelCostScore')->nullable();
+
             $table->unsignedInteger('staffingCostNonBinding')->nullable();
             $table->text('staffingCostNonBindingComments')->nullable();
             $table->unsignedInteger('travelCostNonBinding')->nullable();

@@ -1,4 +1,4 @@
-@props(['vendorApplication', 'disabled'])
+@props(['vendorApplication', 'disabled', 'evaluate', 'evalDisabled'])
 
 @php
 $disabled = $disabled ?? false;
@@ -33,6 +33,23 @@ $disabled = $disabled ?? false;
     @endif
 </div>
 <p>Total Travel Cost: <span id="totalTravelCost">0</span>$</p>
+
+
+@if ($evaluate)
+    <div>
+        <label for="travelCostScore">Travel Cost. Score</label>
+        <input
+            {{$evalDisabled ? 'disabled' : ''}}
+            type="number"
+            name="asdf"
+            id="travelCostScore"
+            min="0"
+            max="10"
+            value="{{$vendorApplication->travelCostScore}}"
+            onkeypress="if(event.which &lt; 48 || event.which &gt; 57 ) if(event.which != 8) if(event.keyCode != 9) return false;">
+    </div>
+@endif
+
 
 
 
@@ -100,6 +117,15 @@ $disabled = $disabled ?? false;
 
         setTravelCostEditListener();
         updateTotalTravelCost();
+
+        $('#travelCostScore').change(function(){
+            $.post('/vendorApplication/updateImplementationScores', {
+                application_id: {{$vendorApplication->id}},
+                changing: 'travelCostScore',
+                value: $(this).val()
+            })
+            showSavedToast();
+        })
     });
 </script>
 @endsection

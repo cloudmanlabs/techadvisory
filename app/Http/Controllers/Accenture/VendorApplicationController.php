@@ -211,4 +211,41 @@ class VendorApplicationController extends Controller
             'message' => 'Success'
         ]);
     }
+
+    public function updateImplementationScores(Request $request)
+    {
+        $request->validate([
+            'application_id' => 'required|numeric',
+            'changing' => 'required|string',
+            'value' => 'required',
+        ]);
+
+        $availableFields = [
+            'additionalCostScore',
+            'deliverablesScore',
+            'estimate5YearsScore',
+            'nonBindingEstimate5YearsScore',
+            'overallCostScore',
+            'raciMatrixScore',
+            'staffingCostScore',
+            'travelCostScore',
+        ];
+
+        $application = VendorApplication::find($request->application_id);
+        if ($application == null) {
+            abort(404);
+        }
+
+        if (!in_array($request->changing, $availableFields)) {
+            abort(404);
+        }
+
+        $application->{$request->changing} = $request->value;
+        $application->save();
+
+        return \response()->json([
+            'status' => 200,
+            'message' => 'Success'
+        ]);
+    }
 }

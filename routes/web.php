@@ -50,6 +50,7 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/vendorApplication/updateAdditionalCost', 'Accenture\VendorApplicationController@updateAdditionalCost');
     Route::post('/vendorApplication/updateNonBindingImplementation', 'Accenture\VendorApplicationController@updateNonBindingImplementation');
     Route::post('/vendorApplication/updateEstimate5Years', 'Accenture\VendorApplicationController@updateEstimate5Years');
+    Route::post('/vendorApplication/updateImplementationScores', 'Accenture\VendorApplicationController@updateImplementationScores');
 
     Route::post('/user/changeLogo', 'UserController@changeLogo');
     Route::post('/accenture/changeSomeoneElsesLogo', 'UserController@changeSomeoneElsesLogo')
