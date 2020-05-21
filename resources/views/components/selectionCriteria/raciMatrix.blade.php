@@ -1,4 +1,8 @@
-@props(['vendorApplication'])
+@props(['vendorApplication', 'disabled'])
+
+@php
+$disabled = $disabled ?? false;
+@endphp
 
 <div class="form-group">
     <label for="projectName">RACI Matrix</label>
@@ -9,16 +13,20 @@
             <label for="projectName">Task {{$loop->iteration}}</label>
             <div style="display: flex; flex-direction: row">
                 <input type="text" class="form-control raciClientInput" placeholder="Client"
-                    value="{{$row['client'] ?? ''}}" required>
+                    value="{{$row['client'] ?? ''}}" required
+                    {{$disabled ? 'disabled' : ''}}>
                 <input type="text" class="form-control raciVendorInput" placeholder="Vendor" style="margin-left: 1rem"
-                    value="{{$row['vendor'] ?? ''}}" required>
+                    value="{{$row['vendor'] ?? ''}}" required
+                    {{$disabled ? 'disabled' : ''}}>
                 <input type="text" class="form-control raciAccentureInput" placeholder="Accenture"
-                    style="margin-left: 1rem" value="{{$row['accenture'] ?? ''}}" required>
+                    style="margin-left: 1rem" value="{{$row['accenture'] ?? ''}}" required
+                    {{$disabled ? 'disabled' : ''}}>
             </div>
         </div>
         @endforeach
     </div>
 
+    @if (!$disabled)
     <br>
     <div style="display: flex; flex-direction: row;">
         <button class="btn btn-primary" id="addRaciRow">
@@ -28,6 +36,7 @@
             Remove row
         </button>
     </div>
+    @endif
 </div>
 
 

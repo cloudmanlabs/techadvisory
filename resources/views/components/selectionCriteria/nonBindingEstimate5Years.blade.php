@@ -1,4 +1,8 @@
-@props(['vendorApplication'])
+@props(['vendorApplication', 'disabled'])
+
+@php
+$disabled = $disabled ?? false;
+@endphp
 
 <div class="form-group">
     <label for="projectName">Estimate first 5 years billing plan</label>
@@ -7,18 +11,22 @@
         <label for="projectName">Average yearly cost</label>
         <div style="display: flex; flex-direction: row">
             <input type="number" class="form-control nonBindingInput" placeholder="Min" data-changing="averageYearlyCostMin"
-                value="{{$vendorApplication->averageYearlyCostMin}}" required>
+                value="{{$vendorApplication->averageYearlyCostMin}}" required
+                {{$disabled ? 'disabled' : ''}}>
             <input style="margin-left: 1rem;" type="number" class="form-control nonBindingInput" placeholder="Max" data-changing="averageYearlyCostMax"
-                value="{{$vendorApplication->averageYearlyCostMax}}" required>
+                value="{{$vendorApplication->averageYearlyCostMax}}" required
+                {{$disabled ? 'disabled' : ''}}>
         </div>
     </div>
     <div>
         <label for="projectName">Total run cost</label>
         <div style="display: flex; flex-direction: row">
             <input type="number" class="form-control nonBindingInput" placeholder="Min" data-changing="totalRunCostMin"
-                value="{{$vendorApplication->totalRunCostMin}}" required>
+                value="{{$vendorApplication->totalRunCostMin}}" required
+                {{$disabled ? 'disabled' : ''}}>
             <input style="margin-left: 1rem;" type="number" class="form-control nonBindingInput" placeholder="Max" data-changing="totalRunCostMax"
-                value="{{$vendorApplication->totalRunCostMax}}" required>
+                value="{{$vendorApplication->totalRunCostMax}}" required
+                {{$disabled ? 'disabled' : ''}}>
         </div>
     </div>
 
@@ -30,7 +38,8 @@
             <input type="number" class="form-control estimate5YearsHoursInput"
                 placeholder="Percentage out of total run"
                 value="{{$cost ?? ''}}"
-                required>
+                required
+                {{$disabled ? 'disabled' : ''}}>
         </div>
         @endforeach
     </div>

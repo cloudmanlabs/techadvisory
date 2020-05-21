@@ -1,22 +1,28 @@
-@props(['vendorApplication'])
+@props(['vendorApplication', 'disabled'])
+
+@php
+$disabled = $disabled ?? false;
+@endphp
 
 <div class="form-group">
     <label for="projectName">Estimate first 5 years billing plan</label>
 
     <div>
-            <label for="projectName">Year 0</label>
-            <input type="number" class="form-control"
-                id="estimate5YearsYear0Cost"
-                placeholder="Total implementation cost"
-                value="{{$vendorApplication->estimate5YearsYear0 ?? ''}}"
-                required>
-        </div>
+        <label for="projectName">Year 0</label>
+        <input type="number" class="form-control"
+            id="estimate5YearsYear0Cost"
+            placeholder="Total implementation cost"
+            {{$disabled ? 'disabled' : ''}}
+            value="{{$vendorApplication->estimate5YearsYear0 ?? ''}}"
+            required>
+    </div>
     <div id="estimate5YearsContainer">
         @foreach (($vendorApplication->estimate5Years ?? [0, 0, 0, 0, 0]) as $cost)
         <div>
             <label for="projectName">Year {{$loop->iteration}}</label>
             <input type="number" class="form-control estimate5YearsHoursInput"
                 placeholder="Cost"
+                {{$disabled ? 'disabled' : ''}}
                 value="{{$cost ?? ''}}"
                 required>
         </div>

@@ -1,4 +1,8 @@
-@props(['vendorApplication'])
+@props(['vendorApplication', 'disabled'])
+
+@php
+$disabled = $disabled ?? false;
+@endphp
 
 <div class="form-group">
     <label for="projectName">Deliverables per phase</label>
@@ -7,12 +11,15 @@
         @foreach ($vendorApplication->deliverables ?? [] as $deliverable)
         <div>
             <label for="projectName">Phase {{$loop->iteration}}</label>
-            <input type="text" class="form-control deliverableInput" data-changing="name" placeholder="Deliverable"
+            <input type="text" class="form-control deliverableInput" data-changing="name"
+                placeholder="Deliverable"
+                {{$disabled ? 'disabled' : ''}}
                 value="{{$deliverable}}" required>
         </div>
         @endforeach
     </div>
 
+    @if (!$disabled)
     <br>
     <div style="display: flex; flex-direction: row;">
         <button class="btn btn-primary" id="addDeliverable">
@@ -22,6 +29,7 @@
             Remove deliverable
         </button>
     </div>
+    @endif
 </div>
 
 @section('scripts')

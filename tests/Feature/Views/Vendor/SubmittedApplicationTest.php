@@ -71,8 +71,6 @@ class SubmittedApplicationApplyu extends TestCase
 
     public function testSelectionCriteriaQuestionsWork()
     {
-        $this->withoutExceptionHandling();
-
         $vendor = factory(User::class)->states(['vendor', 'finishedSetup'])->create();
         $project = factory(Project::class)->create();
 

@@ -32,7 +32,6 @@ class NewApplication extends TestCase
         $vendor = factory(User::class)->states(['vendor', 'finishedSetup'])->create();
         $project = factory(Project::class)->create();
 
-        $this->withoutExceptionHandling();
         $vendor->applyToProject($project);
 
         $response = $this

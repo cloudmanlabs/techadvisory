@@ -367,8 +367,6 @@ class VendorApplicationTest extends TestCase
 
     public function testCanChangeInvitedToOrals()
     {
-        $this->withoutExceptionHandling();
-
         $user = factory(User::class)->states(['accenture'])->create();
         $project = factory(Project::class)->create();
 

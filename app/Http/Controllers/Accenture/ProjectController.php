@@ -777,7 +777,7 @@ class ProjectController extends Controller
 
 
 
-    function arrayOfSelectionCriteriaQuestions(Project $project, User $vendor){
+    function arrayOfSelectionCriteriaQuestions(Project $project, User $vendor, VendorApplication $application = null){
         $fitgapQuestions = $project->selectionCriteriaQuestionsForVendor($vendor)->get()->filter(function ($question) {
             return $question->originalQuestion->page == 'fitgap';
         });
@@ -813,6 +813,7 @@ class ProjectController extends Controller
         return [
             'project' => $project,
             'vendor' => $vendor,
+            'vendorApplication' => $application,
 
             'fitgapQuestions' => $fitgapQuestions,
             'vendorCorporateQuestions' => $vendorCorporateQuestions,
@@ -836,7 +837,7 @@ class ProjectController extends Controller
             abort(404);
         }
 
-        return view('accentureViews.viewVendorProposal', $this->arrayOfSelectionCriteriaQuestions($project, $vendor));
+        return view('accentureViews.viewVendorProposal', $this->arrayOfSelectionCriteriaQuestions($project, $vendor, $application));
     }
 
     public function vendorProposalEdit(Project $project, User $vendor)
@@ -849,7 +850,7 @@ class ProjectController extends Controller
         }
 
 
-        return view('accentureViews.editVendorProposal', $this->arrayOfSelectionCriteriaQuestions($project, $vendor));
+        return view('accentureViews.editVendorProposal', $this->arrayOfSelectionCriteriaQuestions($project, $vendor, $application));
     }
 
     public function vendorProposalEvaluation(Project $project, User $vendor)
@@ -861,6 +862,6 @@ class ProjectController extends Controller
             abort(404);
         }
 
-        return view('accentureViews.viewVendorProposalEvaluation', $this->arrayOfSelectionCriteriaQuestions($project, $vendor));
+        return view('accentureViews.viewVendorProposalEvaluation', $this->arrayOfSelectionCriteriaQuestions($project, $vendor, $application));
     }
 }

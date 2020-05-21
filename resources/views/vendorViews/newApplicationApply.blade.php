@@ -81,6 +81,7 @@
                                             :disabled="false" :required="false" />
 
                                         <br><br>
+
                                         <x-selectionCriteria.deliverables :vendorApplication="$vendorApplication" />
 
                                         <br>
@@ -113,9 +114,9 @@
                                         <br><br>
 
                                         @if ($project->isBinding)
-                                        <x-selectionCriteria.estimate5Years :vendorApplication="$vendorApplication" />
+                                            <x-selectionCriteria.estimate5Years :vendorApplication="$vendorApplication" />
                                         @else
-                                        <x-selectionCriteria.nonBindingEstimate5Years :vendorApplication="$vendorApplication" />
+                                            <x-selectionCriteria.nonBindingEstimate5Years :vendorApplication="$vendorApplication" />
                                         @endif
                                     </section>
                                 </div>

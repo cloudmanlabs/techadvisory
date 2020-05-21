@@ -87,12 +87,50 @@
                                     <section>
                                         <h4>Implementation</h4>
                                         <br>
+
+                                        <h4>Implementation</h4>
+                                        <br>
                                         <x-questionForeach :questions="$implementationImplementationQuestions" :class="'selectionCriteriaQuestion'"
                                             :disabled="true" :required="false" />
 
+                                        <br><br>
+
+                                        <x-selectionCriteria.deliverables :vendorApplication="$vendorApplication" :disabled="true"/>
+
+                                        <br>
+                                        <br>
+                                        <x-selectionCriteria.raciMatrix :vendorApplication="$vendorApplication" :disabled="true"/>
+
+                                        <br>
+                                        <br>
+                                        <b>Implementation Cost</b>
+
+                                        @if ($project->isBinding)
+                                            <x-selectionCriteria.staffingCost :vendorApplication="$vendorApplication" :disabled="true"/>
+
+                                            <br>
+                                            <x-selectionCriteria.travelCost :vendorApplication="$vendorApplication" :disabled="true"/>
+
+                                            <br>
+                                            <x-selectionCriteria.additionalCost :vendorApplication="$vendorApplication" :disabled="true"/>
+
+                                            <p>Overall Implementation Cost: <span id="overallImplementationCost">0</span>$</p>
+                                        @else
+                                            <x-selectionCriteria.nonBindingImplementation :vendorApplication="$vendorApplication" :disabled="true"/>
+                                        @endif
+
+                                        <br>
                                         <h4>Run</h4>
                                         <x-questionForeach :questions="$implementationRunQuestions" :class="'selectionCriteriaQuestion'"
                                             :disabled="true" :required="false" />
+
+                                        <br><br>
+
+                                        @if ($project->isBinding)
+                                            <x-selectionCriteria.estimate5Years :vendorApplication="$vendorApplication" :disabled="true"/>
+                                        @else
+                                            <x-selectionCriteria.nonBindingEstimate5Years :vendorApplication="$vendorApplication" :disabled="true"/>
+                                        @endif
                                     </section>
                                 </div>
                             </div>

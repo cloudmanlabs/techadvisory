@@ -1,4 +1,8 @@
-@props(['vendorApplication'])
+@props(['vendorApplication', 'disabled'])
+
+@php
+$disabled = $disabled ?? false;
+@endphp
 
 <div class="form-group">
     <label for="projectName">Staffing Cost</label>
@@ -10,20 +14,24 @@
             <div style="display: flex; flex-direction: row">
                 <input type="number" class="form-control staffingCostHoursInput"
                     placeholder="Estimated number of hours"
-                    value="{{$row['hours'] ?? ''}}" required>
+                    value="{{$row['hours'] ?? ''}}" required
+                    {{$disabled ? 'disabled' : ''}}>
                 <input type="number" class="form-control staffingCostRateInput"
                     placeholder="Hourly rate"
                     style="margin-left: 1rem"
-                    value="{{$row['rate'] ?? ''}}" required>
+                    value="{{$row['rate'] ?? ''}}" required
+                    {{$disabled ? 'disabled' : ''}}>
                 <input type="number" class="form-control staffingCostCostInput"
                     placeholder="Staffing cost"
                     style="margin-left: 1rem"
-                    value="{{$row['cost'] ?? ''}}" required>
+                    value="{{$row['cost'] ?? ''}}" required
+                    {{$disabled ? 'disabled' : ''}}>
             </div>
         </div>
         @endforeach
     </div>
 
+    @if (!$disabled)
     <br>
     <div style="display: flex; flex-direction: row;">
         <button class="btn btn-primary" id="addStaffingCostRow">
@@ -33,6 +41,7 @@
             Remove row
         </button>
     </div>
+    @endif
 </div>
 <p>Total Staffing Cost: <span id="totalStaffingCost">0</span>$</p>
 

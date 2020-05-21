@@ -1,4 +1,8 @@
-@props(['vendorApplication'])
+@props(['vendorApplication', 'disabled'])
+
+@php
+    $disabled = $disabled ?? false;
+@endphp
 
 <div class="form-group">
     <label for="projectName">Additional Cost</label>
@@ -9,20 +13,23 @@
             <label for="projectName">Item {{$loop->iteration}}</label>
             <input type="number" class="form-control additionalCostHoursInput"
                 placeholder="Cost"
+                {{$disabled ? 'disabled' : ''}}
                 value="{{$cost ?? ''}}" required>
         </div>
         @endforeach
     </div>
 
-    <br>
-    <div style="display: flex; flex-direction: row;">
-        <button class="btn btn-primary" id="addAdditionalCostRow">
-            Add row
-        </button>
-        <button class="btn btn-primary" id="removeAdditionalCostRow" style="margin-left: 1rem">
-            Remove row
-        </button>
-    </div>
+    @if (!$disabled)
+        <br>
+        <div style="display: flex; flex-direction: row;">
+            <button class="btn btn-primary" id="addAdditionalCostRow">
+                Add row
+            </button>
+            <button class="btn btn-primary" id="removeAdditionalCostRow" style="margin-left: 1rem">
+                Remove row
+            </button>
+        </div>
+    @endif
 </div>
 <p>Total Additional Cost: <span id="totalAdditionalCost">0</span>$</p>
 

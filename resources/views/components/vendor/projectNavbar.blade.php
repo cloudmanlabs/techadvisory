@@ -28,7 +28,7 @@ $showApply = $vendorApplication->phase == 'applicating';
             <div class="profile-header">
                 <div class="header-links">
                     <ul class="links d-flex align-items-center mt-3 mt-md-0">
-                        @if($section != 'preview')
+                        @if($section != 'preview' && $section != 'previewApply')
                             <li class="header-link-item d-flex align-items-center {{$section == 'info' ? 'active' : ''}}">
                                 <i data-feather="bookmark" style="max-width: 18px; margin-right: 3px; margin-top: -2px"></i>
                                 <a
@@ -73,7 +73,7 @@ $showApply = $vendorApplication->phase == 'applicating';
                                     href="{{route('vendor.previewProject', ['project' => $project])}}"
                                 >Project information</a>
                             </li>
-                            <li class="header-link-item ml-3 pl-3 d-flex align-items-center {{$section == 'apply' ? 'active' : ''}}">
+                            <li class="header-link-item ml-3 pl-3 d-flex align-items-center {{$section == 'previewApply' ? 'active' : ''}}">
                                 <i data-feather="check-circle" style="max-width: 18px; margin-right: 3px; margin-top: -2px"></i>
                                 <a
                                     class="pt-1px d-none d-md-block"
