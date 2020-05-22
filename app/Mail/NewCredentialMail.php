@@ -35,6 +35,7 @@ class NewCredentialMail extends Mailable
         return $this->view('emails.newCredentialMail', [
             'text' => 'Welcome to TechAdvisory platform!',
             'link' => $this->credential->passwordChangeLink(),
-        ]);
+        ])
+                ->subject('Welcome to TechAdvisory platform!');
     }
 }

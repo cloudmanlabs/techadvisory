@@ -35,6 +35,7 @@ class CredentialResetPasswordMail extends Mailable
         return $this->view('emails.newCredentialMail', [
             'text' => 'Welcome to TechAdvisory platform!',
             'link' => $this->credential->passwordChangeLink(),
-        ]);
+        ])
+                ->subject('TechAdvisory: Password reset');
     }
 }
