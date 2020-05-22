@@ -40,7 +40,7 @@ class AuthController extends Controller
                 ]);
             }
         } else {
-            $credential = UserCredential::where('email', $request->input('email'))->first();
+            $credential = UserCredential::where('email', $request->input('email'))->whereNotNull('password')->first();
             if ($credential == null) {
                 return redirect()->back()->withErrors([
                     'email' => 'This credentials don\'t correspond to any user in the database.'
