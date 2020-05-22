@@ -62,10 +62,10 @@ class UserCredential extends Resource
                 ->sortable()
                 ->rules('required', 'email', 'max:254'),
 
-            Password::make('Password')
-                ->onlyOnForms()
-                ->creationRules('required', 'string', 'min:8')
-                ->updateRules('nullable', 'string', 'min:8'),
+            // Password::make('Password')
+            //     ->onlyOnForms()
+            //     ->creationRules('required', 'string', 'min:8')
+            //     ->updateRules('nullable', 'string', 'min:8'),
         ];
     }
 

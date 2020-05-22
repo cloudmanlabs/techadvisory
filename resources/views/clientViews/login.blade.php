@@ -64,7 +64,7 @@
                                             </label>
                                         </div>
 
-                                        <a href="{{route('password.request')}}" class="purpleColor">I forgot my
+                                        <a href="{{route('credentials.enterEmail')}}" class="purpleColor">I forgot my
                                             password</a>
 
                                         <div style="margin-top: 30px; float: right; margin-bottom: 20px;">

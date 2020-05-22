@@ -10,6 +10,6 @@ class UserCredentialObserver
 {
     public function created(UserCredential $credential)
     {
-        Mail::to($credential->email)->send(new NewCredentialMail($credential));
+        $credential->sendSignUpEmail();
     }
 }

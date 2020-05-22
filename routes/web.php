@@ -34,6 +34,16 @@ Route::post('password/email', 'Auth\ForgotPasswordController@sendResetLinkEmail'
 Route::get('password/reset/{token}', 'Auth\ResetPasswordController@showResetForm')->name('password.reset');
 Route::post('password/reset', 'Auth\ResetPasswordController@reset')->name('password.update');
 
+Route::get('changePassword/{token}', 'CredentialController@changePassword')
+    ->name('credentials.changePassword');
+Route::post('changePassword/{token}', 'CredentialController@changePasswordPost')
+    ->name('credentials.changePasswordPost');
+
+Route::get('enterEmail', 'CredentialController@enterEmail')
+    ->name('credentials.enterEmail');
+Route::post('enterEmail', 'CredentialController@enterEmailPost')
+    ->name('credentials.enterEmailPost');
+
 
 Route::middleware(['auth'])->group(function () {
     Route::post('/generalInfoQuestion/changeResponse', 'GeneralInfoQuestionController@changeResponse');
@@ -90,5 +100,5 @@ Route::middleware(['auth'])->group(function () {
 
 
 Route::get('testing', function(){
-
+    // dd(auth()->user());
 });

@@ -1,6 +1,7 @@
 <?php
 
 use App\User;
+use App\UserCredential;
 use App\VendorSolution;
 use Illuminate\Database\Seeder;
 
@@ -33,12 +34,18 @@ class UserSeeder extends Seeder
                 'name' => 'Client',
                 'email' => 'client@client.com',
             ]);
-        factory(User::class)
+        $vendor = factory(User::class)
             ->states(['vendor', 'finishedSetup'])
             ->create([
                 'name' => 'Vendor',
                 'email' => 'vendor@vendor.com',
             ]);
+
+        // $credential = new UserCredential([
+        //     'name' => 'nameeee',
+        //     'email' => 'test@test.com',
+        // ]);
+        // $vendor->credentials()->save($credential);
 
         // Create some other randoms
         // factory(User::class, 3)

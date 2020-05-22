@@ -17,7 +17,13 @@
                     <td colspan="2" style="padding:30px;">
                         <span
                             style="font-family: Century Gothic, CenturyGothic, AppleGothic, sans-serif; font-size:13px;">
-                            {!! $text ?? '' !!}
+                            {!! $text !!}
+                            <br><br>
+                            <a href="{{ $link }}">Change password</a>
+                            <br><br>
+                            If the link doesn't work, please paste the following into your browser:
+                            <br>
+                            <p>{{ $link }}</p>
                         </span>
                     </td>
                 </tr>

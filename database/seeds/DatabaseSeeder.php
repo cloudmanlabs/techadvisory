@@ -1,5 +1,6 @@
 <?php
 
+use App\UserCredential;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Storage;
 
