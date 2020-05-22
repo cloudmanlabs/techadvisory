@@ -68,6 +68,8 @@ Route::
                 ->name('clientProfileEdit');
             Route::post('clientProfileEdit/changeResponse', 'ClientVendorListController@changeClientProfileResponse');
             Route::post('clientProfileEdit/changeName', 'ClientVendorListController@changeClientName');
+            Route::post('clientProfileEdit/changeEmail', 'ClientVendorListController@changeClientEmail');
+            Route::post('clientProfileEdit/createFirstCredential', 'ClientVendorListController@createFirstClientCredential');
             Route::get('clientProfileView/{client}', 'ClientVendorListController@clientProfileView')
                 ->name('clientProfileView');
 
@@ -79,6 +81,8 @@ Route::
                 ->name('vendorProfileEdit');
             Route::post('vendorProfileEdit/changeResponse', 'ClientVendorListController@changeVendorProfileResponse');
             Route::post('vendorProfileEdit/changeName', 'ClientVendorListController@changeVendorName');
+            Route::post('vendorProfileEdit/changeEmail', 'ClientVendorListController@changeVendorEmail');
+            Route::post('vendorProfileEdit/createFirstCredential', 'ClientVendorListController@createFirstVendorCredential');
             Route::get('vendorProfileView/{vendor}', 'ClientVendorListController@vendorProfileView')
                 ->name('vendorProfileView');
             Route::get('vendorSolution/{solution}', 'ClientVendorListController@vendorSolution')

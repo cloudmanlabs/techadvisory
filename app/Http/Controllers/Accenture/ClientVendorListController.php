@@ -5,11 +5,13 @@ namespace App\Http\Controllers\Accenture;
 use App\ClientProfileQuestionResponse;
 use App\Http\Controllers\Controller;
 use App\User;
+use App\UserCredential;
 use App\VendorProfileQuestionResponse;
 use App\VendorSolution;
 use App\VendorSolutionQuestionResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
 
 class ClientVendorListController extends Controller
 {
@@ -18,7 +20,7 @@ class ClientVendorListController extends Controller
         $client = new User([
             'userType' => 'client',
             'name' => 'New client',
-            'email' => 'newUser@example.com',
+            'email' => Str::random() . '@example.com',
             'password' => Hash::make('password')
         ]);
         $client->save();
@@ -96,6 +98,52 @@ class ClientVendorListController extends Controller
         ]);
     }
 
+    public function changeClientEmail(Request $request)
+    {
+        $request->validate([
+            'client_id' => 'required|numeric',
+            'value' => 'required',
+        ]);
+
+        $client = User::find($request->client_id);
+        if ($client == null || ! $client->isClient()) {
+            abort(404);
+        }
+
+        $client->email = $request->value;
+        $client->save();
+
+        return response()->json([
+            'status' => 200,
+            'message' => 'nma'
+        ]);
+    }
+
+    public function createFirstClientCredential(Request $request)
+    {
+        $request->validate([
+            'client_id' => 'required|numeric',
+            'email' => 'required',
+            'name' => 'required',
+        ]);
+
+        $client = User::find($request->client_id);
+        if ($client == null || ! $client->isClient()) {
+            abort(404);
+        }
+
+        $credential = new UserCredential([
+            'email' => $request->email,
+            'name' => $request->name
+        ]);
+        $client->credentials()->save($credential);
+
+        return response()->json([
+            'status' => 200,
+            'message' => 'nma'
+        ]);
+    }
+
 
 
     public function createVendorPost(Request $request)
@@ -103,7 +151,7 @@ class ClientVendorListController extends Controller
         $vendor = new User([
             'userType' => 'vendor',
             'name' => 'New client',
-            'email' => 'newUser@example.com',
+            'email' => Str::random() . '@example.com',
             'password' => Hash::make('password')
         ]);
         $vendor->save();
@@ -200,6 +248,51 @@ class ClientVendorListController extends Controller
 
         $client->name = $request->value;
         $client->save();
+
+        return response()->json([
+            'status' => 200,
+            'message' => 'nma'
+        ]);
+    }
+    public function changeVendorEmail(Request $request)
+    {
+        $request->validate([
+            'vendor_id' => 'required|numeric',
+            'value' => 'required',
+        ]);
+
+        $client = User::find($request->vendor_id);
+        if ($client == null || !$client->isVendor()) {
+            abort(404);
+        }
+
+        $client->email = $request->value;
+        $client->save();
+
+        return response()->json([
+            'status' => 200,
+            'message' => 'nma'
+        ]);
+    }
+
+    public function createFirstVendorCredential(Request $request)
+    {
+        $request->validate([
+            'vendor_id' => 'required|numeric',
+            'email' => 'required',
+            'name' => 'required',
+        ]);
+
+        $vendor = User::find($request->vendor_id);
+        if ($vendor == null || !$vendor->isVendor()) {
+            abort(404);
+        }
+
+        $credential = new UserCredential([
+            'email' => $request->email,
+            'name' => $request->name
+        ]);
+        $vendor->credentials()->save($credential);
 
         return response()->json([
             'status' => 200,

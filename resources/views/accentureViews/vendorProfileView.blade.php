@@ -36,12 +36,24 @@
                                                 disabled>
                                         </div>
                                         <div class="form-group">
-                                            <label for="exampleInputText1">Vendor contact email</label>
+                                            <label for="exampleInputText1">Vendor main email</label>
                                             <input class="form-control" id="exampleInputText1" placeholder="Enter E-mail"
                                                 type="email"
                                                 value="{{$vendor->email}}"
                                                 disabled>
                                         </div>
+
+                                        <div class="form-group">
+                                            <label for="vendorNameInput">First user email</label>
+                                            <input class="form-control" id="vendorEmailInput" disabled value="{{optional($vendor->credentials->first())->email}}" type="text">
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="vendorNameInput">First user name</label>
+                                            <input class="form-control" id="vendorEmailInput" disabled
+                                                value="{{optional($vendor->credentials->first())->name}}" type="text">
+                                        </div>
+
 
                                         <br>
                                         <div class="form-group">

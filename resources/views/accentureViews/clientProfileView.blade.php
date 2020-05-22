@@ -30,6 +30,22 @@
                                     <input class="form-control" id="exampleInputText1" disabled value="{{$client->name}}" type="text">
                                 </div>
 
+                                <div class="form-group">
+                                    <label for="clientNameInput">Main email</label>
+                                    <input class="form-control" id="clientEmailInput" disabled value="{{$client->email}}" type="text">
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="clientNameInput">First user email</label>
+                                    <input class="form-control" id="clientEmailInput" disabled value="{{optional($client->credentials->first())->email}}" type="text">
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="clientNameInput">First user name</label>
+                                    <input class="form-control" id="clientEmailInput" disabled
+                                        value="{{optional($client->credentials->first())->name}}" type="text">
+                                </div>
+
                                 <br>
                                 <br>
                                 <div class="form-group">

@@ -29,6 +29,27 @@
                                     <input class="form-control" id="clientNameInput" value="{{$client->name}}" type="text">
                                 </div>
 
+                                <div class="form-group">
+                                    <label for="clientNameInput">Main email</label>
+                                    <input class="form-control" id="clientEmailInput" value="{{$client->email}}" type="text">
+                                </div>
+
+                                @if(!$client->credentials->first())
+                                    <div class="form-group">
+                                        <label for="clientNameInput">First user email</label>
+                                        <input class="form-control" id="clientFirstEmailInput" value="{{optional($client->credentials->first())->email}}" type="text">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="clientNameInput">First user name</label>
+                                        <input class="form-control" id="clientFirstNameInput" value="{{optional($client->credentials->first())->name}}"
+                                            type="text">
+                                    </div>
+
+                                    <button class="btn btn-primary btn-lg" id="createFirstCredential">
+                                        Send sign up email to first user
+                                    </button>
+                                @endif
+
                                 <br>
                                 <div class="form-group">
                                     <label>Upload your logo</label>
@@ -155,6 +176,34 @@
 
                 showSavedToast();
                 updateSubmitButton();
+            });
+
+        $('#clientEmailInput')
+            .change(function (e) {
+                var value = $(this).val();
+                $.post('/accenture/clientProfileEdit/changeEmail', {
+                    client_id: {{$client->id}},
+                    value: value
+                })
+
+                showSavedToast();
+                updateSubmitButton();
+            });
+
+        $('#createFirstCredential')
+            .click(function (e) {
+                var email = $('#clientFirstEmailInput').val();
+                var name = $('#clientFirstNameInput').val();
+                $.post('/accenture/clientProfileEdit/createFirstCredential', {
+                    client_id: {{$client->id}},
+                    email,
+                    name
+                })
+
+                showSavedToast();
+                updateSubmitButton();
+
+                $(this).attr('disabled', true);
             });
 
         $(".js-example-basic-single").select2();

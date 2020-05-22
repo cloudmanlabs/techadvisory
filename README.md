@@ -24,3 +24,17 @@ This should only be reviewed by the client, as they're only answered by the vend
 
         Accenture in vendor evaluation sees the first 5, Vendor Response, Comment and Score
             Only score col is editable
+
+# Users
+
+There are three types of users: Accenture, Clients and Vendors.
+
+## Accenture
+
+Accenture users behave pretty normally, although they have access to the Nova admin panel. They use the default laravel User model.
+
+## Clients and Vendors
+
+Clients and Vendors use the same User model as Accenture, but they use a different way to login. The User modal has many UserCredentials, which are basically alternative email/password combinations to login. This is structured in this horrible way instead of using actual Users for each different credential because the requirement to add extra credentials was added halfway through development.
+
+Basically how it works is that the UserCredentials are used to check if the User can be logged in, and then they log in using the main Client/Vendor account.

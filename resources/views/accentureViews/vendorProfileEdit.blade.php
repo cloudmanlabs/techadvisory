@@ -35,12 +35,29 @@
                                                  >
                                         </div>
                                         <div class="form-group">
-                                            <label for="exampleInputText1">Vendor contact email</label>
-                                            <input class="form-control" id="exampleInputText1" placeholder="Enter E-mail"
+                                            <label for="vendorEmailInput">Vendor main email</label>
+                                            <input class="form-control" id="vendorEmailInput" placeholder="Enter E-mail"
                                                 type="email"
                                                 value="{{$vendor->email}}"
                                                  >
                                         </div>
+
+
+                                        @if(!$vendor->credentials->first())
+                                            <div class="form-group">
+                                                <label for="vendorFirstEmailInput">First user email</label>
+                                                <input class="form-control" id="vendorFirstEmailInput" value="{{optional($vendor->credentials->first())->email}}" type="text">
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="vendorFirstNameInput">First user name</label>
+                                                <input class="form-control" id="vendorFirstNameInput" value="{{optional($vendor->credentials->first())->name}}"
+                                                    type="text">
+                                            </div>
+
+                                            <button class="btn btn-primary btn-lg" id="createFirstCredential">
+                                                Send sign up email to first user
+                                            </button>
+                                        @endif
 
                                         <br>
                                         <div class="form-group">
@@ -182,6 +199,35 @@
 
                 showSavedToast();
                 updateSubmitButton();
+            });
+
+        $('#vendorEmailInput')
+            .change(function (e) {
+                var value = $(this).val();
+                $.post('/accenture/vendorProfileEdit/changeEmail', {
+                    vendor_id: {{$vendor->id}},
+                    value: value
+                })
+
+                showSavedToast();
+                updateSubmitButton();
+            });
+
+
+        $('#createFirstCredential')
+            .click(function (e) {
+                var email = $('#vendorFirstEmailInput').val();
+                var name = $('#vendorFirstNameInput').val();
+                $.post('/accenture/vendorProfileEdit/createFirstCredential', {
+                    vendor_id: {{$vendor->id}},
+                    email,
+                    name
+                })
+
+                showSavedToast();
+                updateSubmitButton();
+
+                $(this).attr('disabled', true);
             });
 
         $(".js-example-basic-single").select2();
