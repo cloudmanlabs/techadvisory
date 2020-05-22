@@ -20,17 +20,17 @@ class DatabaseSeeder extends Seeder
         $this->call(UserSeeder::class);
 
         $this->call(PracticeSeeder::class);
-        // $this->call(SubpracticeSeeder::class);
+        $this->call(SubpracticeSeeder::class);
 
         $this->call(GeneralInfoQuestionSeeder::class);
         $this->call(SizingQuestionSeeder::class);
         $this->call(SelectionCriteriaQuestionSeeder::class);
 
-        // $this->call(ProjectSeeder::class);
-        // $this->call(VendorApplicationSeeder::class);
+        $this->call(ProjectSeeder::class);
+        $this->call(VendorApplicationSeeder::class);
 
         $this->call(VendorSolutionQuestionSeeder::class);
 
-        // $this->call(SettingsSeeder::class);
+        $this->call(SettingsSeeder::class);
     }
 }

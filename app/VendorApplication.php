@@ -306,12 +306,26 @@ class VendorApplication extends Model
 
     public function implementationMoney()
     {
-        return 350000 + $this->id * 10000;
+        if($this->project->isBinding){
+            return collect([
+                $this->staffingCost ?? [0],
+                $this->travelCost ?? [0],
+                $this->additionalCost ?? [0],
+            ])
+            ->flatten()
+            ->average();
+        } else {
+            return collect([
+                $this->staffingCostNonBinding ?? 0,
+                $this->travelCostNonBinding ?? 0,
+                $this->additionalCostNonBinding ?? 0,
+            ])->average();
+        }
     }
 
     public function runMoney()
     {
-        return 1250000 + $this->id * 25004;
+        return collect($this->estimate5Years ?? [0, 0, 0, 0, 0])->average();
     }
 
 

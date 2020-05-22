@@ -152,7 +152,7 @@ class VendorApplicationController extends Controller
         $request->validate([
             'changing' => 'required|numeric',
             'value' => 'required|array',
-            'year0' => 'required'
+            'year0' => 'numeric'
         ]);
 
         $application = VendorApplication::find($request->changing);
