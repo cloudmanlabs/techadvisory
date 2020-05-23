@@ -74,6 +74,15 @@ class UserCredential extends Resource
         ];
     }
 
+    public static function indexQuery(NovaRequest $request, $query)
+    {
+        if(auth()->user()->isAdmin()){
+            return $query;
+        } else {
+            return $query->where('hidden', false);
+        }
+    }
+
     /**
      * Get the cards available for the request.
      *
