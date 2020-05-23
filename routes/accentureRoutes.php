@@ -151,5 +151,12 @@ Route::
                 ->name('analysis.vendor.graphs');
             Route::get('analysis/vendor/custom', 'AnalysisController@vendorCustom')
                 ->name('analysis.vendor.custom');
+
+
+
+
+
+
+            Route::get('/exportCredentials/{user}', 'ClientVendorListController@exportCredentials');
         });
     });

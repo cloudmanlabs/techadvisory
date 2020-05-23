@@ -69,6 +69,14 @@ class Vendor extends Resource
                 ->creationRules('required', 'string', 'min:8')
                 ->updateRules('nullable', 'string', 'min:8'),
 
+            Text::make('Export Credentials', function () {
+                $url = "/accenture/exportCredentials/{$this->id}";
+                return "<a href='{$url}' target='_blank' style='text-decoration: none;'>Download excel</a>";
+            })
+                ->hideFromIndex()
+                ->asHtml(),
+
+
 
 
             // This sets the correct value for userType

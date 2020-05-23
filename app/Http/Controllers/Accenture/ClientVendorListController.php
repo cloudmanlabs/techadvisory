@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Accenture;
 
 use App\ClientProfileQuestionResponse;
+use App\Exports\UserCredentialExport;
 use App\Http\Controllers\Controller;
 use App\User;
 use App\UserCredential;
@@ -12,6 +13,7 @@ use App\VendorSolutionQuestionResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
+use Maatwebsite\Excel\Facades\Excel;
 
 class ClientVendorListController extends Controller
 {
@@ -366,5 +368,18 @@ class ClientVendorListController extends Controller
             'status' => 200,
             'message' => 'nma'
         ]);
+    }
+
+
+
+
+
+
+
+    public function exportCredentials(User $user)
+    {
+        $export = new UserCredentialExport($user);
+
+        return Excel::download($export, 'credentials.xlsx');
     }
 }
