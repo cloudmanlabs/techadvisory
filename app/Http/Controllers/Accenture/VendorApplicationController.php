@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers\Accenture;
 
+use App\Exports\VendorResponsesExport;
 use App\Http\Controllers\Controller;
 use App\VendorApplication;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
+use Maatwebsite\Excel\Facades\Excel;
 
 class VendorApplicationController extends Controller
 {

@@ -178,7 +178,7 @@
                                         </a>
                                     </div>
                                     <div style="text-align: right; width: 15%;">
-                                        <a class="btn btn-primary btn-lg btn-icon-text" href="#">Download response
+                                        <a class="btn btn-primary btn-lg btn-icon-text" target="_blank" href="{{route('accenture.downloadVendorProposal', ['project' => $project, 'vendor' => $vendor])}}">Download response
                                         </a>
                                     </div>
                                 </x-vendorCard>

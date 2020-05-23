@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 /**
  * @property string $response
  * @property int $score
+ *
+ * @property SelectionCriteriaQuestion $originalQuestion
  */
 class SelectionCriteriaQuestionResponse extends Model
 {

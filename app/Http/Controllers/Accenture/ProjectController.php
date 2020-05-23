@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Accenture;
 
+use App\Exports\VendorResponsesExport;
 use App\GeneralInfoQuestionResponse;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -15,6 +16,7 @@ use App\VendorApplication;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Validation\Rule;
+use Maatwebsite\Excel\Facades\Excel;
 
 class ProjectController extends Controller
 {
@@ -863,5 +865,19 @@ class ProjectController extends Controller
         }
 
         return view('accentureViews.viewVendorProposalEvaluation', $this->arrayOfSelectionCriteriaQuestions($project, $vendor, $application));
+    }
+
+    public function downloadVendorProposal(Project $project, User $vendor)
+    {
+        $application = VendorApplication::where('vendor_id', $vendor->id)
+            ->where('project_id', $project->id)
+            ->first();
+        if ($application == null) {
+            abort(404);
+        }
+
+        $export = new VendorResponsesExport($application);
+
+        return Excel::download($export, 'responses.xlsx');
     }
 }

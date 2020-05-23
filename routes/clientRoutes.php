@@ -91,6 +91,8 @@ Route::prefix('client')
 
                     Route::get('/project/vendorProposal/view/{project}/{vendor}', 'ProjectController@vendorProposalView')
                         ->name('viewVendorProposal');
+                    Route::get('/project/vendorProposal/download/{project}/{vendor}', 'ProjectController@downloadVendorProposal')
+                        ->name('downloadVendorProposal');
                 });
             });
         });

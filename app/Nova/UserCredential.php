@@ -62,6 +62,11 @@ class UserCredential extends Resource
                 ->sortable()
                 ->rules('required', 'email', 'max:254'),
 
+            Boolean::make('Hidden', 'hidden')
+                ->canSee(function(){
+                    return auth()->user()->isAdmin();
+                }),
+
             // Password::make('Password')
             //     ->onlyOnForms()
             //     ->creationRules('required', 'string', 'min:8')

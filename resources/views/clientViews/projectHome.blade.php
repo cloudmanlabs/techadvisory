@@ -46,7 +46,7 @@
                                 @foreach ($submittedVendors as $vendor)
                                 <x-vendorCard :showProgressBar="false" :vendor="$vendor" :project="$project">
                                     <div style="text-align: right; width: 15%;">
-                                        <a class="btn btn-primary btn-lg btn-icon-text" href="#">Download response
+                                        <a class="btn btn-primary btn-lg btn-icon-text" target="_blank" href="{{route('client.downloadVendorProposal', ['project' => $project, 'vendor' => $vendor])}}">Download response
                                         </a>
                                     </div>
                                     <div style=" text-align: right; width: 15%;">

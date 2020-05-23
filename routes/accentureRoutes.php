@@ -135,6 +135,8 @@ Route::
                 ->name('viewVendorProposalEvaluation');
             Route::post('project/submitEvaluation/{project}/{vendor}', 'ProjectController@submitEvaluation')
                 ->name('project.submitEvaluation');
+            Route::get('/project/vendorProposal/download/{project}/{vendor}', 'ProjectController@downloadVendorProposal')
+                ->name('downloadVendorProposal');
 
             Route::get('analysis/project/vendor', 'AnalysisController@projectVendor')
                 ->name('analysis.project.vendor');

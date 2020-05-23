@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Client;
 
+use App\Exports\VendorResponsesExport;
 use App\Project;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -10,6 +11,7 @@ use App\User;
 use App\VendorApplication;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Log;
+use Maatwebsite\Excel\Facades\Excel;
 
 class ProjectController extends Controller
 {
@@ -556,5 +558,19 @@ class ProjectController extends Controller
             'implementationImplementationQuestions' => $implementationImplementationQuestions,
             'implementationRunQuestions' => $implementationRunQuestions,
         ]);
+    }
+
+    public function downloadVendorProposal(Project $project, User $vendor)
+    {
+        $application = VendorApplication::where('vendor_id', $vendor->id)
+            ->where('project_id', $project->id)
+            ->first();
+        if ($application == null) {
+            abort(404);
+        }
+
+        $export = new VendorResponsesExport($application);
+
+        return Excel::download($export, 'responses.xlsx');
     }
 }

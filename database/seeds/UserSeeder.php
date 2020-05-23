@@ -48,37 +48,37 @@ class UserSeeder extends Seeder
         // $vendor->credentials()->save($credential);
 
         // Create some other randoms
-        // factory(User::class, 3)
-        //     ->states(['client', 'finishedSetup'])
-        //     ->create();
-        // factory(User::class, 4)
-        //     ->states(['vendor', 'finishedSetup'])
-        //     ->create()
-        //     ->each(function($vendor){
-        //         // $vendor->vendorSolutions()->save(factory(VendorSolution::class)->create([
-        //         //     'vendor_id' => $vendor->id
-        //         // ]));
-        //     });
+        factory(User::class, 3)
+            ->states(['client', 'finishedSetup'])
+            ->create();
+        factory(User::class, 4)
+            ->states(['vendor', 'finishedSetup'])
+            ->create()
+            ->each(function($vendor){
+                $vendor->vendorSolutions()->save(factory(VendorSolution::class)->create([
+                    'vendor_id' => $vendor->id
+                ]));
+            });
 
 
         // Create some that haven't finished set up
-        // factory(User::class)
-        //     ->states('client')
-        //     ->create([
-        //         'name' => 'New',
-        //         'email' => 'new@client.com',
-        //     ]);
-        // factory(User::class)
-        //     ->states('vendor')
-        //     ->create([
-        //         'name' => 'New',
-        //         'email' => 'new@vendor.com',
-        //     ])
-        //     ->each(function ($vendor) {
-        //         // $vendor->vendorSolutions()->save(factory(VendorSolution::class)->create([
-        //         //     'vendor_id' => $vendor->id
-        //         // ]));
-        //     });
+        factory(User::class)
+            ->states('client')
+            ->create([
+                'name' => 'New',
+                'email' => 'new@client.com',
+            ]);
+        factory(User::class)
+            ->states('vendor')
+            ->create([
+                'name' => 'New',
+                'email' => 'new@vendor.com',
+            ])
+            ->each(function ($vendor) {
+                $vendor->vendorSolutions()->save(factory(VendorSolution::class)->create([
+                    'vendor_id' => $vendor->id
+                ]));
+            });
 
 
 

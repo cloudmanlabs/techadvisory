@@ -19,6 +19,9 @@ use Illuminate\Support\Facades\Log;
  * @property array $staffingCost
  * @property array $travelCost
  * @property array $additionalCost
+ *
+ * @property Project $project
+ * @property User $vendor
  */
 class VendorApplication extends Model
 {
