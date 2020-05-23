@@ -50,102 +50,14 @@
                                 <div id="wizard_client_newProjectSetUp">
                                     <h2>General Info</h2>
                                     <section>
-                                        <h4>1.1. Project Info</h4>
-                                        <br>
-
-                                        <div class="form-group">
-                                            <label for="projectName">Project Name*</label>
-                                            <input
-                                                type="text"
-                                                class="form-control"
-                                                id="projectName"
-                                                data-changing="name"
-                                                placeholder="Project Name"
-                                                value="{{$project->name}}"
-                                                disabled>
-                                        </div>
-
-                                        <div class="form-group">
-                                            <label for="valueTargeting">Value Targeting*</label>
-                                            <select class="form-control" id="valueTargeting" disabled>
-                                                <option disabled="">Please select an option</option>
-                                                <option value="yes" @if($project->hasValueTargeting) selected @endif>Yes</option>
-                                                <option value="no" @if(!$project->hasValueTargeting) selected @endif>No</option>
-                                            </select>
-                                        </div>
-
-                                        <div class="form-group">
-                                            <label for="oralsSelect">Orals*</label>
-                                            <select class="form-control" id="oralsSelect" disabled>
-                                                <option disabled="">Please select an option</option>
-                                                <option value="yes" @if($project->hasOrals) selected @endif>Yes</option>
-                                                <option value="no" @if(!$project->hasOrals) selected @endif>No</option>
-                                            </select>
-                                        </div>
-
-                                        <div class="form-group">
-                                            <label for="bindingOption">Binding/Non-binding*</label>
-                                            <select class="form-control" id="bindingOption" required>
-                                                <option disabled="">Please select an option</option>
-                                                <option value="yes" @if($project->isBinding) selected @endif>Binding</option>
-                                                <option value="no" @if(!$project->isBinding) selected @endif>Non-binding</option>
-                                            </select>
-                                        </div>
-
-                                        <div class="form-group">
-                                            <label for="practiceSelect">Practice*</label>
-                                            <select class="form-control" id="practiceSelect" required>
-                                                <x-options.practices :selected="$project->practice->id ?? -1" />
-                                            </select>
-                                        </div>
-
-
-                                        <div class="form-group">
-                                            <label for="subpracticeSelect">Subpractice*</label>
-                                            <select
-                                                class="js-example-basic-multiple w-100"
-                                                id="subpracticeSelect"
-                                                multiple="multiple" required>
-                                                @php
-                                                $select = $project->subpractices()->pluck('subpractices.id')->toArray();
-                                                @endphp
-                                                <x-options.subpractices :selected="$select" />
-                                            </select>
-                                        </div>
-
-                                        <div class="form-group">
-                                            <label for="industrySelect">Industry*</label>
-                                            <select class="form-control" id="industrySelect" required>
-                                                <x-options.industryExperience :selected="$project->industry ?? ''" />
-                                            </select>
-                                        </div>
-
-                                        <div class="form-group">
-                                            <label for="regionSelect">Regions*</label>
-                                            <select class="js-example-basic-multiple w-100" id="regionSelect" multiple="multiple" required>
-                                                <x-options.geographies :selected="$project->regions ?? []" />
-                                            </select>
-                                        </div>
-
-                                        <div class="form-group">
-                                            <label for="projectType">Project Type*</label>
-                                            <select class="form-control" id="projectType" required>
-                                                <x-options.projectType :selected="$project->projectType ?? ''" />
-                                            </select>
-                                        </div>
-
-                                        <div class="form-group">
-                                            <label for="deadline">Deadline*</label>
-                                            <div class="input-group date datepicker" data-initialValue="{{$project->deadline}}">
-                                                <input required id="deadline" value="{{$project->deadline}}" type="text" class="form-control">
-                                                <span class="input-group-addon"><i data-feather="calendar"></i></span>
-                                            </div>
-                                        </div>
-
-                                        <x-questionForeach :questions="$generalInfoQuestions" :class="'generalQuestion'" :disabled="false" :required="false" />
-
-                                        <br>
+                                        <x-generalInfoQuestions
+                                            :project="$project"
+                                            :clients="$clients ?? []"
+                                            :disableSpecialQuestions="true"
+                                            :disabled="false"
+                                            :required="false" />
                                     </section>
+
 
                                     <h2>RFP Upload</h2>
                                     <section>

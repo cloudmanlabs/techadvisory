@@ -65,6 +65,11 @@ class GeneralInfoQuestion extends Resource
             Boolean::make('Required', 'required'),
             Boolean::make('Can vendor see question?', 'canVendorSee'),
 
+            Select::make('Page', 'page')
+                ->options(\App\GeneralInfoQuestion::pagesSelect)
+                ->displayUsingLabels()
+                ->rules('required'),
+
             BelongsTo::make('Practice', 'practice', 'App\Nova\Practice')
                 ->nullable()
                 ->help('Select a Practice if you want this Question to only show on projects with that Practice')

@@ -23,6 +23,7 @@ class NewProjectSetUpTest extends TestCase
         ]);
         $project->save();
 
+        $this->withoutExceptionHandling();
         $response = $this
             ->actingAs($client)
             ->get('/client/newProjectSetUp/'. $project->id);

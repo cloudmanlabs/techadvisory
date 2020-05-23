@@ -156,6 +156,14 @@ class Project extends Model
         return $this->hasMany(GeneralInfoQuestionResponse::class, 'project_id');
     }
 
+    public function generalInfoQuestionsInPage(string $page)
+    {
+        return $this->generalInfoQuestions->filter(function(GeneralInfoQuestionResponse $response) use ($page){
+            return $response->originalQuestion->page == $page;
+        });
+    }
+
+
     public function sizingQuestions()
     {
         return $this->hasMany(SizingQuestionResponse::class, 'project_id');

@@ -51,7 +51,6 @@ class ProjectController extends Controller
             'project' => $project,
             'clients' => $clients,
 
-            'generalInfoQuestions' => $project->generalInfoQuestions,
             'sizingQuestions' => $project->sizingQuestions,
 
             'fitgapQuestions' => $fitgapQuestions,
