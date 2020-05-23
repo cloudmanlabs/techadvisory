@@ -158,5 +158,7 @@ Route::
 
 
             Route::get('/exportCredentials/{user}', 'ClientVendorListController@exportCredentials');
+            Route::get('/exportAnalytics/{project}', 'ProjectController@exportAnalytics')
+                ->name('exportAnalytics');
         });
     });

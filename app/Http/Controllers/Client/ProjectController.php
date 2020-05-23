@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Client;
 
+use App\Exports\AnalyticsExport;
 use App\Exports\VendorResponsesExport;
 use App\Project;
 use Illuminate\Http\Request;
@@ -570,6 +571,14 @@ class ProjectController extends Controller
         }
 
         $export = new VendorResponsesExport($application);
+
+        return Excel::download($export, 'responses.xlsx');
+    }
+
+
+    public function exportAnalytics(Project $project)
+    {
+        $export = new AnalyticsExport($project);
 
         return Excel::download($export, 'responses.xlsx');
     }

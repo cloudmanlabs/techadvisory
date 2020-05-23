@@ -157,9 +157,9 @@
                                             <div class="card-body">
                                                 <h4>DOWNLOAD EXTRACTION DATA</h4>
                                                 <div style="text-align: center; margin-top: 30px;">
-                                                    <a class="btn btn-primary btn-lg btn-icon-text" href="client_project_home.html">
+                                                    <a class="btn btn-primary btn-lg btn-icon-text" href="{{route('client.exportAnalytics', ['project' => $project])}}">
                                                         <i data-feather="download"></i> &nbsp;
-                                                        Extract vendor replies for all RFP questions
+                                                        Download analytics export
                                                     </a>
                                                 </div>
                                             </div>

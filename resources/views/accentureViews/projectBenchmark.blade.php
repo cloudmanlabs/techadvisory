@@ -154,9 +154,10 @@
                                             <h4>DOWNLOAD EXTRACTION DATA</h4>
                                             <div style="text-align: center; margin-top: 30px;">
                                                 <a class="btn btn-primary btn-lg btn-icon-text"
-                                                    href="{{route('accenture.projectHome', ['project' => $project])}}">
+                                                    target="_blank"
+                                                    href="{{route('accenture.exportAnalytics', ['project' => $project])}}">
                                                     <i data-feather="download"></i> &nbsp;
-                                                    Extract vendor replies for all RFP questions
+                                                    Download analytics export
                                                 </a>
                                             </div>
                                         </div>

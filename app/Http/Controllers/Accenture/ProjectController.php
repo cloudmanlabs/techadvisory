@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Accenture;
 
+use App\Exports\AnalyticsExport;
 use App\Exports\VendorResponsesExport;
 use App\GeneralInfoQuestionResponse;
 use Illuminate\Http\Request;
@@ -876,6 +877,13 @@ class ProjectController extends Controller
         }
 
         $export = new VendorResponsesExport($application);
+
+        return Excel::download($export, 'responses.xlsx');
+    }
+
+    public function exportAnalytics(Project $project)
+    {
+        $export = new AnalyticsExport($project);
 
         return Excel::download($export, 'responses.xlsx');
     }
