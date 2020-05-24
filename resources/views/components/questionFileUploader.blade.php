@@ -57,7 +57,7 @@
 
             var formData = new FormData();
             formData.append('changing', '{{$question->id}}');
-            formData.append('image', $(this).get(0).files[0]);
+            formData.append('value', $(this).get(0).files[0]);
             $.ajax({
                 url : "{{$fileUploadRoute}}",
                 type: "POST",
