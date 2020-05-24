@@ -17,6 +17,10 @@ class ProjectController extends Controller
             abort(404);
         }
 
+        $sizingQuestions = $project->sizingQuestions->filter(function ($el) {
+            return $el->shouldShow;
+        });
+
         $clients = User::clientUsers()->get();
 
         return view('vendorViews.previewProject',[
@@ -24,7 +28,7 @@ class ProjectController extends Controller
             'clients' => $clients,
 
             'generalInfoQuestions' => $project->generalInfoQuestions,
-            'sizingQuestions' => $project->sizingQuestions,
+            'sizingQuestions' => $sizingQuestions,
         ]);
     }
 
@@ -144,12 +148,16 @@ class ProjectController extends Controller
 
         $clients = User::clientUsers()->get();
 
+        $sizingQuestions = $project->sizingQuestions->filter(function ($el) {
+            return $el->shouldShow;
+        });
+
         return view('vendorViews.newApplication', [
             'project' => $project,
             'clients' => $clients,
 
             'generalInfoQuestions' => $project->generalInfoQuestions,
-            'sizingQuestions' => $project->sizingQuestions,
+            'sizingQuestions' => $sizingQuestions,
         ]);
     }
 
