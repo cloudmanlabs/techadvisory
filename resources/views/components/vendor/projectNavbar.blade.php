@@ -49,7 +49,7 @@ $showApply = $vendorApplication->phase == 'applicating';
                                     @endif
                                 >Application</a>
                             </li>
-                            @if ($project->hasOrals)
+                            @if ($project->hasOrals && $vendorApplication->invitedToOrals)
                             <li class="header-link-item ml-3 pl-3 border-left d-flex align-items-center {{$section == 'projectOrals' ? 'active' : ''}}">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                                     stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
