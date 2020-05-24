@@ -226,7 +226,7 @@ class Project extends Model
         if($this->step4SubmittedAccenture) $score += 10;
         if($this->step3SubmittedClient) $score += 10;
         if($this->step4SubmittedClient) $score += 10;
-        if($this->currentPhase = 'open') {
+        if($this->currentPhase == 'open') {
             if($this->hasValueTargeting) $score += 5;
             else $score += 25;
         }
