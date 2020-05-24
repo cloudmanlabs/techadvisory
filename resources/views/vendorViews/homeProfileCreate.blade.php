@@ -74,15 +74,6 @@
                                         <x-questionForeach :questions="$legalQuestions" :class="'profileQuestion'" :disabled="false" :required="true" />
                                     </section>
                                 </div>
-
-                                <div style="float: right; margin-top: 20px;">
-                                    <form action="{{route('vendor.profile.submit')}}" method="post">
-                                        @csrf
-                                        <button class="btn btn-primary btn-lg btn-icon-text" id="submitButton" type="submit">
-                                            <i class="btn-icon-prepend" data-feather="check-square"></i> Save profile
-                                        </button>
-                                    </form>
-                                </div>
                             </div>
                         </div>
                     </div>
@@ -97,7 +88,6 @@
 
 @section('head')
 @parent
-
 <style>
     select.form-control {
         color: #495057;

@@ -82,12 +82,4 @@ class ProfileController extends Controller
         ]);
     }
 
-    public function submitProfile(Request $request)
-    {
-        $client = auth()->user();
-        $client->hasFinishedSetup = true;
-        $client->save();
-
-        return redirect()->route('vendor.home');
-    }
 }

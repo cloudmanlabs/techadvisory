@@ -303,6 +303,51 @@ class ClientVendorListController extends Controller
     }
 
 
+    public function vendorValidateResponses(User $vendor)
+    {
+        $generalQuestions = $vendor->vendorProfileQuestions->filter(function ($question) {
+            return $question->originalQuestion->page == 'general';
+        });
+        $economicQuestions = $vendor->vendorProfileQuestions->filter(function ($question) {
+            return $question->originalQuestion->page == 'economic';
+        });
+        $legalQuestions = $vendor->vendorProfileQuestions->filter(function ($question) {
+            return $question->originalQuestion->page == 'legal';
+        });
+
+        return view('accentureViews.vendorValidateResponses', [
+            'vendor' => $vendor,
+            'generalQuestions' => $generalQuestions,
+            'economicQuestions' => $economicQuestions,
+            'legalQuestions' => $legalQuestions,
+        ]);
+    }
+
+    public function setValidated(Request $request, User $vendor)
+    {
+        $request->validate([
+            'changing' => 'required|numeric',
+            'value' => 'required',
+        ]);
+
+        $answer = VendorProfileQuestionResponse::find($request->changing);
+        if ($answer == null) {
+            abort(404);
+        }
+
+        $answer->shouldShow = $request->value === 'true';
+
+        $answer->save();
+    }
+
+    public function submitVendor(User $vendor)
+    {
+        $vendor->hasFinishedSetup = true;
+        $vendor->save();
+
+        return redirect()->route('accenture.vendorList');
+    }
+
 
 
 

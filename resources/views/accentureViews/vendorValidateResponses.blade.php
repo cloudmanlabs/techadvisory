@@ -21,276 +21,50 @@
                                 <div id="wizardVendorAccenture">
                                     <h2>General Information</h2>
                                     <section>
-                                        <x-accenture.validateInputGroup>
-                                            <label for="exampleInputText1">Vendor Name</label>
-                                            <input class="form-control" id="exampleInputText1" type="text" value="Ventix Pro Corp." disabled>
-                                        </x-accenture.validateInputGroup>
-                                        <x-accenture.validateInputGroup>
-                                            <label for="exampleInputText1">Vendor contact email</label>
-                                            <input class="form-control" id="exampleInputText1" type="email" value="vendor@vendor.com" disabled>
-                                        </x-accenture.validateInputGroup>
-
-                                        <x-accenture.validateInputGroup>
-                                            <label for="exampleFormControlTextarea1">Vendor contact role</label>
-                                            <textarea class="form-control" id="exampleFormControlTextarea1" rows="5" disabled
-                                            >Vendor response here</textarea>
-                                        </x-accenture.validateInputGroup>
-
-                                        <x-accenture.validateInputGroup>
-                                            <label for="exampleFormControlTextarea1">Address</label>
-                                            <textarea class="form-control" id="exampleFormControlTextarea1" rows="5" disabled
-                                            >Vendor response here</textarea>
-                                        </x-accenture.validateInputGroup>
-
-                                        <x-accenture.validateInputGroup>
-                                            <label for="exampleFormControlTextarea1">Vendor contact phone</label>
-                                            <input class="form-control" id="exampleInputText1" value="+000 000 000" type="text" disabled>
-                                        </x-accenture.validateInputGroup>
-
-                                        <x-accenture.validateInputGroup>
-                                            <label for="exampleFormControlTextarea1">Link to your website</label>
-                                            <input class="form-control" id="exampleInputText1" value="https://vendor.com" type="text" disabled>
-                                        </x-accenture.validateInputGroup>
-
-                                        <x-accenture.validateInputGroup>
-                                            <label for="exampleFormControlTextarea1">Foundation year</label>
-                                            <input class="form-control" id="exampleInputText1" value="2000" type="text" disabled>
-                                        </x-accenture.validateInputGroup>
-
-                                        <x-accenture.validateInputGroup>
-                                            <label for="exampleFormControlTextarea1">Specify Senior Management team (name, title & years in the company)</label>
-                                            <textarea class="form-control" id="exampleFormControlTextarea1" rows="5" disabled
-                                            >Vendor response here</textarea>
-                                        </x-accenture.validateInputGroup>
-
-                                        <x-accenture.validateInputGroup>
-                                            <label for="exampleFormControlTextarea1">Company Vision</label>
-                                            <textarea class="form-control" id="exampleFormControlTextarea1" rows="5" disabled
-                                            >Vendor response here</textarea>
-                                        </x-accenture.validateInputGroup>
-
-                                        <x-accenture.validateInputGroup>
-                                            <label for="exampleFormControlTextarea1">High-level development strategy</label>
-                                            <textarea class="form-control" id="exampleFormControlTextarea1" rows="5" disabled
-                                            >Vendor response here</textarea>
-                                        </x-accenture.validateInputGroup>
-
-
-                                        <x-accenture.validateInputGroup>
-                                            <label>Headquarters</label>
-                                            <select class="js-example-basic-multiple w-100" multiple="multiple" disabled>
-                                                <x-options.countries :selected="['ES', 'RU']" />
-                                            </select>
-                                        </x-accenture.validateInputGroup>
-
-                                        <x-accenture.validateInputGroup>
-                                            <label>Commercials Offices</label>
-                                            <select class="js-example-basic-multiple w-100" multiple="multiple" disabled>
-                                                <x-options.countries :selected="['ES', 'CA']" />
-                                            </select>
-                                        </x-accenture.validateInputGroup>
-
-                                        <x-accenture.validateInputGroup>
-                                            <label>Services Team Offices</label>
-                                            <select class="js-example-basic-multiple w-100" multiple="multiple" disabled>
-                                                <x-options.countries :selected="['ES', 'CA']" />
-                                            </select>
-                                        </x-accenture.validateInputGroup>
-
-                                        <x-accenture.validateInputGroup>
-                                            <label for="exampleFormControlSelect1">Vendor segment</label>
-                                            <select class="js-example-basic-multiple w-100" multiple="multiple" disabled>
-                                                <x-options.vendorSegments :selected="['specific']" />
-                                            </select>
-                                        </x-accenture.validateInputGroup>
-                                        <x-accenture.validateInputGroup>
-                                            <label for="exampleFormControlSelect1">Number of employees</label>
-                                            <select class="form-control" id="exampleFormControlSelect1" disabled>
-                                                <x-options.employeesRanges :selected="['more']" />
-                                            </select>
-                                        </x-accenture.validateInputGroup>
-
-                                        <x-accenture.validateInputGroup>
-                                            <label for="exampleInputText1">Number of employees in R&D</label>
-                                            <input class="form-control" id="exampleInputText1" value="3" type="number" disabled>
-                                        </x-accenture.validateInputGroup>
-
-                                        <x-accenture.validateInputGroup>
-                                            <label for="exampleFormControlSelect1">Geographies with solution implementations</label>
-                                            <select class="form-control" disabled>
-                                                <x-options.geographies :selected="['latam']" />
-                                            </select>
-                                        </x-accenture.validateInputGroup>
-
-                                        <x-accenture.validateInputGroup>
-                                            <label for="exampleFormControlSelect1">Industry Experience</label>
-                                            <select class="form-control" disabled>
-                                                <x-options.industryExperience :selected="'consumer'" />
-                                            </select>
-                                        </x-accenture.validateInputGroup>
-
-                                        <x-accenture.validateInputGroup>
-                                            <label>Uploaded logo</label> <input class="file-upload-default" name="img[]" type="file">
-
-                                            {{-- TODO Change this to the vendor logo --}}
-                                            <img src="@logo" style="max-width: 30rem" alt="">
-                                        </x-accenture.validateInputGroup>
+                                        <div class="form-group">
+                                            <label for="exampleInputText1">Vendor Name*</label>
+                                            <input class="form-control" id="exampleInputText1" placeholder="Enter Name" type="text" value="{{$vendor->name}}"
+                                                disabled>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="exampleInputText1">Vendor main email</label>
+                                            <input class="form-control" id="exampleInputText1" placeholder="Enter E-mail" type="email"
+                                                value="{{$vendor->email}}" disabled>
+                                        </div>
 
                                         <br>
-                                        {{-- TODO Make something here to download the files the vendor has uploaded --}}
-                                        <x-accenture.validateInputGroup>
-                                            <label for="exampleInputText1">Upload any extra files</label>
-
-                                            <form action="/file-upload" class="dropzone" id="exampleDropzone" name="exampleDropzone">
-                                            </form>
-                                        </x-accenture.validateInputGroup>
+                                        <div class="form-group">
+                                            <label>Logo</label>
+                                            <img src="{{url($vendor->logo ? ('/storage/' . $vendor->logo) : '/assets/images/user.png')}}" alt=""
+                                                style="max-height: 5rem">
+                                        </div>
 
 
-                                        <x-accenture.validateInputGroup>
-                                            <label for="exampleFormControlTextarea1">Partnerships</label>
-                                            <textarea class="form-control" id="exampleFormControlTextarea1" rows="5" placeholder=""></textarea>
-                                        </x-accenture.validateInputGroup>
+                                        <x-questionForeachWithActivate :questions="$generalQuestions" :class="'profileQuestion'" :disabled="true" :required="false" />
 
-
-                                        <x-accenture.validateInputGroup>
-                                            <label for="exampleFormControlSelect1">Indicate if your company is Public or private</label>
-                                            <select class="form-control" id="exampleFormControlSelect1" disabled>
-                                                <option disabled>
-                                                    Please select
-                                                </option>
-                                                <option selected>
-                                                    Public
-                                                </option>
-                                                <option>
-                                                    Private
-                                                </option>
-                                            </select>
-                                        </x-accenture.validateInputGroup>
+                                        <x-folderFileUploader :folder="$vendor->profileFolder" :disabled="true" />
                                     </section>
-
 
                                     <h2>Economic information</h2>
                                     <section>
-                                        <x-accenture.validateInputGroup>
-                                            <label for="exampleFormControlTextarea1">Stock exchange and ticker symbol</label>
-                                            <input class="form-control" id="exampleInputText1" value="AAPL" type="text" disabled>
-                                        </x-accenture.validateInputGroup>
-
-                                        <x-accenture.validateInputGroup>
-                                            <label for="exampleFormControlTextarea1">Describe ownership structure (attach additional information if required)</label>
-                                            <textarea class="form-control" id="exampleFormControlTextarea1" rows="5" placeholder="" disabled
-                                            >Vendor response here</textarea>
-                                        </x-accenture.validateInputGroup>
-
-                                        <x-accenture.validateInputGroup>
-                                            <label for="exampleFormControlTextarea1">Month in which fiscal year ends</label>
-                                            <input class="form-control" id="exampleInputText1" value="July" type="text" disabled>
-                                        </x-accenture.validateInputGroup>
-
-                                        <x-accenture.validateInputGroup>
-                                            <label for="exampleFormControlSelect1">Finance currency</label>
-                                            <select class="form-control" id="exampleFormControlSelect1" disabled>
-                                                <option disabled>
-                                                    Please select
-                                                </option>
-                                                <option selected>
-                                                    €
-                                                </option>
-                                                <option>
-                                                    USD
-                                                </option>
-                                            </select>
-                                        </x-accenture.validateInputGroup>
-
-
-                                        <x-accenture.validateInputGroup>
-                                            <label for="exampleFormControlTextarea1">Indicate YTD Results 2020 - Revenue, Profit, R&D Expenses</label>
-                                            <textarea class="form-control" id="exampleFormControlTextarea1" rows="5" placeholder="" disabled
-                                            >Vendor response</textarea>
-                                        </x-accenture.validateInputGroup>
-
-
-                                        <x-accenture.validateInputGroup>
-                                            <label for="exampleFormControlTextarea1">Indicate 2019 Results - Revenue, Profit, R&D Expenses</label>
-                                            <textarea class="form-control" id="exampleFormControlTextarea1" rows="5" placeholder="" disabled
-                                            >Vendor Response</textarea>
-                                        </x-accenture.validateInputGroup>
-
-
-                                        <x-accenture.validateInputGroup>
-                                            <label for="exampleFormControlTextarea1">Indicate 2018 Results - Revenue, Profit, R&D Expenses</label>
-                                            <textarea class="form-control" id="exampleFormControlTextarea1" rows="5" placeholder="" disabled
-                                            >Vendor Response</textarea>
-                                        </x-accenture.validateInputGroup>
-
-
-                                        <x-accenture.validateInputGroup>
-                                            <label for="exampleFormControlTextarea1">Current Balance Sheet Information</label>
-                                            <textarea class="form-control" id="exampleFormControlTextarea1" rows="5" placeholder="" disabled
-                                            >Vendor Response</textarea>
-                                        </x-accenture.validateInputGroup>
-
-
-
-                                        <x-accenture.validateInputGroup>
-                                            <label for="exampleFormControlTextarea1">Cash and cash equivalents</label>
-                                            <textarea class="form-control" id="exampleFormControlTextarea1" rows="5" placeholder="" disabled
-                                            >Vendor Response</textarea>
-                                        </x-accenture.validateInputGroup>
-
-
-                                        <x-accenture.validateInputGroup>
-                                            <label for="exampleFormControlTextarea1">Other current assets</label>
-                                            <textarea class="form-control" id="exampleFormControlTextarea1" rows="5" placeholder="" disabled
-                                            >Vendor Response</textarea>
-                                        </x-accenture.validateInputGroup>
-
-
-                                        <x-accenture.validateInputGroup>
-                                            <label for="exampleFormControlTextarea1">Current liabilities</label>
-                                            <textarea class="form-control" id="exampleFormControlTextarea1" rows="5" placeholder="" disabled
-                                            >Vendor Response</textarea>
-                                        </x-accenture.validateInputGroup>
-
-
-                                        <x-accenture.validateInputGroup>
-                                            <label for="exampleFormControlTextarea1">Quick ratio (current assets - current liabilities)</label>
-                                            <textarea class="form-control" id="exampleFormControlTextarea1" rows="5" placeholder="" disabled
-                                            >Vendor Response</textarea>
-                                        </x-accenture.validateInputGroup>
-
-
-                                        <x-accenture.validateInputGroup>
-                                            <label for="exampleFormControlTextarea1">Total amount of debt</label>
-                                            <textarea class="form-control" id="exampleFormControlTextarea1" rows="5" placeholder="" disabled
-                                            >Vendor Response</textarea>
-                                        </x-accenture.validateInputGroup>
-
+                                       <x-questionForeachWithActivate :questions="$economicQuestions" :class="'profileQuestion'" :disabled="true" :required="false" />
                                     </section>
 
 
                                     <h2>Legal Info</h2>
                                     <section>
+                                        <x-questionForeachWithActivate :questions="$legalQuestions" :class="'profileQuestion'" :disabled="true" :required="false" />
 
-                                        <x-accenture.validateInputGroup>
-                                            <label for="exampleFormControlTextarea1">Any litigation pending?</label>
-                                            <textarea class="form-control" id="exampleFormControlTextarea1" rows="5" placeholder="" disabled
-                                            >Vendor Response</textarea>
-                                        </x-accenture.validateInputGroup>
-
-
-                                        <x-accenture.validateInputGroup>
-                                            <label for="exampleFormControlTextarea1">Number of lawsuits in history of company?</label>
-                                            <textarea class="form-control" id="exampleFormControlTextarea1" rows="5" placeholder="" disabled
-                                            >Vendor Response</textarea>
-                                        </x-accenture.validateInputGroup>
-
-
-                                        <x-accenture.validateInputGroup>
-                                            <label for="exampleFormControlTextarea1">Are you currently in any discussions about being acquired? </label>
-                                            <textarea class="form-control" id="exampleFormControlTextarea1" rows="5" placeholder="" disabled
-                                            >Vendor Response</textarea>
-                                        </x-accenture.validateInputGroup>
+                                        <br><br>
+                                        <div>
+                                            <form action="{{route('accenture.submitVendor', ['vendor' => $vendor])}}" method="post">
+                                                @csrf
+                                                <button class="btn btn-primary btn-lg btn-icon-text" id="submitButton" type="submit">
+                                                    <i class="btn-icon-prepend" data-feather="check-square"></i> Save profile
+                                                </button>
+                                            </form>
+                                        </div>
+                                        <br><br>
                                     </section>
                                 </div>
                             </div>
@@ -307,4 +81,34 @@
 @section('head')
     @parent
     <link rel="stylesheet" href="{{url('/assets/css/techadvisory/vendorValidateResponses.css')}}">
+@endsection
+
+@section('scripts')
+@parent
+<script src="{{url('assets/js/select2.js')}}"></script>
+<script>
+    function showSavedToast()
+    {
+        $.toast({
+            heading: 'Saved!',
+            showHideTransition: 'slide',
+            icon: 'success',
+            hideAfter: 1000,
+            position: 'bottom-right'
+        })
+    }
+
+
+    $(document).ready(function() {
+        $('.profileQuestion .checkboxesDiv input')
+            .change(function (e) {
+                $.post('/accenture/vendorValidateResponses/setValidated/{{$vendor->id}}', {
+                    changing: $(this).data('changingid'),
+                    value: $(this).prop("checked")
+                })
+
+                showSavedToast();
+            });
+    });
+</script>
 @endsection

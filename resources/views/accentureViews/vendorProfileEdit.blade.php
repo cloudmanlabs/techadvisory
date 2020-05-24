@@ -122,6 +122,7 @@
 
 @section('scripts')
 @parent
+<script src="{{url('assets/js/select2.js')}}"></script>
 <script>
     jQuery.expr[':'].hasValue = function(el,index,match) {
         return el.value != "";

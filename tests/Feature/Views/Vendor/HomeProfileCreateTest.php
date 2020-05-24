@@ -104,20 +104,6 @@ class HomeProfileCreateTest extends TestCase
         $response->assertSee($question->label);
     }
 
-    public function testCanSubmitProfile()
-    {
-        $vendor = factory(User::class)->states('vendor')->create();
-
-        $this->assertFalse(boolval($vendor->hasFinishedSetup));
-
-        $response = $this->actingAs($vendor)
-            ->post('vendors/profile/submit');
-
-        $response->assertRedirect('vendors/home');
-
-        $this->assertTrue($vendor->hasFinishedSetup);
-    }
-
     public function testCanNotAccessProfileCreateIfSetUpHasBeenFinished()
     {
         $user = factory(User::class)->states(['vendor', 'finishedSetup'])->create();

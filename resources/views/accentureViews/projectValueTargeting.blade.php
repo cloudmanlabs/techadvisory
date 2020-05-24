@@ -71,12 +71,14 @@
                                 <br>
                                 <x-folderFileUploader :folder="$project->vtConclusionsFolder" />
 
+                                @if ($project->currentPhase != 'preparation')
                                 <div style="float: right; margin-top: 20px;">
-                                    <a class="btn btn-primary btn-lg btn-icon-text" href="accenture_project_home.html">
+                                    <a class="btn btn-primary btn-lg btn-icon-text" href="{{route('accenture.projectHome', ['project' => $project])}}">
                                         <i data-feather="arrow-left"></i>
                                         Go back to project
                                     </a>
                                 </div>
+                                @endif
                             </div>
                         </div>
                     </div>

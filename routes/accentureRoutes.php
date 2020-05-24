@@ -85,15 +85,17 @@ Route::
             Route::post('vendorProfileEdit/createFirstCredential', 'ClientVendorListController@createFirstVendorCredential');
             Route::get('vendorProfileView/{vendor}', 'ClientVendorListController@vendorProfileView')
                 ->name('vendorProfileView');
+            Route::get('vendorValidateResponses/{vendor}', 'ClientVendorListController@vendorValidateResponses')
+                ->name('vendorValidateResponses');
+            Route::post('vendorValidateResponses/setValidated/{vendor}', 'ClientVendorListController@setValidated');
+            Route::post('vendorValidateResponses/submitVendor/{vendor}', 'ClientVendorListController@submitVendor')
+                ->name('submitVendor');
             Route::get('vendorSolution/{solution}', 'ClientVendorListController@vendorSolution')
                 ->name('vendorSolution');
             Route::get('vendorSolution/edit/{solution}', 'ClientVendorListController@vendorSolutionEdit')
                 ->name('vendorSolutionEdit');
             Route::post('vendorSolution/changeResponse', 'ClientVendorListController@changeSolutionResponse');
             Route::post('vendorSolution/changeName', 'ClientVendorListController@changeSolutionName');
-
-            Route::view('vendorValidateResponses', 'accentureViews.vendorValidateResponses')
-                ->name('vendorValidateResponses');
 
             Route::get('project/home/{project}', 'ProjectController@home')
                 ->name('projectHome');

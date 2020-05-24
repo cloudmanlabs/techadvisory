@@ -37,8 +37,6 @@ Route::prefix('vendors')
                     ->name('profile.create');
                 Route::post('/profile/changeResponse', 'ProfileController@changeResponse')
                     ->name('profile.changeResponse');
-                Route::post('profile/submit', 'ProfileController@submitProfile')
-                    ->name('profile.submit');
             });
 
             Route::middleware(['checkUserHasFinishedSetup'])->group(function(){

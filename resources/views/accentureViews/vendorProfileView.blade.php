@@ -90,3 +90,8 @@
         </div>
     </div>
 @endsection
+
+@section('scripts')
+@parent
+<script src="{{url('assets/js/select2.js')}}"></script>
+@endsection
