@@ -115,11 +115,20 @@ class Project extends Resource
             BelongsTo::make('Practice', 'practice', 'App\Nova\Practice')
                 ->sortable(),
 
-            Number::make('Fitgap Weight: Must', 'fitgapWeightMust')
+            Number::make('Fitgap Client Weight: Must', 'fitgapWeightMust')
                 ->hideFromIndex(),
-            Number::make('Fitgap Weight: Required', 'fitgapWeightRequired')
+            Number::make('Fitgap Client Weight: Required', 'fitgapWeightRequired')
                 ->hideFromIndex(),
-            Number::make('Fitgap Weight: Nice to have', 'fitgapWeightNiceToHave')
+            Number::make('Fitgap Client Weight: Nice to have', 'fitgapWeightNiceToHave')
+                ->hideFromIndex(),
+
+            Number::make('Fitgap Vendor Weight: Nice to have', 'fitgapWeightFullySupports')
+                ->hideFromIndex(),
+            Number::make('Fitgap Vendor Weight: Nice to have', 'fitgapWeightPartiallySupports')
+                ->hideFromIndex(),
+            Number::make('Fitgap Vendor Weight: Nice to have', 'fitgapWeightPlanned')
+                ->hideFromIndex(),
+            Number::make('Fitgap Vendor Weight: Nice to have', 'fitgapWeightNotSupported')
                 ->hideFromIndex(),
 
             BelongsToMany::make('Subpractices', 'subpractices', 'App\Nova\Subpractice'),

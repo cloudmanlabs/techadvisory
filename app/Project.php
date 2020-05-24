@@ -34,6 +34,10 @@ use Illuminate\Support\Facades\Log;
  * @property integer $fitgapWeightMust
  * @property integer $fitgapWeightRequired
  * @property integer $fitgapWeightNiceToHave
+ * @property integer $fitgapWeightFullySupports
+ * @property integer $fitgapWeightPartiallySupports
+ * @property integer $fitgapWeightPlanned
+ * @property integer $fitgapWeightNotSupported
  *
  * @property \Carbon\Carbon $deadline
  * @property \Carbon\Carbon $oralsFromDate

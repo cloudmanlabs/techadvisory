@@ -220,10 +220,10 @@ class VendorApplication extends Model
     }
 
     function getVendorMultiplier(string $response){
-        if($response == 'Product fully supports the functionality') return 3;
-        if($response == 'Product partially supports the functionality') return 2;
-        if($response == 'Functionality planned for a future release') return 1;
-        return 0;
+        if($response == 'Product fully supports the functionality') return $this->project->fitgapWeightFullySupports ?? 3;
+        if($response == 'Product partially supports the functionality') return $this->project->fitgapWeightPartiallySupports ?? 2;
+        if($response == 'Functionality planned for a future release') return $this->project->fitgapWeightPlanned ?? 1;
+        return $this->project->fitgapWeightNotSupported ?? 0;
     }
 
     function averageScoreOfType(string $type) : float{
