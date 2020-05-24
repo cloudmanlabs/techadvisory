@@ -115,6 +115,23 @@ class ProjectController extends Controller
         return redirect()->route('vendor.home');
     }
 
+    public function setSubmitted(Request $request, Project $project)
+    {
+        $application = VendorApplication::where('vendor_id', auth()->id())
+            ->where('project_id', $project->id)
+            ->first();
+        if ($application == null) {
+            abort(404);
+        }
+
+        $application->setPendingEvaluation();
+
+        return response()->json([
+            'status' => 200,
+            'message' =>'hello'
+        ]);
+    }
+
 
 
 

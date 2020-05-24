@@ -108,6 +108,9 @@
             })
 
             showSavedToast();
+            if(updateSubmitButton){
+                updateSubmitButton();
+            }
         }
 
         setAdditionalCostEditListener();

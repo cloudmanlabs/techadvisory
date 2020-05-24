@@ -113,6 +113,9 @@ $disabled = $disabled ?? false;
             })
 
             showSavedToast();
+            if(updateSubmitButton){
+                updateSubmitButton();
+            }
         }
 
         setTravelCostEditListener();
@@ -125,6 +128,9 @@ $disabled = $disabled ?? false;
                 value: $(this).val()
             })
             showSavedToast();
+            if(updateSubmitButton){
+                updateSubmitButton();
+            }
         })
     });
 </script>

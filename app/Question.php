@@ -52,6 +52,8 @@ abstract class Question extends Model
                 return config('arrays.industryExperience');
             case 'regions':
                 return config('arrays.regions');
+            case 'digitalEnablers':
+                return config('arrays.digitalEnablers');
             case 'custom':
             default:
                 return array_map(function($element){

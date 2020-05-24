@@ -118,6 +118,14 @@
                                         @else
                                             <x-selectionCriteria.nonBindingEstimate5Years :vendorApplication="$vendorApplication" :evaluate="false" />
                                         @endif
+
+                                        <br><br>
+
+                                        <button
+                                            class="btn btn-primary btn-lg btn-icon-text"
+                                            id="submitButton">Submit</button>
+
+                                        <br><br>
                                     </section>
                                 </div>
                             </div>
@@ -159,9 +167,14 @@
         let array = $('input,textarea,select').filter('[required]').toArray();
 		if(array.length == 0) return true;
 
-        return array.reduce((prev, current) => {
-            return !prev ? false : $(current).is(':hasValue')
-        }, true)
+        for (let i = 0; i < array.length; i++) {
+            if(!$(array[i]).is(':hasValue')){
+                console.log(array[i])
+                return false
+            }
+        }
+
+        return true
     }
 
     function checkIfAllRequiredsInThisPageAreFilled(){
@@ -228,6 +241,24 @@
             $(this).datepicker('setDate', date);
         });
 
+        $('#submitButton').click(function(){
+            $.post('{{route("vendor.application.setSubmitted", ["project" => $project])}}', {
+                success: function () {
+                    window.location.replace("/vendors/home");
+                }
+            })
+
+            $.toast({
+                heading: 'Submitted!',
+                showHideTransition: 'slide',
+                icon: 'success',
+                hideAfter: 1000,
+                position: 'bottom-right'
+            })
+
+        });
+
+        updateSubmitButton();
     });
 
     function updateTotalImplementation(){

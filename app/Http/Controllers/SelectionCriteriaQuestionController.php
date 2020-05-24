@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\SelectionCriteriaQuestionResponse;
+use App\VendorApplication;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
@@ -27,6 +28,18 @@ class SelectionCriteriaQuestionController extends Controller
             $answer->response = $request->value;
         }
         $answer->save();
+
+        // $existingApplication = VendorApplication::where([
+        //     'project_id' => $answer->project->id,
+        //     'vendor_id' => $answer->vendor->id
+        // ])->first();
+        // if ($existingApplication) {
+        //     if($existingApplication->checkIfAllSelectionCriteriaQuestionsWereAnswered()){
+        //         $existingApplication->setPendingEvaluation();
+        //     } else {
+        //         $existingApplication->setApplicating();
+        //     }
+        // }
 
         return response()->json([
             'status' => 200,

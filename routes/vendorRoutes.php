@@ -68,6 +68,8 @@ Route::prefix('vendors')
                     ->name('application.setRejected');
                 Route::post('application/setAccepted/{project}', 'ProjectController@setAccepted')
                     ->name('application.setAccepted');
+                Route::post('application/setSubmitted/{project}', 'ProjectController@setSubmitted')
+                    ->name('application.setSubmitted');
 
 
                 Route::get('solutions', 'SolutionController@solutionHome')

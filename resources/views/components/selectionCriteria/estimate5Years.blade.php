@@ -86,6 +86,9 @@ $disabled = $disabled ?? false;
             })
 
             showSavedToast();
+            if(updateSubmitButton){
+            updateSubmitButton();
+            }
         }
 
         setEstimate5YearsEditListener();

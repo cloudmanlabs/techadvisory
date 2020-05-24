@@ -336,6 +336,32 @@ class VendorApplication extends Model
 
 
 
+    public function checkIfAllSelectionCriteriaQuestionsWereAnswered(): bool
+    {
+        if($this->project->isBinding){
+            if ($this->staffingCost == null) return false;
+            if ($this->travelCost == null) return false;
+            if ($this->additionalCost == null) return false;
+        } else {
+            if ($this->staffingCostNonBinding == null) return false;
+            if ($this->travelCostNonBinding == null) return false;
+            if ($this->additionalCostNonBinding == null) return false;
+        }
+
+        $questionsFinished = $this->project->selectionCriteriaQuestionsForVendor($this->vendor)
+                ->whereHas('originalQuestion', function ($query) {
+                    $query->where('required', 'true');
+                })
+                ->get()
+                ->filter(function($response){
+                    return $response->response == null;
+                })
+                ->count() > 0;
+
+        return $questionsFinished;
+    }
+
+
 
     public function setApplicating() : VendorApplication
     {

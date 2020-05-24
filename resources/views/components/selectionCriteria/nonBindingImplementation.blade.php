@@ -137,6 +137,9 @@ $disabled = $disabled ?? false;
                 value: $(this).val()
             })
             showSavedToast();
+            if(updateSubmitButton){
+                updateSubmitButton();
+            }
         })
         $('#staffingCostScore').change(function(){
             $.post('/vendorApplication/updateImplementationScores', {
@@ -145,6 +148,9 @@ $disabled = $disabled ?? false;
                 value: $(this).val()
             })
             showSavedToast();
+            if(updateSubmitButton){
+                updateSubmitButton();
+            }
         })
         $('#travelCostScore').change(function(){
             $.post('/vendorApplication/updateImplementationScores', {
@@ -153,6 +159,9 @@ $disabled = $disabled ?? false;
                 value: $(this).val()
             })
             showSavedToast();
+            if(updateSubmitButton){
+                updateSubmitButton();
+            }
         })
         $('#additionalCostScore').change(function(){
             $.post('/vendorApplication/updateImplementationScores', {
@@ -161,6 +170,9 @@ $disabled = $disabled ?? false;
                 value: $(this).val()
             })
             showSavedToast();
+            if(updateSubmitButton){
+                updateSubmitButton();
+            }
         })
     });
 </script>

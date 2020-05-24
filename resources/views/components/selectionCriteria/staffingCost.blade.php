@@ -145,6 +145,9 @@ $disabled = $disabled ?? false;
             })
 
             showSavedToast();
+            if(updateSubmitButton){
+                updateSubmitButton();
+            }
         }
 
         setStaffingCostEditListener();
@@ -157,6 +160,9 @@ $disabled = $disabled ?? false;
                 value: $(this).val()
             })
             showSavedToast();
+            if(updateSubmitButton){
+                updateSubmitButton();
+            }
         })
     });
 </script>
