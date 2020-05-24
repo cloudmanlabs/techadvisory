@@ -66,7 +66,8 @@ class Client extends Resource
                 ->updateRules('unique:users,email,{{resourceId}}'),
 
 
-            Image::make('logo'),
+            Image::make('logo')
+                ->exceptOnForms(),
 
             Password::make('Password')
                 ->onlyOnForms()
