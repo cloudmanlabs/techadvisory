@@ -36,7 +36,7 @@ abstract class Question extends Model
                 return Practice::all()->pluck('name')->toArray();
             case 'countries':
                 // Countries are dealt specially by the view
-                throw new Exception('This question has Countries as a Preset. You shouldn\'t be calling optionList on it');
+                throw new \Exception('This question has Countries as a Preset. You shouldn\'t be calling optionList on it');
 
             case 'transportModes':
                 return config('arrays.transportModes');
@@ -54,7 +54,9 @@ abstract class Question extends Model
                 return config('arrays.regions');
             case 'custom':
             default:
-                return explode(',', $this->options);
+                return array_map(function($element){
+                    return trim($element);
+                }, explode(',', $this->options));
         }
     }
 }
