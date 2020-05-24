@@ -244,7 +244,9 @@
         $('#submitButton').click(function(){
             $.post('{{route("vendor.application.setSubmitted", ["project" => $project])}}', {
                 success: function () {
-                    window.location.replace("/vendors/home");
+                    setTimeout(() => {
+                        window.location.replace("/vendors/home");
+                    }, 300);
                 }
             })
 
