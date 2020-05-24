@@ -120,7 +120,8 @@
             <div class="form-group questionDiv" data-practice="{{$question->originalQuestion->practice->id ?? ''}}">
                 <x-questionFileUploader
                     :question="$question"
-                    :fileUploadRoute="$fileUploadRoute ?? ''"
+                    {{-- TODO Set the correct file uplaod route everywhere and remove this default --}}
+                    :fileUploadRoute="$fileUploadRoute ?? '/selectionCriteriaQuestion/uploadFile'"
                     :disabled="$disabled"
                     :required="$required"
                 />
