@@ -56,6 +56,7 @@
             $("#input-{{$identifier}}").val(fileName);
 
             var formData = new FormData();
+            formData.append('changing', '{{$question->id}}');
             formData.append('image', $(this).get(0).files[0]);
             $.ajax({
                 url : "{{$fileUploadRoute}}",
