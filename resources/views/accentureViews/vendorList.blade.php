@@ -11,9 +11,9 @@
                         <div class="card">
                             <div class="card-body">
                                 <h3>List of Vendors</h3>
-                                <p class="welcome_text extra-top-15px">In this list you can see the list of vendors
-                                    already registered in the platform. See the detail of the vendor profile by clicking
-                                    on the button.</p>
+                                <p class="welcome_text extra-top-15px">
+                                    {{nova_get_setting('accenture_vendorList_List') ?? ''}}
+                                </p>
                                 <br>
                                 <br>
                                 @foreach ($vendors as $vendor)
@@ -45,9 +45,9 @@
                         <div class="card">
                             <div class="card-body">
                                 <h3>Vendors pending validation</h3>
-                                <p class="welcome_text extra-top-15px">In this list you can see the list of vendors
-                                    already registered in the platform. See the detail of the vendor profile by clicking
-                                    on the button.</p>
+                                <p class="welcome_text extra-top-15px">
+                                    {{nova_get_setting('accenture_vendorList_pendingEval') ?? ''}}
+                                </p>
                                 <br>
                                 <br>
                                 @foreach ($vendorsPendingValidation as $vendor)
@@ -95,7 +95,9 @@
 
                                 <br>
                                 <h3>List of vendor solutions</h3>
-                                <p class="welcome_text extra-top-15px">In this list you can see the list of solutions.</p>
+                                <p class="welcome_text extra-top-15px">
+                                    {{nova_get_setting('accenture_vendorList_solutions') ?? ''}}
+                                </p>
                                 <br>
                                 <br>
                                 <div id="solutionContainer">

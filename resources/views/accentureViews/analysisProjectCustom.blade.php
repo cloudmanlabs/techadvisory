@@ -17,12 +17,7 @@
                                 <div class="welcome_text welcome_box" style="clear: both; margin-top: 20px;">
                                     <div class="media d-block d-sm-flex">
                                         <div class="media-body" style="padding: 20px;">
-                                            The first phase of the process is ipsum dolor sit amet, consectetur
-                                            adipiscing elit. Donec aliquam ornare sapien, ut dictum nunc pharetra a.
-                                            Phasellus vehicula suscipit mauris, et aliquet urna. Fusce sed ipsum eu nunc
-                                            pellentesque luctus. ipsum dolor
-                                            sit amet, consectetur adipiscing elit. Donec aliquam ornare sapien, ut
-                                            dictum nunc pharetra a.
+                                            {{nova_get_setting('accenture_analysisProjectCustom_title') ?? ''}}
                                         </div>
                                     </div>
                                 </div>
@@ -39,10 +34,9 @@
                         <div class="card">
                             <div class="card-body">
                                 <h3>Other Queries</h3>
-                                <p class="welcome_text extra-top-15px">In order to start using the Tech Advisory
-                                    Platform, you'll need to follow some steps to complete your profile and set up your
-                                    first project. Please check below the timeline and click "Let's start" when you are
-                                    ready.</p>
+                                <p class="welcome_text extra-top-15px">
+                                    {{nova_get_setting('accenture_analysisProjectCustom_otherQueries') ?? ''}}
+                                </p>
                                 <br>
 
                                 <div id="filterContainer">
@@ -119,8 +113,8 @@
                                             class="card"
                                             style="margin-bottom: 30px;"
 
-                                            data-client="{{$project->client->name}}"
-                                            data-practice="{{$project->practice->name}}"
+                                            data-client="{{$project->client->name ?? ''}}"
+                                            data-practice="{{$project->practice->name ?? ''}}"
                                             data-year="{{$project->created_at->year}}"
                                             data-industry="{{$project->industry}}"
                                             data-regions="{{json_encode($project->regions)}}"
@@ -128,9 +122,9 @@
                                         >
                                             <div class="card-body">
                                                 <div style="float: left; max-width: 40%;">
-                                                    <h4>{{$project->name}}</h4>
-                                                    <h6>{{$project->client->name}} - {{$project->practice->name}}</h6>
-                                                    <h6>{{$project->created_at->year}} - {{$project->industry}} - {{implode(', ', $project->regions)}}</h6>
+                                                    <h4>{{$project->name ?? ''}}</h4>
+                                                    <h6>{{$project->client->name ?? ''}} - {{$project->practice->name ?? ''}}</h6>
+                                                    <h6>{{$project->created_at->year}} - {{$project->industry}} - {{implode(', ', $project->regions ?? [])}}</h6>
                                                 </div>
                                                 <div style="float: right; text-align: right; width: 15%;">
                                                     <a class="btn btn-primary btn-lg btn-icon-text"

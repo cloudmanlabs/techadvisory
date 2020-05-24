@@ -11,9 +11,9 @@
                         <div class="card">
                             <div class="card-body">
                                 <h3>List of Clients</h3>
-                                <p class="welcome_text extra-top-15px">In this list you can see the list of clients
-                                    already registered in the platform. See the detail of the client profile by clicking
-                                    on the button.</p>
+                                <p class="welcome_text extra-top-15px">
+                                    {{nova_get_setting('accenture_clientList_List') ?? ''}}
+                                </p>
                                 <br>
                                 <br>
                                 @foreach ($clients as $client)

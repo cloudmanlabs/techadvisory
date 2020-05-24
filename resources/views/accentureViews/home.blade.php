@@ -7,7 +7,7 @@
     <div class="page-wrapper">
         <div class="page-content">
 
-            <x-video :src="nova_get_setting('video_opening')"/>
+            <x-video :src="nova_get_setting('video_opening')" :text="nova_get_setting('video_opening_text')"/>
 
             <br><br>
 
@@ -183,10 +183,9 @@
                     <div class="card">
                         <div class="card-body">
                             <h3>Start new project</h3>
-                            <p class="welcome_text extra-top-15px">In order to start using the Tech Advisory
-                                Platform, you'll need to follow some steps to complete your profile and set up your
-                                first project. Please check below the timeline and click "Let's start" when you are
-                                ready.</p>
+                            <p class="welcome_text extra-top-15px">
+                                {{nova_get_setting('accenture_Home_StartNewProject') ?? ''}}
+                            </p>
                             <br>
                             <br>
 
