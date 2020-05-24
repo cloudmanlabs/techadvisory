@@ -61,7 +61,7 @@
 
                                         <x-questionForeach :questions="$generalQuestions" :class="'profileQuestion'" :disabled="false" :required="true" />
 
-                                        <x-folderFileUploader :folder="$vendor->profileFolder" />
+                                        <x-folderFileUploader :folder="$vendor->profileFolder" :timeout="1000"/>
                                     </section>
 
                                     <h2>Economic information</h2>

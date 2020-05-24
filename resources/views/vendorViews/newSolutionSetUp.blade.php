@@ -28,7 +28,7 @@
 
                                 <x-questionForeach :questions="$questions" :class="'solutionQuestion'" :disabled="false" :required="true" />
 
-                                <x-folderFileUploader :folder="$solution->folder" />
+                                <x-folderFileUploader :folder="$solution->folder" :timeout="1000"/>
 
                                 <div style="float: right; margin-top: 20px;">
                                     <a class="btn btn-primary btn-lg btn-icon-text"

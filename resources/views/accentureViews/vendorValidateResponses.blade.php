@@ -42,7 +42,7 @@
 
                                         <x-questionForeachWithActivate :questions="$generalQuestions" :class="'profileQuestion'" :disabled="true" :required="false" />
 
-                                        <x-folderFileUploader :folder="$vendor->profileFolder" :disabled="true" />
+                                        <x-folderFileUploader :folder="$vendor->profileFolder" :disabled="true" :timeout="1000"/>
                                     </section>
 
                                     <h2>Economic information</h2>

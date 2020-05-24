@@ -70,7 +70,7 @@
 
                                 <x-questionForeach :questions="$questions" :class="'profileQuestion'" :disabled="false" :required="true" />
 
-                                <x-folderFileUploader :folder="$client->profileFolder" />
+                                <x-folderFileUploader :folder="$client->profileFolder" :timeout="1000"/>
                             </div>
                         </div>
                     </div>

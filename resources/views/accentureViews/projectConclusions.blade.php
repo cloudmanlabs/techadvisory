@@ -33,7 +33,7 @@
                                 <br>
                                 <div class="row">
                                     <div class="col-12 col-md-12 col-xl-12">
-                                        <x-folderFileUploader :folder="$project->conclusionsFolder" />
+                                        <x-folderFileUploader :folder="$project->conclusionsFolder" :timeout="1000"/>
                                     </div>
                                 </div>
                             </div>
