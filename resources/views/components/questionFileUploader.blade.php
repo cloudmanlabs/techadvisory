@@ -2,7 +2,7 @@
 
 @php
     $randId = random_int(100, 9000);
-    $identifier = $question->id . $fileUploadRoute . $randId;
+    $identifier = $question->id . $randId;
 @endphp
 
 <div class="form-group">
