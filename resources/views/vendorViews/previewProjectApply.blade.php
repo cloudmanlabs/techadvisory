@@ -13,9 +13,8 @@
                         <div class="card">
                             <div class="card-body">
                                 <h3>Apply to project</h3>
-                                <p class="welcome_text extra-top-15px">Please complete your profile and get ready to use the platform.
-                                    It won't take you more than just a few minutes and you can do it today. Note that, if you do not
-                                    currently have the info for some specific fields, you can leave them blank and fill up them later.
+                                <p class="welcome_text extra-top-15px">
+                                    {{nova_get_setting('vendro_previewProjectApply_title') ?? ''}}
                                 </p>
                                 <br>
                                 <div id="wizard_vendor_go_to_home">

@@ -21,7 +21,7 @@
                                 </div>
 
                                 <p class="welcome_text extra-top-15px">
-                                    If any modifications are needed please contact the Accenture team.
+                                    {{nova_get_setting('vendor_profile_title') ?? ''}}
                                 </p>
                                 <br>
                                 <br>

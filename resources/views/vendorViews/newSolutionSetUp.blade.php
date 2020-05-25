@@ -12,10 +12,10 @@
                             <div class="card-body">
                                 <h3>Add a solution</h3>
 
-                                <p class="welcome_text extra-top-15px">Please add your solutions to complete your
-                                    profile and get ready to use the platform. It won't take you more than just a few
-                                    minutes and you can do it today. Note that, if you do not currently have the info
-                                    for some specific fields, you can leave them blank and fill them up later.</p>
+                                <p class="welcome_text extra-top-15px">
+                                    {{nova_get_setting('vendro_newSolution_addSolution') ?? ''}}
+                                </p>
+
                                 <br>
                                 <br>
 

@@ -125,7 +125,6 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
                     Textarea::make('Home profile create: Title', 'client_homeProfileCreate_title'),
                     Textarea::make('Profile: Title', 'client_profile_title'),
 
-
                     Textarea::make('Project Home: Invited', 'client_projectHome_invited'),
                     Textarea::make('Project Home: Released', 'client_projectHome_released'),
 
@@ -155,6 +154,23 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
                     Textarea::make('Home: Started Applications', 'vendor_Home_Started'),
                     Textarea::make('Home: Submitted Applications', 'vendor_Home_Submitted'),
                     Textarea::make('Home: Rejected Applications', 'vendor_Home_Rejected'),
+
+                    Textarea::make('First login registration: Timeline', 'vendor_firsLoginRegistration_timeline'),
+                    Textarea::make('First login registration: Registration', 'vendor_firsLoginRegistration_registration'),
+                    Textarea::make('First login registration: Add your solutions to the platform', 'vendor_firsLoginRegistration_addSolutions'),
+                    Textarea::make('First login registration: Receive invitations for projects', 'vendor_firsLoginRegistration_recieveInvitations'),
+                    Textarea::make('First login registration: Apply to projects', 'vendor_firsLoginRegistration_apply'),
+
+                    Textarea::make('Home profile create: Title', 'vendor_homeProfileCreate_title'),
+                    Textarea::make('Profile: Title', 'vendor_profile_title'),
+
+                    Textarea::make('New Application - Apply: Title', 'vendro_newApplicationApply_title'),
+                    Textarea::make('Preview Project - Apply: Title', 'vendro_previewProjectApply_title'),
+                    Textarea::make('Submitted application: Title', 'vendro_submittedApplication_title'),
+
+                    Textarea::make('New Solution: Add a solution', 'vendro_newSolution_addSolution'),
+                    Textarea::make('Edit Solution: Title', 'vendro_editSolution_title'),
+
                 ])
             ];
         });
