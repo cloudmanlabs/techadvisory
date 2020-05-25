@@ -10,35 +10,6 @@
 
             <x-accenture.projectNavbar section="projectOrals" :project="$project" />
 
-            <br>
-            <div class="row">
-                <div class="col-12 col-xl-12 stretch-card">
-                    <div class="card">
-                        <div class="card-body">
-                            <div style="float: left;">
-                                <h3>Project description</h3>
-                            </div>
-                            <br><br>
-                            <div class="welcome_text welcome_box" style="clear: both; margin-top: 20px;">
-                                <div class="media d-block d-sm-flex">
-                                    <div class="media-body" style="padding: 20px;">
-                                        The project is about ipsum dolor sit amet, consectetur adipiscing elit.
-                                        Donec aliquam ornare sapien, ut dictum nunc pharetra a. Phasellus vehicula
-                                        suscipit mauris, et aliquet urna. Fusce sed ipsum eu nunc pellentesque
-                                        luctus. ipsum dolor
-                                        sit amet, consectetur adipiscing elit. Donec aliquam ornare sapien, ut
-                                        dictum nunc pharetra a.
-                                    </div>
-                                </div>
-                            </div>
-
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <br><br>
-
             <div class="row">
                 <div class="col-lg-12 grid-margin stretch-card">
                     <div class="card">

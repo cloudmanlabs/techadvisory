@@ -26,15 +26,7 @@
                                         <h4>Fit Gap</h4>
                                         <br>
                                         <p>
-                                            Phasellus vehicula suscipit mauris, et aliquet urna. Fusce sed ipsum eu
-                                            nunc
-                                            pellentesque luctus. ipsum dolor sit amet, consectetur adipiscing elit.
-                                            Donec
-                                            aliquam ornare sapien, ut dictum nunc pharetra a.Phasellus vehicula
-                                            suscipit
-                                            mauris, et aliquet urna. Fusce sed ipsum eu nunc pellentesque luctus.
-                                            ipsum
-                                            dolor sit amet.
+                                            {{nova_get_setting('fitgap_description') ?? ''}}
                                         </p>
                                         <br><br>
 

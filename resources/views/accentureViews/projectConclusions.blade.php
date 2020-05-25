@@ -24,10 +24,7 @@
                                 <br><br>
 
                                 <p class="welcome_text extra-top-15px">
-                                    In order to start using the Tech Advisory
-                                    Platform, you'll need to follow some steps to complete your profile and set up your
-                                    first project. Please check below the timeline and click "Let's start" when you are
-                                    ready.
+                                    {{nova_get_setting('accenture_projectConclusions_title') ?? ''}}
                                 </p>
                                 <br>
                                 <br>

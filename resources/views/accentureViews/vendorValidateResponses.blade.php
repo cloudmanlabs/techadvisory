@@ -11,9 +11,8 @@
                         <div class="card">
                             <div class="card-body">
                                 <h3>Validate VENDOR NAME's profile</h3>
-                                <p class="welcome_text extra-top-15px">Please validate vendor information that vendor has filled in.
-                                    Each field must be flagged by an Accenture user. Vendor will recieve a notification to correct wrong fields.
-                                    Note that, vendor will not be able to participate in any project until all information has been validated.
+                                <p class="welcome_text extra-top-15px">
+                                    {{nova_get_setting('accenture_vendorValidateResponses_title') ?? ''}}
                                 </p>
 
                                 <br>

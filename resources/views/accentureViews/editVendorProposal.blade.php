@@ -14,10 +14,9 @@
                         <div class="card-body">
                             <h3>{{$vendor->name}}</h3>
                             <h4>Review application</h4>
-                            <p class="welcome_text extra-top-15px">Please complete your profile and get ready to use
-                                the platform. It won't take you more than just a few minutes and you can do it
-                                today. Note that, if you do not currently have the info for some specific fields,
-                                you can leave them blank and fill up them later.</p>
+                            <p class="welcome_text extra-top-15px">
+                                {{nova_get_setting('accenture_vendorProposalEdit_Title') ?? ''}}
+                            </p>
                             <br>
                             <div id="wizard_accenture">
                                 <h2>Fit gap</h2>
@@ -25,15 +24,7 @@
                                     <h4>Fit Gap</h4>
                                     <br>
                                     <p>
-                                        Phasellus vehicula suscipit mauris, et aliquet urna. Fusce sed ipsum eu
-                                        nunc
-                                        pellentesque luctus. ipsum dolor sit amet, consectetur adipiscing elit.
-                                        Donec
-                                        aliquam ornare sapien, ut dictum nunc pharetra a.Phasellus vehicula
-                                        suscipit
-                                        mauris, et aliquet urna. Fusce sed ipsum eu nunc pellentesque luctus.
-                                        ipsum
-                                        dolor sit amet.
+                                        {{nova_get_setting('fitgap_description') ?? ''}}
                                     </p>
                                     <br><br>
 

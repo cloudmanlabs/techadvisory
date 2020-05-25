@@ -14,10 +14,9 @@
                         <div class="card">
                             <div class="card-body">
                                 <h3>Vendors invited</h3>
-                                <p class="welcome_text extra-top-15px">In order to start using the Tech Advisory
-                                    Platform, you'll need to follow some steps to complete your profile and set up your
-                                    first project. Please check below the timeline and click "Let's start" when you are
-                                    ready.</p>
+                                <p class="welcome_text extra-top-15px">
+                                    {{nova_get_setting('accenture_projectHome_invited') ?? ''}}
+                                </p>
                                 <br>
                                 <br>
 
@@ -68,10 +67,9 @@
                         <div class="card">
                             <div class="card-body">
                                 <h3>Vendors applicating</h3>
-                                <p class="welcome_text extra-top-15px">In order to start using the Tech Advisory
-                                    Platform, you'll need to follow some steps to complete your profile and set up your
-                                    first project. Please check below the timeline and click "Let's start" when you are
-                                    ready.</p>
+                                <p class="welcome_text extra-top-15px">
+                                    {{nova_get_setting('accenture_projectHome_applicating') ?? ''}}
+                                </p>
                                 <br>
                                 <br>
 
@@ -99,9 +97,9 @@
                         <div class="card">
                             <div class="card-body">
                                 <h3>Vendors pending evaluation</h3>
-                                <p class="welcome_text extra-top-15px">The following vendors have submitted the
-                                    selection criteria section for this project. In order to allow them to continue the
-                                    process, please evaluate vendor response for each area.</p>
+                                <p class="welcome_text extra-top-15px">
+                                    {{nova_get_setting('accenture_projectHome_pendingEvalutation') ?? ''}}
+                                </p>
                                 <br>
                                 <br>
 
@@ -124,7 +122,9 @@
                         <div class="card">
                             <div class="card-body">
                                 <h3>Release vendor responses</h3>
-                                <p class="welcome_text extra-top-15px">The following vendors have already been evaluated by Accenture.</p>
+                                <p class="welcome_text extra-top-15px">
+                                    {{nova_get_setting('accenture_projectHome_release') ?? ''}}
+                                </p>
                                 <br>
                                 <br>
 
@@ -166,7 +166,8 @@
                         <div class="card">
                             <div class="card-body">
                                 <h3>Released responses</h3>
-                                <p class="welcome_text extra-top-15px">The following responses have already been released.
+                                <p class="welcome_text extra-top-15px">
+                                    {{nova_get_setting('accenture_projectHome_released') ?? ''}}
                                 </p>
                                 <br>
                                 <br>
@@ -193,7 +194,9 @@
                         <div class="card">
                             <div class="card-body">
                                 <h3>Disqualified Vendors</h3>
-                                <p class="welcome_text extra-top-15px">The following vendors have been marked as disqualified from  this project.</p>
+                                <p class="welcome_text extra-top-15px">
+                                    {{nova_get_setting('accenture_projectHome_disqualified') ?? ''}}
+                                </p>
                                 <br>
                                 <br>
 
@@ -212,8 +215,9 @@
                         <div class="card">
                             <div class="card-body">
                                 <h3>Rejected Vendors</h3>
-                                <p class="welcome_text extra-top-15px">The following vendors have rejected participating in this
-                                    project.</p>
+                                <p class="welcome_text extra-top-15px">
+                                    {{nova_get_setting('accenture_projectHome_rejected') ?? ''}}
+                                </p>
                                 <br>
                                 <br>
 

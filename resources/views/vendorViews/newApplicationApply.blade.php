@@ -21,9 +21,9 @@
                                     <h2>Fit gap</h2>
                                     <section>
                                         <br>
-                                        Phasellus vehicula suscipit mauris, et aliquet urna. Fusce sed ipsum eu nunc pellentesque luctus. ipsum dolor sit
-                                        amet, consectetur adipiscing elit. Donec aliquam ornare sapien, ut dictum nunc pharetra a.Phasellus vehicula
-                                        suscipit mauris, et aliquet urna. Fusce sed ipsum eu nunc pellentesque luctus. ipsum dolor sit amet.
+
+                                        {{nova_get_setting('fitgap_description') ?? ''}}
+
                                         <br><br>
 
                                         <x-fitgapVendorModal :vendor="auth()->user()" :project="$project" />
