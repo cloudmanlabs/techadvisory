@@ -15,14 +15,13 @@
                         <div class="card">
                             <div class="card-body">
                                 <div style="float: left;">
-                                    <h3>Redistribution of processes at Nestlé</h3>
+                                    <h3>{{$project->name}}</h3>
                                 </div>
                                 <br><br>
                                 <div class="welcome_text welcome_box" style="clear: both; margin-top: 20px;">
                                     <div class="media d-block d-sm-flex">
                                         <div class="media-body" style="padding: 20px;">
-                                            The first phase of the process is ipsum dolor sit amet, consectetur adipiscing elit. Donec aliquam ornare sapien, ut dictum nunc pharetra a. Phasellus vehicula suscipit mauris, et aliquet urna. Fusce sed ipsum eu nunc pellentesque luctus. ipsum dolor
-                                            sit amet, consectetur adipiscing elit. Donec aliquam ornare sapien, ut dictum nunc pharetra a.
+                                            {{nova_get_setting('client_newProjectSetup_title') ?? ''}}
                                         </div>
                                     </div>
                                 </div>

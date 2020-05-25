@@ -16,9 +16,7 @@
                             <div class="card-body">
                                 <h3>Vendors applicating</h3>
                                 <p class="welcome_text extra-top-15px">
-                                    Here you can see the Vendors that are currently applying to this project.
-                                    <br>
-                                    You'll only be able to view their answers when Accenture releases the responses.
+                                    {{nova_get_setting('client_projectHome_invited') ?? ''}}
                                 </p>
                                 <br>
                                 <br>
@@ -38,7 +36,8 @@
                         <div class="card">
                             <div class="card-body">
                                 <h3>Released responses</h3>
-                                <p class="welcome_text extra-top-15px">The following responses have already been released.
+                                <p class="welcome_text extra-top-15px">
+                                    {{nova_get_setting('client_projectHome_released') ?? ''}}
                                 </p>
                                 <br>
                                 <br>

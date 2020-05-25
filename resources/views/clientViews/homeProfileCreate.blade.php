@@ -19,7 +19,9 @@
                                 <h3>Complete your profile</h3>
 
 
-                                <p class="welcome_text extra-top-15px">Please complete your profile and get ready to use the platform. It won't take you more than just a few minutes and you can do it today. Note that, if you do not currently have the info for some specific fields, you can leave them blank and fill up them later.</p>
+                                <p class="welcome_text extra-top-15px">
+                                    {{nova_get_setting('client_homeProfileCreate_title') ?? ''}}
+                                </p>
                                 <br>
                                 <br>
 

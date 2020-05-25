@@ -23,7 +23,7 @@
 
 
                                 <div class="form-group">
-                                    <label for="exampleInputText1">Client name</label> <input class="form-control" id="exampleInputText1" placeholder="Enter Name" value="Nestlé" type="text" disabled>
+                                    <label for="exampleInputText1">Client name</label> <input class="form-control" id="exampleInputText1" placeholder="Enter Name" value="" type="text" disabled>
                                 </div>
 
 

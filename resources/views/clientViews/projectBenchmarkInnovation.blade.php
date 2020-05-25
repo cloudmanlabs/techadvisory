@@ -30,10 +30,9 @@
                         <div class="card">
                             <div class="card-body">
                                 <h3>Vendor Ranking by Innovation&Vision section</h3>
-                                <p class="welcome_text extra-top-15px">In order to start using the Tech Advisory
-                                    Platform, you'll need to follow some steps to complete your profile and set up your
-                                    first project. Please check below the timeline and click "Let's start" when you are
-                                    ready.</p>
+                                <p class="welcome_text extra-top-15px">
+                                    {{nova_get_setting('client_projectBenchmarkInnovation_ranking') ?? ''}}
+                                </p>
                                 <br>
                                 <br>
                                 <div class="col-lg-6 col-mg-12 offset-lg-3">
@@ -71,10 +70,9 @@
                         <div class="card">
                             <div class="card-body">
                                 <h3>Vendor comparison</h3>
-                                <p class="welcome_text extra-top-15px">In order to start using the Tech Advisory
-                                    Platform, you'll need to follow some steps to complete your profile and set up your
-                                    first project. Please check below the timeline and click "Let's start" when you are
-                                    ready.</p>
+                                <p class="welcome_text extra-top-15px">
+                                    {{nova_get_setting('client_projectBenchmarkInnovation_comparison') ?? ''}}
+                                </p>
                                 <br>
                                 <br>
                                 <div class="row">

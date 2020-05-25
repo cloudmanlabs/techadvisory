@@ -115,6 +115,40 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
                     Textarea::make('Home: Open Projects', 'client_Home_Open'),
                     Textarea::make('Home: Preparation Projects', 'client_Home_Preparation'),
                     Textarea::make('Home: Old Projects', 'client_Home_Old'),
+
+                    Textarea::make('First login registration: Timeline', 'client_firsLoginRegistration_timeline'),
+                    Textarea::make('First login registration: Registration', 'client_firsLoginRegistration_registration'),
+                    Textarea::make('First login registration: Complete your first project info', 'client_firsLoginRegistration_completeProjectInfo'),
+                    Textarea::make('First login registration: Open project for vendors', 'client_firsLoginRegistration_OpenProject'),
+                    Textarea::make('First login registration: Closure meeting', 'client_firsLoginRegistration_Closure'),
+
+                    Textarea::make('Home profile create: Title', 'client_homeProfileCreate_title'),
+                    Textarea::make('Profile: Title', 'client_profile_title'),
+
+
+                    Textarea::make('Project Home: Invited', 'client_projectHome_invited'),
+                    Textarea::make('Project Home: Released', 'client_projectHome_released'),
+
+                    Textarea::make('Project Benchmark Overall: Overall Score', 'client_projectBenchmark_overallScore'),
+                    Textarea::make('Project Benchmark Overall: Vendor score per criteria', 'client_projectBenchmark_vendorScore'),
+                    Textarea::make('Project Benchmark Fitgap: Vendor Ranking by Fit Gap section', 'client_projectBenchmarkFitgap_ranking'),
+                    Textarea::make('Project Benchmark Fitgap: Vendor comparison', 'client_projectBenchmarkFitgap_comparison'),
+                    Textarea::make('Project Benchmark Vendor: Vendor Ranking by Vendor section', 'client_projectBenchmarkVendor_ranking'),
+                    Textarea::make('Project Benchmark Vendor: Vendor comparison', 'client_projectBenchmarkVendor_comparison'),
+                    Textarea::make('Project Benchmark Experience: Vendor Ranking by Experience section', 'client_projectBenchmarkExperience_ranking'),
+                    Textarea::make('Project Benchmark Experience: Vendor comparison', 'client_projectBenchmarkExperience_comparison'),
+                    Textarea::make('Project Benchmark Innovation: Vendor Ranking by Innovation section', 'client_projectBenchmarkInnovation_ranking'),
+                    Textarea::make('Project Benchmark Innovation: Vendor comparison', 'client_projectBenchmarkInnovation_comparison'),
+                    Textarea::make('Project Benchmark Implementation: Vendor Ranking by Implementation section', 'client_projectBenchmarkImplementation_ranking'),
+                    Textarea::make('Project Benchmark Implementation: Vendor comparison', 'client_projectBenchmarkImplementation_comparison'),
+
+                    Textarea::make('Project Value Targeting: Title', 'accenture_projectValueTargeting_Title'),
+                    Textarea::make('Project Value Targeting: Selected Value Levers', 'accenture_projectValueTargeting_selected'),
+                    Textarea::make('Project Value Targeting: Business Opportunity Details', 'accenture_projectValueTargeting_business'),
+                    Textarea::make('Project Value Targeting: Conclusions', 'accenture_projectValueTargeting_conclusions'),
+                    Textarea::make('Project Conclusions: Title', 'client_projectConclusions_title'),
+
+                    Textarea::make('View Vendor Proposal: Title', 'client_viewVendorProposal_title'),
                 ]),
                 new Panel('Vendor Texts', [
                     Textarea::make('Home: Invitation Phase', 'vendor_Home_Invitation'),
