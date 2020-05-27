@@ -15,7 +15,7 @@
                             <br><br>
                             <select id="vendorSelect" class="w-100" multiple="multiple" required>
                                 @foreach ($applications as $application)
-                                <option>{{$application->vendor->name}}</option>
+                                <option>{{optional($application->vendor)->name}}</option>
                                 @endforeach
                             </select>
                         </div>
