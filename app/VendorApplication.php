@@ -216,6 +216,10 @@ class VendorApplication extends Model
             $scores[] = $value * $this->getVendorMultiplier($multiplier);
         }
 
+        if (count($scores) == 0) {
+            return 0;
+        }
+
         return array_sum($scores) / (count($scores) * 3);
     }
 
@@ -236,6 +240,10 @@ class VendorApplication extends Model
 
                 $scores[] = $this->fitgapVendorScores[$key] * $this->getVendorMultiplier($multiplier);
             }
+        }
+
+        if(count($scores) == 0) {
+            return 0;
         }
 
         return array_sum($scores) / (count($scores) * 3);
