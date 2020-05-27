@@ -214,7 +214,7 @@
                 name: "{{optional($application->vendor)->name ?? ''}}",
                 data: [
                     {{$application->fitgapScore()}},
-                    {{optional($application->vendor)Score()}},
+                    {{$application->vendorScore()}},
                     {{$application->experienceScore()}},
                     {{$application->innovationScore()}},
                     {{$application->implementationScore()}}
@@ -267,7 +267,7 @@
                 name: "{{optional($application->vendor)->name ?? ''}}",
                 data: [
                     { x: 'w1',  y: {{$application->fitgapScore()}} },
-                    { x: 'w2',  y: {{optional($application->vendor)Score()}} },
+                    { x: 'w2',  y: {{$application->vendorScore()}} },
                     { x: 'w3',  y: {{$application->experienceScore()}} },
                     { x: 'w4',  y: {{$application->innovationScore()}} },
                     { x: 'w5',  y: {{$application->implementationScore()}} },
