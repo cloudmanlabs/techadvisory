@@ -30,8 +30,8 @@
                                     </thead>
                                     <tbody>
                                         @foreach ($applications as $application)
-                                        <tr class="filterByVendor" data-vendor="{{$application->vendor->name}}">
-                                            <th>{{$application->vendor->name}}</th>
+                                        <tr class="filterByVendor" data-vendor="{{optional($application->vendor)->name ?? '' ?? ''}}">
+                                            <th>{{optional($application->vendor)->name ?? '' ?? ''}}</th>
                                             <td>{{number_format($application->totalScore(), 2)}}</td>
                                         </tr>
                                         @endforeach
@@ -60,7 +60,7 @@
                                         <tr class="table-dark">
                                             <th>Criteria</th>
                                             @foreach ($applications as $application)
-                                                <th class="filterByVendor" data-vendor="{{$application->vendor->name}}">{{$application->vendor->name}}</th>
+                                                <th class="filterByVendor" data-vendor="{{optional($application->vendor)->name ?? ''}}">{{optional($application->vendor)->name ?? ''}}</th>
                                             @endforeach
                                         </tr>
                                     </thead>
@@ -68,37 +68,37 @@
                                         <tr>
                                             <th>1. Fit Gap</th>
                                             @foreach ($applications as $application)
-                                            <th class="filterByVendor" data-vendor="{{$application->vendor->name}}">{{number_format($application->fitgapScore(), 2) }}</th>
+                                            <th class="filterByVendor" data-vendor="{{optional($application->vendor)->name ?? ''}}">{{number_format($application->fitgapScore(), 2) }}</th>
                                             @endforeach
                                         </tr>
                                         <tr>
                                             <th>2. Vendor</th>
                                             @foreach ($applications as $application)
-                                            <th class="filterByVendor" data-vendor="{{$application->vendor->name}}">{{number_format($application->vendorScore(), 2) }}</th>
+                                            <th class="filterByVendor" data-vendor="{{optional($application->vendor)->name ?? ''}}">{{number_format(optional($application->vendor)Score(), 2) }}</th>
                                             @endforeach
                                         </tr>
                                         <tr>
                                             <th>3.Experience</th>
                                             @foreach ($applications as $application)
-                                            <th class="filterByVendor" data-vendor="{{$application->vendor->name}}">{{number_format($application->experienceScore(), 2) }}</th>
+                                            <th class="filterByVendor" data-vendor="{{optional($application->vendor)->name ?? ''}}">{{number_format($application->experienceScore(), 2) }}</th>
                                             @endforeach
                                         </tr>
                                         <tr>
                                             <th>4.Innovation</th>
                                             @foreach ($applications as $application)
-                                            <th class="filterByVendor" data-vendor="{{$application->vendor->name}}">{{number_format($application->innovationScore(), 2) }}</th>
+                                            <th class="filterByVendor" data-vendor="{{optional($application->vendor)->name ?? ''}}">{{number_format($application->innovationScore(), 2) }}</th>
                                             @endforeach
                                         </tr>
                                         <tr>
                                             <th>5.Implementation and Commercials</th>
                                             @foreach ($applications as $application)
-                                            <th class="filterByVendor" data-vendor="{{$application->vendor->name}}">{{number_format($application->implementationScore(), 2 )}}</th>
+                                            <th class="filterByVendor" data-vendor="{{optional($application->vendor)->name ?? ''}}">{{number_format($application->implementationScore(), 2 )}}</th>
                                             @endforeach
                                         </tr>
                                         <tr class="table-dark">
                                             <th>OVERALL SCORE</th>
                                             @foreach ($applications as $application)
-                                            <th class="filterByVendor" data-vendor="{{$application->vendor->name}}">{{number_format($application->totalScore(), 2)}}</th>
+                                            <th class="filterByVendor" data-vendor="{{optional($application->vendor)->name ?? ''}}">{{number_format($application->totalScore(), 2)}}</th>
                                             @endforeach
                                         </tr class="table-dark">
                                     </tbody>
@@ -234,10 +234,10 @@ $(document).ready(function() {
         series: [
             @foreach ($applications as $application)
             {
-                name: "{{$application->vendor->name}}",
+                name: "{{optional($application->vendor)->name ?? ''}}",
                 data: [
                     {{$application->fitgapScore()}},
-                    {{$application->vendorScore()}},
+                    {{optional($application->vendor)Score()}},
                     {{$application->experienceScore()}},
                     {{$application->innovationScore()}},
                     {{$application->implementationScore()}}
@@ -287,10 +287,10 @@ $(document).ready(function() {
         series: [
             @foreach ($applications as $application)
             {
-                name: "{{$application->vendor->name}}",
+                name: "{{optional($application->vendor)->name ?? ''}}",
                 data: [
                     { x: 'w1',  y: {{$application->fitgapScore()}} },
-                    { x: 'w2',  y: {{$application->vendorScore()}} },
+                    { x: 'w2',  y: {{optional($application->vendor)Score()}} },
                     { x: 'w3',  y: {{$application->experienceScore()}} },
                     { x: 'w4',  y: {{$application->innovationScore()}} },
                     { x: 'w5',  y: {{$application->implementationScore()}} },
