@@ -19,7 +19,8 @@
         "laravel/ui": "^2.0",
         "maatwebsite/excel": "^3.1",
         "optimistdigital/nova-settings": "^2.5",
-        "outhebox/nova-hidden-field": "^1.0"
+        "outhebox/nova-hidden-field": "^1.0",
+        "spatie/nova-tail-tool": "^3.0"
     },
     "require-dev": {
         "facade/ignition": "^2.0",

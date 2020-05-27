@@ -295,7 +295,10 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
     public function tools()
     {
         return [
-            new \OptimistDigital\NovaSettings\NovaSettings
+            new \OptimistDigital\NovaSettings\NovaSettings,
+            (new \Spatie\TailTool\TailTool())->canSee(function ($request) {
+                return auth()->user()->isAdmin();
+            }),
         ];
     }
 
