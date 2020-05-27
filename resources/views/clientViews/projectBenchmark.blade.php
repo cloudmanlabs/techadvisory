@@ -76,7 +76,7 @@
                                                 <th>2. Vendor</th>
                                                 @foreach ($applications as $application)
                                                 <th class="filterByVendor" data-vendor="{{optional($application->vendor)->name ?? ''}}">
-                                                    {{number_format(optional($application->vendor)Score(), 2)}}</th>
+                                                    {{number_format($application->vendorScore(), 2)}}</th>
                                                 @endforeach
                                             </tr>
                                             <tr>
