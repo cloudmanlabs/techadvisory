@@ -33,6 +33,8 @@ class VendorApplicationPolicy
 
     public function delete(User $user, VendorApplication $object)
     {
+        if($user->isAdmin()) return true;
+
         return false;
     }
 }
