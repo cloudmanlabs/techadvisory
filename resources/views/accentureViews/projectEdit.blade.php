@@ -184,10 +184,7 @@
             .toArray()
             .filter(function(el){
                 // we only want the questions that are being shown now to be required
-                if($(el).data('practiceid') == undefined) return true;
-                if($(el).data('practiceid') == currentPracticeId) return true;
-
-                return false;
+                return $(el).parent('.questionDiv').is(":visible");
             });
 		if(array.length == 0) return true;
 
