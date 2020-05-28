@@ -215,18 +215,16 @@ class VendorApplication extends Model
      */
     public function fitgapScore()
     {
-        $scores = [];
-        foreach ($this->fitgapVendorScores as $key => $value) {
-            $multiplier = $this->fitgapVendorColumns[$key]['Vendor Response'] ?? '';
+        $functionalScore = $this->fitgapFunctionalScore();
+        $technicalScore = $this->fitgapTechnicalScore();
+        $serviceScore = $this->fitgapServiceScore();
+        $otherScore = $this->fitgapOtherScore();
 
-            $scores[] = $value * $this->getVendorMultiplier($multiplier);
-        }
-
-        if (count($scores) == 0) {
-            return 0;
-        }
-
-        return array_sum($scores) / (count($scores) * 3);
+        return
+            (($fitgapFunctionalWeight ?? 60) / 100) * $functionalScore +
+            (($fitgapTechnicalWeight ?? 20) / 100) * $technicalScore +
+            (($fitgapServiceWeight ?? 10) / 100) * $serviceScore +
+            (($fitgapOthersWeight ?? 10) / 100) * $otherScore;
     }
 
     function getVendorMultiplier(string $response){
@@ -318,7 +316,7 @@ class VendorApplication extends Model
                 ->where('page', 'implementation_run');
         })->avg('score') ?? 0;
 
-        return 0.2 * $impScore + 0.8 * $runScore;
+        return (($this->project->implementationImplementationWeight ?? 20) / 100) * $impScore + (($this->project->implementationRunWeight ?? 80) / 100) * $runScore;
     }
 
     public function implementationMoney()

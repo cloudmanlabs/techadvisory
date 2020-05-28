@@ -51,6 +51,11 @@ class ProjectsTest extends TestCase
             'fitgapWeightMust' => 10,
             'fitgapWeightRequired' => 10,
             'fitgapWeightNiceToHave' => 10,
+
+            'fitgapFunctionalWeight' => 10,
+            'fitgapTechnicalWeight' => 10,
+            'fitgapServiceWeight' => 10,
+            'fitgapOthersWeight' => 10,
         ]);
         $project->save();
 

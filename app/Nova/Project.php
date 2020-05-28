@@ -131,6 +131,20 @@ class Project extends Resource
             Number::make('Fitgap Vendor Weight: Nice to have', 'fitgapWeightNotSupported')
                 ->hideFromIndex(),
 
+            Number::make('Fitgap Detailed Weight: Functional', 'fitgapFunctionalWeight')
+                ->hideFromIndex(),
+            Number::make('Fitgap Detailed Weight: Technical', 'fitgapTechnicalWeight')
+                ->hideFromIndex(),
+            Number::make('Fitgap Detailed Weight: Service', 'fitgapServiceWeight')
+                ->hideFromIndex(),
+            Number::make('Fitgap Detailed Weight: Others', 'fitgapOthersWeight')
+                ->hideFromIndex(),
+
+            Number::make('Implementation Detailed Weight: Service', 'implementationImplementationWeight')
+                ->hideFromIndex(),
+            Number::make('Implementation Detailed Weight: Others', 'implementationOthersWeight')
+                ->hideFromIndex(),
+
             BelongsToMany::make('Subpractices', 'subpractices', 'App\Nova\Subpractice'),
 
             HasMany::make('General Info Questions', 'generalInfoQuestions', 'App\Nova\GeneralInfoQuestionResponse'),

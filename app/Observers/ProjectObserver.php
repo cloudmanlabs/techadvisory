@@ -44,8 +44,25 @@ class ProjectObserver
         if($project->fitgapWeightPlanned == null){
             $project->fitgapWeightPlanned = 1;
         }
-        if($project->fitgapWeightNotSupported == null){
-            $project->fitgapWeightNotSupported = 0;
+
+        if($project->fitgapFunctionalWeight == null){
+            $project->fitgapFunctionalWeight = 60;
+        }
+        if($project->fitgapTechnicalWeight == null){
+            $project->fitgapTechnicalWeight = 20;
+        }
+        if($project->fitgapServiceWeight == null){
+            $project->fitgapServiceWeight = 10;
+        }
+        if($project->fitgapOthersWeight == null){
+            $project->fitgapOthersWeight = 10;
+        }
+
+        if ($project->implementationImplementationWeight == null) {
+            $project->implementationImplementationWeight = 20;
+        }
+        if ($project->implementationRunWeight == null) {
+            $project->implementationRunWeight = 80;
         }
 
         // Default fitgap

@@ -39,6 +39,14 @@ use Illuminate\Support\Facades\Log;
  * @property integer $fitgapWeightPlanned
  * @property integer $fitgapWeightNotSupported
  *
+ * @property integer $fitgapFunctionalWeight
+ * @property integer $fitgapTechnicalWeight
+ * @property integer $fitgapServiceWeight
+ * @property integer $fitgapOthersWeight
+ *
+ * @property integer $implementationImplementationWeight
+ * @property integer $implementationRunWeight
+ *
  * @property \Carbon\Carbon $deadline
  * @property \Carbon\Carbon $oralsFromDate
  * @property \Carbon\Carbon $oralsToDate
@@ -182,9 +190,9 @@ class Project extends Model
      * Returns the vendors applied to this project
      *
      * @param string[]|null $phase
-     * @return void
+     * @return \Illuminate\Database\Eloquent\Builder
      */
-    public function vendorsApplied($phase = null)
+    public function vendorsApplied($phase = null) : \Illuminate\Database\Eloquent\Builder
     {
         return User::vendorUsers()
                 ->whereHas('vendorApplications', function (Builder $query) use ($phase) {
