@@ -78,6 +78,15 @@
                                             </div>
                                         </div>
                                         <br>
+                                        <p style="font-size: 12px">
+                                            Do not include personal, sensitive data, personal data relating to criminal convictions and offences or financial
+                                            data
+                                            in this free form text field or upload screen shots containing personal data, unless you are consenting and assuming
+                                            responsibility for the processing of this personal data (either your personal data or the personal data of others)
+                                            by
+                                            Accenture.
+                                        </p>
+                                        <br>
 
                                         <x-questionForeach :questions="$generalQuestions" :class="'profileQuestion'" :disabled="false" :required="false" />
 
