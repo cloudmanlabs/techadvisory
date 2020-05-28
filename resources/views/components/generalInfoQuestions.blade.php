@@ -145,7 +145,7 @@
 <br>
 
 <div class="form-group">
-    <label for="deadline">Deadline*</label>
+    <label for="deadline">Tentative date for Value Enablers completion*</label>
     <div class="input-group date datepicker" data-initialValue="{{$project->deadline}}">
         <input required
             id="deadline"
