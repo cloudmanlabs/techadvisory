@@ -56,6 +56,8 @@ class ProjectsTest extends TestCase
             'fitgapTechnicalWeight' => 10,
             'fitgapServiceWeight' => 10,
             'fitgapOthersWeight' => 10,
+            'implementationImplementationWeight' => 10,
+            'implementationRunWeight' => 10,
         ]);
         $project->save();
 
