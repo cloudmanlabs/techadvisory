@@ -216,7 +216,16 @@
      *  Returns false if any field is empty
      */
     function checkIfAllRequiredsAreFilled(){
-        let array = $('input,textarea,select').filter('[required]').toArray();
+        let array = $('input,textarea,select')
+            .filter('[required]')
+            .toArray()
+            .filter(function(el){
+                // we only want the questions that are being shown now to be required
+                if($(el).data('practiceid') == undefined) return true;
+                if($(el).data('practiceid') == currentPracticeId) return true;
+
+                return false;
+            });
 		if(array.length == 0) return true;
 
         for (let i = 0; i < array.length; i++) {
@@ -227,15 +236,6 @@
         }
 
         return true
-    }
-
-    function checkIfAllRequiredsInThisPageAreFilled(){
-        let array = $('input,textarea,select').filter('[required]:visible').toArray();
-        if(array.length == 0) return true;
-
-        return array.reduce((prev, current) => {
-            return !prev ? false : $(current).is(':hasValue')
-        }, true)
     }
 
     function updateSubmitStep3()
