@@ -75,7 +75,7 @@
 
                                 @foreach ($applicatingVendors as $vendor)
                                 <x-vendorCard :vendor="$vendor" :project="$project">
-                                    <div style="text-align: right; width: 15%; ">
+                                    <div style="text-align: right; width: 15%; margin-right: 1rem">
                                         <a class="btn btn-primary btn-lg btn-icon-text"
                                             href="{{route('accenture.project.disqualifyVendor', ['project' => $project, 'vendor' => $vendor])}}"
                                             onclick="event.preventDefault(); document.getElementById('disqualify-vendor-{{$vendor->id}}-form').submit();">
@@ -87,12 +87,12 @@
                                             @csrf
                                         </form>
                                     </div>
-                                    <div style=" text-align: right; width: 7%;">
+                                    <div style="text-align: right; width: 10%; margin-right: 1rem">
                                         <a class="btn btn-primary btn-lg btn-icon-text" href="{{route('accenture.viewVendorProposal', ['project' => $project, 'vendor' => $vendor])}}">
                                             View
                                         </a>
                                     </div>
-                                    <div style=" text-align: right; width: 15%;">
+                                    <div style="text-align: right; width: 15%; margin-right: 1rem">
                                         <a class="btn btn-primary btn-lg btn-icon-text" href="{{route('accenture.editVendorProposal', ['project' => $project, 'vendor' => $vendor])}}">
                                             Support on responses
                                         </a>
@@ -117,7 +117,7 @@
 
                                 @foreach ($pendingEvaluationVendors as $vendor)
                                 <x-vendorCard :vendor="$vendor" :project="$project">
-                                    <div style="text-align: right; width: 15%; ">
+                                    <div style="text-align: right; width: 15%; margin-right: 1rem">
                                         <a class="btn btn-primary btn-lg btn-icon-text"
                                             href="{{route('accenture.project.disqualifyVendor', ['project' => $project, 'vendor' => $vendor])}}"
                                             onclick="event.preventDefault(); document.getElementById('disqualify-vendor-{{$vendor->id}}-form').submit();">
@@ -129,7 +129,7 @@
                                             @csrf
                                         </form>
                                     </div>
-                                    <div style="text-align: right; width: 15%;">
+                                    <div style="text-align: right; width: 15%; margin-right: 1rem">
                                         <a class="btn btn-primary btn-lg btn-icon-text" href="{{route('accenture.viewVendorProposalEvaluation', ['project' => $project, 'vendor' => $vendor])}}">Evaluate
                                             Response
                                         </a>
@@ -154,7 +154,7 @@
 
                                 @foreach ($evaluatedVendors as $vendor)
                                 <x-vendorCard :showProgressBar="false" :vendor="$vendor" :project="$project">
-                                    <div style="text-align: right; width: 15%; ">
+                                    <div style="text-align: right; width: 15%; margin-right: 1rem">
                                         <a class="btn btn-primary btn-lg btn-icon-text"
                                             href="{{route('accenture.project.disqualifyVendor', ['project' => $project, 'vendor' => $vendor])}}"
                                             onclick="event.preventDefault(); document.getElementById('disqualify-vendor-{{$vendor->id}}-form').submit();">
@@ -166,7 +166,7 @@
                                             @csrf
                                         </form>
                                     </div>
-                                    <div style="text-align: right; width: 15%;">
+                                    <div style="text-align: right; width: 15%; margin-right: 1rem">
                                         <a class="btn btn-primary btn-lg btn-icon-text"
                                             href="{{route('accenture.project.releaseResponse', ['project' => $project, 'vendor' => $vendor])}}"
                                             onclick="event.preventDefault(); document.getElementById('releaseResponse-vendor-{{$vendor->id}}-form').submit();">
@@ -198,11 +198,11 @@
 
                                 @foreach ($submittedVendors as $vendor)
                                 <x-vendorCard :showProgressBar="false" :vendor="$vendor" :project="$project">
-                                    <div style="text-align: right; width: 15%;">
+                                    <div style="text-align: right; width: 15%; margin-right: 1rem">
                                         <a class="btn btn-primary btn-lg btn-icon-text" href="{{route('accenture.viewVendorProposal', ['project' => $project, 'vendor' => $vendor])}}">View response
                                         </a>
                                     </div>
-                                    <div style="text-align: right; width: 15%;">
+                                    <div style="text-align: right; width: 15%; margin-right: 1rem">
                                         <a class="btn btn-primary btn-lg btn-icon-text" target="_blank" href="{{route('accenture.downloadVendorProposal', ['project' => $project, 'vendor' => $vendor])}}">Download response
                                         </a>
                                     </div>
