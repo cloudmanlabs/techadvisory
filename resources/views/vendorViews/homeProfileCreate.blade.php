@@ -116,9 +116,14 @@
         let array = $('input,textarea,select').filter('[required]').toArray();
 		if(array.length == 0) return true;
 
-        return array.reduce((prev, current) => {
-            return !prev ? false : $(current).is(':hasValue')
-        }, true)
+        for (let i = 0; i < array.length; i++) {
+            if(!$(array[i]).is(':hasValue')){
+                console.log(array[i])
+                return false
+            }
+        }
+
+        return true
     }
 
     function checkIfAllRequiredsInThisPageAreFilled(){
