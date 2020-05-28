@@ -75,6 +75,18 @@
 
                                 @foreach ($applicatingVendors as $vendor)
                                 <x-vendorCard :vendor="$vendor" :project="$project">
+                                    <div style="text-align: right; width: 15%; ">
+                                        <a class="btn btn-primary btn-lg btn-icon-text"
+                                            href="{{route('accenture.project.disqualifyVendor', ['project' => $project, 'vendor' => $vendor])}}"
+                                            onclick="event.preventDefault(); document.getElementById('disqualify-vendor-{{$vendor->id}}-form').submit();">
+                                            Disqualify
+                                        </a>
+                                        <form id="disqualify-vendor-{{$vendor->id}}-form"
+                                            action="{{ route('accenture.project.disqualifyVendor', ['project' => $project, 'vendor' => $vendor]) }}" method="POST"
+                                            style="display: none;">
+                                            @csrf
+                                        </form>
+                                    </div>
                                     <div style=" text-align: right; width: 7%;">
                                         <a class="btn btn-primary btn-lg btn-icon-text" href="{{route('accenture.viewVendorProposal', ['project' => $project, 'vendor' => $vendor])}}">
                                             View
@@ -105,6 +117,18 @@
 
                                 @foreach ($pendingEvaluationVendors as $vendor)
                                 <x-vendorCard :vendor="$vendor" :project="$project">
+                                    <div style="text-align: right; width: 15%; ">
+                                        <a class="btn btn-primary btn-lg btn-icon-text"
+                                            href="{{route('accenture.project.disqualifyVendor', ['project' => $project, 'vendor' => $vendor])}}"
+                                            onclick="event.preventDefault(); document.getElementById('disqualify-vendor-{{$vendor->id}}-form').submit();">
+                                            Disqualify
+                                        </a>
+                                        <form id="disqualify-vendor-{{$vendor->id}}-form"
+                                            action="{{ route('accenture.project.disqualifyVendor', ['project' => $project, 'vendor' => $vendor]) }}" method="POST"
+                                            style="display: none;">
+                                            @csrf
+                                        </form>
+                                    </div>
                                     <div style="text-align: right; width: 15%;">
                                         <a class="btn btn-primary btn-lg btn-icon-text" href="{{route('accenture.viewVendorProposalEvaluation', ['project' => $project, 'vendor' => $vendor])}}">Evaluate
                                             Response

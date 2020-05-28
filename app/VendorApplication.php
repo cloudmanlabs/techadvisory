@@ -181,10 +181,16 @@ class VendorApplication extends Model
 
     public function totalScore()
     {
-        $weights = $this->project->scoringValues ?? [0, 0, 0, 0, 0];
+        $weights = collect($this->project->scoringValues ?? [0, 0, 0, 0, 0])
+                            ->map(function($times){
+                                // We save the number of blocks, not the actual percentage
+                                return $times * 5;
+                            });
+
+        $totalWeight = $weights->sum();
 
         // If they haven't set the weights, just do the average
-        if(array_sum($weights) == 0){
+        if($totalWeight == 0){
             return collect([
                 $this->fitgapScore(),
                 $this->vendorScore(),
@@ -195,11 +201,11 @@ class VendorApplication extends Model
         }
 
         return
-                $this->fitgapScore() * ($weights[0] / 100) +
-                $this->vendorScore() * ($weights[1] / 100) +
-                $this->experienceScore() * ($weights[2] / 100) +
-                $this->innovationScore() * ($weights[3] / 100) +
-                $this->implementationScore() * ($weights[4] / 100);
+                $this->fitgapScore() * ($weights[0] / $totalWeight) +
+                $this->vendorScore() * ($weights[1] / $totalWeight) +
+                $this->experienceScore() * ($weights[2] / $totalWeight) +
+                $this->innovationScore() * ($weights[3] / $totalWeight) +
+                $this->implementationScore() * ($weights[4] / $totalWeight);
     }
 
     /**

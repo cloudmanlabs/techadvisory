@@ -3,7 +3,10 @@
 namespace Tests\Feature;
 
 use App\Folder;
+use App\Project;
 use App\User;
+use App\VendorApplication;
+use App\VendorSolution;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
@@ -204,5 +207,46 @@ class UserTest extends TestCase
 
         $list = $user->profileFolder->getListOfFiles();
         $this->assertCount(3, $list);
+    }
+
+
+    // Just making sure we don't fuck up with the Observer
+    public function testCanDeleteUserWithoutApplications()
+    {
+        $vendor = factory(User::class)->states(['vendor', 'finishedSetup'])->create();
+
+        $vendor->delete();
+        $this->assertCount(0, User::all());
+    }
+
+    public function testVendorApplicationsAreDeletedWhenWeDeleteVendor()
+    {
+        $vendor = factory(User::class)->states(['vendor', 'finishedSetup'])->create();
+        $project = factory(Project::class)->create();
+
+        $vendor->applyToProject($project);
+
+        $this->assertCount(1, VendorApplication::all());
+
+        $vendor->delete();
+        $this->assertCount(0, VendorApplication::all());
+    }
+
+    public function testVendorSolutionsAreDeletedWhenWeDeleteAVendor()
+    {
+        factory(User::class)
+            ->states(['vendor', 'finishedSetup'])
+            ->create()
+            ->each(function ($user) {
+                $user->vendorSolutions()->save(factory(VendorSolution::class)->make([
+                    'name' => 'oldName'
+                ]));
+            });
+
+        $vendor = User::first();
+
+        $this->assertCount(1, VendorSolution::all());
+        $vendor->delete();
+        $this->assertCount(0, VendorSolution::all());
     }
 }

@@ -61,7 +61,7 @@
 
                                     <h2>Selection Criteria</h2>
                                     <section>
-                                        <div id="subwizard">
+                                        <div id="subwizard_projectEdit">
                                             <h3>Fit gap</h3>
                                             <div>
                                                 <h4>4.1. Fit Gap</h4>
@@ -160,7 +160,7 @@
         display: none;
     }
 
-    #subwizard_here ul>li {
+    #subwizard_projectEdit ul>li {
         display: block;
     }
 </style>
@@ -287,7 +287,7 @@
         });
 
         // NOTE remember to keep this after the main wizard, else it breaks. haha so fun pls kill me
-        $("#subwizard_here").steps({
+        $("#subwizard_projectEdit").steps({
             headerTag: "h3",
             bodyTag: "div",
             transitionEffect: "slideLeft",

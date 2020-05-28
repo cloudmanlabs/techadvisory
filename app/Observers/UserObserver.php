@@ -15,7 +15,7 @@ class UserObserver
     public function created(User $user)
     {
         if($user->isClient()){
-            foreach (ClientProfileQuestion::all() as $key => $question) {
+            foreach (ClientProfileQuestion::all() as $question) {
                 $response = new ClientProfileQuestionResponse([
                     'question_id' => $question->id,
                     'client_id' => $user->id,
@@ -25,7 +25,7 @@ class UserObserver
         }
 
         if ($user->isVendor()) {
-            foreach (VendorProfileQuestion::all() as $key => $question) {
+            foreach (VendorProfileQuestion::all() as $question) {
                 $response = new VendorProfileQuestionResponse([
                     'question_id' => $question->id,
                     'vendor_id' => $user->id,
@@ -36,5 +36,15 @@ class UserObserver
 
         $folder = Folder::createNewRandomFolder();
         $user->profileFolder()->save($folder);
+    }
+
+    public function deleting(User $user)
+    {
+        foreach ($user->vendorApplications as $application) {
+            $application->delete();
+        }
+        foreach ($user->vendorSolutions as $solution) {
+            $solution->delete();
+        }
     }
 }
