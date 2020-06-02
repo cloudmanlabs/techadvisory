@@ -35,6 +35,7 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
                 new Panel('Videos', [
                     Text::make('Opening video', 'video_opening'),
                     Textarea::make('Opening video: Text', 'video_opening_text'),
+                    Textarea::make('Opening video Vendor: Text', 'video_openingVendor_text'),
                     Text::make('New project creation video', 'video_newProject'),
                     Textarea::make('New project creation video: Text', 'video_newProject_text'),
                     Text::make('Value targeting video', 'video_valueTargeting'),
