@@ -51,19 +51,69 @@ class VendorApplication extends Resource
      */
     public function fields(Request $request)
     {
+        $phaseOptions = [
+            'applicating' => 'Applicating',
+            'pendingEvaluation' => 'Pending evaluation',
+            'evaluated' => 'Evaluated',
+            'submitted' => 'Submitted',
+            'disqualified' => 'Disqualified',
+            'rejected' => 'Rejected',
+        ];
+
+        switch ($this->phase) {
+            case 'applicating':
+                $phaseOptions = [
+                    'applicating' => 'Applicating',
+                    'pendingEvaluation' => 'Pending evaluation',
+                    'disqualified' => 'Disqualified',
+                ];
+                break;
+            case 'pendingEvaluation':
+                $phaseOptions = [
+                    'applicating' => 'Applicating',
+                    'pendingEvaluation' => 'Pending evaluation',
+                    'evaluated' => 'Evaluated',
+                    'disqualified' => 'Disqualified',
+                ];
+                break;
+            case 'evaluated':
+                $phaseOptions = [
+                    'pendingEvaluation' => 'Pending evaluation',
+                    'evaluated' => 'Evaluated',
+                    'submitted' => 'Submitted',
+                    'disqualified' => 'Disqualified',
+                ];
+                break;
+            case 'submitted':
+                $phaseOptions = [
+                    'evaluated' => 'Evaluated',
+                    'submitted' => 'Submitted',
+                    'disqualified' => 'Disqualified',
+                ];
+                break;
+            case 'disqualified':
+                $phaseOptions = [
+                    'applicating' => 'Applicating',
+                    'pendingEvaluation' => 'Pending evaluation',
+                    'evaluated' => 'Evaluated',
+                    'submitted' => 'Submitted',
+                    'disqualified' => 'Disqualified',
+                ];
+                break;
+            case 'rejected':
+                $phaseOptions = [
+                    'applicating' => 'Applicating',
+                    'rejected' => 'Rejected',
+                ];
+                break;
+        }
+
         return [
             BelongsTo::make('Vendor', 'vendor', Vendor::class)
                 ->exceptOnForms()
                 ->sortable(),
 
-            Select::make('Phase', 'phase')->options([
-                'applicating' => 'Applicating',
-                'pendingEvaluation' => 'Pending evaluation',
-                'evaluated' => 'Evaluated',
-                'submitted' => 'Submitted',
-                'disqualified' => 'Disqualified',
-                'rejected' => 'Rejected',
-            ])
+            Select::make('Phase', 'phase')->options($phaseOptions)
                 ->displayUsingLabels()
                 ->sortable(),
 
