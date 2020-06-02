@@ -32,36 +32,36 @@
                         type: 'text',
                         title: 'Type',
                         readOnly: true,
-                        width: 110
+                        width: 210
                     },
                     {
                         type: 'text',
                         title: 'Level 1',
                         readOnly: true,
-                        width: 140
+                        width: 200
                     },
                     {
                         type: 'text',
                         title: 'Level 2',
                         readOnly: true,
-                        width: 200
+                        width: 250
                     },
                     {
                         type: 'text',
                         title: 'Level 3',
                         readOnly: true,
-                        width: 190
+                        width: 220
                     },
                     {
                         type: 'text',
                         title: 'Requirement',
                         readOnly: true,
-                        width: 150
+                        width: 200
                     },
                     {
                         type: 'dropdown',
                         title: 'Vendor Response',
-                        width: 140,
+                        width: 200,
                         source: [
                             'Product does not support the functionality',
                             'Functionality planned for a future release',
@@ -76,7 +76,7 @@
                     {
                         type: 'text',
                         title: 'Comments',
-                        width: 110,
+                        width: 200,
 
                         @if($disabled)
                         readOnly: true,

@@ -178,6 +178,11 @@
                                             @csrf
                                         </form>
                                     </div>
+                                    <div style="text-align: right; width: 15%; margin-right: 1rem">
+                                        <a class="btn btn-primary btn-lg btn-icon-text"
+                                            href="{{route('accenture.viewVendorProposal', ['project' => $project, 'vendor' => $vendor])}}">View response
+                                        </a>
+                                    </div>
                                 </x-vendorCard>
                                 @endforeach
                             </div>

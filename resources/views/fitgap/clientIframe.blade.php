@@ -8,7 +8,7 @@
     <script src="{{url('/assets/vendors_techadvisory/jexcel-3.6.1/dist/jexcel.js')}}"></script>
     <script src="{{url('/assets/vendors_techadvisory/jexcel-3.6.1/dist/jsuites.js')}}"></script>
 
-    <body style="background-color: white !important;">
+    <body style="background-color: white !important; overflow-x: scroll">
         <div id="spreadsheet"></div>
 
         <p><button id='download'>Export document</button></p>
@@ -32,36 +32,36 @@
                         type: 'text',
                         title: 'Type',
                         readOnly: true,
-                        width: 110
+                        width: 210
                     },
                     {
                         type: 'text',
                         title: 'Level 1',
                         readOnly: true,
-                        width: 140
+                        width: 180
                     },
                     {
                         type: 'text',
                         title: 'Level 2',
                         readOnly: true,
-                        width: 200
+                        width: 230
                     },
                     {
                         type: 'text',
                         title: 'Level 3',
                         readOnly: true,
-                        width: 190
+                        width: 230
                     },
                     {
                         type: 'text',
                         title: 'Requirement',
                         readOnly: true,
-                        width: 150
+                        width: 250
                     },
                     {
                         type: 'dropdown',
                         title: 'Client',
-                        width: 140,
+                        width: 240,
                         source: [
                             'Must',
                             'Required',
@@ -75,7 +75,7 @@
                     {
                         type: 'text',
                         title: 'Business Opportunity',
-                        width: 110,
+                        width: 210,
 
                         @if($disabled)
                         readOnly: true,
