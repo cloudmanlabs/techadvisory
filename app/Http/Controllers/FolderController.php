@@ -49,6 +49,8 @@ class FolderController extends Controller
     {
         $files = $folder->getListOfFiles();
 
+        // Delete and create folder to remove all existing files
+        Storage::disk('public')->deleteDirectory('/previewImages/' . $folder->name);
         Storage::disk('public')->makeDirectory('/previewImages/' . $folder->name);
 
         foreach ($files as $key => $file) {
