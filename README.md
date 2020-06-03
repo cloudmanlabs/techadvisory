@@ -2,6 +2,30 @@ TechAdvisory Platform is a tool built using Laravel and PHP.
 
 It contains three parts, one for Accenture employees, one for Vendors and one for Clients.
 
+# Project sections
+
+Projects have 5 sections full of questions that need to be filled. These are General info, RFP Upload, Sizing Info, Selection Criteria and Invited vendors.
+
+Questions are structured a bit weirdly. For each type of question, there is a model called SomethingQuestion (eg. GeneralInfoQuestion). These inherit from Question, which inherits from Model.
+
+The responses to the question are saved in SomethingQuestionResponse. This model has a relationship to the originalQuestion and to the project. This is done this way so we can reuse questions in different Projects, without having to create them again. I'm not sure if it's the best implementation possible, but it works pretty well. The SomethingQuestionResponse gets attached to the project on Created with the ProjectObserver.
+
+SomethingQuestionResponses are basically pivot models without actually being Pivots.
+
+This same approach is used for all types of questions, including Vendor and Client profile questions.
+
+## General info
+
+These questions are related to the general information of the project, like what Client it belongs to, what Practice, Subpractice, etc.
+
+## RFP Upload
+
+This section only has a File uploader and an extra textarea field for information. Not really sure what use it has.
+
+## Sizing Info
+
+These questions are supposed to be answered by the client. They change according to what Practice has been selected in General Info. The questions also have a checkbox, to choose which ones should be shown to the client. This behavior could be also achieved by removing the question from the project, but they didn't like it this way, so checkboxes it is.
+
 ## Selection Criteria
 
 Selection criteria questions are the ones that the vendor is supposed to answer.
@@ -24,6 +48,10 @@ This should only be reviewed by the client, as they're only answered by the vend
 
         Accenture in vendor evaluation sees the first 5, Vendor Response, Comment and Score
             Only score col is editable
+
+## Invited vendors
+
+This is basically a hack, because if we remove this screen the Selection Criteria subwizard stops working correctly. Why? No hecking idea. So we added a screen that looks like it's useful, which displays the list of invited vendors and gives the ability to add and remove them on projectEdit and accenture.newProjectSetUp.
 
 # Users
 

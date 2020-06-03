@@ -45,6 +45,7 @@
                                 <br>
                                 <br>
 
+                                <x-folderFilePreview :folder="$project->selectedValueLeversFolder" />
                                 <x-folderFileUploader :disabled="true" :folder="$project->selectedValueLeversFolder" />
 
                                 <br><br><br>
@@ -66,6 +67,8 @@
                                 </p>
                                 <br>
                                 <br>
+
+                                <x-folderFilePreview :folder="$project->vtConclusionsFolder" />
                                 <x-folderFileUploader :disabled="true" :folder="$project->vtConclusionsFolder" />
 
                                 <div style="float: right; margin-top: 20px;">

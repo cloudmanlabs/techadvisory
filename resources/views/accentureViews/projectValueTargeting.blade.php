@@ -39,10 +39,12 @@
                         <div class="card">
                             <div class="card-body">
                                 <h3>Selected Value Levers</h3>
-                                <p class="welcome_text extra-top-15px">I
+                                <p class="welcome_text extra-top-15px">
                                     {{nova_get_setting('accenture_projectValueTargeting_selected') ?? ''}}
                                 </p>
                                 <br>
+
+                                <x-folderFilePreview :folder="$project->selectedValueLeversFolder" />
                                 <x-folderFileUploader :folder="$project->selectedValueLeversFolder" />
 
                                 <br><br><br>
@@ -61,6 +63,7 @@
                                     {{nova_get_setting('accenture_projectValueTargeting_conclusions') ?? ''}}
                                 </p>
                                 <br>
+                                <x-folderFilePreview :folder="$project->vtConclusionsFolder" />
                                 <x-folderFileUploader :folder="$project->vtConclusionsFolder" />
 
                                 @if ($project->currentPhase != 'preparation')

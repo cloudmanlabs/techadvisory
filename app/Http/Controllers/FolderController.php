@@ -24,6 +24,7 @@ class FolderController extends Controller
 
         $files = $request->file('files');
         $folder->uploadFiles($files);
+        $this->createPreviewImageForFiles($folder);
     }
 
     public function uploadSingleFile(Request $request)
@@ -41,7 +42,48 @@ class FolderController extends Controller
 
         $file = $request->file('file');
         $folder->uploadSingleFile($file);
+        $this->createPreviewImageForFiles($folder);
     }
+
+    private static function createPreviewImageForFiles(Folder $folder): void
+    {
+        $files = $folder->getListOfFiles();
+
+        Storage::disk('public')->makeDirectory('/previewImages/' . $folder->name);
+
+        foreach ($files as $key => $file) {
+            // Check if file is pdf
+            $fileName = escapeshellarg(basename($file));
+            $extension = pathinfo($file, PATHINFO_EXTENSION);
+
+            if ($extension != 'pdf') continue;
+
+            $escapedFile = escapeshellarg($file);
+            $filepath = base_path("storage/app/public/$escapedFile");
+            $imagePath = base_path("storage/app/public/previewImages/$folder->name/$fileName.jpg");
+
+            // Convert the first page into image
+            $command = "convert        \
+                    -verbose        \
+                    -density 150    \
+                    -trim           \
+                    $filepath\[0\] \
+                    -quality 100    \
+                    -flatten        \
+                    -sharpen 0x1.0  \
+                    $imagePath";
+            $ret = null;
+            passthru($command, $ret);
+        }
+    }
+
+    static function clean($string)
+    {
+        $string = str_replace(' ', '-', $string); // Replaces all spaces with hyphens.
+
+        return preg_replace('/[^A-Za-z0-9\-]/', '', $string); // Removes special chars.
+    }
+
 
     public function removeFile(Request $request)
     {

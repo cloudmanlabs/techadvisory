@@ -75,7 +75,7 @@ class FolderTest extends TestCase
         $this->assertCount(5, $list);
     }
 
-    public function testCanRemvoeFiles()
+    public function testCanRemoveFiles()
     {
         Storage::fake('public');
 
