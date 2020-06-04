@@ -94,6 +94,7 @@
             maxFilesize: 50, // MB
             addRemoveLinks: true,
             {{$disabled ? 'clickable: false,' : ''}}
+            {!! $disabled ? 'dictDefaultMessage: "",' : '' !!}
 
             init: function() {
                 this.on("removedfile", function(file) {
