@@ -2,14 +2,18 @@
 
 namespace App\Exports;
 
+use App\Exports\Sheets\VendorResponsesExportSheet;
 use App\SelectionCriteriaQuestionResponse;
 use App\VendorApplication;
-use Illuminate\Support\Collection;
-use Maatwebsite\Excel\Concerns\FromCollection;
+
+use Maatwebsite\Excel\Concerns\Exportable;
+use Maatwebsite\Excel\Concerns\WithMultipleSheets;
 use Maatwebsite\Excel\Concerns\WithStrictNullComparison;
 
-class VendorResponsesExport implements FromCollection, WithStrictNullComparison
+class VendorResponsesExport implements WithMultipleSheets, WithStrictNullComparison
 {
+    use Exportable;
+
     /** @var VendorApplication $application */
     private $application;
 
@@ -19,31 +23,17 @@ class VendorResponsesExport implements FromCollection, WithStrictNullComparison
     }
 
     /**
-    * @return \Illuminate\Support\Collection
-    */
-    public function collection()
+     * @return array
+     */
+    public function sheets(): array
     {
-        $responses = $this->application->project->selectionCriteriaQuestionsForVendor($this->application->vendor)->get();
+        $sheets = [];
 
-        $return = $responses->map(function(SelectionCriteriaQuestionResponse $response){
-            if($response->originalQuestion->type == 'selectMultiple'){
-                $answer = implode(', ', json_decode($response->response ?? '[]', true));
-            } else {
-                $answer =  $response->response ?? '';
-            }
-            return [
-                'Question' => $response->originalQuestion->label,
-                'Response' => $answer,
-                'Score' => $response->score ?? 0
-            ];
-        });
+        $sheets[] = new VendorResponsesExportSheet($this->application, 'Fitgap', ['fitgap']);
+        $sheets[] = new VendorResponsesExportSheet($this->application, 'Vendor', [ 'vendor_corporate', 'vendor_market' ]);
+        $sheets[] = new VendorResponsesExportSheet($this->application, 'Innovation', ['innovation_digitalEnablers','innovation_alliances','innovation_product','innovation_sustainability']);
+        $sheets[] = new VendorResponsesExportSheet($this->application, 'Implementation', ['implementation_implementation','implementation_run']);
 
-        $return->prepend([
-            'Question' => 'Question',
-            'Response' => 'Response',
-            'Score' => 'Score',
-        ]);
-
-        return $return;
+        return $sheets;
     }
 }

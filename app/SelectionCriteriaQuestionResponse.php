@@ -9,6 +9,8 @@ use Illuminate\Database\Eloquent\Model;
  * @property int $score
  *
  * @property SelectionCriteriaQuestion $originalQuestion
+ * @property Project $project
+ * @property User $vendor
  */
 class SelectionCriteriaQuestionResponse extends Model
 {

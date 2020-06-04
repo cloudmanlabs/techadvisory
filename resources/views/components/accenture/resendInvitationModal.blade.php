@@ -36,7 +36,7 @@
 			</div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-				<button type="button" onclick="sendEmail{{$vendor->id}}()" class="btn btn-primary" id="resendButton-{{$vendor->id}}">Resend invitation</button>
+				<button type="button" onclick="sendEmail{{$vendor->id}}()" class="btn btn-primary" data-dismiss="modal" id="resendButton-{{$vendor->id}}">Resend invitation</button>
 			</div>
 		</div>
 	</div>

@@ -2,12 +2,14 @@
 
 namespace App\Exports;
 
+use App\Exports\Sheets\AnalyticsExportSheet;
 use App\Project;
 use App\VendorApplication;
-use Maatwebsite\Excel\Concerns\FromCollection;
+
+use Maatwebsite\Excel\Concerns\WithMultipleSheets;
 use Maatwebsite\Excel\Concerns\WithStrictNullComparison;
 
-class AnalyticsExport implements FromCollection, WithStrictNullComparison
+class AnalyticsExport implements WithMultipleSheets, WithStrictNullComparison
 {
     /** @var Project $project */
     private $project;
@@ -18,32 +20,17 @@ class AnalyticsExport implements FromCollection, WithStrictNullComparison
     }
 
     /**
-     * @return \Illuminate\Support\Collection
+     * @return array
      */
-    public function collection()
+    public function sheets(): array
     {
-        $return = $this->project->vendorApplications->map(function (VendorApplication $application) {
-            return [
-                'Vendor Name' => $application->vendor->name,
-                'Fitgap Score' => $application->fitgapScore(),
-                'Vendor Score' => $application->vendorScore(),
-                'Experience Score' => $application->experienceScore(),
-                'Innovation Score' => $application->innovationScore(),
-                'Implementation Score' => $application->implementationScore(),
-                'Total Score' => $application->totalScore(),
-            ];
-        });
+        $sheets = [];
 
-        $return->prepend([
-            'Vendor Name' => 'Vendor Name',
-            'Fitgap Score' => 'Fitgap Score',
-            'Vendor Score' => 'Vendor Score',
-            'Experience Score' => 'Experience Score',
-            'Innovation Score' => 'Innovation Score',
-            'Implementation Score' => 'Implementation Score',
-            'Total Score' => 'Total Score',
-        ]);
+        $sheets[] = new AnalyticsExportSheet($this->project, 'Fitgap', ['fitgap']);
+        $sheets[] = new AnalyticsExportSheet($this->project, 'Vendor', ['vendor_corporate', 'vendor_market']);
+        $sheets[] = new AnalyticsExportSheet($this->project, 'Innovation', ['innovation_digitalEnablers', 'innovation_alliances', 'innovation_product', 'innovation_sustainability']);
+        $sheets[] = new AnalyticsExportSheet($this->project, 'Implementation', ['implementation_implementation', 'implementation_run']);
 
-        return $return;
+        return $sheets;
     }
 }
