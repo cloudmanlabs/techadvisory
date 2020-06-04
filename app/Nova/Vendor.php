@@ -2,6 +2,7 @@
 
 namespace App\Nova;
 
+use App\Nova\Actions\ExportCredentials;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
@@ -144,6 +145,8 @@ class Vendor extends Resource
      */
     public function actions(Request $request)
     {
-        return [];
+        return [
+            (new ExportCredentials)
+        ];
     }
 }
