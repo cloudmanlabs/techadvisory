@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use App\Mail\ProjectInvitationEmail;
 use App\Practice;
 use App\Project;
 use App\Subpractice;
@@ -10,6 +11,7 @@ use Carbon\Carbon;
 use Guimcaballero\LaravelFolders\Models\Folder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Support\Facades\Mail;
 use Tests\TestCase;
 
 class ProjectsTest extends TestCase
@@ -755,5 +757,30 @@ class ProjectsTest extends TestCase
 
         $this->assertFalse($project->step4SubmittedAccenture);
         $this->assertFalse($project->step4SubmittedClient);
+    }
+
+    public function testCanSendReinvitationEmail()
+    {
+        Mail::fake();
+
+        $user = factory(User::class)->states('accenture')->create();
+
+        $vendor = factory(User::class)->states(['vendor', 'finishedSetup'])->create();
+        $project = factory(Project::class)->create();
+
+        $vendor->applyToProject($project);
+
+        $this->withoutExceptionHandling();
+        $response = $this->actingAs($user)
+                    ->post('/accenture/project/resendInvitation', [
+                        'vendor_id' => $vendor->id,
+                        'project_id' => $project->id,
+                        'text' => 'hello'
+                    ]);
+        $response->assertOk();
+
+        Mail::assertSent(ProjectInvitationEmail::class, function ($mail) use ($vendor) {
+            return $mail->hasTo($vendor->email);
+        });
     }
 }

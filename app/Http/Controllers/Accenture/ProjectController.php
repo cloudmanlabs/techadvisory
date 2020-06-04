@@ -7,6 +7,7 @@ use App\Exports\VendorResponsesExport;
 use App\GeneralInfoQuestionResponse;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Mail\ProjectInvitationEmail;
 use App\Practice;
 use App\Project;
 use App\SelectionCriteriaQuestion;
@@ -16,6 +17,7 @@ use App\User;
 use App\VendorApplication;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Validation\Rule;
 use Maatwebsite\Excel\Facades\Excel;
 
@@ -866,6 +868,32 @@ class ProjectController extends Controller
 
         return view('accentureViews.viewVendorProposalEvaluation', $this->arrayOfSelectionCriteriaQuestions($project, $vendor, $application));
     }
+
+    public function resendInvitation(Request $request)
+    {
+        $request->validate([
+            'vendor_id' => 'required|numeric',
+            'project_id' => 'required|numeric',
+            'text' => 'required'
+        ]);
+
+        $vendor = User::find($request->vendor_id);
+        if ($vendor == null) {
+            abort(404);
+        }
+
+        $project = Project::find($request->project_id);
+        if ($project == null) {
+            abort(404);
+        }
+
+        $text = preg_replace('/&#10;/', '<br>', $request->text);
+        $text = preg_replace('/\n/', '<br>', $text);
+
+        Mail::to($vendor->email)->send(new ProjectInvitationEmail($vendor, $project, $text));
+    }
+
+
 
     public function downloadVendorProposal(Project $project, User $vendor)
     {

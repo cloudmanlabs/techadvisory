@@ -52,6 +52,7 @@ class VendorApplication extends Resource
     public function fields(Request $request)
     {
         $phaseOptions = [
+            'invitation' => 'Invitation',
             'applicating' => 'Applicating',
             'pendingEvaluation' => 'Pending evaluation',
             'evaluated' => 'Evaluated',
@@ -63,6 +64,7 @@ class VendorApplication extends Resource
         switch ($this->phase) {
             case 'applicating':
                 $phaseOptions = [
+                    'invitation' => 'Invitation',
                     'applicating' => 'Applicating',
                     'pendingEvaluation' => 'Pending evaluation',
                     'disqualified' => 'Disqualified',
@@ -93,6 +95,7 @@ class VendorApplication extends Resource
                 break;
             case 'disqualified':
                 $phaseOptions = [
+                    'invitation' => 'Invitation',
                     'applicating' => 'Applicating',
                     'pendingEvaluation' => 'Pending evaluation',
                     'evaluated' => 'Evaluated',
@@ -102,6 +105,7 @@ class VendorApplication extends Resource
                 break;
             case 'rejected':
                 $phaseOptions = [
+                    'invitation' => 'Invitation',
                     'applicating' => 'Applicating',
                     'rejected' => 'Rejected',
                 ];

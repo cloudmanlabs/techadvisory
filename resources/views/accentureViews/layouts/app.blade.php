@@ -20,6 +20,7 @@
         <link href="{{url('/assets/css/techadvisory/extra.css')}}" rel="stylesheet">
         <link href="{{url('/assets/vendors_techadvisory/countdown/countdown.css')}}" rel="stylesheet">
         <link rel="stylesheet" href="{{url('css/custom.css')}}">
+        <link rel="stylesheet" href="{{url('assets/css/jquery.toast.min.css')}}">
 
         <link rel="stylesheet" href="{{url('assets/fonts/graphik/font.css')}}">
         <style>
@@ -49,6 +50,7 @@
         <script src="{{url('/assets/vendors_techadvisory/countdown/countdown.js')}}"></script>
         <script src="{{url('/assets/vendors/dropzone/dropzone.min.js')}}"></script>
         <script src="{{url('/assets/js/dropzone.js')}}"></script>
+        <script src="{{url('assets/js/jquery.toast.min.js')}}"></script>
 
 
         <script>

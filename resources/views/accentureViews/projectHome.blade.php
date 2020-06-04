@@ -23,40 +23,10 @@
                                 @foreach ($invitedVendors as $vendor)
                                 <x-vendorCard :showProgressBar="false" :vendor="$vendor" :project="$project">
                                     <div style="float: right; text-align: right; width: 25%;">
-                                        <a class="btn btn-primary btn-lg btn-icon-text" href="#" data-toggle="modal"
-                                            data-target="#resend_invite_modal">Resend invite <i class="btn-icon-prepend"
-                                                data-feather="mail"></i></a>
+                                        <x-accenture.resendInvitationModal :vendor="$vendor" :project="$project" />
                                     </div>
                                 </x-vendorCard>
                                 @endforeach
-
-                                <div class="modal fade" id="resend_invite_modal" tabindex="-1" role="dialog"
-                                    aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                    <div class="modal-dialog" role="document">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h5 class="modal-title" id="resend_invite_modal">Resend invitation to
-                                                    vendor</h5>
-                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                    <span aria-hidden="true">&times;</span>
-                                                </button>
-                                            </div>
-                                            <div class="modal-body">
-                                                <form>
-                                                    <div class="form-group">
-                                                        <label for="message-text" class="col-form-label">Message:</label>
-                                                        <textarea class="form-control" id="message-text" style="min-height: 400px;">Dear Vendor, &#10;&#10;We would like to invite dolor sit amet, consectetur adipiscing elit. Etiam in eros libero. &#10;&#10;Curabitur quis ipsum in purus imperdiet dictum. Vivamus at varius sapien. Aenean et bibendum diam, in condimentum erat. Duis sed odio quis nulla venenatis cursus et eu sapien. &#10;&#10;Phasellus hendrerit pharetra turpis. Aliquam lobortis scelerisque dui, at accumsan nunc vehicula laoreet. Proin auctor, nisi emollis ipsum at this link:&#10;&#10;[INVITATION LINK]&#10;&#10;Thank you,&#10;Accenture Team
-                                                                            </textarea>
-                                                    </div>
-                                                </form>
-                                            </div>
-                                            <div class="modal-footer">
-                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                                <button type="button" class="btn btn-primary">Resend invitation</button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
                             </div>
                         </div>
                     </div>

@@ -128,6 +128,8 @@ Route::
             Route::post('project/releaseResponse/{project}/{vendor}', 'ProjectController@releaseResponse')
                 ->name('project.releaseResponse');
 
+            Route::post('/project/resendInvitation', 'ProjectController@resendInvitation');
+
 
             Route::get('/project/vendorProposal/view/{project}/{vendor}', 'ProjectController@vendorProposalView')
                 ->name('viewVendorProposal');
