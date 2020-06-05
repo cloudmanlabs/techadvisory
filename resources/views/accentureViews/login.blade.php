@@ -58,6 +58,8 @@
                                                 Remember me
                                             </label>
                                         </div>
+                                        <p style="margin-top: 1rem; margin-bottom: 2rem" target="_blank">By logging in, you accept the <a
+                                                href="{{route('terms')}}">terms and conditions</a></p>
 
                                         <a href="{{route('password.request')}}" class="purpleColor">I forgot my password</a>
 

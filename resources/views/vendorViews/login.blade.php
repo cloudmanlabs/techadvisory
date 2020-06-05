@@ -60,10 +60,11 @@
                                             <label class="form-check-label">
                                                 <input class="form-check-input" name="remember" type="checkbox"> Remember me</label>
                                         </div>
+                                        <p style="margin-top: 1rem; margin-bottom: 2rem" target="_blank">By logging in, you accept the <a href="{{route('terms')}}">terms and conditions</a></p>
+
 
                                         <a href="{{route('credentials.enterEmail')}}" class="purpleColor">I forgot my
                                             password</a>
-
 
                                         <div style="margin-top: 30px; float: right; margin-bottom: 20px;">
                                             <div class="mt-3">

@@ -22,6 +22,8 @@ use Illuminate\Support\Facades\Route;
 
 Route::view('/', 'welcome')
     ->name('welcome');
+Route::view('/terms', 'terms')
+    ->name('terms');
 
 Route::post('logout', function(Request $request){
     Auth::logout();
