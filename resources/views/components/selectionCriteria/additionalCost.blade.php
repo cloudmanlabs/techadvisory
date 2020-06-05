@@ -12,10 +12,17 @@
         @foreach ($vendorApplication->additionalCost ?? [] as $cost)
         <div>
             <label for="projectName">Item {{$loop->iteration}}</label>
-            <input type="number" class="form-control additionalCostHoursInput"
-                placeholder="Cost"
-                {{$disabled ? 'disabled' : ''}}
-                value="{{$cost ?? ''}}" required>
+            <div style="display: flex; flex-direction: row">
+                <input type="text" class="form-control additionalTitleInput"
+                    placeholder="Title"
+                    {{$disabled ? 'disabled' : ''}}
+                    value="{{$cost['title'] ?? ''}}" required>
+                <input type="number" class="form-control additionalCostInput"
+                    style="margin-left: 1rem"
+                    placeholder="Cost"
+                    {{$disabled ? 'disabled' : ''}}
+                    value="{{$cost['cost'] ?? ''}}" required>
+            </div>
         </div>
         @endforeach
     </div>
@@ -61,9 +68,15 @@
             let newDeliverable = `
             <div>
                 <label for="projectName">Item ${childrenCount + 1}</label>
-                <input type="number" class="form-control additionalCostHoursInput"
-                    placeholder="Cost"
-                    value="" required>
+                <div style="display: flex; flex-direction: row">
+                    <input type="text" class="form-control additionalTitleInput"
+                        placeholder="Title"
+                        value="" required>
+                    <input type="number" class="form-control additionalCostInput"
+                        style="margin-left: 1rem"
+                        placeholder="Cost"
+                        value="" required>
+                </div>
             </div>
             `;
 
@@ -81,7 +94,13 @@
         function updateTotalAdditionalCost(){
             const cost = $('#additionalCostContainer').children()
                 .map(function(){
-                    return $(this).children('.additionalCostHoursInput').val()
+                    return $(this).children().get(1)
+                })
+                .map(function(){
+                    return {
+                        title: $(this).children('.additionalTitleInput').val(),
+                        cost: $(this).children('.additionalCostInput').val(),
+                    }
                 }).toArray();
 
             const totalCost = cost.map((el) => +el).reduce((a, b) => a + b, 0)
@@ -90,14 +109,20 @@
             updateTotalImplementation()
         }
         function setAdditionalCostEditListener(){
-            $('.additionalCostHoursInput').change(function(){
+            $('.additionalTitleInput, .additionalCostInput').change(function(){
                 updateAdditionalCost();
             })
         }
         function updateAdditionalCost(){
             const cost = $('#additionalCostContainer').children()
                 .map(function(){
-                    return $(this).children('.additionalCostHoursInput').val()
+                    return $(this).children().get(1)
+                })
+                .map(function(){
+                    return {
+                        title: $(this).children('.additionalTitleInput').val(),
+                        cost: $(this).children('.additionalCostInput').val(),
+                    }
                 }).toArray();
 
             updateTotalAdditionalCost();

@@ -12,10 +12,15 @@ $disabled = $disabled ?? false;
         <div>
             <label for="projectName">Task {{$loop->iteration}}</label>
             <div style="display: flex; flex-direction: row">
-                <input type="text" class="form-control raciClientInput" placeholder="Client"
+                <input type="text" class="form-control raciTitleInput" placeholder="Client"
+                    value="{{$row['title'] ?? ''}}" required
+                    {{$disabled ? 'disabled' : ''}}>
+                <input type="text" class="form-control raciClientInput" placeholder="Title"
+                    style="margin-left: 1rem"
                     value="{{$row['client'] ?? ''}}" required
                     {{$disabled ? 'disabled' : ''}}>
-                <input type="text" class="form-control raciVendorInput" placeholder="Vendor" style="margin-left: 1rem"
+                <input type="text" class="form-control raciVendorInput" placeholder="Vendor"
+                    style="margin-left: 1rem"
                     value="{{$row['vendor'] ?? ''}}" required
                     {{$disabled ? 'disabled' : ''}}>
                 <input type="text" class="form-control raciAccentureInput" placeholder="Accenture"
@@ -68,7 +73,11 @@ $disabled = $disabled ?? false;
             <div>
                 <label for="projectName">Task ${childrenCount + 1}</label>
                 <div style="display: flex; flex-direction: row">
+                    <input type="text" class="form-control raciTitleInput"
+                        placeholder="Title"
+                        value="" required>
                     <input type="text" class="form-control raciClientInput"
+                        style="margin-left: 1rem"
                         placeholder="Client"
                         value="" required>
                     <input type="text" class="form-control raciVendorInput"
@@ -106,6 +115,7 @@ $disabled = $disabled ?? false;
             })
             .map(function(){
                 return {
+                    title: $(this).children('.raciTitleInput').val(),
                     client: $(this).children('.raciClientInput').val(),
                     vendor: $(this).children('.raciVendorInput').val(),
                     accenture: $(this).children('.raciAccentureInput').val(),

@@ -4,7 +4,7 @@
     $disabled = $disabled ?? false;
 @endphp
 
-<div class="form-group">
+<div class="form-group" style="margin-bottom: 1rem">
     <label for="exampleInputText1">{{ $label ?? 'Upload any extra files'}}</label>
 
     <form action="/folder/uploadSingleFileToFolder" class="dropzone" id="{{$folder->name}}">
@@ -73,7 +73,7 @@
     </form>
 
     <br>
-    <p style="font-size: 12px">
+    <p style="font-size: 12px;">
         Do not include personal, sensitive data, personal data relating to criminal convictions and offences or financial data
         in this free form text field or upload screen shots containing personal data, unless you are consenting and assuming
         responsibility for the processing of this personal data (either your personal data or the personal data of others) by

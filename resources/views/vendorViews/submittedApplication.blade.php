@@ -4,7 +4,6 @@
     <div class="main-wrapper">
         <x-vendor.navbar activeSection="projects" />
 
-
         <div class="page-wrapper">
             <div class="page-content">
                 <x-vendor.projectNavbar section="apply" :project="$project"/>
@@ -136,4 +135,27 @@
             <x-footer />
         </div>
     </div>
+@endsection
+
+@section('head')
+@parent
+<style>
+    select.form-control {
+        color: #495057;
+    }
+
+    .select2-results__options .select2-results__option[aria-disabled=true] {
+        display: none;
+    }
+</style>
+@endsection
+
+@section('scripts')
+@parent
+<script>
+    $(document).ready(function() {
+        $(".js-example-basic-single").select2();
+        $(".js-example-basic-multiple").select2();
+    });
+</script>
 @endsection

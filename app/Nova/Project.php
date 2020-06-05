@@ -140,9 +140,9 @@ class Project extends Resource
             Number::make('Fitgap Detailed Weight: Others', 'fitgapOthersWeight')
                 ->hideFromIndex(),
 
-            Number::make('Implementation Detailed Weight: Service', 'implementationImplementationWeight')
+            Number::make('Implementation Detailed Weight: Implementation', 'implementationImplementationWeight')
                 ->hideFromIndex(),
-            Number::make('Implementation Detailed Weight: Others', 'implementationOthersWeight')
+            Number::make('Implementation Detailed Weight: Run', 'implementationRunWeight')
                 ->hideFromIndex(),
 
             BelongsToMany::make('Subpractices', 'subpractices', 'App\Nova\Subpractice'),

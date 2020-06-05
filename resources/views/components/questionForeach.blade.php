@@ -133,6 +133,7 @@
                     responsibility for the processing of this personal data (either your personal data or the personal data of others) by
                     Accenture.
                 </p>
+                <br>
             @endif
             @break
         @default

@@ -9,12 +9,17 @@ $disabled = $disabled ?? false;
 
     <div id="deliverableContainer">
         @foreach ($vendorApplication->deliverables ?? [] as $deliverable)
-        <div>
+        <div style="margin-top: 1rem">
             <label for="projectName">Phase {{$loop->iteration}}</label>
-            <input type="text" class="form-control deliverableInput" data-changing="name"
+            <input type="text" class="form-control deliverableTitle"
+                placeholder="Phase {{$loop->iteration}} title"
+                {{$disabled ? 'disabled' : ''}}
+                value="{{$deliverable['title'] ?? ''}}" required>
+            <input type="text" class="form-control deliverableInput"
+                style="margin-top: 1rem"
                 placeholder="Deliverable"
                 {{$disabled ? 'disabled' : ''}}
-                value="{{$deliverable}}" required>
+                value="{{$deliverable['deliverable'] ?? ''}}" required>
         </div>
         @endforeach
     </div>
@@ -51,7 +56,11 @@ $disabled = $disabled ?? false;
             let newDeliverable = `
             <div>
                 <label for="projectName">Phase ${childrenCount + 1}</label>
-                <input type="text" class="form-control deliverableInput" data-changing="name" placeholder="Deliverable"
+                <input type="text" class="form-control deliverableTitle"
+                    placeholder="Phase ${childrenCount + 1} title"
+                    value="" required>
+                <input type="text" class="form-control deliverableInput" placeholder="Deliverable"
+                    style="margin-top: 1rem"
                     value="" required>
             </div>
             `;
@@ -74,7 +83,10 @@ $disabled = $disabled ?? false;
         }
         function updateDeliverables(){
             const deliverables = $('#deliverableContainer').children().map(function(){
-                return $(this).children('input').val()
+                return {
+                    title: $(this).children('.deliverableTitle').val(),
+                    deliverable: $(this).children('.deliverableInput').val(),
+                }
             }).toArray();
 
             $.post('/vendorApplication/updateDeliverables', {

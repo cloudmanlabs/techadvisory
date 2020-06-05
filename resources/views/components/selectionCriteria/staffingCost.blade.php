@@ -12,9 +12,14 @@ $disabled = $disabled ?? false;
         <div>
             <label for="projectName">Role {{$loop->iteration}}</label>
             <div style="display: flex; flex-direction: row">
+                <input type="text" class="form-control staffingCostTitleInput"
+                    placeholder="Title"
+                    value="{{$row['title'] ?? ''}}" required
+                    {{$disabled ? 'disabled' : ''}}>
                 <input type="number" class="form-control staffingCostHoursInput"
                     placeholder="Estimated number of hours"
                     value="{{$row['hours'] ?? ''}}" required
+                    style="margin-left: 1rem"
                     {{$disabled ? 'disabled' : ''}}>
                 <input type="number" class="form-control staffingCostRateInput"
                     placeholder="Hourly rate"
@@ -75,8 +80,12 @@ $disabled = $disabled ?? false;
             <div>
                 <label for="projectName">Role ${childrenCount + 1}</label>
                 <div style="display: flex; flex-direction: row">
+                    <input type="number" class="form-control staffingCostTitleInput"
+                        placeholder="Estimated number of hours"
+                        value="" required>
                     <input type="number" class="form-control staffingCostHoursInput"
                         placeholder="Estimated number of hours"
+                        style="margin-left: 1rem"
                         value="" required>
                     <input type="number" class="form-control staffingCostRateInput"
                         placeholder="Hourly rate"
@@ -108,6 +117,7 @@ $disabled = $disabled ?? false;
             })
             .map(function(){
                 return {
+                    title: $(this).children('.staffingCostTitleInput').val(),
                     hours: $(this).children('.staffingCostHoursInput').val(),
                     rate: $(this).children('.staffingCostRateInput').val(),
                     cost: $(this).children('.staffingCostCostInput').val(),
@@ -120,7 +130,7 @@ $disabled = $disabled ?? false;
             updateTotalImplementation()
         }
         function setStaffingCostEditListener(){
-            $('.staffingCostHoursInput, .staffingCostRateInput, .staffingCostCostInput').change(function(){
+            $('.staffingCostHoursInput, .staffingCostRateInput, .staffingCostCostInput, .staffingCostTitleInput').change(function(){
                 updateStaffingCost();
             })
         }
@@ -131,6 +141,7 @@ $disabled = $disabled ?? false;
             })
             .map(function(){
                 return {
+                    title: $(this).children('.staffingCostTitleInput').val(),
                     hours: $(this).children('.staffingCostHoursInput').val(),
                     rate: $(this).children('.staffingCostRateInput').val(),
                     cost: $(this).children('.staffingCostCostInput').val(),

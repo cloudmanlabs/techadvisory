@@ -11,11 +11,19 @@ $disabled = $disabled ?? false;
         @foreach ($vendorApplication->travelCost ?? [] as $cost)
         <div>
             <label for="projectName">Month {{$loop->iteration}}</label>
-            <input type="number" class="form-control travelCostHoursInput"
-                placeholder="Monthly travel cost"
-                value="{{$cost ?? ''}}"
-                required
-                {{$disabled ? 'disabled' : ''}}>
+            <div style="display: flex; flex-direction: row">
+                <input type="text" class="form-control travelTitleInput"
+                    placeholder="Title"
+                    value="{{$cost['title'] ?? ''}}"
+                    required
+                    {{$disabled ? 'disabled' : ''}}>
+                <input type="number" class="form-control travelCostInput"
+                    style="margin-left: 1rem"
+                    placeholder="Monthly travel cost"
+                    value="{{$cost['cost'] ?? ''}}"
+                    required
+                    {{$disabled ? 'disabled' : ''}}>
+            </div>
         </div>
         @endforeach
     </div>
@@ -64,10 +72,17 @@ $disabled = $disabled ?? false;
             let newDeliverable = `
             <div>
                 <label for="projectName">Month ${childrenCount + 1}</label>
-                <input type="number" class="form-control travelCostHoursInput"
-                    placeholder="Monthly travel cost"
-                    value=""
-                    required>
+                <div style="display: flex; flex-direction: row">
+                    <input type="number" class="form-control travelTitleInput"
+                        placeholder="Title"
+                        value=""
+                        required>
+                    <input type="number" class="form-control travelCostInput"
+                        style="margin-left: 1rem"
+                        placeholder="Monthly travel cost"
+                        value=""
+                        required>
+                </div>
             </div>
             `;
 
@@ -85,24 +100,36 @@ $disabled = $disabled ?? false;
         function updateTotalTravelCost(){
             const cost = $('#travelCostContainer').children()
                 .map(function(){
-                    return $(this).children('.travelCostHoursInput').val()
+                    return $(this).children().get(1)
+                })
+                .map(function(){
+                    return {
+                        title: $(this).children('.travelTitleInput').val(),
+                        cost: $(this).children('.travelCostInput').val(),
+                    }
                 }).toArray();
 
-            const totalCost = cost.map((el) => +el).reduce((a, b) => a + b, 0)
+            const totalCost = cost.map((el) => +el.cost).reduce((a, b) => a + b, 0)
             $('#totalTravelCost').html(totalCost);
 
             updateTotalImplementation()
         }
 
         function setTravelCostEditListener(){
-            $('.travelCostHoursInput').change(function(){
+            $('.travelTitleInput, .travelCostInput').change(function(){
                 updateTravelCost();
             })
         }
         function updateTravelCost(){
             const cost = $('#travelCostContainer').children()
                 .map(function(){
-                    return $(this).children('.travelCostHoursInput').val()
+                    return $(this).children().get(1)
+                })
+                .map(function(){
+                    return {
+                        title: $(this).children('.travelTitleInput').val(),
+                        cost: $(this).children('.travelCostInput').val(),
+                    }
                 }).toArray();
 
             updateTotalTravelCost();
