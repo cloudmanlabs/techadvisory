@@ -4,6 +4,7 @@ use App\User;
 use App\UserCredential;
 use App\VendorSolution;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Hash;
 
 class UserSeeder extends Seeder
 {
@@ -28,24 +29,18 @@ class UserSeeder extends Seeder
                 'name' => 'Accenture',
                 'email' => 'accenture@accenture.com',
             ]);
-        factory(User::class)
+        $client = factory(User::class)
             ->states(['client', 'finishedSetup'])
             ->create([
                 'name' => 'Client',
-                'email' => 'client@client.com',
+                'email' => 'sadf@client.com',
             ]);
         $vendor = factory(User::class)
             ->states(['vendor', 'finishedSetup'])
             ->create([
                 'name' => 'Vendor',
-                'email' => 'vendor@vendor.com',
+                'email' => 'asdf@vendor.com',
             ]);
-
-        // $credential = new UserCredential([
-        //     'name' => 'nameeee',
-        //     'email' => 'test@test.com',
-        // ]);
-        // $vendor->credentials()->save($credential);
 
         // Create some other randoms
         factory(User::class, 3)
@@ -62,24 +57,46 @@ class UserSeeder extends Seeder
 
 
         // Create some that haven't finished set up
-        factory(User::class)
+        $newClient = factory(User::class)
             ->states('client')
             ->create([
                 'name' => 'New',
-                'email' => 'new@client.com',
+                'email' => 'asdfasdfasfd@client.com',
             ]);
-        factory(User::class)
+        $newVendor = factory(User::class)
             ->states('vendor')
             ->create([
                 'name' => 'New',
-                'email' => 'new@vendor.com',
-            ])
-            ->each(function ($vendor) {
-                $vendor->vendorSolutions()->save(factory(VendorSolution::class)->create([
-                    'vendor_id' => $vendor->id
-                ]));
-            });
+                'email' => 'asdfasdfa@vendor.com',
+            ]);
+        $newVendor->vendorSolutions()->save(factory(VendorSolution::class)->create([
+            'vendor_id' => $vendor->id
+        ]));
 
+        $credential = new UserCredential([
+            'name' => 'nameeee',
+            'email' => 'vendor@vendor.com',
+            'password' => Hash::make('password')
+        ]);
+        $client->credentials()->save($credential);
+        $credential = new UserCredential([
+            'name' => 'nameeee',
+            'email' => 'client@client.com',
+            'password' => Hash::make('password')
+        ]);
+        $vendor->credentials()->save($credential);
+        $credential = new UserCredential([
+            'name' => 'nameeee',
+            'email' => 'new@client.com',
+            'password' => Hash::make('password')
+        ]);
+        $newClient->credentials()->save($credential);
+        $credential = new UserCredential([
+            'name' => 'nameeee',
+            'email' => 'new@vendor.com',
+            'password' => Hash::make('password')
+        ]);
+        $newVendor->credentials()->save($credential);
 
 
         error_log('Users created successfully');
