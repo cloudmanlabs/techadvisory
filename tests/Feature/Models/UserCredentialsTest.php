@@ -53,23 +53,24 @@ class UserCredentialsTest extends TestCase
         $this->assertCount(1, $user->credentials);
     }
 
-    public function testClientCanLoginWithNormalEmail()
-    {
-        Mail::fake();
+    // COMMENTED Normal email login has been turned off
+    // public function testClientCanLoginWithNormalEmail()
+    // {
+    //     Mail::fake();
 
-        $user = factory(User::class)->states('client')->create([
-            'email' => 'test@test.com',
-            'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi'
-        ]);
+    //     $user = factory(User::class)->states('client')->create([
+    //         'email' => 'test@test.com',
+    //         'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi'
+    //     ]);
 
-        $response = $this->post(route('client.loginPost'), [
-            'email' => 'test@test.com',
-            'password' => 'password'
-        ]);
+    //     $response = $this->post(route('client.loginPost'), [
+    //         'email' => 'test@test.com',
+    //         'password' => 'password'
+    //     ]);
 
-        $response->assertRedirect('/client');
-        $this->assertTrue(auth()->check());
-    }
+    //     $response->assertRedirect('/client');
+    //     $this->assertTrue(auth()->check());
+    // }
 
     public function testClientCanLoginUsingCredentials()
     {
@@ -91,23 +92,24 @@ class UserCredentialsTest extends TestCase
         $this->assertTrue(auth()->check());
     }
 
-    public function testVendorCanLoginWithNormalEmail()
-    {
-        Mail::fake();
+    // COMMENTED Normal email login has been turned off
+    // public function testVendorCanLoginWithNormalEmail()
+    // {
+    //     Mail::fake();
 
-        $user = factory(User::class)->states('vendor')->create([
-            'email' => 'test@test.com',
-            'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi'
-        ]);
+    //     $user = factory(User::class)->states('vendor')->create([
+    //         'email' => 'test@test.com',
+    //         'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi'
+    //     ]);
 
-        $response = $this->post(route('vendor.loginPost'), [
-            'email' => 'test@test.com',
-            'password' => 'password'
-        ]);
+    //     $response = $this->post(route('vendor.loginPost'), [
+    //         'email' => 'test@test.com',
+    //         'password' => 'password'
+    //     ]);
 
-        $response->assertRedirect('/vendors');
-        $this->assertTrue(auth()->check());
-    }
+    //     $response->assertRedirect('/vendors');
+    //     $this->assertTrue(auth()->check());
+    // }
 
     public function testVendorCanLoginUsingCredentials()
     {

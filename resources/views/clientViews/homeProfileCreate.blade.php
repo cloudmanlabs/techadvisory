@@ -18,18 +18,20 @@
                             <div class="card-body">
                                 <h3>Complete your profile</h3>
 
-
                                 <p class="welcome_text extra-top-15px">
                                     {{nova_get_setting('client_homeProfileCreate_title') ?? ''}}
                                 </p>
                                 <br>
                                 <br>
 
-
                                 <div class="form-group">
-                                    <label for="exampleInputText1">Client name</label>
+                                    <label for="exampleInputText1">Client company name</label>
                                     <input class="form-control" id="exampleInputText1" disabled value="{{$client->name}}" type="text">
                                 </div>
+
+                                <x-questionForeach :questions="$questions" :class="'profileQuestion'" :disabled="false" :required="true" />
+
+                                <x-folderFileUploader :folder="$client->profileFolder" :timeout="1000"/>
 
                                 <br>
                                 <div class="form-group">
@@ -62,10 +64,6 @@
                                     Accenture.
                                 </p>
                                 <br>
-
-                                <x-questionForeach :questions="$questions" :class="'profileQuestion'" :disabled="false" :required="true" />
-
-                                <x-folderFileUploader :folder="$client->profileFolder" :timeout="1000"/>
 
                                 <div style="float: right; margin-top: 20px;">
                                     <form action="{{route('client.profile.submit')}}" method="post">

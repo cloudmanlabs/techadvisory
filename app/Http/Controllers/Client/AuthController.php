@@ -30,34 +30,24 @@ class AuthController extends Controller
             'remember' => 'nullable|string'
         ]);
 
+        // There used to be code here to log in with the main client email, but it's removed now. Check git to see it
 
-        $user = User::where('email', $request->input('email'))->first();
-        if($user != null){
-            // Loging in with the normal user
-            $correctPassword = Hash::check($request->input('password'), $user->password);
-            if ( ! $correctPassword) {
-                return redirect()->back()->withErrors([
-                    'email' => 'This credentials don\'t correspond to any user in the database.'
-                ]);
-            }
-        } else {
-            $credential = UserCredential::where('email', $request->input('email'))->whereNotNull('password')->first();
-            if ($credential == null) {
-                return redirect()->back()->withErrors([
-                    'email' => 'This credentials don\'t correspond to any user in the database.'
-                ]);
-            }
-
-            $correctPassword = Hash::check($request->input('password'), $credential->password);
-            if (!$correctPassword) {
-                return redirect()->back()->withErrors([
-                    'email' => 'This credentials don\'t correspond to any user in the database.'
-                ]);
-            }
-
-            // At this point we know the credentials are good
-            $user = $credential->user;
+        $credential = UserCredential::where('email', $request->input('email'))->whereNotNull('password')->first();
+        if ($credential == null) {
+            return redirect()->back()->withErrors([
+                'email' => 'This credentials don\'t correspond to any user in the database.'
+            ]);
         }
+
+        $correctPassword = Hash::check($request->input('password'), $credential->password);
+        if (!$correctPassword) {
+            return redirect()->back()->withErrors([
+                'email' => 'This credentials don\'t correspond to any user in the database.'
+            ]);
+        }
+
+        // At this point we know the credentials are good
+        $user = $credential->user;
 
         if($user == null){
             throw new Exception('You fucked up big time, it shouldn\'t be null here');

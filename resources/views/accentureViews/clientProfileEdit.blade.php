@@ -25,7 +25,7 @@
 
 
                                 <div class="form-group">
-                                    <label for="clientNameInput">Client name</label>
+                                    <label for="clientNameInput">Client company name</label>
                                     <input class="form-control" id="clientNameInput" value="{{$client->name}}" type="text">
                                 </div>
 
@@ -50,9 +50,13 @@
                                     </button>
                                 @endif
 
+                                <x-questionForeach :questions="$questions" :class="'profileQuestion'" :disabled="false" :required="true" />
+
+                                <x-folderFileUploader :folder="$client->profileFolder" :timeout="1000"/>
+
                                 <br>
                                 <div class="form-group">
-                                    <label>Upload your logo</label>
+                                    <label>Upload client logo</label>
                                     <input id="logoInput" class="file-upload-default" name="img[]" type="file">
 
                                     <div class="input-group col-xs-12">
@@ -67,6 +71,7 @@
                                     </div>
                                 </div>
                                 <br>
+
                                 <p style="font-size: 12px">
                                     Do not include personal, sensitive data, personal data relating to criminal convictions and offences or financial data
                                     in this free form text field or upload screen shots containing personal data, unless you are consenting and assuming
@@ -74,10 +79,6 @@
                                     Accenture.
                                 </p>
                                 <br>
-
-                                <x-questionForeach :questions="$questions" :class="'profileQuestion'" :disabled="false" :required="true" />
-
-                                <x-folderFileUploader :folder="$client->profileFolder" :timeout="1000"/>
                             </div>
                         </div>
                     </div>

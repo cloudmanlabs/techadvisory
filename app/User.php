@@ -84,6 +84,16 @@ class User extends Authenticatable
         return $this->hasMany(VendorApplication::class, 'vendor_id');
     }
 
+    // TODO Implement fixed and fixedQuestionIdentifier for clientProfileQuestions
+    public function getClientResponse(string $label, $default = null)
+    {
+        $response = $this->clientProfileQuestions()->whereHas('originalQuestion', function ($query) use ($label) {
+            $query->where('label', $label);
+        })->first();
+
+        return $response->response ?? $default;
+    }
+
     public function getVendorResponse(string $identifier, $default = null)
     {
         $response = $this->vendorProfileQuestions()->whereHas('originalQuestion', function ($query) use ($identifier) {

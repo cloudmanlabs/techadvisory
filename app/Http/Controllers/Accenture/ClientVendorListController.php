@@ -23,7 +23,7 @@ class ClientVendorListController extends Controller
             'userType' => 'client',
             'name' => 'New client',
             'email' => Str::random() . '@example.com',
-            'password' => Hash::make('password')
+            'password' => Hash::make('password') // Doesn't matter because login with this email is turned off
         ]);
         $client->save();
 

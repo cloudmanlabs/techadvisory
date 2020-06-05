@@ -28,7 +28,7 @@
                                                 class="btn-icon-prepend" data-feather="arrow-right"></i></a>
                                             </div>
                                             <div style="float: right; width: 20%; margin-right: 10%;">
-                                                <h5>Industry name</h5>
+                                                <h5>{!!$client->getClientResponse('Industry Experience', '&nbsp;') !!}</h5>
                                             </div>
                                             <div style="float: right; width: 10%; margin-right: 10%;">
                                                 <img alt="profile" src="{{url($client->logo ? ('/storage/' . $client->logo) : '/assets/images/user.png')}}" style="height: 20px">
