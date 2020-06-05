@@ -35,11 +35,13 @@
 
                             <div class="dropdown-body">
                                 <ul class="profile-nav p-0 pt-3">
+                                    @if(auth()->user()->hasFinishedSetup)
                                     <li class="nav-item" style="display: flex; justify-content: center">
                                         <a class="nav-link" href="{{route('vendor.profile')}}">
                                             <span>My Profile</span>
                                         </a>
                                     </li>
+                                    @endif
                                     <li class="nav-item" style="display: flex; justify-content: center">
                                         <a class="nav-link" href="{{ route('logout') }}"
                                             onclick="event.preventDefault(); document.getElementById('logout-form').submit();" id="logout-button">
@@ -72,6 +74,7 @@
                 </a>
             </div>
             <ul class="nav page-navigation">
+                @if(auth()->user()->hasFinishedSetup)
                 <li class="nav-item {{$activeSection == 'home' ? 'active' : ''}}">
                     <a class="nav-link" href="{{route('vendor.home')}}">
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
@@ -149,6 +152,7 @@
                         </ul>
                     </div>
                 </li>
+                @endif
             </ul>
         </div>
     </nav>

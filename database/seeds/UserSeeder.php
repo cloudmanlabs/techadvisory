@@ -75,13 +75,13 @@ class UserSeeder extends Seeder
 
         $credential = new UserCredential([
             'name' => 'nameeee',
-            'email' => 'vendor@vendor.com',
+            'email' => 'client@client.com',
             'password' => Hash::make('password')
         ]);
         $client->credentials()->save($credential);
         $credential = new UserCredential([
             'name' => 'nameeee',
-            'email' => 'client@client.com',
+            'email' => 'vendor@vendor.com',
             'password' => Hash::make('password')
         ]);
         $vendor->credentials()->save($credential);

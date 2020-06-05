@@ -35,11 +35,13 @@
 
                             <div class="dropdown-body">
                                 <ul class="profile-nav p-0 pt-3">
+                                    @if(auth()->user()->hasFinishedSetup)
                                     <li class="nav-item" style="display: flex; justify-content: center">
                                         <a class="nav-link" href="{{route('client.profile')}}">
                                             <span>My Profile</span>
                                         </a>
                                     </li>
+                                    @endif
                                     <li class="nav-item" style="display: flex; justify-content: center">
                                         <a
                                             class="nav-link"
@@ -75,8 +77,9 @@
                 </a>
             </div>
             <ul class="nav page-navigation menu-client">
+                @if(auth()->user()->hasFinishedSetup)
                 <li class="nav-item {{$activeSection == 'home' ? 'active' : ''}}">
-                    <a class="nav-link" href="{{route('client.home')}}">
+                    <a class="nav-link" href="{{route('client.main')}}">
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
                             stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
                             class="feather feather-box link-icon">
@@ -121,6 +124,7 @@
                         </ul>
                     </div>
                 </li>
+                @endif
             </ul>
         </div>
     </nav>
