@@ -8,13 +8,24 @@ abstract class Question extends Model
 {
     public $guarded = [];
 
-    const selectTypes = [
+    const selectTypesEdit = [
         'text' => 'Text',
         'textarea' => 'Text Area',
         'selectSingle' => 'Select',
         'selectMultiple' => 'Select multiple',
         'date' => 'Date',
-        'number' => 'Number'
+        'number' => 'Number',
+    ];
+
+    const selectTypesDisplay = [
+        'text' => 'Text',
+        'textarea' => 'Text Area',
+        'selectSingle' => 'Select',
+        'selectMultiple' => 'Select multiple',
+        'date' => 'Date',
+        'number' => 'Number',
+        'file' => 'File',
+        'special' => 'Special'
     ];
 
     const questionTypes = ['text', 'textarea', 'selectSingle', 'selectMultiple', 'date', 'number'];

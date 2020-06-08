@@ -55,9 +55,15 @@ class ClientProfileQuestion extends Resource
             ID::make()->sortable(),
 
             Select::make('Type', 'type')
-                ->options(\App\ClientProfileQuestion::selectTypes)
+                ->options(\App\ClientProfileQuestion::selectTypesDisplay)
                 ->displayUsingLabels()
-                ->rules('required'),
+                ->exceptOnForms(),
+            Select::make('Type', 'type')
+                ->options(\App\ClientProfileQuestion::selectTypesEdit)
+                ->displayUsingLabels()
+                ->rules('required')
+                ->onlyOnForms(),
+
 
             Text::make('Label', 'label')
                 ->required(),

@@ -55,9 +55,14 @@ class SelectionCriteriaQuestion extends Resource
             ID::make()->sortable(),
 
             Select::make('Type', 'type')
-                ->options(\App\SelectionCriteriaQuestion::selectTypes)
+                ->options(\App\SelectionCriteriaQuestion::selectTypesDisplay)
                 ->displayUsingLabels()
-                ->rules('required'),
+                ->exceptOnForms(),
+            Select::make('Type', 'type')
+                ->options(\App\SelectionCriteriaQuestion::selectTypesEdit)
+                ->displayUsingLabels()
+                ->rules('required')
+                ->onlyOnForms(),
 
             Text::make('Label', 'label')
                 ->required(),

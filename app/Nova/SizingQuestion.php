@@ -55,9 +55,14 @@ class SizingQuestion extends Resource
             ID::make()->sortable(),
 
             Select::make('Type', 'type')
-                ->options(\App\SizingQuestion::selectTypes)
+                ->options(\App\SizingQuestion::selectTypesDisplay)
                 ->displayUsingLabels()
-                ->rules('required'),
+                ->exceptOnForms(),
+            Select::make('Type', 'type')
+                ->options(\App\SizingQuestion::selectTypesEdit)
+                ->displayUsingLabels()
+                ->rules('required')
+                ->onlyOnForms(),
 
             Text::make('Label', 'label')
                 ->required(),

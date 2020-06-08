@@ -55,9 +55,14 @@ class VendorProfileQuestion extends Resource
             ID::make()->sortable(),
 
             Select::make('Type', 'type')
-                ->options(\App\VendorProfileQuestion::selectTypes)
+                ->options(\App\VendorProfileQuestion::selectTypesDisplay)
                 ->displayUsingLabels()
-                ->rules('required'),
+                ->exceptOnForms(),
+            Select::make('Type', 'type')
+                ->options(\App\VendorProfileQuestion::selectTypesEdit)
+                ->displayUsingLabels()
+                ->rules('required')
+                ->onlyOnForms(),
 
             Text::make('Label', 'label')
                 ->required(),

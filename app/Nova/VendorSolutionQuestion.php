@@ -55,9 +55,14 @@ class VendorSolutionQuestion extends Resource
             ID::make()->sortable(),
 
             Select::make('Type', 'type')
-                ->options(\App\VendorSolutionQuestion::selectTypes)
+                ->options(\App\VendorSolutionQuestion::selectTypesDisplay)
                 ->displayUsingLabels()
-                ->rules('required'),
+                ->exceptOnForms(),
+            Select::make('Type', 'type')
+                ->options(\App\VendorSolutionQuestion::selectTypesEdit)
+                ->displayUsingLabels()
+                ->rules('required')
+                ->onlyOnForms(),
 
             Text::make('Label', 'label')
                 ->required(),

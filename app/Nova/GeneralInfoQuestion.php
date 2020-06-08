@@ -56,9 +56,14 @@ class GeneralInfoQuestion extends Resource
             ID::make()->sortable(),
 
             Select::make('Type', 'type')
-                ->options(\App\GeneralInfoQuestion::selectTypes)
+                ->options(\App\GeneralInfoQuestion::selectTypesDisplay)
                 ->displayUsingLabels()
-                ->rules('required'),
+                ->exceptOnForms(),
+            Select::make('Type', 'type')
+                ->options(\App\GeneralInfoQuestion::selectTypesEdit)
+                ->displayUsingLabels()
+                ->rules('required')
+                ->onlyOnForms(),
 
             Text::make('Label', 'label')
                 ->required(),
