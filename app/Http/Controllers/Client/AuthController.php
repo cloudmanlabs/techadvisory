@@ -46,6 +46,9 @@ class AuthController extends Controller
             ]);
         }
 
+        Log::debug($credential);
+        Log::debug($credential->user);
+
         // At this point we know the credentials are good
         $user = $credential->user;
 
