@@ -46,5 +46,8 @@ class UserObserver
         foreach ($user->vendorSolutions as $solution) {
             $solution->delete();
         }
+        foreach($user->credentials as $credential){
+            $credential->delete();
+        }
     }
 }

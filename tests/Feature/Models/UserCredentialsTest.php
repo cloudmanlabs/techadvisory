@@ -53,6 +53,27 @@ class UserCredentialsTest extends TestCase
         $this->assertCount(1, $user->credentials);
     }
 
+    public function testDeletingUserDeletesCredentials()
+    {
+        Mail::fake();
+
+        $user = factory(User::class)->create();
+
+        $credential = new UserCredential([
+            'name' => 'nameeee',
+            'email' => 'test@test.com',
+            'password' => 'password',
+
+            'user_id' => $user->id
+        ]);
+        $credential->save();
+
+        $this->assertCount(1, UserCredential::all());
+        $user->delete();
+        $this->assertCount(0, UserCredential::all());
+    }
+
+
     // COMMENTED Normal email login has been turned off
     // public function testClientCanLoginWithNormalEmail()
     // {

@@ -18,7 +18,10 @@ use Laravel\Nova\Panel;
 
 class UserCredential extends Resource
 {
-    public static $displayInNavigation = false;
+    public static function availableForNavigation(Request $request)
+    {
+        return auth()->user()->isAdmin();
+    }
 
     /**
      * The model the resource corresponds to.
@@ -66,6 +69,8 @@ class UserCredential extends Resource
                 ->canSee(function(){
                     return auth()->user()->isAdmin();
                 }),
+
+            BelongsTo::make('User', 'user'),
 
             // Password::make('Password')
             //     ->onlyOnForms()
