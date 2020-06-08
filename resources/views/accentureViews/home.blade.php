@@ -24,6 +24,7 @@
                                         Please choose the Practices you'd like to see:
                                     </p>
                                     <select id="homePracticeSelect" class="w-100" multiple="multiple">
+                                        <option>No practice</option>
                                         @foreach ($practices as $practice)
                                         <option>{{$practice}}</option>
                                         @endforeach
@@ -35,6 +36,7 @@
                                         Please choose the Clients you'd like to see:
                                     </p>
                                     <select id="homeClientSelect" class="w-100" multiple="multiple">
+                                        <option>No client</option>
                                         @foreach ($clients as $client)
                                         <option>{{$client}}</option>
                                         @endforeach
@@ -51,6 +53,8 @@
                                         <option value="2019">2019</option>
                                         <option value="2020">2020</option>
                                         <option value="2021">2021</option>
+                                        <option value="2021">2022</option>
+                                        <option value="2021">2023</option>
                                     </select>
                                 </div>
                             </div>
@@ -73,13 +77,13 @@
                             <div id="openPhaseContainer">
                                 @foreach ($openProjects as $project)
                                 <div class="card" style="margin-bottom: 30px;"
-                                    data-client="{{$project->client->name}}"
-                                    data-practice="{{$project->practice->name}}"
+                                    data-client="{{$project->client->name ?? 'No client'}}"
+                                    data-practice="{{$project->practice->name ?? 'No practice'}}"
                                     data-year="{{$project->created_at->year}}">
                                     <div class="card-body">
                                         <div style="float: left; max-width: 40%;">
                                             <h4>{{$project->name}}</h4>
-                                            <h6>{{$project->client->name}} - {{$project->practice->name}}</h6>
+                                            <h6>{{$project->client->name ?? 'No client'}} - {{$project->practice->name ?? 'No practice'}}</h6>
                                         </div>
                                         <div style="float: right; text-align: right; width: 15%;">
                                             <a class="btn btn-primary btn-lg btn-icon-text" href="{{route('accenture.projectHome', ['project' => $project])}}">
@@ -111,8 +115,8 @@
                             <div id="preparationPhaseContainer">
                                 @foreach ($preparationProjects as $project)
                                 <div class="card" style="margin-bottom: 30px;"
-                                    data-client="{{$project->client->name ?? ''}}"
-                                    data-practice="{{$project->practice->name ?? ''}}"
+                                    data-client="{{$project->client->name ?? 'No client'}}"
+                                    data-practice="{{$project->practice->name ?? 'No practice'}}"
                                     data-year="{{$project->created_at->year}}">
                                     <div class="card-body">
                                         <div style="float: left; max-width: 40%;">
@@ -153,13 +157,13 @@
                             <div id="oldPhaseContainer" style="display: none">
                                 @foreach ($oldProjects as $project)
                                 <div class="card" style="margin-bottom: 30px;"
-                                    data-client="{{$project->client->name}}"
-                                    data-practice="{{$project->practice->name}}"
+                                    data-client="{{$project->client->name ?? 'No client'}}"
+                                    data-practice="{{$project->practice->name ?? 'No practice'}}"
                                     data-year="{{$project->created_at->year}}">
                                     <div class="card-body">
                                         <div style="float: left; max-width: 40%;">
                                             <h4>{{$project->name}}</h4>
-                                            <h6>{{$project->client->name}} - {{$project->practice->name}}</h6>
+                                            <h6>{{$project->client->name ?? 'No client'}} - {{$project->practice->name ?? 'No practice'}}</h6>
                                         </div>
                                         <div style="float: right; text-align: right; width: 17%;">
                                             <a class="btn btn-primary btn-lg btn-icon-text"
