@@ -158,7 +158,7 @@ class ClientVendorListController extends Controller
         ]);
         $vendor->save();
 
-        return redirect()->route('accenture.vendorProfileView', ['vendor' => $vendor]);
+        return redirect()->route('accenture.vendorProfileEdit', ['vendor' => $vendor]);
     }
 
 
