@@ -211,7 +211,10 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
             VendorSolutionQuestionResponse::class,
         ];
 
-        if (auth()->user()->isAdmin()) {
+        /** @var \App\User|null $user */
+        $user = auth()->user();
+
+        if ($user != null && $user->isAdmin()) {
             $other = [
                 User::class,
             ];
@@ -298,7 +301,10 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
         return [
             new \OptimistDigital\NovaSettings\NovaSettings,
             (new \Spatie\TailTool\TailTool())->canSee(function ($request) {
-                return auth()->user()->isAdmin();
+                /** @var \App\User|null $user */
+                $user = auth()->user();
+
+                return $user != null && $user->isAdmin();
             }),
         ];
     }
