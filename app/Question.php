@@ -4,6 +4,10 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * @property string $presetOption
+ * @property string $options
+ */
 abstract class Question extends Model
 {
     public $guarded = [];

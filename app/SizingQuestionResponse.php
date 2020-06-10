@@ -5,7 +5,7 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * @property string $response
+ * @property string|null $response
  * @property boolean $shouldShow
  */
 class SizingQuestionResponse extends Model

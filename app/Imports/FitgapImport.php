@@ -8,7 +8,7 @@ use Maatwebsite\Excel\Concerns\ToCollection;
 class FitgapImport implements ToCollection
 {
     /**
-    * @param Collection $collection
+    * @param Collection $rows
     */
     public function collection(Collection $rows)
     {

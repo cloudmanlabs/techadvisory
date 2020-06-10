@@ -60,7 +60,7 @@ class UserCredential extends Model
     /**
      * Returns the link to reset the password
      *
-     * @return void
+     * @return \Illuminate\Contracts\Routing\UrlGenerator|string
      */
     public function passwordChangeLink(){
         $token = $this->passwordChangeToken;

@@ -9,7 +9,7 @@ use Maatwebsite\Excel\Concerns\FromCollection;
 class MultiUserCredentialExport implements FromCollection
 {
     /** @var Collection $user */
-    private $user;
+    protected $users;
 
     public function __construct(Collection $users)
     {
