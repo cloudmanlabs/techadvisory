@@ -87,7 +87,7 @@
                         title: 'Business Opportunity',
                         width: 210,
 
-                        @if($disabled)
+                        @if($disabled || !$isAccenture)
                         readOnly: true,
                         @endif
                     }
