@@ -26,12 +26,12 @@
 
                                 <div class="form-group">
                                     <label for="clientNameInput">Client company name</label>
-                                    <input class="form-control" id="clientNameInput" value="{{$client->name}}" type="text">
+                                    <input class="form-control" id="clientNameInput" value="{{$firstTime ? '' : $client->name}}" type="text">
                                 </div>
 
                                 <div class="form-group">
                                     <label for="clientNameInput">Main email</label>
-                                    <input class="form-control" id="clientEmailInput" value="{{$client->email}}" type="text">
+                                    <input class="form-control" id="clientEmailInput" value="{{$firstTime ? '' : $client->email}}" type="text">
                                 </div>
 
                                 @if(!$client->credentials->first())
@@ -50,6 +50,9 @@
                                     </button>
                                 @endif
 
+                                <br>
+                                <br>
+                                <br>
                                 <x-questionForeach :questions="$questions" :class="'profileQuestion'" :disabled="false" :required="true" />
 
                                 <x-folderFileUploader :folder="$client->profileFolder" :timeout="1000"/>
@@ -108,6 +111,8 @@
 @section('scripts')
 @parent
 <script>
+//window.history.pushState({}, document.title, window.location.pathname);
+
     jQuery.expr[':'].hasValue = function(el,index,match) {
         return el.value != "";
     };

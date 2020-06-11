@@ -1,4 +1,8 @@
-@props(['project', 'clients', 'disableSpecialQuestions', 'disabled', 'required'])
+@props(['project', 'clients', 'disableSpecialQuestions', 'disabled', 'required', 'firstTime'])
+
+@php
+    $firstTime = $firstTime ?? false;
+@endphp
 
 <h4>1.1. Project Info</h4>
 <br>
@@ -9,7 +13,7 @@
         id="projectName"
         data-changing="name"
         placeholder="Project Name"
-        value="{{$project->name}}"
+        value="{{$firstTime ? '' : $project->name}}"
         {{$disableSpecialQuestions ? 'disabled' : ''}}
         {{$disabled ? 'disabled' : ''}}
         required>
@@ -146,10 +150,10 @@
 
 <div class="form-group">
     <label for="deadline">Tentative date for Value Enablers completion*</label>
-    <div class="input-group date datepicker" data-initialValue="{{$project->deadline}}">
+    <div class="input-group date datepicker" data-initialValue="{{$firstTime ? '' : $project->deadline}}">
         <input required
             id="deadline"
-            value="{{$project->deadline}}" type="text"
+            value="{{$firstTime ? '' : $project->deadline}}" type="text"
             {{$disabled ? 'disabled' : ''}}
             class="form-control">
         <span class="input-group-addon"><i data-feather="calendar"></i></span>

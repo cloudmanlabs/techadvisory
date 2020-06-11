@@ -27,7 +27,7 @@ class ClientVendorListController extends Controller
         ]);
         $client->save();
 
-        return redirect()->route('accenture.clientProfileEdit', ['client' => $client]);
+        return redirect()->route('accenture.clientProfileEdit', ['client' => $client, 'firstTime' => true]);
     }
 
 
@@ -42,15 +42,17 @@ class ClientVendorListController extends Controller
     {
         return view('accentureViews.clientProfileView', [
             'client' => $client,
-            'questions' => $client->clientProfileQuestions
+            'questions' => $client->clientProfileQuestions,
         ]);
     }
 
-    public function clientProfileEdit(User $client)
+    public function clientProfileEdit(Request $request, User $client)
     {
         return view('accentureViews.clientProfileEdit', [
             'client' => $client,
-            'questions' => $client->clientProfileQuestions
+            'questions' => $client->clientProfileQuestions,
+
+            'firstTime' => $request->firstTime ?? false
         ]);
     }
 
@@ -158,7 +160,7 @@ class ClientVendorListController extends Controller
         ]);
         $vendor->save();
 
-        return redirect()->route('accenture.vendorProfileEdit', ['vendor' => $vendor]);
+        return redirect()->route('accenture.vendorProfileEdit', ['vendor' => $vendor, 'firstTime' => true]);
     }
 
 
@@ -191,7 +193,7 @@ class ClientVendorListController extends Controller
         ]);
     }
 
-    public function vendorProfileEdit(User $vendor)
+    public function vendorProfileEdit(Request $request, User $vendor)
     {
         $generalQuestions = $vendor->vendorProfileQuestions->filter(function ($question) {
             return $question->originalQuestion->page == 'general';
@@ -208,6 +210,8 @@ class ClientVendorListController extends Controller
             'generalQuestions' => $generalQuestions,
             'economicQuestions' => $economicQuestions,
             'legalQuestions' => $legalQuestions,
+
+            'firstTime' => $request->firstTime ?? false
         ]);
     }
 

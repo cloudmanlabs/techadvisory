@@ -32,7 +32,8 @@
                                             :clients="$clients"
                                             :disableSpecialQuestions="false"
                                             :disabled="false"
-                                            :required="false" />
+                                            :required="false"
+                                            :firstTime="$firstTime" />
                                     </section>
 
                                     <h2>RFP Upload</h2>
@@ -221,6 +222,12 @@
 @section('scripts')
 @parent
 <script>
+    // Removes the get params cause I'm sure they'll share the url with the get param and then they won't see the name and they will think it's a bug
+    // and I'll get angry that this is the best implementation I could think of and then I'll get angry that they're dumb and lazy and don't want to have to
+    // remove a placeholder name cause ofc that's too much work
+    // I'm not mad :)
+    window.history.pushState({}, document.title, window.location.pathname);
+
     jQuery.expr[':'].hasValue = function(el,index,match) {
         return el.value != "";
     };

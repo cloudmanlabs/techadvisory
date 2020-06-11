@@ -28,10 +28,10 @@ class ProjectController extends Controller
         $project = new Project();
         $project->save();
 
-        return redirect()->route('accenture.newProjectSetUp', ['project' => $project]);
+        return redirect()->route('accenture.newProjectSetUp', ['project' => $project, 'firstTime' => true]);
     }
 
-    public function newProjectSetUp(Project $project)
+    public function newProjectSetUp(Request $request, Project $project)
     {
         $clients = User::clientUsers()->get();
 
@@ -51,6 +51,8 @@ class ProjectController extends Controller
         $implementationRunQuestions = $project->selectionCriteriaQuestionsOriginals()->where('page', 'implementation_run');
 
         return view('accentureViews.newProjectSetUp', [
+            'firstTime' => $request->firstTime ?? false,
+
             'project' => $project,
             'clients' => $clients,
 

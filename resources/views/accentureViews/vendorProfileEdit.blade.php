@@ -33,14 +33,14 @@
                                                 id="vendorNameInput"
                                                 placeholder="Enter Name"
                                                 type="text"
-                                                value="{{$vendor->name}}"
+                                                value="{{$firstTime ? '' : $vendor->name}}"
                                                  >
                                         </div>
                                         <div class="form-group">
                                             <label for="vendorEmailInput">Vendor main email</label>
                                             <input class="form-control" id="vendorEmailInput" placeholder="Enter E-mail"
                                                 type="email"
-                                                value="{{$vendor->email}}"
+                                                value="{{$firstTime ? '' : $vendor->email}}"
                                                  >
                                         </div>
 
@@ -135,6 +135,8 @@
 @parent
 <script src="{{url('assets/js/select2.js')}}"></script>
 <script>
+     window.history.pushState({}, document.title, window.location.pathname);
+
     jQuery.expr[':'].hasValue = function(el,index,match) {
         return el.value != "";
     };

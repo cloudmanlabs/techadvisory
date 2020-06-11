@@ -188,7 +188,7 @@ class ProjectsTest extends TestCase
         $project = Project::first();
 
         $request->assertStatus(302)
-                ->assertRedirect(route('accenture.newProjectSetUp', ['project'=> $project]));
+                ->assertRedirect(route('accenture.newProjectSetUp', ['project'=> $project, 'firstTime' => true]));
     }
 
     public function testAccentureCanEditProjectName()
