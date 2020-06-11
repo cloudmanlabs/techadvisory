@@ -122,7 +122,7 @@
                                                 </p>
                                                 <br><br>
 
-                                                <x-fitgapClientModal :project="$project" />
+                                                <x-fitgapClientModal :project="$project" :isAccenture="false" />
 
                                                 <br><br>
                                                 <h4>Questions</h4>

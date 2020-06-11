@@ -31,31 +31,41 @@
                     {
                         type: 'text',
                         title: 'Type',
+                        @if($disabled || !$isAccenture)
                         readOnly: true,
+                        @endif
                         width: 210
                     },
                     {
                         type: 'text',
                         title: 'Level 1',
+                        @if($disabled || !$isAccenture)
                         readOnly: true,
+                        @endif
                         width: 180
                     },
                     {
                         type: 'text',
                         title: 'Level 2',
+                        @if($disabled || !$isAccenture)
                         readOnly: true,
+                        @endif
                         width: 230
                     },
                     {
                         type: 'text',
                         title: 'Level 3',
+                        @if($disabled || !$isAccenture)
                         readOnly: true,
+                        @endif
                         width: 230
                     },
                     {
                         type: 'text',
                         title: 'Requirement',
+                        @if($disabled || !$isAccenture)
                         readOnly: true,
+                        @endif
                         width: 250
                     },
                     {

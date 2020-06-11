@@ -134,15 +134,24 @@ class FitgapController extends Controller
         // We get only the two columns that matter here and save them
 
         // Parse stuff here
-        $result = [];
+        $result5Cols = [];
+        $resultClient = [];
         foreach ($request->data as $key => $row) {
-            $result[] = [
+            $result5Cols[] = [
+                'Requirement Type' => $row['Requirement Type'],
+                'Level 1' => $row['Level 1'],
+                'Level 2' => $row['Level 2'],
+                'Level 3' => $row['Level 3'],
+                'Requirement' => $row['Requirement'],
+            ];
+            $resultClient[] = [
                 'Client' => $row['Client'],
                 'Business Opportunity' => $row['Business Opportunity'],
             ];
         }
 
-        $project->fitgapClientColumns = $result;
+        $project->fitgapClientColumns = $resultClient;
+        $project->fitgap5Columns = $result5Cols;
         $project->save();
 
         return \response()->json([
@@ -226,7 +235,8 @@ class FitgapController extends Controller
     {
         return view('fitgap.clientIframe', [
             'project' => $project,
-            'disabled' => $request->disabled ?? false
+            'disabled' => $request->disabled ?? false,
+            'isAccenture' => $request->isAccenture
         ]);
     }
 

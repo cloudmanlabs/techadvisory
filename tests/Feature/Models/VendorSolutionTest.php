@@ -75,7 +75,7 @@ class VendorSolutionTest extends TestCase
 
         $this->assertCount(1, VendorSolution::all());
 
-        $response->assertRedirect('/vendors/solution/setup/'. VendorSolution::first()->id);
+        $response->assertRedirect('/vendors/solution/setup/'. VendorSolution::first()->id . '?firstTime=1');
     }
 
     public function testVendorCanChangeSolutionName()
