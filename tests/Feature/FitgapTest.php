@@ -248,8 +248,7 @@ class FitgapTest extends TestCase
                     'Level 3' => 'hye',
                     'Requirement' => 'hye',
                     'Vendor Response' => '',
-                    'Comments' => '',
-                    'Score' => 5
+                    'Comments' => ''
                 ]
             ]);
     }

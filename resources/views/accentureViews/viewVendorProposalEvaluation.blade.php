@@ -15,7 +15,8 @@
                             <div class="card-body">
                                 <h3><h3>{{$vendor->name}}</h3></h3>
                                 <h4>Evaluate response</h4>
-                                <p class="welcome_text extra-top-15px">Please complete your profile and get ready to use
+                                <p class="welcome_text extra-top-15px">
+                                    Please complete your profile and get ready to use
                                     the platform. It won't take you more than just a few minutes and you can do it
                                     today. Note that, if you do not currently have the info for some specific fields,
                                     you can leave them blank and fill up them later.</p>
@@ -30,7 +31,7 @@
                                         </p>
                                         <br><br>
 
-                                        <x-fitgapEvaluationModal :vendor="$vendor" :project="$project"/>
+                                        <x-fitgapEvaluationModal :vendor="$vendor" :project="$project" :disabled="true"/>
 
                                         <br><br>
                                         <h4>Questions</h4>

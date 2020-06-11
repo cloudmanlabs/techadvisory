@@ -76,7 +76,7 @@
                         width: 200,
                         readOnly: true,
                     },
-                    {
+                    /*{
                         type: 'text',
                         title: 'Score',
                         width: 200,
@@ -84,13 +84,13 @@
                         @if($disabled)
                         readOnly: true,
                         @endif
-                    },
+                    },*/
                 ],
                 onchange: function(instance, cell, x, y, value) {
                     @if(! $disabled)
-                        $.post("{{route('fitgapEvaluationJsonUpload', ['vendor' => $vendor, 'project' => $project])}}", {
+                        /*$.post("{{route('fitgapEvaluationJsonUpload', ['vendor' => $vendor, 'project' => $project])}}", {
                             data: mySpreadsheet.getJson()
-                        })
+                        })*/
                     @endif
                 }
             });

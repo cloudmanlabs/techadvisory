@@ -111,7 +111,7 @@ class FitgapController extends Controller
                 'Vendor Response' => '',
                 'Comments' => '',
             ]);
-            $row['Score'] = $vendorApplication->fitgapVendorScores[$key] ?? 5;
+            //$row['Score'] = $vendorApplication->fitgapVendorScores[$key] ?? 5;
 
             $result[] = $row;
         }
