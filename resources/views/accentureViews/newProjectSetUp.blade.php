@@ -132,6 +132,8 @@
                                                 <h3>Scoring criteria</h3>
                                                 <div>
                                                     <x-scoringCriteriaBricks :isClient="false" :project="$project"/>
+                                                    <br>
+                                                    <x-scoringCriteriaWeights :project="$project"/>
 
                                                     <br><br>
                                                     <button
@@ -140,6 +142,7 @@
                                                         {{ !$project->step3SubmittedAccenture ? 'disabled' : ''}}
                                                         {{ $project->step4SubmittedAccenture ? 'disabled' : ''}}
                                                     >{{ $project->step4SubmittedAccenture ? 'Submitted' : 'Submit'}}</button>
+                                                    <br><br>
                                                 </div>
                                             </div>
                                         </div>

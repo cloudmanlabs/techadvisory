@@ -783,4 +783,44 @@ class ProjectsTest extends TestCase
             return $mail->hasTo($vendor->email);
         });
     }
+
+    public function testAccentureCanChangeFitgapAndImplementationWeightsWithPost()
+    {
+        $user = factory(User::class)->states('accenture')->create();
+        $project = factory(Project::class)->create();
+
+        $request = $this
+            ->actingAs($user)
+            ->post('/accenture/newProjectSetUp/changeWeights', [
+                'project_id' => $project->id,
+                'changing' => 'fitgapWeightMust',
+                'value' => 12
+            ]);
+
+        $request->assertOk();
+
+        $project->refresh();
+        $this->assertEquals(12, $project->fitgapWeightMust);
+    }
+
+    public function testCantChangeOtherFieldsWithChangeWeightsPost()
+    {
+        $user = factory(User::class)->states('accenture')->create();
+        $project = factory(Project::class)->create([
+            'name' => 'old'
+        ]);
+
+        $request = $this
+            ->actingAs($user)
+            ->post('/accenture/newProjectSetUp/changeWeights', [
+                'project_id' => $project->id,
+                'changing' => 'name',
+                'value' => 'hello'
+            ]);
+
+        $request->assertStatus(302);
+
+        $project->refresh();
+        $this->assertEquals('old', $project->name);
+    }
 }

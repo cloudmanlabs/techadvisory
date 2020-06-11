@@ -128,7 +128,7 @@ class Project extends Resource
                 ->hideFromIndex(),
             Number::make('Fitgap Vendor Weight: Planned', 'fitgapWeightPlanned')
                 ->hideFromIndex(),
-            Number::make('Fitgap Vendor Weight: Nice to have', 'fitgapWeightNotSupported')
+            Number::make('Fitgap Vendor Weight: Not supported', 'fitgapWeightNotSupported')
                 ->hideFromIndex(),
 
             Number::make('Fitgap Detailed Weight: Functional', 'fitgapFunctionalWeight')

@@ -474,6 +474,46 @@ class ProjectController extends Controller
         ]);
     }
 
+    public function changeWeights(Request $request)
+    {
+        $request->validate([
+            'project_id' => 'required|numeric',
+            'changing' => [
+                'required',
+                'string',
+                Rule::in([
+                    'fitgapWeightMust',
+                    'fitgapWeightRequired',
+                    'fitgapWeightNiceToHave',
+                    'fitgapWeightFullySupports',
+                    'fitgapWeightPartiallySupports',
+                    'fitgapWeightPlanned',
+                    'fitgapWeightNotSupported',
+                    'fitgapFunctionalWeight',
+                    'fitgapTechnicalWeight',
+                    'fitgapServiceWeight',
+                    'fitgapOthersWeight',
+                    'implementationImplementationWeight',
+                    'implementationRunWeight',
+                ])
+            ],
+            'value' => 'required|numeric'
+        ]);
+
+        $project = Project::find($request->project_id);
+        if ($project == null) {
+            abort(404);
+        }
+
+        $project->{$request->changing} = $request->value;
+        $project->save();
+
+        return \response()->json([
+            'status' => 200,
+            'message' => 'Success'
+        ]);
+    }
+
 
     public function changeOralsLocation(Request $request)
     {

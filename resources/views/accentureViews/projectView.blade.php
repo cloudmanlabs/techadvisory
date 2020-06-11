@@ -86,6 +86,8 @@
                                             <h3>Scoring criteria</h3>
                                             <div>
                                                 <x-scoringCriteriaBricksView :project="$project" />
+                                                <br>
+                                                <x-scoringCriteriaWeights :project="$project" :disabled="true"/>
                                             </div>
                                         </div>
                                     </section>

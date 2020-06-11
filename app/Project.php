@@ -31,9 +31,11 @@ use Illuminate\Support\Facades\Log;
  *
  * @property array $fitgap5Columns
  * @property array $fitgapClientColumns
+ *
  * @property integer $fitgapWeightMust
  * @property integer $fitgapWeightRequired
  * @property integer $fitgapWeightNiceToHave
+ *
  * @property integer $fitgapWeightFullySupports
  * @property integer $fitgapWeightPartiallySupports
  * @property integer $fitgapWeightPlanned

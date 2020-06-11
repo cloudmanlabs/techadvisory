@@ -50,6 +50,7 @@ Route::
             Route::post('/newProjectSetUp/publishProjectAnalytics', 'ProjectController@publishProjectAnalytics');
             Route::post('/newProjectSetUp/updateVendors', 'ProjectController@updateVendors');
             Route::post('/newProjectSetUp/updateScoringValues', 'ProjectController@updateScoringValues');
+            Route::post('/newProjectSetUp/changeWeights', 'ProjectController@changeWeights');
 
             Route::post('/orals/changeLocation', 'ProjectController@changeOralsLocation');
             Route::post('/orals/changeFromDate', 'ProjectController@changeOralsFromDate');
