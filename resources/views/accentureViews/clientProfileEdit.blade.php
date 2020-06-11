@@ -111,7 +111,7 @@
 @section('scripts')
 @parent
 <script>
-//window.history.pushState({}, document.title, window.location.pathname);
+    window.history.pushState({}, document.title, window.location.pathname);
 
     jQuery.expr[':'].hasValue = function(el,index,match) {
         return el.value != "";

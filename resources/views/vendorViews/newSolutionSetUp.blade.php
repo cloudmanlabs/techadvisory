@@ -19,11 +19,10 @@
                                 <br>
                                 <br>
 
-
                                 <div class="form-group">
                                     <label for="solutionName">Solution name</label>
                                     <input class="form-control"
-                                        id="solutionName" value="{{$solution->name}}" type="text">
+                                        id="solutionName" value="{{$firstTime ? '' : $solution->name}}" type="text">
                                 </div>
 
                                 <x-questionForeach :questions="$questions" :class="'solutionQuestion'" :disabled="false" :required="true" />
@@ -68,6 +67,8 @@
 @section('scripts')
 @parent
 <script>
+    window.history.pushState({}, document.title, window.location.pathname);
+
     jQuery.expr[':'].hasValue = function(el,index,match) {
         return el.value != "";
     };

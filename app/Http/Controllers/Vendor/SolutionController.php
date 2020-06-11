@@ -25,14 +25,16 @@ class SolutionController extends Controller
         ]);
         $solution->save();
 
-        return redirect()->route('vendor.newSolutionSetUp', ['solution' => $solution]);
+        return redirect()->route('vendor.newSolutionSetUp', ['solution' => $solution, 'firstTime' => true]);
     }
 
-    public function newSolutionSetUp(VendorSolution $solution)
+    public function newSolutionSetUp(Request $request, VendorSolution $solution)
     {
         return view('vendorViews.newSolutionSetUp', [
             'solution' => $solution,
-            'questions' => $solution->questions
+            'questions' => $solution->questions,
+
+            'firstTime' => $request->firstTime ?? false
         ]);
     }
 
