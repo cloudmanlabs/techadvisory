@@ -23,7 +23,7 @@ class FitgapController extends Controller
 
         $result5Cols = [];
         $resultClient = [];
-        for ($i = 2; isset($rows[$i][0]) && $rows[$i][0] != null; $i++) {
+        for ($i = 1; isset($rows[$i][0]) && $rows[$i][0] != null; $i++) {
             $row = $rows[$i];
 
             $result5Cols[] = [
