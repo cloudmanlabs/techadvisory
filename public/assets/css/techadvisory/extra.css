@@ -58,8 +58,24 @@ body {
     line-height: 17px;
 }
 
-.wizard>.content {
-    min-height: 47rem;
+/*.wizard>.content {*/
+/*    min-height: 47rem;*/
+/*}*/
+
+.wizard .content {
+    min-height: 100px;
+    overflow: hidden;
+}
+
+.wizard .content > .body {
+    width: 100%;
+    height: auto;
+    padding: 15px;
+    position: static;
+}
+
+.wizard .content .body.current {
+    position: relative;
 }
 
 .wizard>.steps ul li.done a {
