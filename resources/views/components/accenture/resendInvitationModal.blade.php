@@ -1,3 +1,7 @@
+{{--
+    Button that opens a modal to send an email to a vendor
+    --}}
+
 @props(['vendor', 'project'])
 
 <a class="btn btn-primary btn-lg btn-icon-text" href="#" data-toggle="modal" data-target="#resend_invite_modal-{{$vendor->id}}">

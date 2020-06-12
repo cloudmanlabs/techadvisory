@@ -53,6 +53,20 @@ This should only be reviewed by the client, as they're only answered by the vend
 
 This is basically a hack, because if we remove this screen the Selection Criteria subwizard stops working correctly. Why? No hecking idea. So we added a screen that looks like it's useful, which displays the list of invited vendors and gives the ability to add and remove them on projectEdit and accenture.newProjectSetUp.
 
+# Views and Blade
+
+Views are divided into 3 main sections, accentureViews, clientViews and vendorViews.
+
+About naming: Folders have Views attached because otherwise "vendor" would conflict with views from packages.
+
+There is also a Components folder, which keeps all the Components that are used throughout.
+
+## Components
+
+Components are separated into accenture, client and vendor, which correspond to the components used in those sections, and also options, and selectionCriteria. Options contains components for lists of options that go in Selects. SelectionCriteria contains components used for the Selection Criteria questions.
+
+Then, the components folder also has a lot of general components that are used all throughout the project.
+
 # Users
 
 There are three types of users: Accenture, Clients and Vendors.

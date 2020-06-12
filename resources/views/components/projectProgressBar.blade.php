@@ -1,3 +1,7 @@
+{{--
+    Shows the progress of a Project
+    --}}
+
 @props(['project', 'title'])
 
 @php

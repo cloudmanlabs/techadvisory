@@ -1,3 +1,7 @@
+{{--
+    Simple list of fields to edit the Project weights
+    --}}
+
 @props(['project', 'disabled'])
 
 @php

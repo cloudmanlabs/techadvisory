@@ -1,3 +1,7 @@
+{{--
+    To select the Scoring criteria values. Has some blocks that have to be dragged to select how much weight to give to each part
+    --}}
+
 @props(['project', 'isClient'])
 
 @php

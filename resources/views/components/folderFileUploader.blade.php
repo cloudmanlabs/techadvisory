@@ -1,3 +1,7 @@
+{{--
+    Dropzone to upload files to a Folder
+    --}}
+
 @props(['folder', 'disabled', 'label', 'timeout'])
 
 @php

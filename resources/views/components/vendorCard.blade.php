@@ -1,3 +1,7 @@
+{{--
+    Small card to display the vendor info
+    --}}
+
 @props(['showProgressBar', 'vendor', 'application', 'project'])
 
 <div class="card" style="margin-bottom: 30px;">

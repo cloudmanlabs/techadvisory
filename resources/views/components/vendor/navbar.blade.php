@@ -1,3 +1,7 @@
+{{--
+    Navbar for Vendor views
+    --}}
+
 @props(['activeSection'])
 
 <div class="horizontal-menu">

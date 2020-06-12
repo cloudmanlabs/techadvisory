@@ -1,3 +1,7 @@
+{{--
+    Contains the filter and the filtering functions for Vendors for the Benchmark views
+    --}}
+
 @props(['applications'])
 
 <div class="row">

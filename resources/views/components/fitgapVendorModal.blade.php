@@ -1,3 +1,7 @@
+{{--
+    Component that contains the modal for the fitgap for vendors
+     --}}
+
 @props(['project', 'vendor', 'disabled'])
 
 @php

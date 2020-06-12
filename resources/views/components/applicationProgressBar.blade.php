@@ -1,3 +1,8 @@
+{{--
+    Small progress bar to show the progress of a VendorApplication
+    --}}
+
+
 @props(['application', 'title'])
 
 @php

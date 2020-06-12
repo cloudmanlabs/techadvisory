@@ -1,3 +1,7 @@
+{{--
+    Shows preview images for files in a folder that can be previewed
+    --}}
+
 @props(['folder'])
 
 @php

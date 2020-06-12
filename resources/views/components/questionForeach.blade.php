@@ -1,3 +1,7 @@
+{{--
+    Shows all the $questions, each with it's corresponding type
+    --}}
+
 @props(['questions', 'class', 'disabled', 'required', 'fileUploadRoute', 'skipQuestionsInVendor'])
 
 @php

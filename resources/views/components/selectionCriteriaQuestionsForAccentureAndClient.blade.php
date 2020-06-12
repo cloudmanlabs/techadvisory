@@ -1,3 +1,10 @@
+{{--
+    Contains the part of Selection criteria questions used in Accenture and Client
+    Only shows question titles
+
+    This is part of the subwizard
+    --}}
+
 @props(['vendorCorporateQuestions','vendorMarketQuestions','experienceQuestions','innovationDigitalEnablersQuestions','innovationAlliancesQuestions','innovationProductQuestions','innovationSustainabilityQuestions','implementationImplementationQuestions','implementationRunQuestions'])
 
 <h3>Vendor</h3>

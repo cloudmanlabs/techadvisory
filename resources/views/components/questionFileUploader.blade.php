@@ -1,3 +1,7 @@
+{{--
+    Special component to upload files to a question
+    --}}
+
 @props(['question', 'fileUploadRoute', 'disabled', 'required'])
 
 @php

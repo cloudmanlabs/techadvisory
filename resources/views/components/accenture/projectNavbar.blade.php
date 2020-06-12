@@ -1,3 +1,7 @@
+{{--
+    Subnavbar for the Project views
+    --}}
+
 @props(['section', 'subsection', 'project'])
 
 <div class="row">

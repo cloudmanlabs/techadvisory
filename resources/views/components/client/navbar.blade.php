@@ -1,3 +1,7 @@
+{{--
+    Navbar for Client views
+    --}}
+
 @props(['activeSection'])
 
 <div class="horizontal-menu">

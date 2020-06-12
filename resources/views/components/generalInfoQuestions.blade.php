@@ -1,3 +1,12 @@
+{{--
+    Shows all the fixed general info questions and the changable ones
+
+    Has a lot of params to reuse it in all the different situations it has to be in
+
+    disableSpecialQuestions - boolean - Whether questions like name and client should be editable
+    firstTime - boolean - Whether to set the value field for name. This is so that they don't see the placeholder name that is set on create
+    --}}
+
 @props(['project', 'clients', 'disableSpecialQuestions', 'disabled', 'required', 'firstTime'])
 
 @php

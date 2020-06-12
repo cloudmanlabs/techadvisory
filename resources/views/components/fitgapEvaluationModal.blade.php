@@ -1,3 +1,7 @@
+{{--
+    Component that contains the modal for the fitgap for Accenture when evaluating vendors
+    --}}
+
 @props(['project', 'vendor', 'disabled'])
 
 @php

@@ -1,3 +1,7 @@
+{{--
+    Navbar for Accenture views
+    --}}
+
 @props(['activeSection'])
 
 <div class="horizontal-menu">

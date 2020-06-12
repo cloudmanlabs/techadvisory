@@ -1,3 +1,8 @@
+{{--
+    Card that shows the video and some text
+    Has a modal to show the video
+    --}}
+
 @props(['src', 'text'])
 
 <div class="row">
