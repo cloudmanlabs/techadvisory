@@ -383,6 +383,7 @@
             headerTag: "h3",
             bodyTag: "div",
             transitionEffect: "slideLeft",
+            stepsOrientation: "vertical",
             showFinishButtonAlways: false,
             enableFinishButton: false,
         });
