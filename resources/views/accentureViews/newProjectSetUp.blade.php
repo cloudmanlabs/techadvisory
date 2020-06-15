@@ -322,9 +322,10 @@
             forceMoveForward: false,
             showFinishButtonAlways: false,
             enableFinishButton: false,
+            enablePagination: false,
+            enableAllSteps: true,
             onFinishing: function (event, currentIndex) {
                 // TODO Only let the client submit if all the fields are full
-
                 window.location.replace("/accenture/home");
             },
             onStepChanged: function (e, c, p) {
@@ -343,6 +344,8 @@
             stepsOrientation: "vertical",
             showFinishButtonAlways: false,
             enableFinishButton: false,
+            enableAllSteps: true,
+            enablePagination: false,
         });
 
 

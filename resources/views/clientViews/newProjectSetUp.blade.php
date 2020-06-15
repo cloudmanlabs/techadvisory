@@ -341,10 +341,10 @@
 
 
 
-    var weAreOnPage3 = false;
+//     var weAreOnPage3 = false;
 
     $(document).ready(function() {
-        weAreOnPage3 = false;
+//         weAreOnPage3 = false;
 
         $("#wizard_client_newProjectSetUp").steps({
             headerTag: "h2",
@@ -353,23 +353,34 @@
             forceMoveForward: false,
             showFinishButtonAlways: false,
             enableFinishButton: false,
+            enableAllSteps: true,
+            enablePagination: false,
+            onInit: function () {
+                if({{$project->step4SubmittedAccenture ? 'false' : 'true'}}) {
+                    $('#wizard_client_newProjectSetUp-t-3').parent().addClass('disabled');
+                    $('#wizard_client_newProjectSetUp-t-3').parent().attr('aria-disabled', true);
+
+                    $('#wizard_client_newProjectSetUp-t-4').parent().addClass('disabled');
+                    $('#wizard_client_newProjectSetUp-t-4').parent().attr('aria-disabled', true);
+                }
+            },
             onFinishing: function (event, currentIndex) {
                 window.location.replace("/client/home");
             },
-            onStepChanging: function (e, c, n) {
-                if (n == 2) {
-                    weAreOnPage3 = true;
-
-                    if({{$project->step4SubmittedAccenture ? 'false' : 'true'}}){
-                        $('#wizard_client_newProjectSetUp-next').addClass('disabled')
-                    }
-                } else {
-                    weAreOnPage3 = false;
-                    $('#wizard_client_newProjectSetUp-next').removeClass('disabled')
-                    $('#wizard_client_newProjectSetUp-next').html('Next')
-                }
-                return true
-            },
+//             onStepChanging: function (e, c, n) {
+//                 if (n == 2) {
+//                     weAreOnPage3 = true;
+//
+//                     if({{$project->step4SubmittedAccenture ? 'false' : 'true'}}){
+//                         $('#wizard_client_newProjectSetUp-next').addClass('disabled')
+//                     }
+//                 } else {
+//                     weAreOnPage3 = false;
+//                     $('#wizard_client_newProjectSetUp-next').removeClass('disabled')
+//                     $('#wizard_client_newProjectSetUp-next').html('Next')
+//                 }
+//                 return true
+//             },
             onStepChanged: function (e, c, p) {
                 for (let i = 0; i < 10; i++) {
                     $('#wizard_client_newProjectSetUp-p-' + i).css('display', 'none')
@@ -377,6 +388,7 @@
                 $('#wizard_client_newProjectSetUp-p-' + c).css('display', 'block')
             }
         });
+
 
         // NOTE remember to keep this after the main wizard, else it breaks. haha so fun pls kill me
         $("#subwizard_here").steps({
