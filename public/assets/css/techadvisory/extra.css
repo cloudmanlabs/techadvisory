@@ -78,6 +78,11 @@ body {
     position: relative;
 }
 
+.wizard>.steps ul li a {
+    background: #38005a;
+    color: #ffffff;
+}
+
 .wizard>.steps ul li.done a {
     background: #38005a;
 }
