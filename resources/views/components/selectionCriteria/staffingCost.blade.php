@@ -80,8 +80,8 @@ $disabled = $disabled ?? false;
             <div>
                 <label for="projectName">Role ${childrenCount + 1}</label>
                 <div style="display: flex; flex-direction: row">
-                    <input type="number" class="form-control staffingCostTitleInput"
-                        placeholder="Estimated number of hours"
+                    <input type="text" class="form-control staffingCostTitleInput"
+                        placeholder="Title"
                         value="" required>
                     <input type="number" class="form-control staffingCostHoursInput"
                         placeholder="Estimated number of hours"

@@ -142,8 +142,6 @@
         updateTotalAdditionalCost();
 
 
-
-
         $('#additionalCostScore').change(function(){
             $.post('/vendorApplication/updateImplementationScores', {
                 application_id: {{$vendorApplication->id}},

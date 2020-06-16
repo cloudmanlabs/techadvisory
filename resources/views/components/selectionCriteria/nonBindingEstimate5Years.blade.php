@@ -34,7 +34,7 @@ $disabled = $disabled ?? false;
     <div id="estimate5YearsContainer">
         @foreach (($vendorApplication->estimate5Years ?? [0, 0, 0, 0, 0]) as $cost)
         <div>
-            <label for="projectName">Year {{$loop->iteration}}</label>
+            <label for="projectName">Year {{$loop->iteration}} (%)</label>
             <input type="number" class="form-control estimate5YearsHoursInput"
                 placeholder="Percentage out of total run"
                 value="{{$cost ?? ''}}"

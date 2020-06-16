@@ -221,10 +221,10 @@ class VendorApplication extends Model
         $otherScore = $this->fitgapOtherScore();
 
         return
-            (($fitgapFunctionalWeight ?? 60) / 100) * $functionalScore +
-            (($fitgapTechnicalWeight ?? 20) / 100) * $technicalScore +
-            (($fitgapServiceWeight ?? 10) / 100) * $serviceScore +
-            (($fitgapOthersWeight ?? 10) / 100) * $otherScore;
+            (($this->project->fitgapFunctionalWeight ?? 60) / 100) * $functionalScore +
+            (($this->project->fitgapTechnicalWeight ?? 20) / 100) * $technicalScore +
+            (($this->project->fitgapServiceWeight ?? 10) / 100) * $serviceScore +
+            (($this->project->fitgapOthersWeight ?? 10) / 100) * $otherScore;
     }
 
     function getVendorMultiplier(string $response){
@@ -242,7 +242,7 @@ class VendorApplication extends Model
             if ($value['Requirement Type'] == $type) {
                 $multiplier = $this->fitgapVendorColumns[$key]['Vendor Response'] ?? '';
 
-                $scores[] = $this->fitgapVendorScores[$key] * $this->getVendorMultiplier($multiplier);
+                $scores[] = $this->getVendorMultiplier($multiplier) / ($this->project->fitgapWeightFullySupports ?? 3);
             }
         }
 
@@ -250,7 +250,7 @@ class VendorApplication extends Model
             return 0;
         }
 
-        return array_sum($scores) / (count($scores) * 3);
+        return array_sum($scores) / count($scores);
     }
 
     public function fitgapFunctionalScore()

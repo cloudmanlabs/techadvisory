@@ -73,7 +73,7 @@ $disabled = $disabled ?? false;
             <div>
                 <label for="projectName">Month ${childrenCount + 1}</label>
                 <div style="display: flex; flex-direction: row">
-                    <input type="number" class="form-control travelTitleInput"
+                    <input type="text" class="form-control travelTitleInput"
                         placeholder="Title"
                         value=""
                         required>

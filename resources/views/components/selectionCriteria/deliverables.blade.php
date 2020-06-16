@@ -10,7 +10,7 @@ $disabled = $disabled ?? false;
     <div id="deliverableContainer">
         @foreach ($vendorApplication->deliverables ?? [] as $deliverable)
         <div style="margin-top: 1rem">
-            <label for="projectName">Phase {{$loop->iteration}}</label>
+            <label for="projectName">Deliverable {{$loop->iteration}}</label>
             <input type="text" class="form-control deliverableTitle"
                 placeholder="Phase {{$loop->iteration}} title"
                 {{$disabled ? 'disabled' : ''}}
@@ -55,7 +55,7 @@ $disabled = $disabled ?? false;
 
             let newDeliverable = `
             <div>
-                <label for="projectName">Phase ${childrenCount + 1}</label>
+                <label for="projectName">Deliverable ${childrenCount + 1}</label>
                 <input type="text" class="form-control deliverableTitle"
                     placeholder="Phase ${childrenCount + 1} title"
                     value="" required>

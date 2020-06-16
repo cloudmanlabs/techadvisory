@@ -32,7 +32,7 @@ $disabled = $disabled ?? false;
 @endif
 <br>
 <div>
-    <label for="projectName">Total Staffing cost</label>
+    <label for="projectName">Total Staffing cost (%)</label>
     <div style="display: flex; flex-direction: row">
         <input type="number" class="form-control nonBindingInput" placeholder="Percentage" data-changing="staffingCostNonBinding"
             value="{{$vendorApplication->staffingCostNonBinding}}" required
@@ -59,7 +59,7 @@ $disabled = $disabled ?? false;
 
 <br>
 <div>
-    <label for="projectName">Total Travel cost</label>
+    <label for="projectName">Total Travel cost (%)</label>
     <div style="display: flex; flex-direction: row">
         <input type="number" class="form-control nonBindingInput" placeholder="Percentage" data-changing="travelCostNonBinding"
             value="{{$vendorApplication->travelCostNonBinding}}" required
@@ -87,7 +87,7 @@ $disabled = $disabled ?? false;
 
 <br>
 <div>
-    <label for="projectName">Total Additional Cost</label>
+    <label for="projectName">Total Additional Cost (%)</label>
     <div style="display: flex; flex-direction: row">
         <input type="number" class="form-control nonBindingInput" placeholder="Percentage" data-changing="additionalCostNonBinding"
             value="{{$vendorApplication->additionalCostNonBinding}}" required
