@@ -318,7 +318,6 @@
         $("#wizard_accenture_newProjectSetUp").steps({
             headerTag: "h2",
             bodyTag: "section",
-            transitionEffect: "slideLeft",
             forceMoveForward: false,
             showFinishButtonAlways: false,
             enableFinishButton: false,
@@ -340,7 +339,6 @@
         $("#subwizard_here").steps({
             headerTag: "h3",
             bodyTag: "div",
-            transitionEffect: "slideLeft",
             stepsOrientation: "vertical",
             showFinishButtonAlways: false,
             enableFinishButton: false,

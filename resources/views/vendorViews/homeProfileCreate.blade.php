@@ -169,7 +169,6 @@
         $("#wizard_vendor_profile_create_here").steps({
             headerTag: "h2",
             bodyTag: "section",
-            transitionEffect: "slideLeft",
             showFinishButtonAlways: false,
             enableFinishButton: false,
             enableAllSteps: true,

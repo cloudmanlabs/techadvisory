@@ -4,7 +4,6 @@ $(function () {
     $("#wizard").steps({
         headerTag: "h2",
         bodyTag: "section",
-        transitionEffect: "slideLeft",
         enableAllSteps: true,
         enablePagination: false,
         onFinishing: function (event, currentIndex) {
@@ -16,7 +15,6 @@ $(function () {
     $("#wizard_vendor").steps({
         headerTag: "h2",
         bodyTag: "section",
-        transitionEffect: "slideLeft",
         enableAllSteps: true,
         enablePagination: false,
         onFinishing: function (event, currentIndex) {
@@ -28,7 +26,6 @@ $(function () {
     $("#wizard_vendor_go_to_home").steps({
         headerTag: "h2",
         bodyTag: "section",
-        transitionEffect: "slideLeft",
         onFinishing: function (event, currentIndex) {
             window.location.replace("./vendor_home.html");
         }
@@ -38,7 +35,6 @@ $(function () {
     $("#wizard_accenture").steps({
         headerTag: "h2",
         bodyTag: "section",
-        transitionEffect: "slideLeft",
         enableAllSteps: true,
         enablePagination: false,
         onFinishing: function (event, currentIndex) {
@@ -50,7 +46,6 @@ $(function () {
     $("#subwizard").steps({
         headerTag: "h3",
         bodyTag: "div",
-        transitionEffect: "slideLeft",
         enableAllSteps: true,
         enablePagination: false,
         stepsOrientation: "vertical",

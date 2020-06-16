@@ -4,7 +4,6 @@ $(async function() {
     $("#wizard").steps({
         headerTag: "h2",
         bodyTag: "section",
-        transitionEffect: "slideLeft",
         enableAllSteps: true,
         enablePagination: false,
         onFinishing: function(event, currentIndex) {
@@ -95,7 +94,6 @@ $(async function() {
     $("#wizard_vendor").steps({
         headerTag: "h2",
         bodyTag: "section",
-        transitionEffect: "slideLeft",
         enableAllSteps: true,
         enablePagination: false,
         onFinishing: function(event, currentIndex) {
@@ -106,7 +104,6 @@ $(async function() {
     $("#wizardVendorAccenture").steps({
         headerTag: "h2",
         bodyTag: "section",
-        transitionEffect: "slideLeft",
         enableAllSteps: true,
         enablePagination: false,
         onFinishing: function(event, currentIndex) {
@@ -117,7 +114,6 @@ $(async function() {
     $("#wizardVendorProfile").steps({
         headerTag: "h2",
         bodyTag: "section",
-        transitionEffect: "slideLeft",
         enableAllSteps: true,
         enablePagination: false,
         // labels: {
@@ -131,7 +127,6 @@ $(async function() {
     $("#wizard_vendor_go_to_home").steps({
         headerTag: "h2",
         bodyTag: "section",
-        transitionEffect: "slideLeft",
         enableAllSteps: true,
         enablePagination: false,
         onFinishing: function(event, currentIndex) {
@@ -143,7 +138,6 @@ $(async function() {
     $("#viewVendorProposalClient").steps({
         headerTag: "h2",
         bodyTag: "section",
-        transitionEffect: "slideLeft",
         onFinishing: function(event, currentIndex) {
             window.location.replace("/client/project/home");
         }
@@ -152,7 +146,6 @@ $(async function() {
     $("#viewVendorProposalEvaluationWizard").steps({
         headerTag: "h2",
         bodyTag: "section",
-        transitionEffect: "slideLeft",
         enableAllSteps: true,
         enablePagination: false,
         // labels: {
@@ -181,7 +174,6 @@ $(async function() {
     $("#projectViewWizard").steps({
         headerTag: "h2",
         bodyTag: "section",
-        transitionEffect: "slideLeft",
         showFinishButtonAlways: false,
         enableFinishButton: false,
         enableAllSteps: true,
@@ -229,7 +221,6 @@ $(async function() {
     $("#wizard_accenture").steps({
         headerTag: "h2",
         bodyTag: "section",
-        transitionEffect: "slideLeft",
         enableAllSteps: true,
         enablePagination: false,
         onFinishing: function(event, currentIndex) {
@@ -248,7 +239,6 @@ $(async function() {
     $("#subwizard").steps({
         headerTag: "h3",
         bodyTag: "div",
-        transitionEffect: "slideLeft",
         showFinishButtonAlways: false,
         enableFinishButton: false,
         enableAllSteps: true,
