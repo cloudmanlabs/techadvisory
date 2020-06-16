@@ -172,6 +172,8 @@
             transitionEffect: "slideLeft",
             showFinishButtonAlways: false,
             enableFinishButton: false,
+            enableAllSteps: true,
+            enablePagination: false,
         });
 
 

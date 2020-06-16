@@ -398,6 +398,9 @@
             stepsOrientation: "vertical",
             showFinishButtonAlways: false,
             enableFinishButton: false,
+            enableAllSteps: true,
+            enablePagination: false,
+            stepsOrientation: "vertical"
         });
 
 

@@ -5,6 +5,8 @@ $(function () {
         headerTag: "h2",
         bodyTag: "section",
         transitionEffect: "slideLeft",
+        enableAllSteps: true,
+        enablePagination: false,
         onFinishing: function (event, currentIndex) {
             window.location.replace("./client_home.html");
         }
@@ -15,6 +17,8 @@ $(function () {
         headerTag: "h2",
         bodyTag: "section",
         transitionEffect: "slideLeft",
+        enableAllSteps: true,
+        enablePagination: false,
         onFinishing: function (event, currentIndex) {
             window.location.replace("./vendor_new_solution_set_up.html");
         }
@@ -35,6 +39,8 @@ $(function () {
         headerTag: "h2",
         bodyTag: "section",
         transitionEffect: "slideLeft",
+        enableAllSteps: true,
+        enablePagination: false,
         onFinishing: function (event, currentIndex) {
             window.location.replace("./accenture_home.html");
         }
@@ -45,6 +51,9 @@ $(function () {
         headerTag: "h3",
         bodyTag: "div",
         transitionEffect: "slideLeft",
+        enableAllSteps: true,
+        enablePagination: false,
+        stepsOrientation: "vertical",
         onFinishing: function (event, currentIndex) {
             window.location.replace("./accenture_home.html");
         }

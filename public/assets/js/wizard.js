@@ -5,11 +5,14 @@ $(async function() {
         headerTag: "h2",
         bodyTag: "section",
         transitionEffect: "slideLeft",
+        enableAllSteps: true,
+        enablePagination: false,
         onFinishing: function(event, currentIndex) {
             window.location.replace("/client/home");
         }
     });
 
+    // No se usa por tanto no lo cambio
     $("#clientNewProjectSetUpWizard").steps({
         headerTag: "h2",
         bodyTag: "section",
@@ -44,6 +47,7 @@ $(async function() {
         }
     });
 
+    // No se usa y por tanto no lo cambio
     $("#clientNewProjectSetUpWizard-withSelectionCriteria").steps({
         headerTag: "h2",
         bodyTag: "section",
@@ -92,6 +96,8 @@ $(async function() {
         headerTag: "h2",
         bodyTag: "section",
         transitionEffect: "slideLeft",
+        enableAllSteps: true,
+        enablePagination: false,
         onFinishing: function(event, currentIndex) {
             window.location.replace("/vendors/newSolutionSetUp");
         }
@@ -101,6 +107,8 @@ $(async function() {
         headerTag: "h2",
         bodyTag: "section",
         transitionEffect: "slideLeft",
+        enableAllSteps: true,
+        enablePagination: false,
         onFinishing: function(event, currentIndex) {
             window.location.replace("/accenture/vendorList");
         }
@@ -110,9 +118,11 @@ $(async function() {
         headerTag: "h2",
         bodyTag: "section",
         transitionEffect: "slideLeft",
-        labels: {
-            finish: "Home"
-        },
+        enableAllSteps: true,
+        enablePagination: false,
+        // labels: {
+        //     finish: "Home"
+        // },
         onFinishing: function(event, currentIndex) {
             window.location.replace("/vendor/home");
         }
@@ -122,11 +132,14 @@ $(async function() {
         headerTag: "h2",
         bodyTag: "section",
         transitionEffect: "slideLeft",
+        enableAllSteps: true,
+        enablePagination: false,
         onFinishing: function(event, currentIndex) {
             window.location.replace("/vendors/home");
         }
     });
 
+    // No se usa por tanto no lo cambio
     $("#viewVendorProposalClient").steps({
         headerTag: "h2",
         bodyTag: "section",
@@ -140,9 +153,11 @@ $(async function() {
         headerTag: "h2",
         bodyTag: "section",
         transitionEffect: "slideLeft",
-        labels: {
-            finish: "Submit validation"
-        },
+        enableAllSteps: true,
+        enablePagination: false,
+        // labels: {
+        //     finish: "Submit validation"
+        // },
         onFinishing: function(event, currentIndex) {
             // TODO Here check if all thingies have a value
             window.location.replace("/accenture/project/home");
@@ -169,6 +184,8 @@ $(async function() {
         transitionEffect: "slideLeft",
         showFinishButtonAlways: false,
         enableFinishButton: false,
+        enableAllSteps: true,
+        enablePagination: false,
         // HACK Cause otherwise subwizards don't work
         onStepChanged: function(e, c, p) {
             for (let i = 0; i < 10; i++) {
@@ -213,6 +230,8 @@ $(async function() {
         headerTag: "h2",
         bodyTag: "section",
         transitionEffect: "slideLeft",
+        enableAllSteps: true,
+        enablePagination: false,
         onFinishing: function(event, currentIndex) {
             window.location.replace("/accenture/home");
         },
@@ -231,6 +250,9 @@ $(async function() {
         bodyTag: "div",
         transitionEffect: "slideLeft",
         showFinishButtonAlways: false,
-        enableFinishButton: false
+        enableFinishButton: false,
+        enableAllSteps: true,
+        enablePagination: false,
+        stepsOrientation: "vertical"
     });
 });
