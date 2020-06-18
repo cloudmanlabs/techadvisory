@@ -92,41 +92,6 @@ class FitgapTest extends TestCase
         $this->assertEquals('Project fully supports the functionality', $application->fitgapVendorColumns[0]['Vendor Response']);
     }
 
-    public function testCanSetVendorScoreArrayInVendorApplication()
-    {
-        $project = factory(Project::class)->create([
-            'fitgap5Columns' =>  [
-                [
-                    'Requirement Type' => 'yeeeeee',
-                    'Level 1' => 'hye',
-                    'Level 2' => 'hye',
-                    'Level 3' => 'hye',
-                    'Requirement' => 'hye',
-                ]
-            ]
-        ]);
-
-        /** @var User $vendor */
-        $vendor = factory(User::class)->states(['vendor', 'finishedSetup'])->create();
-        $application = $vendor->applyToProject($project);
-
-        // The observer should set the default values
-        $this->assertNotNull($application->fitgapVendorScores);
-        $this->assertIsArray($application->fitgapVendorScores);
-
-        // Check that we can change them anyway
-        $application->fitgapVendorScores = [
-            0, 1, 2, 4
-        ];
-        $application->save();
-
-        $application->refresh();
-        $this->assertNotNull($application->fitgapVendorScores);
-        $this->assertIsArray($application->fitgapVendorScores);
-
-        $this->assertEquals([0, 1, 2, 4], $application->fitgapVendorScores);
-    }
-
 
 
 
