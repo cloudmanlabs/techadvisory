@@ -282,7 +282,8 @@
         $("#projectEditWizard").steps({
             headerTag: "h2",
             bodyTag: "section",
-            transitionEffect: "slideLeft",
+            enableAllSteps: true,
+            enablePagination: false,
             labels: {
                 finish: "Save"
             },
@@ -313,9 +314,11 @@
         $("#subwizard_projectEdit").steps({
             headerTag: "h3",
             bodyTag: "div",
-            transitionEffect: "slideLeft",
             showFinishButtonAlways: false,
             enableFinishButton: false,
+            enableAllSteps: true,
+            enablePagination: false,
+            stepsOrientation: "vertical"
         });
 
 

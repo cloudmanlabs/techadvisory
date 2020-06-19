@@ -318,13 +318,13 @@
         $("#wizard_accenture_newProjectSetUp").steps({
             headerTag: "h2",
             bodyTag: "section",
-            transitionEffect: "slideLeft",
             forceMoveForward: false,
             showFinishButtonAlways: false,
             enableFinishButton: false,
+            enablePagination: false,
+            enableAllSteps: true,
             onFinishing: function (event, currentIndex) {
                 // TODO Only let the client submit if all the fields are full
-
                 window.location.replace("/accenture/home");
             },
             onStepChanged: function (e, c, p) {
@@ -339,9 +339,11 @@
         $("#subwizard_here").steps({
             headerTag: "h3",
             bodyTag: "div",
-            transitionEffect: "slideLeft",
+            stepsOrientation: "vertical",
             showFinishButtonAlways: false,
             enableFinishButton: false,
+            enableAllSteps: true,
+            enablePagination: false,
         });
 
 

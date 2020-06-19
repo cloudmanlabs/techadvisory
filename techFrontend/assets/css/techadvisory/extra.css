@@ -58,8 +58,13 @@ body {
     line-height: 17px;
 }
 
-.wizard>.content {
-    min-height: 35rem;
+/*.wizard>.content {*/
+/*    min-height: 35rem;*/
+/*}*/
+
+.wizard>.steps ul li a {
+    background: #38005a;
+    color: #ffffff;
 }
 
 .wizard>.steps ul li.done a {
