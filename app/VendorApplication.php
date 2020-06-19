@@ -226,7 +226,8 @@ class VendorApplication extends Model
             (($this->project->fitgapOthersWeight ?? 10) / 100) * $otherScore;
     }
 
-    function getVendorMultiplier(string $response){
+    function getScoreFromResponse(string $response)
+    {
         if($response == 'Product fully supports the functionality') return $this->project->fitgapWeightFullySupports ?? 3;
         if($response == 'Product partially supports the functionality') return $this->project->fitgapWeightPartiallySupports ?? 2;
         if($response == 'Functionality planned for a future release') return $this->project->fitgapWeightPlanned ?? 1;
@@ -234,23 +235,42 @@ class VendorApplication extends Model
         return $this->project->fitgapWeightNotSupported ?? 0;
     }
 
-    function averageScoreOfType(string $type) : float{
+    function getClientMultiplierInRow($row)
+    {
+        $response = $this->project->fitgapClientCols[$row]['Client'] ?? '';
+
+        if($response == 'Must') return $this->project->fitgapWeightMust ?? 10;
+        if($response == 'Required') return $this->project->fitgapWeightRequired ?? 5;
+        if($response == 'Nice to have') return $this->project->fitgapWeightNiceToHave ?? 1;
+
+        return 1;
+    }
+
+    function averageScoreOfType(string $type) : float
+    {
         $fitgap5cols = $this->project->fitgap5Columns;
 
         $scores = [];
+        $maxScores = [];
         foreach ($fitgap5cols as $key => $value) {
             if ($value['Requirement Type'] == $type) {
-                $multiplier = $this->fitgapVendorColumns[$key]['Vendor Response'] ?? '';
+                $response = $this->fitgapVendorColumns[$key]['Vendor Response'] ?? '';
+                $multiplier = $this->getClientMultiplierInRow($key);
 
-                $scores[] = $this->getVendorMultiplier($multiplier) / ($this->project->fitgapWeightFullySupports ?? 3);
+                $scores[] = $this->getScoreFromResponse($response) * $multiplier;
+                $maxScores[] = $multiplier * ($this->project->fitgapWeightFullySupports ?? 3);
             }
         }
 
-        if(count($scores) == 0) {
+        if(count($scores) == 0 || count($maxScores) == 0) {
             return 0;
         }
 
-        return array_sum($scores) / count($scores);
+        $denom = array_sum($maxScores);
+
+        if($denom == 0) return 0;
+
+        return array_sum($scores) / $denom;
     }
 
     public function fitgapFunctionalScore()

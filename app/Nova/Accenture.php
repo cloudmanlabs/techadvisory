@@ -70,7 +70,7 @@ class Accenture extends Resource
                 ->creationRules('unique:users,email')
                 ->updateRules('unique:users,email,{{resourceId}}'),
 
-            Image::make('Profile Picture', 'logo'),
+            // Image::make('Profile Picture', 'logo'),
 
             Password::make('Password')
                 ->onlyOnForms()
