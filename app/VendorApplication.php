@@ -270,7 +270,8 @@ class VendorApplication extends Model
 
         if($denom == 0) return 0;
 
-        return array_sum($scores) / $denom;
+        return
+            10 * (array_sum($scores) / $denom);
     }
 
     public function fitgapFunctionalScore()
