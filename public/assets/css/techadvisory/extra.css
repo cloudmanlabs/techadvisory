@@ -59,7 +59,9 @@ body {
 }
 
 /*.wizard>.content {*/
+
 /*    min-height: 47rem;*/
+
 /*}*/
 
 .wizard .content {
@@ -67,7 +69,7 @@ body {
     overflow: hidden;
 }
 
-.wizard .content > .body {
+.wizard .content>.body {
     width: 100%;
     height: auto;
     padding: 15px;
@@ -141,12 +143,6 @@ h5, .h5 {
     list-style: none !important;
     padding: 0;
     margin: 0
-}
-
-#subwizard>.content {
-    height: 35rem;
-    min-height: 35rem;
-    max-height: 35rem;
 }
 
 select:disabled {

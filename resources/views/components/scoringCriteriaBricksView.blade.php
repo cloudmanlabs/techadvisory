@@ -9,7 +9,7 @@ $dataId = 0;
 <div>
     <ul id="simpleList" class="brickList">
         @for ($i = 0; $i < 20 - array_sum($values); $i++)
-        <li data-id="{{$dataId++}}">
+        <li data-id="{{$dataId++}}" style="cursor: default">
             5%
         </li>
         @endfor
@@ -32,7 +32,7 @@ $dataId = 0;
                 <td>
                     <ul id="fitgapBricks" class="brickList">
                         @for ($i = 0; $i < $values[0]; $i++)
-                        <li data-id="{{$dataId++}}">
+                        <li data-id="{{$dataId++}}" style="cursor: default">
                             5%
                         </li>
                         @endfor
@@ -47,10 +47,11 @@ $dataId = 0;
                 <td>2. Vendor</td>
                 <td>
                     <ul id="vendorBricks" class="brickList">
-                        @for ($i = 0; $i < $values[1]; $i++) <li data-id="{{$dataId++}}">
+                        @for ($i = 0; $i < $values[1]; $i++)
+                        <li data-id="{{$dataId++}}" style="cursor: default">
                             5%
-                            </li>
-                            @endfor
+                        </li>
+                        @endfor
                     </ul>
                 </td>
                 <td id="vendorTotal">
@@ -62,10 +63,11 @@ $dataId = 0;
                 <td>3. Experience</td>
                 <td>
                     <ul id="experienceBricks" class="brickList">
-                        @for ($i = 0; $i < $values[2]; $i++) <li data-id="{{$dataId++}}">
+                        @for ($i = 0; $i < $values[2]; $i++)
+                        <li data-id="{{$dataId++}}" style="cursor: default">
                             5%
-                            </li>
-                            @endfor
+                        </li>
+                        @endfor
                     </ul>
                 </td>
                 <td id="experienceTotal">
@@ -77,10 +79,11 @@ $dataId = 0;
                 <td>4. Innovation & Vision</td>
                 <td>
                     <ul id="innovationBricks" class="brickList">
-                        @for ($i = 0; $i < $values[3]; $i++) <li data-id="{{$dataId++}}">
+                        @for ($i = 0; $i < $values[3]; $i++)
+                        <li data-id="{{$dataId++}}" style="cursor: default">
                             5%
-                            </li>
-                            @endfor
+                        </li>
+                        @endfor
                     </ul>
                 </td>
                 <td id="innovationTotal">
@@ -92,10 +95,11 @@ $dataId = 0;
                 <td>5. Implementation & Commercials</td>
                 <td>
                     <ul id="implementationBricks" class="brickList">
-                        @for ($i = 0; $i < $values[4]; $i++) <li data-id="{{$dataId++}}">
+                        @for ($i = 0; $i < $values[4]; $i++)
+                        <li data-id="{{$dataId++}}" style="cursor: default">
                             5%
-                            </li>
-                            @endfor
+                        </li>
+                        @endfor
                     </ul>
                 </td>
                 <td id="implementationTotal">

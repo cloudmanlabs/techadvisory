@@ -8,14 +8,14 @@
     $disabled = $disabled ?? false;
 
     $fields = [
-        'fitgapWeightMust' => 'Fitgap Client Weight: Must',
-        'fitgapWeightRequired' => 'Fitgap Client Weight: Required',
-        'fitgapWeightNiceToHave' => 'Fitgap Client Weight: Nice to have',
+        // 'fitgapWeightMust' => 'Fitgap Client Weight: Must',
+        // 'fitgapWeightRequired' => 'Fitgap Client Weight: Required',
+        // 'fitgapWeightNiceToHave' => 'Fitgap Client Weight: Nice to have',
 
-        'fitgapWeightFullySupports' => 'Fitgap Vendor Weight: Fully supports',
-        'fitgapWeightPartiallySupports' => 'Fitgap Vendor Weight: Partially supports',
-        'fitgapWeightPlanned' => 'Fitgap Vendor Weight: Planned',
-        'fitgapWeightNotSupported' => 'Fitgap Vendor Weight: Not supported',
+        // 'fitgapWeightFullySupports' => 'Fitgap Vendor Weight: Fully supports',
+        // 'fitgapWeightPartiallySupports' => 'Fitgap Vendor Weight: Partially supports',
+        // 'fitgapWeightPlanned' => 'Fitgap Vendor Weight: Planned',
+        // 'fitgapWeightNotSupported' => 'Fitgap Vendor Weight: Not supported',
 
         'fitgapFunctionalWeight' => 'Fitgap Detailed Weight: Functional',
         'fitgapTechnicalWeight' => 'Fitgap Detailed Weight: Technical',
