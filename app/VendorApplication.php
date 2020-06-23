@@ -299,11 +299,16 @@ class VendorApplication extends Model
 
     public function vendorScore()
     {
-        return $this->project->selectionCriteriaQuestionsForVendor($this->vendor)->whereHas('originalQuestion', function ($query) {
+        $corp = $this->project->selectionCriteriaQuestionsForVendor($this->vendor)->whereHas('originalQuestion', function ($query) {
             $query
-                ->where('page', 'vendor_corporate')
-                ->orWhere('page', 'vendor_market');
+                ->where('page', 'vendor_corporate');
         })->avg('score') ?? 0;
+        $market = $this->project->selectionCriteriaQuestionsForVendor($this->vendor)->whereHas('originalQuestion', function ($query) {
+            $query
+                ->where('page', 'vendor_market');
+        })->avg('score') ?? 0;
+
+        return collect([$corp, $market])->avg();
     }
 
     public function experienceScore()
@@ -316,13 +321,24 @@ class VendorApplication extends Model
 
     public function innovationScore()
     {
-        return $this->project->selectionCriteriaQuestionsForVendor($this->vendor)->whereHas('originalQuestion', function ($query) {
+        $digital = $this->project->selectionCriteriaQuestionsForVendor($this->vendor)->whereHas('originalQuestion', function ($query) {
             $query
-                ->where('page', 'innovation_digitalEnablers')
-                ->orWhere('page', 'innovation_alliances')
-                ->orWhere('page', 'innovation_product')
-                ->orWhere('page', 'innovation_sustainability');
+                ->where('page', 'innovation_digitalEnablers');
         })->avg('score') ?? 0;
+        $alliances = $this->project->selectionCriteriaQuestionsForVendor($this->vendor)->whereHas('originalQuestion', function ($query) {
+            $query
+                ->where('page', 'innovation_alliances');
+        })->avg('score') ?? 0;
+        $product = $this->project->selectionCriteriaQuestionsForVendor($this->vendor)->whereHas('originalQuestion', function ($query) {
+            $query
+                ->where('page', 'innovation_product');
+        })->avg('score') ?? 0;
+        $sustainability = $this->project->selectionCriteriaQuestionsForVendor($this->vendor)->whereHas('originalQuestion', function ($query) {
+            $query
+                ->where('page', 'innovation_sustainability');
+        })->avg('score') ?? 0;
+
+        return collect([$digital, $alliances, $product, $sustainability])->avg();
     }
 
     public function implementationScore()
