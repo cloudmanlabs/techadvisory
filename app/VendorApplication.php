@@ -343,29 +343,139 @@ class VendorApplication extends Model
 
     public function implementationScore()
     {
-        $impScore = $this->project->selectionCriteriaQuestionsForVendor($this->vendor)->whereHas('originalQuestion', function ($query) {
-            $query
-                ->where('page', 'implementation_implementation');
-        })->avg('score') ?? 0;
+        $impScore = $this->implementationImplementationScore();
 
-        $runScore = $this->project->selectionCriteriaQuestionsForVendor($this->vendor)->whereHas('originalQuestion', function ($query) {
-            $query
-                ->where('page', 'implementation_run');
-        })->avg('score') ?? 0;
+        $runScore = $this->implementationRunScore();
 
-        return (($this->project->implementationImplementationWeight ?? 20) / 100) * $impScore + (($this->project->implementationRunWeight ?? 80) / 100) * $runScore;
+        return
+            (($this->project->implementationImplementationWeight ?? 20) / 100) * $impScore +
+            (($this->project->implementationRunWeight ?? 80) / 100) * $runScore;
+    }
+
+    public function implementationImplementationScore()
+    {
+        if ($this->project->isBinding) {
+            return 0;
+        } else {
+            $delta = $this->nonBindingImplementationCostDelta();
+
+            if ($delta == 0) return 10;
+            if($delta <= 5) return 9;
+            if($delta <= 10) return 8;
+            if($delta <= 15) return 7;
+            if($delta <= 20) return 6;
+            if($delta <= 25) return 5;
+            if($delta <= 30) return 4;
+            if($delta <= 35) return 3;
+            if($delta <= 40) return 2;
+            if($delta <= 45) return 1;
+            return 0;
+        }
+    }
+
+    public function implementationRunScore()
+    {
+        if ($this->project->isBinding) {
+            return 0;
+        } else {
+            $delta = $this->nonBindingRunCostDelta();
+
+            if ($delta == 0) return 10;
+            if ($delta <= 5) return 9;
+            if ($delta <= 10) return 8;
+            if ($delta <= 15) return 7;
+            if ($delta <= 20) return 6;
+            if ($delta <= 25) return 5;
+            if ($delta <= 30) return 4;
+            if ($delta <= 35) return 3;
+            if ($delta <= 40) return 2;
+            if ($delta <= 45) return 1;
+            return 0;
+        }
+    }
+
+
+
+    public function nonBindingAverageImplementationCost()
+    {
+        if($this->project->isBinding){
+            throw new \Exception('Calling nonBinding method in a binding project');
+        }
+
+        return collect([
+            $this->overallImplementationMin ?? 0,
+            $this->overallImplementationMax ?? 0,
+        ])->average();
+    }
+
+    public function nonBindingImplementationCostDelta()
+    {
+        if($this->project->isBinding){
+            throw new \Exception('Calling nonBinding method in a binding project');
+        }
+
+        $minCost = $this->project->nonBindingMinImplementationCost();
+        $cost = $this->nonBindingAverageImplementationCost();
+
+        if($minCost == 0){
+            // If the min and this vendors cost is 0, the delta is 0
+            if($cost == 0) return 0;
+            // If not, it means that this vendor has a cost, but there is a vendor with cost 0, so delta is "infinite"
+            return 100000000;
+        }
+
+        $difference = $cost - $minCost;
+
+        assert($difference >= 0, "Something minus the minimum should return a positive number or 0.");
+
+        return ($difference / $minCost) * 10;
+    }
+
+    public function nonBindingAverageRunCost()
+    {
+        if ($this->project->isBinding) {
+            throw new \Exception('Calling nonBinding method in a binding project');
+        }
+
+        return collect([
+            $this->averageYearlyCostMin ?? 0,
+            $this->averageYearlyCostMax ?? 0,
+        ])->average();
+    }
+
+    public function nonBindingRunCostDelta()
+    {
+        if ($this->project->isBinding) {
+            throw new \Exception('Calling nonBinding method in a binding project');
+        }
+
+        $minCost = $this->project->nonBindingMinRunCost();
+        $cost = $this->nonBindingAverageRunCost();
+
+        if ($minCost == 0) {
+            // If the min and this vendors cost is 0, the delta is 0
+            if ($cost == 0) return 0;
+            // If not, it means that this vendor has a cost, but there is a vendor with cost 0, so delta is "infinite"
+            return 100000000;
+        }
+
+        $difference = $cost - $minCost;
+
+        assert($difference >= 0, "Something minus the minimum should return a positive number or 0.");
+
+        return ($difference / $minCost) * 10;
     }
 
     public function implementationMoney()
     {
-        if($this->project->isBinding){
+        if ($this->project->isBinding) {
             return collect([
                 $this->staffingCost ?? [0],
                 $this->travelCost ?? [0],
                 $this->additionalCost ?? [0],
             ])
-            ->flatten()
-            ->average();
+                ->flatten()
+                ->average();
         } else {
             return collect([
                 $this->staffingCostNonBinding ?? 0,

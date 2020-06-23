@@ -115,7 +115,7 @@ class Project extends Model
     public function hasCompletedBusinessOpportunity()
     {
         foreach (($this->fitgapClientColumns ?? []) as $key => $value) {
-            if(!isset($value['Business Opportunity']) || $value['Business Opportunity'] == null || $value['Business Opportunity'] == '') return false;
+            if (!isset($value['Business Opportunity']) || $value['Business Opportunity'] == null || $value['Business Opportunity'] == '') return false;
         }
         return true;
     }
@@ -123,7 +123,7 @@ class Project extends Model
     public function hasSentOrals()
     {
         foreach ($this->vendorApplications as $key => $application) {
-            if($application->invitedToOrals){
+            if ($application->invitedToOrals) {
                 return true;
             }
             if ($application->oralsCompleted) {
@@ -172,7 +172,7 @@ class Project extends Model
 
     public function generalInfoQuestionsInPage(string $page)
     {
-        return $this->generalInfoQuestions->filter(function(GeneralInfoQuestionResponse $response) use ($page){
+        return $this->generalInfoQuestions->filter(function (GeneralInfoQuestionResponse $response) use ($page) {
             return $response->originalQuestion->page == $page;
         });
     }
@@ -194,16 +194,16 @@ class Project extends Model
      * @param string[]|null $phase
      * @return \Illuminate\Database\Eloquent\Builder
      */
-    public function vendorsApplied($phase = null) : \Illuminate\Database\Eloquent\Builder
+    public function vendorsApplied($phase = null): \Illuminate\Database\Eloquent\Builder
     {
         return User::vendorUsers()
-                ->whereHas('vendorApplications', function (Builder $query) use ($phase) {
-                    if ($phase == null) {
-                        $query->where('project_id', $this->id);
-                    } else {
-                        $query->where('project_id', $this->id)->whereIn('phase', $phase);
-                    }
-                });
+            ->whereHas('vendorApplications', function (Builder $query) use ($phase) {
+                if ($phase == null) {
+                    $query->where('project_id', $this->id);
+                } else {
+                    $query->where('project_id', $this->id)->whereIn('phase', $phase);
+                }
+            });
     }
 
 
@@ -236,12 +236,12 @@ class Project extends Model
     public function progressSetUp()
     {
         $score = 0;
-        if($this->step3SubmittedAccenture) $score += 5;
-        if($this->step4SubmittedAccenture) $score += 10;
-        if($this->step3SubmittedClient) $score += 10;
-        if($this->step4SubmittedClient) $score += 10;
-        if($this->currentPhase == 'open') {
-            if($this->hasValueTargeting) $score += 5;
+        if ($this->step3SubmittedAccenture) $score += 5;
+        if ($this->step4SubmittedAccenture) $score += 10;
+        if ($this->step3SubmittedClient) $score += 10;
+        if ($this->step4SubmittedClient) $score += 10;
+        if ($this->currentPhase == 'open') {
+            if ($this->hasValueTargeting) $score += 5;
             else $score += 25;
         }
 
@@ -251,12 +251,12 @@ class Project extends Model
     public function progressValue()
     {
         $score = 0;
-        if($this->hasValueTargeting){
-            if($this->hasValueTargetingFilesInEach()){
+        if ($this->hasValueTargeting) {
+            if ($this->hasValueTargetingFilesInEach()) {
                 $score += 10;
             }
 
-            if($this->hasCompletedBusinessOpportunity()){
+            if ($this->hasCompletedBusinessOpportunity()) {
                 $score += 10;
             }
         }
@@ -267,7 +267,7 @@ class Project extends Model
     {
         $score = 0;
 
-        if($this->vendorsApplied(['pendingEvaluation', 'evaluated', 'submitted'])->count() > 0){
+        if ($this->vendorsApplied(['pendingEvaluation', 'evaluated', 'submitted'])->count() > 0) {
             $score += 15;
         }
 
@@ -282,7 +282,7 @@ class Project extends Model
     {
         $score = 0;
 
-        if($this->publishedAnalytics){
+        if ($this->publishedAnalytics) {
             $score += 5;
         }
 
@@ -301,6 +301,50 @@ class Project extends Model
         }
         return $score;
     }
+
+
+
+
+
+
+    /**
+     * Returns the minimum Implementation cost of all the vendors in this Project
+     *
+     * @throws \Exception
+     * @return int
+     */
+    public function nonBindingMinImplementationCost() : int
+    {
+        if ($this->isBinding) {
+            throw new \Exception('Calling nonBinding method in a binding project');
+        }
+
+        return $this->vendorApplications->map(function (VendorApplication $application) {
+            return $application->nonBindingAverageImplementationCost();
+        })->min();
+    }
+
+    /**
+     * Returns the minimum Run cost of all the vendors in this Project
+     *
+     * @throws \Exception
+     * @return int
+     */
+    public function nonBindingMinRunCost() : int
+    {
+        if ($this->isBinding) {
+            throw new \Exception('Calling nonBinding method in a binding project');
+        }
+
+        return $this->vendorApplications->map(function (VendorApplication $application) {
+            return $application->nonBindingAverageRunCost();
+        })->min();
+    }
+
+
+
+
+
 
 
 
