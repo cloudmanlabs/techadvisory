@@ -20,7 +20,7 @@ $isAccenture = $isAccenture ?? true;
 
     <div class="modal fade fitgapClientModal" tabindex="-1" role="dialog" aria-labelledby="myExtraLargeModalLabel"
         aria-hidden="true">
-        <div class="modal-dialog modal-xl">
+        <div class="modal-dialog modal-xl" style="max-width: unset; margin: 30px">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="exampleModalLabel">Edit fitgap table</h5>

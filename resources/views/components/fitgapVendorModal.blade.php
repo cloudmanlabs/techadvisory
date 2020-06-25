@@ -19,7 +19,7 @@ $disabled = $disabled ?? false;
 
     <div class="modal fade bd-example-modal-xl" tabindex="-1" role="dialog" aria-labelledby="myExtraLargeModalLabel"
         aria-hidden="true">
-        <div class="modal-dialog modal-xl">
+        <div class="modal-dialog modal-xl" style="max-width: unset; margin: 30px">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="exampleModalLabel">Please complete the Fit Gap table</h5>
