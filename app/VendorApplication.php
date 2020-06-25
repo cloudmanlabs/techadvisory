@@ -391,18 +391,21 @@ class VendorApplication extends Model
     public function averageImplementationCost()
     {
         if($this->project->isBinding){
+            Log::debug($this->staffingCost);
+            Log::debug($this->staffingCost == null);
+            Log::debug(count($this->staffingCost));
             return collect([
                 collect($this->staffingCost ?? [0])->avg(),
                 collect($this->travelCost ?? [0])->avg(),
                 collect($this->additionalCost ?? [0])->avg(),
             ])
-                ->average();
+                ->avg();
+        } else {
+            return collect([
+                $this->overallImplementationMin ?? 0,
+                $this->overallImplementationMax ?? 0,
+            ])->average();
         }
-
-        return collect([
-            $this->overallImplementationMin ?? 0,
-            $this->overallImplementationMax ?? 0,
-        ])->average();
     }
 
     public function implementationCostDelta()
