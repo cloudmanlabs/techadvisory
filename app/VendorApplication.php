@@ -472,12 +472,23 @@ class VendorApplication extends Model
     {
         if ($this->project->isBinding) {
             return collect([
-                $this->staffingCost ?? [0],
-                $this->travelCost ?? [0],
-                $this->additionalCost ?? [0],
+                collect($this->staffingCost ?? ['cost' => '0',])
+                    ->map(function ($el) {
+                        return $el['cost'] ?? 0;
+                    })
+                    ->avg(),
+                collect($this->travelCost ?? ['cost' => '0',])
+                    ->map(function ($el) {
+                        return $el['cost'] ?? 0;
+                    })
+                    ->avg(),
+                collect($this->additionalCost ?? ['cost' => '0',])
+                    ->map(function ($el) {
+                        return $el['cost'] ?? 0;
+                    })
+                    ->avg(),
             ])
-                ->flatten()
-                ->average();
+                ->avg();
         } else {
             return collect([
                 $this->staffingCostNonBinding ?? 0,
