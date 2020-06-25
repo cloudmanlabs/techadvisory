@@ -131,7 +131,7 @@ class VendorApplication extends Model
         $vendorQuestions = $this->project
                                 ->selectionCriteriaQuestionsOriginals()
                                 ->whereIn('page', $pages)
-                                ->pluck('selection_criteria_questions.id')
+                                ->pluck('id')
                                 ->toArray();
 
         $answeredQuestions = $this->project
