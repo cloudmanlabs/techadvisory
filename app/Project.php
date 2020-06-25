@@ -282,12 +282,18 @@ class Project extends Model
     {
         $score = 0;
 
-        if ($this->publishedAnalytics) {
-            $score += 5;
-        }
+        if($this->hasOrals){
+            if ($this->publishedAnalytics) {
+                $score += 5;
+            }
 
-        if ($this->hasSentOrals() || !$this->hasOrals) {
-            $score += 5;
+            if ($this->hasSentOrals()) {
+                $score += 5;
+            }
+        } else {
+            if ($this->publishedAnalytics) {
+                $score += 10;
+            }
         }
 
         return $score;

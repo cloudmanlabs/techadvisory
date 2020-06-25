@@ -1,7 +1,7 @@
 @props(['selected'])
 
 <option disabled {{strlen($selected)  == 0 ? 'selected' : ''}}>
-    Please select the range
+    Please select an option
 </option>
 
 <option value="automative" {{('automative' == $selected) ? 'selected' : ''}}>
