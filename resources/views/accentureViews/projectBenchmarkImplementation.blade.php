@@ -108,13 +108,13 @@
                                                             <tr>
                                                                 <th class="table-dark">Implementation</th>
                                                                 @foreach ($applications as $application)
-                                                                <td class="filterByVendor" data-vendor="{{$application->vendor->name}}">$ {{$application->implementationMoney()}}</td>
+                                                                <td class="filterByVendor" data-vendor="{{$application->vendor->name}}">$ {{number_format($application->implementationMoney(), 2)}}</td>
                                                                 @endforeach
                                                             </tr>
                                                             <tr>
                                                                 <th class="table-dark">Run (5 years)</th>
                                                                 @foreach ($applications as $application)
-                                                                <td class="filterByVendor" data-vendor="{{$application->vendor->name}}">$ {{$application->runMoney()}}</td>
+                                                                <td class="filterByVendor" data-vendor="{{$application->vendor->name}}">$ {{number_format($application->runMoney(), 2)}}</td>
                                                                 @endforeach
                                                             </tr>
                                                         </tbody>
