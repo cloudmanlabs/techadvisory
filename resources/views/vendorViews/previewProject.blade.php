@@ -161,3 +161,44 @@
         </div>
     </div>
 @endsection
+
+@section('head')
+@parent
+
+<style>
+    select.form-control {
+        color: #495057;
+    }
+
+    .select2-results__options .select2-results__option[aria-disabled=true] {
+        display: none;
+    }
+
+    #subwizard_here ul>li {
+        display: block;
+    }
+</style>
+<link rel="stylesheet" href="{{url('/assets/css/techadvisory/vendorValidateResponses.css')}}">
+@endsection
+
+@section('scripts')
+@parent
+<script>
+    $(document).ready(function() {
+        $(".js-example-basic-single").select2();
+        $(".js-example-basic-multiple").select2();
+
+        $('.datepicker').each(function(){
+            var date = new Date($(this).data('initialvalue'));
+
+            $(this).datepicker({
+                format: "mm/dd/yyyy",
+                todayHighlight: true,
+                autoclose: true
+            });
+            $(this).datepicker('setDate', date);
+        });
+
+    });
+</script>
+@endsection
