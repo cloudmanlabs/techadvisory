@@ -313,14 +313,10 @@ class Project extends Model
      * @throws \Exception
      * @return int
      */
-    public function nonBindingMinImplementationCost() : int
+    public function minImplementationCost() : int
     {
-        if ($this->isBinding) {
-            throw new \Exception('Calling nonBinding method in a binding project');
-        }
-
         return $this->vendorApplications->map(function (VendorApplication $application) {
-            return $application->nonBindingAverageImplementationCost();
+            return $application->averageImplementationCost();
         })->min();
     }
 
@@ -330,14 +326,10 @@ class Project extends Model
      * @throws \Exception
      * @return int
      */
-    public function nonBindingMinRunCost() : int
+    public function minRunCost() : int
     {
-        if ($this->isBinding) {
-            throw new \Exception('Calling nonBinding method in a binding project');
-        }
-
         return $this->vendorApplications->map(function (VendorApplication $application) {
-            return $application->nonBindingAverageRunCost();
+            return $application->averageRunCost();
         })->min();
     }
 
