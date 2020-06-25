@@ -56,14 +56,21 @@ $disabled = $disabled ?? false;
     $(document).ready(function() {
         function updateEstimateTotalCost(){
             const year0Cost = $('#estimate5YearsYear0Cost').val();
-            const cost = $('#estimate5YearsContainer').children()
+
+            const elementsToAdd =
+                $('#estimate5YearsContainer').children()
                 .map(function(){
                     return $(this).children('.estimate5YearsHoursInput').val()
-                }).toArray();
-
-            const totalCost = cost.map((el) => +el).reduce((a, b) => a + b, 0)
+                })
+                .toArray()
+                .map(el => +el)
+                .filter(el => el != 0);
+            const totalCost = elementsToAdd
+                .reduce((a, b) => a + b, 0);
             $('#totalEstimate5YearsCost').html(totalCost + (+year0Cost));
-            $('#averageEstimate5YearsCost').html(totalCost / 5);
+            if(elementsToAdd.length != 0){
+                $('#averageEstimate5YearsCost').html(totalCost / (elementsToAdd.length));
+            }
         }
 
         function setEstimate5YearsEditListener(){
@@ -82,12 +89,12 @@ $disabled = $disabled ?? false;
             $.post('/vendorApplication/updateEstimate5Years', {
                 changing: {{$vendorApplication->id}},
                 value: cost,
-                year0: $('#estimate5YearsYear0Cost').val()
+                year0: +$('#estimate5YearsYear0Cost').val() ?? 0
             })
 
             showSavedToast();
             if(updateSubmitButton){
-            updateSubmitButton();
+                updateSubmitButton();
             }
         }
 

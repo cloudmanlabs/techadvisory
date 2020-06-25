@@ -103,7 +103,7 @@
                     }
                 }).toArray();
 
-            const totalCost = cost.map((el) => +el).reduce((a, b) => a + b, 0)
+            const totalCost = cost.map((el) => +el.cost).reduce((a, b) => a + b, 0)
             $('#totalAdditionalCost').html(totalCost);
 
             updateTotalImplementation()

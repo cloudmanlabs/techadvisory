@@ -270,10 +270,16 @@
 
         let cost = $('#travelCostContainer').children()
             .map(function(){
-                return $(this).children('.travelCostHoursInput').val()
+                return $(this).children().get(1)
+            })
+            .map(function(){
+                return {
+                    title: $(this).children('.travelTitleInput').val(),
+                    cost: $(this).children('.travelCostInput').val(),
+                }
             }).toArray();
 
-        total += cost.map((el) => +el).reduce((a, b) => a + b, 0)
+        total += cost.map((el) => +el.cost).reduce((a, b) => a + b, 0)
 
         cost = $('#staffingCostContainer').children()
             .map(function(){
@@ -281,6 +287,7 @@
             })
             .map(function(){
                 return {
+                    title: $(this).children('.staffingCostTitleInput').val(),
                     hours: $(this).children('.staffingCostHoursInput').val(),
                     rate: $(this).children('.staffingCostRateInput').val(),
                     cost: $(this).children('.staffingCostCostInput').val(),
@@ -291,11 +298,16 @@
 
         cost = $('#additionalCostContainer').children()
             .map(function(){
-                return $(this).children('.additionalCostHoursInput').val()
+                return $(this).children().get(1)
+            })
+            .map(function(){
+                return {
+                    title: $(this).children('.additionalTitleInput').val(),
+                    cost: $(this).children('.additionalCostInput').val(),
+                }
             }).toArray();
 
-        total += cost.map((el) => +el).reduce((a, b) => a + b, 0)
-
+        total += cost.map((el) => +el.cost).reduce((a, b) => a + b, 0)
 
         $('#overallImplementationCost').html(total);
     }
