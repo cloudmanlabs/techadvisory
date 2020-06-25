@@ -192,6 +192,9 @@ class User extends Authenticatable
     public function averageScore()
     {
         return $this->vendorApplications
+            ->filter(function (VendorApplication $application) {
+                return $application->project != null;
+            })
             ->map(function ($application){
                 return $application->totalScore();
             })
@@ -201,7 +204,10 @@ class User extends Authenticatable
     public function averageRanking()
     {
         return $this->vendorApplications
-            ->map(function ($application) {
+            ->filter(function(VendorApplication $application){
+                return $application->project != null;
+            })
+            ->map(function (VendorApplication $application) {
                 return $application->ranking();
             })
             ->average();

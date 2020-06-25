@@ -162,6 +162,10 @@ class VendorApplication extends Model
 
     public function ranking()
     {
+        if($this->project == null){
+            return 0;
+        }
+
         $applications = $this->project->vendorApplications->sortByDesc(function($application){
             return $application->totalScore();
         });
@@ -180,6 +184,10 @@ class VendorApplication extends Model
 
     public function totalScore()
     {
+        if ($this->project == null) {
+            return 0;
+        }
+
         $weights = collect($this->project->scoringValues ?? [0, 0, 0, 0, 0])
                             ->map(function($times){
                                 // We save the number of blocks, not the actual percentage
