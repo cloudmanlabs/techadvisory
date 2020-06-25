@@ -2,8 +2,10 @@
 
 namespace App\Exports;
 
+use App\User;
 use App\UserCredential;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Log;
 use Maatwebsite\Excel\Concerns\FromCollection;
 
 class MultiUserCredentialExport implements FromCollection
@@ -21,17 +23,15 @@ class MultiUserCredentialExport implements FromCollection
      */
     public function collection()
     {
-        $ret = collect([
-            [
-                'Email' => 'Email',
-                'Name' => 'Name',
-                'Id' => 'Id',
-                'User Id' => 'User Id',
-            ]
-        ]);
-        foreach ($this->users as $key => $user) {
-            # code...
-            $return = $user->credentials->map(function (UserCredential $credential) use ($user) {
+        $ret = [
+            'Email' => 'Email',
+            'Name' => 'Name',
+            'Id' => 'Id',
+            'User Id' => 'User Id',
+        ];
+
+        $return = $this->users->flatMap(function(User $user){
+            return $user->credentials->map(function (UserCredential $credential) use ($user) {
                 // email, nombre, ID cliente/vendor, ID usuario
                 return [
                     'Email' => $credential->email,
@@ -40,10 +40,10 @@ class MultiUserCredentialExport implements FromCollection
                     'User Id' => $credential->id
                 ];
             });
+        });
 
-            $ret->concat($return);
-        }
+        $return->prepend($ret);
 
-        return $ret;
+        return $return;
     }
 }
