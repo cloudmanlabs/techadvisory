@@ -391,13 +391,22 @@ class VendorApplication extends Model
     public function averageImplementationCost()
     {
         if($this->project->isBinding){
-            Log::debug($this->staffingCost);
-            Log::debug($this->staffingCost == null);
-            Log::debug(count($this->staffingCost));
             return collect([
-                collect($this->staffingCost ?? [0])->avg(),
-                collect($this->travelCost ?? [0])->avg(),
-                collect($this->additionalCost ?? [0])->avg(),
+                collect($this->staffingCost ?? ['cost' => '0',])
+                    ->map(function($el){
+                        return $el['cost'] ?? 0;
+                    })
+                    ->avg(),
+                collect($this->travelCost ?? ['cost' => '0',])
+                    ->map(function($el){
+                        return $el['cost'] ?? 0;
+                    })
+                    ->avg(),
+                collect($this->additionalCost ?? ['cost' => '0',])
+                    ->map(function($el){
+                        return $el['cost'] ?? 0;
+                    })
+                    ->avg(),
             ])
                 ->avg();
         } else {
