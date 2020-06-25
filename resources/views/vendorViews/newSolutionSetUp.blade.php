@@ -30,9 +30,13 @@
                                 <x-folderFileUploader :folder="$solution->folder" :timeout="1000"/>
 
                                 <div style="float: right; margin-top: 20px;">
-                                    <a class="btn btn-primary btn-lg btn-icon-text"
-                                        href="{{route('vendor.createSolution')}}"><i class="btn-icon-prepend"
-                                            data-feather="check-square"></i> Save and add another</a>
+                                    <a class="btn btn-primary btn-lg btn-icon-text" href="{{route('vendor.createSolution')}}"
+                                        onclick="event.preventDefault(); document.getElementById('save-and-create-solution-form').submit();">
+                                        <i class="btn-icon-prepend" data-feather="check-square"></i> Save and add another
+                                    </a>
+                                    <form id="save-and-create-solution-form" action="{{ route('vendor.createSolution') }}" method="POST" style="display: none;">
+                                        @csrf
+                                    </form>
                                     <a class="btn btn-primary btn-lg btn-icon-text" href="{{route('vendor.solutions')}}"><i
                                             class="btn-icon-prepend" data-feather="check-square"></i> Save and go to
                                         Dashboard</a>

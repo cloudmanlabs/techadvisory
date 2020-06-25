@@ -64,9 +64,11 @@
                                             third-party vendors and their products and services.
                                         </p>
                                         <p style="margin-top: 1rem">
-                                            Information displayed this site may refer to third-party vendors and their products and services. No warranty is made
-                                            with respect to such third-party vendors and their products and services and Accenture takes no responsibility for such
-                                            third-party vendors and their products and services.
+                                            Unless otherwise stated, the contents of this site are the property of Accenture. All trademarks used or referred to in
+                                            this website are the property of their respective owners. Nothing contained in this site shall be construed as
+                                            conferring by implication, estoppel, or otherwise, any license or right to any copyright, patent, trademark or other
+                                            proprietary interest of Accenture or any third party. This site and the content provided may not be copied, reproduced,
+                                            republished, uploaded, posted, transmitted, or distributed without the prior written consent of Accenture.
                                         </p>
                                         <p style="margin-top: 1rem">
                                             You agree that these terms of use and any legal action or proceeding relating to this site shall be governed by the laws
