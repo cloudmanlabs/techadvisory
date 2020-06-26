@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Log;
  *
  * @property array $fitgapVendorColumns
  *
+ * @property array $solutionsUsed
  * @property array $deliverables
  * @property array $raciMatrix
  * @property array $staffingCost
@@ -33,6 +34,7 @@ class VendorApplication extends Model
         'fitgapVendorColumns' => 'array',
         'fitgapVendorScores' => 'array',
 
+        'solutionsUsed' => 'array',
         'deliverables' => 'array',
         'raciMatrix' => 'array',
         'staffingCost' => 'array',

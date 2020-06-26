@@ -56,6 +56,7 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/selectionCriteriaQuestion/uploadFile', 'SelectionCriteriaQuestionController@uploadFile');
     Route::post('/selectionCriteriaQuestion/changeScore', 'SelectionCriteriaQuestionController@changeScore');
 
+    Route::post('/vendorApplication/updateSolutionsUsed', 'Accenture\VendorApplicationController@updateSolutionsUsed');
     Route::post('/vendorApplication/updateDeliverables', 'Accenture\VendorApplicationController@updateDeliverables');
     Route::post('/vendorApplication/updateRaci', 'Accenture\VendorApplicationController@updateRaci');
     Route::post('/vendorApplication/updateStaffingCost', 'Accenture\VendorApplicationController@updateStaffingCost');

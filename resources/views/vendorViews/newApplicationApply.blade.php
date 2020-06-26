@@ -84,6 +84,10 @@
 
                                         <br><br>
 
+                                        <x-selectionCriteria.solutionsUsed :vendorApplication="$vendorApplication" :disabled="false" />
+
+                                        <br><br>
+
                                         <x-selectionCriteria.deliverables :vendorApplication="$vendorApplication" :evaluate="false"/>
 
                                         <br>

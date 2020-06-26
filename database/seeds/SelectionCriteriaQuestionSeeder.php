@@ -118,15 +118,6 @@ class SelectionCriteriaQuestionSeeder extends Seeder
         factory(SelectionCriteriaQuestion::class)->create([
             'page' => 'implementation_implementation',
 
-            'label' => 'Solutions used',
-            'type' => 'text',
-            'fixed' => true,
-            'fixedQuestionIdentifier' => 'implementation_implementation_solutions_used'
-        ]);
-
-        factory(SelectionCriteriaQuestion::class)->create([
-            'page' => 'implementation_implementation',
-
             'label' => 'Deliverables per phase',
             'type' => 'special',
             'fixed' => true,

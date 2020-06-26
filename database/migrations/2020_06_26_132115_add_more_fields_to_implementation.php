@@ -30,7 +30,10 @@ class AddMoreFieldsToImplementation extends Migration
     public function down()
     {
         Schema::table('vendor_applications', function (Blueprint $table) {
-            //
+            $table->dropColumn('pricingModelResponse');
+            $table->dropColumn('detailedBreakdownResponse');
+            $table->dropColumn('pricingModelUpload');
+            $table->dropColumn('detailedBreakdownUpload');
         });
     }
 }
