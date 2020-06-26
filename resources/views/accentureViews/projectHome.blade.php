@@ -67,6 +67,11 @@
                                             Support on responses
                                         </a>
                                     </div>
+                                    <div style="text-align: right; width: 15%; margin-right: 1rem">
+                                        <a class="btn btn-primary btn-lg btn-icon-text" target="_blank" href="{{route('accenture.downloadVendorProposal', ['project' => $project, 'vendor' => $vendor])}}">
+                                            Download responses
+                                        </a>
+                                    </div>
                                 </x-vendorCard>
                                 @endforeach
                             </div>
@@ -100,8 +105,12 @@
                                         </form>
                                     </div>
                                     <div style="text-align: right; width: 15%; margin-right: 1rem">
-                                        <a class="btn btn-primary btn-lg btn-icon-text" href="{{route('accenture.viewVendorProposalEvaluation', ['project' => $project, 'vendor' => $vendor])}}">Evaluate
-                                            Response
+                                        <a class="btn btn-primary btn-lg btn-icon-text" href="{{route('accenture.viewVendorProposalEvaluation', ['project' => $project, 'vendor' => $vendor])}}">
+                                            Evaluate Response
+                                        </a>
+                                    </div>
+                                    <div style="text-align: right; width: 15%; margin-right: 1rem">
+                                        <a class="btn btn-primary btn-lg btn-icon-text" target="_blank" href="{{route('accenture.downloadVendorProposal', ['project' => $project, 'vendor' => $vendor])}}">Download responses
                                         </a>
                                     </div>
                                 </x-vendorCard>
@@ -153,6 +162,10 @@
                                             href="{{route('accenture.viewVendorProposal', ['project' => $project, 'vendor' => $vendor])}}">View response
                                         </a>
                                     </div>
+                                    <div style="text-align: right; width: 15%; margin-right: 1rem">
+                                        <a class="btn btn-primary btn-lg btn-icon-text" target="_blank" href="{{route('accenture.downloadVendorProposal', ['project' => $project, 'vendor' => $vendor])}}">Download responses
+                                        </a>
+                                    </div>
                                 </x-vendorCard>
                                 @endforeach
                             </div>
@@ -178,7 +191,7 @@
                                         </a>
                                     </div>
                                     <div style="text-align: right; width: 15%; margin-right: 1rem">
-                                        <a class="btn btn-primary btn-lg btn-icon-text" target="_blank" href="{{route('accenture.downloadVendorProposal', ['project' => $project, 'vendor' => $vendor])}}">Download response
+                                        <a class="btn btn-primary btn-lg btn-icon-text" target="_blank" href="{{route('accenture.downloadVendorProposal', ['project' => $project, 'vendor' => $vendor])}}">Download responses
                                         </a>
                                     </div>
                                 </x-vendorCard>
@@ -201,7 +214,11 @@
 
                                 @foreach ($disqualifiedVendors as $vendor)
                                 <x-vendorCard :vendor="$vendor" :project="$project">
-                                    <a class="btn btn-primary btn-lg btn-icon-text" href="{{route('accenture.viewVendorProposal', ['project' => $project, 'vendor' => $vendor])}}">View Response</a>
+                                    <a class="btn btn-primary btn-lg btn-icon-text" style="margin-right: 1rem" href="{{route('accenture.viewVendorProposal', ['project' => $project, 'vendor' => $vendor])}}">View Response</a>
+                                    <div style="text-align: right; width: 15%; margin-right: 1rem">
+                                        <a class="btn btn-primary btn-lg btn-icon-text" target="_blank" href="{{route('accenture.downloadVendorProposal', ['project' => $project, 'vendor' => $vendor])}}">Download responses
+                                        </a>
+                                    </div>
                                 </x-vendorCard>
                                 @endforeach
                             </div>
