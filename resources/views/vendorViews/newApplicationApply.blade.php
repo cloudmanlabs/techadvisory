@@ -110,6 +110,9 @@
 
                                         <br>
                                         <h4>Run</h4>
+
+                                        <x-selectionCriteria.pricingModel :vendorApplication="$vendorApplication" :disabled="false" :evaluate="false"/>
+
                                         <x-questionForeach :questions="$implementationRunQuestions" :class="'selectionCriteriaQuestion'"
                                             :disabled="false" :required="false" />
 
@@ -120,6 +123,8 @@
                                         @else
                                             <x-selectionCriteria.nonBindingEstimate5Years :vendorApplication="$vendorApplication" :evaluate="false" />
                                         @endif
+
+                                        <x-selectionCriteria.detailedBreakdown :vendorApplication="$vendorApplication" :disabled="false" :evaluate="false" />
 
                                         <br><br>
 
