@@ -84,9 +84,6 @@
                                 <section>
                                     <h4>Implementation</h4>
                                     <br>
-
-                                    <h4>Implementation</h4>
-                                    <br>
                                     <x-questionForeach :questions="$implementationImplementationQuestions" :class="'selectionCriteriaQuestion'"
                                         :disabled="false" :required="false" />
 
@@ -118,6 +115,8 @@
 
                                     <br>
                                     <h4>Run</h4>
+                                    <x-selectionCriteria.pricingModel :vendorApplication="$vendorApplication" :disabled="false" :evaluate="false"/>
+
                                     <x-questionForeach :questions="$implementationRunQuestions" :class="'selectionCriteriaQuestion'"
                                         :disabled="false" :required="false" />
 
@@ -128,6 +127,8 @@
                                     @else
                                         <x-selectionCriteria.nonBindingEstimate5Years :vendorApplication="$vendorApplication" :disabled="false" :evaluate="false"/>
                                     @endif
+
+                                    <x-selectionCriteria.detailedBreakdown :vendorApplication="$vendorApplication" :disabled="false" :evaluate="false" />
                                 </section>
                             </div>
                         </div>
@@ -250,7 +251,7 @@
 
         let cost = $('#travelCostContainer').children()
             .map(function(){
-                return $(this).children().get(1)
+                return $(this).children().get(0)
             })
             .map(function(){
                 return {
@@ -263,7 +264,7 @@
 
         cost = $('#staffingCostContainer').children()
             .map(function(){
-                return $(this).children().get(1)
+                return $(this).children().get(0)
             })
             .map(function(){
                 return {
@@ -278,7 +279,7 @@
 
         cost = $('#additionalCostContainer').children()
             .map(function(){
-                return $(this).children().get(1)
+                return $(this).children().get(0)
             })
             .map(function(){
                 return {
@@ -288,6 +289,8 @@
             }).toArray();
 
         total += cost.map((el) => +el.cost).reduce((a, b) => a + b, 0)
+
+        console.log(total)
 
         $('#overallImplementationCost').html(total);
     }

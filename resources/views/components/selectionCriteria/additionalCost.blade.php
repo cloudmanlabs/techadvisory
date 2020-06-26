@@ -8,10 +8,17 @@
 <div class="form-group">
     <label for="projectName">Additional Cost</label>
 
+    <div style="display: flex; flex-direction: row; justify-content: space-evenly; width: 100%">
+        <div style="width: 50%; padding: 0 0.5rem">
+            <p>Title</p>
+        </div>
+        <div style="width: 50%; padding: 0 0.5rem">
+            <p>Cost</p>
+        </div>
+    </div>
     <div id="additionalCostContainer">
         @foreach ($vendorApplication->additionalCost ?? [] as $cost)
-        <div>
-            <label for="projectName">Item {{$loop->iteration}}</label>
+        <div style="margin-top: 0.5rem">
             <div style="display: flex; flex-direction: row">
                 <input type="text" class="form-control additionalTitleInput"
                     placeholder="Title"
@@ -38,21 +45,6 @@
             </button>
         </div>
     @endif
-
-    @if ($evaluate)
-        <div>
-            <label for="additionalCostScore">Additional Cost. Score</label>
-            <input
-                {{$evalDisabled ? 'disabled' : ''}}
-                type="number"
-                name="asdf"
-                id="additionalCostScore"
-                min="0"
-                max="10"
-                value="{{$vendorApplication->additionalCostScore}}"
-                onkeypress="if(event.which &lt; 48 || event.which &gt; 57 ) if(event.which != 8) if(event.keyCode != 9) return false;">
-        </div>
-    @endif
 </div>
 <p>Total Additional Cost: <span id="totalAdditionalCost">0</span>$</p>
 
@@ -66,8 +58,7 @@
             const childrenCount = $('#additionalCostContainer').children().toArray().length;
 
             let newDeliverable = `
-            <div>
-                <label for="projectName">Item ${childrenCount + 1}</label>
+            <div style="margin-top: 0.5rem">
                 <div style="display: flex; flex-direction: row">
                     <input type="text" class="form-control additionalTitleInput"
                         placeholder="Title"
@@ -94,7 +85,7 @@
         function updateTotalAdditionalCost(){
             const cost = $('#additionalCostContainer').children()
                 .map(function(){
-                    return $(this).children().get(1)
+                    return $(this).children().get(0)
                 })
                 .map(function(){
                     return {
@@ -116,7 +107,7 @@
         function updateAdditionalCost(){
             const cost = $('#additionalCostContainer').children()
                 .map(function(){
-                    return $(this).children().get(1)
+                    return $(this).children().get(0)
                 })
                 .map(function(){
                     return {

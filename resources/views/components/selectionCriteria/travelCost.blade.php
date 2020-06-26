@@ -7,10 +7,17 @@ $disabled = $disabled ?? false;
 <div class="form-group">
     <label for="projectName">Travel Cost</label>
 
+    <div style="display: flex; flex-direction: row; justify-content: space-evenly; width: 100%">
+        <div style="width: 50%; padding: 0 0.5rem">
+            <p>Title</p>
+        </div>
+        <div style="width: 50%; padding: 0 0.5rem">
+            <p>Monthly travel cost</p>
+        </div>
+    </div>
     <div id="travelCostContainer">
         @foreach ($vendorApplication->travelCost ?? [] as $cost)
-        <div>
-            <label for="projectName">Month {{$loop->iteration}}</label>
+        <div style="margin-top: 0.5rem">
             <div style="display: flex; flex-direction: row">
                 <input type="text" class="form-control travelTitleInput"
                     placeholder="Title"
@@ -43,23 +50,6 @@ $disabled = $disabled ?? false;
 <p>Total Travel Cost: <span id="totalTravelCost">0</span>$</p>
 
 
-@if ($evaluate)
-    <div>
-        <label for="travelCostScore">Travel Cost. Score</label>
-        <input
-            {{$evalDisabled ? 'disabled' : ''}}
-            type="number"
-            name="asdf"
-            id="travelCostScore"
-            min="0"
-            max="10"
-            value="{{$vendorApplication->travelCostScore}}"
-            onkeypress="if(event.which &lt; 48 || event.which &gt; 57 ) if(event.which != 8) if(event.keyCode != 9) return false;">
-    </div>
-@endif
-
-
-
 
 @section('scripts')
 @parent
@@ -70,8 +60,7 @@ $disabled = $disabled ?? false;
             const childrenCount = $('#travelCostContainer').children().toArray().length;
 
             let newDeliverable = `
-            <div>
-                <label for="projectName">Month ${childrenCount + 1}</label>
+            <div style="margin-top: 0.5rem">
                 <div style="display: flex; flex-direction: row">
                     <input type="text" class="form-control travelTitleInput"
                         placeholder="Title"
@@ -100,7 +89,7 @@ $disabled = $disabled ?? false;
         function updateTotalTravelCost(){
             const cost = $('#travelCostContainer').children()
                 .map(function(){
-                    return $(this).children().get(1)
+                    return $(this).children().get(0)
                 })
                 .map(function(){
                     return {
@@ -123,7 +112,7 @@ $disabled = $disabled ?? false;
         function updateTravelCost(){
             const cost = $('#travelCostContainer').children()
                 .map(function(){
-                    return $(this).children().get(1)
+                    return $(this).children().get(0)
                 })
                 .map(function(){
                     return {

@@ -270,7 +270,7 @@
 
         let cost = $('#travelCostContainer').children()
             .map(function(){
-                return $(this).children().get(1)
+                return $(this).children().get(0)
             })
             .map(function(){
                 return {
@@ -283,7 +283,7 @@
 
         cost = $('#staffingCostContainer').children()
             .map(function(){
-                return $(this).children().get(1)
+                return $(this).children().get(0)
             })
             .map(function(){
                 return {
@@ -298,7 +298,7 @@
 
         cost = $('#additionalCostContainer').children()
             .map(function(){
-                return $(this).children().get(1)
+                return $(this).children().get(0)
             })
             .map(function(){
                 return {

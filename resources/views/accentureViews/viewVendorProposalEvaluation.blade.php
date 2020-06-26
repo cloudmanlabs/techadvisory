@@ -87,10 +87,7 @@
                                     <section>
                                         <h4>Implementation</h4>
                                         <br>
-
-                                        <h4>Implementation</h4>
-                                        <br>
-                                        <x-questionForeachWithEvaluate :questions="$implementationImplementationQuestions" :class="'selectionCriteriaQuestion'"
+                                        <x-questionForeach :questions="$implementationImplementationQuestions" :class="'selectionCriteriaQuestion'"
                                             :disabled="true" :required="false" :evalDisabled="false" />
 
                                         <br><br>
@@ -121,7 +118,7 @@
 
                                         <br>
                                         <h4>Run</h4>
-                                        <x-questionForeachWithEvaluate :questions="$implementationRunQuestions" :class="'selectionCriteriaQuestion'"
+                                        <x-questionForeach :questions="$implementationRunQuestions" :class="'selectionCriteriaQuestion'"
                                             :disabled="true" :required="false" :evalDisabled="false" />
 
                                         <br><br>
@@ -245,5 +242,55 @@
 
         updateSubmitButton();
     });
+
+
+    function updateTotalImplementation(){
+        let total = 0;
+
+        let cost = $('#travelCostContainer').children()
+            .map(function(){
+                return $(this).children().get(0)
+            })
+            .map(function(){
+                return {
+                    title: $(this).children('.travelTitleInput').val(),
+                    cost: $(this).children('.travelCostInput').val(),
+                }
+            }).toArray();
+
+        total += cost.map((el) => +el.cost).reduce((a, b) => a + b, 0)
+
+        cost = $('#staffingCostContainer').children()
+            .map(function(){
+                return $(this).children().get(0)
+            })
+            .map(function(){
+                return {
+                    title: $(this).children('.staffingCostTitleInput').val(),
+                    hours: $(this).children('.staffingCostHoursInput').val(),
+                    rate: $(this).children('.staffingCostRateInput').val(),
+                    cost: $(this).children('.staffingCostCostInput').val(),
+                }
+            }).toArray();
+
+        total += cost.map((el) => +el.cost).reduce((a, b) => a + b, 0)
+
+        cost = $('#additionalCostContainer').children()
+            .map(function(){
+                return $(this).children().get(0)
+            })
+            .map(function(){
+                return {
+                    title: $(this).children('.additionalTitleInput').val(),
+                    cost: $(this).children('.additionalCostInput').val(),
+                }
+            }).toArray();
+
+        total += cost.map((el) => +el.cost).reduce((a, b) => a + b, 0)
+
+        console.log(total)
+
+        $('#overallImplementationCost').html(total);
+    }
 </script>
 @endsection

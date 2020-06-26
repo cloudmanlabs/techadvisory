@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\VendorApplication;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
 use Maatwebsite\Excel\Facades\Excel;
 
 class VendorApplicationController extends Controller
@@ -194,6 +195,9 @@ class VendorApplicationController extends Controller
             'averageYearlyCostMax',
             'totalRunCostMin',
             'totalRunCostMax',
+
+            'pricingModelResponse',
+            'detailedBreakdownResponse',
         ];
 
         $application = VendorApplication::find($request->application_id);
@@ -206,6 +210,38 @@ class VendorApplicationController extends Controller
         }
 
         $application->{$request->changing} = $request->value;
+        $application->save();
+
+        return \response()->json([
+            'status' => 200,
+            'message' => 'Success'
+        ]);
+    }
+
+    public function updateRunFile(Request $request)
+    {
+        $request->validate([
+            'image' => 'required|file',
+            'changing' => 'required|string'
+        ]);
+
+        $availableFields = [
+            'pricingModelUpload',
+            'detailedBreakdownUpload',
+        ];
+
+        $application = VendorApplication::find($request->application_id);
+        if ($application == null) {
+            abort(404);
+        }
+
+        if (!in_array($request->changing, $availableFields)) {
+            abort(404);
+        }
+
+        $path = Storage::disk('public')->putFile('questionFiles', $request->image);
+
+        $application->{$request->changing} = $path;
         $application->save();
 
         return \response()->json([

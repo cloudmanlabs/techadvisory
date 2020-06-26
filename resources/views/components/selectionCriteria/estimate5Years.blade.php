@@ -34,22 +34,6 @@ $disabled = $disabled ?? false;
 <p>Average Yearly Cost: <span id="averageEstimate5YearsCost">0</span>$</p>
 
 
-@if ($evaluate)
-    <div>
-        <label for="estimate5YearsScore">Estimate first 5 years billing plan. Score</label>
-        <input
-            {{$evalDisabled ? 'disabled' : ''}}
-            type="number"
-            name="asdf"
-            id="estimate5YearsScore"
-            min="0"
-            max="10"
-            value="{{$vendorApplication->estimate5YearsScore}}"
-            onkeypress="if(event.which &lt; 48 || event.which &gt; 57 ) if(event.which != 8) if(event.keyCode != 9) return false;">
-    </div>
-@endif
-
-
 @section('scripts')
 @parent
 <script>

@@ -44,21 +44,6 @@ $disabled = $disabled ?? false;
     @endif
 </div>
 
-@if ($evaluate)
-    <div>
-        <label for="raciMatrixScore">RACI Matrix. Score</label>
-        <input
-            {{$evalDisabled ? 'disabled' : ''}}
-            type="number"
-            name="asdf"
-            id="raciMatrixScore"
-            min="0"
-            max="10"
-            value="{{$vendorApplication->raciMatrixScore}}"
-            onkeypress="if(event.which &lt; 48 || event.which &gt; 57 ) if(event.which != 8) if(event.keyCode != 9) return false;">
-    </div>
-@endif
-
 
 
 @section('scripts')

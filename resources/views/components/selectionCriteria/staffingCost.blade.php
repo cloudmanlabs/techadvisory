@@ -7,10 +7,24 @@ $disabled = $disabled ?? false;
 <div class="form-group">
     <label for="projectName">Staffing Cost</label>
 
+    <div style="display: flex; flex-direction: row; justify-content: space-evenly; width: 100%">
+        <div style="width: 25%; padding: 0 0.5rem">
+            <p>Title</p>
+        </div>
+        <div style="width: 25%; padding: 0 0.5rem">
+            <p>Estimated number of hours</p>
+        </div>
+        <div style="width: 25%; padding: 0 0.5rem">
+            <p>Hourly rate</p>
+        </div>
+        <div style="width: 25%; padding: 0 0.5rem">
+            <p>Staffing cost</p>
+        </div>
+    </div>
     <div id="staffingCostContainer">
         @foreach ($vendorApplication->staffingCost ?? [] as $row)
-        <div>
-            <label for="projectName">Role {{$loop->iteration}}</label>
+        <div style="margin-top: 0.5rem">
+            {{-- <label for="projectName">Role {{$loop->iteration}}</label> --}}
             <div style="display: flex; flex-direction: row">
                 <input type="text" class="form-control staffingCostTitleInput"
                     placeholder="Title"
@@ -29,7 +43,8 @@ $disabled = $disabled ?? false;
                 <input type="number" class="form-control staffingCostCostInput"
                     placeholder="Staffing cost"
                     style="margin-left: 1rem"
-                    value="{{$row['cost'] ?? ''}}" required
+                    value="{{$row['cost'] ?? ''}}"
+                    disabled
                     {{$disabled ? 'disabled' : ''}}>
             </div>
         </div>
@@ -51,22 +66,6 @@ $disabled = $disabled ?? false;
 <p>Total Staffing Cost: <span id="totalStaffingCost">0</span>$</p>
 
 
-@if ($evaluate)
-    <div>
-        <label for="staffingCostScore">Staffing Cost. Score</label>
-        <input
-            {{$evalDisabled ? 'disabled' : ''}}
-            type="number"
-            name="asdf"
-            id="staffingCostScore"
-            min="0"
-            max="10"
-            value="{{$vendorApplication->staffingCostScore}}"
-            onkeypress="if(event.which &lt; 48 || event.which &gt; 57 ) if(event.which != 8) if(event.keyCode != 9) return false;">
-    </div>
-@endif
-
-
 
 @section('scripts')
 @parent
@@ -77,8 +76,7 @@ $disabled = $disabled ?? false;
             const childrenCount = $('#staffingCostContainer').children().toArray().length;
 
             let newDeliverable = `
-            <div>
-                <label for="projectName">Role ${childrenCount + 1}</label>
+            <div style="margin-top: 0.5rem">
                 <div style="display: flex; flex-direction: row">
                     <input type="text" class="form-control staffingCostTitleInput"
                         placeholder="Title"
@@ -94,6 +92,7 @@ $disabled = $disabled ?? false;
                     <input type="number" class="form-control staffingCostCostInput"
                         placeholder="Staffing cost"
                         style="margin-left: 1rem"
+                        disabled
                         value="" required>
                 </div>
             </div>
@@ -113,7 +112,7 @@ $disabled = $disabled ?? false;
         function updateTotalStaffingCost(){
             const cost = $('#staffingCostContainer').children()
             .map(function(){
-                return $(this).children().get(1)
+                return $(this).children().get(0)
             })
             .map(function(){
                 return {
@@ -130,23 +129,28 @@ $disabled = $disabled ?? false;
             updateTotalImplementation()
         }
         function setStaffingCostEditListener(){
-            $('.staffingCostHoursInput, .staffingCostRateInput, .staffingCostCostInput, .staffingCostTitleInput').change(function(){
+            $('.staffingCostHoursInput, .staffingCostRateInput, .staffingCostTitleInput').change(function(){
                 updateStaffingCost();
             })
         }
         function updateStaffingCost(){
             const cost = $('#staffingCostContainer').children()
-            .map(function(){
-                return $(this).children().get(1)
-            })
-            .map(function(){
-                return {
-                    title: $(this).children('.staffingCostTitleInput').val(),
-                    hours: $(this).children('.staffingCostHoursInput').val(),
-                    rate: $(this).children('.staffingCostRateInput').val(),
-                    cost: $(this).children('.staffingCostCostInput').val(),
-                }
-            }).toArray();
+                .map(function(){
+                    return $(this).children().get(0)
+                })
+                .map(function(){
+                    const hours = $(this).children('.staffingCostHoursInput').val();
+                    const rate = $(this).children('.staffingCostRateInput').val();
+
+                    const cost = hours * rate;
+                    $(this).children('.staffingCostCostInput').val(cost)
+                    return {
+                        title: $(this).children('.staffingCostTitleInput').val(),
+                        hours,
+                        rate,
+                        cost,
+                    }
+                }).toArray();
 
             updateTotalStaffingCost();
 

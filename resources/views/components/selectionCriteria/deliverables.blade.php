@@ -35,15 +35,6 @@ $disabled = $disabled ?? false;
         </button>
     </div>
     @endif
-
-    @if ($evaluate)
-        <div>
-            <label for="deliverablesScore">Deliverables. Score</label>
-            <input {{$evalDisabled ? 'disabled' : ''}} type="number" name="asdf" id="deliverablesScore" min="0" max="10"
-                value="{{$vendorApplication->deliverablesScore}}"
-                onkeypress="if(event.which &lt; 48 || event.which &gt; 57 ) if(event.which != 8) if(event.keyCode != 9) return false;">
-        </div>
-    @endif
 </div>
 
 @section('scripts')

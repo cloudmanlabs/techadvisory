@@ -45,6 +45,9 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
                     Text::make('Conclusions & recommendations', 'video_conclusions'),
                     Textarea::make('Conclusions & recommendations: Text', 'video_conclusions_text'),
                 ]),
+                new Panel('General texts', [
+                    Textarea::make('Implementation: Pricing model text', 'pricing_model'),
+                ]),
                 new Panel('Accenture Texts', [
                     Textarea::make('Fitgap text', 'fitgap_description'),
 
@@ -171,7 +174,6 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
 
                     Textarea::make('New Solution: Add a solution', 'vendro_newSolution_addSolution'),
                     Textarea::make('Edit Solution: Title', 'vendro_editSolution_title'),
-
                 ])
             ];
         });
