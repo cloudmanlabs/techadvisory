@@ -34,7 +34,7 @@
                         @if($disabled || !$isAccenture)
                         readOnly: true,
                         @endif
-                        width: 210
+                        width: 100
                     },
                     {
                         type: 'text',
@@ -42,7 +42,7 @@
                         @if($disabled || !$isAccenture)
                         readOnly: true,
                         @endif
-                        width: 180
+                        width: 120
                     },
                     {
                         type: 'text',
@@ -50,7 +50,7 @@
                         @if($disabled || !$isAccenture)
                         readOnly: true,
                         @endif
-                        width: 230
+                        width: 140
                     },
                     {
                         type: 'text',
@@ -58,7 +58,7 @@
                         @if($disabled || !$isAccenture)
                         readOnly: true,
                         @endif
-                        width: 230
+                        width: 140
                     },
                     {
                         type: 'text',
@@ -66,7 +66,7 @@
                         @if($disabled || !$isAccenture)
                         readOnly: true,
                         @endif
-                        width: 250
+                        width: 600
                     },
                     {
                         type: 'dropdown',

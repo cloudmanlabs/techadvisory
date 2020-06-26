@@ -32,31 +32,31 @@
                         type: 'text',
                         title: 'Type',
                         readOnly: true,
-                        width: 200
+                        width: 100
                     },
                     {
                         type: 'text',
                         title: 'Level 1',
                         readOnly: true,
-                        width: 200
+                        width: 120
                     },
                     {
                         type: 'text',
                         title: 'Level 2',
                         readOnly: true,
-                        width: 250
+                        width: 140
                     },
                     {
                         type: 'text',
                         title: 'Level 3',
                         readOnly: true,
-                        width: 230
+                        width: 140
                     },
                     {
                         type: 'text',
                         title: 'Requirement',
                         readOnly: true,
-                        width: 200
+                        width: 600
                     },
                     {
                         type: 'dropdown',
