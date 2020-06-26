@@ -7,15 +7,6 @@ $disabled = $disabled ?? false;
 <div class="form-group">
     <label for="projectName">Estimate first 5 years billing plan</label>
 
-    <div>
-        <label for="projectName">Year 0</label>
-        <input type="number" class="form-control"
-            id="estimate5YearsYear0Cost"
-            placeholder="Total implementation cost"
-            {{$disabled ? 'disabled' : ''}}
-            value="{{$vendorApplication->estimate5YearsYear0 ?? ''}}"
-            required>
-    </div>
     <div id="estimate5YearsContainer">
         @foreach (($vendorApplication->estimate5Years ?? [0, 0, 0, 0, 0]) as $cost)
         <div>
@@ -29,7 +20,7 @@ $disabled = $disabled ?? false;
         @endforeach
     </div>
 </div>
-<p>Total Cost: <span id="totalEstimate5YearsCost">0</span>$</p>
+<p>Total Run Cost: <span id="totalEstimate5YearsCost">0</span>$</p>
 <br>
 <p>Average Yearly Cost: <span id="averageEstimate5YearsCost">0</span>$</p>
 
@@ -39,8 +30,6 @@ $disabled = $disabled ?? false;
 <script>
     $(document).ready(function() {
         function updateEstimateTotalCost(){
-            const year0Cost = $('#estimate5YearsYear0Cost').val();
-
             const elementsToAdd =
                 $('#estimate5YearsContainer').children()
                 .map(function(){
@@ -51,7 +40,7 @@ $disabled = $disabled ?? false;
                 .filter(el => el != 0);
             const totalCost = elementsToAdd
                 .reduce((a, b) => a + b, 0);
-            $('#totalEstimate5YearsCost').html(totalCost + (+year0Cost));
+            $('#totalEstimate5YearsCost').html(totalCost));
             if(elementsToAdd.length != 0){
                 $('#averageEstimate5YearsCost').html(totalCost / (elementsToAdd.length));
             }
@@ -73,7 +62,7 @@ $disabled = $disabled ?? false;
             $.post('/vendorApplication/updateEstimate5Years', {
                 changing: {{$vendorApplication->id}},
                 value: cost,
-                year0: +$('#estimate5YearsYear0Cost').val() ?? 0
+                year0: 0
             })
 
             showSavedToast();

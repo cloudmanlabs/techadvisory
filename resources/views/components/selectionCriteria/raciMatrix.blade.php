@@ -7,25 +7,49 @@ $disabled = $disabled ?? false;
 <div class="form-group">
     <label for="projectName">RACI Matrix</label>
 
+    <div style="display: flex; flex-direction: row; justify-content: space-evenly; width: 100%">
+        <div style="width: 25%; padding: 0 0.5rem">
+            <p>Title</p>
+        </div>
+        <div style="width: 25%; padding: 0 0.5rem">
+            <p>Client</p>
+        </div>
+        <div style="width: 25%; padding: 0 0.5rem">
+            <p>Vendor</p>
+        </div>
+        <div style="width: 25%; padding: 0 0.5rem">
+            <p>Accenture</p>
+        </div>
+    </div>
     <div id="raciContainer">
         @foreach ($vendorApplication->raciMatrix ?? [] as $row)
         <div>
             <label for="projectName">Task {{$loop->iteration}}</label>
             <div style="display: flex; flex-direction: row">
-                <input type="text" class="form-control raciTitleInput" placeholder="Client"
+                <input type="text" class="form-control raciTitleInput" placeholder="Title"
                     value="{{$row['title'] ?? ''}}" required
                     {{$disabled ? 'disabled' : ''}}>
-                <input type="text" class="form-control raciClientInput" placeholder="Title"
-                    style="margin-left: 1rem"
-                    value="{{$row['client'] ?? ''}}" required
-                    {{$disabled ? 'disabled' : ''}}>
-                <input type="text" class="form-control raciVendorInput" placeholder="Vendor"
-                    style="margin-left: 1rem"
-                    value="{{$row['vendor'] ?? ''}}" required
-                    {{$disabled ? 'disabled' : ''}}>
-                <input type="text" class="form-control raciAccentureInput" placeholder="Accenture"
-                    style="margin-left: 1rem" value="{{$row['accenture'] ?? ''}}" required
-                    {{$disabled ? 'disabled' : ''}}>
+                <select class="form-control raciClientInput" style="margin-left: 1rem" {{$disabled ? 'disabled' : ''}}>
+                    <option disabled>Please choose one</option>
+                    <option {{$row['client'] == "Responsible" ? 'selected' : ''}} value="Responsible">Responsible</option>
+                    <option {{$row['client'] == "Accountable" ? 'selected' : ''}} value="Accountable">Accountable</option>
+                    <option {{$row['client'] == "Consulted" ? 'selected' : ''}} value="Consulted">Consulted</option>
+                    <option {{$row['client'] == "Informed" ? 'selected' : ''}} value="Informed">Informed</option>
+                </select>
+                <select class="form-control raciVendorInput" style="margin-left: 1rem" {{$disabled ? 'disabled' : ''}}>
+                    <option disabled>Please choose one</option>
+                    <option {{$row['vendor'] == "Responsible" ? 'selected' : ''}} value="Responsible">Responsible</option>
+                    <option {{$row['vendor'] == "Accountable" ? 'selected' : ''}} value="Accountable">Accountable</option>
+                    <option {{$row['vendor'] == "Consulted" ? 'selected' : ''}} value="Consulted">Consulted</option>
+                    <option {{$row['vendor'] == "Informed" ? 'selected' : ''}} value="Informed">Informed</option>
+                </select>
+                <select class="form-control raciAccentureInput" style="margin-left: 1rem" {{$disabled ? 'disabled' : ''}}>
+                    <option disabled>Please choose one</option>
+                    <option {{$row['accenture'] == "Responsible" ? 'selected' : ''}} value="Responsible">Responsible</option>
+                    <option {{$row['accenture'] == "Accountable" ? 'selected' : ''}} value="Accountable">Accountable</option>
+                    <option {{$row['accenture'] == "Consulted" ? 'selected' : ''}} value="Consulted">Consulted</option>
+                    <option {{$row['accenture'] == "Informed" ? 'selected' : ''}} value="Informed">Informed</option>
+                </select>
             </div>
         </div>
         @endforeach
@@ -61,18 +85,27 @@ $disabled = $disabled ?? false;
                     <input type="text" class="form-control raciTitleInput"
                         placeholder="Title"
                         value="" required>
-                    <input type="text" class="form-control raciClientInput"
-                        style="margin-left: 1rem"
-                        placeholder="Client"
-                        value="" required>
-                    <input type="text" class="form-control raciVendorInput"
-                        placeholder="Vendor"
-                        style="margin-left: 1rem"
-                        value="" required>
-                    <input type="text" class="form-control raciAccentureInput"
-                        placeholder="Accenture"
-                        style="margin-left: 1rem"
-                        value="" required>
+                    <select class="form-control raciClientInput" style="margin-left: 1rem">
+                        <option disabled>Please choose one</option>
+                        <option value="Responsible">Responsible</option>
+                        <option value="Accountable">Accountable</option>
+                        <option value="Consulted">Consulted</option>
+                        <option value="Informed">Informed</option>
+                    </select>
+                    <select class="form-control raciVendorInput" style="margin-left: 1rem">
+                        <option disabled>Please choose one</option>
+                        <option value="Responsible">Responsible</option>
+                        <option value="Accountable">Accountable</option>
+                        <option value="Consulted">Consulted</option>
+                        <option value="Informed">Informed</option>
+                    </select>
+                    <select class="form-control raciAccentureInput" style="margin-left: 1rem">
+                        <option disabled>Please choose one</option>
+                        <option value="Responsible">Responsible</option>
+                        <option value="Accountable">Accountable</option>
+                        <option value="Consulted">Consulted</option>
+                        <option value="Informed">Informed</option>
+                    </select>
                 </div>
             </div>
             `;
@@ -89,7 +122,7 @@ $disabled = $disabled ?? false;
         })
 
         function setRaciEditListener(){
-            $('.raciClientInput, .raciVendorInput, .raciAccentureInput').change(function(){
+            $('.raciTitleInput, .raciClientInput, .raciVendorInput, .raciAccentureInput').change(function(){
                 updateRaci();
             })
         }

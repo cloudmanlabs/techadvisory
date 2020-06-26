@@ -10,10 +10,10 @@ $disabled = $disabled ?? false;
     <div>
         <label for="projectName">Average yearly cost</label>
         <div style="display: flex; flex-direction: row">
-            <input type="number" class="form-control nonBindingInput" placeholder="Min" data-changing="averageYearlyCostMin"
+            <input type="number" id="averageYearlyCostMin" class="form-control nonBindingInput" placeholder="Min" data-changing="averageYearlyCostMin"
                 value="{{$vendorApplication->averageYearlyCostMin}}" required
                 {{$disabled ? 'disabled' : ''}}>
-            <input style="margin-left: 1rem;" type="number" class="form-control nonBindingInput" placeholder="Max" data-changing="averageYearlyCostMax"
+            <input style="margin-left: 1rem;" id="averageYearlyCostMax" type="number" class="form-control nonBindingInput" placeholder="Max" data-changing="averageYearlyCostMax"
                 value="{{$vendorApplication->averageYearlyCostMax}}" required
                 {{$disabled ? 'disabled' : ''}}>
         </div>
@@ -34,7 +34,7 @@ $disabled = $disabled ?? false;
     <div id="estimate5YearsContainer">
         @foreach (($vendorApplication->estimate5Years ?? [0, 0, 0, 0, 0]) as $cost)
         <div>
-            <label for="projectName">Year {{$loop->iteration}} (%)</label>
+            <label for="projectName">Year {{$loop->iteration}} (% out of total run cost)</label>
             <input type="number" class="form-control estimate5YearsHoursInput"
                 placeholder="Percentage out of total run"
                 value="{{$cost ?? ''}}"
@@ -54,19 +54,22 @@ $disabled = $disabled ?? false;
 <script>
     $(document).ready(function() {
         function updateEstimateTotalCost(){
-            const year0Cost = $('#estimate5YearsYear0Cost').val();
             const cost = $('#estimate5YearsContainer').children()
                 .map(function(){
                     return $(this).children('.estimate5YearsHoursInput').val()
                 }).toArray();
 
             const totalCost = cost.map((el) => +el).reduce((a, b) => a + b, 0)
-            $('#totalEstimate5YearsCost').html(totalCost + (+year0Cost));
-            $('#averageEstimate5YearsCost').html(totalCost / 5);
+            $('#totalEstimate5YearsCost').html(totalCost);
+
+            const averageYearlyCostMin = +$('#averageYearlyCostMin').val();
+            const averageYearlyCostMax = +$('#averageYearlyCostMax').val();
+
+            $('#averageEstimate5YearsCost').html((averageYearlyCostMin + averageYearlyCostMax) / 2);
         }
 
         function setEstimate5YearsEditListener(){
-            $('.estimate5YearsHoursInput, #estimate5YearsYear0Cost').change(function(){
+            $('.estimate5YearsHoursInput, #estimate5YearsYear0Cost, #averageYearlyCostMin, #averageYearlyCostMax').change(function(){
                 updateEstimate5Years();
             })
         }
