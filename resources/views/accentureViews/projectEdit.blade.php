@@ -72,7 +72,7 @@
 
                                                 <br>
 
-                                                <div class="form-group">
+                                                {{-- <div class="form-group">
                                                     <label>Upload a new Fitgap</label>
                                                     <input id="fitgapUpload" class="file-upload-default" name="img" type="file">
 
@@ -93,11 +93,11 @@
                                                     responsibility for the processing of this personal data (either your personal data or the personal data of others)
                                                     by
                                                     Accenture.
-                                                </p>
+                                                </p> --}}
                                                 <br>
 
                                                 <br><br>
-                                                <x-fitgapClientModal :project="$project" />
+                                                <x-fitgapClientModal :project="$project"/>
 
                                                 <br><br>
                                                 <h4>Questions</h4>
