@@ -10,15 +10,15 @@
     $progressValue = $application->progressVendor();
     $progressResponse = $application->progressExperience();
     $progressAnalytics = $application->progressInnovation();
-    $progressConclusions = $application->progressImplementation();
-    $progressConclusions = $application->progressSubmit();
+    $progressImplementation = $application->progressImplementation();
+    $progressSubmit = $application->progressSubmit();
 
     $totalProgress = $progressSetUp +
                         $progressValue +
                         $progressResponse +
                         $progressAnalytics +
-                        $progressConclusions +
-                        $progressConclusions;
+                        $progressImplementation +
+                        $progressSubmit;
 @endphp
 
 <div style="float: right; width: 35%; margin-right: 5%;">
@@ -55,10 +55,10 @@
         if($progressAnalytics == 10){
             $finishedPhases[] = 'Innovation & Vision';
         }
-        if($progressConclusions == 30){
+        if($progressImplementation == 30){
             $finishedPhases[] = 'Implementation & Commercial';
         }
-        if($progressConclusions == 10){
+        if($progressSubmit == 10){
             $finishedPhases[] = 'Submit';
         }
 

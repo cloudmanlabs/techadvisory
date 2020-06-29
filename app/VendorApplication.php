@@ -105,7 +105,7 @@ class VendorApplication extends Model
     public function progressImplementation() : int
     {
         $score = 0;
-        if ($this->hasCompletedVendorSelectionCriteriaIn(['implementation_implementation', 'implementation_run'])) {
+        if ($this->hasCompletedImplementation()) {
             $score += 30;
         }
         return $score;
@@ -125,6 +125,31 @@ class VendorApplication extends Model
         foreach (($this->fitgapVendorColumns ?? []) as $key => $value) {
             if (!isset($value['Vendor Response']) || $value['Vendor Response'] == null || $value['Vendor Response'] == '') return false;
         }
+        return true;
+    }
+
+    function hasCompletedImplementation() : bool
+    {
+        if ($this->project->isBinding) {
+            if(
+                $this->staffingCost == null ||
+                $this->travelCost == null ||
+                $this->additionalCost == null ||
+                $this->estimate5Years == null
+            ){
+                return false;
+            }
+        } else {
+            if(
+                $this->overallImplementationMin == null ||
+                $this->overallImplementationMax == null ||
+                $this->averageYearlyCostMin == null ||
+                $this->averageYearlyCostMax == null
+            ) {
+                return false;
+            }
+        }
+
         return true;
     }
 
