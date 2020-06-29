@@ -773,7 +773,11 @@ class ProjectController extends Controller
     {
         return view('accentureViews.projectBenchmark', [
             'project' => $project,
-            'applications' => $project->vendorApplications,
+            'applications' => $project
+                ->vendorApplications
+                ->sortByDesc(function(VendorApplication $application){
+                    return $application->totalScore();
+                }),
         ]);
     }
 
