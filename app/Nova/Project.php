@@ -61,9 +61,17 @@ class Project extends Resource
                 ->required(),
 
 
-            Text::make('Current Phase', 'currentPhase')
-                ->sortable()
-                ->exceptOnForms(),
+            Select::make('Current phase', 'currentPhase')
+                ->options([
+                    'preparation' => 'Preparation',
+                    'open' => 'Open',
+                    'old' => 'Old'
+                ])
+                ->displayUsingLabels()
+                ->hideWhenCreating()
+                ->hideWhenUpdating(function(){
+                    return $this->currentPhase == 'preparation';
+                }),
 
             DateTime::make('Deadline', 'deadline')
                 ->sortable(),
