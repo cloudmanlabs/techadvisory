@@ -3,6 +3,7 @@
 namespace App\Nova;
 
 use App\Nova\Actions\ExportCredentials;
+use App\Nova\Filters\TenYearFilter;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
@@ -117,7 +118,9 @@ class Vendor extends Resource
      */
     public function filters(Request $request)
     {
-        return [];
+        return [
+            (new TenYearFilter)
+        ];
     }
 
     /**
