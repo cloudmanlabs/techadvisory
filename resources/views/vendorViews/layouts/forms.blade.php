@@ -21,6 +21,7 @@
         <link rel="stylesheet" href="{{url('assets/css/techadvisory/style.css')}}">
         <link rel="stylesheet" href="{{url('assets/css/techadvisory/extra.css')}}">
         <link rel="stylesheet" href="{{url('assets/css/jquery.toast.min.css')}}">
+        <link href="{{url('/assets/vendors_techadvisory/countdown/countdown.css')}}" rel="stylesheet">
         <link rel="stylesheet" href="{{url('css/custom.css')}}">
 
         <link rel="stylesheet" href="{{url('assets/fonts/graphik/font.css')}}">
@@ -45,8 +46,8 @@
         <script src="{{url('assets/vendors/dropzone/dropzone.min.js')}}"></script>
         <script src="{{url('assets/js/dropzone.js')}}"></script>
         <script src="{{url('assets/js/wizard.js')}}"></script>
-        {{-- <script src="{{url('assets/js/select2.js')}}"></script> --}}
         <script src="{{url('assets/js/datepicker.js')}}"></script>
+        <script src="{{url('/assets/vendors_techadvisory/countdown/countdown.js')}}"></script>
         <script src="{{url('assets/js/jquery.toast.min.js')}}"></script>
 
         <script>
