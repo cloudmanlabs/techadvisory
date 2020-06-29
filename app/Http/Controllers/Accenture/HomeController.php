@@ -14,9 +14,9 @@ class HomeController extends Controller
     public function home()
     {
         // Get projects
-        $openProjects = Project::openProjects()->get();
-        $preparationProjects = Project::preparationProjects()->get();
-        $oldProjects = Project::oldProjects()->get();
+        $openProjects = Project::openProjects();
+        $preparationProjects = Project::preparationProjects();
+        $oldProjects = Project::oldProjects();
 
         $practices = Practice::all()->pluck('name');
         $clients = User::clientUsers()->pluck('name');

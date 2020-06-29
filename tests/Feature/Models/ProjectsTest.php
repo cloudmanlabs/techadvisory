@@ -112,9 +112,9 @@ class ProjectsTest extends TestCase
         ]);
         $project->save();
 
-        $this->assertCount(1, Project::preparationProjects()->get());
-        $this->assertCount(0, Project::openProjects()->get());
-        $this->assertCount(0, Project::oldProjects()->get());
+        $this->assertCount(1, Project::preparationProjects());
+        $this->assertCount(0, Project::openProjects());
+        $this->assertCount(0, Project::oldProjects());
     }
 
     public function testObserverAddsFoldersToProject()

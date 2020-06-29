@@ -5,6 +5,7 @@ namespace App;
 use Guimcaballero\LaravelFolders\Models\Folder;
 use Illuminate\Database\Eloquent\Model;
 use \Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Log;
 
 /**
@@ -233,6 +234,15 @@ class Project extends Model
 
 
 
+    public function progress()
+    {
+        return $this->progressSetUp() +
+            $this->progressValue() +
+            $this->progressResponse() +
+            $this->progressAnalytics() +
+            $this->progressConclusions();
+    }
+
     public function progressSetUp()
     {
         $score = 0;
@@ -366,30 +376,37 @@ class Project extends Model
     /**
      * Returns all projects in Open Phase
      *
-     * @return Builder
+     * @return Collection
      */
-    public static function openProjects(): Builder
+    public static function openProjects(): Collection
     {
-        return self::where('currentPhase', 'open');
+        return self::where('currentPhase', 'open')
+            ->get()
+            ->filter(function (Project $project) {
+                return $project->progress() != 100;
+            });
     }
 
     /**
      * Returns all projects in Preparation Phase
      *
-     * @return Builder
+     * @return Collection
      */
-    public static function preparationProjects(): Builder
+    public static function preparationProjects(): Collection
     {
-        return self::where('currentPhase', 'preparation');
+        return self::where('currentPhase', 'preparation')->get();
     }
 
     /**
      * Returns all projects in Old Phase
      *
-     * @return Builder
+     * @return Collection
      */
-    public static function oldProjects(): Builder
+    public static function oldProjects(): Collection
     {
-        return self::where('currentPhase', 'old');
+        return self::all()
+            ->filter(function(Project $project){
+                return $project->progress() == 100 || $project->currentPhase == 'old';
+            });
     }
 }
