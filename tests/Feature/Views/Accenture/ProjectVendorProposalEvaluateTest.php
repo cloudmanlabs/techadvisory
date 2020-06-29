@@ -62,7 +62,14 @@ class ProjectVendorProposalEvaluate extends TestCase
         $vendor = factory(User::class)->states(['vendor', 'finishedSetup'])->create();
         $project = factory(Project::class)->create();
 
-        $pages = array_keys(SelectionCriteriaQuestion::pagesSelect);
+        $pages = collect(array_keys(SelectionCriteriaQuestion::pagesSelect))
+            ->filter(function($page){
+                return !in_array($page, [
+                    'fitgap',
+                    'implementation_implementation',
+                    'implementation_run',
+                ]);
+            });
 
         foreach ($pages as $key => $page) {
             factory(SelectionCriteriaQuestion::class)->create([

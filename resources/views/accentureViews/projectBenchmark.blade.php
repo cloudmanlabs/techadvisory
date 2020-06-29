@@ -149,7 +149,7 @@
                                 <div class="col-xl-12 grid-margin stretch-card">
                                     <div class="card">
                                         <div class="card-body">
-                                            <h4>DOWNLOAD EXTRACTION DATA</h4>
+                                            <h4>Extract vendor replies for all RFP questions</h4>
                                             <div style="text-align: center; margin-top: 30px;">
                                                 <a class="btn btn-primary btn-lg btn-icon-text"
                                                     target="_blank"

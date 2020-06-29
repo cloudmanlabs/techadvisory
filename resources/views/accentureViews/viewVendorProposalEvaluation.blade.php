@@ -22,7 +22,7 @@
                                     you can leave them blank and fill up them later.</p>
                                 <br>
                                 <div id="viewVendorProposalEvaluationWizard">
-                                    <h2>Fit Gap</h2>
+                                    {{-- <h2>Fit Gap</h2>
                                     <section>
                                         <h4>Fit Gap</h4>
                                         <br>
@@ -37,7 +37,7 @@
                                         <h4>Questions</h4>
                                         <br>
                                         <x-questionForeachWithEvaluate :questions="$fitgapQuestions" :class="'selectionCriteriaQuestion'" :disabled="true" :evalDisabled="false" :required="false" />
-                                    </section>
+                                    </section> --}}
 
                                     <h2>Vendor</h2>
                                     <section>
@@ -83,7 +83,7 @@
                                             :disabled="true" :evalDisabled="false" :required="false" />
                                     </section>
 
-                                    <h2>Implementation & Commercials</h2>
+                                    {{-- <h2>Implementation & Commercials</h2>
                                     <section>
                                         <h4>Implementation</h4>
                                         <br>
@@ -137,7 +137,7 @@
                                         @endif
 
                                         <x-selectionCriteria.detailedBreakdown :vendorApplication="$vendorApplication" :disabled="true" :evaluate="false" />
-                                    </section>
+                                    </section> --}}
                                 </div>
 
                                 <div style="float: right; margin-top: 20px;">
