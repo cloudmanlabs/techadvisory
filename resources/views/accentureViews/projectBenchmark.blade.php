@@ -155,7 +155,7 @@
                                                     target="_blank"
                                                     href="{{route('accenture.exportAnalytics', ['project' => $project])}}">
                                                     <i data-feather="download"></i> &nbsp;
-                                                    Download analytics export
+                                                    Download responses
                                                 </a>
                                             </div>
                                         </div>

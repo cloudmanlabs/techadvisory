@@ -160,7 +160,7 @@
                                                 <div style="text-align: center; margin-top: 30px;">
                                                     <a class="btn btn-primary btn-lg btn-icon-text" href="{{route('client.exportAnalytics', ['project' => $project])}}">
                                                         <i data-feather="download"></i> &nbsp;
-                                                        Download analytics export
+                                                        Download responses
                                                     </a>
                                                 </div>
                                             </div>

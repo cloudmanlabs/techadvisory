@@ -24,6 +24,8 @@ Route::view('/', 'welcome')
     ->name('welcome');
 Route::view('/terms', 'terms')
     ->name('terms');
+Route::view('/privacy', 'privacy')
+    ->name('privacy');
 
 Route::post('logout', function(Request $request){
     Auth::logout();
