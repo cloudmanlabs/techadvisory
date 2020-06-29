@@ -318,7 +318,7 @@
             ticks: {
               beginAtZero: true,
               fontSize: 17,
-              max: 50,
+              max: 40,
               stacked: true
             }
           }],
