@@ -44,7 +44,6 @@ $disabled = $disabled ?? false;
         @endforeach
     </div>
 </div>
-<p>Total Cost: <span id="totalEstimate5YearsCost">0</span>$</p>
 <br>
 <p>Average Yearly Cost: <span id="averageEstimate5YearsCost">0</span>$</p>
 
@@ -54,14 +53,6 @@ $disabled = $disabled ?? false;
 <script>
     $(document).ready(function() {
         function updateEstimateTotalCost(){
-            const cost = $('#estimate5YearsContainer').children()
-                .map(function(){
-                    return $(this).children('.estimate5YearsHoursInput').val()
-                }).toArray();
-
-            const totalCost = cost.map((el) => +el).reduce((a, b) => a + b, 0)
-            $('#totalEstimate5YearsCost').html(totalCost);
-
             const averageYearlyCostMin = +$('#averageYearlyCostMin').val();
             const averageYearlyCostMax = +$('#averageYearlyCostMax').val();
 
