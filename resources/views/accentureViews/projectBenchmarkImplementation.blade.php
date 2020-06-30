@@ -108,13 +108,13 @@
                                                             <tr>
                                                                 <th class="table-dark">Implementation</th>
                                                                 @foreach ($applications as $application)
-                                                                <td class="filterByVendor" data-vendor="{{$application->vendor->name}}">$ {{number_format($application->implementationMoney(), 2)}}</td>
+                                                                <td class="filterByVendor" data-vendor="{{$application->vendor->name}}">$ {{number_format($application->averageImplementationCost(), 2)}}</td>
                                                                 @endforeach
                                                             </tr>
                                                             <tr>
                                                                 <th class="table-dark">Run (5 years)</th>
                                                                 @foreach ($applications as $application)
-                                                                <td class="filterByVendor" data-vendor="{{$application->vendor->name}}">$ {{number_format($application->runMoney(), 2)}}</td>
+                                                                <td class="filterByVendor" data-vendor="{{$application->vendor->name}}">$ {{number_format($application->averageRunCost(), 2)}}</td>
                                                                 @endforeach
                                                             </tr>
                                                         </tbody>
@@ -207,7 +207,7 @@
                         backgroundColor: ["#27003d", "#27003d", "#27003d", "#27003d", "#27003d", "#27003d", "#27003d"],
                         data: [
                             @foreach ($applications as $application)
-                            {{$application->implementationMoney()}},
+                            {{$application->averageImplementationCost()}},
                             @endforeach
                         ],
                         stack: 'Stack 0'
@@ -217,7 +217,7 @@
                         backgroundColor: ["#5a008f", "#5a008f", "#5a008f", "#5a008f", "#5a008f", "#5a008f", "#5a008f"],
                         data: [
                             @foreach ($applications as $application)
-                            {{$application->runMoney()}},
+                            {{$application->averageRunCost()}},
                             @endforeach
                         ],
                         stack: 'Stack 0'

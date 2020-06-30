@@ -503,41 +503,6 @@ class VendorApplication extends Model
         return ($difference / $minCost) * 10;
     }
 
-    public function implementationMoney()
-    {
-        if ($this->project->isBinding) {
-            return collect([
-                collect($this->staffingCost ?? ['cost' => '0',])
-                    ->map(function ($el) {
-                        return $el['cost'] ?? 0;
-                    })
-                    ->avg(),
-                collect($this->travelCost ?? ['cost' => '0',])
-                    ->map(function ($el) {
-                        return $el['cost'] ?? 0;
-                    })
-                    ->avg(),
-                collect($this->additionalCost ?? ['cost' => '0',])
-                    ->map(function ($el) {
-                        return $el['cost'] ?? 0;
-                    })
-                    ->avg(),
-            ])
-                ->avg();
-        } else {
-            return collect([
-                $this->staffingCostNonBinding ?? 0,
-                $this->travelCostNonBinding ?? 0,
-                $this->additionalCostNonBinding ?? 0,
-            ])->average();
-        }
-    }
-
-    public function runMoney()
-    {
-        return collect($this->estimate5Years ?? [0, 0, 0, 0, 0])->average();
-    }
-
 
 
 
