@@ -7,10 +7,11 @@
     firstTime - boolean - Whether to set the value field for name. This is so that they don't see the placeholder name that is set on create
     --}}
 
-@props(['project', 'clients', 'disableSpecialQuestions', 'disabled', 'required', 'firstTime'])
+@props(['project', 'clients', 'disableSpecialQuestions', 'disabled', 'required', 'firstTime', 'projectEdit'])
 
 @php
     $firstTime = $firstTime ?? false;
+    $projectEdit = $projectEdit ?? false;
 @endphp
 
 <h4>1.1. Project Info</h4>
@@ -35,6 +36,7 @@
         class="form-control"
         id="chooseClientSelect"
         required
+        {{$projectEdit ? 'disabled' : ''}}
     >
         <option selected="" disabled="">Please select the Client Name</option>
         @php
@@ -79,6 +81,7 @@
     <label for="bindingOption">Binding/Non-binding*</label>
     <select class="form-control" id="bindingOption" required
         {{$disabled ? 'disabled' : ''}}
+        {{$projectEdit ? 'disabled' : ''}}
     >
         <option disabled="">Please select an option</option>
         <option value="yes" @if($project->isBinding) selected @endif>Binding</option>
@@ -123,6 +126,7 @@
     <label for="practiceSelect">Practice*</label>
     <select class="form-control" id="practiceSelect" required
         {{$disabled ? 'disabled' : ''}}
+        {{$projectEdit ? 'disabled' : ''}}
     >
         <x-options.practices :selected="$project->practice->id ?? -1" />
     </select>
