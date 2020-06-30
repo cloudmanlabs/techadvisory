@@ -6,7 +6,7 @@
         <div class="page-wrapper">
             <div class="page-content">
 
-                <x-video :src="nova_get_setting('video_newProject')" :text="nova_get_setting('video_newProject_text')" />
+                <x-video :src="nova_get_setting('video_newProject_file')" :text="nova_get_setting('video_newProject_text')" />
 
                 <br><br>
 

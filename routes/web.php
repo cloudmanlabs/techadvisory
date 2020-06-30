@@ -20,6 +20,10 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+Route::get('/test', function(){
+    return nova_get_setting('test');
+});
+
 Route::view('/', 'welcome')
     ->name('welcome');
 Route::view('/terms', 'terms')

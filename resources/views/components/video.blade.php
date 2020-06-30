@@ -17,7 +17,7 @@
                         <div class="media-body" style="padding-top: 16px; padding-left: 20px; padding-right: 20px;">
                             {{$text ?? ''}}
                         </div>
-                        <a data-target=".bd-example-modal-lg" data-thevideo="{{$src ?? ''}}"
+                        <a data-target=".bd-example-modal-lg" data-thevideo="/storage/{{$src ?? ''}}"
                             data-toggle="modal" href="#"><img alt="..." class="wd-100p wd-sm-150 mb-3 mb-sm-0 ml-3"
                                 src="{{url('/assets/images/video_small.jpg')}}"></a>
                     </div>
