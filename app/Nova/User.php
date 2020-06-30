@@ -55,11 +55,9 @@ class User extends Resource
                 ->creationRules('unique:users,email')
                 ->updateRules('unique:users,email,{{resourceId}}'),
 
-            Select::make('Type', 'userType')->options([
-                'accenture' => 'Accenture',
-                'vendor' => 'Vendor',
-                'client' => 'Client'
-            ])->displayUsingLabels(),
+            Select::make('Type', 'userType')
+                ->options(\App\User::allTypes)
+                ->displayUsingLabels(),
 
             Password::make('Password')
                 ->onlyOnForms()

@@ -2,6 +2,8 @@
 
 namespace App\Nova;
 
+use App\Exports\AccentureUserExport;
+use App\Nova\Actions\ExportUsers;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
@@ -70,19 +72,22 @@ class Accenture extends Resource
                 ->creationRules('unique:users,email')
                 ->updateRules('unique:users,email,{{resourceId}}'),
 
-            // Image::make('Profile Picture', 'logo'),
+            Text::make('Enterprise Id', 'enterpriseId')
+                ->sortable()
+                ->rules('max:255')
+                ->nullable(),
 
             Password::make('Password')
                 ->onlyOnForms()
                 ->creationRules('required', 'string', 'min:8')
                 ->updateRules('nullable', 'string', 'min:8'),
 
-
-            // This sets the correct value for userType
-            HiddenField::make('userType')
-                ->hideFromIndex()
-                ->hideFromDetail()
-                ->default('accenture'),
+            Select::make('User Type', 'userType')
+                ->options([
+                    'accenture' => 'Normal User',
+                    'accentureAdmin' => 'Admin User'
+                ])
+                ->displayUsingLabels(),
         ];
     }
 
@@ -132,6 +137,8 @@ class Accenture extends Resource
      */
     public function actions(Request $request)
     {
-        return [];
+        return [
+            new ExportUsers
+        ];
     }
 }

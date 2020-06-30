@@ -43,15 +43,15 @@ $factory->state(App\User::class, 'accenture', [
     'userType' => 'accenture',
 ]);
 
+$factory->state(App\User::class, 'accentureAdmin', [
+    'userType' => 'accentureAdmin',
+]);
+
 $factory->state(App\User::class, 'vendor', [
     'userType' => 'vendor',
 ]);
 
 
-
-$factory->state(App\User::class, 'guimEmail', [
-    'email' => 'guim@caballerocoll.com',
-]);
 
 
 $factory->state(App\User::class, 'finishedSetup', [

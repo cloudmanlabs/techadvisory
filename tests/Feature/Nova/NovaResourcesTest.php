@@ -14,7 +14,7 @@ class NovaResourcesTest extends TestCase
 
     public function testAccentureCanNotAccessUsers()
     {
-        $accenture = factory(User::class)->states('accenture')->make();
+        $accenture = factory(User::class)->states('accentureAdmin')->make();
 
         $response = $this->actingAs($accenture)
             ->get('/nova-api/users');

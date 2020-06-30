@@ -14,6 +14,7 @@ use Laravel\Nova\Fields\Boolean;
 /**
  * @property string $userType Should be one of [admin, accenture, accentureAdmin, client, vendor]
  * @property string $hasFinishedSetup
+ * @property string|null $enterpriseId
  */
 class User extends Authenticatable
 {
@@ -214,6 +215,12 @@ class User extends Authenticatable
     }
 
 
+    const allTypes = [
+        'accenture' => 'Accenture',
+        'accentureAdmin' => 'Accenture Admin',
+        'vendor' => 'Vendor',
+        'client' => 'Client'
+    ];
 
     /**
      * Available Admin types
@@ -262,6 +269,18 @@ class User extends Authenticatable
             || $this->userType == 'accentureAdmin'
             || $this->usertype == 'accentureAdmin';
     }
+
+    /**
+     * Returns true if the user is Accenture Admin
+     *
+     * @return boolean
+     */
+    public function isAccentureAdmin(): bool
+    {
+        return $this->userType == 'accentureAdmin'
+            || $this->usertype == 'accentureAdmin';
+    }
+
 
     /**
      * Returns true if the user is a client
