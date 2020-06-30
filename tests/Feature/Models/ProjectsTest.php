@@ -596,7 +596,7 @@ class ProjectsTest extends TestCase
         $user = factory(User::class)->states(['accenture'])->create();
         $project = factory(Project::class)->create();
 
-        $this->assertEquals([0, 0, 0, 0, 0], $project->scoringValues);
+        $this->assertEquals([4, 4, 4, 4, 4], $project->scoringValues);
 
         $response = $this->actingAs($user)
                     ->post('/accenture/newProjectSetUp/updateScoringValues', [
@@ -632,7 +632,7 @@ class ProjectsTest extends TestCase
         $user = factory(User::class)->states(['client', 'finishedSetup'])->create();
         $project = factory(Project::class)->create();
 
-        $this->assertEquals([0, 0, 0, 0, 0], $project->scoringValues);
+        $this->assertEquals([4,4,4,4,4], $project->scoringValues);
 
         $response = $this->actingAs($user)
             ->post('/client/newProjectSetUp/updateScoringValues', [
