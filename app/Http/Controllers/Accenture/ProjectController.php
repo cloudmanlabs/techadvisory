@@ -663,6 +663,10 @@ class ProjectController extends Controller
     {
         $clients = User::clientUsers()->get();
 
+        $sizingQuestions = $project->sizingQuestions->filter(function ($el) {
+            return $el->shouldShow;
+        });
+
         $fitgapQuestions = $project->selectionCriteriaQuestionsOriginals()->where('page', 'fitgap');
 
         $vendorCorporateQuestions = $project->selectionCriteriaQuestionsOriginals()->where('page', 'vendor_corporate');
@@ -683,7 +687,7 @@ class ProjectController extends Controller
             'clients' => $clients,
 
             'generalInfoQuestions' => $project->generalInfoQuestions,
-            'sizingQuestions' => $project->sizingQuestions,
+            'sizingQuestions' => $sizingQuestions,
 
             'fitgapQuestions' => $fitgapQuestions,
             'vendorCorporateQuestions' => $vendorCorporateQuestions,
@@ -701,6 +705,10 @@ class ProjectController extends Controller
     public function edit(Project $project)
     {
         $clients = User::clientUsers()->get();
+
+        $sizingQuestions = $project->sizingQuestions->filter(function ($el) {
+            return $el->shouldShow;
+        });
 
         $fitgapQuestions = $project->selectionCriteriaQuestionsOriginals()->where('page', 'fitgap');
 
@@ -722,7 +730,7 @@ class ProjectController extends Controller
             'clients' => $clients,
 
             'generalInfoQuestions' => $project->generalInfoQuestions,
-            'sizingQuestions' => $project->sizingQuestions,
+            'sizingQuestions' => $sizingQuestions,
 
             'fitgapQuestions' => $fitgapQuestions,
             'vendorCorporateQuestions' => $vendorCorporateQuestions,
