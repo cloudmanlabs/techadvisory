@@ -775,6 +775,9 @@ class ProjectController extends Controller
             'project' => $project,
             'applications' => $project
                 ->vendorApplications
+                ->filter(function(VendorApplication $application){
+                    return $application->phase == 'submitted';
+                })
                 ->sortByDesc(function(VendorApplication $application){
                     return $application->totalScore();
                 }),
@@ -785,7 +788,10 @@ class ProjectController extends Controller
     {
         return view('accentureViews.projectBenchmarkFitgap', [
             'project' => $project,
-            'applications' => $project->vendorApplications,
+            'applications' => $project->vendorApplications
+                ->filter(function(VendorApplication $application){
+                    return $application->phase == 'submitted';
+                }),
         ]);
     }
 
@@ -793,7 +799,10 @@ class ProjectController extends Controller
     {
         return view('accentureViews.projectBenchmarkVendor', [
             'project' => $project,
-            'applications' => $project->vendorApplications,
+            'applications' => $project->vendorApplications
+                ->filter(function(VendorApplication $application){
+                    return $application->phase == 'submitted';
+                }),
         ]);
     }
 
@@ -801,7 +810,10 @@ class ProjectController extends Controller
     {
         return view('accentureViews.projectBenchmarkExperience', [
             'project' => $project,
-            'applications' => $project->vendorApplications,
+            'applications' => $project->vendorApplications
+                ->filter(function(VendorApplication $application){
+                    return $application->phase == 'submitted';
+                }),
         ]);
     }
 
@@ -809,7 +821,10 @@ class ProjectController extends Controller
     {
         return view('accentureViews.projectBenchmarkInnovation', [
             'project' => $project,
-            'applications' => $project->vendorApplications,
+            'applications' => $project->vendorApplications
+                ->filter(function(VendorApplication $application){
+                    return $application->phase == 'submitted';
+                }),
         ]);
     }
 
@@ -817,7 +832,10 @@ class ProjectController extends Controller
     {
         return view('accentureViews.projectBenchmarkImplementation', [
             'project' => $project,
-            'applications' => $project->vendorApplications,
+            'applications' => $project->vendorApplications
+                ->filter(function(VendorApplication $application){
+                    return $application->phase == 'submitted';
+                }),
         ]);
     }
 
