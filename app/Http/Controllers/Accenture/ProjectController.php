@@ -946,7 +946,8 @@ class ProjectController extends Controller
         $request->validate([
             'vendor_id' => 'required|numeric',
             'project_id' => 'required|numeric',
-            'text' => 'required'
+            'text' => 'required',
+            'email' => 'required|string',
         ]);
 
         $vendor = User::find($request->vendor_id);
@@ -962,7 +963,7 @@ class ProjectController extends Controller
         $text = preg_replace('/&#10;/', '<br>', $request->text);
         $text = preg_replace('/\n/', '<br>', $text);
 
-        Mail::to($vendor->email)->send(new ProjectInvitationEmail($vendor, $project, $text));
+        Mail::to($request->email)->send(new ProjectInvitationEmail($vendor, $project, $text));
     }
 
 

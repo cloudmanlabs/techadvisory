@@ -255,3 +255,13 @@
         </div>
     </div>
 @endsection
+
+@section('head')
+@parent
+
+<style>
+    select.form-control {
+        color: #495057;
+    }
+</style>
+@endsection

@@ -775,12 +775,13 @@ class ProjectsTest extends TestCase
                     ->post('/accenture/project/resendInvitation', [
                         'vendor_id' => $vendor->id,
                         'project_id' => $project->id,
-                        'text' => 'hello'
+                        'text' => 'hello',
+                        'email' => 'hello@example.com'
                     ]);
         $response->assertOk();
 
         Mail::assertSent(ProjectInvitationEmail::class, function ($mail) use ($vendor) {
-            return $mail->hasTo($vendor->email);
+            return $mail->hasTo('hello@example.com');
         });
     }
 
