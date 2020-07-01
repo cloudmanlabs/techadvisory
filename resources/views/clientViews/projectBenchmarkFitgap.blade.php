@@ -274,7 +274,7 @@
             backgroundColor: ["#27003d", "#27003d", "#27003d", "#27003d", "#27003d", "#27003d", "#27003d"],
             data: [
                 @foreach ($applications as $obj)
-                {{$obj->fitgapScore()}},
+                {{$obj->fitgapFunctionalScore() / 4}},
                 @endforeach
             ],
             stack: 'Stack 0'
@@ -284,7 +284,7 @@
             backgroundColor: ["#5a008f", "#5a008f", "#5a008f", "#5a008f", "#5a008f", "#5a008f", "#5a008f"],
             data: [
                 @foreach ($applications as $obj)
-                {{$obj->fitgapScore()}},
+                {{$obj->fitgapTechnicalScore() / 4}},
                 @endforeach
             ],
             stack: 'Stack 0'
@@ -294,7 +294,7 @@
             backgroundColor: ["#8e00e0", "#8e00e0", "#8e00e0", "#8e00e0", "#8e00e0", "#8e00e0", "#8e00e0"],
             data: [
                 @foreach ($applications as $obj)
-                {{$obj->fitgapScore()}},
+                {{$obj->fitgapServiceScore() / 4}},
                 @endforeach
             ],
             stack: 'Stack 0'
@@ -304,7 +304,7 @@
             backgroundColor: ["#a50aff", "#a50aff", "#a50aff", "#a50aff", "#a50aff", "#a50aff", "#a50aff"],
             data: [
                 @foreach ($applications as $obj)
-                {{$obj->fitgapScore()}},
+                {{$obj->fitgapOtherScore() / 4}},
                 @endforeach
             ],
             stack: 'Stack 0'

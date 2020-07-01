@@ -113,7 +113,7 @@
                                                                 @endforeach
                                                             </tr>
                                                             <tr>
-                                                                <th class="table-dark">Run (5 years)</th>
+                                                                <th class="table-dark">Average Yearly Run</th>
                                                                 @foreach ($applications as $application)
                                                                 <td class="filterByVendor" data-vendor="{{$application->vendor->name}}">$ {{number_format($application->runMoney(), 2)}}
                                                                 </td>
