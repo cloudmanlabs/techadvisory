@@ -453,6 +453,35 @@ class VendorApplication extends Model
         }
     }
 
+    public function implementationCost()
+    {
+        if ($this->project->isBinding) {
+            return collect([
+                collect($this->staffingCost ?? ['cost' => '0',])
+                    ->map(function ($el) {
+                        return $el['cost'] ?? 0;
+                    })
+                    ->sum(),
+                collect($this->travelCost ?? ['cost' => '0',])
+                    ->map(function ($el) {
+                        return $el['cost'] ?? 0;
+                    })
+                    ->sum(),
+                collect($this->additionalCost ?? ['cost' => '0',])
+                    ->map(function ($el) {
+                        return $el['cost'] ?? 0;
+                    })
+                    ->sum(),
+            ])
+                ->sum();
+        } else {
+            return collect([
+                $this->overallImplementationMin ?? 0,
+                $this->overallImplementationMax ?? 0,
+            ])->average();
+        }
+    }
+
     public function implementationCostDelta()
     {
         $minCost = $this->project->minImplementationCost();
@@ -470,6 +499,19 @@ class VendorApplication extends Model
         assert($difference >= 0, "Something minus the minimum should return a positive number or 0.");
 
         return ($difference / $minCost) * 10;
+    }
+
+    public function runCost()
+    {
+        if ($this->project->isBinding) {
+            return collect($this->estimate5Years ?? [0, 0, 0, 0, 0])
+                ->sum();
+        }
+
+        return collect([
+            $this->averageYearlyCostMin ?? 0,
+            $this->averageYearlyCostMax ?? 0,
+        ])->average();
     }
 
     public function averageRunCost()
