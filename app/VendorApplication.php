@@ -293,7 +293,7 @@ class VendorApplication extends Model
                 $multiplier = $this->getClientMultiplierInRow($key);
 
                 $scores[] = $this->getScoreFromResponse($response) * $multiplier;
-                $maxScores[] = $multiplier * ($this->project->fitgapWeightMust ?? 10);
+                $maxScores[] = $multiplier * ($this->project->fitgapWeightFullySupports ?? 3);
             }
         }
 
