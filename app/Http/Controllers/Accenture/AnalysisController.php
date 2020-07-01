@@ -7,6 +7,7 @@ use App\Practice;
 use App\Project;
 use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class AnalysisController extends Controller
 {
@@ -24,22 +25,31 @@ class AnalysisController extends Controller
             'practices' => Practice::all(),
             'clients' => User::clientUsers()->where('hasFinishedSetup', true)->get(),
 
-            'industries' => collect(config('arrays.industryExperience'))->map(function($industry){
-                return (object)[
-                    'name' => $industry,
-                    'projectCount' => Project::all()->filter(function ($project) use ($industry) {
-                        return $project->industry == $industry;
-                    })->count()
-                ];
-            }),
-            'regions' => collect(config('arrays.regions'))->map(function ($region) {
-                return (object)[
-                    'name' => $region,
-                    'projectCount' => Project::all()->filter(function ($project) use ($region) {
-                        return in_array($region, $project->regions ?? []);
-                    })->count()
-                ];
-            }),
+            'industries' => collect(config('arrays.industryExperience'))
+                ->map(function($industry){
+                    $smth =  (object)[
+                        'name' => $industry,
+                        'projectCount' => Project::all()
+                            ->filter(function (Project $project) use ($industry) {
+                                Log::debug($project->industry . ' ' . $industry);
+                                return $project->industry == $industry;
+                            })
+                            ->count()
+                    ];
+                    Log::debug(json_encode($smth));
+                    return $smth;
+                }),
+            'regions' => collect(config('arrays.regions'))
+                ->map(function ($region) {
+                    return (object)[
+                        'name' => $region,
+                        'projectCount' => Project::all()
+                            ->filter(function ($project) use ($region) {
+                                return in_array($region, $project->regions ?? []);
+                            })
+                            ->count()
+                    ];
+                }),
         ]);
     }
 
