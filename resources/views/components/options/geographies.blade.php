@@ -5,5 +5,5 @@
 </option> --}}
 
 @foreach (config('arrays.regions') as $item)
-<option value="{{$item}}" {{($item == $selected) ? 'selected' : ''}}>{{$item}}</option>
+<option value="{{$item}}" {{in_array($item, $selected) ? 'selected' : ''}}>{{$item}}</option>
 @endforeach
