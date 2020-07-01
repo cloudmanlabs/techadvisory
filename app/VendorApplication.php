@@ -306,11 +306,6 @@ class VendorApplication extends Model
 
         if($denom == 0) return 0;
 
-        Log::debug($type . ' ' . $this->vendor->name);
-        Log::debug($scores);
-        Log::debug($maxScores);
-        Log::debug($num . ' / ' . $denom);
-
         return
             10 * ($num / $denom);
     }
