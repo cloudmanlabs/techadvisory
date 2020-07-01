@@ -293,7 +293,7 @@ class VendorApplication extends Model
                 $multiplier = $this->getClientMultiplierInRow($key);
 
                 $scores[] = $this->getScoreFromResponse($response) * $multiplier;
-                $maxScores[] = $multiplier * ($this->project->fitgapWeightFullySupports ?? 3);
+                $maxScores[] = ($this->project->fitgapWeightFullySupports ?? 3) * $multiplier;
             }
         }
 
@@ -301,12 +301,18 @@ class VendorApplication extends Model
             return 0;
         }
 
+        $num = array_sum($scores);
         $denom = array_sum($maxScores);
 
         if($denom == 0) return 0;
 
+        Log::debug($type . ' ' . $this->vendor->name);
+        Log::debug($scores);
+        Log::debug($maxScores);
+        Log::debug($num . ' / ' . $denom);
+
         return
-            10 * (array_sum($scores) / $denom);
+            10 * ($num / $denom);
     }
 
     public function fitgapFunctionalScore()
