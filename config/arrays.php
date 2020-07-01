@@ -33,7 +33,7 @@ return [
         'Client Satisfaction Survey'
     ],
 
-    'industryExperience' =>[
+    'industryExperience' => [
         'Automative',
         'Consumer goods & services',
         'Industrial Equipement',

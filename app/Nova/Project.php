@@ -124,6 +124,15 @@ class Project extends Resource
             BelongsTo::make('Practice', 'practice', 'App\Nova\Practice')
                 ->sortable(),
 
+			Text::make('Industry', 'industry')
+				->canSee(function(){
+					return auth()->user()->isAdmin();
+                }),
+            Text::make('Regions', 'regions')
+				->canSee(function(){
+					return auth()->user()->isAdmin();
+				}),
+
             Number::make('Fitgap Client Weight: Must', 'fitgapWeightMust')
                 ->hideFromIndex(),
             Number::make('Fitgap Client Weight: Required', 'fitgapWeightRequired')

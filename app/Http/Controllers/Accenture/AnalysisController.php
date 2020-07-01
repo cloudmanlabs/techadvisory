@@ -27,17 +27,14 @@ class AnalysisController extends Controller
 
             'industries' => collect(config('arrays.industryExperience'))
                 ->map(function($industry){
-                    $smth =  (object)[
+                    return (object)[
                         'name' => $industry,
                         'projectCount' => Project::all()
                             ->filter(function (Project $project) use ($industry) {
-                                Log::debug($project->industry . ' ' . $industry);
                                 return $project->industry == $industry;
                             })
                             ->count()
                     ];
-                    Log::debug(json_encode($smth));
-                    return $smth;
                 }),
             'regions' => collect(config('arrays.regions'))
                 ->map(function ($region) {
