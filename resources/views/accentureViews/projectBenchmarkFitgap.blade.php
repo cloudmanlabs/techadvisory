@@ -268,7 +268,7 @@ $(function () {
             backgroundColor: ["#27003d", "#27003d", "#27003d", "#27003d", "#27003d", "#27003d", "#27003d"],
             data: [
                 @foreach ($applications as $obj)
-                {{$obj->fitgapFunctionalScore() / 4}},
+                {{$obj->fitgapFunctionalScore() * ($project->fitgapFunctionalWeight ?? 60) / 100}},
                 @endforeach
             ],
             stack: 'Stack 0'
@@ -278,7 +278,7 @@ $(function () {
             backgroundColor: ["#5a008f", "#5a008f", "#5a008f", "#5a008f", "#5a008f", "#5a008f", "#5a008f"],
             data: [
                 @foreach ($applications as $obj)
-                {{$obj->fitgapTechnicalScore() / 4}},
+                {{$obj->fitgapTechnicalScore() * ($project->fitgapTechnicalWeight ?? 20) / 100}},
                 @endforeach
             ],
             stack: 'Stack 0'
@@ -288,7 +288,7 @@ $(function () {
             backgroundColor: ["#8e00e0", "#8e00e0", "#8e00e0", "#8e00e0", "#8e00e0", "#8e00e0", "#8e00e0"],
             data: [
                 @foreach ($applications as $obj)
-                {{$obj->fitgapServiceScore() / 4}},
+                {{$obj->fitgapServiceScore() * ($project->fitgapServiceWeight ?? 10) / 100}},
                 @endforeach
             ],
             stack: 'Stack 0'
@@ -298,7 +298,7 @@ $(function () {
             backgroundColor: ["#a50aff", "#a50aff", "#a50aff", "#a50aff", "#a50aff", "#a50aff", "#a50aff"],
             data: [
                 @foreach ($applications as $obj)
-                {{$obj->fitgapOtherScore() / 4}},
+                {{$obj->fitgapOtherScore() * ($project->fitgapOthersWeight ?? 10) / 100}},
                 @endforeach
             ],
             stack: 'Stack 0'
