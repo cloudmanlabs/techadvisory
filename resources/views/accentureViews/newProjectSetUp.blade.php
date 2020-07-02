@@ -55,6 +55,23 @@
 
                                         <br><br>
 
+                                        <div>
+                                            <button
+                                                class="btn btn-primary"
+                                                id="selectAllSizingQuestions"
+                                            >
+                                                Select all
+                                            </button>
+                                            <button
+                                                class="btn btn-primary"
+                                                id="unselectAllSizingQuestions"
+                                            >
+                                                Unselect all
+                                            </button>
+                                        </div>
+
+                                        <br><br>
+
                                         <button
                                             id="step3Submit"
                                             class="btn btn-primary"
@@ -644,6 +661,14 @@
                     showSavedToast();
                 }
             });
+        });
+
+        $('#selectAllSizingQuestions').click(function(){
+            $('.checkboxesDiv input').prop('checked', true)
+        });
+
+        $('#unselectAllSizingQuestions').click(function(){
+            $('.checkboxesDiv input').prop('checked', false)
         });
 
         updateShownQuestionsAccordingToPractice();
