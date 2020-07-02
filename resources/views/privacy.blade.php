@@ -58,7 +58,7 @@
                                         </h1>
                                         <p style="margin-top: 1rem">
                                             Accenture processes your personal data as permitted by applicable data protection laws and its internal policies,
-                                            including Accenture Privacy Statement and in accordance with the applicable data privacy legislation.
+                                            including <a href="https://www.accenture.com/gb-en/about/privacy-policy">Accenture Privacy Statement</a> and in accordance with the applicable data privacy legislation.
                                         </p>
                                         <p style="margin-top: 1rem">
                                             Accenture collects your personal data where required for specific purposes when your register, enter information, access
@@ -86,7 +86,7 @@
                                             As a global organization with global IT systems, your personal data may be transferred to other Accenture offices in
                                             Accenture's worldwide organization. Accenture has internal policies to ensure an equivalent level of protection is in
                                             place across Accenture’s worldwide organization. Any transfers of your personal data to other Accenture offices will be
-                                            governed by Accenture's binding corporate rules, standard contractual clauses or takes place in accordance with any
+                                            governed by <a href="https://www.accenture.com/us-en/about/binding-corporate-rules">Accenture's binding corporate rules</a>, standard contractual clauses or takes place in accordance with any
                                             other appropriate international data transfer mechanisms and safeguards.
                                         </p>
 
@@ -183,7 +183,7 @@
                                         </p>
                                         <p style="margin-top: 1rem">
                                             If you wish to exercise any of the foregoing rights, or if you have any other questions or concerns about how we process
-                                            your personal data, dataprivacyofficer@accenture.com.
+                                            your personal data, <a href="mailto:dataprivacyofficer@accenture.com">dataprivacyofficer@accenture.com</a>.
                                         </p>
                                     </div>
                                 </div>
