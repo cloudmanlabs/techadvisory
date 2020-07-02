@@ -66,7 +66,7 @@ class SizingQuestion extends Resource
 
             Text::make('Label', 'label')
                 ->required(),
-            Boolean::make('Required', 'required'),
+            // Boolean::make('Required', 'required'),
 
             BelongsTo::make('Practice', 'practice', 'App\Nova\Practice')
                 ->nullable()

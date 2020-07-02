@@ -75,6 +75,11 @@ class SelectionCriteriaQuestion extends Resource
             Boolean::make('Required', 'required'),
             Boolean::make('Fixed', 'fixed')
                 ->exceptOnForms(),
+
+            Boolean::make('Fixed', 'fixed')
+                ->canSee(function(){
+                    return auth()->user()->isAdmin();
+                }),
         ];
 
         // NOTE All of the fields here should be hidden on index and create
