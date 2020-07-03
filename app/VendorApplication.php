@@ -505,7 +505,10 @@ class VendorApplication extends Model
     {
         if ($this->project->isBinding) {
             return collect($this->estimate5Years ?? [0, 0, 0, 0, 0])
-                ->sum();
+                ->filter(function ($el) {
+                    return $el != 0;
+                })
+                ->average();
         }
 
         return collect([
@@ -518,6 +521,9 @@ class VendorApplication extends Model
     {
         if ($this->project->isBinding) {
             return collect($this->estimate5Years ?? [0, 0, 0, 0, 0])
+                ->filter(function ($el) {
+                    return $el != 0;
+                })
                 ->average();
         }
 

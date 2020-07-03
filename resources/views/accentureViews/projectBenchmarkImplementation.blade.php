@@ -121,7 +121,6 @@
                                                     </table>
                                                 </div>
 
-
                                                 <br><br><br>
                                                 <canvas id="chartjsBar2"></canvas>
                                             </div>

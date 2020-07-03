@@ -9,6 +9,14 @@ $disabled = $disabled ?? false;
 
     <div>
         <label for="projectName">Average yearly cost</label>
+        <div style="display: flex; flex-direction: row; justify-content: space-evenly; width: 100%">
+            <div style="width: 50%; padding: 0 0.5rem">
+                <p>Min</p>
+            </div>
+            <div style="width: 50%; padding: 0 0.5rem">
+                <p>Max</p>
+            </div>
+        </div>
         <div style="display: flex; flex-direction: row">
             <input type="number" id="averageYearlyCostMin" class="form-control nonBindingInput" placeholder="Min" data-changing="averageYearlyCostMin"
                 value="{{$vendorApplication->averageYearlyCostMin}}" required
@@ -20,6 +28,14 @@ $disabled = $disabled ?? false;
     </div>
     <div>
         <label for="projectName">Total run cost</label>
+        <div style="display: flex; flex-direction: row; justify-content: space-evenly; width: 100%">
+            <div style="width: 50%; padding: 0 0.5rem">
+                <p>Min</p>
+            </div>
+            <div style="width: 50%; padding: 0 0.5rem">
+                <p>Max</p>
+            </div>
+        </div>
         <div style="display: flex; flex-direction: row">
             <input type="number" class="form-control nonBindingInput" placeholder="Min" data-changing="totalRunCostMin"
                 value="{{$vendorApplication->totalRunCostMin}}" required
