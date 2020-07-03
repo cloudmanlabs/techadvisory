@@ -143,6 +143,8 @@
                         </div>
                     </div>
                 </div>
+
+                <x-deadline :project="$project" />
             </div>
 
             <x-footer />
