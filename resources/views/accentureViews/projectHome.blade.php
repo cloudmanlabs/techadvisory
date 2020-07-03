@@ -36,7 +36,7 @@
                     <div class="col-lg-12 grid-margin stretch-card">
                         <div class="card">
                             <div class="card-body">
-                                <h3>Vendors applicating</h3>
+                                <h3>Vendors applying</h3>
                                 <p class="welcome_text extra-top-15px">
                                     {{nova_get_setting('accenture_projectHome_applicating') ?? ''}}
                                 </p>

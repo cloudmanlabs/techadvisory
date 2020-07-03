@@ -111,7 +111,7 @@ class SizingQuestionSeeder extends Seeder
             'practice_id' => $manufacturingPractice->id
         ]);
 
-        $wharehousingPractice = Practice::where('name', 'Wharehousing')->first();
+        $wharehousingPractice = Practice::where('name', 'Warehousing')->first();
         factory(SizingQuestion::class)->create([
             'type' => 'number',
             'label' => '% dedicated fleet',

@@ -42,7 +42,7 @@
                                 <br>
                                 <div class="media-body" style="padding: 20px;">
                                     <p class="welcome_text">
-                                        Please choose the Segments you'd like to see:
+                                        Please choose the Vendor Segments you'd like to see:
                                     </p>
                                     <select id="segmentSelect" class="w-100" multiple="multiple">
                                         @foreach ($segments as $segment)

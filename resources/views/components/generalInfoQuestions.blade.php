@@ -52,6 +52,7 @@
 </div>
 @endif
 
+@if(!$disableSpecialQuestions && !$disabled)
 <div class="form-group">
     <label for="valueTargeting">Value Targeting*</label>
     <select class="form-control" id="valueTargeting" required
@@ -63,6 +64,7 @@
         <option value="no" @if(!$project->hasValueTargeting) selected @endif>No</option>
     </select>
 </div>
+@endif
 
 <div class="form-group">
     <label for="oralsSelect">Orals*</label>
@@ -98,6 +100,7 @@
     </select>
 </div>
 
+@if(!$disableSpecialQuestions && !$disabled)
 <div class="form-group">
     <label for="regionSelect">Regions*</label>
     <select class="js-example-basic-multiple w-100" id="regionSelect" multiple="multiple" required
@@ -106,6 +109,7 @@
         <x-options.geographies :selected="$project->regions ?? []" />
     </select>
 </div>
+@endif
 
 <div class="form-group">
     <label for="projectType">Project Type*</label>

@@ -59,7 +59,7 @@
                                             <form action="{{route('accenture.submitVendor', ['vendor' => $vendor])}}" method="post">
                                                 @csrf
                                                 <button class="btn btn-primary btn-lg btn-icon-text" id="submitButton" type="submit">
-                                                    <i class="btn-icon-prepend" data-feather="check-square"></i> Save profile
+                                                    <i class="btn-icon-prepend" data-feather="check-square"></i> Submit validation
                                                 </button>
                                             </form>
                                         </div>
