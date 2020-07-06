@@ -182,6 +182,7 @@
                 </div>
             </div>
 
+            @if (auth()->user()->isAccentureAdmin())
             <div class="row" id="startnew">
                 <div class="col-lg-12 grid-margin stretch-card">
                     <div class="card">
@@ -205,6 +206,7 @@
                     </div>
                 </div>
             </div>
+            @endif
         </div>
 
         <x-footer />
