@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Accenture;
 
 use App\Http\Controllers\Controller;
+use App\SecurityLog;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -37,6 +38,7 @@ class AuthController extends Controller
         $remember = $request->input('remember') ?? false;
 
         if (Auth::attempt($credentials, $remember)) {
+            SecurityLog::createLog('User logged in');
             return redirect()->route('accenture.home');
             // return redirect()->intended(route('accenture.home'));
         } else {

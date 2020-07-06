@@ -8,6 +8,7 @@ use App\Project;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Practice;
+use App\SecurityLog;
 use App\User;
 use App\VendorApplication;
 use Carbon\Carbon;
@@ -21,6 +22,9 @@ class ProjectController extends Controller
         $startedVendors = $project->vendorsApplied(['applicating', 'pendingEvaluation', 'evaluated'])->get();
         $submittedVendors = $project->vendorsApplied(['submitted'])->get();
         $disqualifiedVendors = $project->vendorsApplied(['disqualified'])->get();
+
+        SecurityLog::createLog('User accessed project with ID ' . $project->id);
+
         return view('clientViews.projectHome', [
             'project' => $project,
 
@@ -58,6 +62,8 @@ class ProjectController extends Controller
 
         $implementationImplementationQuestions = $project->selectionCriteriaQuestionsOriginals()->where('page', 'implementation_implementation');
         $implementationRunQuestions = $project->selectionCriteriaQuestionsOriginals()->where('page', 'implementation_run');
+
+        SecurityLog::createLog('User accessed project with ID ' . $project->id);
 
         return view('clientViews.newProjectSetUp', [
             'project' => $project,
@@ -406,6 +412,8 @@ class ProjectController extends Controller
         $implementationImplementationQuestions = $project->selectionCriteriaQuestionsOriginals()->where('page', 'implementation_implementation');
         $implementationRunQuestions = $project->selectionCriteriaQuestionsOriginals()->where('page', 'implementation_run');
 
+        SecurityLog::createLog('User accessed project with ID ' . $project->id);
+
         return view('clientViews.projectView', [
             'project' => $project,
             'clients' => $clients,
@@ -432,6 +440,8 @@ class ProjectController extends Controller
             abort(404);
         }
 
+        SecurityLog::createLog('User accessed project with ID ' . $project->id);
+
         return view('clientViews.projectValueTargeting', [
             'project' => $project
         ]);
@@ -443,6 +453,8 @@ class ProjectController extends Controller
             abort(404);
         }
 
+        SecurityLog::createLog('User accessed project with ID ' . $project->id);
+
         return view('clientViews.projectOrals', [
             'project' => $project,
             'applications' => $project->vendorApplications
@@ -451,6 +463,8 @@ class ProjectController extends Controller
 
     public function conclusions(Project $project)
     {
+        SecurityLog::createLog('User accessed project with ID ' . $project->id);
+
         return view('clientViews.projectConclusions', [
             'project' => $project
         ]);
@@ -458,6 +472,8 @@ class ProjectController extends Controller
 
     public function benchmark(Project $project)
     {
+        SecurityLog::createLog('User accessed project benchmarks of project with ID ' . $project->id);
+
         return view('clientViews.projectBenchmark', [
             'project' => $project,
             'applications' => $project
@@ -473,6 +489,8 @@ class ProjectController extends Controller
 
     public function benchmarkFitgap(Project $project)
     {
+        SecurityLog::createLog('User accessed project benchmarks of project with ID ' . $project->id);
+
         return view('clientViews.projectBenchmarkFitgap', [
             'project' => $project,
             'applications' => $project->vendorApplications
@@ -484,6 +502,8 @@ class ProjectController extends Controller
 
     public function benchmarkVendor(Project $project)
     {
+        SecurityLog::createLog('User accessed project benchmarks of project with ID ' . $project->id);
+
         return view('clientViews.projectBenchmarkVendor', [
             'project' => $project,
             'applications' => $project->vendorApplications
@@ -495,6 +515,8 @@ class ProjectController extends Controller
 
     public function benchmarkExperience(Project $project)
     {
+        SecurityLog::createLog('User accessed project benchmarks of project with ID ' . $project->id);
+
         return view('clientViews.projectBenchmarkExperience', [
             'project' => $project,
             'applications' => $project->vendorApplications
@@ -506,6 +528,8 @@ class ProjectController extends Controller
 
     public function benchmarkInnovation(Project $project)
     {
+        SecurityLog::createLog('User accessed project benchmarks of project with ID ' . $project->id);
+
         return view('clientViews.projectBenchmarkInnovation', [
             'project' => $project,
             'applications' => $project->vendorApplications
@@ -517,6 +541,8 @@ class ProjectController extends Controller
 
     public function benchmarkImplementation(Project $project)
     {
+        SecurityLog::createLog('User accessed project benchmarks of project with ID ' . $project->id);
+
         return view('clientViews.projectBenchmarkImplementation', [
             'project' => $project,
             'applications' => $project->vendorApplications
@@ -569,6 +595,8 @@ class ProjectController extends Controller
             return $question->originalQuestion->page == 'implementation_run';
         });
 
+        SecurityLog::createLog('User viewed vendor proposal for vendor with ID ' . $vendor->id . ' in project with ID ' . $project->id);
+
         return view('clientViews.viewVendorProposal', [
             'project' => $project,
             'vendor' => $vendor,
@@ -598,6 +626,8 @@ class ProjectController extends Controller
 
         $export = new VendorResponsesExport($application);
 
+        SecurityLog::createLog('User downloaded vendor proposal for vendor with ID ' . $vendor->id . ' in project with ID ' . $project->id);
+
         return Excel::download($export, 'responses.xlsx');
     }
 
@@ -605,6 +635,8 @@ class ProjectController extends Controller
     public function exportAnalytics(Project $project)
     {
         $export = new AnalyticsExport($project);
+
+        SecurityLog::createLog('User exported analytics for project with ID ' . $project->id);
 
         return Excel::download($export, 'responses.xlsx');
     }

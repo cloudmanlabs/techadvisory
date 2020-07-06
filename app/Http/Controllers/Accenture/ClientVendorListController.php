@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Accenture;
 use App\ClientProfileQuestionResponse;
 use App\Exports\UserCredentialExport;
 use App\Http\Controllers\Controller;
+use App\SecurityLog;
 use App\User;
 use App\UserCredential;
 use App\VendorProfileQuestionResponse;
@@ -40,6 +41,8 @@ class ClientVendorListController extends Controller
 
     public function clientProfileView(User $client)
     {
+        SecurityLog::createLog('User viewed Client with ID ' . $client->id);
+
         return view('accentureViews.clientProfileView', [
             'client' => $client,
             'questions' => $client->clientProfileQuestions,
@@ -48,6 +51,8 @@ class ClientVendorListController extends Controller
 
     public function clientProfileEdit(Request $request, User $client)
     {
+        SecurityLog::createLog('User viewed Client with ID ' . $client->id);
+
         return view('accentureViews.clientProfileEdit', [
             'client' => $client,
             'questions' => $client->clientProfileQuestions,
@@ -185,6 +190,8 @@ class ClientVendorListController extends Controller
             return $question->originalQuestion->page == 'legal';
         });
 
+        SecurityLog::createLog('User viewed Vendor with ID ' . $vendor->id);
+
         return view('accentureViews.vendorProfileView', [
             'vendor' => $vendor,
             'generalQuestions' => $generalQuestions,
@@ -204,6 +211,8 @@ class ClientVendorListController extends Controller
         $legalQuestions = $vendor->vendorProfileQuestions->filter(function ($question) {
             return $question->originalQuestion->page == 'legal';
         });
+
+        SecurityLog::createLog('User viewed Vendor with ID ' . $vendor->id);
 
         return view('accentureViews.vendorProfileEdit', [
             'vendor' => $vendor,
@@ -358,6 +367,8 @@ class ClientVendorListController extends Controller
 
     public function vendorSolution(VendorSolution $solution)
     {
+        SecurityLog::createLog('User viewed Solution with ID ' . $solution->id);
+
         return view('accentureViews.vendorSolution', [
             'solution' => $solution,
             'questions' => $solution->questions
@@ -366,6 +377,8 @@ class ClientVendorListController extends Controller
 
     public function vendorSolutionEdit(VendorSolution $solution)
     {
+        SecurityLog::createLog('User viewed Solution with ID ' . $solution->id);
+
         return view('accentureViews.vendorSolutionEdit', [
             'solution' => $solution,
             'questions' => $solution->questions

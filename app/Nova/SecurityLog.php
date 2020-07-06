@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Log;
 use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\BelongsToMany;
 use Laravel\Nova\Fields\Boolean;
+use Laravel\Nova\Fields\DateTime;
 use Laravel\Nova\Fields\HasMany;
 use Laravel\Nova\Fields\HasOne;
 use Laravel\Nova\Fields\ID;
@@ -51,6 +52,8 @@ class SecurityLog extends Resource
     {
         return [
             ID::make()->sortable(),
+
+            DateTime::make('Time', 'created_at'),
 
             BelongsTo::make('User', 'user'),
 

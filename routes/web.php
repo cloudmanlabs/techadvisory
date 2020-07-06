@@ -1,6 +1,7 @@
 <?php
 
 use App\Project;
+use App\SecurityLog;
 use App\SelectionCriteriaQuestionResponse;
 use App\User;
 use App\VendorApplication;
@@ -32,6 +33,8 @@ Route::view('/privacy', 'privacy')
     ->name('privacy');
 
 Route::post('logout', function(Request $request){
+    SecurityLog::createLog('User logged out');
+
     Auth::logout();
     $request->session()->invalidate();
     return redirect()->route('welcome');

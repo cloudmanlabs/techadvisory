@@ -39,7 +39,7 @@
 						<label for="message-text" class="col-form-label"
 							style="align-items: start;display: flex;flex-direction: column;">Message:</label>
 						<textarea class="form-control" id="message-text-{{$vendor->id}}"
-							style="min-height: 400px;">Dear {{$vendor->name}}, &#10;&#10;We would like to invite dolor sit amet, consectetur adipiscing elit. Etiam in eros libero. &#10;&#10;Curabitur quis ipsum in purus imperdiet dictum. Vivamus at varius sapien. Aenean et bibendum diam, in condimentum erat. Duis sed odio quis nulla venenatis cursus et eu sapien. &#10;&#10;Phasellus hendrerit pharetra turpis. Aliquam lobortis scelerisque dui, at accumsan nunc vehicula laoreet. Proin auctor, nisi emollis ipsum at this link:&#10;&#10;{{route('vendor.home')}}&#10;&#10;Thank you,&#10;Accenture Team</textarea>
+                            style="min-height: 400px;">Dear {{$vendor->name}}, &#10;&#10;There is a project invitation waiting for your approval in the Tech Advisory Platform.&#10;&#10;Kindly connect to the platform, review the project details and approve or reject the invitation.&#10;&#10;{{route('vendor.home')}}&#10;&#10;Thank you,&#10;&#10;Accenture Team&#10;&#10;</textarea>
 					</div>
 				</form>
 			</div>
