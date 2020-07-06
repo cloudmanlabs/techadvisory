@@ -2,7 +2,7 @@
 
 namespace App\Providers;
 
-use App\Nova\{GeneralInfoQuestion, GeneralInfoQuestionResponse, Accenture, Client, ClientProfileQuestion,ClientProfileQuestionResponse,VendorProfileQuestion,VendorProfileQuestionResponse,Practice,Project,SizingQuestion,SizingQuestionResponse,Subpractice,Vendor,User,VendorSolution,VendorSolutionQuestion,VendorSolutionQuestionResponse,SelectionCriteriaQuestion, SelectionCriteriaQuestionProjectPivot, SelectionCriteriaQuestionResponse, UserCredential, VendorApplication};
+use App\Nova\{GeneralInfoQuestion, GeneralInfoQuestionResponse, Accenture, Client, ClientProfileQuestion,ClientProfileQuestionResponse,VendorProfileQuestion,VendorProfileQuestionResponse,Practice,Project, SecurityLog, SizingQuestion,SizingQuestionResponse,Subpractice,Vendor,User,VendorSolution,VendorSolutionQuestion,VendorSolutionQuestionResponse,SelectionCriteriaQuestion, SelectionCriteriaQuestionProjectPivot, SelectionCriteriaQuestionResponse, UserCredential, VendorApplication};
 
 use App\Nova\Metrics\NumberOfAccentureUsers;
 use App\Nova\Metrics\NumberOfClients;
@@ -216,6 +216,8 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
 
             VendorSolutionQuestion::class,
             VendorSolutionQuestionResponse::class,
+
+            SecurityLog::class,
         ];
 
         /** @var \App\User|null $user */
