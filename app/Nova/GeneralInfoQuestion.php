@@ -66,7 +66,13 @@ class GeneralInfoQuestion extends Resource
                 ->onlyOnForms(),
 
             Text::make('Label', 'label')
-                ->required(),
+                ->required()
+                ->displayUsing(function ($text) {
+                    if (strlen($text) > 30) {
+                        return substr($text, 0, 30) . '...';
+                    }
+                    return $text;
+                }),
             Boolean::make('Required', 'required'),
             Boolean::make('Can vendor see question?', 'canVendorSee'),
 

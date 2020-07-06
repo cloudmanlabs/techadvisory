@@ -65,7 +65,13 @@ class SelectionCriteriaQuestion extends Resource
                 ->onlyOnForms(),
 
             Text::make('Label', 'label')
-                ->required(),
+                ->required()
+                ->displayUsing(function ($text) {
+                    if (strlen($text) > 30) {
+                        return substr($text, 0, 30) . '...';
+                    }
+                    return $text;
+                }),
 
             Select::make('Page', 'page')
                 ->options(\App\SelectionCriteriaQuestion::pagesSelect)
