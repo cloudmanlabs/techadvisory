@@ -73,10 +73,10 @@ class SizingQuestion extends Resource
                     return $text;
                 }),
 
-            Boolean::make('Required', 'required')
-                ->canSee(function(){
-                    return auth()->user()->isAdmin();
-                }),
+            // Boolean::make('Required', 'required')
+            //     ->canSee(function(){
+            //         return auth()->user()->isAdmin();
+            //     }),
 
             BelongsTo::make('Practice', 'practice', 'App\Nova\Practice')
                 ->nullable()
