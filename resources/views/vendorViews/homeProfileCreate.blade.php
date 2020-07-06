@@ -23,7 +23,7 @@
                                 </p>
                                 <br>
                                 <div id="wizard_vendor_profile_create_here">
-                                    <h2>General information</h2>
+                                    <h2>Contact information</h2>
                                     <section>
                                         <div class="form-group">
                                             <label>Vendor Name</label>
@@ -75,12 +75,12 @@
                                         <x-folderFileUploader :folder="$vendor->profileFolder" :timeout="1000"/>
                                     </section>
 
-                                    <h2>Economic information</h2>
+                                    <h2>Company information</h2>
                                     <section>
                                         <x-questionForeach :questions="$economicQuestions" :class="'profileQuestion'" :disabled="false" :required="true" />
                                     </section>
 
-                                    <h2>Legal information</h2>
+                                    <h2>Economic information</h2>
                                     <section>
                                         <x-questionForeach :questions="$legalQuestions" :class="'profileQuestion'" :disabled="false" :required="true" />
                                     </section>

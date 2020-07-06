@@ -69,9 +69,9 @@ class VendorProfileQuestion extends Resource
 
             Select::make('Page', 'page')
                 ->options([
-                    'general' => 'General information',
-                    'economic' => 'Economic information',
-                    'legal' => 'Legal information'
+                    'general' => 'Contact information',
+                    'economic' => 'Company information',
+                    'legal' => 'Economic information'
                 ])
                 ->displayUsingLabels()
                 ->rules('required')

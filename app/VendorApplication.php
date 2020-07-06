@@ -508,7 +508,7 @@ class VendorApplication extends Model
                 ->filter(function ($el) {
                     return $el != 0;
                 })
-                ->average();
+                ->average() ?? 0;
         }
 
         return collect([
@@ -524,7 +524,7 @@ class VendorApplication extends Model
                 ->filter(function ($el) {
                     return $el != 0;
                 })
-                ->average();
+                ->average() ?? 0;
         }
 
         return collect([
