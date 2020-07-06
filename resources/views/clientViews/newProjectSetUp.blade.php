@@ -72,7 +72,7 @@
 
                                     <h2>Sizing Info</h2>
                                     <section>
-                                        <x-questionForeach :questions="$sizingQuestions" :class="'sizingQuestion'" :disabled="false" :required="false" />
+                                        <x-questionForeach :questions="$sizingQuestions" :class="'sizingQuestion'" :disabled="false" :required="true" />
 
                                         <br>
                                         <br>
