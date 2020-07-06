@@ -8,6 +8,12 @@
     <script src="{{url('/assets/vendors_techadvisory/jexcel-3.6.1/dist/jexcel.js')}}"></script>
     <script src="{{url('/assets/vendors_techadvisory/jexcel-3.6.1/dist/jsuites.js')}}"></script>
 
+		<style>
+			*{
+				font-size: 12px
+			}
+		</style>
+
     <body style="background-color: white !important; overflow-x: scroll">
         <div id="spreadsheet"></div>
 
