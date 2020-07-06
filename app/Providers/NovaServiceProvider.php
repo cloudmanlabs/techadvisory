@@ -19,6 +19,7 @@ use Laravel\Nova\Fields\Textarea;
 use Laravel\Nova\Nova;
 use Laravel\Nova\NovaApplicationServiceProvider;
 use Laravel\Nova\Panel;
+use Wehaa\CustomLinks\CustomLinks;
 
 class NovaServiceProvider extends NovaApplicationServiceProvider
 {
@@ -315,6 +316,7 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
 
                 return $user != null && $user->isAdmin();
             }),
+            new CustomLinks(),
         ];
     }
 

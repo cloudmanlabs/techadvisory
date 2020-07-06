@@ -110,6 +110,10 @@ Route::middleware(['auth'])->group(function () {
         ->name('fitgapVendorIframe');
     Route::get('fitgapEvaluationIframe/{vendor}/{project}', 'FitgapController@evaluationIframe')
         ->name('fitgapEvaluationIframe');
+
+
+
+    Route::get('security/logs/export', 'SecurityLogController@exportAll');
 });
 
 
