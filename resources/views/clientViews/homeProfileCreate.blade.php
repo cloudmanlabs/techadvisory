@@ -19,10 +19,7 @@
                                 <h3>Complete your profile</h3>
 
                                 <p class="welcome_text extra-top-15px">
-                                    <!-- {{nova_get_setting('client_homeProfileCreate_title') ?? ''}} -->
-                                    Complete your company profile information and get ready to use the platform.
-                                    This won't take more than a few minutes! If you do not currently have the information
-                                    for some fields, you can leave them blank and fill them in later.
+                                    {{nova_get_setting('client_homeProfileCreate_title') ?? ''}}
                                 </p>
                                 <br>
                                 <br>

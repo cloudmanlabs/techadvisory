@@ -21,8 +21,7 @@
                                 </div>
 
                                 <p class="welcome_text extra-top-15px">
-                                    <!-- {{nova_get_setting('vendor_profile_title') ?? ''}} -->
-                                    Here are your company profile details.
+                                    {{nova_get_setting('vendor_profile_title') ?? ''}}
                                 </p>
                                 <br>
                                 <br>

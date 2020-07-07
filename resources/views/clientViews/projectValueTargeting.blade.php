@@ -40,9 +40,7 @@
                             <div class="card-body">
                                 <h3>Selected Value Levers</h3>
                                 <p class="welcome_text extra-top-15px">
-                                    <!-- {{nova_get_setting('accenture_projectValueTargeting_selected') ?? ''}} -->
-                                    These are the value levers selected during Discovery workshops.
-                                    Click View/Download to see and extract detailed information.
+                                    {{nova_get_setting('accenture_projectValueTargeting_selected') ?? ''}}
                                 </p>
                                 <br>
                                 <br>
@@ -54,8 +52,7 @@
 
                                 <h3>Business Opportunity Details</h3>
                                 <p class="welcome_text extra-top-15px">
-                                    <!-- {{nova_get_setting('accenture_projectValueTargeting_business') ?? ''}} -->
-                                    These are the business opportunities identified by Accenture, with all relevant details per opportunity.
+                                    {{nova_get_setting('accenture_projectValueTargeting_business') ?? ''}}
                                 </p>
                                 <br>
                                 <br>
@@ -66,8 +63,7 @@
 
                                 <h3>Conclusions</h3>
                                 <p class="welcome_text extra-top-15px">
-                                    <!-- {{nova_get_setting('accenture_projectValueTargeting_conclusions') ?? ''}} -->
-                                    Click View/Download to see an executive summary of the main outcomes of the Value Targeting workshops.
+                                    {{nova_get_setting('accenture_projectValueTargeting_conclusions') ?? ''}}
                                 </p>
                                 <br>
                                 <br>

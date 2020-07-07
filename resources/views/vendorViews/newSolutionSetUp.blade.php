@@ -13,8 +13,7 @@
                                 <h3>Add a solution</h3>
 
                                 <p class="welcome_text extra-top-15px">
-                                    <!-- {{nova_get_setting('vendro_newSolution_addSolution') ?? ''}} -->
-                                    Add your solutions to complete your profile and get ready to use the platform.
+                                    {{nova_get_setting('vendro_newSolution_addSolution') ?? ''}}
                                 </p>
 
                                 <br>

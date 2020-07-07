@@ -17,9 +17,7 @@
                             <div class="card-body">
                                 <h3>Open Projects</h3>
                                 <p class="welcome_text extra-top-15px">
-                                    <!-- {{nova_get_setting('client_Home_Open') ?? ''}} -->
-                                    Below is the list of your open projects. Click View to see the vendors
-                                    applying to a project and other relevant information.
+                                    {{nova_get_setting('client_Home_Open') ?? ''}}
                                 </p>
                                 <br>
                                 <br>
@@ -53,8 +51,7 @@
                             <div class="card-body">
                                 <h3>Preparation phase</h3>
                                 <p class="welcome_text extra-top-15px">
-                                    <!-- {{nova_get_setting('client_Home_Preparation') ?? ''}} -->
-                                    Below is the list of your projects in preparation phase. Click Complete to update a project.
+                                    {{nova_get_setting('client_Home_Preparation') ?? ''}}
                                 </p>
                                 <br>
                                 <br>
@@ -96,8 +93,7 @@
                                 <h3 id="oldProjectsH3" title="Click to maximize/minimize" style="cursor: pointer">Old Projects +</h3>
                                 <br style="display: none" class="plsHideMeToo">
                                 <p class="welcome_text extra-top-15px plsHideMeToo" style="display: none">
-                                    <!-- {{nova_get_setting('client_Home_Old') ?? ''}} -->
-                                    Below is the list of your finished projects. Click View to see details.
+                                    {{nova_get_setting('client_Home_Old') ?? ''}}
                                 </p>
                                 <br style="display: none" class="plsHideMeToo">
 

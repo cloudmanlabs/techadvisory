@@ -20,9 +20,7 @@
                                 <h3>Registration Timeline</h3>
 
                                 <p class="welcome_text extra-top-15px">
-                                    <!-- {{nova_get_setting('vendor_firsLoginRegistration_timeline') ?? ''}} -->
-                                    To start using the Tech Advisory Platform, you will need to complete your profile and
-                                    set up your solutions portfolio. Check the timeline below and click Let's start when you are ready.
+                                    {{nova_get_setting('vendor_firsLoginRegistration_timeline') ?? ''}}
                                 </p>
                                 <br>
                                 <br>
@@ -33,8 +31,7 @@
                                             <h3>Registration</h3>
 
                                             <p>
-                                                <!-- {{nova_get_setting('vendor_firsLoginRegistration_registration') ?? ''}} -->
-                                                Complete your profile and get ready to use the platform.
+                                                {{nova_get_setting('vendor_firsLoginRegistration_registration') ?? ''}}
                                             </p>
                                         </li>
 
@@ -43,9 +40,7 @@
                                             <h3>Add your solutions to the platform</h3>
 
                                             <p>
-                                                <!-- {{nova_get_setting('vendor_firsLoginRegistration_addSolutions') ?? ''}} -->
-                                                Complete your solutions portfolio in the platform and prepare to submit project applications.
-                                                To participate in a project, your solutions portfolio must be registered in the platform.
+                                                {{nova_get_setting('vendor_firsLoginRegistration_addSolutions') ?? ''}}
                                             </p>
                                         </li>
 
@@ -54,8 +49,7 @@
                                             <h3>Receive invitations for projects</h3>
 
                                             <p>
-                                                <!-- {{nova_get_setting('vendor_firsLoginRegistration_recieveInvitations') ?? ''}} -->
-                                                Once your company profile is approved and your solutions portfolio is registered, Accenture will invite you to projects.
+                                                {{nova_get_setting('vendor_firsLoginRegistration_recieveInvitations') ?? ''}}
                                             </p>
                                         </li>
 
@@ -64,8 +58,7 @@
                                             <h3>Apply to projects</h3>
 
                                             <p>
-                                                <!-- {{nova_get_setting('vendor_firsLoginRegistration_apply') ?? ''}} -->
-                                                Read carefully all client requirements and provide your best answers to increase your chances of being selected.
+                                                {{nova_get_setting('vendor_firsLoginRegistration_apply') ?? ''}}
                                             </p>
                                         </li>
                                     </ul>

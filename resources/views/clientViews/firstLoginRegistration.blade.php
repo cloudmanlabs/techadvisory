@@ -18,9 +18,7 @@
                                 <h3>Registration Timeline</h3>
 
                                 <p class="welcome_text extra-top-15px">
-                                    <!-- {{nova_get_setting('client_firsLoginRegistration_timeline') ?? ''}} -->
-                                    To start using the Tech Advisory Platform, you will need to complete your profile and set up
-                                    your first project. Check the timeline below and click Let's start when you are ready.
+                                    {{nova_get_setting('client_firsLoginRegistration_timeline') ?? ''}}
                                 </p>
                                 <br>
                                 <br>
@@ -31,8 +29,7 @@
                                             <h3>Registration</h3>
 
                                             <p>
-                                                <!-- {{nova_get_setting('client_firsLoginRegistration_registration') ?? ''}} -->
-                                                Complete your profile and get ready to use the platform.
+                                                {{nova_get_setting('client_firsLoginRegistration_registration') ?? ''}}
                                             </p>
                                         </li>
 
@@ -41,9 +38,7 @@
                                             <h3>Set up your first project</h3>
 
                                             <p>
-                                                <!-- {{nova_get_setting('client_firsLoginRegistration_completeProjectInfo') ?? ''}} -->
-                                                We divided the project setup process into four phases to make
-                                                sure we gather all relevant information about the project scope and your requirements.
+                                                {{nova_get_setting('client_firsLoginRegistration_completeProjectInfo') ?? ''}}
                                             </p>
                                         </li>
 
@@ -52,9 +47,7 @@
                                             <h3>Open project for vendors</h3>
 
                                             <p>
-                                                <!-- {{nova_get_setting('client_firsLoginRegistration_OpenProject') ?? ''}} -->
-                                                Once the project is set up, suitable vendors from our verified network will
-                                                submit their applications through the platform to provide you the needed solutions.
+                                                {{nova_get_setting('client_firsLoginRegistration_OpenProject') ?? ''}}
                                             </p>
                                         </li>
 
@@ -63,9 +56,7 @@
                                             <h3>Obtain vendor analysis and conclusions</h3>
 
                                             <p>
-                                                <!-- {{nova_get_setting('client_firsLoginRegistration_Closure') ?? ''}} -->
-                                                By the end of the process, Accenture will analyze all vendor responses and
-                                                prepare the final conclusions and recommendations
+                                                {{nova_get_setting('client_firsLoginRegistration_Closure') ?? ''}}
                                             </p>
                                         </li>
                                     </ul>

@@ -14,8 +14,7 @@
                                 <h3>Edit solution</h3>
 
                                 <p class="welcome_text extra-top-15px">
-                                    <!-- {{nova_get_setting('vendro_editSolution_title') ?? ''}} -->
-                                    Below are the solution’s detailed information.
+                                    {{nova_get_setting('vendro_editSolution_title') ?? ''}}
                                 </p>
                                 <br>
                                 <br>
