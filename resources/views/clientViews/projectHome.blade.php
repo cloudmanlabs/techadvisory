@@ -14,9 +14,12 @@
                     <div class="col-lg-12 grid-margin stretch-card">
                         <div class="card">
                             <div class="card-body">
-                                <h3>Vendors applicating</h3>
+                                <h3>Vendors applying</h3>
                                 <p class="welcome_text extra-top-15px">
-                                    {{nova_get_setting('client_projectHome_invited') ?? ''}}
+                                    <!-- {{nova_get_setting('client_projectHome_invited') ?? ''}} -->
+                                    Below is the list of vendors applying to the project and the progress of their
+                                    applications. Once the applications are fully submitted and evaluated by Accenture,
+                                    you will be able to see and extract the vendor responses
                                 </p>
                                 <br>
                                 <br>
@@ -37,7 +40,9 @@
                             <div class="card-body">
                                 <h3>Released responses</h3>
                                 <p class="welcome_text extra-top-15px">
-                                    {{nova_get_setting('client_projectHome_released') ?? ''}}
+                                    <!-- {{nova_get_setting('client_projectHome_released') ?? ''}} -->
+                                    Below is the list of released vendors responses evaluated by Accenutre.
+                                    You are able to view them and download them.
                                 </p>
                                 <br>
                                 <br>

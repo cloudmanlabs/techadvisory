@@ -30,13 +30,13 @@
 
 @if(!$disableSpecialQuestions && !$disabled)
 <div class="form-group">
-    <label for="chooseClientSelect">Client name*</label>
+    <label for="chooseClientSelect">Client company name*</label>
     <select
         class="form-control"
         id="chooseClientSelect"
         required
     >
-        <option selected="" disabled="">Please select the Client Name</option>
+        <option selected="" disabled="">Please select the Client company name*</option>
         @php
             $currentlySelected = $project->client->id ?? -1;
         @endphp
@@ -158,7 +158,7 @@
 <br>
 
 <div class="form-group">
-    <label for="deadline">Tentative date for Value Enablers completion*</label>
+    <label for="deadline">Tentative date for Vendor Response completion*</label>
     <div class="input-group date datepicker" data-initialValue="{{$firstTime ? '' : $project->deadline}}">
         <input required
             id="deadline"

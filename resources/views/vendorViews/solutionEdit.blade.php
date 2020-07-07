@@ -14,7 +14,8 @@
                                 <h3>Edit solution</h3>
 
                                 <p class="welcome_text extra-top-15px">
-                                    {{nova_get_setting('vendro_editSolution_title') ?? ''}}
+                                    <!-- {{nova_get_setting('vendro_editSolution_title') ?? ''}} -->
+                                    Below are the solution’s detailed information.
                                 </p>
                                 <br>
                                 <br>
@@ -22,9 +23,10 @@
 
 
                                 <div class="form-group">
-                                    <label for="solutionName">Solution name</label>
+                                    <label for="solutionName">Solution name*</label>
                                     <input class="form-control"
-                                        id="solutionName" value="{{$solution->name}}" type="text">
+                                        id="solutionName" value="{{$solution->name}}" type="text"
+                                        required>
                                 </div>
 
                                 <x-questionForeach :questions="$questions" :class="'solutionQuestion'" :disabled="false" :required="true" />

@@ -13,16 +13,18 @@
                                 <h3>Add a solution</h3>
 
                                 <p class="welcome_text extra-top-15px">
-                                    {{nova_get_setting('vendro_newSolution_addSolution') ?? ''}}
+                                    <!-- {{nova_get_setting('vendro_newSolution_addSolution') ?? ''}} -->
+                                    Add your solutions to complete your profile and get ready to use the platform.
                                 </p>
 
                                 <br>
                                 <br>
 
                                 <div class="form-group">
-                                    <label for="solutionName">Solution name</label>
+                                    <label for="solutionName">Solution name*</label>
                                     <input class="form-control"
-                                        id="solutionName" value="{{$firstTime ? '' : $solution->name}}" type="text">
+                                        id="solutionName" value="{{$firstTime ? '' : $solution->name}}" type="text"
+                                        required>
                                 </div>
 
                                 <x-questionForeach :questions="$questions" :class="'solutionQuestion'" :disabled="false" :required="true" />

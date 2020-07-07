@@ -24,10 +24,11 @@
                                 <br>
 
                                 <div class="form-group">
-                                    <label for="solutionName">Solution name*</label>
+                                    <label for="solutionName">Solution name**</label>
                                     <input class="form-control"
                                         required
-                                        id="solutionName" value="{{$solution->name}}" type="text">
+                                        id="solutionName" value="{{$solution->name}}" type="text"
+                                        required>
                                 </div>
 
                                 <x-questionForeach :questions="$questions" :class="'solutionQuestion'" :disabled="false" :required="true" />

@@ -29,7 +29,7 @@ class HomeTest extends TestCase
             'name' => 'praaactice'
         ]);
         $client = factory(User::class)->states(['client', 'finishedSetup'])->create([
-            'name' => 'SOme Client nameee'
+            'name' => 'SOme Client company name*ee'
         ]);
         $project = factory(Project::class)->create([
             'name' => 'Project name',
@@ -54,7 +54,7 @@ class HomeTest extends TestCase
             'name' => 'praaacticeeeeeee'
         ]);
         $client = factory(User::class)->states(['client', 'finishedSetup'])->create([
-            'name' => 'SOme Client nameee'
+            'name' => 'SOme Client company name*ee'
         ]);
         $project = factory(Project::class)->create([
             'name' => 'prroooooooject',
@@ -81,7 +81,7 @@ class HomeTest extends TestCase
             'name' => 'praaactice'
         ]);
         $client = factory(User::class)->states(['client', 'finishedSetup'])->create([
-            'name' => 'SOme Client nameee'
+            'name' => 'SOme Client company name*ee'
         ]);
         factory(Project::class)->create([
             'name' => 'Project name',
@@ -104,7 +104,7 @@ class HomeTest extends TestCase
             'name' => 'praaactice'
         ]);
         $client = factory(User::class)->states(['client', 'finishedSetup'])->create([
-            'name' => 'SOme Client nameee'
+            'name' => 'SOme Client company name*ee'
         ]);
         factory(Project::class)->create([
             'name' => 'Project name',
@@ -129,7 +129,7 @@ class HomeTest extends TestCase
             'name' => 'praaactice'
         ]);
         $client = factory(User::class)->states(['client', 'finishedSetup'])->create([
-            'name' => 'SOme Client nameee'
+            'name' => 'SOme Client company name*ee'
         ]);
         factory(Project::class)->create([
             'name' => 'Project name',
@@ -152,7 +152,7 @@ class HomeTest extends TestCase
             'name' => 'praaactice'
         ]);
         $client = factory(User::class)->states(['client', 'finishedSetup'])->create([
-            'name' => 'SOme Client nameee'
+            'name' => 'SOme Client company name*ee'
         ]);
         factory(Project::class)->create([
             'name' => 'Project name',
@@ -177,7 +177,7 @@ class HomeTest extends TestCase
             'name' => 'praaactice'
         ]);
         $client = factory(User::class)->states(['client', 'finishedSetup'])->create([
-            'name' => 'SOme Client nameee'
+            'name' => 'SOme Client company name*ee'
         ]);
         factory(Project::class)->create([
             'name' => 'Project name',

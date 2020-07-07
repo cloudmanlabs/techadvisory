@@ -134,7 +134,27 @@
 
                                         <button
                                             class="btn btn-primary btn-lg btn-icon-text"
-                                            id="submitButton">Submit</button>
+                                            id="finalSubmitButton"                                            
+                                            data-toggle="modal"
+                                            data-target="#submitModal">
+                                                Submit
+                                            </button>
+
+                                            <div class="modal fade" id="submitModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                <div class="modal-dialog modal-dialog-centered" role="document">
+                                                    <div class="modal-content">
+                                                        <div class="modal-body">
+                                                            Are you sure you want to submit your project application? Be aware
+                                                            that no further modifications will be allowed on your answers once project application is submitted.
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                                                            <button id="submitButton" type="button" class="btn btn-primary">Submit</button>
+                                                        </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
 
                                         <br><br>
                                     </section>
@@ -201,9 +221,9 @@
     {
         // If we filled all the fields, remove the disabled from the button.
         if(checkIfAllRequiredsAreFilled()){
-            $('#submitButton').attr('disabled', false)
+            $('#finalSubmitButton').attr('disabled', false)
         } else {
-            $('#submitButton').attr('disabled', true)
+            $('#finalSubmitButton').attr('disabled', true)
         }
     }
 
@@ -268,6 +288,8 @@
                 hideAfter: 1000,
                 position: 'bottom-right'
             })
+            $('#submitModal').modal('hide')
+
 
         });
 

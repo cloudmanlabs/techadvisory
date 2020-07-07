@@ -27,7 +27,7 @@
                                     <h2>Contact information</h2>
                                     <section>
                                         <div class="form-group">
-                                            <label for="vendorNameInput">Vendor Name*</label>
+                                            <label for="vendorNameInput">Vendor company name*</label>
                                             <input
                                                 class="form-control"
                                                 id="vendorNameInput"
@@ -37,23 +37,40 @@
                                                  >
                                         </div>
                                         <div class="form-group">
-                                            <label for="vendorEmailInput">Vendor main email</label>
+                                            <label for="vendorEmailInput">Vendor company contact email</label>
                                             <input class="form-control" id="vendorEmailInput" placeholder="Enter E-mail"
                                                 type="email"
                                                 value="{{$firstTime ? '' : $vendor->email}}"
                                                  >
                                         </div>
 
+                                        <!-- <div class="form-group">
+                                            <label for="vendorRoleInput">Vendor company contact role</label>
+                                            <input class="form-control" id="vendorRoleInput" placeholder="Enter Role"
+                                                type="text"
+                                                value="{{$firstTime ? '' : $vendor->role}}" 
+                                                 >
+                                        </div> -->
+
+                                        <!-- <div class="form-group">
+                                            <label for="vendorAddressInput">Company address</label>
+                                            <input class="form-control" id="vendorAddressInput" placeholder="Enter Address"
+                                                type="text"
+                                                value="{{$firstTime ? '' : $vendor->address}}" 
+                                                 >
+                                        </div> -->
+
 
                                         @if(!$vendor->credentials->first())
                                             <div class="form-group">
-                                                <label for="vendorFirstEmailInput">First user email</label>
-                                                <input class="form-control" id="vendorFirstEmailInput" value="{{optional($vendor->credentials->first())->email}}" type="text">
+                                                <label for="vendorFirstEmailInput">First user email*</label>
+                                                <input class="form-control" id="vendorFirstEmailInput" value="{{optional($vendor->credentials->first())->email}}"
+                                                    type="text" required>
                                             </div>
                                             <div class="form-group">
-                                                <label for="vendorFirstNameInput">First user name</label>
+                                                <label for="vendorFirstNameInput">First user name*</label>
                                                 <input class="form-control" id="vendorFirstNameInput" value="{{optional($vendor->credentials->first())->name}}"
-                                                    type="text">
+                                                    type="text" required>
                                             </div>
 
                                             <button class="btn btn-primary btn-lg" id="createFirstCredential">

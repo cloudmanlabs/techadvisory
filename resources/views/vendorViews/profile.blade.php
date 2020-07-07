@@ -21,7 +21,8 @@
                                 </div>
 
                                 <p class="welcome_text extra-top-15px">
-                                    {{nova_get_setting('vendor_profile_title') ?? ''}}
+                                    <!-- {{nova_get_setting('vendor_profile_title') ?? ''}} -->
+                                    Here are your company profile details.
                                 </p>
                                 <br>
                                 <br>
@@ -30,7 +31,7 @@
                                     <h2>Contact information</h2>
                                     <section>
                                         <div class="form-group">
-                                            <label for="exampleInputText1">Vendor Name*</label>
+                                            <label for="exampleInputText1">Vendor company name*</label>
                                             <input
                                                 class="form-control"
                                                 id="exampleInputText1"
@@ -46,6 +47,22 @@
                                                 value="{{$vendor->email}}"
                                                 disabled>
                                         </div>
+
+                                        <!-- <div class="form-group">
+                                            <label for="vendorRoleInput">Vendor company contact role</label>
+                                            <input class="form-control" id="vendorRoleInput" placeholder="Enter Role"
+                                                type="text"
+                                                value="{{$vendor->role}}" 
+                                                disabled>
+                                        </div> -->
+
+                                        <!-- <div class="form-group">
+                                            <label for="vendorAddressInput">Company address</label>
+                                            <input class="form-control" id="vendorAddressInput" placeholder="Enter Address"
+                                                type="text"
+                                                value="{{$vendor->address}}" 
+                                                disabled>
+                                        </div> -->
 
                                         <div class="form-group">
                                             <label>Logo</label>
