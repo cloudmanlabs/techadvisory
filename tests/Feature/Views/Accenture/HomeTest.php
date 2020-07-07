@@ -20,7 +20,7 @@ class HomeTest extends TestCase
             'name' => 'praaactice'
         ]);
         $client = factory(User::class)->states(['client', 'finishedSetup'])->create([
-            'name' => 'SOme Client nameee'
+            'name' => 'SOme Client company name*ee'
         ]);
         factory(Project::class)->create([
             'name' => 'Project name',
@@ -35,7 +35,7 @@ class HomeTest extends TestCase
         $response->assertStatus(200)
                 ->assertSee('Project name')
                 ->assertSee('praaactice')
-                ->assertSee('SOme Client nameee');
+                ->assertSee('SOme Client company name*ee');
     }
 
     public function testOpenPhaseProjects()
@@ -46,7 +46,7 @@ class HomeTest extends TestCase
             'name' => 'praaactice'
         ]);
         $client = factory(User::class)->states(['client', 'finishedSetup'])->create([
-            'name' => 'SOme Client nameee'
+            'name' => 'SOme Client company name*ee'
         ]);
         factory(Project::class)->create([
             'name' => 'Project name',
@@ -61,7 +61,7 @@ class HomeTest extends TestCase
         $response->assertStatus(200)
             ->assertSee('Project name')
             ->assertSee('praaactice')
-            ->assertSee('SOme Client nameee');
+            ->assertSee('SOme Client company name*ee');
     }
 
     public function testOldPhaseProjects()
@@ -71,7 +71,7 @@ class HomeTest extends TestCase
             'name' => 'praaactice'
         ]);
         $client = factory(User::class)->states(['client', 'finishedSetup'])->create([
-            'name' => 'SOme Client nameee'
+            'name' => 'SOme Client company name*ee'
         ]);
         factory(Project::class)->create([
             'name' => 'Project name',
@@ -86,7 +86,7 @@ class HomeTest extends TestCase
         $response->assertStatus(200)
             ->assertSee('Project name')
             ->assertSee('praaactice')
-            ->assertSee('SOme Client nameee');
+            ->assertSee('SOme Client company name*ee');
     }
 
     public function testPracticeFilterGetsCorrectValues()

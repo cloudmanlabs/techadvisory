@@ -25,7 +25,7 @@
 
                                 <div id="content">
                                     <ul class="timeline">
-                                        <li class="event" data-date="~ 15 minutes">
+                                        <li class="event" data-date="~ 10 minutes">
                                             <h3>Registration</h3>
 
                                             <p>
@@ -34,8 +34,8 @@
                                         </li>
 
 
-                                        <li class="event" data-date="~ 3-5 hours">
-                                            <h3>Complete your first project info</h3>
+                                        <li class="event" data-date="~ 4 weeks">
+                                            <h3>Set up your first project</h3>
 
                                             <p>
                                                 {{nova_get_setting('client_firsLoginRegistration_completeProjectInfo') ?? ''}}
@@ -43,7 +43,7 @@
                                         </li>
 
 
-                                        <li class="event" data-date="15 days">
+                                        <li class="event" data-date="~ 4 weeks">
                                             <h3>Open project for vendors</h3>
 
                                             <p>
@@ -52,8 +52,8 @@
                                         </li>
 
 
-                                        <li class="event" data-date="~ 2 hours">
-                                            <h3>Closure meeting</h3>
+                                        <li class="event" data-date="~ 2 weeks">
+                                            <h3>Obtain vendor analysis and conclusions</h3>
 
                                             <p>
                                                 {{nova_get_setting('client_firsLoginRegistration_Closure') ?? ''}}

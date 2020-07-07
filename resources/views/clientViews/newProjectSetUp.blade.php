@@ -78,12 +78,13 @@
                                         <br>
 
                                         <button
-                                            id="step3Submit"
+                                            id = "step3Submit"
                                             class="btn btn-primary"
                                             {{ $project->step3SubmittedClient ? 'disabled' : ''}}
                                             data-submitted="{{ $project->step3SubmittedClient }}">
                                             {{ $project->step3SubmittedClient ? 'Submitted' : 'Submit'}}
                                         </button>
+                                        
                                     </section>
 
                                     <h2>Selection Criteria</h2>
@@ -153,49 +154,32 @@
                                                 <br>
 
                                                 <button
+                                                    id = "step4SubmitButton"
                                                     type="button"
                                                     class="btn btn-primary btn-lg btn-icon-text"
                                                     data-toggle="modal"
-                                                    data-target="#submitModal"
-                                                    id="submitModalButton"
+                                                    data-target="#step4SubmitModal"
                                                     {{ !$project->step3SubmittedClient ? 'disabled' : ''}}
                                                     {{ $project->step4SubmittedClient ? 'disabled' : ''}}
                                                     >
                                                     {{ $project->step4SubmittedClient ? 'Submitted' : 'Submit'}}
                                                 </button>
 
-                                                <div id="submitModal"
-                                                    class="modal fade bd-example-modal-xl" tabindex="-1" role="dialog" aria-labelledby="myExtraLargeModalLabel"
-                                                    aria-hidden="true">
-                                                    <div class="modal-dialog modal-xl">
+                                                <div class="modal fade" id="step4SubmitModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                    <div class="modal-dialog modal-dialog-centered" role="document">
                                                         <div class="modal-content">
-                                                            <div class="modal-header">
-                                                                <h5 class="modal-title" id="exampleModalLabel">Edit fitgap table</h5>
-                                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                                    <span aria-hidden="true">&times;</span>
-                                                                </button>
-                                                            </div>
                                                             <div class="modal-body">
-                                                                <div>
-                                                                    <p>Are you sure you want to publish?</p>
-                                                                    <button class="btn btn-primary" id="step4Submit" {{ !$project->step3SubmittedClient ? 'disabled' : ''}}
-                                                                        {{ $project->step4SubmittedClient ? 'disabled' : ''}}>{{ $project->step4SubmittedClient ? 'Submitted' : 'Submit'}}</button>
-                                                                </div>
+                                                            Are you sure you want to submit the project set-up? Be aware that no further
+                                                            modifications will be allowed on your end once project set-up is submitted.
                                                             </div>
                                                             <div class="modal-footer">
-                                                                <button type="button" class="btn btn-primary btn-lg btn-icon-text" data-toggle="modal"
-                                                                    data-target=".bd-example-modal-xl"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                                                        viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                                                        stroke-linejoin="round" class="feather feather-check-square btn-icon-prepend">
-                                                                        <polyline points="9 11 12 14 22 4"></polyline>
-                                                                        <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path>
-                                                                    </svg> Close</button>
+                                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                                                                <button id="step4Submit" type="button" class="btn btn-primary">Submit</button>
+                                                            </div>
                                                             </div>
                                                         </div>
                                                     </div>
                                                 </div>
-
-
                                             </div>
                                         </div>
                                     </section>
@@ -557,8 +541,9 @@
             $(this).attr('disabled', true);
             $(this).html('Submitted')
 
-            $('#submitModalButton').attr('disabled', true);
-            $('#submitModalButton').html('Submitted')
+            $('#step4SubmitButton').attr('disabled', true);
+            $('#step4SubmitButton').html('Submitted')
+            $('#step4SubmitModal').modal('hide')
         });
 
 

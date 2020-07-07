@@ -40,6 +40,9 @@
                                         <x-questionForeach :questions="$vendorCorporateQuestions" :class="'selectionCriteriaQuestion'"
                                             :disabled="true" :required="false" />
 
+                                        <br>
+                                        <x-folderFileUploader :folder="$project->rfpFolder" label="Upload Additional Information" :timeout="1000" />
+
                                         <br><br>
                                         <h4>Market presence</h4>
                                         <x-questionForeach :questions="$vendorMarketQuestions" :class="'selectionCriteriaQuestion'"

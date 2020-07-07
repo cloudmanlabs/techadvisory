@@ -25,24 +25,25 @@
 
 
                                 <div class="form-group">
-                                    <label for="clientNameInput">Client company name</label>
-                                    <input class="form-control" id="clientNameInput" value="{{$firstTime ? '' : $client->name}}" type="text">
+                                    <label for="clientNameInput">Client company name*</label>
+                                    <input class="form-control" id="clientNameInput" value="{{$firstTime ? '' : $client->name}}" type="text" required>
                                 </div>
 
                                 <div class="form-group">
-                                    <label for="clientNameInput">Main email</label>
+                                    <label for="clientNameInput">Client company contact email</label>
                                     <input class="form-control" id="clientEmailInput" value="{{$firstTime ? '' : $client->email}}" type="text">
                                 </div>
 
                                 @if(!$client->credentials->first())
                                     <div class="form-group">
-                                        <label for="clientNameInput">First user email</label>
-                                        <input class="form-control" id="clientFirstEmailInput" value="{{optional($client->credentials->first())->email}}" type="text">
+                                        <label for="clientNameInput">First user email*</label>
+                                        <input class="form-control" id="clientFirstEmailInput" value="{{optional($client->credentials->first())->email}}" type="text"
+                                            required>
                                     </div>
                                     <div class="form-group">
-                                        <label for="clientNameInput">First user name</label>
+                                        <label for="clientNameInput">First user name*</label>
                                         <input class="form-control" id="clientFirstNameInput" value="{{optional($client->credentials->first())->name}}"
-                                            type="text">
+                                            type="text" required>
                                     </div>
 
                                     <button class="btn btn-primary btn-lg" id="createFirstCredential">
@@ -52,6 +53,91 @@
 
                                 <br>
                                 <br>
+                                <br>
+                                <div class="form-group">
+                                    <label for="exampleFormControlSelect1">Industry Experience*</label>
+                                    <select class="form-control" id="exampleFormControlSelect1">
+                                        <option selected>
+                                            Please select your industry
+                                        </option>
+
+                                        <option>
+                                            Automative
+                                        </option>
+
+                                        <option selected>
+                                            Consumer goods & services
+                                        </option>
+
+                                        <option>
+                                            Industrial Equipement
+                                        </option>
+
+                                        <option>
+                                            Life Sciences
+                                        </option>
+
+                                        <option>
+                                            Retail
+                                        </option>
+
+                                        <option>
+                                            Transport services
+                                        </option>
+
+                                        <option>
+                                            Travel
+                                        </option>
+
+                                        <option>
+                                            Chemical
+                                        </option>
+
+                                        <option>
+                                            Energy
+                                        </option>
+
+                                        <option>
+                                            Natural Resources
+                                        </option>
+
+                                        <option>
+                                            Utilities
+                                        </option>
+
+                                        <option>
+                                            Communications & Media
+                                        </option>
+
+                                        <option>
+                                            High tech
+                                        </option>
+
+                                        <option>
+                                            CMT SW&P
+                                        </option>
+
+                                        <option>
+                                            Health
+                                        </option>
+
+                                        <option>
+                                            Public Service
+                                        </option>
+
+                                        <option>
+                                            Banking
+                                        </option>
+
+                                        <option>
+                                            Capital Markets
+                                        </option>
+
+                                        <option>
+                                            Insurance
+                                        </option>
+                                    </select>
+                                </div>
                                 <br>
                                 <x-questionForeach :questions="$questions" :class="'profileQuestion'" :disabled="false" :required="true" />
 
