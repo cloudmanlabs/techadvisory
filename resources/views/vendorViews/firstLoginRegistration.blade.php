@@ -27,7 +27,7 @@
 
                                 <div id="content">
                                     <ul class="timeline">
-                                        <li class="event" data-date="~ 15 minutes">
+                                        <li class="event" data-date="~ 2 hours">
                                             <h3>Registration</h3>
 
                                             <p>
@@ -36,7 +36,7 @@
                                         </li>
 
 
-                                        <li class="event" data-date="~ 3-5 hours">
+                                        <li class="event" data-date="~ 2 hours">
                                             <h3>Add your solutions to the platform</h3>
 
                                             <p>
@@ -45,7 +45,7 @@
                                         </li>
 
 
-                                        <li class="event" data-date="15-45 days">
+                                        <li class="event">
                                             <h3>Receive invitations for projects</h3>
 
                                             <p>
@@ -54,7 +54,7 @@
                                         </li>
 
 
-                                        <li class="event" data-date="~ 1-2 days">
+                                        <li class="event" data-date="~ 4 weeks">
                                             <h3>Apply to projects</h3>
 
                                             <p>

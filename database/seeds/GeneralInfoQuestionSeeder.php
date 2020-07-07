@@ -109,7 +109,7 @@ class GeneralInfoQuestionSeeder extends Seeder
         factory(GeneralInfoQuestion::class)->create([
             'page' => 'timeline',
             'type' => 'date',
-            'label' => 'Tentative date for Value Enablers completion',
+            'label' => 'Tentative date for Value Targeting completion',
             'required' => false,
         ]);
         factory(GeneralInfoQuestion::class)->create([

@@ -16,7 +16,7 @@
                         <div class="card">
                             <div class="card-body">
                                 <h3>Solutions</h3>
-                                <p class="welcome_text extra-top-15px">This are your existing solutions.</p>
+                                <p class="welcome_text extra-top-15px">Below is your solutions portfolio.</p>
                                 <br>
                                 <br>
                                 @foreach ($solutions as $solution)

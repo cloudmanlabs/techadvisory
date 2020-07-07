@@ -28,7 +28,7 @@
                                     <h2>Contact information</h2>
                                     <section>
                                         <div class="form-group">
-                                            <label for="exampleInputText1">Vendor Name*</label>
+                                            <label for="exampleInputText1">Vendor company name*</label>
                                             <input
                                                 class="form-control"
                                                 id="exampleInputText1"
@@ -38,12 +38,28 @@
                                                 disabled>
                                         </div>
                                         <div class="form-group">
-                                            <label for="exampleInputText1">Vendor main email</label>
+                                            <label for="exampleInputText1">Vendor company contact email</label>
                                             <input class="form-control" id="exampleInputText1" placeholder="Enter E-mail"
                                                 type="email"
                                                 value="{{$vendor->email}}"
                                                 disabled>
                                         </div>
+
+                                        <!-- <div class="form-group">
+                                            <label for="vendorRoleInput">Vendor company contact role</label>
+                                            <input class="form-control" id="vendorRoleInput" placeholder="Enter Role"
+                                                type="text"
+                                                value="{{$vendor->role}}" 
+                                                 >
+                                        </div> -->
+
+                                        <!-- <div class="form-group">
+                                            <label for="vendorAddressInput">Company address</label>
+                                            <input class="form-control" id="vendorAddressInput" placeholder="Enter Address"
+                                                type="text"
+                                                value="{{$vendor->address}}" 
+                                                disabled>
+                                        </div> -->
 
                                         <div class="form-group">
                                             <label for="vendorNameInput">First user email</label>
