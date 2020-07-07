@@ -39,16 +39,21 @@
                                 <h3>Project Set up</h3>
 
                                 <p class="welcome_text extra-top-15px">
-                                    Please complete all fields marked with an *.
-                                    <br>
-                                    All changes will be automatically saved. You can go to home screen by clicking on the Home button and
-                                    finish the Project Set up on another moment.
+                                    This is the first step of project setup. Fill in all 
+                                    mandatory fields under the General Info, RFP Upload and
+                                    Sizing Info sections. It is not required to fill in all fields at
+                                    once, but the second step of project setup will be only activated after
+                                    completion of all mandatory fields.
                                 </p>
 
                                 <br>
                                 <div id="wizard_client_newProjectSetUp">
                                     <h2>General Info</h2>
                                     <section>
+                                        <p class="welcome_text extra-top-15px">
+                                            Input all relevant information concerning project type, scope and timelines. Client company name nd contacts will not be shared with vendors.
+                                        </p>
+                                        <br>
                                         <x-generalInfoQuestions
                                             :project="$project"
                                             :clients="$clients ?? []"
@@ -60,7 +65,7 @@
 
                                     <h2>RFP Upload</h2>
                                     <section>
-                                        <h4>2.1 Upload your RFP</h4>
+                                        <h4>2.1 Upload your RFP document</h4>
                                         <br>
                                         <x-folderFileUploader :folder="$project->rfpFolder" label="Upload your RFP" :timeout="1000" />
 
@@ -72,6 +77,10 @@
 
                                     <h2>Sizing Info</h2>
                                     <section>
+                                        <p class="welcome_text extra-top-15px">
+                                            Input all required project information that vendors will use to perform the sizing of their proposals.
+                                        </p>
+                                        <br>
                                         <x-questionForeach :questions="$sizingQuestions" :class="'sizingQuestion'" :disabled="false" :required="true" />
 
                                         <br>
@@ -89,13 +98,22 @@
 
                                     <h2>Selection Criteria</h2>
                                     <section>
+                                        <p class="welcome_text extra-top-15px">
+                                            {{nova_get_setting('client_selectionCriteria_title') ?? ''}}
+                                        </p>
+                                        <br>
                                         <div id="subwizard_here">
                                             <h3>Fit gap</h3>
                                             <div>
                                                 <h4>4.1. Fit Gap</h4>
+                                                <p class="welcome_text extra-top-15px">
+                                                    This section includes all your functional, technical and service requirements, among others.
+                                                </p>
                                                 <br>
                                                 <p>
-                                                    {{nova_get_setting('fitgap_description') ?? ''}}
+                                                    Click Review Fit Gap Table to see all requirements gathered and logged by Accenture.
+                                                    Review the requirements and contact Accenture in case anything is not accurate, and
+                                                    provide or adjust requirement importance by filling in the Client Score.
                                                 </p>
                                                 <br>
 
@@ -126,6 +144,10 @@
                                                 <x-fitgapClientModal :project="$project" :isAccenture="false" />
 
                                                 <br><br>
+                                                <p class="welcome_text extra-top-15px">
+                                                    Below is the questionnaire designed to know more about the vendor’s previous experiences with other clients and within the industry.
+                                                </p>
+                                                <br>
                                                 <h4>Questions</h4>
                                                 <br>
                                                 @foreach ($fitgapQuestions as $question)

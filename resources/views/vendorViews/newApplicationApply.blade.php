@@ -22,10 +22,12 @@
                                 <div id="wizard_vendor_go_to_home">
                                     <h2>Fit gap</h2>
                                     <section>
-                                        <br>
-
-                                        {{nova_get_setting('fitgap_description') ?? ''}}
-
+                                        <p class="welcome_text extra-top-15px">
+                                            Provide your inputs on how your solution/s will cover the client’s functional, technical and service requirements, among others.
+                                        </p>
+                                        <p class="welcome_text extra-top-15px">
+                                            Click Review Fit Gap Table to see all client requirements. Select the most suitable answer under the Vendor Score column and provide additional information or highlights in the Comments column.
+                                        </p>
                                         <br><br>
 
                                         <x-fitgapVendorModal :vendor="auth()->user()" :project="$project" />
@@ -39,18 +41,36 @@
 
                                     <h2>Vendor</h2>
                                     <section>
+                                        <p class="welcome_text extra-top-15px">
+                                            Provide us with more insights about your company and presence in the market.
+                                        </p>
+                                        <br>
                                         <h4>Corporate information</h4>
+                                        <p class="welcome_text extra-top-15px">
+                                            Below is the questionnaire designed to know more about your company.
+                                        </p>
                                         <br>
                                         <x-questionForeach :questions="$vendorCorporateQuestions" :class="'selectionCriteriaQuestion'" :disabled="false" :required="false" />
 
                                         <br><br>
                                         <h4>Market presence</h4>
+                                        <p class="welcome_text extra-top-15px">
+                                            Below is the questionnaire designed to know more about your presence in the market.
+                                        </p>
+                                        <br>
                                         <x-questionForeach :questions="$vendorMarketQuestions" :class="'selectionCriteriaQuestion'" :disabled="false" :required="false" />
                                     </section>
 
                                     <h2>Experience</h2>
                                     <section>
+                                        <p class="welcome_text extra-top-15px">
+                                            Inform us about your previous experiences in the industry and with other clients.
+                                        </p>
+                                        <br>
                                         <h4>Questions</h4>
+                                        <p class="welcome_text extra-top-15px">
+                                            Below is the questionnaire designed to know more about previous experiences with other clients and within the industry.
+                                        </p>
                                         <br>
                                         <x-questionForeach :questions="$experienceQuestions" :class="'selectionCriteriaQuestion'" :disabled="false"
                                             :required="false" />
@@ -58,26 +78,49 @@
 
                                     <h2>Innovation & Vision</h2>
                                     <section>
+                                        <p class="welcome_text extra-top-15px">
+                                            Tell us about the IT enablers used by your solution/s, alliances in place, product insights and sustainability guidelines followed.
+                                        </p>
+                                        <br>
                                         <h4>IT Enablers</h4>
+                                        <p class="welcome_text extra-top-15px">
+                                        Below is the questionnaire designed to know more about the IT Enablers currently used by your solution/s.
+                                        </p>
                                         <br>
                                         <x-questionForeach :questions="$innovationDigitalEnablersQuestions" :class="'selectionCriteriaQuestion'" :disabled="false" :required="false" />
 
                                         <h4>Alliances</h4>
+                                        <p class="welcome_text extra-top-15px">
+                                            Below is the questionnaire designed to know more about the alliances you have with other solution providers.
+                                        </p>
                                         <br>
                                         <x-questionForeach :questions="$innovationAlliancesQuestions" :class="'selectionCriteriaQuestion'" :disabled="false" :required="false" />
 
                                         <h4>Product</h4>
+                                        <p class="welcome_text extra-top-15px">
+                                            Below is the questionnaire designed to get more insights about your products.
+                                        </p>
                                         <br>
                                         <x-questionForeach :questions="$innovationProductQuestions" :class="'selectionCriteriaQuestion'" :disabled="false" :required="false" />
 
                                         <h4>Sustainability</h4>
+                                        <p class="welcome_text extra-top-15px">
+                                            Below is the questionnaire designed to know more about your sustainability guidelines.
+                                        </p>
                                         <br>
                                         <x-questionForeach :questions="$innovationSustainabilityQuestions" :class="'selectionCriteriaQuestion'" :disabled="false" :required="false" />
                                     </section>
 
                                     <h2>Implementation & Commercials</h2>
                                     <section>
+                                        <p class="welcome_text extra-top-15px">
+                                            Let us know more about the project plan, main deliverables and RACI you proposed. Provide a cost estimation for both implementation and run phases.
+                                        </p>
+                                        <br>
                                         <h4>Implementation</h4>
+                                        <p class="welcome_text extra-top-15px">
+                                            Use the following section to provide all details regarding the implementation phase.
+                                        </p>
                                         <br>
                                         <x-questionForeach :questions="$implementationImplementationQuestions" :class="'selectionCriteriaQuestion'"
                                             :disabled="false" :required="false" />
@@ -97,6 +140,10 @@
                                         <br>
                                         <br>
                                         <b>Implementation Cost</b>
+                                        <p>
+                                            Provide costs estimations for implementation phase.
+                                        </p>
+                                        <br>
 
                                         @if ($project->isBinding)
                                             <x-selectionCriteria.staffingCost :vendorApplication="$vendorApplication" :evaluate="false"/>
@@ -114,6 +161,10 @@
 
                                         <br>
                                         <h4>Run</h4>
+                                        <p class="welcome_text extra-top-15px">
+                                            Use the following section to provide all details regarding the run phase.
+                                        </p>
+                                        <br>
 
                                         <x-selectionCriteria.pricingModel :vendorApplication="$vendorApplication" :disabled="false" :evaluate="false"/>
 

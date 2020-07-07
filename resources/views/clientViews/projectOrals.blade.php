@@ -16,6 +16,10 @@
                         <div class="card">
                             <div class="card-body">
                                 <h3>Session details</h3>
+                                <p class="welcome_text extra-top-15px">
+                                    Below is the location and dates defined for orals, together with the list of vendors invited.
+                                </p>
+                                <br>
                                 <div class="form-group">
                                     <div class="form-group">
                                         <label for="exampleInputText1">Location</label>

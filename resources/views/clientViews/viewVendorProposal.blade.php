@@ -40,6 +40,10 @@
 
                                 <h2>Vendor</h2>
                                 <section>
+                                    <p class="welcome_text extra-top-15px">
+                                        This section is designed to deep dive into the vendor company and its market presence.
+                                    </p>
+                                    <br>
                                     <h4>Corporate information</h4>
                                     <br>
                                     <x-questionForeachWithEvaluate :questions="$vendorCorporateQuestions" :class="'selectionCriteriaQuestion'"

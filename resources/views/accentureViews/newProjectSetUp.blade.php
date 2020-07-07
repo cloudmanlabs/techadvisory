@@ -17,16 +17,22 @@
                                 <h3>Project Set up</h3>
 
                                 <p class="welcome_text extra-top-15px">
-                                    Please complete all fields marked with an *.
-                                    <br>
-                                    Note: Finishing this form will not publish the project.
-                                    To publish please press the Publish button on the last screen.
+                                        This is the project setup. Fill in as many fields
+                                        as possible under the General Info, RFP Upload and Sizing Info sections.
+                                        It is not required to fill in all fields at once. The client will be able
+                                        to fill in the remaining fields after Accenture submits this first step
+                                        of the project setup.
                                 </p>
 
                                 <br>
                                 <div id="wizard_accenture_newProjectSetUp">
                                     <h2>General Info</h2>
                                     <section>
+                                        <p class="welcome_text extra-top-15px">
+                                            Input all relevant information concerning project type, scope and timelines. Client
+                                            company name and contacts will not be shared with vendors.
+                                        </p>
+                                        <br>
                                         <x-generalInfoQuestions
                                             :project="$project"
                                             :clients="$clients"
@@ -38,7 +44,7 @@
 
                                     <h2>RFP Upload</h2>
                                     <section>
-                                        <h4>2.1 Upload your RFP</h4>
+                                        <h4>2.1 Upload your RFP document</h4>
                                         <br>
                                         <x-folderFileUploader :folder="$project->rfpFolder" label="Upload your RFP" :timeout="1000" />
 
@@ -51,6 +57,12 @@
 
                                     <h2>Sizing Info</h2>
                                     <section>
+                                        <p class="welcome_text extra-top-15px">
+                                            Select the set of questions that must be answered by the client to provide vendors
+                                            with required project information to perform the sizing of hteir proposals.
+                                            You can also provide your inputs based on the client information you have.
+                                        </p>
+                                        <br>
                                         <x-questionForeachWithActivate :questions="$sizingQuestions" :class="'sizingQuestion'" :disabled="false" :required="false" />
 
                                         <br><br>
@@ -168,12 +180,18 @@
 
                                     <h2>Publish / Invite vendors</h2>
                                     <section>
+                                        <p class="welcome_text extra-top-15px">
+                                            This is the last step of project setup. Select the appropriate
+                                            vendors to invite to provide proposals. Click Done to send them
+                                            the invitation. The Done button will be blocked until the client
+                                            submits the complete project setup.
+                                        </p>
+                                        <br>
                                         <p>Project Description</p>
                                         <textarea name="projectDescription" id="projectDescription" cols="80" rows="10"></textarea>
 
                                         <br>
                                         <br>
-
                                         <h4>Vendor invite</h4>
                                         <br>
                                         <div class="form-group">

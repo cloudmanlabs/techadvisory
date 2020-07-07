@@ -27,6 +27,11 @@
                                 <div id="projectEditWizard">
                                     <h2>General Info</h2>
                                     <section>
+                                        <p class="welcome_text extra-top-15px">
+                                            Input all relevant information concerning project type, scope and timelines. Client
+                                            company name and contacts will not be shared with vendors.
+                                        </p>
+                                        <br>
                                         <x-generalInfoQuestions
                                             :project="$project"
                                             :clients="$clients"
@@ -38,7 +43,7 @@
 
                                     <h2>RFP Upload</h2>
                                     <section>
-                                        <h4>2.1 Upload your RFP</h4>
+                                        <h4>2.1 Upload your RFP document</h4>
                                         <br>
                                         <x-folderFileUploader :folder="$project->rfpFolder" label="Upload your RFP" :timeout="1000" />
 
@@ -50,6 +55,12 @@
 
                                     <h2>Sizing Info</h2>
                                     <section>
+                                        <p class="welcome_text extra-top-15px">
+                                            Select the set of questions that must be answered by the client to provide vendors
+                                            with required project information to perform the sizing of hteir proposals.
+                                            You can also provide your inputs based on the client information you have.
+                                        </p>
+                                        <br>
                                         <x-questionForeach :questions="$sizingQuestions" :class="'sizingQuestion'" :disabled="false"
                                             :required="false" />
 

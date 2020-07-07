@@ -18,8 +18,8 @@
                             <div class="card-body">
                                 <h3>Overall vendor ranking</h3>
                                 <p class="welcome_text extra-top-15px">
-                                    This is the ranking of vendors participating in this project according
-                                    to overall score. Overall score is estimated based on the weights defined for each section.
+                                    This is the ranking of vendors participating in this project according to overall score.
+                                    Overall score is estimated based on the weights defined for each section.
                                 </p>
                                 <br>
                                 <div class="table-responsive">

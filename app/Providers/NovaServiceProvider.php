@@ -150,7 +150,7 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
                     Textarea::make('Project Benchmark Innovation: Vendor comparison', 'client_projectBenchmarkInnovation_comparison'),
                     Textarea::make('Project Benchmark Implementation: Vendor Ranking by Implementation section', 'client_projectBenchmarkImplementation_ranking'),
                     Textarea::make('Project Benchmark Implementation: Vendor comparison', 'client_projectBenchmarkImplementation_comparison'),
-
+                    
                     Textarea::make('Project Value Targeting: Title', 'accenture_projectValueTargeting_Title'),
                     Textarea::make('Project Value Targeting: Selected Value Levers', 'accenture_projectValueTargeting_selected'),
                     Textarea::make('Project Value Targeting: Business Opportunity Details', 'accenture_projectValueTargeting_business'),
@@ -158,6 +158,8 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
                     Textarea::make('Project Conclusions: Title', 'client_projectConclusions_title'),
 
                     Textarea::make('View Vendor Proposal: Title', 'client_viewVendorProposal_title'),
+
+                    Textarea::make('Selection Criteria: Title', 'client_selectionCriteria_title'),
                 ]),
                 new Panel('Vendor Texts', [
                     Textarea::make('Home: Invitation Phase', 'vendor_Home_Invitation'),
@@ -180,6 +182,7 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
 
                     Textarea::make('New Solution: Add a solution', 'vendro_newSolution_addSolution'),
                     Textarea::make('Edit Solution: Title', 'vendro_editSolution_title'),
+                    Textarea::make('Project: Information', 'vendor_project_information'),
                 ])
             ];
         });
