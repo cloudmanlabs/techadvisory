@@ -4,10 +4,16 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * @property bool $shouldShow Yes, this is actually $validated, but time constraints :) I hate it too
+ */
 class VendorProfileQuestionResponse extends Model
 {
     public $guarded = [];
 
+    public $casts = [
+        'shouldShow' => 'boolean'
+    ];
 
     public function originalQuestion()
     {

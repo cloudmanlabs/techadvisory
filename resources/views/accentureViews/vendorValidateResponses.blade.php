@@ -97,6 +97,33 @@
         })
     }
 
+    function checkIfAllEvalsAreFilled(){
+        let array = $('.checkboxesDiv input')
+            .toArray();
+
+		if(array.length == 0) return true;
+
+        for (let i = 0; i < array.length; i++) {
+            if(!$(array[i]).prop('checked')){
+                console.log(array[i], $(array[i]).prop('checked'))
+                return false
+            } else {
+                console.log(array[i], $(array[i]).prop('checked'))
+            }
+        }
+
+        return true
+    }
+
+    function updateSubmitButton()
+    {
+        // If we filled all the fields, remove the disabled from the button.
+        if(checkIfAllEvalsAreFilled()){
+            $('#submitButton').attr('disabled', false)
+        } else {
+            $('#submitButton').attr('disabled', true)
+        }
+    }
 
     $(document).ready(function() {
         $('.profileQuestion .checkboxesDiv input')
@@ -106,8 +133,11 @@
                     value: $(this).prop("checked")
                 })
 
+                updateSubmitButton();
                 showSavedToast();
             });
+
+        updateSubmitButton();
     });
 </script>
 @endsection

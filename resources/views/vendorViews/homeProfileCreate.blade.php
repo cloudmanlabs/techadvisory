@@ -70,19 +70,19 @@
                                         </p>
                                         <br>
 
-                                        <x-questionForeach :questions="$generalQuestions" :class="'profileQuestion'" :disabled="false" :required="true" />
+                                        <x-questionForeachValidated :questions="$generalQuestions" :class="'profileQuestion'" :disabled="false" :required="true" />
 
                                         <x-folderFileUploader :folder="$vendor->profileFolder" :timeout="1000"/>
                                     </section>
 
                                     <h2>Company information</h2>
                                     <section>
-                                        <x-questionForeach :questions="$economicQuestions" :class="'profileQuestion'" :disabled="false" :required="true" />
+                                        <x-questionForeachValidated :questions="$economicQuestions" :class="'profileQuestion'" :disabled="false" :required="true" />
                                     </section>
 
                                     <h2>Economic information</h2>
                                     <section>
-                                        <x-questionForeach :questions="$legalQuestions" :class="'profileQuestion'" :disabled="false" :required="true" />
+                                        <x-questionForeachValidated :questions="$legalQuestions" :class="'profileQuestion'" :disabled="false" :required="true" />
                                     </section>
                                 </div>
                             </div>
