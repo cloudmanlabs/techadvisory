@@ -1,4 +1,4 @@
-@props(['changing', 'score', 'disabled'])
+@props(['changing', 'score', 'disabled', 'required'])
 
 <div class="formItemContainer">
     <div class="form-group">
@@ -7,6 +7,7 @@
     <div class="evalDiv">
         <input
             {{$disabled ? 'disabled' : ''}}
+            {{$required ? 'required' : ''}}
             type="number"
             name="asdf"
             min="0"

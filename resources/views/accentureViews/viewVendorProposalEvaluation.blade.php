@@ -22,23 +22,6 @@
                                     you can leave them blank and fill up them later.</p>
                                 <br>
                                 <div id="viewVendorProposalEvaluationWizard">
-                                    {{-- <h2>Fit Gap</h2>
-                                    <section>
-                                        <h4>Fit Gap</h4>
-                                        <br>
-                                        <p>
-                                            {{nova_get_setting('fitgap_description') ?? ''}}
-                                        </p>
-                                        <br><br>
-
-                                        <x-fitgapEvaluationModal :vendor="$vendor" :project="$project" :disabled="true"/>
-
-                                        <br><br>
-                                        <h4>Questions</h4>
-                                        <br>
-                                        <x-questionForeachWithEvaluate :questions="$fitgapQuestions" :class="'selectionCriteriaQuestion'" :disabled="true" :evalDisabled="false" :required="false" />
-                                    </section> --}}
-
                                     <h2>Vendor</h2>
                                     <section>
                                         <h4>Corporate information</h4>
@@ -82,62 +65,6 @@
                                         <x-questionForeachWithEvaluate :questions="$innovationSustainabilityQuestions" :class="'selectionCriteriaQuestion'"
                                             :disabled="true" :evalDisabled="false" :required="false" />
                                     </section>
-
-                                    {{-- <h2>Implementation & Commercials</h2>
-                                    <section>
-                                        <h4>Implementation</h4>
-                                        <br>
-                                        <x-questionForeach :questions="$implementationImplementationQuestions" :class="'selectionCriteriaQuestion'"
-                                            :disabled="true" :required="false" :evalDisabled="false" />
-
-                                        <br><br>
-
-                                        <x-selectionCriteria.solutionsUsed :vendorApplication="$vendorApplication" :disabled="true" />
-
-                                        <br><br>
-
-                                        <x-selectionCriteria.deliverables :vendorApplication="$vendorApplication" :disabled="true" :evaluate="true" :evalDisabled="false" />
-
-                                        <br>
-                                        <br>
-                                        <x-selectionCriteria.raciMatrix :vendorApplication="$vendorApplication" :disabled="true" :evaluate="true" :evalDisabled="false"/>
-
-                                        <br>
-                                        <br>
-                                        <b>Implementation Cost</b>
-
-                                        @if ($project->isBinding)
-                                            <x-selectionCriteria.staffingCost :vendorApplication="$vendorApplication" :disabled="true" :evaluate="true" :evalDisabled="false"/>
-
-                                            <br>
-                                            <x-selectionCriteria.travelCost :vendorApplication="$vendorApplication" :disabled="true" :evaluate="true" :evalDisabled="false"/>
-
-                                            <br>
-                                            <x-selectionCriteria.additionalCost :vendorApplication="$vendorApplication" :disabled="true" :evaluate="true" :evalDisabled="false"/>
-
-                                            <p>Overall Implementation Cost: <span id="overallImplementationCost">0</span>$</p>
-                                        @else
-                                            <x-selectionCriteria.nonBindingImplementation :vendorApplication="$vendorApplication" :disabled="true" :evaluate="true" :evalDisabled="false"/>
-                                        @endif
-
-                                        <br>
-                                        <h4>Run</h4>
-
-                                        <x-selectionCriteria.pricingModel :vendorApplication="$vendorApplication" :disabled="true" :evaluate="false"/>
-
-                                        <x-questionForeach :questions="$implementationRunQuestions" :class="'selectionCriteriaQuestion'"
-                                            :disabled="true" :required="false" :evalDisabled="false" />
-
-                                        <br><br>
-
-                                        @if ($project->isBinding)
-                                            <x-selectionCriteria.estimate5Years :vendorApplication="$vendorApplication" :disabled="true" :evaluate="true" :evalDisabled="false"/>
-                                        @else
-                                            <x-selectionCriteria.nonBindingEstimate5Years :vendorApplication="$vendorApplication" :disabled="true" :evaluate="true" :evalDisabled="false"/>
-                                        @endif
-
-                                        <x-selectionCriteria.detailedBreakdown :vendorApplication="$vendorApplication" :disabled="true" :evaluate="false" />
-                                    </section> --}}
                                 </div>
 
                                 <div style="float: right; margin-top: 20px;">
@@ -193,12 +120,20 @@
      *  Returns false if any field is empty
      */
     function checkIfAllEvalsAreFilled(){
-        let array = $('.evalDiv input').toArray();
+        let array = $('.evalDiv input')
+            .filter('[required]')
+            .toArray();
+
 		if(array.length == 0) return true;
 
-        return array.reduce((prev, current) => {
-            return !prev ? false : $(current).is(':hasValue')
-        }, true)
+        for (let i = 0; i < array.length; i++) {
+            if(!$(array[i]).is(':hasValue')){
+                console.log(array[i])
+                return false
+            }
+        }
+
+        return true
     }
 
     function showSavedToast()
