@@ -65,13 +65,19 @@ class VendorProfileQuestion extends Resource
                 ->onlyOnForms(),
 
             Text::make('Label', 'label')
-                ->required(),
+                ->required()
+                ->displayUsing(function ($text) {
+                    if (strlen($text) > 30) {
+                        return substr($text, 0, 30) . '...';
+                    }
+                    return $text;
+                }),
 
             Select::make('Page', 'page')
                 ->options([
-                    'general' => 'General information',
-                    'economic' => 'Economic information',
-                    'legal' => 'Legal information'
+                    'general' => 'Contact information',
+                    'economic' => 'Company information',
+                    'legal' => 'Economic information'
                 ])
                 ->displayUsingLabels()
                 ->rules('required')

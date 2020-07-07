@@ -65,8 +65,18 @@ class SizingQuestion extends Resource
                 ->onlyOnForms(),
 
             Text::make('Label', 'label')
-                ->required(),
-            Boolean::make('Required', 'required'),
+                ->required()
+                ->displayUsing(function ($text) {
+                    if (strlen($text) > 30) {
+                        return substr($text, 0, 30) . '...';
+                    }
+                    return $text;
+                }),
+
+            // Boolean::make('Required', 'required')
+            //     ->canSee(function(){
+            //         return auth()->user()->isAdmin();
+            //     }),
 
             BelongsTo::make('Practice', 'practice', 'App\Nova\Practice')
                 ->nullable()

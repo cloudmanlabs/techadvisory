@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Client;
 
 use App\Http\Controllers\Controller;
+use App\SecurityLog;
 use App\User;
 use App\UserCredential;
 use Exception;
@@ -64,6 +65,7 @@ class AuthController extends Controller
         $remember = $request->input('remember') === 'on';
         Auth::login($user, $remember);
 
+        SecurityLog::createLog('User logged in');
         return redirect('/client');
     }
 }

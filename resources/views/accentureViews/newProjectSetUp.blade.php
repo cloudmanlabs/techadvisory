@@ -6,7 +6,7 @@
 
         <div class="page-wrapper">
             <div class="page-content">
-                <x-video :src="nova_get_setting('video_newProject')" :text="nova_get_setting('video_newProject_text')"/>
+                <x-video :src="nova_get_setting('video_newProject_file')" :text="nova_get_setting('video_newProject_text')"/>
 
                 <br><br>
 
@@ -52,6 +52,23 @@
                                     <h2>Sizing Info</h2>
                                     <section>
                                         <x-questionForeachWithActivate :questions="$sizingQuestions" :class="'sizingQuestion'" :disabled="false" :required="false" />
+
+                                        <br><br>
+
+                                        <div>
+                                            <button
+                                                class="btn btn-primary"
+                                                id="selectAllSizingQuestions"
+                                            >
+                                                Select all
+                                            </button>
+                                            <button
+                                                class="btn btn-primary"
+                                                id="unselectAllSizingQuestions"
+                                            >
+                                                Unselect all
+                                            </button>
+                                        </div>
 
                                         <br><br>
 
@@ -644,6 +661,14 @@
                     showSavedToast();
                 }
             });
+        });
+
+        $('#selectAllSizingQuestions').click(function(){
+            $('.checkboxesDiv input').prop('checked', true)
+        });
+
+        $('#unselectAllSizingQuestions').click(function(){
+            $('.checkboxesDiv input').prop('checked', false)
         });
 
         updateShownQuestionsAccordingToPractice();

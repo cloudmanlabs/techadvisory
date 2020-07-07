@@ -32,7 +32,8 @@
                                             :clients="$clients"
                                             :disableSpecialQuestions="false"
                                             :disabled="false"
-                                            :required="false" />
+                                            :required="false"
+                                            :projectEdit="true" />
                                     </section>
 
                                     <h2>RFP Upload</h2>
@@ -49,7 +50,7 @@
 
                                     <h2>Sizing Info</h2>
                                     <section>
-                                        <x-questionForeachWithActivate :questions="$sizingQuestions" :class="'sizingQuestion'" :disabled="false"
+                                        <x-questionForeach :questions="$sizingQuestions" :class="'sizingQuestion'" :disabled="false"
                                             :required="false" />
 
                                         <br><br>
@@ -97,7 +98,7 @@
                                                 <br>
 
                                                 <br><br>
-                                                <x-fitgapClientModal :project="$project" />
+                                                <x-fitgapClientModal :project="$project"/>
 
                                                 <br><br>
                                                 <h4>Questions</h4>

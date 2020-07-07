@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Vendor;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Project;
+use App\SecurityLog;
 use App\User;
 use App\VendorApplication;
 use Illuminate\Support\Facades\Log;
@@ -22,6 +23,8 @@ class ProjectController extends Controller
         });
 
         $clients = User::clientUsers()->get();
+
+        SecurityLog::createLog('User accessed project with ID ' . $project->id);
 
         return view('vendorViews.previewProject',[
             'project' => $project,
@@ -73,6 +76,8 @@ class ProjectController extends Controller
         $implementationRunQuestions = $project->selectionCriteriaQuestionsForVendor($vendor)->get()->filter(function ($question) {
             return $question->originalQuestion->page == 'implementation_run';
         });
+
+        SecurityLog::createLog('User accessed project with ID ' . $project->id);
 
         return view('vendorViews.previewProjectApply', [
             'project' => $project,
@@ -152,6 +157,8 @@ class ProjectController extends Controller
             return $el->shouldShow;
         });
 
+        SecurityLog::createLog('User accessed project with ID ' . $project->id);
+
         return view('vendorViews.newApplication', [
             'project' => $project,
             'clients' => $clients,
@@ -205,6 +212,8 @@ class ProjectController extends Controller
             return $question->originalQuestion->page == 'implementation_run';
         });
 
+        SecurityLog::createLog('User accessed project with ID ' . $project->id);
+
         return view('vendorViews.newApplicationApply', [
             'project' => $project,
             'vendorApplication' => $vendorApplication,
@@ -239,6 +248,8 @@ class ProjectController extends Controller
         if (!$project->hasOrals) {
             abort(404);
         }
+
+        SecurityLog::createLog('User accessed project with ID ' . $project->id);
 
         return view('vendorViews.newApplicationOrals', [
             'project' => $project,
@@ -289,6 +300,8 @@ class ProjectController extends Controller
         $implementationRunQuestions = $project->selectionCriteriaQuestionsForVendor($vendor)->get()->filter(function ($question) {
             return $question->originalQuestion->page == 'implementation_run';
         });
+
+        SecurityLog::createLog('User accessed project with ID ' . $project->id);
 
         return view('vendorViews.submittedApplication', [
             'project' => $project,

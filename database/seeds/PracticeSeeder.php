@@ -22,7 +22,7 @@ class PracticeSeeder extends Seeder
             'name' => 'Manufacturing'
         ]);
         factory(Practice::class)->create([
-            'name' => 'Wharehousing'
+            'name' => 'Warehousing'
         ]);
         factory(Practice::class)->create([
             'name' => 'Sourcing'

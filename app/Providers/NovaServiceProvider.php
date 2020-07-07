@@ -2,7 +2,7 @@
 
 namespace App\Providers;
 
-use App\Nova\{GeneralInfoQuestion, GeneralInfoQuestionResponse, Accenture, Client, ClientProfileQuestion,ClientProfileQuestionResponse,VendorProfileQuestion,VendorProfileQuestionResponse,Practice,Project,SizingQuestion,SizingQuestionResponse,Subpractice,Vendor,User,VendorSolution,VendorSolutionQuestion,VendorSolutionQuestionResponse,SelectionCriteriaQuestion, SelectionCriteriaQuestionProjectPivot, SelectionCriteriaQuestionResponse, UserCredential, VendorApplication};
+use App\Nova\{GeneralInfoQuestion, GeneralInfoQuestionResponse, Accenture, Client, ClientProfileQuestion,ClientProfileQuestionResponse,VendorProfileQuestion,VendorProfileQuestionResponse,Practice,Project, SecurityLog, SizingQuestion,SizingQuestionResponse,Subpractice,Vendor,User,VendorSolution,VendorSolutionQuestion,VendorSolutionQuestionResponse,SelectionCriteriaQuestion, SelectionCriteriaQuestionProjectPivot, SelectionCriteriaQuestionResponse, UserCredential, VendorApplication};
 
 use App\Nova\Metrics\NumberOfAccentureUsers;
 use App\Nova\Metrics\NumberOfClients;
@@ -12,12 +12,14 @@ use App\Nova\Metrics\TotalNumberOfUsers;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Log;
 use Laravel\Nova\Cards\Help;
+use Laravel\Nova\Fields\File;
 use Laravel\Nova\Fields\Number;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Fields\Textarea;
 use Laravel\Nova\Nova;
 use Laravel\Nova\NovaApplicationServiceProvider;
 use Laravel\Nova\Panel;
+use Wehaa\CustomLinks\CustomLinks;
 
 class NovaServiceProvider extends NovaApplicationServiceProvider
 {
@@ -33,16 +35,20 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
         \OptimistDigital\NovaSettings\NovaSettings::addSettingsFields(function () {
             return [
                 new Panel('Videos', [
-                    Text::make('Opening video', 'video_opening'),
+                    File::make('Opening video', 'video_opening_file'),
                     Textarea::make('Opening video: Text', 'video_opening_text'),
                     Textarea::make('Opening video Vendor: Text', 'video_openingVendor_text'),
-                    Text::make('New project creation video', 'video_newProject'),
+
+                    File::make('New project creation video', 'video_newProject_file'),
                     Textarea::make('New project creation video: Text', 'video_newProject_text'),
-                    Text::make('Value targeting video', 'video_valueTargeting'),
+
+                    File::make('Value targeting video', 'video_valueTargeting_file'),
                     Textarea::make('Value targeting video: Text', 'video_valueTargeting_text'),
-                    Text::make('Vendor application', 'video_application'),
+
+                    File::make('Vendor application', 'video_application_file'),
                     Textarea::make('Vendor application: Text', 'video_application_text'),
-                    Text::make('Conclusions & recommendations', 'video_conclusions'),
+
+                    File::make('Conclusions & recommendations', 'video_conclusions_file'),
                     Textarea::make('Conclusions & recommendations: Text', 'video_conclusions_text'),
                 ]),
                 new Panel('General texts', [
@@ -211,6 +217,8 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
 
             VendorSolutionQuestion::class,
             VendorSolutionQuestionResponse::class,
+
+            SecurityLog::class,
         ];
 
         /** @var \App\User|null $user */
@@ -250,7 +258,7 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
     protected function gate()
     {
         Gate::define('viewNova', function ($user) {
-            return $user->isAdmin() || $user->isAccenture();
+            return $user->isAdmin() || $user->isAccentureAdmin();
         });
     }
 
@@ -308,6 +316,7 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
 
                 return $user != null && $user->isAdmin();
             }),
+            new CustomLinks(),
         ];
     }
 

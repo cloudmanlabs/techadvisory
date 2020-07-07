@@ -2,6 +2,7 @@
 
 namespace App\Nova;
 
+use App\Nova\Filters\TenYearFilter;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
@@ -60,9 +61,17 @@ class Project extends Resource
                 ->required(),
 
 
-            Text::make('Current Phase', 'currentPhase')
-                ->sortable()
-                ->exceptOnForms(),
+            Select::make('Current phase', 'currentPhase')
+                ->options([
+                    'preparation' => 'Preparation',
+                    'open' => 'Open',
+                    'old' => 'Old'
+                ])
+                ->displayUsingLabels()
+                ->hideWhenCreating()
+                ->hideWhenUpdating(function(){
+                    return $this->currentPhase == 'preparation';
+                }),
 
             DateTime::make('Deadline', 'deadline')
                 ->sortable(),
@@ -114,6 +123,15 @@ class Project extends Resource
                 ->sortable(),
             BelongsTo::make('Practice', 'practice', 'App\Nova\Practice')
                 ->sortable(),
+
+			Text::make('Industry', 'industry')
+				->canSee(function(){
+					return auth()->user()->isAdmin();
+                }),
+            Text::make('Regions', 'regions')
+				->canSee(function(){
+					return auth()->user()->isAdmin();
+				}),
 
             Number::make('Fitgap Client Weight: Must', 'fitgapWeightMust')
                 ->hideFromIndex(),
@@ -181,7 +199,9 @@ class Project extends Resource
      */
     public function filters(Request $request)
     {
-        return [];
+        return [
+            (new TenYearFilter)
+        ];
     }
 
     /**

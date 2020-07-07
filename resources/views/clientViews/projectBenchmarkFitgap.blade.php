@@ -52,7 +52,7 @@
                                                 <tr class="filterByVendor" data-vendor="{{$obj->name}}">
                                                     <th class="table-dark">{{ $loop->iteration }}</th>
                                                     <td>{{$obj->name}}</td>
-                                                    <td>{{$obj->score}}</td>
+                                                    <td>{{number_format($obj->score, 2)}}</td>
                                                 </tr>
                                                 @endforeach
                                             </tbody>
@@ -274,7 +274,7 @@
             backgroundColor: ["#27003d", "#27003d", "#27003d", "#27003d", "#27003d", "#27003d", "#27003d"],
             data: [
                 @foreach ($applications as $obj)
-                {{$obj->fitgapScore()}},
+                {{$obj->fitgapFunctionalScore() * ($project->fitgapFunctionalWeight ?? 60) / 100}},
                 @endforeach
             ],
             stack: 'Stack 0'
@@ -284,7 +284,7 @@
             backgroundColor: ["#5a008f", "#5a008f", "#5a008f", "#5a008f", "#5a008f", "#5a008f", "#5a008f"],
             data: [
                 @foreach ($applications as $obj)
-                {{$obj->fitgapScore()}},
+                {{$obj->fitgapTechnicalScore() * ($project->fitgapTechnicalWeight ?? 20) / 100}},
                 @endforeach
             ],
             stack: 'Stack 0'
@@ -294,7 +294,7 @@
             backgroundColor: ["#8e00e0", "#8e00e0", "#8e00e0", "#8e00e0", "#8e00e0", "#8e00e0", "#8e00e0"],
             data: [
                 @foreach ($applications as $obj)
-                {{$obj->fitgapScore()}},
+                {{$obj->fitgapServiceScore() * ($project->fitgapServiceWeight ?? 10) / 100}},
                 @endforeach
             ],
             stack: 'Stack 0'
@@ -304,7 +304,7 @@
             backgroundColor: ["#a50aff", "#a50aff", "#a50aff", "#a50aff", "#a50aff", "#a50aff", "#a50aff"],
             data: [
                 @foreach ($applications as $obj)
-                {{$obj->fitgapScore()}},
+                {{$obj->fitgapOtherScore() * ($project->fitgapOthersWeight ?? 10) / 100}},
                 @endforeach
             ],
             stack: 'Stack 0'
@@ -318,7 +318,7 @@
             ticks: {
               beginAtZero: true,
               fontSize: 17,
-              max: 50,
+              max: 40,
               stacked: true
             }
           }],

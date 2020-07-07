@@ -15,11 +15,11 @@ class HomeController extends Controller
         $clientId = auth()->user()->id;
 
         // Get projects
-        $openProjects = Project::openProjects()->where('client_id', $clientId)->get();
-        $preparationProjects = Project::preparationProjects()->where('client_id', $clientId)->get()->filter(function ($project) {
+        $openProjects = Project::openProjects()->where('client_id', $clientId);
+        $preparationProjects = Project::preparationProjects()->where('client_id', $clientId)->filter(function ($project) {
             return $project->step3SubmittedAccenture;
         });
-        $oldProjects = Project::oldProjects()->where('client_id', $clientId)->get();
+        $oldProjects = Project::oldProjects()->where('client_id', $clientId);
 
         $practices = Practice::all()->pluck('name');
 

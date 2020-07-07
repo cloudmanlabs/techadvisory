@@ -10,7 +10,7 @@
 
                 <x-accenture.projectNavbar section="projectConclusions" :project="$project" />
 
-                <x-video :src="nova_get_setting('video_conclusions')" :text="nova_get_setting('video_conclusions_text')" />
+                <x-video :src="nova_get_setting('video_conclusions_file')" :text="nova_get_setting('video_conclusions_text')" />
 
                 <br>
                 <div class="row">

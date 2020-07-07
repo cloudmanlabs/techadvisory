@@ -50,7 +50,7 @@
             $finishedPhases[] = 'Value';
         }
         if($progressResponse >= 25){
-            $finishedPhases[] = 'Response';
+            $finishedPhases[] = 'Vendor Responses';
         }
         if($progressAnalytics >= 10){
             $finishedPhases[] = 'Analytics';

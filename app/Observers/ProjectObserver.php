@@ -19,7 +19,7 @@ class ProjectObserver
     public function creating(Project $project)
     {
         if($project->scoringValues == null){
-            $project->scoringValues = [0, 0, 0, 0, 0];
+            $project->scoringValues = [4, 4, 4, 4, 4];
         }
 
         if ($project->deadline == null) {

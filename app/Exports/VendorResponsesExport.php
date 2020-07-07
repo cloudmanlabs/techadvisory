@@ -2,6 +2,7 @@
 
 namespace App\Exports;
 
+use App\Exports\Sheets\VendorResponsesExportFitgapSheet;
 use App\Exports\Sheets\VendorResponsesExportSheet;
 use App\SelectionCriteriaQuestionResponse;
 use App\VendorApplication;
@@ -29,7 +30,7 @@ class VendorResponsesExport implements WithMultipleSheets, WithStrictNullCompari
     {
         $sheets = [];
 
-        $sheets[] = new VendorResponsesExportSheet($this->application, 'Fitgap', ['fitgap']);
+        $sheets[] = new VendorResponsesExportFitgapSheet($this->application);
         $sheets[] = new VendorResponsesExportSheet($this->application, 'Vendor', [ 'vendor_corporate', 'vendor_market' ]);
         $sheets[] = new VendorResponsesExportSheet($this->application, 'Innovation', ['innovation_digitalEnablers','innovation_alliances','innovation_product','innovation_sustainability']);
         $sheets[] = new VendorResponsesExportSheet($this->application, 'Implementation', ['implementation_implementation','implementation_run']);

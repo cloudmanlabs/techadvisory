@@ -3,6 +3,7 @@
 namespace App\Nova;
 
 use App\Nova\Actions\ExportCredentials;
+use App\Nova\Filters\TenYearFilter;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
@@ -19,6 +20,7 @@ use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Panel;
 use Outhebox\NovaHiddenField\HiddenField;
+use Illuminate\Support\Str;
 
 class Vendor extends Resource
 {
@@ -63,11 +65,6 @@ class Vendor extends Resource
             Image::make('logo')
                 ->exceptOnForms(),
 
-            Password::make('Password')
-                ->onlyOnForms()
-                ->creationRules('required', 'string', 'min:8')
-                ->updateRules('nullable', 'string', 'min:8'),
-
             Text::make('Export Credentials', function () {
                 $url = "/accenture/exportCredentials/{$this->id}";
                 return "<a href='{$url}' target='_blank' style='text-decoration: none;'>Download excel</a>";
@@ -83,6 +80,17 @@ class Vendor extends Resource
                 ->hideFromIndex()
                 ->hideFromDetail()
                 ->default('vendor'),
+
+
+            HiddenField::make('password')
+                ->onlyOnForms()
+                ->hideWhenUpdating()
+                ->default('password'),
+
+            HiddenField::make('email')
+                ->onlyOnForms()
+                ->hideWhenUpdating()
+                ->default(Str::random() . '@example.com'),
 
             HasMany::make('Other Login Credentials', 'credentials', \App\Nova\UserCredential::class),
 
@@ -117,7 +125,9 @@ class Vendor extends Resource
      */
     public function filters(Request $request)
     {
-        return [];
+        return [
+            (new TenYearFilter)
+        ];
     }
 
     /**

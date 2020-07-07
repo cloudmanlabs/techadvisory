@@ -120,7 +120,7 @@
             data: {
                 labels: [
                     @foreach($practices as $practice)
-                    "{{$practice->name}}",
+                    "{{$practice->name}}".replace('&amp;', '&'),
                     @endforeach
                 ],
                 datasets: [
@@ -156,7 +156,7 @@
         });
 
         new Chart($("#projectsPerClient"), {
-            type: 'bar',
+            type: 'bar'.replace('&amp;', '&'),
             data: {
                 labels: [
                     @foreach($clients as $client)
@@ -200,7 +200,7 @@
             data: {
                 labels: [
                     @foreach($industries as $industry)
-                    "{{$industry->name}}",
+                    "{{$industry->name}}".replace('&amp;', '&'),
                     @endforeach
                 ],
                 datasets: [
@@ -248,7 +248,7 @@
                         backgroundColor: longColorArray,
                         data: [
                             @foreach($regions as $region)
-                            "{{$region->projectCount}}",
+                            {{$region->projectCount}},
                             @endforeach
                         ]
                     }

@@ -170,3 +170,72 @@
 <link rel="stylesheet" href="{{url('/assets/css/techadvisory/vendorValidateResponses.css')}}">
 <link rel="stylesheet" href="{{url('/assets/css/techadvisory/viewVendorProposalEvaluation.css')}}">
 @endsection
+
+@section('scripts')
+@parent
+<script>
+    $(document).ready(function() {
+        $(".js-example-basic-single").select2();
+        $(".js-example-basic-multiple").select2();
+
+        $('.datepicker').each(function(){
+            var date = new Date($(this).data('initialvalue'));
+
+            $(this).datepicker({
+                format: "mm/dd/yyyy",
+                todayHighlight: true,
+                autoclose: true
+            });
+            $(this).datepicker('setDate', date);
+        });
+    });
+    function updateTotalImplementation(){
+        let total = 0;
+
+        let cost = $('#travelCostContainer').children()
+            .map(function(){
+                return $(this).children().get(0)
+            })
+            .map(function(){
+                return {
+                    title: $(this).children('.travelTitleInput').val(),
+                    cost: $(this).children('.travelCostInput').val(),
+                }
+            }).toArray();
+
+        total += cost.map((el) => +el.cost).reduce((a, b) => a + b, 0)
+
+        cost = $('#staffingCostContainer').children()
+            .map(function(){
+                return $(this).children().get(0)
+            })
+            .map(function(){
+                return {
+                    title: $(this).children('.staffingCostTitleInput').val(),
+                    hours: $(this).children('.staffingCostHoursInput').val(),
+                    rate: $(this).children('.staffingCostRateInput').val(),
+                    cost: $(this).children('.staffingCostCostInput').val(),
+                }
+            }).toArray();
+
+        total += cost.map((el) => +el.cost).reduce((a, b) => a + b, 0)
+
+        cost = $('#additionalCostContainer').children()
+            .map(function(){
+                return $(this).children().get(0)
+            })
+            .map(function(){
+                return {
+                    title: $(this).children('.additionalTitleInput').val(),
+                    cost: $(this).children('.additionalCostInput').val(),
+                }
+            }).toArray();
+
+        total += cost.map((el) => +el.cost).reduce((a, b) => a + b, 0)
+
+        console.log(total)
+
+        $('#overallImplementationCost').html(total);
+    }
+</script>
+@endsection

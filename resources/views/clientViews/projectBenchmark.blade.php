@@ -163,11 +163,11 @@
                                     <div class="col-xl-12 grid-margin stretch-card">
                                         <div class="card">
                                             <div class="card-body">
-                                                <h4>DOWNLOAD EXTRACTION DATA</h4>
+                                                <h4>Extract vendor replies for all RFP questions</h4>
                                                 <div style="text-align: center; margin-top: 30px;">
                                                     <a class="btn btn-primary btn-lg btn-icon-text" href="{{route('client.exportAnalytics', ['project' => $project])}}">
                                                         <i data-feather="download"></i> &nbsp;
-                                                        Download analytics export
+                                                        Download responses
                                                     </a>
                                                 </div>
                                             </div>

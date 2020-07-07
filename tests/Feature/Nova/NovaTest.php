@@ -26,9 +26,9 @@ class NovaTest extends TestCase
         $response->assertStatus(200);
     }
 
-    public function testAccentureCanAccessNova()
+    public function testAccentureAdminCanAccessNova()
     {
-        $user = factory(User::class)->states('accenture')->make();
+        $user = factory(User::class)->states('accentureAdmin')->make();
 
         $response = $this->actingAs($user)
             ->get('/admin/');
@@ -36,6 +36,14 @@ class NovaTest extends TestCase
     }
 
 
+    public function testAccentureCanNotAccessNova()
+    {
+        $user = factory(User::class)->states('accenture')->make();
+
+        $response = $this->actingAs($user)
+            ->get('/admin/');
+        $response->assertStatus(403);
+    }
 
     public function testVendorCanNotAccessNova()
     {

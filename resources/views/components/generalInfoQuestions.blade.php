@@ -7,10 +7,11 @@
     firstTime - boolean - Whether to set the value field for name. This is so that they don't see the placeholder name that is set on create
     --}}
 
-@props(['project', 'clients', 'disableSpecialQuestions', 'disabled', 'required', 'firstTime'])
+@props(['project', 'clients', 'disableSpecialQuestions', 'disabled', 'required', 'firstTime', 'projectEdit'])
 
 @php
     $firstTime = $firstTime ?? false;
+    $projectEdit = $projectEdit ?? false;
 @endphp
 
 <h4>1.1. Project Info</h4>
@@ -35,6 +36,7 @@
         class="form-control"
         id="chooseClientSelect"
         required
+        {{$projectEdit ? 'disabled' : ''}}
     >
         <option selected="" disabled="">Please select the Client company name*</option>
         @php
@@ -50,6 +52,7 @@
 </div>
 @endif
 
+@if(!$disableSpecialQuestions && !$disabled)
 <div class="form-group">
     <label for="valueTargeting">Value Targeting*</label>
     <select class="form-control" id="valueTargeting" required
@@ -61,6 +64,7 @@
         <option value="no" @if(!$project->hasValueTargeting) selected @endif>No</option>
     </select>
 </div>
+@endif
 
 <div class="form-group">
     <label for="oralsSelect">Orals*</label>
@@ -79,6 +83,7 @@
     <label for="bindingOption">Binding/Non-binding*</label>
     <select class="form-control" id="bindingOption" required
         {{$disabled ? 'disabled' : ''}}
+        {{$projectEdit ? 'disabled' : ''}}
     >
         <option disabled="">Please select an option</option>
         <option value="yes" @if($project->isBinding) selected @endif>Binding</option>
@@ -95,6 +100,7 @@
     </select>
 </div>
 
+@if(!$disableSpecialQuestions && !$disabled)
 <div class="form-group">
     <label for="regionSelect">Regions*</label>
     <select class="js-example-basic-multiple w-100" id="regionSelect" multiple="multiple" required
@@ -103,6 +109,7 @@
         <x-options.geographies :selected="$project->regions ?? []" />
     </select>
 </div>
+@endif
 
 <div class="form-group">
     <label for="projectType">Project Type*</label>
@@ -123,6 +130,7 @@
     <label for="practiceSelect">Practice*</label>
     <select class="form-control" id="practiceSelect" required
         {{$disabled ? 'disabled' : ''}}
+        {{$projectEdit ? 'disabled' : ''}}
     >
         <x-options.practices :selected="$project->practice->id ?? -1" />
     </select>

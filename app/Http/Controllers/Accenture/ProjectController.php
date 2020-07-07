@@ -10,6 +10,7 @@ use App\Http\Controllers\Controller;
 use App\Mail\ProjectInvitationEmail;
 use App\Practice;
 use App\Project;
+use App\SecurityLog;
 use App\SelectionCriteriaQuestion;
 use App\SelectionCriteriaQuestionResponse;
 use App\Subpractice;
@@ -28,6 +29,7 @@ class ProjectController extends Controller
         $project = new Project();
         $project->save();
 
+        SecurityLog::createLog('User created project with ID ' . $project->id);
         return redirect()->route('accenture.newProjectSetUp', ['project' => $project, 'firstTime' => true]);
     }
 
@@ -49,6 +51,8 @@ class ProjectController extends Controller
 
         $implementationImplementationQuestions = $project->selectionCriteriaQuestionsOriginals()->where('page', 'implementation_implementation');
         $implementationRunQuestions = $project->selectionCriteriaQuestionsOriginals()->where('page', 'implementation_run');
+
+        SecurityLog::createLog('User accessed project with ID ' . $project->id);
 
         return view('accentureViews.newProjectSetUp', [
             'firstTime' => $request->firstTime ?? false,
@@ -599,6 +603,8 @@ class ProjectController extends Controller
         $disqualifiedVendors = $project->vendorsApplied(['disqualified'])->get();
         $rejectedVendors = $project->vendorsApplied(['rejected'])->get();
 
+        SecurityLog::createLog('User accessed project with ID ' . $project->id);
+
         return view('accentureViews.projectHome', [
             'project' => $project,
             'invitedVendors' => $invitedVendors,
@@ -663,6 +669,10 @@ class ProjectController extends Controller
     {
         $clients = User::clientUsers()->get();
 
+        $sizingQuestions = $project->sizingQuestions->filter(function ($el) {
+            return $el->shouldShow;
+        });
+
         $fitgapQuestions = $project->selectionCriteriaQuestionsOriginals()->where('page', 'fitgap');
 
         $vendorCorporateQuestions = $project->selectionCriteriaQuestionsOriginals()->where('page', 'vendor_corporate');
@@ -678,12 +688,14 @@ class ProjectController extends Controller
         $implementationImplementationQuestions = $project->selectionCriteriaQuestionsOriginals()->where('page', 'implementation_implementation');
         $implementationRunQuestions = $project->selectionCriteriaQuestionsOriginals()->where('page', 'implementation_run');
 
+        SecurityLog::createLog('User accessed project with ID ' . $project->id);
+
         return view('accentureViews.projectView', [
             'project' => $project,
             'clients' => $clients,
 
             'generalInfoQuestions' => $project->generalInfoQuestions,
-            'sizingQuestions' => $project->sizingQuestions,
+            'sizingQuestions' => $sizingQuestions,
 
             'fitgapQuestions' => $fitgapQuestions,
             'vendorCorporateQuestions' => $vendorCorporateQuestions,
@@ -702,6 +714,10 @@ class ProjectController extends Controller
     {
         $clients = User::clientUsers()->get();
 
+        $sizingQuestions = $project->sizingQuestions->filter(function ($el) {
+            return $el->shouldShow;
+        });
+
         $fitgapQuestions = $project->selectionCriteriaQuestionsOriginals()->where('page', 'fitgap');
 
         $vendorCorporateQuestions = $project->selectionCriteriaQuestionsOriginals()->where('page', 'vendor_corporate');
@@ -717,12 +733,14 @@ class ProjectController extends Controller
         $implementationImplementationQuestions = $project->selectionCriteriaQuestionsOriginals()->where('page', 'implementation_implementation');
         $implementationRunQuestions = $project->selectionCriteriaQuestionsOriginals()->where('page', 'implementation_run');
 
+        SecurityLog::createLog('User accessed project with ID ' . $project->id);
+
         return view('accentureViews.projectEdit', [
             'project' => $project,
             'clients' => $clients,
 
             'generalInfoQuestions' => $project->generalInfoQuestions,
-            'sizingQuestions' => $project->sizingQuestions,
+            'sizingQuestions' => $sizingQuestions,
 
             'fitgapQuestions' => $fitgapQuestions,
             'vendorCorporateQuestions' => $vendorCorporateQuestions,
@@ -743,6 +761,8 @@ class ProjectController extends Controller
             abort(404);
         }
 
+        SecurityLog::createLog('User accessed project with ID ' . $project->id);
+
         return view('accentureViews.projectValueTargeting', [
             'project' => $project
         ]);
@@ -754,6 +774,8 @@ class ProjectController extends Controller
             abort(404);
         }
 
+        SecurityLog::createLog('User accessed project with ID ' . $project->id);
+
         return view('accentureViews.projectOrals', [
             'project' => $project,
             'applications' => $project->vendorApplications,
@@ -762,6 +784,8 @@ class ProjectController extends Controller
 
     public function conclusions(Project $project)
     {
+        SecurityLog::createLog('User accessed project with ID ' . $project->id);
+
         return view('accentureViews.projectConclusions', [
             'project' => $project
         ]);
@@ -771,49 +795,83 @@ class ProjectController extends Controller
 
     public function benchmark(Project $project)
     {
+        SecurityLog::createLog('User accessed project benchmarks of project with ID ' . $project->id);
+
         return view('accentureViews.projectBenchmark', [
             'project' => $project,
-            'applications' => $project->vendorApplications,
+            'applications' => $project
+                ->vendorApplications
+                ->filter(function(VendorApplication $application){
+                    return $application->phase == 'submitted';
+                })
+                ->sortByDesc(function(VendorApplication $application){
+                    return $application->totalScore();
+                }),
         ]);
     }
 
     public function benchmarkFitgap(Project $project)
     {
+        SecurityLog::createLog('User accessed project benchmarks of project with ID ' . $project->id);
+
         return view('accentureViews.projectBenchmarkFitgap', [
             'project' => $project,
-            'applications' => $project->vendorApplications,
+            'applications' => $project->vendorApplications
+                ->filter(function(VendorApplication $application){
+                    return $application->phase == 'submitted';
+                }),
         ]);
     }
 
     public function benchmarkVendor(Project $project)
     {
+        SecurityLog::createLog('User accessed project benchmarks of project with ID ' . $project->id);
+
         return view('accentureViews.projectBenchmarkVendor', [
             'project' => $project,
-            'applications' => $project->vendorApplications,
+            'applications' => $project->vendorApplications
+                ->filter(function(VendorApplication $application){
+                    return $application->phase == 'submitted';
+                }),
         ]);
     }
 
     public function benchmarkExperience(Project $project)
     {
+        SecurityLog::createLog('User accessed project benchmarks of project with ID ' . $project->id);
+
         return view('accentureViews.projectBenchmarkExperience', [
             'project' => $project,
-            'applications' => $project->vendorApplications,
+            'applications' => $project->vendorApplications
+                ->filter(function(VendorApplication $application){
+                    return $application->phase == 'submitted';
+                }),
         ]);
     }
 
     public function benchmarkInnovation(Project $project)
     {
+        SecurityLog::createLog('User accessed project benchmarks of project with ID ' . $project->id);
+
         return view('accentureViews.projectBenchmarkInnovation', [
             'project' => $project,
-            'applications' => $project->vendorApplications,
+            'applications' => $project->vendorApplications
+                ->filter(function(VendorApplication $application){
+                    return $application->phase == 'submitted';
+                }),
         ]);
     }
 
     public function benchmarkImplementation(Project $project)
     {
+        SecurityLog::createLog('User accessed project benchmarks of project with ID ' . $project->id);
+
         return view('accentureViews.projectBenchmarkImplementation', [
             'project' => $project,
-            'applications' => $project->vendorApplications,
+            'applications' => $project->vendorApplications
+                ->filter(function(VendorApplication $application){
+                    return $application->phase == 'submitted';
+                }),
         ]);
     }
 
@@ -883,6 +941,8 @@ class ProjectController extends Controller
             abort(404);
         }
 
+        SecurityLog::createLog('User viewed vendor proposal for vendor with ID ' . $vendor->id . ' in project with ID ' . $project->id);
+
         return view('accentureViews.viewVendorProposal', $this->arrayOfSelectionCriteriaQuestions($project, $vendor, $application));
     }
 
@@ -895,6 +955,7 @@ class ProjectController extends Controller
             abort(404);
         }
 
+        SecurityLog::createLog('User viewed vendor proposal for vendor with ID ' . $vendor->id . ' in project with ID ' . $project->id);
 
         return view('accentureViews.editVendorProposal', $this->arrayOfSelectionCriteriaQuestions($project, $vendor, $application));
     }
@@ -908,6 +969,8 @@ class ProjectController extends Controller
             abort(404);
         }
 
+        SecurityLog::createLog('User viewed vendor proposal for vendor with ID ' . $vendor->id . ' in project with ID ' . $project->id);
+
         return view('accentureViews.viewVendorProposalEvaluation', $this->arrayOfSelectionCriteriaQuestions($project, $vendor, $application));
     }
 
@@ -916,7 +979,8 @@ class ProjectController extends Controller
         $request->validate([
             'vendor_id' => 'required|numeric',
             'project_id' => 'required|numeric',
-            'text' => 'required'
+            'text' => 'required',
+            'email' => 'required|string',
         ]);
 
         $vendor = User::find($request->vendor_id);
@@ -932,7 +996,7 @@ class ProjectController extends Controller
         $text = preg_replace('/&#10;/', '<br>', $request->text);
         $text = preg_replace('/\n/', '<br>', $text);
 
-        Mail::to($vendor->email)->send(new ProjectInvitationEmail($vendor, $project, $text));
+        Mail::to($request->email)->send(new ProjectInvitationEmail($vendor, $project, $text));
     }
 
 
@@ -948,12 +1012,16 @@ class ProjectController extends Controller
 
         $export = new VendorResponsesExport($application);
 
+        SecurityLog::createLog('User downloaded vendor proposal for vendor with ID ' . $vendor->id . ' in project with ID ' . $project->id);
+
         return Excel::download($export, 'responses.xlsx');
     }
 
     public function exportAnalytics(Project $project)
     {
         $export = new AnalyticsExport($project);
+
+        SecurityLog::createLog('User exported analytics for project with ID ' . $project->id);
 
         return Excel::download($export, 'responses.xlsx');
     }

@@ -4,6 +4,7 @@ namespace App\Observers;
 
 use App\ClientProfileQuestion;
 use App\ClientProfileQuestionResponse;
+use App\SecurityLog;
 use App\User;
 use App\VendorProfileQuestion;
 use App\VendorProfileQuestionResponse;
@@ -36,6 +37,8 @@ class UserObserver
 
         $folder = Folder::createNewRandomFolder();
         $user->profileFolder()->save($folder);
+
+        SecurityLog::createLog('User created User with ID ' . $user->id);
     }
 
     public function deleting(User $user)

@@ -7,7 +7,7 @@
     <div class="page-wrapper">
         <div class="page-content">
 
-            <x-video :src="nova_get_setting('video_opening')" :text="nova_get_setting('video_opening_text')"/>
+            <x-video :src="nova_get_setting('video_opening_file')" :text="nova_get_setting('video_opening_text')"/>
 
             <br><br>
 
@@ -182,6 +182,7 @@
                 </div>
             </div>
 
+            @if (auth()->user()->isAccentureAdmin())
             <div class="row" id="startnew">
                 <div class="col-lg-12 grid-margin stretch-card">
                     <div class="card">
@@ -205,6 +206,7 @@
                     </div>
                 </div>
             </div>
+            @endif
         </div>
 
         <x-footer />

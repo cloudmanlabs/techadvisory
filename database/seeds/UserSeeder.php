@@ -24,7 +24,7 @@ class UserSeeder extends Seeder
 
         // Create the default to be able to login and stuff
         factory(User::class)
-            ->states('accenture')
+            ->states('accentureAdmin')
             ->create([
                 'name' => 'Accenture',
                 'email' => 'accenture@accenture.com',

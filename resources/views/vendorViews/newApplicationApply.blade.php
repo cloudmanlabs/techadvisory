@@ -8,7 +8,7 @@
             <div class="page-content">
                 <x-vendor.projectNavbar section="apply" :project="$project"/>
 
-                <x-video :src="nova_get_setting('video_application')" :text="nova_get_setting('video_application_text')"/>
+                <x-video :src="nova_get_setting('video_application_file')" :text="nova_get_setting('video_application_text')"/>
 
                 <div class="row" style="margin-top: 25px;">
                     <div class="col-md-12 grid-margin stretch-card">
@@ -163,6 +163,8 @@
                         </div>
                     </div>
                 </div>
+
+                <x-deadline :project="$project" />
             </div>
 
             <x-footer />

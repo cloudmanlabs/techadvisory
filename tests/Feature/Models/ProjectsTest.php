@@ -112,9 +112,9 @@ class ProjectsTest extends TestCase
         ]);
         $project->save();
 
-        $this->assertCount(1, Project::preparationProjects()->get());
-        $this->assertCount(0, Project::openProjects()->get());
-        $this->assertCount(0, Project::oldProjects()->get());
+        $this->assertCount(1, Project::preparationProjects());
+        $this->assertCount(0, Project::openProjects());
+        $this->assertCount(0, Project::oldProjects());
     }
 
     public function testObserverAddsFoldersToProject()
@@ -596,7 +596,7 @@ class ProjectsTest extends TestCase
         $user = factory(User::class)->states(['accenture'])->create();
         $project = factory(Project::class)->create();
 
-        $this->assertEquals([0, 0, 0, 0, 0], $project->scoringValues);
+        $this->assertEquals([4, 4, 4, 4, 4], $project->scoringValues);
 
         $response = $this->actingAs($user)
                     ->post('/accenture/newProjectSetUp/updateScoringValues', [
@@ -632,7 +632,7 @@ class ProjectsTest extends TestCase
         $user = factory(User::class)->states(['client', 'finishedSetup'])->create();
         $project = factory(Project::class)->create();
 
-        $this->assertEquals([0, 0, 0, 0, 0], $project->scoringValues);
+        $this->assertEquals([4,4,4,4,4], $project->scoringValues);
 
         $response = $this->actingAs($user)
             ->post('/client/newProjectSetUp/updateScoringValues', [
@@ -775,12 +775,13 @@ class ProjectsTest extends TestCase
                     ->post('/accenture/project/resendInvitation', [
                         'vendor_id' => $vendor->id,
                         'project_id' => $project->id,
-                        'text' => 'hello'
+                        'text' => 'hello',
+                        'email' => 'hello@example.com'
                     ]);
         $response->assertOk();
 
         Mail::assertSent(ProjectInvitationEmail::class, function ($mail) use ($vendor) {
-            return $mail->hasTo($vendor->email);
+            return $mail->hasTo('hello@example.com');
         });
     }
 

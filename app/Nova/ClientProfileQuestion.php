@@ -66,7 +66,13 @@ class ClientProfileQuestion extends Resource
 
 
             Text::make('Label', 'label')
-                ->required(),
+                ->required()
+                ->displayUsing(function ($text) {
+                    if (strlen($text) > 30) {
+                        return substr($text, 0, 30) . '...';
+                    }
+                    return $text;
+                }),
         ];
 
         // NOTE All of the fields here should be hidden on index and create

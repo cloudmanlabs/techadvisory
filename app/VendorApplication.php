@@ -272,7 +272,7 @@ class VendorApplication extends Model
 
     function getClientMultiplierInRow($row)
     {
-        $response = $this->project->fitgapClientCols[$row]['Client'] ?? '';
+        $response = $this->project->fitgapClientColumns[$row]['Client'] ?? '';
 
         if($response == 'Must') return $this->project->fitgapWeightMust ?? 10;
         if($response == 'Required') return $this->project->fitgapWeightRequired ?? 5;
@@ -293,7 +293,7 @@ class VendorApplication extends Model
                 $multiplier = $this->getClientMultiplierInRow($key);
 
                 $scores[] = $this->getScoreFromResponse($response) * $multiplier;
-                $maxScores[] = $multiplier * ($this->project->fitgapWeightFullySupports ?? 3);
+                $maxScores[] = ($this->project->fitgapWeightFullySupports ?? 3) * $multiplier;
             }
         }
 
@@ -301,12 +301,13 @@ class VendorApplication extends Model
             return 0;
         }
 
+        $num = array_sum($scores);
         $denom = array_sum($maxScores);
 
         if($denom == 0) return 0;
 
         return
-            10 * (array_sum($scores) / $denom);
+            10 * ($num / $denom);
     }
 
     public function fitgapFunctionalScore()
@@ -452,6 +453,35 @@ class VendorApplication extends Model
         }
     }
 
+    public function implementationCost()
+    {
+        if ($this->project->isBinding) {
+            return collect([
+                collect($this->staffingCost ?? ['cost' => '0',])
+                    ->map(function ($el) {
+                        return $el['cost'] ?? 0;
+                    })
+                    ->sum(),
+                collect($this->travelCost ?? ['cost' => '0',])
+                    ->map(function ($el) {
+                        return $el['cost'] ?? 0;
+                    })
+                    ->sum(),
+                collect($this->additionalCost ?? ['cost' => '0',])
+                    ->map(function ($el) {
+                        return $el['cost'] ?? 0;
+                    })
+                    ->sum(),
+            ])
+                ->sum();
+        } else {
+            return collect([
+                $this->overallImplementationMin ?? 0,
+                $this->overallImplementationMax ?? 0,
+            ])->average();
+        }
+    }
+
     public function implementationCostDelta()
     {
         $minCost = $this->project->minImplementationCost();
@@ -471,11 +501,30 @@ class VendorApplication extends Model
         return ($difference / $minCost) * 10;
     }
 
+    public function runCost()
+    {
+        if ($this->project->isBinding) {
+            return collect($this->estimate5Years ?? [0, 0, 0, 0, 0])
+                ->filter(function ($el) {
+                    return $el != 0;
+                })
+                ->average() ?? 0;
+        }
+
+        return collect([
+            $this->averageYearlyCostMin ?? 0,
+            $this->averageYearlyCostMax ?? 0,
+        ])->average();
+    }
+
     public function averageRunCost()
     {
         if ($this->project->isBinding) {
             return collect($this->estimate5Years ?? [0, 0, 0, 0, 0])
-                ->average();
+                ->filter(function ($el) {
+                    return $el != 0;
+                })
+                ->average() ?? 0;
         }
 
         return collect([
@@ -501,41 +550,6 @@ class VendorApplication extends Model
         assert($difference >= 0, "Something minus the minimum should return a positive number or 0.");
 
         return ($difference / $minCost) * 10;
-    }
-
-    public function implementationMoney()
-    {
-        if ($this->project->isBinding) {
-            return collect([
-                collect($this->staffingCost ?? ['cost' => '0',])
-                    ->map(function ($el) {
-                        return $el['cost'] ?? 0;
-                    })
-                    ->avg(),
-                collect($this->travelCost ?? ['cost' => '0',])
-                    ->map(function ($el) {
-                        return $el['cost'] ?? 0;
-                    })
-                    ->avg(),
-                collect($this->additionalCost ?? ['cost' => '0',])
-                    ->map(function ($el) {
-                        return $el['cost'] ?? 0;
-                    })
-                    ->avg(),
-            ])
-                ->avg();
-        } else {
-            return collect([
-                $this->staffingCostNonBinding ?? 0,
-                $this->travelCostNonBinding ?? 0,
-                $this->additionalCostNonBinding ?? 0,
-            ])->average();
-        }
-    }
-
-    public function runMoney()
-    {
-        return collect($this->estimate5Years ?? [0, 0, 0, 0, 0])->average();
     }
 
 

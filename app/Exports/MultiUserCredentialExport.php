@@ -23,13 +23,6 @@ class MultiUserCredentialExport implements FromCollection
      */
     public function collection()
     {
-        $ret = [
-            'Email' => 'Email',
-            'Name' => 'Name',
-            'Id' => 'Id',
-            'User Id' => 'User Id',
-        ];
-
         $return = $this->users->flatMap(function(User $user){
             return $user->credentials->map(function (UserCredential $credential) use ($user) {
                 // email, nombre, ID cliente/vendor, ID usuario
@@ -42,7 +35,12 @@ class MultiUserCredentialExport implements FromCollection
             });
         });
 
-        $return->prepend($ret);
+        $return->prepend([
+            'Email' => 'Email',
+            'Name' => 'Name',
+            'Id' => 'Id',
+            'User Id' => 'User Id',
+        ]);
 
         return $return;
     }

@@ -98,9 +98,6 @@ class SelectionCriteriaQuestionSeeder extends Seeder
             'label' => 'IT Enablers',
             'type' => 'selectSingle',
             'presetOption' => 'digitalEnablers',
-
-            'fixed' => true,
-            'fixedQuestionIdentifier' => 'experience_implementations'
         ]);
 
 

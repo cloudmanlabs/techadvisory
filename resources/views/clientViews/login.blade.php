@@ -58,7 +58,7 @@
                                         </div>
                                         <p style="margin-top: 1rem; margin-bottom: 2rem" target="_blank">
                                             By logging into the platform, I agree to the <a href="{{route('terms')}}">Terms of Use</a>
-                                            and I acknowledge receipt of <a href="{{route('terms')}}">Privacy Statement</a>
+                                            and I acknowledge receipt of <a href="{{route('privacy')}}">Privacy Statement</a>
                                         </p>
 
                                         <a href="{{route('credentials.enterEmail')}}" class="purpleColor">I forgot my

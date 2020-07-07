@@ -1,6 +1,7 @@
 <?php
 
 use App\Project;
+use App\SecurityLog;
 use App\SelectionCriteriaQuestionResponse;
 use App\User;
 use App\VendorApplication;
@@ -20,12 +21,20 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+Route::get('/test', function(){
+    return nova_get_setting('test');
+});
+
 Route::view('/', 'welcome')
     ->name('welcome');
 Route::view('/terms', 'terms')
     ->name('terms');
+Route::view('/privacy', 'privacy')
+    ->name('privacy');
 
 Route::post('logout', function(Request $request){
+    SecurityLog::createLog('User logged out');
+
     Auth::logout();
     $request->session()->invalidate();
     return redirect()->route('welcome');
@@ -101,6 +110,10 @@ Route::middleware(['auth'])->group(function () {
         ->name('fitgapVendorIframe');
     Route::get('fitgapEvaluationIframe/{vendor}/{project}', 'FitgapController@evaluationIframe')
         ->name('fitgapEvaluationIframe');
+
+
+
+    Route::get('security/logs/export', 'SecurityLogController@exportAll');
 });
 
 
