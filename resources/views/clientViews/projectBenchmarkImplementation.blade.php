@@ -93,6 +93,9 @@
                                         <div class="card">
                                             <div class="card-body">
                                                 <h4>COST DETAIL</h4>
+                                                <p class="welcome_text extra-top-15px">
+                                                    Below is a breakdown of the vendors’ cost detail covering implementation cost and average yearly run cost.
+                                                </p>
                                                 <br>
                                                 <div class="table-responsive">
                                                     <table class="table table-hover">

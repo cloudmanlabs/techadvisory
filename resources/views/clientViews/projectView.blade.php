@@ -16,6 +16,9 @@
                         <div class="card">
                             <div class="card-body">
                                 <h3>View project information</h3>
+                                <p calss="welcome_text extra-top-15px">
+                                    {{nova_get_setting('vendor_project_information') ?? ''}}
+                                </p>
                                 <br>
                                 <div class="alert alert-warning" role="alert">
                                     <p>For any modification, please contact Accenture.</p>
@@ -24,7 +27,7 @@
 
                                 <br>
                                 <div id="projectViewWizard">
-                                    <h2>General Info</h2>
+                                    <h2>General Info</h2>                                    
                                     <section>
                                         <x-generalInfoQuestions
                                             :project="$project"

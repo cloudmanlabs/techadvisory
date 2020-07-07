@@ -29,6 +29,10 @@
 
 <div>
     <h3>Weights</h3>
+    <p class="welcome_text extra-top-15px">
+        Propose a weight for each section under Fit Gap and Implementation & Commercials. The client will be able to
+        modify your proposal after project setup submission.
+    </p>
     <br>
 
     @foreach ($fields as $field => $label)

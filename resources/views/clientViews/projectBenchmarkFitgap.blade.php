@@ -98,7 +98,7 @@
                                                 <br>
                                                 <div class="media-body" style="padding: 20px;">
                                                     <p class="welcome_text">
-                                                        Please choose the Requirement Types you'd like to see:
+                                                        Below is the Fit Gap vendor score breakdown across the requirement types.
                                                     </p>
                                                     <select id="requirementSelect" class="w-100" multiple="multiple" required>
                                                         <option>Functional</option>

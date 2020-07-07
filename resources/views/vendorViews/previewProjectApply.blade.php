@@ -19,9 +19,14 @@
                                 <br>
                                 <div id="wizard_vendor_go_to_home">
                                     <h2>Fit gap</h2>
-                                    <section>
+                                    <section>                                        
+                                        <p class="welcome_text extra-top-15px">
+                                            Provide your inputs on how your solution/s will cover the client’s functional, technical and service requirements, among others.
+                                        </p>
+                                        <p class="welcome_text extra-top-15px">
+                                            Click Review Fit Gap Table to see all client requirements. Select the most suitable answer under the Vendor Score column and provide additional information or highlights in the Comments column.
+                                        </p>
                                         <br>
-                                        {{nova_get_setting('fitgap_description') ?? ''}}
                                         <br><br>
 
                                         <x-fitgapVendorModal :vendor="auth()->user()" :project="$project" />

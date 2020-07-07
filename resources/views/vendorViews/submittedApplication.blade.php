@@ -23,7 +23,14 @@
                                     <h2>Fit gap</h2>
                                     <section>
                                         <h4>Fit Gap</h4>
-                                        <br>
+                                        <br>                                        
+                                        <!-- <p class="welcome_text extra-top-15px">
+                                            Provide your inputs on how your solution/s will cover the client’s functional, technical and service requirements, among others.
+                                        </p>
+                                        <p class="welcome_text extra-top-15px">
+                                            Click Review Fit Gap Table to see all client requirements. Select the most suitable answer under the Vendor Score column and provide additional information or highlights in the Comments column.
+                                        </p>
+                                        <br> -->
                                         <p>
                                             {{nova_get_setting('fitgap_description') ?? ''}}
                                         </p>

@@ -16,6 +16,11 @@
                             <div class="card-body">
                                 @if ($application->invitedToOrals)
                                     <h3>Session details</h3>
+                                    <p class="welcome_text extra-top-15px">
+                                        Congratulations! You have been selected to participate in the orals for
+                                        this project! Below you will find the orals location and dates. Get ready!
+                                    </p>
+                                    <br>
                                     <div class="form-group">
                                         <div class="form-group">
                                             <label for="exampleInputText1">Location</label>

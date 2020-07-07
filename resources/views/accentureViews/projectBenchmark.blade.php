@@ -19,6 +19,10 @@
                     <div class="card">
                         <div class="card-body">
                             <h3>Overall vendor ranking</h3>
+                            <p class="welcome_text extra-top-15px">
+                                This is the ranking of vendors according to overall score,
+                                which is estimated based on the weights defined for each section.
+                            </p>
                             <br>
                             <div class="table-responsive">
                                 <table class="table table-hover">
