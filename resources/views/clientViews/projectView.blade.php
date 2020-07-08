@@ -27,12 +27,12 @@
 
                                 <br>
                                 <div id="projectViewWizard">
-                                    <h2>General Info</h2>                                    
+                                    <h2>General Info</h2>
                                     <section>
                                         <x-generalInfoQuestions
                                             :project="$project"
                                             :clients="$clients"
-                                            :disableSpecialQuestions="true"
+                                            :disableSpecialQuestions="false"
                                             :disabled="true"
                                             :required="false" />
                                     </section>

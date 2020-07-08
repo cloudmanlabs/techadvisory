@@ -29,7 +29,7 @@
         required>
 </div>
 
-@if(!$disableSpecialQuestions && !$disabled)
+@if(!$disableSpecialQuestions)
     <div class="form-group">
         <label for="chooseClientSelect">Client company name*</label>
         <select
@@ -56,7 +56,7 @@
     @endif
 @endif
 
-@if(!$disableSpecialQuestions && !$disabled)
+@if(!$disableSpecialQuestions)
 <div class="form-group">
     <label for="valueTargeting">Value Targeting*</label>
     <select class="form-control" id="valueTargeting" required
@@ -104,7 +104,7 @@
     </select>
 </div>
 
-@if(!$disableSpecialQuestions && !$disabled)
+@if(!$disableSpecialQuestions)
 <div class="form-group">
     <label for="regionSelect">Regions*</label>
     <select class="js-example-basic-multiple w-100" id="regionSelect" multiple="multiple" required

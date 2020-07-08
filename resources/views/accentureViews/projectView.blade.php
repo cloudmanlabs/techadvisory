@@ -26,7 +26,7 @@
                                         <x-generalInfoQuestions
                                             :project="$project"
                                             :clients="$clients"
-                                            :disableSpecialQuestions="true"
+                                            :disableSpecialQuestions="false"
                                             :disabled="true"
                                             :required="false" />
                                     </section>
