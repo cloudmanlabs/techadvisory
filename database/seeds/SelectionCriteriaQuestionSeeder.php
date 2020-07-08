@@ -1,6 +1,7 @@
 <?php
 
 use App\SelectionCriteriaQuestion;
+use App\VendorProfileQuestion;
 use Illuminate\Database\Seeder;
 
 class SelectionCriteriaQuestionSeeder extends Seeder
@@ -26,7 +27,9 @@ class SelectionCriteriaQuestionSeeder extends Seeder
             'type' => 'selectMultiple',
             'presetOption' => 'countries',
             'fixed' => true,
-            'fixedQuestionIdentifier' => 'vendor_market_headquarters'
+            'fixedQuestionIdentifier' => 'vendor_market_headquarters',
+
+            'vendor_profile_question_id' => optional(VendorProfileQuestion::where('label', 'Headquarters')->first())->id,
         ]);
         factory(SelectionCriteriaQuestion::class)->create([
             'page' => 'vendor_market',

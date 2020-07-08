@@ -89,6 +89,8 @@ class SelectionCriteriaQuestion extends Resource
                 ->canSee(function(){
                     return auth()->user()->isAdmin();
                 }),
+
+            BelongsTo::make('Related Vendor Profile Question', 'vendorProfileQuestion', VendorProfileQuestion::class)
         ];
 
         // NOTE All of the fields here should be hidden on index and create

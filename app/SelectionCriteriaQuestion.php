@@ -19,6 +19,9 @@ use Illuminate\Database\Eloquent\Model;
  *
  * @property boolean $fixed
  * @property string $fixedQuestionIdentifier
+ *
+ * @property \Illuminate\Support\Collection $responses
+ * @property VendorProfileQuestion|null $vendorProfileQuestion
  */
 class SelectionCriteriaQuestion extends Question
 {
@@ -36,4 +39,14 @@ class SelectionCriteriaQuestion extends Question
         'implementation_implementation' => 'Implementation - Implementation',
         'implementation_run' => 'Implementation - Run',
     ];
+
+    public function responses()
+    {
+        return $this->hasMany(SelectionCriteriaQuestionResponse::class, 'question_id');
+    }
+
+    public function vendorProfileQuestion()
+    {
+        return $this->belongsTo(VendorProfileQuestion::class, 'vendor_profile_question_id');
+    }
 }

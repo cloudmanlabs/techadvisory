@@ -8,20 +8,24 @@ use App\Observers\ClientProfileQuestionObserver;
 use App\Observers\GeneralInfoQuestionObserver;
 use App\Observers\ProjectObserver;
 use App\Observers\SelectionCriteriaQuestionObserver;
+use App\Observers\SelectionCriteriaQuestionResponseObserver;
 use App\Observers\SizingQuestionObserver;
 use App\Observers\UserCredentialObserver;
 use App\Observers\UserObserver;
 use App\Observers\VendorApplicationObserver;
 use App\Observers\VendorProfileQuestionObserver;
+use App\Observers\VendorProfileQuestionResponseObserver;
 use App\Observers\VendorSolutionObserver;
 use App\Observers\VendorSolutionQuestionObserver;
 use App\Project;
 use App\SelectionCriteriaQuestion;
+use App\SelectionCriteriaQuestionResponse;
 use App\SizingQuestion;
 use App\User;
 use App\UserCredential;
 use App\VendorApplication;
 use App\VendorProfileQuestion;
+use App\VendorProfileQuestionResponse;
 use App\VendorSolution;
 use App\VendorSolutionQuestion;
 use Illuminate\Support\Facades\Blade;
@@ -59,6 +63,9 @@ class AppServiceProvider extends ServiceProvider
         VendorSolutionQuestion::observe(VendorSolutionQuestionObserver::class);
         VendorSolution::observe(VendorSolutionObserver::class);
         VendorApplication::observe(VendorApplicationObserver::class);
+
+        SelectionCriteriaQuestionResponse::observe(SelectionCriteriaQuestionResponseObserver::class);
+        VendorProfileQuestionResponse::observe(VendorProfileQuestionResponseObserver::class);
 
         Blade::directive('logo', function () {
             return "<?php echo url('/assets/images/techadvisory-logo.png'); ?>";

@@ -5,7 +5,11 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 
 /**
+ * @property string|null $response
  * @property bool $shouldShow Yes, this is actually $validated, but time constraints :) I hate it too
+ *
+ * @property \App\VendorProfileQuestion $originalQuestion
+ * @property \App\User $vendor
  */
 class VendorProfileQuestionResponse extends Model
 {
