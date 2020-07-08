@@ -11,6 +11,9 @@ use Illuminate\Support\Facades\Log;
 /**
  * @property string $name
  *
+ * @property User|null $client
+ * @property Collection $generalInfoQuestions
+ *
  * @property boolean $hasOrals
  * @property boolean $hasValueTargeting
  * @property boolean $isBinding

@@ -71,7 +71,6 @@ class SolutionController extends Controller
     {
         $request->validate([
             'changing' => 'required|numeric',
-            'value' => 'required',
         ]);
 
         $answer = VendorSolutionQuestionResponse::find($request->changing);

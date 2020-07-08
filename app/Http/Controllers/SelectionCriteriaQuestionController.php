@@ -14,7 +14,6 @@ class SelectionCriteriaQuestionController extends Controller
     {
         $request->validate([
             'changing' => 'required|numeric',
-            'value' => 'required',
         ]);
 
         $answer = SelectionCriteriaQuestionResponse::find($request->changing);

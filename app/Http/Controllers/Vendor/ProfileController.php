@@ -57,7 +57,6 @@ class ProfileController extends Controller
     {
         $request->validate([
             'changing' => 'required|numeric',
-            'value' => 'required',
         ]);
 
         $answer = VendorProfileQuestionResponse::find($request->changing);

@@ -16,6 +16,9 @@ use Illuminate\Support\Facades\Log;
  *
  * @property string $presetOption
  * @property string $options
+ *
+ * @property \Illuminate\Support\Collection $responses
+ * @property ClientProfileQuestion|null $clientProfileQuestion
  */
 class GeneralInfoQuestion extends Question
 {
@@ -30,4 +33,14 @@ class GeneralInfoQuestion extends Question
         'scope' => 'Scope',
         'timeline' => 'Timeline',
     ];
+
+    public function responses()
+    {
+        return $this->hasMany(GeneralInfoQuestionResponse::class, 'question_id');
+    }
+
+    public function clientProfileQuestion()
+    {
+        return $this->belongsTo(ClientProfileQuestion::class, 'client_profile_question_id');
+    }
 }

@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 /**
  * @property string $response
  * @property GeneralInfoQuestion $originalQuestion
+ * @property Project $project
  */
 class GeneralInfoQuestionResponse extends Model
 {

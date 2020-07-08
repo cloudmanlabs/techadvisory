@@ -4,6 +4,12 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * @property string|null $response
+ *
+ * @property \App\ClientProfileQuestion $originalQuestion
+ * @property \App\User $vendor
+ */
 class ClientProfileQuestionResponse extends Model
 {
     public $guarded = [];

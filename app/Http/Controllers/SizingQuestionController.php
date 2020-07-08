@@ -11,7 +11,6 @@ class SizingQuestionController extends Controller
     {
         $request->validate([
             'changing' => 'required|numeric',
-            'value' => 'required',
         ]);
 
         $answer = SizingQuestionResponse::find($request->changing);

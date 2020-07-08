@@ -30,26 +30,30 @@
 </div>
 
 @if(!$disableSpecialQuestions && !$disabled)
-<div class="form-group">
-    <label for="chooseClientSelect">Client company name*</label>
-    <select
-        class="form-control"
-        id="chooseClientSelect"
-        required
-        {{$projectEdit ? 'disabled' : ''}}
-    >
-        <option selected="" disabled="">Please select the Client company name*</option>
-        @php
-            $currentlySelected = $project->client->id ?? -1;
-        @endphp
-        @foreach ($clients as $client)
-        <option
-            value="{{$client->id}}"
-            @if($currentlySelected == $client->id) selected @endif
-            >{{$client->name}}</option>
-        @endforeach
-    </select>
-</div>
+    <div class="form-group">
+        <label for="chooseClientSelect">Client company name*</label>
+        <select
+            class="form-control"
+            id="chooseClientSelect"
+            required
+            {{$projectEdit ? 'disabled' : ''}}
+        >
+            <option selected="" disabled="">Please select the Client company name*</option>
+            @php
+                $currentlySelected = $project->client->id ?? -1;
+            @endphp
+            @foreach ($clients as $client)
+            <option
+                value="{{$client->id}}"
+                @if($currentlySelected == $client->id) selected @endif
+                >{{$client->name}}</option>
+            @endforeach
+        </select>
+    </div>
+    @if(!$projectEdit)
+    <p style="font-weight: 300">Please refresh the page after making changes to autofill the responses by this Client</p>
+    <br>
+    @endif
 @endif
 
 @if(!$disableSpecialQuestions && !$disabled)

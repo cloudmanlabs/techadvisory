@@ -9,6 +9,7 @@ use App\Project;
 use App\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Support\Facades\Log;
 use Tests\TestCase;
 
 class GeneralInfoQuestionsTest extends TestCase
@@ -114,10 +115,10 @@ class GeneralInfoQuestionsTest extends TestCase
     {
         $this->assertCount(0, GeneralInfoQuestionResponse::all());
 
-        // We generate a random question that gets assignes with the observer
+        // We generate a random question that gets assigned with the observer
         factory(GeneralInfoQuestion::class)->create();
         $project = factory(Project::class)->create();
-
+        $project->refresh();
         $this->assertCount(1, $project->generalInfoQuestions);
 
         // We then assign a new one
@@ -154,6 +155,7 @@ class GeneralInfoQuestionsTest extends TestCase
     {
         $question = factory(GeneralInfoQuestion::class)->create();
         $project = factory(Project::class)->create();
+        $project->refresh();
 
         $this->assertCount(1, $project->generalInfoQuestions);
 

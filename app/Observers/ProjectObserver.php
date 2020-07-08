@@ -2,6 +2,7 @@
 
 namespace App\Observers;
 
+use App\ClientProfileQuestionResponse;
 use App\GeneralInfoQuestion;
 use App\GeneralInfoQuestionResponse;
 use App\Project;
@@ -206,6 +207,36 @@ class ProjectObserver
         }
         if(! $project->step4SubmittedAccenture){
             $project->step4SubmittedClient = false;
+        }
+
+        // If client changed, update general info questions
+        if($project->getOriginal('client_id') != $project->client_id){
+            $responses = $project->generalInfoQuestions;
+            $client = $project->client;
+            if($client == null) return;
+
+            foreach ($responses as $key => $response) {
+                if(
+                    $response->response != null
+                    && $response->response != ""
+                    && $response->response != "[]"
+                ) {
+                    continue;
+                }
+                /** @var GeneralInfoQuestionResponse $response */
+                $related = $response->originalQuestion->clientProfileQuestion;
+
+                if($related != null){
+                    /** @var ClientProfileQuestionResponse|null $clientResponse */
+                    $clientResponse = ClientProfileQuestionResponse::where('client_id', $client->id)
+                        ->where('question_id', $related->id)
+                        ->first();
+                    if($clientResponse != null){
+                        $response->response = $clientResponse->response;
+                        $response->save();
+                    }
+                }
+            }
         }
     }
 

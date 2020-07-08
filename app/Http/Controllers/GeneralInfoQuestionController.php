@@ -13,7 +13,6 @@ class GeneralInfoQuestionController extends Controller
     {
         $request->validate([
             'changing' => 'required|numeric',
-            'value' => 'required',
         ]);
 
         $answer = GeneralInfoQuestionResponse::find($request->changing);

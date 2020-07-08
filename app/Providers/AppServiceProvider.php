@@ -3,9 +3,13 @@
 namespace App\Providers;
 
 use App\ClientProfileQuestion;
+use App\ClientProfileQuestionResponse;
 use App\GeneralInfoQuestion;
+use App\GeneralInfoQuestionResponse;
 use App\Observers\ClientProfileQuestionObserver;
+use App\Observers\ClientProfileQuestionResponseObserver;
 use App\Observers\GeneralInfoQuestionObserver;
+use App\Observers\GeneralInfoQuestionResponseObserver;
 use App\Observers\ProjectObserver;
 use App\Observers\SelectionCriteriaQuestionObserver;
 use App\Observers\SelectionCriteriaQuestionResponseObserver;
@@ -66,6 +70,9 @@ class AppServiceProvider extends ServiceProvider
 
         SelectionCriteriaQuestionResponse::observe(SelectionCriteriaQuestionResponseObserver::class);
         VendorProfileQuestionResponse::observe(VendorProfileQuestionResponseObserver::class);
+
+        GeneralInfoQuestionResponse::observe(GeneralInfoQuestionResponseObserver::class);
+        ClientProfileQuestionResponse::observe(ClientProfileQuestionResponseObserver::class);
 
         Blade::directive('logo', function () {
             return "<?php echo url('/assets/images/techadvisory-logo.png'); ?>";
