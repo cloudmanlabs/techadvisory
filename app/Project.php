@@ -84,6 +84,25 @@ class Project extends Model
         'regions' => 'array',
     ];
 
+    public $attributes = [
+        'fitgapWeightMust' => 10,
+        'fitgapWeightRequired' => 5,
+        'fitgapWeightNiceToHave' => 1,
+        'fitgapWeightFullySupports' => 3,
+        'fitgapWeightPartiallySupports' => 2,
+        'fitgapWeightPlanned' => 1,
+        'fitgapWeightNotSupported' => 0,
+
+        'fitgapFunctionalWeight' => 60,
+        'fitgapTechnicalWeight' => 20,
+        'fitgapServiceWeight' => 10,
+        'fitgapOthersWeight' => 10,
+
+        'implementationImplementationWeight' => 20,
+        'implementationRunWeight' => 80,
+    ];
+
+
     public function conclusionsFolder()
     {
         return $this->morphOne(Folder::class, 'folderable')->where('folderable_group', 'conclusions');

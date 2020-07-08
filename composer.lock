@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "fe88f1127b10e820dac4d9b346e76631",
+    "content-hash": "359f9f11a0d0826f3d4ede85781830f0",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -785,6 +785,47 @@
                 "trusted proxy"
             ],
             "time": "2020-02-22T01:51:47+00:00"
+        },
+        {
+            "name": "flagstudio/nova-actions-left",
+            "version": "v0.2.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Flagstudio/nova-actions-left.git",
+                "reference": "34bdfaa34250b9159665dee9ee97af9cc9baefef"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Flagstudio/nova-actions-left/zipball/34bdfaa34250b9159665dee9ee97af9cc9baefef",
+                "reference": "34bdfaa34250b9159665dee9ee97af9cc9baefef",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.1.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Flagstudio\\NovaActionsLeft\\NovaActionsLeftServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Flagstudio\\NovaActionsLeft\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "Laravel Nova actions on the left",
+            "keywords": [
+                "laravel",
+                "nova"
+            ],
+            "time": "2020-05-21T11:13:26+00:00"
         },
         {
             "name": "fruitcake/laravel-cors",

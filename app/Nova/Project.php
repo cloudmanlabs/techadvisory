@@ -131,10 +131,13 @@ class Project extends Resource
             Text::make('Regions', 'regions')
 				->canSee(function(){
 					return auth()->user()->isAdmin();
-				}),
+                }),
 
             Number::make('Fitgap Client Weight: Must', 'fitgapWeightMust')
-                ->hideFromIndex(),
+                ->hideFromIndex()
+                ->withMeta([
+                    'default' => 10
+                ]),
             Number::make('Fitgap Client Weight: Required', 'fitgapWeightRequired')
                 ->hideFromIndex(),
             Number::make('Fitgap Client Weight: Nice to have', 'fitgapWeightNiceToHave')

@@ -27,45 +27,6 @@ class ProjectObserver
             $project->deadline = Carbon::now()->addYear();
         }
 
-        if($project->fitgapWeightMust == null){
-            $project->fitgapWeightMust = 10;
-        }
-        if($project->fitgapWeightRequired == null){
-            $project->fitgapWeightRequired = 5;
-        }
-        if($project->fitgapWeightNiceToHave == null){
-            $project->fitgapWeightNiceToHave = 1;
-        }
-        if($project->fitgapWeightFullySupports == null){
-            $project->fitgapWeightFullySupports = 3;
-        }
-        if($project->fitgapWeightPartiallySupports == null){
-            $project->fitgapWeightPartiallySupports = 2;
-        }
-        if($project->fitgapWeightPlanned == null){
-            $project->fitgapWeightPlanned = 1;
-        }
-
-        if($project->fitgapFunctionalWeight == null){
-            $project->fitgapFunctionalWeight = 60;
-        }
-        if($project->fitgapTechnicalWeight == null){
-            $project->fitgapTechnicalWeight = 20;
-        }
-        if($project->fitgapServiceWeight == null){
-            $project->fitgapServiceWeight = 10;
-        }
-        if($project->fitgapOthersWeight == null){
-            $project->fitgapOthersWeight = 10;
-        }
-
-        if ($project->implementationImplementationWeight == null) {
-            $project->implementationImplementationWeight = 20;
-        }
-        if ($project->implementationRunWeight == null) {
-            $project->implementationRunWeight = 80;
-        }
-
         // Default fitgap
         $project->fitgap5Columns = $project->fitgap5Columns ?? [
             [

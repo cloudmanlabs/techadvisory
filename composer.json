@@ -10,9 +10,10 @@
     "require": {
         "php": "^7.2.5",
         "fideloper/proxy": "^4.2",
+        "flagstudio/nova-actions-left": "^0.2.0",
         "fruitcake/laravel-cors": "^1.0",
         "guimcaballero/laravel-folders": "dev-master",
-        "guzzlehttp/guzzle": "^7.0",
+        "guzzlehttp/guzzle": "^6.3",
         "laravel/framework": "^7.0",
         "laravel/nova": "*",
         "laravel/tinker": "^2.0",
