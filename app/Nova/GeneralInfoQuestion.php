@@ -85,7 +85,8 @@ class GeneralInfoQuestion extends Resource
                 ->nullable()
                 ->help('Select a Practice if you want this Question to only show on projects with that Practice'),
 
-            BelongsTo::make('Related Client Profile Question', 'clientProfileQuestion', ClientProfileQuestion::class),
+            BelongsTo::make('Related Client Profile Question', 'clientProfileQuestion', ClientProfileQuestion::class)
+                ->nullable(),
         ];
 
         // NOTE All of the fields here should be hidden on index and create

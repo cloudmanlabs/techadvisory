@@ -19,6 +19,7 @@ use Illuminate\Support\Facades\Log;
  *
  * @property \Illuminate\Support\Collection $responses
  * @property ClientProfileQuestion|null $clientProfileQuestion
+ * @property Practice|null $practice
  */
 class GeneralInfoQuestion extends Question
 {
