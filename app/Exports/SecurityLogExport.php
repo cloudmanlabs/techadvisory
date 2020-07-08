@@ -16,14 +16,15 @@ class SecurityLogExport implements FromCollection, WithStrictNullComparison
         $logs = SecurityLog::all()
             ->map(function(SecurityLog $log){
                 return [
-                    'User' => optional($log->user)->id,
+                    'User ID' => optional($log->user)->id,
+                    'User Name' => optional($log->user)->name,
                     'Time' => $log->created_at,
                     'Text' => $log->text
                 ];
             });
 
         $logs->prepend([
-            'User', 'Time', 'Text'
+            'User ID', 'User Name', 'Time', 'Text'
         ]);
 
         return $logs;
