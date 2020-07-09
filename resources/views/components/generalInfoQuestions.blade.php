@@ -91,6 +91,7 @@
     <label for="bindingOption">Binding/Non-binding*</label>
     <select class="form-control" id="bindingOption" required
         {{$disabled ? 'disabled' : ''}}
+        {{$disableSpecialQuestions ? 'disabled' : ''}}
         {{$projectEdit ? 'disabled' : ''}}
     >
         <option disabled="">Please select an option</option>
@@ -123,6 +124,7 @@
     <label for="projectType">Project Type*</label>
     <select class="form-control" id="projectType" required
         {{$disabled ? 'disabled' : ''}}
+        {{$disableSpecialQuestions ? 'disabled' : ''}}
     >
         <x-options.projectType :selected="$project->projectType ?? ''" />
     </select>
@@ -130,7 +132,11 @@
 
 <div class="form-group">
     <label for="projectType">Currency*</label>
-    <select class="form-control" id="currencySelect" required {{$disabled ? 'disabled' : ''}}>
+    <select class="form-control" id="currencySelect"
+    required
+        {{$disabled ? 'disabled' : ''}}
+        {{$disableSpecialQuestions ? 'disabled' : ''}}
+    >
         <x-options.currencies :selected="$project->currency ?? ''" />
     </select>
 </div>
@@ -146,6 +152,7 @@
     <select class="form-control" id="practiceSelect" required
         {{$disabled ? 'disabled' : ''}}
         {{$projectEdit ? 'disabled' : ''}}
+        {{$disableSpecialQuestions ? 'disabled' : ''}}
     >
         <x-options.practices :selected="$project->practice->id ?? -1" />
     </select>
