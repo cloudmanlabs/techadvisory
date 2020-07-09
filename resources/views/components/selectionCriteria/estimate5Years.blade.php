@@ -40,7 +40,7 @@ $disabled = $disabled ?? false;
                 .filter(el => el != 0);
             const totalCost = elementsToAdd
                 .reduce((a, b) => a + b, 0);
-            $('#totalEstimate5YearsCost').html(totalCost));
+            $('#totalEstimate5YearsCost').html(totalCost);
             if(elementsToAdd.length != 0){
                 $('#averageEstimate5YearsCost').html(totalCost / (elementsToAdd.length));
             }

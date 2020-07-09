@@ -294,8 +294,6 @@
 
         total += cost.map((el) => +el.cost).reduce((a, b) => a + b, 0)
 
-        console.log(total)
-
         $('#overallImplementationCost').html(total);
     }
 </script>
