@@ -75,6 +75,7 @@ class GeneralInfoQuestion extends Resource
                 }),
             Boolean::make('Required', 'required'),
             Boolean::make('Can vendor see question?', 'canVendorSee'),
+            Boolean::make('Only view', 'onlyView'),
 
             Select::make('Page', 'page')
                 ->options(\App\GeneralInfoQuestion::pagesSelect)

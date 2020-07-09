@@ -135,8 +135,8 @@
     </select>
 </div>
 
-<x-questionForeach :questions="$project->generalInfoQuestionsInPage('project_info')" :class="'generalQuestion'" :disabled="$disabled"
-    :required="$required" />
+<x-questionForeachWithOnlyView :questions="$project->generalInfoQuestionsInPage('project_info')" :class="'generalQuestion'" :disabled="$disabled"
+    :required="$required" :onlyView="$disableSpecialQuestions"/>
 
 <h4>1.2. Practice</h4>
 <br>
@@ -168,14 +168,14 @@
     </select>
 </div>
 
-<x-questionForeach :questions="$project->generalInfoQuestionsInPage('practice')" :class="'generalQuestion'"
-    :disabled="$disabled" :required="$required" />
+<x-questionForeachWithOnlyView :questions="$project->generalInfoQuestionsInPage('practice')" :class="'generalQuestion'"
+    :disabled="$disabled" :required="$required" :onlyView="$disableSpecialQuestions"/>
 
 <h4>1.3. Scope</h4>
 <br>
 
-<x-questionForeach :questions="$project->generalInfoQuestionsInPage('scope')" :class="'generalQuestion'"
-    :disabled="$disabled" :required="$required" />
+<x-questionForeachWithOnlyView :questions="$project->generalInfoQuestionsInPage('scope')" :class="'generalQuestion'"
+    :disabled="$disabled" :required="$required" :onlyView="$disableSpecialQuestions"/>
 
 <h4>1.4. Timeline</h4>
 <br>
@@ -192,5 +192,5 @@
     </div>
 </div>
 
-<x-questionForeach :questions="$project->generalInfoQuestionsInPage('timeline')" :class="'generalQuestion'"
-    :disabled="$disabled" :required="$required" />
+<x-questionForeachWithOnlyView :questions="$project->generalInfoQuestionsInPage('timeline')" :class="'generalQuestion'"
+    :disabled="$disabled" :required="$required" :onlyView="$disableSpecialQuestions"/>

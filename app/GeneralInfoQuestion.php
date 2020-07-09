@@ -17,6 +17,8 @@ use Illuminate\Support\Facades\Log;
  * @property string $presetOption
  * @property string $options
  *
+ * @property bool $onlyView
+ *
  * @property \Illuminate\Support\Collection $responses
  * @property ClientProfileQuestion|null $clientProfileQuestion
  * @property Practice|null $practice
@@ -27,6 +29,10 @@ class GeneralInfoQuestion extends Question
     {
         return $this->belongsTo(Practice::class);
     }
+
+    public $casts = [
+        'onlyView' => 'boolean'
+    ];
 
     const pagesSelect = [
         'project_info' => 'Project Info',
