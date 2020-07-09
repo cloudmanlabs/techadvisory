@@ -356,9 +356,14 @@ class Project extends Model
      */
     public function minImplementationCost() : int
     {
-        return $this->vendorApplications->map(function (VendorApplication $application) {
-            return $application->averageImplementationCost();
-        })->min();
+        return $this->vendorApplications
+            ->filter(function(VendorApplication $application){
+                return $application->phase == 'submitted';
+            })
+            ->map(function (VendorApplication $application) {
+                return $application->averageImplementationCost();
+            })
+            ->min() ?? 0;
     }
 
     /**
@@ -369,9 +374,14 @@ class Project extends Model
      */
     public function minRunCost() : int
     {
-        return $this->vendorApplications->map(function (VendorApplication $application) {
-            return $application->averageRunCost();
-        })->min();
+        return $this->vendorApplications
+            ->filter(function (VendorApplication $application) {
+                return $application->phase == 'submitted';
+            })
+            ->map(function (VendorApplication $application) {
+                return $application->averageRunCost();
+            })
+            ->min() ?? 0;
     }
 
 
