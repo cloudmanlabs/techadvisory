@@ -29,6 +29,7 @@
                                             :project="$project"
                                             :clients="$clients"
                                             :disableSpecialQuestions="true"
+                                            :hideQuestionsForVendor="true"
                                             :disabled="true"
                                             :required="false" />
                                     </section>

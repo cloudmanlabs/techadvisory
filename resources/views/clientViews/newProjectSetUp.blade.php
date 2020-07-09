@@ -39,7 +39,7 @@
                                 <h3>Project Set up</h3>
 
                                 <p class="welcome_text extra-top-15px">
-                                    This is the first step of project setup. Fill in all 
+                                    This is the first step of project setup. Fill in all
                                     mandatory fields under the General Info, RFP Upload and
                                     Sizing Info sections. It is not required to fill in all fields at
                                     once, but the second step of project setup will be only activated after
@@ -93,7 +93,7 @@
                                             data-submitted="{{ $project->step3SubmittedClient }}">
                                             {{ $project->step3SubmittedClient ? 'Submitted' : 'Submit'}}
                                         </button>
-                                        
+
                                     </section>
 
                                     <h2>Selection Criteria</h2>

@@ -7,11 +7,13 @@
     firstTime - boolean - Whether to set the value field for name. This is so that they don't see the placeholder name that is set on create
     --}}
 
-@props(['project', 'clients', 'disableSpecialQuestions', 'disabled', 'required', 'firstTime', 'projectEdit'])
+@props(['project', 'clients', 'disableSpecialQuestions', 'disabled', 'required', 'firstTime', 'projectEdit', 'hideQuestionsForVendor'])
 
 @php
     $firstTime = $firstTime ?? false;
     $projectEdit = $projectEdit ?? false;
+    $projectEdit = $projectEdit ?? false;
+    $hideQuestionsForVendor = $hideQuestionsForVendor ?? false;
 @endphp
 
 <h4>1.1. Project Info</h4>
@@ -29,14 +31,16 @@
         required>
 </div>
 
-@if(!$disableSpecialQuestions)
+@if(!$hideQuestionsForVendor)
     <div class="form-group">
         <label for="chooseClientSelect">Client company name*</label>
         <select
             class="form-control"
             id="chooseClientSelect"
             required
+            {{$disabled ? 'disabled' : ''}}
             {{$projectEdit ? 'disabled' : ''}}
+            {{$disableSpecialQuestions ? 'disabled' : ''}}
         >
             <option selected="" disabled="">Please select the Client company name*</option>
             @php
@@ -50,13 +54,13 @@
             @endforeach
         </select>
     </div>
-    @if(!$projectEdit)
+    @if(!$projectEdit && !$disableSpecialQuestions && !$disabled)
     <p style="font-weight: 300">Please refresh the page after making changes to autofill the responses by this Client</p>
     <br>
     @endif
 @endif
 
-@if(!$disableSpecialQuestions)
+@if(!$hideQuestionsForVendor)
 <div class="form-group">
     <label for="valueTargeting">Value Targeting*</label>
     <select class="form-control" id="valueTargeting" required
@@ -104,7 +108,7 @@
     </select>
 </div>
 
-@if(!$disableSpecialQuestions)
+@if(!$hideQuestionsForVendor)
 <div class="form-group">
     <label for="regionSelect">Regions*</label>
     <select class="js-example-basic-multiple w-100" id="regionSelect" multiple="multiple" required

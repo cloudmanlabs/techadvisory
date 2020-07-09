@@ -67,6 +67,10 @@ class ProjectController extends Controller
 
         return view('clientViews.newProjectSetUp', [
             'project' => $project,
+            'clients' => User::clientUsers()->get()->filter(function($user) use ($project){
+                // We only return the selected one, this way we don't let the client see all the client names in the html
+                return $user->is($project->client);
+            }),
 
             'generalInfoQuestions' => $project->generalInfoQuestions,
             'sizingQuestions' => $sizingQuestions,

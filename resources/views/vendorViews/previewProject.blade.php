@@ -18,7 +18,7 @@
                                 </p>
                                 <br>
                                 <div id="projectViewWizard">
-                                    <h2>General Info</h2> 
+                                    <h2>General Info</h2>
                                     <section>
                                         <p class="welcome_text extra-top-15px">
                                             This section contains all relevant information concerning project type, scope and timelines.
@@ -28,6 +28,7 @@
                                             :project="$project"
                                             :clients="$clients"
                                             :disableSpecialQuestions="true"
+                                            :hideQuestionsForVendor="true"
                                             :disabled="true"
                                             :required="false" />
                                     </section>
