@@ -164,6 +164,12 @@ class VendorApplication extends Model
         $answeredQuestions = $this->project
                                 ->selectionCriteriaQuestionsForVendor($this->vendor)
                                 ->get()
+                                ->filter(function(SelectionCriteriaQuestionResponse $response){
+                                    return
+                                        $response->response != null
+                                        && $response->response != ""
+                                        && $response->response != "[]";
+                                })
                                 ->map(function($response){
                                     return $response->originalQuestion;
                                 })
