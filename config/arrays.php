@@ -22,8 +22,8 @@ return [
         'Others',
     ],
     'currencies' => [
-        'Euro',
-        'Dollar',
+        'EUR',
+        'USD',
         'CHF'
     ],
     'projectTypes' => [

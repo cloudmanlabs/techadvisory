@@ -111,13 +111,13 @@
                                                             <tr>
                                                                 <th class="table-dark">Implementation</th>
                                                                 @foreach ($applications as $application)
-                                                                <td class="filterByVendor" data-vendor="{{$application->vendor->name}}">$ {{number_format($application->implementationCost(), 2)}}</td>
+                                                                <td class="filterByVendor" data-vendor="{{$application->vendor->name}}">{{$project->currency ?? ''}} {{number_format($application->implementationCost(), 2)}}</td>
                                                                 @endforeach
                                                             </tr>
                                                             <tr>
                                                                 <th class="table-dark">Average Yearly Run</th>
                                                                 @foreach ($applications as $application)
-                                                                <td class="filterByVendor" data-vendor="{{$application->vendor->name}}">$ {{number_format($application->runCost(), 2)}}</td>
+                                                                <td class="filterByVendor" data-vendor="{{$application->vendor->name}}">{{$project->currency ?? ''}} {{number_format($application->runCost(), 2)}}</td>
                                                                 @endforeach
                                                             </tr>
                                                         </tbody>
@@ -236,7 +236,7 @@
                             beginAtZero: true,
                             stacked: true,
                             callback: function (value, index, values) {
-                                return '$' + value;
+                                return '{{$project->currency ?? ''}} ' + value;
                             },
                             fontSize: 17
                         }

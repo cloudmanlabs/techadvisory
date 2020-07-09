@@ -32,6 +32,8 @@ Route::
                 ->name('createProject');
             Route::get('newProjectSetUp/{project}', 'ProjectController@newProjectSetUp')
                 ->name('newProjectSetUp');
+
+            // This started as just a couple fields,  but has been growing over time. I'd refactor it to be a single route or something, but it's a bit late now
             Route::post('/newProjectSetUp/changeProjectName', 'ProjectController@changeProjectName');
             Route::post('/newProjectSetUp/changeProjectClient', 'ProjectController@changeProjectClient');
             Route::post('/newProjectSetUp/changeProjectHasValueTargeting', 'ProjectController@changeProjectHasValueTargeting');
@@ -42,6 +44,7 @@ Route::
             Route::post('/newProjectSetUp/changeIndustry', 'ProjectController@changeIndustry');
             Route::post('/newProjectSetUp/changeRegions', 'ProjectController@changeRegions');
             Route::post('/newProjectSetUp/changeProjectType', 'ProjectController@changeProjectType');
+            Route::post('/newProjectSetUp/changeCurrency', 'ProjectController@changeCurrency');
             Route::post('/newProjectSetUp/changeDeadline', 'ProjectController@changeDeadline');
             Route::post('/newProjectSetUp/changeRFPOtherInfo', 'ProjectController@changeRFPOtherInfo');
             Route::post('/newProjectSetUp/setStep3Submitted', 'ProjectController@setStep3Submitted');

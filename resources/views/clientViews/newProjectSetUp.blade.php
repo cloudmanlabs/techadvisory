@@ -510,6 +510,16 @@
             showSavedToast();
             updateSubmitStep3();
         });
+        $('#currencySelect').change(function (e) {
+            var value = $(this).val();
+            $.post('/client/newProjectSetUp/changeCurrency', {
+                project_id: '{{$project->id}}',
+                value
+            })
+
+            showSavedToast();
+            updateSubmitStep3();
+        });
         $('#deadline').change(function (e) {
             var value = $(this).val();
             $.post('/client/newProjectSetUp/changeDeadline', {

@@ -59,6 +59,7 @@ Route::prefix('client')
                     Route::post('/newProjectSetUp/changeIndustry', 'ProjectController@changeIndustry');
                     Route::post('/newProjectSetUp/changeRegions', 'ProjectController@changeRegions');
                     Route::post('/newProjectSetUp/changeProjectType', 'ProjectController@changeProjectType');
+                    Route::post('/newProjectSetUp/changeCurrency', 'ProjectController@changeCurrency');
                     Route::post('/newProjectSetUp/changeDeadline', 'ProjectController@changeDeadline');
                     Route::post('/newProjectSetUp/changeRFPOtherInfo', 'ProjectController@changeRFPOtherInfo');
                     Route::post('/newProjectSetUp/setStep3Submitted', 'ProjectController@setStep3Submitted');

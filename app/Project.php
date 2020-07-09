@@ -22,6 +22,7 @@ use Illuminate\Support\Facades\Log;
  *
  * @property array $regions
  * @property string $industry
+ * @property string $currency
  *
  * @property string $currentPhase
  *
@@ -85,6 +86,8 @@ class Project extends Model
     ];
 
     public $attributes = [
+        'currency' => 'USD',
+
         'fitgapWeightMust' => 10,
         'fitgapWeightRequired' => 5,
         'fitgapWeightNiceToHave' => 1,

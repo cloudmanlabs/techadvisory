@@ -128,6 +128,13 @@
     </select>
 </div>
 
+<div class="form-group">
+    <label for="projectType">Currency*</label>
+    <select class="form-control" id="currencySelect" required {{$disabled ? 'disabled' : ''}}>
+        <x-options.currencies :selected="$project->currency ?? ''" />
+    </select>
+</div>
+
 <x-questionForeach :questions="$project->generalInfoQuestionsInPage('project_info')" :class="'generalQuestion'" :disabled="$disabled"
     :required="$required" />
 
