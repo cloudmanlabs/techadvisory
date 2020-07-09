@@ -218,7 +218,7 @@
                         stack: 'Stack 0'
                     },
                     {
-                        label: "Run (5 years)",
+                        label: "Average yearly run",
                         backgroundColor: ["#5a008f", "#5a008f", "#5a008f", "#5a008f", "#5a008f", "#5a008f", "#5a008f"],
                         data: [
                             @foreach ($applications as $application)
