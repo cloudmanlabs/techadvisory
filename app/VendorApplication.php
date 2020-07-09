@@ -491,7 +491,7 @@ class VendorApplication extends Model
     public function implementationCostDelta()
     {
         $minCost = $this->project->minImplementationCost();
-        $cost = $this->averageImplementationCost();
+        $cost = $this->implementationCost();
 
         if($minCost == 0){
             // If the min and this vendors cost is 0, the delta is 0
@@ -504,7 +504,7 @@ class VendorApplication extends Model
 
         assert($difference >= 0, "Something minus the minimum should return a positive number or 0.");
 
-        return ($difference / $minCost) * 10;
+        return ($difference / $minCost) * 100;
     }
 
     public function runCost()
@@ -555,7 +555,7 @@ class VendorApplication extends Model
 
         assert($difference >= 0, "Something minus the minimum should return a positive number or 0.");
 
-        return ($difference / $minCost) * 10;
+        return ($difference / $minCost) * 100;
     }
 
 

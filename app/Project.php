@@ -361,7 +361,7 @@ class Project extends Model
                 return $application->phase == 'submitted';
             })
             ->map(function (VendorApplication $application) {
-                return $application->averageImplementationCost();
+                return $application->implementationCost();
             })
             ->min() ?? 0;
     }
