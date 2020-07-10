@@ -62,7 +62,6 @@
                                             :required="false" />
                                     </section>
 
-
                                     <h2>RFP Upload</h2>
                                     <section>
                                         <h4>2.1 Upload your RFP document</h4>
@@ -87,13 +86,12 @@
                                         <br>
 
                                         <button
-                                            id = "step3Submit"
+                                            id="step3Submit"
                                             class="btn btn-primary"
                                             {{ $project->step3SubmittedClient ? 'disabled' : ''}}
                                             data-submitted="{{ $project->step3SubmittedClient }}">
                                             {{ $project->step3SubmittedClient ? 'Submitted' : 'Submit'}}
                                         </button>
-
                                     </section>
 
                                     <h2>Selection Criteria</h2>
@@ -171,12 +169,10 @@
                                             <h3>Scoring criteria</h3>
                                             <div>
                                                 <x-scoringCriteriaBricks :isClient="true" :project="$project"/>
-
                                                 <br>
                                                 <br>
-
                                                 <button
-                                                    id = "step4SubmitButton"
+                                                    id="step4SubmitButton"
                                                     type="button"
                                                     class="btn btn-primary btn-lg btn-icon-text"
                                                     data-toggle="modal"
@@ -186,22 +182,6 @@
                                                     >
                                                     {{ $project->step4SubmittedClient ? 'Submitted' : 'Submit'}}
                                                 </button>
-
-                                                <div class="modal fade" id="step4SubmitModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                                    <div class="modal-dialog modal-dialog-centered" role="document">
-                                                        <div class="modal-content">
-                                                            <div class="modal-body">
-                                                            Are you sure you want to submit the project set-up? Be aware that no further
-                                                            modifications will be allowed on your end once project set-up is submitted.
-                                                            </div>
-                                                            <div class="modal-footer">
-                                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                                                                <button id="step4Submit" type="button" class="btn btn-primary">Submit</button>
-                                                            </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
                                             </div>
                                         </div>
                                     </section>
@@ -214,12 +194,28 @@
                                             <label>Vendors invited to this project</label><br>
                                             <select class="js-example-basic-multiple w-100" multiple="multiple" disabled style="width: 100%;">
                                                 {{-- Selected is the ids of the vendors --}}
-                                                <x-options.vendorList :selected="['1', '3']" />
+                                                <x-options.vendorList :selected="$project->vendorsApplied()->pluck('id')->toArray()" />
                                             </select>
                                         </div>
                                     </section>
                                 </div>
                             </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal fade" id="step4SubmitModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                        <div class="modal-body">
+                        Are you sure you want to submit the project set-up? Be aware that no further
+                        modifications will be allowed on your end once project set-up is submitted.
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                            <button id="step4Submit" type="button" class="btn btn-primary">Submit</button>
+                        </div>
                         </div>
                     </div>
                 </div>
