@@ -113,30 +113,7 @@
                                                     Review the requirements and contact Accenture in case anything is not accurate, and
                                                     provide or adjust requirement importance by filling in the Client Score.
                                                 </p>
-                                                <br>
 
-                                                <div class="form-group">
-                                                    <label>Upload a new Fitgap</label>
-                                                    <input id="fitgapUpload" class="file-upload-default" name="img" type="file">
-
-                                                    <div class="input-group col-xs-12">
-                                                        <input id="fileNameInput" disabled class="form-control file-upload-info" value="No file selected" type="text">
-                                                        <span class="input-group-append">
-                                                            <button class="file-upload-browse btn btn-primary" type="button">
-                                                                <span class="input-group-append" id="logoUploadButton">Select file</span>
-                                                            </button>
-                                                        </span>
-                                                    </div>
-                                                </div>
-                                                <br>
-                                                <p style="font-size: 12px">
-                                                    Do not include personal, sensitive data, personal data relating to criminal convictions and offences or financial
-                                                    data
-                                                    in this free form text field or upload screen shots containing personal data, unless you are consenting and assuming
-                                                    responsibility for the processing of this personal data (either your personal data or the personal data of others)
-                                                    by
-                                                    Accenture.
-                                                </p>
                                                 <br><br>
 
                                                 <x-fitgapClientModal :project="$project" :isAccenture="false" />
@@ -267,6 +244,7 @@
 		if(array.length == 0) return true;
 
         for (let i = 0; i < array.length; i++) {
+            console.log(array[i])
             if(!$(array[i]).is(':hasValue')){
                 console.log(array[i])
                 return false
@@ -383,10 +361,11 @@
 //                 return true
 //             },
             onStepChanged: function (e, c, p) {
+                updateSubmitStep3();
                 for (let i = 0; i < 10; i++) {
-                    $('#wizard_client_newProjectSetUp-p-' + i).css('display', 'none')
+                    $('#wizard_client_newProjectSetUp-p-' + i).css('display', 'none');
                 }
-                $('#wizard_client_newProjectSetUp-p-' + c).css('display', 'block')
+                $('#wizard_client_newProjectSetUp-p-' + c).css('display', 'block');
             }
         });
 

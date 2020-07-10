@@ -361,6 +361,7 @@
                 window.location.replace("/accenture/home");
             },
             onStepChanged: function (e, c, p) {
+                updateSubmitStep3();
                 for (let i = 0; i < 10; i++) {
                     $('#wizard_accenture_newProjectSetUp-p-' + i).css('display', 'none')
                 }
