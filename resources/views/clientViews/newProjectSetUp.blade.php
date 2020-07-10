@@ -170,8 +170,8 @@
                                             <h3>Scoring criteria</h3>
                                             <div>
                                                 <x-scoringCriteriaBricks :isClient="true" :project="$project"/>
-                                                <br>      
-                                                
+                                                <br>
+
                                                 <x-scoringCriteriaWeights :isClient="true" :project="$project"/>
 
                                                 <br>

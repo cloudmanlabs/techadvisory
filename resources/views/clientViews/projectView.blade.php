@@ -106,7 +106,7 @@
                                             <label>Vendors invited to this project</label><br>
                                             <select class="js-example-basic-multiple w-100" multiple="multiple" disabled style="width: 100%;">
                                                 {{-- Selected is the ids of the vendors --}}
-                                                <x-options.vendorList :selected="['1', '3']" />
+                                                <x-options.vendorList :selected="$project->vendorsApplied()->pluck('id')->toArray()" />
                                             </select>
                                         </div>
                                     </section>
