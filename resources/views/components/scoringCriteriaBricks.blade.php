@@ -8,6 +8,8 @@
     $values = $project->scoringValues ?? [0, 0, 0, 0, 0];
 
     $dataId = 0;
+
+    $isClient = $isClient ?? false;
 @endphp
 
 <h3>Overall weights</h3>

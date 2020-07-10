@@ -63,7 +63,7 @@ class VendorResponsesExportSheet implements FromCollection, WithTitle
 
         foreach ($this->pages as $key => $page) {
             $return[] = [ SelectionCriteriaQuestion::pagesSelect[$page] ?? '' ];
-            foreach ($questionsByPage[$page] as $key => $question) {
+            foreach (($questionsByPage[$page] ?? []) as $key => $question) {
                 $return[] = [
                     'Question' => $question['question'] ?? '',
                     'Response' => $question['response'] ?? '',

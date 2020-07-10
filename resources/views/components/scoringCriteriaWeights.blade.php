@@ -23,6 +23,7 @@
 
     $implementationDataId = 0;
 
+    $isClient = $isClient ?? false;
 @endphp
 
 <div>
@@ -193,7 +194,7 @@
 <script>
     // Timeout cause otherwise the steps thingy messes it up
     setTimeout(() => {
-        weightSetUp();        
+        weightSetUp();
         updateFitGapWeights(false);
         updateImplementationWeights(false);
     }, 3000);
@@ -208,7 +209,7 @@
         var impWeigthsList = document.getElementById("impWeigthsList");
         var detailImplementationBricks = document.getElementById("detailImplementationBricks");
         var runBricks = document.getElementById("runBricks");
-        
+
 
         sortableWeightList = new Sortable(weightList, {
             group: {
@@ -313,7 +314,7 @@
             serviceBricks.childElementCount * 5 + "%";
         document.getElementById("othersTotal").innerHTML =
             othersBricks.childElementCount * 5 + "%";
-        
+
         updateWeight('fitgapFunctionalWeight', functionalBricks.childElementCount * 5);
         updateWeight('fitgapTechnicalWeight', technicalBricks.childElementCount * 5);
         updateWeight('fitgapServiceWeight', serviceBricks.childElementCount * 5);
@@ -330,7 +331,7 @@
         }
     }
 
-    function updateImplementationWeights(showToast = true){        
+    function updateImplementationWeights(showToast = true){
         var detailImplementationBricks = document.getElementById("detailImplementationBricks");
         var runBricks = document.getElementById("runBricks");
 
@@ -338,7 +339,7 @@
             detailImplementationBricks.childElementCount * 5 + "%";
         document.getElementById("runTotal").innerHTML =
             runBricks.childElementCount * 5 + "%";
-        
+
         updateWeight('implementationImplementationWeight', detailImplementationBricks.childElementCount * 5);
         updateWeight('implementationRunWeight', runBricks.childElementCount * 5);
 
@@ -353,7 +354,7 @@
         }
     }
 
-    function updateWeight(changing, value) {        
+    function updateWeight(changing, value) {
         $.post('/{{$isClient ? "client" : "accenture"}}/newProjectSetUp/changeWeights', {
             project_id: '{{$project->id}}',
             changing,

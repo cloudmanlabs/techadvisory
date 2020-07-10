@@ -19,6 +19,10 @@ use Illuminate\Support\Facades\Log;
  * @property array $staffingCost
  * @property array $travelCost
  * @property array $additionalCost
+ * @property array $estimate5Years
+ *
+ * @property int $overallImplementationMax
+ * @property int $overallImplementationMin
  *
  * @property Project $project
  * @property User $vendor
