@@ -690,11 +690,13 @@
         });
 
         $('#selectAllSizingQuestions').click(function(){
-            $('.checkboxesDiv input').prop('checked', true)
+            $('.checkboxesDiv input').prop('checked', true);
+            $('.checkboxesDiv input').change();
         });
 
         $('#unselectAllSizingQuestions').click(function(){
-            $('.checkboxesDiv input').prop('checked', false)
+            $('.checkboxesDiv input').prop('checked', false);
+            $('.checkboxesDiv input').change();
         });
 
         updateShownQuestionsAccordingToPractice();
