@@ -87,7 +87,7 @@
                                             <div>
                                                 <x-scoringCriteriaBricksView :project="$project" />
                                                 <br>
-                                                <x-scoringCriteriaWeights :project="$project" :disabled="true"/>
+                                                <x-scoringCriteriaWeightsView :project="$project"/>
                                             </div>
                                         </div>
                                     </section>

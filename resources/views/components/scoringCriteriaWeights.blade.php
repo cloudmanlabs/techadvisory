@@ -2,29 +2,9 @@
     Simple list of fields to edit the Project weights
     --}}
 
-@props(['project', 'disabled'])
+@props(['project', 'isClient'])
 
 @php
-    $disabled = $disabled ?? false;
-
-    $fields = [
-        // 'fitgapWeightMust' => 'Fitgap Client Weight: Must',
-        // 'fitgapWeightRequired' => 'Fitgap Client Weight: Required',
-        // 'fitgapWeightNiceToHave' => 'Fitgap Client Weight: Nice to have',
-
-        // 'fitgapWeightFullySupports' => 'Fitgap Vendor Weight: Fully supports',
-        // 'fitgapWeightPartiallySupports' => 'Fitgap Vendor Weight: Partially supports',
-        // 'fitgapWeightPlanned' => 'Fitgap Vendor Weight: Planned',
-        // 'fitgapWeightNotSupported' => 'Fitgap Vendor Weight: Not supported',
-
-        'fitgapFunctionalWeight' => 'Fitgap Detailed Weight: Functional',
-        'fitgapTechnicalWeight' => 'Fitgap Detailed Weight: Technical',
-        'fitgapServiceWeight' => 'Fitgap Detailed Weight: Service',
-        'fitgapOthersWeight' => 'Fitgap Detailed Weight: Others',
-
-        'implementationImplementationWeight' => 'Implementation Detailed Weight: Implementation',
-        'implementationRunWeight' => 'Implementation Detailed Weight: Run',
-    ];
 
     $weightValues = [
         isset($project->fitgapFunctionalWeight) ? $project->fitgapFunctionalWeight / 5 : 5,
@@ -374,7 +354,7 @@
     }
 
     function updateWeight(changing, value) {        
-        $.post('/accenture/newProjectSetUp/changeWeights', {
+        $.post('/{{$isClient ? "client" : "accenture"}}/newProjectSetUp/changeWeights', {
             project_id: '{{$project->id}}',
             changing,
             value

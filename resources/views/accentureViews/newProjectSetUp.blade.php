@@ -163,7 +163,7 @@
                                                 <div>
                                                     <x-scoringCriteriaBricks :isClient="false" :project="$project"/>
                                                     <br>
-                                                    <x-scoringCriteriaWeights :project="$project"/>
+                                                    <x-scoringCriteriaWeights :isClient="false" :project="$project"/>
 
                                                     <br><br>
                                                     <button
@@ -187,7 +187,6 @@
                                             submits the complete project setup.
                                         </p>
                                         <br>
-                                        <p>Project Description</p>
                                         <textarea name="projectDescription" id="projectDescription" cols="80" rows="10"></textarea>
 
                                         <br>
