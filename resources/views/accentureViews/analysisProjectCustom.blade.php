@@ -54,6 +54,17 @@
 
                                     <div class="media-body" style="padding: 20px;">
                                         <p class="welcome_text">
+                                            Please choose the Subpractices you'd like to see:
+                                        </p>
+                                        <select id="subpracticeSelect" class="w-100" multiple="multiple">
+                                            @foreach ($subpractices as $subpractice)
+                                            <option>{{$subpractice}}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+
+                                    <div class="media-body" style="padding: 20px;">
+                                        <p class="welcome_text">
                                             Please choose the Clients you'd like to see:
                                         </p>
                                         <select id="clientSelect" class="w-100" multiple="multiple">
@@ -115,6 +126,7 @@
 
                                             data-client="{{$project->client->name ?? ''}}"
                                             data-practice="{{$project->practice->name ?? ''}}"
+                                            data-subpractices="{{json_encode($project->subpractices->pluck('name')->toArray()) ?? ''}}"
                                             data-year="{{$project->created_at->year}}"
                                             data-industry="{{$project->industry}}"
                                             data-regions="{{json_encode($project->regions)}}"
@@ -125,6 +137,7 @@
                                                     <h4>{{$project->name ?? ''}}</h4>
                                                     <h6>{{$project->client->name ?? ''}} - {{$project->practice->name ?? ''}}</h6>
                                                     <h6>{{$project->created_at->year}} - {{$project->industry}} - {{implode(', ', $project->regions ?? [])}}</h6>
+                                                    <h6>{{implode(', ', $project->subpractices->pluck('name')->toArray() ?? [])}}</h6>
                                                 </div>
                                                 <div style="float: right; text-align: right; width: 15%;">
                                                     <a class="btn btn-primary btn-lg btn-icon-text"
@@ -157,6 +170,7 @@
             function updateProjects() {
                 // Get all selected practices. If there are none, get all of them
                 const selectedPractices = getSelectedFrom('practiceSelect')
+                const selectedSubpractices = getSelectedFrom('subpracticeSelect')
                 const selectedClients = getSelectedFrom('clientSelect')
                 const selectedYears = getSelectedFrom('yearSelect')
                 const selectedIndustries = getSelectedFrom('industrySelect')
@@ -168,14 +182,12 @@
                 // Add a display none to the one which don't have this tags
                 $('#projectContainer').children().each(function () {
                     const practice = $(this).data('practice');
+                    const subpractices = $(this).data('subpractice');
                     const client = $(this).data('client');
                     const year = $(this).data('year').toString();
                     const industry = $(this).data('industry');
                     const regions = $(this).data('regions');
                     const phase = $(this).data('phase');
-
-                    console.log(phase);
-
 
                     if (
                         $.inArray(practice, selectedPractices) !== -1
@@ -184,6 +196,7 @@
                         && $.inArray(industry, selectedIndustries) !== -1
                         && $.inArray(phase, selectedPhases) !== -1
                         && intersect(regions, selectedRegions).length !== 0
+                        && intersect(subpractices, selectedSubpractices).length !== 0
                     ) {
                         $(this).css('display', 'flex')
                     } else {
@@ -216,6 +229,10 @@
 
             $('#practiceSelect').select2();
             $('#practiceSelect').on('change', function (e) {
+                updateProjects();
+            });
+            $('#subpracticeSelect').select2();
+            $('#subpracticeSelect').on('change', function (e) {
                 updateProjects();
             });
             $('#clientSelect').select2();

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Accenture;
 use App\Http\Controllers\Controller;
 use App\Practice;
 use App\Project;
+use App\Subpractice;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
@@ -92,6 +93,7 @@ class AnalysisController extends Controller
     {
         return view('accentureViews.analysisProjectCustom', [
             'practices' => Practice::pluck('name')->toArray(),
+            'subpractices' => Subpractice::pluck('name')->toArray(),
             'clients' => User::clientUsers()->where('hasFinishedSetup', true)->pluck('name')->toArray(),
             'vendors' => User::vendorUsers()->where('hasFinishedSetup', true)->pluck('name')->toArray(),
             'regions' => collect(config('arrays.regions')),
