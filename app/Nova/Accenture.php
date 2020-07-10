@@ -88,6 +88,8 @@ class Accenture extends Resource
                     'accentureAdmin' => 'Admin User'
                 ])
                 ->displayUsingLabels(),
+
+            Text::make('Region', 'region'),
         ];
     }
 

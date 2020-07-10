@@ -87,13 +87,12 @@
                                         <br>
 
                                         <button
-                                            id = "step3Submit"
+                                            id="step3Submit"
                                             class="btn btn-primary"
                                             {{ $project->step3SubmittedClient ? 'disabled' : ''}}
                                             data-submitted="{{ $project->step3SubmittedClient }}">
                                             {{ $project->step3SubmittedClient ? 'Submitted' : 'Submit'}}
                                         </button>
-
                                     </section>
 
                                     <h2>Selection Criteria</h2>
@@ -217,12 +216,28 @@
                                             <label>Vendors invited to this project</label><br>
                                             <select class="js-example-basic-multiple w-100" multiple="multiple" disabled style="width: 100%;">
                                                 {{-- Selected is the ids of the vendors --}}
-                                                <x-options.vendorList :selected="['1', '3']" />
+                                                <x-options.vendorList :selected="$project->vendorsApplied()->pluck('id')->toArray()" />
                                             </select>
                                         </div>
                                     </section>
                                 </div>
                             </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal fade" id="step4SubmitModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                        <div class="modal-body">
+                        Are you sure you want to submit the project set-up? Be aware that no further
+                        modifications will be allowed on your end once project set-up is submitted.
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                            <button id="step4Submit" type="button" class="btn btn-primary">Submit</button>
+                        </div>
                         </div>
                     </div>
                 </div>
@@ -274,6 +289,7 @@
 		if(array.length == 0) return true;
 
         for (let i = 0; i < array.length; i++) {
+            console.log(array[i])
             if(!$(array[i]).is(':hasValue')){
                 console.log(array[i])
                 return false
@@ -390,10 +406,11 @@
 //                 return true
 //             },
             onStepChanged: function (e, c, p) {
+                updateSubmitStep3();
                 for (let i = 0; i < 10; i++) {
-                    $('#wizard_client_newProjectSetUp-p-' + i).css('display', 'none')
+                    $('#wizard_client_newProjectSetUp-p-' + i).css('display', 'none');
                 }
-                $('#wizard_client_newProjectSetUp-p-' + c).css('display', 'block')
+                $('#wizard_client_newProjectSetUp-p-' + c).css('display', 'block');
             }
         });
 
@@ -670,6 +687,7 @@
 
         updateShownQuestionsAccordingToPractice();
         updateShownSubpracticeOptionsAccordingToPractice(false);
+        updateSubmitStep3();
     });
 </script>
 @endsection

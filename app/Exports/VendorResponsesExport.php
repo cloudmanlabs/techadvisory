@@ -32,6 +32,7 @@ class VendorResponsesExport implements WithMultipleSheets, WithStrictNullCompari
 
         $sheets[] = new VendorResponsesExportFitgapSheet($this->application);
         $sheets[] = new VendorResponsesExportSheet($this->application, 'Vendor', [ 'vendor_corporate', 'vendor_market' ]);
+        $sheets[] = new VendorResponsesExportSheet($this->application, 'Experiences', ['experience' ]);
         $sheets[] = new VendorResponsesExportSheet($this->application, 'Innovation', ['innovation_digitalEnablers','innovation_alliances','innovation_product','innovation_sustainability']);
         $sheets[] = new VendorResponsesExportSheet($this->application, 'Implementation', ['implementation_implementation','implementation_run']);
 

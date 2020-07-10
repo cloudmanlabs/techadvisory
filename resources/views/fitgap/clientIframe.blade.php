@@ -15,9 +15,10 @@
 		</style>
 
     <body style="background-color: white !important; overflow-x: scroll">
+        <p><button id='download'>Export document</button></p>
+
         <div id="spreadsheet"></div>
 
-        <p><button id='download'>Export document</button></p>
 
         <script>
             $(function () {

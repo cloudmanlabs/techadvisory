@@ -225,8 +225,6 @@
                     </div>
                 </div>
 
-
-
             </div>
             <x-footer />
         </div>
@@ -362,6 +360,7 @@
                 window.location.replace("/accenture/home");
             },
             onStepChanged: function (e, c, p) {
+                updateSubmitStep3();
                 for (let i = 0; i < 10; i++) {
                     $('#wizard_accenture_newProjectSetUp-p-' + i).css('display', 'none')
                 }
@@ -691,11 +690,13 @@
         });
 
         $('#selectAllSizingQuestions').click(function(){
-            $('.checkboxesDiv input').prop('checked', true)
+            $('.checkboxesDiv input').prop('checked', true);
+            $('.checkboxesDiv input').change();
         });
 
         $('#unselectAllSizingQuestions').click(function(){
-            $('.checkboxesDiv input').prop('checked', false)
+            $('.checkboxesDiv input').prop('checked', false);
+            $('.checkboxesDiv input').change();
         });
 
         updateShownQuestionsAccordingToPractice();
