@@ -15,6 +15,7 @@ use Laravel\Nova\Fields\Boolean;
  * @property string $userType Should be one of [admin, accenture, accentureAdmin, client, vendor]
  * @property string $hasFinishedSetup
  * @property string|null $enterpriseId
+ * @property string|null $region
  */
 class User extends Authenticatable
 {
