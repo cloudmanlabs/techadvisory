@@ -139,8 +139,8 @@
                 scales: {
                     yAxes: [{
                         ticks: {
-                            beginAtZero: true,
-                            // max: 7,
+                            beginAtZero: true,        
+                            suggestedMax: 20,
                             fontSize: 17
                         }
                     }],
@@ -191,7 +191,8 @@
                 scales: {
                     yAxes: [{
                         ticks: {
-                            beginAtZero: true,
+                            beginAtZero: true,                            
+                            suggestedMax: 20,
                             stepSize: 1,
                             fontSize: 17
                         }
@@ -239,7 +240,8 @@
                 scales: {
                     yAxes: [{
                         ticks: {
-                            beginAtZero: true,
+                            beginAtZero: true,                            
+                            suggestedMax: 20,
                             stepSize: 1,
                             fontSize: 17
                         }
@@ -287,7 +289,8 @@
                 scales: {
                     yAxes: [{
                         ticks: {
-                            beginAtZero: true,
+                            beginAtZero: true,                            
+                            suggestedMax: 20,
                             stepSize: 1,
                             fontSize: 17
                         }

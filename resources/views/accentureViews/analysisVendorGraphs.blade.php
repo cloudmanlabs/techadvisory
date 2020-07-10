@@ -127,6 +127,7 @@
                             beginAtZero: true,
                             integer: true,
                             fontSize: 17,
+                            suggestedMax: 20,
                             step: 1
                         }
                     }],
@@ -167,6 +168,7 @@
                         ticks: {
                             beginAtZero: true,
                             integer: true,
+                            suggestedMax: 20,
                             fontSize: 17,
                             step: 1
                         }
@@ -209,6 +211,7 @@
                             beginAtZero: true,
                             integer: true,
                             fontSize: 17,
+                            suggestedMax: 20,
                             step: 1
                         }
                     }],
