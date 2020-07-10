@@ -62,6 +62,7 @@
                                             :required="false" />
                                     </section>
 
+
                                     <h2>RFP Upload</h2>
                                     <section>
                                         <h4>2.1 Upload your RFP document</h4>
@@ -113,7 +114,30 @@
                                                     Review the requirements and contact Accenture in case anything is not accurate, and
                                                     provide or adjust requirement importance by filling in the Client Score.
                                                 </p>
+                                                <br>
 
+                                                <div class="form-group">
+                                                    <label>Upload a new Fitgap</label>
+                                                    <input id="fitgapUpload" class="file-upload-default" name="img" type="file">
+
+                                                    <div class="input-group col-xs-12">
+                                                        <input id="fileNameInput" disabled class="form-control file-upload-info" value="No file selected" type="text">
+                                                        <span class="input-group-append">
+                                                            <button class="file-upload-browse btn btn-primary" type="button">
+                                                                <span class="input-group-append" id="logoUploadButton">Select file</span>
+                                                            </button>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                                <br>
+                                                <p style="font-size: 12px">
+                                                    Do not include personal, sensitive data, personal data relating to criminal convictions and offences or financial
+                                                    data
+                                                    in this free form text field or upload screen shots containing personal data, unless you are consenting and assuming
+                                                    responsibility for the processing of this personal data (either your personal data or the personal data of others)
+                                                    by
+                                                    Accenture.
+                                                </p>
                                                 <br><br>
 
                                                 <x-fitgapClientModal :project="$project" :isAccenture="false" />
@@ -146,10 +170,15 @@
                                             <h3>Scoring criteria</h3>
                                             <div>
                                                 <x-scoringCriteriaBricks :isClient="true" :project="$project"/>
+                                                <br>      
+                                                
+                                                <x-scoringCriteriaWeights :isClient="true" :project="$project"/>
+
                                                 <br>
                                                 <br>
+
                                                 <button
-                                                    id="step4SubmitButton"
+                                                    id = "step4SubmitButton"
                                                     type="button"
                                                     class="btn btn-primary btn-lg btn-icon-text"
                                                     data-toggle="modal"
@@ -159,6 +188,22 @@
                                                     >
                                                     {{ $project->step4SubmittedClient ? 'Submitted' : 'Submit'}}
                                                 </button>
+
+                                                <div class="modal fade" id="step4SubmitModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                    <div class="modal-dialog modal-dialog-centered" role="document">
+                                                        <div class="modal-content">
+                                                            <div class="modal-body">
+                                                            Are you sure you want to submit the project set-up? Be aware that no further
+                                                            modifications will be allowed on your end once project set-up is submitted.
+                                                            </div>
+                                                            <div class="modal-footer">
+                                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                                                                <button id="step4Submit" type="button" class="btn btn-primary">Submit</button>
+                                                            </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
                                     </section>

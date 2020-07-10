@@ -92,6 +92,8 @@
                                             <h3>Scoring criteria</h3>
                                             <div>
                                                 <x-scoringCriteriaBricksView :project="$project"/>
+                                                <br>
+                                                <x-scoringCriteriaWeightsView :project="$project"/>
                                             </div>
                                         </div>
                                     </section>

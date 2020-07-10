@@ -64,7 +64,8 @@ Route::prefix('client')
                     Route::post('/newProjectSetUp/changeRFPOtherInfo', 'ProjectController@changeRFPOtherInfo');
                     Route::post('/newProjectSetUp/setStep3Submitted', 'ProjectController@setStep3Submitted');
                     Route::post('/newProjectSetUp/setStep4Submitted', 'ProjectController@setStep4Submitted');
-                    Route::post('/newProjectSetUp/updateScoringValues', 'ProjectController@updateScoringValues');
+                    Route::post('/newProjectSetUp/updateScoringValues', 'ProjectController@updateScoringValues');                    
+                    Route::post('/newProjectSetUp/changeWeights', 'ProjectController@changeWeights');
 
                     Route::get('project/home/{project}', 'ProjectController@home')
                         ->name('projectHome');

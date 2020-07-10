@@ -10,6 +10,8 @@
     $dataId = 0;
 @endphp
 
+<h3>Overall weights</h3>
+<br>
 <p>
     Please distribute all Percentage Bricks depending on how much weight you want to give to each section.
 </p>
