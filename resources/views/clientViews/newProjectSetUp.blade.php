@@ -663,6 +663,7 @@
 
         updateShownQuestionsAccordingToPractice();
         updateShownSubpracticeOptionsAccordingToPractice(false);
+        updateSubmitStep3();
     });
 </script>
 @endsection
