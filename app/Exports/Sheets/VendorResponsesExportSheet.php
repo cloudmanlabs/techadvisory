@@ -2,6 +2,7 @@
 
 namespace App\Exports\Sheets;
 
+use App\SelectionCriteriaQuestion;
 use App\SelectionCriteriaQuestionResponse;
 use App\VendorApplication;
 use Maatwebsite\Excel\Concerns\FromCollection;
@@ -32,7 +33,7 @@ class VendorResponsesExportSheet implements FromCollection, WithTitle
                         ->selectionCriteriaQuestionsForVendor($this->application->vendor)
                         ->get();
 
-        $return = $responses
+        $questionsByPage = $responses
                     ->filter(function (SelectionCriteriaQuestionResponse $response){
                         return in_array($response->originalQuestion->page, $this->pages);
                     })
@@ -43,19 +44,35 @@ class VendorResponsesExportSheet implements FromCollection, WithTitle
                             $answer =  $response->response ?? '';
                         }
                         return [
-                            'Question' => $response->originalQuestion->label,
-                            'Response' => $answer,
-                            'Score' => $response->score ?? 0
+                            'question' => $response->originalQuestion->label,
+                            'response' => $answer,
+                            'score' => $response->score ?? 0,
+                            'page' => $response->originalQuestion->page
                         ];
-                    });
+                    })
+                    ->groupBy('page')
+                    ->toArray();
 
-        $return->prepend([
-            'Question' => 'Question',
-            'Response' => 'Response',
-            'Score' => 'Score',
-        ]);
+        $return = [
+            [
+                'Question' => 'Question',
+                'Response' => 'Response',
+                'Score' => 'Score',
+            ]
+        ];
 
-        return $return;
+        foreach ($this->pages as $key => $page) {
+            $return[] = [ SelectionCriteriaQuestion::pagesSelect[$page] ?? '' ];
+            foreach ($questionsByPage[$page] as $key => $question) {
+                $return[] = [
+                    'Question' => $question['question'] ?? '',
+                    'Response' => $question['response'] ?? '',
+                    'Score' => $question['score'] ?? '',
+                ];
+            }
+        }
+
+        return collect($return);
     }
 
     /**
