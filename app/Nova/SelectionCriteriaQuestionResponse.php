@@ -55,7 +55,8 @@ class SelectionCriteriaQuestionResponse extends Resource
     public function fields(Request $request)
     {
         return [
-            BelongsTo::make('Question', 'originalQuestion', 'App\Nova\SelectionCriteriaQuestion'),
+            BelongsTo::make('Question', 'originalQuestion', 'App\Nova\SelectionCriteriaQuestion')
+                ->hideWhenUpdating(),
             BelongsTo::make('Project', 'project', 'App\Nova\Project'),
             BelongsTo::make('Vendor', 'vendor', 'App\Nova\User'),
 

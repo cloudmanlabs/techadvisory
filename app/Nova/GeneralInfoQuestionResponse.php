@@ -54,7 +54,8 @@ class GeneralInfoQuestionResponse extends Resource
     {
         return [
             BelongsTo::make('Project', 'project', 'App\Nova\Project'),
-            BelongsTo::make('Question', 'originalQuestion', 'App\Nova\GeneralInfoQuestion'),
+            BelongsTo::make('Question', 'originalQuestion', 'App\Nova\GeneralInfoQuestion')
+                ->hideWhenUpdating(),
 
             Text::make('Practice', function(){
                 return optional(optional($this->originalQuestion)->practice)->name;

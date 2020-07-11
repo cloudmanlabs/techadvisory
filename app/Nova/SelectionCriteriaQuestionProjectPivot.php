@@ -55,7 +55,8 @@ class SelectionCriteriaQuestionProjectPivot extends Resource
             // ID::make()->sortable(),
 
             BelongsTo::make('Project', 'project', '\App\Nova\Project'),
-            BelongsTo::make('Questions', 'question', '\App\Nova\SelectionCriteriaQuestion'),
+            BelongsTo::make('Questions', 'question', '\App\Nova\SelectionCriteriaQuestion')
+                ->hideWhenUpdating(),
         ];
     }
 

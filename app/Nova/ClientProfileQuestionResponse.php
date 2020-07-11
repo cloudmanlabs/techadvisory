@@ -54,7 +54,8 @@ class ClientProfileQuestionResponse extends Resource
     {
         return [
             BelongsTo::make('Client', 'client', 'App\Nova\User'),
-            BelongsTo::make('Question', 'originalQuestion', 'App\Nova\ClientProfileQuestion'),
+            BelongsTo::make('Question', 'originalQuestion', 'App\Nova\ClientProfileQuestion')
+                ->hideWhenUpdating(),
 
             Text::make('Response', 'response')
                 ->hideWhenCreating(),

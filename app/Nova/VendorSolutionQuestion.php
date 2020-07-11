@@ -62,7 +62,8 @@ class VendorSolutionQuestion extends Resource
                 ->options(\App\VendorSolutionQuestion::selectTypesEdit)
                 ->displayUsingLabels()
                 ->rules('required')
-                ->onlyOnForms(),
+                ->onlyOnForms()
+                ->help('In order to include options for Select and Select Multiple, please click on edit'),
 
             Text::make('Label', 'label')
                 ->required()

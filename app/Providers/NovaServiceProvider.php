@@ -55,7 +55,7 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
                     Textarea::make('Implementation: Pricing model text', 'pricing_model'),
                 ]),
                 new Panel('Accenture Texts', [
-                    Textarea::make('Fitgap text', 'fitgap_description'),
+                    Textarea::make('Selection Criteria: Fitgap text', 'fitgap_description'),
 
                     Textarea::make('Home: Open Projects', 'accenture_Home_Open'),
                     Textarea::make('Home: Preparation Projects', 'accenture_Home_Preparation'),
@@ -150,7 +150,7 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
                     Textarea::make('Project Benchmark Innovation: Vendor comparison', 'client_projectBenchmarkInnovation_comparison'),
                     Textarea::make('Project Benchmark Implementation: Vendor Ranking by Implementation section', 'client_projectBenchmarkImplementation_ranking'),
                     Textarea::make('Project Benchmark Implementation: Vendor comparison', 'client_projectBenchmarkImplementation_comparison'),
-                    
+
                     Textarea::make('Project Value Targeting: Title', 'accenture_projectValueTargeting_Title'),
                     Textarea::make('Project Value Targeting: Selected Value Levers', 'accenture_projectValueTargeting_selected'),
                     Textarea::make('Project Value Targeting: Business Opportunity Details', 'accenture_projectValueTargeting_business'),

@@ -3,6 +3,7 @@
 namespace App\Nova;
 
 use App\Project;
+use App\SizingQuestionResponse as AppSizingQuestionResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Laravel\Nova\Fields\BelongsTo;
@@ -54,7 +55,12 @@ class SizingQuestionResponse extends Resource
     {
         return [
             BelongsTo::make('Project', 'project', 'App\Nova\Project'),
-            BelongsTo::make('Question', 'originalQuestion', 'App\Nova\SizingQuestion'),
+            BelongsTo::make('Question', 'originalQuestion', 'App\Nova\SizingQuestion')
+                ->hideWhenUpdating(),
+
+            Text::make('Practice', function () {
+                return optional(optional($this->originalQuestion)->practice)->name;
+            }),
 
             Text::make('Response', 'response')
                 ->hideWhenCreating(),

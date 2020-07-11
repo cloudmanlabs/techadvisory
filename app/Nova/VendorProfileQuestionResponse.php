@@ -54,7 +54,8 @@ class VendorProfileQuestionResponse extends Resource
     {
         return [
             BelongsTo::make('Vendor', 'vendor', 'App\Nova\User'),
-            BelongsTo::make('Question', 'originalQuestion', 'App\Nova\VendorProfileQuestion'),
+            BelongsTo::make('Question', 'originalQuestion', 'App\Nova\VendorProfileQuestion')
+                ->hideWhenUpdating(),
 
             Text::make('Response', 'response')
                 ->hideWhenCreating(),
