@@ -51,6 +51,17 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
                     File::make('Conclusions & recommendations', 'video_conclusions_file'),
                     Textarea::make('Conclusions & recommendations: Text', 'video_conclusions_text'),
                 ]),
+                new Panel('Email Texts', [
+                    Textarea::make('New Credential Subject: Vendor', 'email_subject_newCredential_vendor'),
+                    Textarea::make('New Credential Text: Vendor', 'email_newCredential_vendor'),
+                    Textarea::make('New Credential Subject: Client', 'email_subject_newCredential_client'),
+                    Textarea::make('New Credential Text: Client', 'email_newCredential_client'),
+
+                    Textarea::make('Credential Password Reset Subject: Vendor', 'email_subject_credentialResetPassword_vendor'),
+                    Textarea::make('Credential Password Reset Text: Vendor', 'email_credentialResetPassword_vendor'),
+                    Textarea::make('Credential Password Reset Subject: Client', 'email_subject_credentialResetPassword_client'),
+                    Textarea::make('Credential Password Reset Text: Client', 'email_credentialResetPassword_client'),
+                ]),
                 new Panel('General texts', [
                     Textarea::make('Implementation: Pricing model text', 'pricing_model'),
                 ]),

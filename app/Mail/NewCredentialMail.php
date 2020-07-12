@@ -15,6 +15,9 @@ class NewCredentialMail extends Mailable
     /** @var UserCredential $credential */
     private $credential;
 
+    /** @var bool $isVendor */
+    private $isVendor;
+
     /**
      * Create a new message instance.
      *
@@ -23,6 +26,7 @@ class NewCredentialMail extends Mailable
     public function __construct(UserCredential $credential)
     {
         $this->credential = $credential;
+        $this->isVendor = optional($credential->user)->isVendor() ?? false;
     }
 
     /**
@@ -32,10 +36,16 @@ class NewCredentialMail extends Mailable
      */
     public function build()
     {
+        $text = $this->isVendor ? nova_get_setting('email_newCredential_vendor') : nova_get_setting('email_newCredential_client');
+        $text = $text ?? 'Welcome to TechAdvisory platform!';
+
+        $subject = $this->isVendor ? nova_get_setting('email_subject_newCredential_vendor') : nova_get_setting('email_subject_newCredential_client');
+        $subject = $subject ?? 'Welcome to TechAdvisory platform!';
+
         return $this->view('emails.newCredentialMail', [
-            'text' => 'Welcome to TechAdvisory platform!',
+            'text' => $text,
             'link' => $this->credential->passwordChangeLink(),
         ])
-                ->subject('Welcome to TechAdvisory platform!');
+                ->subject($subject);
     }
 }
