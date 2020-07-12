@@ -88,6 +88,27 @@ class UserCredential extends Resource
         }
     }
 
+    public static function relatableUsers(NovaRequest $request, $query)
+    {
+        if($request->viaResource == 'clients'){
+            if($request->viaRelationship == 'credentials'){
+                return $query->where('id', $request->viaResourceId);
+            } else {
+                return $query->whereIn('userType', \App\User::clientTypes);
+            }
+        }
+
+        if ($request->viaResource == 'vendors') {
+            if ($request->viaRelationship == 'credentials') {
+                return $query->where('id', $request->viaResourceId);
+            } else {
+                return $query->whereIn('userType', \App\User::vendorTypes);
+            }
+        }
+
+        return $query;
+    }
+
     /**
      * Get the cards available for the request.
      *
