@@ -188,22 +188,6 @@
                                                     >
                                                     {{ $project->step4SubmittedClient ? 'Submitted' : 'Submit'}}
                                                 </button>
-
-                                                <div class="modal fade" id="step4SubmitModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                                    <div class="modal-dialog modal-dialog-centered" role="document">
-                                                        <div class="modal-content">
-                                                            <div class="modal-body">
-                                                            Are you sure you want to submit the project set-up? Be aware that no further
-                                                            modifications will be allowed on your end once project set-up is submitted.
-                                                            </div>
-                                                            <div class="modal-footer">
-                                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                                                                <button id="step4Submit" type="button" class="btn btn-primary">Submit</button>
-                                                            </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
                                             </div>
                                         </div>
                                     </section>
