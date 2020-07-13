@@ -20,6 +20,9 @@ class VendorProfileQuestionResponseObserver
                 return $dependent->responses;
             })
             ->filter(function(SelectionCriteriaQuestionResponse $response) use ($vendor) {
+                if($response->vendor == null){
+                    return false;
+                }
                 return $response->vendor->is($vendor);
             });
 
