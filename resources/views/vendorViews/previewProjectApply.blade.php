@@ -19,7 +19,7 @@
                                 <br>
                                 <div id="wizard_vendor_go_to_home">
                                     <h2>Fit gap</h2>
-                                    <section>                                        
+                                    <section>
                                         <p class="welcome_text extra-top-15px">
                                             Provide your inputs on how your solution/s will cover the client’s functional, technical and service requirements, among others.
                                         </p>
@@ -117,7 +117,7 @@
                                             <br>
                                             <x-selectionCriteria.additionalCost :vendorApplication="$vendorApplication" :disabled="true" :evaluate="false"/>
 
-                                            <p>Overall Implementation Cost: <span id="overallImplementationCost">0</span>$</p>
+                                            <p>Overall Implementation Cost: {{$vendorApplication->project->currency ?? ''}} <span id="overallImplementationCost">0</span></p>
                                         @else
                                             <x-selectionCriteria.nonBindingImplementation :vendorApplication="$vendorApplication" :disabled="true" :evaluate="false"/>
                                         @endif

@@ -154,7 +154,7 @@
                                             <br>
                                             <x-selectionCriteria.additionalCost :vendorApplication="$vendorApplication" :evaluate="false"/>
 
-                                            <p>Overall Implementation Cost: <span id="overallImplementationCost">0</span>$</p>
+                                            <p>Overall Implementation Cost: <span id="overallImplementationCost">0</span> {{$vendorApplication->project->currency ?? ''}}</p>
                                         @else
                                             <x-selectionCriteria.nonBindingImplementation :vendorApplication="$vendorApplication" :evaluate="false"/>
                                         @endif
