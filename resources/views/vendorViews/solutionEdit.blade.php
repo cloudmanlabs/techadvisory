@@ -19,13 +19,18 @@
                                 <br>
                                 <br>
 
-
-
                                 <div class="form-group">
                                     <label for="solutionName">Solution name*</label>
                                     <input class="form-control"
                                         id="solutionName" value="{{$solution->name}}" type="text"
                                         required>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="practiceSelect">Practice*</label>
+                                    <select class="form-control" id="practiceSelect" required>
+                                        <x-options.practices :selected="$solution->practice->id ?? -1" />
+                                    </select>
                                 </div>
 
                                 <x-questionForeach :questions="$questions" :class="'solutionQuestion'" :disabled="false" :required="true" />
@@ -62,7 +67,6 @@
 </style>
 @endsection
 
-
 @section('scripts')
 @parent
 <script>
@@ -96,6 +100,19 @@
         }, true)
     }
 
+    var currentPracticeId = {{$solution->practice->id ?? -1}};
+    function updateShownQuestionsAccordingToPractice(){
+        $('.questionDiv').each(function () {
+            let practiceId = $(this).data('practice');
+
+            if(practiceId == currentPracticeId || practiceId == "") {
+                $(this).css('display', 'block')
+            } else {
+                $(this).css('display', 'none')
+            }
+        });
+    }
+
     function showSavedToast()
     {
         $.toast({
@@ -117,6 +134,19 @@
 
             showSavedToast();
         });
+
+        $('#practiceSelect').change(function (e) {
+            var value = $(this).val();
+            currentPracticeId = value;
+            $.post('/vendors/solution/changePractice', {
+                solution_id: '{{$solution->id}}',
+                practice_id: value
+            })
+
+            showSavedToast();
+            updateShownQuestionsAccordingToPractice();
+        });
+
 
         $('.solutionQuestion input,.solutionQuestion textarea,.solutionQuestion select')
             .filter(function(el) {
@@ -150,6 +180,7 @@
             $(this).datepicker('setDate', date);
         });
 
+        updateShownQuestionsAccordingToPractice();
     });
 </script>
 @endsection

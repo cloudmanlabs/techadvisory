@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Vendor;
 
 use App\Http\Controllers\Controller;
+use App\Practice;
 use App\VendorSolution;
 use App\VendorSolutionQuestionResponse;
 use Illuminate\Http\Request;
@@ -59,6 +60,32 @@ class SolutionController extends Controller
         }
 
         $solution->name = $request->newName;
+        $solution->save();
+
+        return \response()->json([
+            'status' => 200,
+            'message' => 'Success'
+        ]);
+    }
+
+    public function changeSolutionPractice(Request $request)
+    {
+        $request->validate([
+            'solution_id' => 'required|numeric',
+            'practice_id' => 'required|numeric'
+        ]);
+
+        $solution = VendorSolution::find($request->solution_id);
+        if ($solution == null) {
+            abort(404);
+        }
+
+        $practice = Practice::find($request->practice_id);
+        if ($practice == null) {
+            abort(404);
+        }
+
+        $solution->practice_id = $request->practice_id;
         $solution->save();
 
         return \response()->json([

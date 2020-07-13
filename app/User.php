@@ -86,6 +86,28 @@ class User extends Authenticatable
         return $this->hasMany(VendorApplication::class, 'vendor_id');
     }
 
+    public function vendorSolutionsPractices()
+    {
+        return $this->vendorSolutions
+            ->map(function(VendorSolution $sol){
+                return $sol->practice;
+            })
+            ->filter(function($smth){
+                return $smth != null;
+            })
+            ->unique('id')
+            ->values();
+    }
+
+    public function vendorSolutionsPracticesNames() : string
+    {
+        $practices = $this->vendorSolutionsPractices();
+
+        if($practices->count() == 0) return 'None';
+
+        return implode(', ', $practices->pluck('name')->toArray());
+    }
+
     // TODO Implement fixed and fixedQuestionIdentifier for clientProfileQuestions
     public function getClientResponse(string $label, $default = null)
     {

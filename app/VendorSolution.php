@@ -5,6 +5,9 @@ namespace App;
 use Guimcaballero\LaravelFolders\Models\Folder;
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * @property Practice|null $practice
+ */
 class VendorSolution extends Model
 {
     public $guarded = [];
@@ -22,5 +25,10 @@ class VendorSolution extends Model
     public function folder()
     {
         return $this->morphOne(Folder::class, 'folderable');
+    }
+
+    public function practice()
+    {
+        return $this->belongsTo(Practice::class, 'practice_id');
     }
 }

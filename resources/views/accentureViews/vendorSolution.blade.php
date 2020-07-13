@@ -25,12 +25,20 @@
                                 <br>
 
                                 <div class="form-group">
-                                    <label for="solutionName">Solution name**</label>
+                                    <label for="solutionName">Solution name*</label>
                                     <input class="form-control"
                                         disabled
                                         id="solutionName" value="{{$solution->name}}" type="text"
                                         required>
                                 </div>
+
+                                <div class="form-group">
+                                    <label for="practiceSelect">Practice*</label>
+                                    <select class="form-control" id="practiceSelect" disabled>
+                                        <x-options.practices :selected="$solution->practice->id ?? -1" />
+                                    </select>
+                                </div>
+
 
                                 <x-questionForeach :questions="$questions" :class="'solutionQuestion'" :disabled="true" :required="false" />
 
@@ -64,4 +72,40 @@
         display: none;
     }
 </style>
+@endsection
+
+@section('scripts')
+@parent
+<script>
+    var currentPracticeId = {{$solution->practice->id ?? -1}};
+    function updateShownQuestionsAccordingToPractice(){
+        $('.questionDiv').each(function () {
+            let practiceId = $(this).data('practice');
+
+            if(practiceId == currentPracticeId || practiceId == "") {
+                $(this).css('display', 'block')
+            } else {
+                $(this).css('display', 'none')
+            }
+        });
+    }
+
+    $(document).ready(function() {
+        $(".js-example-basic-single").select2();
+        $(".js-example-basic-multiple").select2();
+
+        $('.datepicker').each(function(){
+            var date = new Date($(this).data('initialvalue'));
+
+            $(this).datepicker({
+                format: "mm/dd/yyyy",
+                todayHighlight: true,
+                autoclose: true
+            });
+            $(this).datepicker('setDate', date);
+        });
+
+        updateShownQuestionsAccordingToPractice();
+    });
+</script>
 @endsection

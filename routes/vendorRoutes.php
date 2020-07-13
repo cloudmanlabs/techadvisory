@@ -82,6 +82,8 @@ Route::prefix('vendors')
                     ->name('profile.changeResponse');
                 Route::post('solution/changeName', 'SolutionController@changeSolutionName')
                     ->name('profile.changeSolutionName');
+                Route::post('solution/changePractice', 'SolutionController@changeSolutionPractice')
+                    ->name('profile.changeSolutionPractice');
             });
         });
     });

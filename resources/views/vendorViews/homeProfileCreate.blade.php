@@ -12,7 +12,6 @@
                 <br>
                 <br>
 
-
                 <div class="row" style="margin-top: 25px;">
                     <div class="col-md-12 grid-margin stretch-card">
                         <div class="card">
