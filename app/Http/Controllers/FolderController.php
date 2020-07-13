@@ -101,5 +101,6 @@ class FolderController extends Controller
         }
 
         $folder->removeSingleFile($request->file);
+        $this->createPreviewImageForFiles($folder);
     }
 }
