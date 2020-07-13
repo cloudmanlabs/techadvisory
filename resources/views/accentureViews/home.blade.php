@@ -80,19 +80,32 @@
                                     data-client="{{$project->client->name ?? 'No client'}}"
                                     data-practice="{{$project->practice->name ?? 'No practice'}}"
                                     data-year="{{$project->created_at->year}}">
-                                    <div class="card-body">
-                                        <div style="float: left; max-width: 40%;">
+                                    <div class="card-body" style="display: flex; flex-direction: row; justify-content: space-between; align-items: center">
+                                        <div style="width: 30%;">
                                             <h4>{{$project->name}}</h4>
                                             <h6>{{$project->client->name ?? 'No client'}} - {{$project->practice->name ?? 'No practice'}}</h6>
                                         </div>
-                                        <div style="float: right; text-align: right; width: 15%;">
+                                        <x-projectProgressBar :project="$project" />
+
+                                        @if ($project->progress() == 100)
+                                        <div style="text-align: right; width: 15%; margin-right: 2rem">
+                                            <a class="btn btn-primary btn-lg btn-icon-text"
+                                                href="{{route('accenture.project.markCompleted', ['project' => $project])}}"
+                                                onclick="event.preventDefault(); document.getElementById('mark-completed-prokject-{{$project->id}}-form').submit();">
+                                                Mark completed
+                                            </a>
+                                            <form id="mark-completed-prokject-{{$project->id}}-form"
+                                                action="{{ route('accenture.project.markCompleted', ['project' => $project]) }}" method="POST"
+                                                style="display: none;">
+                                                @csrf
+                                            </form>
+                                        </div>
+                                        @endif
+                                        <div style="text-align: right;width: 15%;">
                                             <a class="btn btn-primary btn-lg btn-icon-text" href="{{route('accenture.projectHome', ['project' => $project])}}">
                                                 View <i class="btn-icon-prepend" data-feather="arrow-right"></i>
                                             </a>
                                         </div>
-                                        <x-projectProgressBar
-                                            :project="$project"
-                                            />
                                     </div>
                                 </div>
                                 @endforeach

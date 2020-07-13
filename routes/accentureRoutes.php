@@ -132,8 +132,11 @@ Route::
                 ->name('project.disqualifyVendor');
             Route::post('project/releaseResponse/{project}/{vendor}', 'ProjectController@releaseResponse')
                 ->name('project.releaseResponse');
-
             Route::post('/project/resendInvitation', 'ProjectController@resendInvitation');
+
+            Route::post('project/markCompleted/{project}', 'ProjectController@markCompleted')
+                ->name('project.markCompleted');
+
 
 
             Route::get('/project/vendorProposal/view/{project}/{vendor}', 'ProjectController@vendorProposalView')

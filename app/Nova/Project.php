@@ -60,7 +60,6 @@ class Project extends Resource
                 ->rules('required')
                 ->required(),
 
-
             Select::make('Current phase', 'currentPhase')
                 ->options([
                     'preparation' => 'Preparation',
