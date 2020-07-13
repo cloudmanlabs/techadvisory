@@ -115,6 +115,7 @@
                     class="form-control"
                     type="number"
                     data-changing="{{$question->id}}"
+                    min="0"
                     {{$question->originalQuestion->required ? 'required' : ''}}
                     value="{{$question->response}}"
                     placeholder="{{$question->originalQuestion->placeholder}}">
