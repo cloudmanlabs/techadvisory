@@ -185,7 +185,7 @@
 
                                         <button
                                             class="btn btn-primary btn-lg btn-icon-text"
-                                            id="finalSubmitButton"                                            
+                                            id="finalSubmitButton"
                                             data-toggle="modal"
                                             data-target="#submitModal">
                                                 Submit
@@ -213,9 +213,9 @@
                             </div>
                         </div>
                     </div>
-                </div>
 
-                <x-deadline :project="$project" />
+                    <x-deadline :project="$project" />
+                </div>
             </div>
 
             <x-footer />
