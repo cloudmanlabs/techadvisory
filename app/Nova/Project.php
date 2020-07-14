@@ -174,6 +174,19 @@ class Project extends Resource
             HasMany::make('Selection Criteria Responses', 'selectionCriteriaQuestions', 'App\Nova\SelectionCriteriaQuestionResponse'),
 
             HasMany::make('Applied vendors', 'vendorApplications', 'App\Nova\VendorApplication'),
+
+            (new Panel('Debug', [
+                Boolean::make('Has Value Targetting files in each', function(){
+                    return $this->hasValueTargetingFilesInEach();
+                })->canSee(function () {
+                    return auth()->user()->isAdmin();
+                }),
+                Boolean::make('Has Completed business opportunity', function(){
+                    return $this->hasCompletedBusinessOpportunity();
+                })->canSee(function () {
+                    return auth()->user()->isAdmin();
+                }),
+            ])),
         ];
     }
 
