@@ -137,6 +137,8 @@ class FitgapController extends Controller
         $result5Cols = [];
         $resultClient = [];
         foreach ($request->data as $key => $row) {
+            if($row['Requirement Type'] == null || $row['Requirement Type'] == "") continue;
+
             $result5Cols[] = [
                 'Requirement Type' => $row['Requirement Type'],
                 'Level 1' => $row['Level 1'],
