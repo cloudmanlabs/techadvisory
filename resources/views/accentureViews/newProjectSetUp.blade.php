@@ -16,12 +16,8 @@
                             <div class="card-body">
                                 <h3>Project Set up</h3>
 
-                                <p class="welcome_text extra-top-15px">
-                                        This is the project setup. Fill in as many fields
-                                        as possible under the General Info, RFP Upload and Sizing Info sections.
-                                        It is not required to fill in all fields at once. The client will be able
-                                        to fill in the remaining fields after Accenture submits this first step
-                                        of the project setup.
+                                <p class="welcome_text extra-top-15px">                                
+                                    {{nova_get_setting('accenture_projectSetUp_description') ?? ''}}
                                 </p>
 
                                 <br>
