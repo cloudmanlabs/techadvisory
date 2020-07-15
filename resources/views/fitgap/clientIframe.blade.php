@@ -73,7 +73,8 @@
                         @if($disabled || !$isAccenture)
                         readOnly: true,
                         @endif
-                        width: 600
+                        width: 600,
+                        wordWrap: true
                     },
                     {
                         type: 'dropdown',

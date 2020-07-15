@@ -39,11 +39,7 @@
                                 <h3>Project Set up</h3>
 
                                 <p class="welcome_text extra-top-15px">
-                                    This is the first step of project setup. Fill in all
-                                    mandatory fields under the General Info, RFP Upload and
-                                    Sizing Info sections. It is not required to fill in all fields at
-                                    once, but the second step of project setup will be only activated after
-                                    completion of all mandatory fields.
+                                    {{nova_get_setting('client_projectSetUp_description') ?? ''}}
                                 </p>
 
                                 <br>
@@ -59,7 +55,7 @@
                                             :clients="$clients ?? []"
                                             :disableSpecialQuestions="true"
                                             :disabled="false"
-                                            :required="false" />
+                                            :required="true" />
                                     </section>
 
 
@@ -633,7 +629,8 @@
             $(this).datepicker({
                 format: "mm/dd/yyyy",
                 todayHighlight: true,
-                autoclose: true
+                autoclose: true,
+                startDate: "+0d"
             });
             $(this).datepicker('setDate', date);
         });

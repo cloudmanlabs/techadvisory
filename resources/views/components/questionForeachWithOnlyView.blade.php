@@ -18,7 +18,7 @@
     @switch($question->originalQuestion->type)
         @case('text')
             <div class="form-group questionDiv {{$class}}" data-practice="{{$question->originalQuestion->practice->id ?? ''}}">
-                <label>{{$question->originalQuestion->label}}{{$question->originalQuestion->required ? '*' : ''}}</label>
+                <label>{{$question->originalQuestion->label}}{{$question->originalQuestion->required || $required? '*' : ''}}</label>
                 <input
                     {{$required ? 'required' : ''}}
                     {{$question->originalQuestion->required ? 'required' : ''}}
@@ -33,7 +33,7 @@
             @break
         @case('textarea')
             <div class="form-group questionDiv {{$class}}" data-practice="{{$question->originalQuestion->practice->id ?? ''}}">
-                <label>{{$question->originalQuestion->label}}{{$question->originalQuestion->required ? '*' : ''}}</label>
+                <label>{{$question->originalQuestion->label}}{{$question->originalQuestion->required || $required? '*' : ''}}</label>
                 <textarea
                     {{$required ? 'required' : ''}}
                     {{$disabled ? 'disabled' : ''}}
@@ -47,7 +47,7 @@
             @break
         @case('selectSingle')
             <div class="form-group questionDiv {{$class}}" data-practice="{{$question->originalQuestion->practice->id ?? ''}}">
-                <label>{{$question->originalQuestion->label}}{{$question->originalQuestion->required ? '*' : ''}}</label>
+                <label>{{$question->originalQuestion->label}}{{$question->originalQuestion->required || $required? '*' : ''}}</label>
                 <select
                     {{$required ? 'required' : ''}}
                     {{$disabled ? 'disabled' : ''}}
@@ -70,7 +70,7 @@
             @break
         @case('selectMultiple')
             <div class="form-group questionDiv {{$class}}" data-practice="{{$question->originalQuestion->practice->id ?? ''}}">
-                <label>{{$question->originalQuestion->label}}{{$question->originalQuestion->required ? '*' : ''}}</label>
+                <label>{{$question->originalQuestion->label}}{{$question->originalQuestion->required || $required ? '*' : ''}}</label>
                 <select
                     {{$required ? 'required' : ''}}
                     {{$disabled ? 'disabled' : ''}}
@@ -96,7 +96,7 @@
             @break
         @case('date')
             <div class="questionDiv {{$class}}" data-practice="{{$question->originalQuestion->practice->id ?? ''}}">
-                <label>{{$question->originalQuestion->label}}{{$question->originalQuestion->required ? '*' : ''}}</label>
+                <label>{{$question->originalQuestion->label}}{{$question->originalQuestion->required || $required ? '*' : ''}}</label>
                 <div class="input-group date datepicker" data-initialValue="{{$question->response}}">
                     <input
                     {{$required ? 'required' : ''}}
@@ -113,7 +113,7 @@
             @break
         @case('number')
             <div class="form-group questionDiv {{$class}}" data-practice="{{$question->originalQuestion->practice->id ?? ''}}">
-                <label>{{$question->originalQuestion->label}}{{$question->originalQuestion->required ? '*' : ''}}</label>
+                <label>{{$question->originalQuestion->label}}{{$question->originalQuestion->required || $required ? '*' : ''}}</label>
                 <input
                     {{$required ? 'required' : ''}}
                     {{$disabled ? 'disabled' : ''}}
