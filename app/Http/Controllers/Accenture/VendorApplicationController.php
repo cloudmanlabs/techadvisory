@@ -49,7 +49,7 @@ class VendorApplicationController extends Controller
     {
         $request->validate([
             'changing' => 'required|numeric',
-            'value' => 'required|array',
+            'value' => 'array',
         ]);
 
         $application = VendorApplication::find($request->changing);
@@ -71,7 +71,7 @@ class VendorApplicationController extends Controller
     {
         $request->validate([
             'changing' => 'required|numeric',
-            'value' => 'required|array',
+            'value' => 'array',
         ]);
 
         $application = VendorApplication::find($request->changing);
@@ -92,7 +92,7 @@ class VendorApplicationController extends Controller
     {
         $request->validate([
             'changing' => 'required|numeric',
-            'value' => 'required|array',
+            'value' => 'array',
         ]);
 
         $application = VendorApplication::find($request->changing);
@@ -113,7 +113,7 @@ class VendorApplicationController extends Controller
     {
         $request->validate([
             'changing' => 'required|numeric',
-            'value' => 'required|array',
+            'value' => 'array',
         ]);
 
         $application = VendorApplication::find($request->changing);
@@ -134,7 +134,7 @@ class VendorApplicationController extends Controller
     {
         $request->validate([
             'changing' => 'required|numeric',
-            'value' => 'required|array',
+            'value' => 'array',
         ]);
 
         $application = VendorApplication::find($request->changing);
@@ -155,7 +155,7 @@ class VendorApplicationController extends Controller
     {
         $request->validate([
             'changing' => 'required|numeric',
-            'value' => 'required|array',
+            'value' => 'array',
         ]);
 
         $application = VendorApplication::find($request->changing);
@@ -176,7 +176,7 @@ class VendorApplicationController extends Controller
     {
         $request->validate([
             'changing' => 'required|numeric',
-            'value' => 'required|array',
+            'value' => 'array',
             'year0' => 'numeric'
         ]);
 
@@ -201,7 +201,7 @@ class VendorApplicationController extends Controller
         $request->validate([
             'application_id' => 'required|numeric',
             'changing' => 'required|string',
-            'value' => 'required',
+            'value' => '',
         ]);
 
         $availableFields = [
@@ -277,7 +277,7 @@ class VendorApplicationController extends Controller
         $request->validate([
             'application_id' => 'required|numeric',
             'changing' => 'required|string',
-            'value' => 'required',
+            'value' => '',
         ]);
 
         $availableFields = [

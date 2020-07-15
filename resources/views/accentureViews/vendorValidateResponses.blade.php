@@ -18,7 +18,7 @@
                                 <br>
 
                                 <div id="wizardVendorAccenture">
-                                    <h2>General Information</h2>
+                                    <h2>Contact information</h2>
                                     <section>
                                         <div class="form-group">
                                             <label for="exampleInputText1">Vendor company name*</label>
@@ -35,7 +35,7 @@
                                             <label for="vendorRoleInput">Vendor company contact role</label>
                                             <input class="form-control" id="vendorRoleInput" placeholder="Enter Role"
                                                 type="text"
-                                                value="{{$vendor->role}}" 
+                                                value="{{$vendor->role}}"
                                                  >
                                         </div> -->
 
@@ -43,7 +43,7 @@
                                             <label for="vendorAddressInput">Company address</label>
                                             <input class="form-control" id="vendorAddressInput" placeholder="Enter Address"
                                                 type="text"
-                                                value="{{$vendor->address}}" 
+                                                value="{{$vendor->address}}"
                                                 disabled>
                                         </div> -->
 
@@ -60,13 +60,12 @@
                                         <x-folderFileUploader :folder="$vendor->profileFolder" :disabled="true" :timeout="1000"/>
                                     </section>
 
-                                    <h2>Economic information</h2>
+                                    <h2>Company information</h2>
                                     <section>
                                        <x-questionForeachWithActivate :questions="$economicQuestions" :class="'profileQuestion'" :disabled="true" :required="false" />
                                     </section>
 
-
-                                    <h2>Legal Info</h2>
+                                    <h2>Economic information</h2>
                                     <section>
                                         <x-questionForeachWithActivate :questions="$legalQuestions" :class="'profileQuestion'" :disabled="true" :required="false" />
 

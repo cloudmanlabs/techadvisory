@@ -103,7 +103,7 @@
                                                         <option>Functional</option>
                                                         <option>Technical</option>
                                                         <option>Service</option>
-                                                        <option>Other</option>
+                                                        <option>Others</option>
                                                     </select>
                                                 </div>
                                                 <div class="table-responsive">
@@ -135,8 +135,8 @@
                                                                 <td class="filterByVendor" data-vendor="{{$application->vendor->name}}">{{number_format($application->fitgapServiceScore(), 2)}}</td>
                                                                 @endforeach
                                                             </tr>
-                                                            <tr class="filterByRequirement" data-requirement="Other">
-                                                                <th class="table-dark">Other</th>
+                                                            <tr class="filterByRequirement" data-requirement="Others">
+                                                                <th class="table-dark">Others</th>
                                                                 @foreach ($applications as $application)
                                                                 <td class="filterByVendor" data-vendor="{{$application->vendor->name}}">{{number_format($application->fitgapOtherScore(), 2)}}</td>
                                                                 @endforeach
@@ -294,7 +294,7 @@ $(function () {
             stack: 'Stack 0'
           },
           {
-            label: "Other",
+            label: "Others",
             backgroundColor: ["#a50aff", "#a50aff", "#a50aff", "#a50aff", "#a50aff", "#a50aff", "#a50aff"],
             data: [
                 @foreach ($applications as $obj)
