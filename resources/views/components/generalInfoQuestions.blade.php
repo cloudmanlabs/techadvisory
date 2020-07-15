@@ -101,9 +101,10 @@
 </div>
 
 <div class="form-group">
-    <label for="industrySelect">Industry*</label>
-    <select class="form-control" id="industrySelect" required
+    <label for="industrySelect">{{$required ? 'Industry*' : 'Industry'}}</label>
+    <select class="form-control" id="industrySelect"
         {{$disabled ? 'disabled' : ''}}
+        {{$required ? 'required' : ''}}
     >
         <x-options.industryExperience :selected="$project->industry ?? ''" />
     </select>
@@ -111,9 +112,10 @@
 
 @if(!$hideQuestionsForVendor)
 <div class="form-group">
-    <label for="regionSelect">Regions*</label>
-    <select class="js-example-basic-multiple w-100" id="regionSelect" multiple="multiple" required
+    <label for="regionSelect">{{$required ? 'Regions*' : 'Regions'}}</label>
+    <select class="js-example-basic-multiple w-100" id="regionSelect" multiple="multiple"
         {{$disabled ? 'disabled' : ''}}
+        {{$required ? 'required' : ''}}
     >
         <x-options.geographies :selected="$project->regions ?? []" />
     </select>

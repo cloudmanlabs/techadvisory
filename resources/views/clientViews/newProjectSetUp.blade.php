@@ -55,7 +55,7 @@
                                             :clients="$clients ?? []"
                                             :disableSpecialQuestions="true"
                                             :disabled="false"
-                                            :required="false" />
+                                            :required="true" />
                                     </section>
 
 
