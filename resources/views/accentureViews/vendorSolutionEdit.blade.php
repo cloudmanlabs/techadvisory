@@ -12,8 +12,6 @@
                             <div class="card-body">
                                 <div style="display: flex; justify-content: space-between">
                                     <h3>{{$solution->vendor->name}}'s solution</h3>
-                                    <a class="btn btn-primary btn-lg btn-icon-text"
-                                        href="{{route('accenture.vendorSolution', ['solution' => $solution])}}">Save</a>
                                 </div>
 
 
@@ -43,7 +41,7 @@
                                 <x-folderFileUploader :folder="$solution->folder" :timeout="1000" />
 
                                 <div style="float: right; margin-top: 20px;">
-                                    <a class="btn btn-primary btn-lg btn-icon-text"
+                                    <a id="saveButton" class="btn btn-primary btn-lg btn-icon-text"
                                         href="{{route('vendor.solutions')}}"><i class="btn-icon-prepend"
                                             data-feather="check-square"></i>Save</a>
                                 </div>
@@ -83,7 +81,7 @@
      *  Returns false if any field is empty
      */
     function checkIfAllRequiredsAreFilled(){
-        let array = $('input,textarea,select').filter('[required]').toArray();
+        let array = $('input,textarea,select').filter('[required]:visible').toArray();
 		if(array.length == 0) return true;
 
         for (let i = 0; i < array.length; i++) {
@@ -96,15 +94,6 @@
         return true
     }
 
-    function checkIfAllRequiredsInThisPageAreFilled(){
-        let array = $('input,textarea,select').filter('[required]:visible').toArray();
-        if(array.length == 0) return true;
-
-        return array.reduce((prev, current) => {
-            return !prev ? false : $(current).is(':hasValue')
-        }, true)
-    }
-
     function showSavedToast()
     {
         $.toast({
@@ -114,6 +103,17 @@
             hideAfter: 1000,
             position: 'bottom-right'
         })
+    }
+
+    function updateSubmitButton()
+    {
+        // If we filled all the fields, remove the disabled from the button.
+        let fieldsAreEmtpy = !checkIfAllRequiredsAreFilled();
+        if(fieldsAreEmtpy){
+            $('#saveButton').addClass('disabled')
+        } else {
+            $('#saveButton').removeClass('disabled')
+        }
     }
 
     var currentPracticeId = {{$solution->practice->id ?? -1}};
@@ -138,6 +138,7 @@
             })
 
             showSavedToast();
+            updateSubmitButton();
         });
 
         $('#practiceSelect').change(function (e) {
@@ -150,6 +151,7 @@
 
             showSavedToast();
             updateShownQuestionsAccordingToPractice();
+            updateSubmitButton();
         });
 
         $('.solutionQuestion input,.solutionQuestion textarea,.solutionQuestion select')
@@ -168,6 +170,7 @@
                 })
 
                 showSavedToast();
+                updateSubmitButton();
             });
 
         $(".js-example-basic-single").select2();
@@ -184,6 +187,7 @@
             $(this).datepicker('setDate', date);
         });
 
+        updateSubmitButton();
         updateShownQuestionsAccordingToPractice();
     });
 </script>
