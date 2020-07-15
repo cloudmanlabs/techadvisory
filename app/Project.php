@@ -256,6 +256,14 @@ class Project extends Model
         return $this->hasMany(SelectionCriteriaQuestionResponse::class, 'project_id')->where('vendor_id', $vendor->id);
     }
 
+    // Sorry for this  🙃
+    public function shortDescription()
+    {
+        return optional($this->generalInfoQuestions()->whereHas('originalQuestion', function($query){
+            return $query->where('label', 'Short Description');
+        })->first())->response;
+    }
+
 
 
 
@@ -275,7 +283,7 @@ class Project extends Model
         if ($this->step4SubmittedAccenture) $score += 10;
         if ($this->step3SubmittedClient) $score += 10;
         if ($this->step4SubmittedClient) $score += 10;
-        if ($this->currentPhase == 'open') {
+        if ($this->currentPhase == 'open' || $this->currentPhase == 'old') {
             if ($this->hasValueTargeting) $score += 5;
             else $score += 25;
         }
@@ -403,6 +411,14 @@ class Project extends Model
         return $this;
     }
 
+    public function markCompleted()
+    {
+        $this->currentPhase = 'old';
+        $this->save();
+
+        return $this;
+    }
+
 
 
 
@@ -415,11 +431,7 @@ class Project extends Model
      */
     public static function openProjects(): Collection
     {
-        return self::where('currentPhase', 'open')
-            ->get()
-            ->filter(function (Project $project) {
-                return $project->progress() != 100;
-            });
+        return self::where('currentPhase', 'open')->get();
     }
 
     /**
@@ -439,9 +451,6 @@ class Project extends Model
      */
     public static function oldProjects(): Collection
     {
-        return self::all()
-            ->filter(function(Project $project){
-                return $project->progress() == 100 || $project->currentPhase == 'old';
-            });
+        return self::where('currentPhase', 'old')->get();
     }
 }

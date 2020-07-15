@@ -122,20 +122,39 @@
         Below are the details that will be required from vendors for the implementation phase.
     </p>
     <br>
-    @foreach ($implementationImplementationQuestions as $question)
-        <h6 style="margin-bottom: 1rem">
-            {{$question->label}}
-        </h6>
-    @endforeach
+
+    <h6 style="margin-bottom: 1rem">
+        Project plan
+    </h6>
+    <h6 style="margin-bottom: 1rem">
+        Solutions Used
+    </h6>
+    <h6 style="margin-bottom: 1rem">
+        Deliverables per phase
+    </h6>
+    <h6 style="margin-bottom: 1rem">
+        RACI Matrix
+    </h6>
+    <h6 style="margin-bottom: 1rem">
+        Staffing cost
+    </h6>
+    <h6 style="margin-bottom: 1rem">
+        Travel cost
+    </h6>
+    <h6 style="margin-bottom: 1rem">
+        Additional cost
+    </h6>
+
     <br><br>
     <h4>Run</h4>
     <p class="welcome_text extra-top-15px">
         Below are the details that will be required from vendors for the run phase.
     </p>
     <br>
-    @foreach ($implementationRunQuestions as $question)
-        <h6 style="margin-bottom: 1rem">
-            {{$question->label}}
-        </h6>
-    @endforeach
+    <h6 style="margin-bottom: 1rem">
+        Pricing model
+    </h6>
+    <h6 style="margin-bottom: 1rem">
+        Detailed breakdown
+    </h6>
 </div>

@@ -20,9 +20,9 @@ $disabled = $disabled ?? false;
         @endforeach
     </div>
 </div>
-<p>Total Run Cost: <span id="totalEstimate5YearsCost">0</span>$</p>
+<p>Total Run Cost: {{$vendorApplication->project->currency ?? ''}} <span id="totalEstimate5YearsCost">0</span></p>
 <br>
-<p>Average Yearly Cost: <span id="averageEstimate5YearsCost">0</span>$</p>
+<p>Average Yearly Cost: {{$vendorApplication->project->currency ?? ''}} <span id="averageEstimate5YearsCost">0</span></p>
 
 
 @section('scripts')

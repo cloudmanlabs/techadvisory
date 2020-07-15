@@ -100,6 +100,7 @@ Route::
                 ->name('vendorSolutionEdit');
             Route::post('vendorSolution/changeResponse', 'ClientVendorListController@changeSolutionResponse');
             Route::post('vendorSolution/changeName', 'ClientVendorListController@changeSolutionName');
+            Route::post('vendorSolution/changePractice', 'ClientVendorListController@changeSolutionPractice');
 
             Route::get('project/home/{project}', 'ProjectController@home')
                 ->name('projectHome');
@@ -131,8 +132,11 @@ Route::
                 ->name('project.disqualifyVendor');
             Route::post('project/releaseResponse/{project}/{vendor}', 'ProjectController@releaseResponse')
                 ->name('project.releaseResponse');
-
             Route::post('/project/resendInvitation', 'ProjectController@resendInvitation');
+
+            Route::post('project/markCompleted/{project}', 'ProjectController@markCompleted')
+                ->name('project.markCompleted');
+
 
 
             Route::get('/project/vendorProposal/view/{project}/{vendor}', 'ProjectController@vendorProposalView')

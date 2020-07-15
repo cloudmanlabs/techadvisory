@@ -73,6 +73,10 @@ class VendorSolutionQuestion extends Resource
                     }
                     return $text;
                 }),
+
+            BelongsTo::make('Practice', 'practice', \App\Nova\Practice::class)
+                ->nullable()
+                ->help('Select a Practice if you want this Question to only show on projects with that Practice'),
         ];
 
         // NOTE All of the fields here should be hidden on index and create

@@ -12,8 +12,13 @@ use Illuminate\Database\Eloquent\Model;
  *
  * @property string $presetOption
  * @property string $options
+ *
+ * @property Practice|null $practice
  */
 class VendorSolutionQuestion extends Question
 {
-
+    public function practice()
+    {
+        return $this->belongsTo(Practice::class, 'practice_id');
+    }
 }

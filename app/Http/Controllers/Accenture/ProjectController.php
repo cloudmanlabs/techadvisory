@@ -412,6 +412,13 @@ class ProjectController extends Controller
         ]);
     }
 
+    public function markCompleted(Request $request, Project $project)
+    {
+        $project->markCompleted();
+
+        return redirect()->route('accenture.home');
+    }
+
     public function publishProjectAnalytics(Request $request)
     {
         $request->validate([

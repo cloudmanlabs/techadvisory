@@ -83,7 +83,7 @@ class GeneralInfoQuestion extends Resource
                 ->displayUsingLabels()
                 ->rules('required'),
 
-            BelongsTo::make('Practice', 'practice', 'App\Nova\Practice')
+            BelongsTo::make('Practice', 'practice', \App\Nova\Practice::class)
                 ->nullable()
                 ->help('Select a Practice if you want this Question to only show on projects with that Practice'),
 

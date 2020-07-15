@@ -21,7 +21,7 @@
                                 <div class="welcome_text welcome_box" style="clear: both; margin-top: 20px;">
                                     <div class="media d-block d-sm-flex">
                                         <div class="media-body" style="padding: 20px;">
-                                            {{nova_get_setting('client_newProjectSetup_title') ?? ''}}
+                                            {{ $project->shortDescription() }}
                                         </div>
                                     </div>
                                 </div>
@@ -30,7 +30,7 @@
                     </div>
                 </div>
 
-                <br><br>
+                <br>
 
                 <div class="row">
                     <div class="col-md-12 grid-margin stretch-card">
@@ -184,22 +184,6 @@
                                                     >
                                                     {{ $project->step4SubmittedClient ? 'Submitted' : 'Submit'}}
                                                 </button>
-
-                                                <div class="modal fade" id="step4SubmitModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                                    <div class="modal-dialog modal-dialog-centered" role="document">
-                                                        <div class="modal-content">
-                                                            <div class="modal-body">
-                                                            Are you sure you want to submit the project set-up? Be aware that no further
-                                                            modifications will be allowed on your end once project set-up is submitted.
-                                                            </div>
-                                                            <div class="modal-footer">
-                                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                                                                <button id="step4Submit" type="button" class="btn btn-primary">Submit</button>
-                                                            </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
                                             </div>
                                         </div>
                                     </section>

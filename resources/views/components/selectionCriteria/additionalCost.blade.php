@@ -46,7 +46,7 @@
         </div>
     @endif
 </div>
-<p>Total Additional Cost: <span id="totalAdditionalCost">0</span>$</p>
+<p>Total Additional Cost: {{$vendorApplication->project->currency ?? ''}} <span id="totalAdditionalCost">0</span></p>
 
 
 @section('scripts')

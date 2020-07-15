@@ -61,7 +61,7 @@ $disabled = $disabled ?? false;
     </div>
 </div>
 <br>
-<p>Average Yearly Cost: <span id="averageEstimate5YearsCost">0</span>$</p>
+<p>Average Yearly Cost: {{$vendorApplication->project->currency ?? ''}} <span id="averageEstimate5YearsCost">0</span></p>
 
 
 @section('scripts')

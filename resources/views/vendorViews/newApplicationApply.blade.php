@@ -154,7 +154,7 @@
                                             <br>
                                             <x-selectionCriteria.additionalCost :vendorApplication="$vendorApplication" :evaluate="false"/>
 
-                                            <p>Overall Implementation Cost: <span id="overallImplementationCost">0</span>$</p>
+                                            <p>Overall Implementation Cost: <span id="overallImplementationCost">0</span> {{$vendorApplication->project->currency ?? ''}}</p>
                                         @else
                                             <x-selectionCriteria.nonBindingImplementation :vendorApplication="$vendorApplication" :evaluate="false"/>
                                         @endif
@@ -185,7 +185,7 @@
 
                                         <button
                                             class="btn btn-primary btn-lg btn-icon-text"
-                                            id="finalSubmitButton"                                            
+                                            id="finalSubmitButton"
                                             data-toggle="modal"
                                             data-target="#submitModal">
                                                 Submit
@@ -213,9 +213,9 @@
                             </div>
                         </div>
                     </div>
-                </div>
 
-                <x-deadline :project="$project" />
+                    <x-deadline :project="$project" />
+                </div>
             </div>
 
             <x-footer />

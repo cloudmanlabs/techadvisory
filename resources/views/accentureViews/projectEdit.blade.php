@@ -370,7 +370,7 @@
             updateSubmitButton();
         });
 
-        $('#oraslsSelect').change(function (e) {
+        $('#oralsSelect').change(function (e) {
             var value = $(this).val();
             $.post('/accenture/newProjectSetUp/changeProjectHasOrals', {
                 project_id: '{{$project->id}}',

@@ -47,7 +47,7 @@ $disabled = $disabled ?? false;
     </div>
     @endif
 </div>
-<p>Total Travel Cost: <span id="totalTravelCost">0</span>$</p>
+<p>Total Travel Cost: {{$vendorApplication->project->currency ?? ''}} <span id="totalTravelCost">0</span></p>
 
 
 

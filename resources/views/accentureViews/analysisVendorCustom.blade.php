@@ -88,14 +88,14 @@
                                     @foreach ($vendors as $vendor)
                                     <div class="card" style="margin-bottom: 30px;"
                                         data-segment="{{$vendor->getVendorResponse('vendorSegment')}}"
-                                        data-practice="{{$vendor->getVendorResponse('vendorPractice')}}"
+                                        data-practice="{{json_encode($vendor->vendorSolutionsPractices()->pluck('name')->toArray())}}"
                                         data-industry="{{$vendor->getVendorResponse('vendorIndustry')}}"
                                         data-regions="{{$vendor->getVendorResponse('vendorRegions') ?? '[]'}}"
                                     >
                                         <div class="card-body">
                                             <div style="float: left; max-width: 40%;">
                                                 <h4>{{$vendor->name}}</h4>
-                                                <p>{{$vendor->name}} - {{$vendor->getVendorResponse('vendorPractice') ?? 'No practice'}}</p>
+                                                <p>{{$vendor->name}} - {{$vendor->vendorSolutionsPracticesNames()}}</p>
                                                 <p>{{$vendor->getVendorResponse('vendorSegment') ?? 'No segment'}} - {{$vendor->getVendorResponse('vendorIndustry') ?? 'No industry'}} -
                                                     {{implode(', ', json_decode($vendor->getVendorResponse('vendorRegions')) ?? [])}}</p>
                                             </div>
@@ -127,21 +127,18 @@
                 const selectedRegions = getSelectedFrom('regionSelect')
                 const selectedIndustries = getSelectedFrom('industrySelect')
 
-                console.log(selectedSegments, selectedPractices, selectedRegions, selectedIndustries);
-
-
                 // Add a display none to the one which don't have this tags
                 $('#projectContainer').children().each(function () {
                     const segment = $(this).data('segment');
-                    const practice = $(this).data('practice');
+                    const practices = $(this).data('practice');
                     const regions = $(this).data('regions');
                     const industry = $(this).data('industry');
 
                     if (
                         $.inArray(segment, selectedSegments) !== -1
-                        && $.inArray(practice, selectedPractices) !== -1
                         && $.inArray(industry, selectedIndustries) !== -1
                         && (intersect(regions, selectedRegions).length !== 0)
+                        && (intersect(practices, selectedPractices).length !== 0)
                     ) {
                         $(this).css('display', 'flex')
                     } else {
