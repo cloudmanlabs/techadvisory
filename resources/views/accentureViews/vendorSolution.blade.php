@@ -44,11 +44,6 @@
 
                                 <x-folderFileUploader :folder="$solution->folder" :disabled="true" :timeout="1000"/>
 
-                                <div style="float: right; margin-top: 20px;">
-                                    <a class="btn btn-primary btn-lg btn-icon-text"
-                                        href="{{route('vendor.solutions')}}"><i class="btn-icon-prepend"
-                                            data-feather="check-square"></i>Save</a>
-                                </div>
                             </div>
                         </div>
                     </div>
