@@ -78,6 +78,8 @@
                                     <h2>Company information</h2>
                                     <section>
                                         <x-questionForeachValidated :questions="$economicQuestions" :class="'profileQuestion'" :disabled="false" :required="true" />
+
+                                        <x-folderFileUploader :folder="$vendor->profileFolder" :timeout="1000"/>
                                     </section>
 
                                     <h2>Economic information</h2>
