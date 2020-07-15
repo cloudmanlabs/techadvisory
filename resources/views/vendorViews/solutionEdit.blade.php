@@ -38,7 +38,7 @@
                                 <x-folderFileUploader :folder="$solution->folder" :timeout="1000"/>
 
                                 <div style="float: right; margin-top: 20px;">
-                                    <a class="btn btn-primary btn-lg btn-icon-text"
+                                    <a id="saveButton" class="btn btn-primary btn-lg btn-icon-text"
                                         href="{{route('vendor.solutions')}}"><i class="btn-icon-prepend"
                                             data-feather="check-square"></i>Save</a>
                                 </div>
@@ -100,6 +100,17 @@
         }, true)
     }
 
+    function updateSubmitButton()
+    {
+        // If we filled all the fields, remove the disabled from the button.
+        let fieldsAreEmtpy = !checkIfAllRequiredsAreFilled();
+        if(fieldsAreEmtpy){
+            $('#saveButton').addClass('disabled')
+        } else {
+            $('#saveButton').removeClass('disabled')
+        }
+    }
+
     var currentPracticeId = {{$solution->practice->id ?? -1}};
     function updateShownQuestionsAccordingToPractice(){
         $('.questionDiv').each(function () {
@@ -132,6 +143,7 @@
                 newName: value
             })
 
+            updateSubmitButton();
             showSavedToast();
         });
 
@@ -144,6 +156,7 @@
             })
 
             showSavedToast();
+            updateSubmitButton();
             updateShownQuestionsAccordingToPractice();
         });
 
@@ -163,6 +176,7 @@
                     value: value
                 })
 
+                updateSubmitButton();
                 showSavedToast();
             });
 
@@ -181,6 +195,7 @@
             $(this).datepicker('setDate', date);
         });
 
+        updateSubmitButton();
         updateShownQuestionsAccordingToPractice();
     });
 </script>

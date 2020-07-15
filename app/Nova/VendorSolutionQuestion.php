@@ -74,6 +74,8 @@ class VendorSolutionQuestion extends Resource
                     return $text;
                 }),
 
+            Boolean::make('Required', 'required'),
+
             BelongsTo::make('Practice', 'practice', \App\Nova\Practice::class)
                 ->nullable()
                 ->help('Select a Practice if you want this Question to only show on projects with that Practice'),

@@ -13,6 +13,8 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $presetOption
  * @property string $options
  *
+ * @property bool $required
+ *
  * @property Practice|null $practice
  */
 class VendorSolutionQuestion extends Question

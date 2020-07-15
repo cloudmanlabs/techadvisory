@@ -26,19 +26,26 @@
                                         required>
                                 </div>
 
-                                <x-questionForeach :questions="$questions" :class="'solutionQuestion'" :disabled="false" :required="true" />
+                                <div class="form-group">
+                                    <label for="practiceSelect">Practice*</label>
+                                    <select class="form-control" id="practiceSelect" required>
+                                        <x-options.practices :selected="$solution->practice->id ?? -1" />
+                                    </select>
+                                </div>
+
+                                <x-questionForeach :questions="$questions" :class="'solutionQuestion'" :disabled="false" :required="false" />
 
                                 <x-folderFileUploader :folder="$solution->folder" :timeout="1000"/>
 
                                 <div style="float: right; margin-top: 20px;">
-                                    <a class="btn btn-primary btn-lg btn-icon-text" href="{{route('vendor.createSolution')}}"
+                                    <a id="saveAndAnother" class="btn btn-primary btn-lg btn-icon-text disabled" href="{{route('vendor.createSolution')}}"
                                         onclick="event.preventDefault(); document.getElementById('save-and-create-solution-form').submit();">
                                         <i class="btn-icon-prepend" data-feather="check-square"></i> Save and add another
                                     </a>
                                     <form id="save-and-create-solution-form" action="{{ route('vendor.createSolution') }}" method="POST" style="display: none;">
                                         @csrf
                                     </form>
-                                    <a class="btn btn-primary btn-lg btn-icon-text" href="{{route('vendor.solutions')}}"><i
+                                    <a id="saveAndDashboard" class="btn btn-primary btn-lg btn-icon-text disabled" href="{{route('vendor.solutions')}}"><i
                                             class="btn-icon-prepend" data-feather="check-square"></i> Save and go to
                                         Dashboard</a>
                                 </div>
@@ -65,6 +72,10 @@
     .select2-results__options .select2-results__option[aria-disabled=true] {
         display: none;
     }
+
+    a.disabled {
+        pointer-events: none;
+    }
 </style>
 @endsection
 
@@ -87,21 +98,12 @@
 
         for (let i = 0; i < array.length; i++) {
             if(!$(array[i]).is(':hasValue')){
-                console.log(array[i])
-                return false
+                console.log('no value', array[i]);
+                return false;
             }
         }
 
         return true
-    }
-
-    function checkIfAllRequiredsInThisPageAreFilled(){
-        let array = $('input,textarea,select').filter('[required]:visible').toArray();
-        if(array.length == 0) return true;
-
-        return array.reduce((prev, current) => {
-            return !prev ? false : $(current).is(':hasValue')
-        }, true)
     }
 
     function showSavedToast()
@@ -115,6 +117,32 @@
         })
     }
 
+    function updateSubmitButton()
+    {
+        // If we filled all the fields, remove the disabled from the button.
+        let fieldsAreEmtpy = !checkIfAllRequiredsAreFilled();
+        if(fieldsAreEmtpy){
+            $('#saveAndAnother').addClass('disabled')
+            $('#saveAndDashboard').addClass('disabled')
+        } else {
+            $('#saveAndAnother').removeClass('disabled')
+            $('#saveAndDashboard').removeClass('disabled')
+        }
+    }
+
+    var currentPracticeId = {{$solution->practice->id ?? -1}};
+    function updateShownQuestionsAccordingToPractice(){
+        $('.questionDiv').each(function () {
+            let practiceId = $(this).data('practice');
+
+            if(practiceId == currentPracticeId || practiceId == "") {
+                $(this).css('display', 'block')
+            } else {
+                $(this).css('display', 'none')
+            }
+        });
+    }
+
     $(document).ready(function() {
         $('#solutionName').change(function (e) {
             var value = $(this).val();
@@ -123,7 +151,22 @@
                 newName: value
             })
 
+            updateSubmitButton();
             showSavedToast();
+        });
+
+
+        $('#practiceSelect').change(function (e) {
+            var value = $(this).val();
+            currentPracticeId = value;
+            $.post('/accenture/vendorSolution/changePractice', {
+                solution_id: '{{$solution->id}}',
+                practice_id: value
+            })
+
+            showSavedToast();
+            updateSubmitButton();
+            updateShownQuestionsAccordingToPractice();
         });
 
         $('.solutionQuestion input,.solutionQuestion textarea,.solutionQuestion select')
@@ -141,6 +184,7 @@
                     value: value
                 })
 
+                updateSubmitButton();
                 showSavedToast();
             });
 
@@ -159,6 +203,8 @@
             $(this).datepicker('setDate', date);
         });
 
+        updateSubmitButton()
+        updateShownQuestionsAccordingToPractice();
     });
 </script>
 @endsection
