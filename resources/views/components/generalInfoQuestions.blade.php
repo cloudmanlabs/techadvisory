@@ -42,7 +42,7 @@
             {{$projectEdit ? 'disabled' : ''}}
             {{$disableSpecialQuestions ? 'disabled' : ''}}
         >
-            <option selected="" disabled="">Please select the Client company name*</option>
+            <option selected="" disabled="">Please select the Client company name</option>
             @php
                 $currentlySelected = $project->client->id ?? -1;
             @endphp

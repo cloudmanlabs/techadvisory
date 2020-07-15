@@ -30,18 +30,18 @@
                                 </div>
 
                                 <div class="form-group">
-                                    <label for="clientNameInput">Client company contact email</label>
+                                    <label for="clientEmailInput">Client company contact email*</label>
                                     <input class="form-control" id="clientEmailInput" value="{{$firstTime ? '' : $client->email}}" type="text">
                                 </div>
 
                                 @if(!$client->credentials->first())
                                     <div class="form-group">
-                                        <label for="clientNameInput">First user email*</label>
+                                        <label for="clientFirstEmailInput">First user email*</label>
                                         <input class="form-control" id="clientFirstEmailInput" value="{{optional($client->credentials->first())->email}}" type="text"
                                             required>
                                     </div>
                                     <div class="form-group">
-                                        <label for="clientNameInput">First user name*</label>
+                                        <label for="clientFirstNameInput">First user name*</label>
                                         <input class="form-control" id="clientFirstNameInput" value="{{optional($client->credentials->first())->name}}"
                                             type="text" required>
                                     </div>
@@ -56,7 +56,7 @@
                                 <br>
                                 <div class="form-group">
                                     <label for="exampleFormControlSelect1">Industry Experience*</label>
-                                    <select class="form-control" id="exampleFormControlSelect1">
+                                    <select class="form-control" id="exampleFormControlSelect1" required>
                                         <option selected>
                                             Please select your industry
                                         </option>
