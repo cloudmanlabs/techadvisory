@@ -14,6 +14,22 @@
                     <div class="col-lg-12 grid-margin stretch-card">
                         <div class="card">
                             <div class="card-body">
+                                <h3>Short Description</h3>
+                                <br>
+                                <p>
+                                    {{ $project->shortDescription() }}
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <br>
+
+                <div class="row">
+                    <div class="col-lg-12 grid-margin stretch-card">
+                        <div class="card">
+                            <div class="card-body">
                                 @if ($application->invitedToOrals)
                                     <h3>Session details</h3>
                                     <p class="welcome_text extra-top-15px">

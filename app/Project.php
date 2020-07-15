@@ -256,6 +256,14 @@ class Project extends Model
         return $this->hasMany(SelectionCriteriaQuestionResponse::class, 'project_id')->where('vendor_id', $vendor->id);
     }
 
+    // Sorry for this  🙃
+    public function shortDescription()
+    {
+        return optional($this->generalInfoQuestions()->whereHas('originalQuestion', function($query){
+            return $query->where('label', 'Short Description');
+        })->first())->response;
+    }
+
 
 
 
