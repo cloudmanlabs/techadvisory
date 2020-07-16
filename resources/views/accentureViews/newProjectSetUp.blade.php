@@ -283,8 +283,28 @@
         return true
     }
 
+    function thereIsAtLeastOneSizingSelected()
+    {
+        let array = $('.checkboxesDiv input')
+            .toArray();
+
+        for (let i = 0; i < array.length; i++) {
+            if($(array[i]).prop('checked')){
+                console.log('not checked',array[i])
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     function updateSubmitStep3()
     {
+        if(!thereIsAtLeastOneSizingSelected()){
+            $('#step3Submit').attr('disabled', true)
+            return;
+        }
+
         // If we filled all the fields, remove the disabled from the button.
         let fieldsAreEmtpy = !checkIfAllRequiredsAreFilled();
         console.log(fieldsAreEmtpy)
