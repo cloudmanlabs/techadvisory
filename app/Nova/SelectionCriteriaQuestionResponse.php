@@ -54,6 +54,8 @@ class SelectionCriteriaQuestionResponse extends Resource
      */
     public function fields(Request $request)
     {
+        $response = 'Question: ' . optional($this->originalQuestion)->label;
+
         return [
             BelongsTo::make('Question', 'originalQuestion', 'App\Nova\SelectionCriteriaQuestion')
                 ->hideWhenUpdating(),
@@ -61,6 +63,7 @@ class SelectionCriteriaQuestionResponse extends Resource
             BelongsTo::make('Vendor', 'vendor', 'App\Nova\User'),
 
             Text::make('Response', 'response')
+                ->help($response)
                 ->hideWhenCreating(),
 
             Number::make('Score', 'score')

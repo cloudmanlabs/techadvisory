@@ -162,6 +162,7 @@ class VendorApplication extends Model
         $vendorQuestions = $this->project
                                 ->selectionCriteriaQuestionsOriginals()
                                 ->whereIn('page', $pages)
+                                ->where('required', true)
                                 ->pluck('id')
                                 ->toArray();
 

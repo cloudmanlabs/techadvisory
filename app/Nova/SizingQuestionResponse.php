@@ -53,6 +53,8 @@ class SizingQuestionResponse extends Resource
      */
     public function fields(Request $request)
     {
+        $response = 'Question: ' . optional($this->originalQuestion)->label;
+
         return [
             BelongsTo::make('Project', 'project', 'App\Nova\Project'),
             BelongsTo::make('Question', 'originalQuestion', 'App\Nova\SizingQuestion')
@@ -63,6 +65,7 @@ class SizingQuestionResponse extends Resource
             }),
 
             Text::make('Response', 'response')
+                ->help($response)
                 ->hideWhenCreating(),
             Boolean::make('Should show', 'shouldShow'),
         ];

@@ -42,7 +42,7 @@ class Project extends Resource
      * @var array
      */
     public static $search = [
-        'id', 'name'
+        'id', 'name', 'currentPhase'
     ];
 
     /**
@@ -70,7 +70,8 @@ class Project extends Resource
                 ->hideWhenCreating()
                 ->hideWhenUpdating(function(){
                     return $this->currentPhase == 'preparation';
-                }),
+                })
+                ->sortable(),
 
             DateTime::make('Deadline', 'deadline')
                 ->sortable(),

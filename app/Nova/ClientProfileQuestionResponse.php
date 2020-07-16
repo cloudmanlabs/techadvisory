@@ -52,12 +52,14 @@ class ClientProfileQuestionResponse extends Resource
      */
     public function fields(Request $request)
     {
+        $response = 'Question: ' . optional($this->originalQuestion)->label;
         return [
             BelongsTo::make('Client', 'client', 'App\Nova\User'),
             BelongsTo::make('Question', 'originalQuestion', 'App\Nova\ClientProfileQuestion')
                 ->hideWhenUpdating(),
 
             Text::make('Response', 'response')
+                ->help($response)
                 ->hideWhenCreating(),
         ];
     }

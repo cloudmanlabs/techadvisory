@@ -89,7 +89,11 @@ class Accenture extends Resource
                 ])
                 ->displayUsingLabels(),
 
-            Text::make('Region', 'region'),
+            Select::make('Region', 'region')
+                ->options(config('arrays.regions'))
+                ->displayUsingLabels(),
+
+            // Text::make('Region', 'region'),
         ];
     }
 
