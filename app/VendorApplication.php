@@ -64,7 +64,22 @@ class VendorApplication extends Model
 
 
 
+    public function progress() : int
+    {
+        $progressSetUp = $this->progressFitgap();
+        $progressValue = $this->progressVendor();
+        $progressResponse = $this->progressExperience();
+        $progressAnalytics = $this->progressInnovation();
+        $progressImplementation = $this->progressImplementation();
+        $progressSubmit = $this->progressSubmit();
 
+        return $progressSetUp +
+            $progressValue +
+            $progressResponse +
+            $progressAnalytics +
+            $progressImplementation +
+            $progressSubmit;
+    }
 
     public function progressFitgap() : int
     {

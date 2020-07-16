@@ -58,9 +58,9 @@
         if($progressImplementation == 30){
             $finishedPhases[] = 'Implementation & Commercial';
         }
-        if($progressSubmit == 10){
-            $finishedPhases[] = 'Submit';
-        }
+        // if($progressSubmit == 10){
+        //     $finishedPhases[] = 'Submit';
+        // }
 
         if(count($finishedPhases)  > 0){
             echo 'Finished phases: ' . implode(', ', $finishedPhases);

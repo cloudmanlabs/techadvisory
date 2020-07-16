@@ -14,6 +14,8 @@
             max="10"
             data-changingid="{{$changing}}"
             value="{{$score}}"
-            onkeypress="if(event.which &lt; 48 || event.which &gt; 57 ) if(event.which != 8) if(event.keyCode != 9) return false;">
+            onkeypress="if(event.which &lt; 48 || event.which &gt; 57 ) if(event.which != 8) if(event.keyCode != 9) return false;"
+            onblur="this.value = this.value > 10 ? 10 : this.value"
+        >
     </div>
 </div>
