@@ -19,6 +19,7 @@ abstract class Question extends Model
         'selectMultiple' => 'Select multiple',
         'date' => 'Date',
         'number' => 'Number',
+        'email' => 'Email',
     ];
 
     const selectTypesDisplay = [
@@ -28,11 +29,12 @@ abstract class Question extends Model
         'selectMultiple' => 'Select multiple',
         'date' => 'Date',
         'number' => 'Number',
+        'email' => 'Email',
         'file' => 'File',
         'special' => 'Special'
     ];
 
-    const questionTypes = ['text', 'textarea', 'selectSingle', 'selectMultiple', 'date', 'number'];
+    const questionTypes = ['text', 'textarea', 'selectSingle', 'selectMultiple', 'date', 'number', 'email'];
     const presetOptions = [
         'practices',
         'countries',

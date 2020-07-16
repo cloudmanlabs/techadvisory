@@ -144,7 +144,7 @@
 </div>
 
 <x-questionForeachWithOnlyView :questions="$project->generalInfoQuestionsInPage('project_info')" :class="'generalQuestion'" :disabled="$disabled"
-    :required="$required" :onlyView="$disableSpecialQuestions"/>
+    :required="$required" :skipQuestionsInVendor="$hideQuestionsForVendor" :onlyView="$disableSpecialQuestions"/>
 
 <h4>1.2. Practice</h4>
 <br>

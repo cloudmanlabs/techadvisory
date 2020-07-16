@@ -17,7 +17,7 @@
                                     {{nova_get_setting('vendor_project_information') ?? ''}}
                                 </p>
                                 <br>
-                                <div id="projectViewWizard">
+                                <div id="wizaaard">
                                     <h2>General Info</h2>
                                     <section>
                                         <p class="welcome_text extra-top-15px">
@@ -124,7 +124,37 @@
 @section('scripts')
 @parent
 <script>
+    var currentPracticeId = {{$project->practice->id ?? -1}};
+    function updateShownQuestionsAccordingToPractice(){
+        $('.questionDiv').each(function () {
+            let practiceId = $(this).data('practice');
+
+            if(practiceId == currentPracticeId || practiceId == "") {
+                $(this).css('display', 'block')
+            } else {
+                $(this).css('display', 'none')
+            }
+        });
+    }
+
     $(document).ready(function() {
+        $("#wizaaard").steps({
+            headerTag: "h2",
+            bodyTag: "section",
+            showFinishButtonAlways: false,
+            enableFinishButton: false,
+            enableAllSteps: true,
+            enablePagination: false,
+            // HACK Cause otherwise subwizards don't work
+            onStepChanged: function(e, c, p) {
+                for (let i = 0; i < 10; i++) {
+                    $("#projectViewWizard-p-" + i).css("display", "none");
+                }
+
+                $("#projectViewWizard-p-" + c).css("display", "block");
+            }
+        });
+
         $(".js-example-basic-single").select2();
         $(".js-example-basic-multiple").select2();
 
@@ -139,6 +169,7 @@
             $(this).datepicker('setDate', date);
         });
 
+        updateShownQuestionsAccordingToPractice()
     });
 </script>
 @endsection
