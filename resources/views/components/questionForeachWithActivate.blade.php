@@ -111,6 +111,8 @@
                         {{$disabled ? 'disabled' : ''}}
                         class="form-control"
                         type="number"
+                        {{-- oninput="this.value = this.value.replaceAll(/[^0-9]/g, '')" --}}
+                        onkeypress="if(event.which &lt; 48 || event.which &gt; 57 ) if(event.which != 8) if(event.keyCode != 9) return false;"
                         data-changing="{{$question->id}}"
                         {{$question->originalQuestion->required ? 'required' : ''}}
                         value="{{$question->response}}"
