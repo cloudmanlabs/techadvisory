@@ -47,7 +47,7 @@
             $finishedPhases[] = 'Set Up';
         }
         if($project->hasValueTargeting && $progressValue >= 20){
-            $finishedPhases[] = 'Value';
+            $finishedPhases[] = 'Value Targeting';
         }
         if($progressResponse >= 25){
             $finishedPhases[] = 'Vendor Responses';
