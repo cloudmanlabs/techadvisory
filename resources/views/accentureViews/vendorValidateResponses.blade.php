@@ -56,8 +56,6 @@
 
 
                                         <x-questionForeachWithActivate :questions="$generalQuestions" :class="'profileQuestion'" :disabled="true" :required="false" />
-
-                                        <x-folderFileUploader :folder="$vendor->profileFolder" :disabled="true" :timeout="1000"/>
                                     </section>
 
                                     <h2>Company information</h2>
@@ -80,6 +78,9 @@
                                         </div>
                                         <br><br>
                                     </section>
+                                </div>
+                                <div>
+                                    <x-folderFileUploader :folder="$vendor->profileFolder" :disabled="true" :timeout="1000"/>
                                 </div>
                             </div>
                         </div>

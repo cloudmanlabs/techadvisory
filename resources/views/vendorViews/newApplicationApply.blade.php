@@ -51,7 +51,9 @@
                                         </p>
                                         <br>
                                         <x-questionForeach :questions="$vendorCorporateQuestions" :class="'selectionCriteriaQuestion'" :disabled="false" :required="false" />
-
+                                        
+                                        <x-folderFileUploader :folder="$project->rfpFolder" :timeout="1000" />
+                                        
                                         <br><br>
                                         <h4>Market presence</h4>
                                         <p class="welcome_text extra-top-15px">
@@ -74,6 +76,9 @@
                                         <br>
                                         <x-questionForeach :questions="$experienceQuestions" :class="'selectionCriteriaQuestion'" :disabled="false"
                                             :required="false" />
+
+                                        <x-folderFileUploader :folder="$project->rfpFolder" :timeout="1000" />
+                                        
                                     </section>
 
                                     <h2>Innovation & Vision</h2>

@@ -16,10 +16,10 @@ $disabled = $disabled ?? false;
     </div>
     <div style="display: flex; flex-direction: row">
         <input type="number" class="form-control nonBindingInput" placeholder="Min" data-changing="overallImplementationMin"
-            value="{{$vendorApplication->overallImplementationMin}}" required
+            value="{{$vendorApplication->overallImplementationMin}}" required min="0"
             {{$disabled ? 'disabled' : ''}}>
         <input style="margin-left: 1rem;" type="number" class="form-control nonBindingInput" placeholder="Max" data-changing="overallImplementationMax"
-            value="{{$vendorApplication->overallImplementationMax}}" required
+            value="{{$vendorApplication->overallImplementationMax}}" required min="0"
             {{$disabled ? 'disabled' : ''}}>
     </div>
 </div>
