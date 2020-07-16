@@ -23,7 +23,7 @@ class AccentureUserExport implements FromCollection
         $return = $this->users->map(function (User $user) {
             return [
                 'Tool Id' => $user->id,
-                'Enterprise Id' => $user->enterpriseName,
+                'Enterprise Id' => $user->enterpriseId,
                 'Name' => $user->name,
                 'Email' => $user->email,
                 'Role Description' => User::allTypes[$user->userType] ?? '', // Get dynamically

@@ -87,10 +87,13 @@ class FitgapController extends Controller
         $result = [];
         // Merge the two arrays
         foreach ($project->fitgap5Columns as $key => $something) {
-            $result[] = array_merge($project->fitgap5Columns[$key], $vendorApplication->fitgapVendorColumns[$key] ?? [
-                'Vendor Response' => '',
-                'Comments' => '',
-            ]);
+            $result[] = array_merge(
+                $project->fitgap5Columns[$key],
+                $vendorApplication->fitgapVendorColumns[$key] ?? [
+                    'Vendor Response' => '',
+                    'Comments' => '',
+                ]
+            );
         }
 
         return $result;
@@ -110,10 +113,17 @@ class FitgapController extends Controller
         $result = [];
         // Merge the two arrays
         foreach ($project->fitgap5Columns as $key => $something) {
-            $row = array_merge($project->fitgap5Columns[$key], $vendorApplication->fitgapVendorColumns[$key] ?? [
-                'Vendor Response' => '',
-                'Comments' => '',
-            ]);
+            $row = array_merge(
+                $project->fitgap5Columns[$key],
+                $project->fitgapClientColumns[$key] ?? [
+                    'Client' => '',
+                    'Business Opportunity' => '',
+                ],
+                $vendorApplication->fitgapVendorColumns[$key] ?? [
+                    'Vendor Response' => '',
+                    'Comments' => '',
+                ],
+            );
             //$row['Score'] = $vendorApplication->fitgapVendorScores[$key] ?? 5;
 
             $result[] = $row;
@@ -200,6 +210,8 @@ class FitgapController extends Controller
 
     public function evaluationJsonUpload(Request $request, User $vendor, Project $project)
     {
+        return 'Deprecated';
+
         $request->validate([
             'data' => 'required|array'
         ]);

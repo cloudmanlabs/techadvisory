@@ -67,6 +67,23 @@
                     },
                     {
                         type: 'dropdown',
+                        title: 'Client',
+                        width: 240,
+                        source: [
+                            'Must',
+                            'Required',
+                            'Nice to have',
+                        ],
+                        readOnly: true,
+                    },
+                    {
+                        type: 'text',
+                        title: 'Business Opportunity',
+                        width: 210,
+                        readOnly: true,
+                    },
+                    {
+                        type: 'dropdown',
                         title: 'Vendor Response',
                         width: 200,
                         source: [
