@@ -116,11 +116,3 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('security/logs/export', 'SecurityLogController@exportAll');
 });
-
-
-Route::get('createVendorFolders', function(){
-    foreach (VendorApplication::all() as $key => $application) {
-        $application->corporateFolder()->save(Folder::createNewRandomFolder('corporate'));
-        $application->experienceFolder()->save(Folder::createNewRandomFolder('experience'));
-    }
-});
