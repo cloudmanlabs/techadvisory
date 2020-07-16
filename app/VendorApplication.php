@@ -3,6 +3,7 @@
 namespace App;
 
 use Exception;
+use Guimcaballero\LaravelFolders\Models\Folder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Log;
 
@@ -58,6 +59,15 @@ class VendorApplication extends Model
         return $this->belongsTo(Project::class, 'project_id');
     }
 
+    public function corporateFolder()
+    {
+        return $this->morphOne(Folder::class, 'folderable')->where('folderable_group', 'corporate');
+    }
+
+    public function experienceFolder()
+    {
+        return $this->morphOne(Folder::class, 'folderable')->where('folderable_group', 'experience');
+    }
 
 
 

@@ -5,6 +5,7 @@ use App\SecurityLog;
 use App\SelectionCriteriaQuestionResponse;
 use App\User;
 use App\VendorApplication;
+use Guimcaballero\LaravelFolders\Models\Folder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
@@ -117,6 +118,9 @@ Route::middleware(['auth'])->group(function () {
 });
 
 
-Route::get('testing', function(){
-
+Route::get('createVendorFolders', function(){
+    foreach (VendorApplication::all() as $key => $application) {
+        $application->corporateFolder()->save(Folder::createNewRandomFolder('corporate'));
+        $application->experienceFolder()->save(Folder::createNewRandomFolder('experience'));
+    }
 });

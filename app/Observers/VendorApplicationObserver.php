@@ -3,6 +3,7 @@
 namespace App\Observers;
 
 use App\VendorApplication;
+use Guimcaballero\LaravelFolders\Models\Folder;
 
 class VendorApplicationObserver
 {
@@ -22,5 +23,8 @@ class VendorApplicationObserver
         $application->fitgapVendorColumns = $fitgapColumns;
         $application->fitgapVendorScores = $scores;
         $application->save();
+
+        $application->corporateFolder()->save(Folder::createNewRandomFolder('corporate'));
+        $application->experienceFolder()->save(Folder::createNewRandomFolder('experience'));
     }
 }
