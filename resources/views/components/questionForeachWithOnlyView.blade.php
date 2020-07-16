@@ -127,6 +127,21 @@
                     placeholder="{{$question->originalQuestion->placeholder}}">
             </div>
             @break
+        @case('email')
+            <div class="form-group questionDiv {{$class}} emailField" data-practice="{{$question->originalQuestion->practice->id ?? ''}}">
+                <label>{{$question->originalQuestion->label}}{{$question->originalQuestion->required || $required? '*' : ''}}</label>
+                <input
+                    {{$required ? 'required' : ''}}
+                    {{$disabled ? 'disabled' : ''}}
+                    class="form-control"
+                    type="text"
+                    data-changing="{{$question->id}}"
+                    min="0"
+                    {{$question->originalQuestion->required ? 'required' : ''}}
+                    value="{{$question->response}}"
+                    placeholder="{{$question->originalQuestion->placeholder}}">
+            </div>
+            @break
         @case('file')
             <div class="form-group questionDiv" data-practice="{{$question->originalQuestion->practice->id ?? ''}}">
                 <x-questionFileUploader

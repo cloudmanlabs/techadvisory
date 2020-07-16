@@ -82,7 +82,7 @@
 		if(array.length == 0) return true;
 
         for (let i = 0; i < array.length; i++) {
-            if(!$(array[i]).is(':hasValue')){
+            if(!$(array[i]).is(':hasValue') || $(array[i]).hasClass('invalid')){
                 console.log(array[i])
                 return false
             }

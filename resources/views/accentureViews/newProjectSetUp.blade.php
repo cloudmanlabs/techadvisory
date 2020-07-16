@@ -268,13 +268,13 @@
             .filter('[required]')
             .toArray()
             .filter(function(el){
-                // we only want the questions that are being shown now to be required
-                return $(el).parent('.questionDiv').is(":visible");
+                const practiceId = $(el).parent('.questionDiv').data('practice');
+                return practiceId == currentPracticeId || practiceId == "";
             });
 		if(array.length == 0) return true;
 
         for (let i = 0; i < array.length; i++) {
-            if(!$(array[i]).is(':hasValue')){
+            if(!$(array[i]).is(':hasValue') || $(array[i]).hasClass('invalid')){
                 console.log(array[i])
                 return false
             }
@@ -287,6 +287,7 @@
     {
         // If we filled all the fields, remove the disabled from the button.
         let fieldsAreEmtpy = !checkIfAllRequiredsAreFilled();
+        console.log(fieldsAreEmtpy)
         if(fieldsAreEmtpy || $('#step3Submit').data('submitted') == 1){
             $('#step3Submit').attr('disabled', true)
         } else {
@@ -586,8 +587,6 @@
 
             showSavedToast();
         });
-
-
 
         // On change for the rest
 

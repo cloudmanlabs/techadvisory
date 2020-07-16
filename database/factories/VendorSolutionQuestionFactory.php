@@ -45,5 +45,10 @@ $factory->define(VendorSolutionQuestion::class, function (Faker $faker) {
                 'label' => 'How are you?',
                 'type' => $type,
             ];
+        case 'email':
+            return [
+                'label' => 'How are you?',
+                'type' => $type,
+            ];
     }
 });

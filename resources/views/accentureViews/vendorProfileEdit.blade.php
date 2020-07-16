@@ -48,7 +48,7 @@
                                             <label for="vendorRoleInput">Vendor company contact role</label>
                                             <input class="form-control" id="vendorRoleInput" placeholder="Enter Role"
                                                 type="text"
-                                                value="{{$firstTime ? '' : $vendor->role}}" 
+                                                value="{{$firstTime ? '' : $vendor->role}}"
                                                  >
                                         </div> -->
 
@@ -56,7 +56,7 @@
                                             <label for="vendorAddressInput">Company address</label>
                                             <input class="form-control" id="vendorAddressInput" placeholder="Enter Address"
                                                 type="text"
-                                                value="{{$firstTime ? '' : $vendor->address}}" 
+                                                value="{{$firstTime ? '' : $vendor->address}}"
                                                  >
                                         </div> -->
 
@@ -166,7 +166,7 @@
 		if(array.length == 0) return true;
 
         for (let i = 0; i < array.length; i++) {
-            if(!$(array[i]).is(':hasValue')){
+            if(!$(array[i]).is(':hasValue') || $(array[i]).hasClass('invalid')){
                 console.log(array[i])
                 return false
             }

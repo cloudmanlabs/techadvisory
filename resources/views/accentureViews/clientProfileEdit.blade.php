@@ -12,7 +12,7 @@
                             <div class="card-body">
                                 <div style="display: flex; justify-content: space-between">
                                     <h3>Complete the Profile</h3>
-                                    <a class="btn btn-primary btn-lg btn-icon-text"
+                                    <a id="submitButton" class="btn btn-primary btn-lg btn-icon-text"
                                         href="{{route('accenture.clientProfileView', ['client' => $client])}}">Save</a>
                                 </div>
 
@@ -22,7 +22,6 @@
                                 </p>
                                 <br>
                                 <br>
-
 
                                 <div class="form-group">
                                     <label for="clientNameInput">Client company name*</label>
@@ -211,7 +210,7 @@
 		if(array.length == 0) return true;
 
         for (let i = 0; i < array.length; i++) {
-            if(!$(array[i]).is(':hasValue')){
+            if(!$(array[i]).is(':hasValue') || $(array[i]).hasClass('invalid')){
                 console.log(array[i])
                 return false
             }
@@ -233,9 +232,9 @@
     {
         // If we filled all the fields, remove the disabled from the button.
         if(checkIfAllRequiredsAreFilled()){
-            $('#submitButton').attr('disabled', false)
+            $('#submitButton').removeClass('disabled')
         } else {
-            $('#submitButton').attr('disabled', true)
+            $('#submitButton').addClass('disabled')
         }
     }
 
