@@ -18,16 +18,6 @@
     Please distribute all Percentage Bricks depending on how much weight you want to give to each section.
 </p>
 
-<div>
-    <ul id="simpleList" class="brickList">
-        @for ($i = 0; $i < 20 - array_sum($values); $i++)
-        <li data-id="{{$dataId++}}">
-            5%
-        </li>
-        @endfor
-    </ul>
-</div>
-
 <div class="table-responsive">
     <table class="table table-striped">
         <thead>

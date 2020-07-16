@@ -34,16 +34,6 @@
     </p>
     <br>
 
-    <div>
-        <ul id="weightList" class="brickList">
-            @for ($i = 0; $i < 20 - array_sum($weightValues); $i++)
-            <li data-id="{{$weightDataId++}}">
-                5%
-            </li>
-            @endfor
-        </ul>
-    </div>
-
     <div class="table-responsive">
         <table class="table table-striped">
             <thead>
@@ -130,16 +120,6 @@
         please specify a percentage. To do so, drag and drop the building blocks.
     </p>
     <br>
-
-    <div>
-        <ul id="impWeigthsList" class="brickList">
-            @for ($i = 0; $i < 20 - array_sum($implementationValues); $i++)
-            <li data-id="{{$implementationDataId++}}">
-                5%
-            </li>
-            @endfor
-        </ul>
-    </div>
 
     <div class="table-responsive">
         <table class="table table-striped">
