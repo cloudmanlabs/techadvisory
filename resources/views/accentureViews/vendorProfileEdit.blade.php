@@ -106,8 +106,6 @@
                                         <br>
 
                                         <x-questionForeach :questions="$generalQuestions" :class="'profileQuestion'" :disabled="false" :required="false" />
-
-                                        <x-folderFileUploader :folder="$vendor->profileFolder" :timeout="1000"/>
                                     </section>
 
 
@@ -121,6 +119,9 @@
                                     <section>
                                         <x-questionForeach :questions="$legalQuestions" :class="'profileQuestion'" :disabled="false" :required="false" />
                                     </section>
+                                </div>
+                                <div>
+                                    <x-folderFileUploader :folder="$vendor->profileFolder" :timeout="1000"/>
                                 </div>
                             </div>
                         </div>
