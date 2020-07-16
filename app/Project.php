@@ -31,6 +31,8 @@ use Illuminate\Support\Facades\Log;
  * @property boolean $step4SubmittedAccenture
  * @property boolean $step4SubmittedClient
  *
+ * @property bool $hasUploadedFitgap
+ *
  * @property array $scoringValues
  * @property string $rfpOtherInfo
  *

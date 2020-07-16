@@ -92,6 +92,9 @@ class Project extends Resource
             Boolean::make('Client submitted Selection Criteria', 'step4SubmittedClient')
                 ->hideFromIndex(),
 
+            Boolean::make('Has Uploaded Fitgap', 'hasUploadedFitgap')
+                ->hideFromIndex(),
+
             Number::make('Set Up Progress', function(){
                 return $this->progressSetUp();
             })

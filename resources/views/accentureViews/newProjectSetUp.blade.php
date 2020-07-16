@@ -119,6 +119,9 @@
                                                             </span>
                                                         </div>
                                                     </div>
+                                                    <p>
+                                                        Please reload the page after uploading a new Fitgap
+                                                    </p>
                                                     <br>
                                                     <p style="font-size: 12px">
                                                         Do not include personal, sensitive data, personal data relating to criminal convictions and offences or financial
@@ -165,6 +168,7 @@
                                                     <button
                                                         class="btn btn-primary"
                                                         id="step4Submit"
+                                                        {{ $project->hasUploadedFitgap ? '' : 'disabled'}}
                                                         {{ !$project->step3SubmittedAccenture ? 'disabled' : ''}}
                                                         {{ $project->step4SubmittedAccenture ? 'disabled' : ''}}
                                                     >{{ $project->step4SubmittedAccenture ? 'Submitted' : 'Submit'}}</button>
