@@ -34,18 +34,18 @@ $disabled = $disabled ?? false;
                     placeholder="Estimated number of hours"
                     value="{{$row['hours'] ?? ''}}" required
                     style="margin-left: 1rem"
-                    {{$disabled ? 'disabled' : ''}}>
+                    {{$disabled ? 'disabled' : ''}}  min="0">
                 <input type="number" class="form-control staffingCostRateInput"
                     placeholder="Hourly rate"
                     style="margin-left: 1rem"
                     value="{{$row['rate'] ?? ''}}" required
-                    {{$disabled ? 'disabled' : ''}}>
+                    {{$disabled ? 'disabled' : ''}}  min="0">
                 <input type="number" class="form-control staffingCostCostInput"
                     placeholder="Staffing cost"
                     style="margin-left: 1rem"
                     value="{{$row['cost'] ?? ''}}"
                     disabled
-                    {{$disabled ? 'disabled' : ''}}>
+                    {{$disabled ? 'disabled' : ''}} min="0">
             </div>
         </div>
         @endforeach
@@ -84,16 +84,16 @@ $disabled = $disabled ?? false;
                     <input type="number" class="form-control staffingCostHoursInput"
                         placeholder="Estimated number of hours"
                         style="margin-left: 1rem"
-                        value="" required>
+                        value="" required  min="0">
                     <input type="number" class="form-control staffingCostRateInput"
                         placeholder="Hourly rate"
                         style="margin-left: 1rem"
-                        value="" required>
+                        value="" required  min="0">
                     <input type="number" class="form-control staffingCostCostInput"
                         placeholder="Staffing cost"
                         style="margin-left: 1rem"
                         disabled
-                        value="" required>
+                        value="" required min="0">
                 </div>
             </div>
             `;

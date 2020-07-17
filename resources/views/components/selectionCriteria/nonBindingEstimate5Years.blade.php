@@ -20,10 +20,10 @@ $disabled = $disabled ?? false;
         <div style="display: flex; flex-direction: row">
             <input type="number" id="averageYearlyCostMin" class="form-control nonBindingInput" placeholder="Min" data-changing="averageYearlyCostMin"
                 value="{{$vendorApplication->averageYearlyCostMin}}" required
-                {{$disabled ? 'disabled' : ''}}>
+                {{$disabled ? 'disabled' : ''}} min="0">
             <input style="margin-left: 1rem;" id="averageYearlyCostMax" type="number" class="form-control nonBindingInput" placeholder="Max" data-changing="averageYearlyCostMax"
                 value="{{$vendorApplication->averageYearlyCostMax}}" required
-                {{$disabled ? 'disabled' : ''}}>
+                {{$disabled ? 'disabled' : ''}} min="0">
         </div>
     </div>
     <div>
@@ -39,10 +39,10 @@ $disabled = $disabled ?? false;
         <div style="display: flex; flex-direction: row">
             <input type="number" class="form-control nonBindingInput" placeholder="Min" data-changing="totalRunCostMin"
                 value="{{$vendorApplication->totalRunCostMin}}" required
-                {{$disabled ? 'disabled' : ''}}>
+                {{$disabled ? 'disabled' : ''}} min="0">
             <input style="margin-left: 1rem;" type="number" class="form-control nonBindingInput" placeholder="Max" data-changing="totalRunCostMax"
                 value="{{$vendorApplication->totalRunCostMax}}" required
-                {{$disabled ? 'disabled' : ''}}>
+                {{$disabled ? 'disabled' : ''}} min="0">
         </div>
     </div>
 
@@ -55,6 +55,7 @@ $disabled = $disabled ?? false;
                 placeholder="Percentage out of total run"
                 value="{{$cost ?? ''}}"
                 required
+                min="0"
                 {{$disabled ? 'disabled' : ''}}>
         </div>
         @endforeach

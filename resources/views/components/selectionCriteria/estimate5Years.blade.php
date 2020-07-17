@@ -14,6 +14,7 @@ $disabled = $disabled ?? false;
             <input type="number" class="form-control estimate5YearsHoursInput"
                 placeholder="Cost"
                 {{$disabled ? 'disabled' : ''}}
+                min="0"
                 value="{{$cost ?? ''}}"
                 required>
         </div>
