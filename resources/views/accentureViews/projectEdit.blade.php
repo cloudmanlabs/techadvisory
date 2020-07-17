@@ -479,6 +479,37 @@
         });
 
         $('#saveVendorsButton').click(function(){
+            const submittedVendors = [
+                @foreach($project->vendorApplications->filter(function($application){
+                    return $application->phase == "submitted";
+                }) as $application)
+                    "{{$application->vendor->id}}",
+                @endforeach
+            ]
+
+            const listOfVendors = $('#vendorSelection').val();
+            console.log(listOfVendors)
+            console.log(submittedVendors)
+
+            function intersect(a, b) {
+                var t;
+                if (b.length > a.length) t = b, b = a, a = t; // indexOf to loop over shorter
+                return a.filter(function (e) {
+                    return b.indexOf(e) > -1;
+                });
+            }
+
+            if(intersect(submittedVendors, listOfVendors).length != submittedVendors.length){
+                $.toast({
+                    heading: 'Can\'t remove vendors who have submitted!',
+                    showHideTransition: 'slide',
+                    icon: 'error',
+                    hideAfter: 1000,
+                    position: 'bottom-right'
+                })
+                return;
+            }
+
             $.post('/accenture/newProjectSetUp/updateVendors', {
                 project_id: '{{$project->id}}',
                 vendorList: $('#vendorSelection').val()
