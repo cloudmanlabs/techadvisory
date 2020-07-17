@@ -23,13 +23,13 @@ $disabled = $disabled ?? false;
                     placeholder="Title"
                     value="{{$cost['title'] ?? ''}}"
                     required
-                    {{$disabled ? 'disabled' : ''}}>
+                    {{$disabled ? 'disabled' : ''}} min="0">
                 <input type="number" class="form-control travelCostInput"
                     style="margin-left: 1rem"
                     placeholder="Monthly travel cost"
                     value="{{$cost['cost'] ?? ''}}"
                     required
-                    {{$disabled ? 'disabled' : ''}}>
+                    {{$disabled ? 'disabled' : ''}} min="0">
             </div>
         </div>
         @endforeach
@@ -65,12 +65,12 @@ $disabled = $disabled ?? false;
                     <input type="text" class="form-control travelTitleInput"
                         placeholder="Title"
                         value=""
-                        required>
+                        required  min="0">
                     <input type="number" class="form-control travelCostInput"
                         style="margin-left: 1rem"
                         placeholder="Monthly travel cost"
                         value=""
-                        required>
+                        required  min="0">
                 </div>
             </div>
             `;

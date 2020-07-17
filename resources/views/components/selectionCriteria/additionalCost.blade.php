@@ -27,6 +27,7 @@
                 <input type="number" class="form-control additionalCostInput"
                     style="margin-left: 1rem"
                     placeholder="Cost"
+                    min="0"
                     {{$disabled ? 'disabled' : ''}}
                     value="{{$cost['cost'] ?? ''}}" required>
             </div>
@@ -66,6 +67,7 @@
                     <input type="number" class="form-control additionalCostInput"
                         style="margin-left: 1rem"
                         placeholder="Cost"
+                        min="0"
                         value="" required>
                 </div>
             </div>

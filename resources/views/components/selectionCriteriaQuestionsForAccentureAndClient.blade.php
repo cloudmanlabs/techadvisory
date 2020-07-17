@@ -144,6 +144,9 @@
     <h6 style="margin-bottom: 1rem">
         Additional cost
     </h6>
+    <h6 style="margin-bottom: 1rem">
+        Overall Implementation cost
+    </h6>
 
     <br><br>
     <h4>Run</h4>
@@ -153,6 +156,9 @@
     <br>
     <h6 style="margin-bottom: 1rem">
         Pricing model
+    </h6>
+    <h6 style="margin-bottom: 1rem">
+        Estimate first 5 years billing plan
     </h6>
     <h6 style="margin-bottom: 1rem">
         Detailed breakdown
