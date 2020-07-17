@@ -22,7 +22,7 @@
                                 <div class="welcome_text welcome_box" style="clear: both; margin-top: 20px;">
                                     <div class="media d-block d-sm-flex">
                                         <div class="media-body" style="padding: 20px;">
-                                            {{nova_get_setting('accenture_projectValueTargeting_title') ?? ''}}
+                                            {{nova_get_setting('accenture_projectValueTargeting_title2') ?? ''}}
                                         </div>
                                     </div>
                                 </div>

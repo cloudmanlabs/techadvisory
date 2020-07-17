@@ -127,7 +127,7 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
                     Textarea::make('Project Benchmark Implementation: Vendor Ranking by Implementation section', 'accenture_projectBenchmarkImplementation_ranking'),
                     Textarea::make('Project Benchmark Implementation: Vendor comparison', 'accenture_projectBenchmarkImplementation_comparison'),
 
-                    Textarea::make('Project Value Targeting: Title', 'accenture_projectValueTargeting_title'),
+                    Textarea::make('Project Value Targeting: Title', 'accenture_projectValueTargeting_title2'),
                     Textarea::make('Project Value Targeting: Selected Value Levers', 'accenture_projectValueTargeting_selected'),
                     Textarea::make('Project Value Targeting: Business Opportunity Details', 'accenture_projectValueTargeting_business'),
                     Textarea::make('Project Value Targeting: Conclusions', 'accenture_projectValueTargeting_conclusions'),
