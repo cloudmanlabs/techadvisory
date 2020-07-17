@@ -44,7 +44,7 @@
                                 <br>
 
                                 <x-folderFilePreview :folder="$project->selectedValueLeversFolder" />
-                                <x-folderFileUploader :folder="$project->selectedValueLeversFolder" />
+                                <x-folderFileUploader :folder="$project->selectedValueLeversFolder" :disabled="$project->currentPhase == 'old'"/>
 
                                 <br><br><br>
 
@@ -53,7 +53,7 @@
                                     {{nova_get_setting('accenture_projectValueTargeting_business') ?? ''}}
                                 </p>
                                 <br>
-                                <x-folderFileUploader :folder="$project->businessOpportunityFolder" />
+                                <x-folderFileUploader :folder="$project->businessOpportunityFolder" :disabled="$project->currentPhase == 'old'"/>
 
                                 <br><br><br>
 
@@ -63,7 +63,7 @@
                                 </p>
                                 <br>
                                 <x-folderFilePreview :folder="$project->vtConclusionsFolder" />
-                                <x-folderFileUploader :folder="$project->vtConclusionsFolder" />
+                                <x-folderFileUploader :folder="$project->vtConclusionsFolder" :disabled="$project->currentPhase == 'old'"/>
 
                                 @if ($project->currentPhase != 'preparation')
                                 <div style="float: right; margin-top: 20px;">
