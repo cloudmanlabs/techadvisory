@@ -2,6 +2,8 @@
 
 namespace App\Exports;
 
+use App\Exports\Sheets\AnalyticsExportFitgapSheet;
+use App\Exports\Sheets\AnalyticsExportImplementationSheet;
 use App\Exports\Sheets\AnalyticsExportSheet;
 use App\Project;
 use App\VendorApplication;
@@ -26,10 +28,11 @@ class AnalyticsExport implements WithMultipleSheets, WithStrictNullComparison
     {
         $sheets = [];
 
-        $sheets[] = new AnalyticsExportSheet($this->project, 'Fitgap', ['fitgap']);
+        $sheets[] = new AnalyticsExportFitgapSheet($this->project);
         $sheets[] = new AnalyticsExportSheet($this->project, 'Vendor', ['vendor_corporate', 'vendor_market']);
+        $sheets[] = new AnalyticsExportSheet($this->project, 'Experience', ['experience']);
         $sheets[] = new AnalyticsExportSheet($this->project, 'Innovation', ['innovation_digitalEnablers', 'innovation_alliances', 'innovation_product', 'innovation_sustainability']);
-        $sheets[] = new AnalyticsExportSheet($this->project, 'Implementation', ['implementation_implementation', 'implementation_run']);
+        $sheets[] = new AnalyticsExportImplementationSheet($this->project);
 
         return $sheets;
     }

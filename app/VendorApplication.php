@@ -667,4 +667,302 @@ class VendorApplication extends Model
 
         return $this;
     }
+
+
+
+
+
+
+    public function fitgapCollectionExport(): \Illuminate\Support\Collection
+    {
+        $fitgap5Columns = $this->project->fitgap5Columns;
+        $fitgapClientColumns = $this->project->fitgapClientColumns;
+        $fitgapVendorColumns = $this->fitgapVendorColumns;
+
+        $result = [];
+        foreach ($fitgap5Columns as $key => $something) {
+            $result[] =
+                array_merge(
+                    $fitgap5Columns[$key],
+                    $fitgapClientColumns[$key] ?? [
+                        'Client' => '',
+                        'Business Opportunity' => '',
+                    ],
+                    $fitgapVendorColumns[$key] ?? [
+                        'Vendor Response' => '',
+                        'Comments' => '',
+                    ]
+                );
+        }
+
+        $result = collect($result);
+
+        $result->prepend([
+            'Requirement Type',
+            'Level 1',
+            'Level 2',
+            'Level 3',
+            'Requirement',
+            'Client',
+            'Business Opportunity',
+            'Vendor Response',
+            'Comments',
+        ]);
+
+        return $result;
+    }
+
+    public function implementationCollectionExport() : \Illuminate\Support\Collection
+    {
+        $result = [
+            [
+                'Implementation'
+            ],
+            [
+                'Solutions used',
+                implode(', ', $this->solutionsUsed ?? []) // TODO Change this to display the names
+            ],
+        ];
+
+        if ($this->deliverables != null) {
+            $result[] = [''];
+            $result[] = [
+                'Deliverables per phase',
+                'Title',
+                'Deliverable'
+            ];
+            foreach ($this->deliverables as $key => $deliverable) {
+                Log::debug($deliverable);
+                $result[] = [
+                    (intval($key) + 1),
+                    $deliverable['title'] ?? '',
+                    $deliverable['deliverable'] ?? ''
+                ];
+            }
+        }
+
+
+        if ($this->raciMatrix != null) {
+            $result[] = [''];
+            $result[] = [
+                'RACI Matrix'
+            ];
+            $result[] = [
+                '',
+                'Title',
+                'Client',
+                'Vendor',
+                'Accenture'
+            ];
+            foreach ($this->raciMatrix as $key => $row) {
+                $result[] = [
+                    (intval($key) + 1),
+                    $row['title']  ?? '',
+                    $row['client']  ?? '',
+                    $row['vendor']  ?? '',
+                    $row['accenture'] ?? ''
+                ];
+            }
+        }
+
+        $result[] = [''];
+        $result[] = [
+            'Implementation Cost',
+        ];
+        if ($this->project->isBinding) {
+            if ($this->staffingCost != null) {
+                $result[] = [''];
+                $result[] = [
+                    'Staffing Cost',
+                ];
+                $result[] = [
+                    'Title',
+                    'Estimated number of hours',
+                    'Hourly rate',
+                    'Staffing cost'
+                ];
+                $totalStaffing = 0;
+                foreach ($this->staffingCost as $key => $row) {
+                    $result[] = [
+                        $row['title'] ?? '',
+                        $row['hours'] ?? '',
+                        $row['rate'] ?? '',
+                        $row['cost'] ?? ''
+                    ];
+                    $totalStaffing += $row['cost'] ?? 0;
+                }
+                $result[] = [
+                    '',
+                    '',
+                    '',
+                    $totalStaffing
+                ];
+            }
+            if ($this->travelCost != null) {
+                $result[] = [''];
+                $result[] = [
+                    'Travel Cost',
+                ];
+                $result[] = [
+                    'Title',
+                    'Monthly travel cost',
+                ];
+                $totalStaffing = 0;
+                foreach ($this->travelCost as $key => $row) {
+                    $result[] = [
+                        $row['title'] ?? '',
+                        $row['cost'] ?? '',
+                    ];
+                    $totalStaffing += $row['cost'] ?? 0;
+                }
+                $result[] = [
+                    '',
+                    $totalStaffing
+                ];
+            }
+            if ($this->additionalCost != null) {
+                $result[] = [''];
+                $result[] = [
+                    'Additional Cost',
+                ];
+                $result[] = [
+                    'Title',
+                    'Cost',
+                ];
+                $totalAdditional = 0;
+                foreach ($this->additionalCost as $key => $row) {
+                    $result[] = [
+                        $row['title']  ?? '',
+                        $row['cost']  ?? '',
+                    ];
+                    $totalAdditional += $row['cost']  ?? 0;
+                }
+                $result[] = [
+                    '',
+                    $totalAdditional
+                ];
+            }
+
+            $result[] = [''];
+            $result[] = [
+                'Overall Implementation Cost',
+                $this->implementationCost()
+            ];
+        } else {
+            $result[] = [''];
+            $result[] = ['Overall Implementation Cost'];
+            $result[] = [
+                'Min',
+                $this->overallImplementationMin ?? ''
+            ];
+            $result[] = [
+                'Max',
+                $this->overallImplementationMax ?? ''
+            ];
+
+            $result[] = ['Total Staffing cost (%)'];
+            $result[] = [
+                'Percentage',
+                $this->staffingCostNonBinding ?? ''
+            ];
+            $result[] = [
+                'Comments',
+                $this->staffingCostNonBindingComments ?? ''
+            ];
+
+
+            $result[] = ['Total Travel cost (%)'];
+            $result[] = [
+                'Percentage',
+                $this->travelCostNonBinding ?? ''
+            ];
+            $result[] = [
+                'Comments',
+                $this->travelCostNonBindingComments ?? ''
+            ];
+
+
+            $result[] = ['Total Additional cost (%)'];
+            $result[] = [
+                'Percentage',
+                $this->additionalCostNonBinding ?? ''
+            ];
+            $result[] = [
+                'Comments',
+                $this->additionalCostNonBindingComments ?? ''
+            ];
+        }
+
+        $result[] = [''];
+        $result[] = [''];
+        $result[] = [
+            'Run',
+        ];
+
+        if ($this->project->isBinding) {
+            if ($this->estimate5Years != null) {
+                $result[] = [''];
+                $result[] = [
+                    'Estimate first 5 years billing plan',
+                ];
+                $totalRun = 0;
+                foreach ($this->estimate5Years as $key => $value) {
+                    $result[] = [
+                        'Year ' . (intval($key) + 1),
+                        $value,
+                    ];
+                    $totalRun += $value;
+                }
+
+                $result[] = [
+                    'Total Run Cost',
+                    $totalRun,
+                ];
+                $result[] = [
+                    'Average Yearly Cost',
+                    $this->averageRunCost(),
+                ];
+            }
+        } else {
+            $result[] = ['Average yearly cost'];
+            $result[] = [
+                'Min',
+                $this->averageYearlyCostMin ?? ''
+            ];
+            $result[] = [
+                'Max',
+                $this->averageYearlyCostMax ?? ''
+            ];
+
+            $result[] = ['Total run cost'];
+            $result[] = [
+                'Min',
+                $this->totalRunCostMin ?? ''
+            ];
+            $result[] = [
+                'Max',
+                $this->totalRunCostMax ?? ''
+            ];
+
+            if ($this->estimate5Years != null) {
+                $result[] = [''];
+                $result[] = [
+                    'Estimate first 5 years billing plan',
+                ];
+                foreach ($this->estimate5Years as $key => $value) {
+                    $result[] = [
+                        'Year ' . (intval($key) + 1) . ' (% out of total run cost)',
+                        $value,
+                    ];
+                }
+
+                $result[] = [
+                    'Average Yearly Cost',
+                    $this->averageRunCost(),
+                ];
+            }
+        }
+
+        return collect($result);
+    }
 }
