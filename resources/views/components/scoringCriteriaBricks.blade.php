@@ -123,23 +123,11 @@
     }, 3000);
 
     function setUp() {
-        var simpleList = document.getElementById("simpleList");
         var fitgapBricks = document.getElementById("fitgapBricks");
         var vendorBricks = document.getElementById("vendorBricks");
         var experienceBricks = document.getElementById("experienceBricks");
         var innovationBricks = document.getElementById("innovationBricks");
         var implementationBricks = document.getElementById("implementationBricks");
-
-        sortable = new Sortable(simpleList, {
-            group: {
-                name: "shared"
-            },
-            animation: 150,
-            ghostClass: "sortable-ghost",
-            onEnd: function() {
-                updateTotals();
-            }
-        });
 
         sortableFitgap = new Sortable(fitgapBricks, {
             group: {

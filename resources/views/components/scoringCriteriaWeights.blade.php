@@ -180,27 +180,13 @@
     }, 3000);
 
     function weightSetUp() {
-        var weightList = document.getElementById("weightList");
         var functionalBricks = document.getElementById("functionalBricks");
         var technicalBricks = document.getElementById("technicalBricks");
         var serviceBricks = document.getElementById("serviceBricks");
         var othersBricks = document.getElementById("othersBricks");
 
-        var impWeigthsList = document.getElementById("impWeigthsList");
         var detailImplementationBricks = document.getElementById("detailImplementationBricks");
         var runBricks = document.getElementById("runBricks");
-
-
-        sortableWeightList = new Sortable(weightList, {
-            group: {
-                name: "shared"
-            },
-            animation: 150,
-            ghostClass: "sortable-ghost",
-            onEnd: function() {
-                updateFitGapWeights();
-            }
-        });
 
         sortableFunctional = new Sortable(functionalBricks, {
             group: {
@@ -243,18 +229,6 @@
             ghostClass: "sortable-ghost",
             onEnd: function() {
                 updateFitGapWeights();
-            }
-        });
-
-
-        sortableDetailList = new Sortable(impWeigthsList, {
-            group: {
-                name: "shared"
-            },
-            animation: 150,
-            ghostClass: "sortable-ghost",
-            onEnd: function() {
-                updateImplementationWeights();
             }
         });
 
