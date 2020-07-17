@@ -162,10 +162,12 @@
                                             <div class="card-body">
                                                 <h4>Extract vendor replies for all RFP questions</h4>
                                                 <div style="text-align: center; margin-top: 30px;">
-                                                    <a class="btn btn-primary btn-lg btn-icon-text" href="{{route('client.exportAnalytics', ['project' => $project])}}">
+                                                    <button class="btn btn-primary btn-lg btn-icon-text"
+                                                        target="_blank"
+                                                        id="exportExcelButton">
                                                         <i data-feather="download"></i> &nbsp;
                                                         Download responses
-                                                    </a>
+                                                    </button>
                                                 </div>
                                             </div>
                                         </div>
@@ -194,6 +196,26 @@
 @parent
 <script>
     $(document).ready(function() {
+
+        $("#exportExcelButton").click(function(){
+            let url = "{{route('client.exportAnalytics', ['project' => $project])}}";
+
+            var selectedVendors = $('#vendorSelect').select2('data').map((el) => {
+                return $(el.element).data('vendorId')
+            });
+            if(selectedVendors.length == 0){
+                selectedVendors = $('#vendorSelect').children().toArray().map((el) => {
+                    return $(el).data('vendorId')
+                });
+            }
+
+            console.log(selectedVendors)
+
+            window.open(url + "?vendors=" + JSON.stringify(selectedVendors), '_blank')
+        });
+
+
+
     // Apex Radar chart start
     let radarChart = new ApexCharts(document.querySelector("#apexRadar1"), {
         chart: {

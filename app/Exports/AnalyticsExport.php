@@ -16,9 +16,10 @@ class AnalyticsExport implements WithMultipleSheets, WithStrictNullComparison
     /** @var Project $project */
     private $project;
 
-    public function __construct(Project $project)
+    public function __construct(Project $project, array $vendorIds)
     {
         $this->project = $project;
+        $this->vendorIds = $vendorIds;
     }
 
     /**
@@ -28,11 +29,11 @@ class AnalyticsExport implements WithMultipleSheets, WithStrictNullComparison
     {
         $sheets = [];
 
-        $sheets[] = new AnalyticsExportFitgapSheet($this->project);
-        $sheets[] = new AnalyticsExportSheet($this->project, 'Vendor', ['vendor_corporate', 'vendor_market']);
-        $sheets[] = new AnalyticsExportSheet($this->project, 'Experience', ['experience']);
-        $sheets[] = new AnalyticsExportSheet($this->project, 'Innovation', ['innovation_digitalEnablers', 'innovation_alliances', 'innovation_product', 'innovation_sustainability']);
-        $sheets[] = new AnalyticsExportImplementationSheet($this->project);
+        $sheets[] = new AnalyticsExportFitgapSheet($this->project, $this->vendorIds);
+        $sheets[] = new AnalyticsExportSheet($this->project, $this->vendorIds, 'Vendor', ['vendor_corporate', 'vendor_market']);
+        $sheets[] = new AnalyticsExportSheet($this->project, $this->vendorIds, 'Experience', ['experience']);
+        $sheets[] = new AnalyticsExportSheet($this->project, $this->vendorIds, 'Innovation', ['innovation_digitalEnablers', 'innovation_alliances', 'innovation_product', 'innovation_sustainability']);
+        $sheets[] = new AnalyticsExportImplementationSheet($this->project, $this->vendorIds);
 
         return $sheets;
     }

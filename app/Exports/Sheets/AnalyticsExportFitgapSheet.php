@@ -13,10 +13,13 @@ class AnalyticsExportFitgapSheet implements FromCollection, WithTitle
 {
     /** @var Project $project */
     private $project;
+    /** @var array $vendorIds */
+    private $vendorIds;
 
-    public function __construct(Project $project)
+    public function __construct(Project$project, array $vendorIds)
     {
         $this->project = $project;
+        $this->vendorIds = $vendorIds;
     }
 
     /**
@@ -24,7 +27,12 @@ class AnalyticsExportFitgapSheet implements FromCollection, WithTitle
      */
     public function collection()
     {
-        $appliactions = $this->project->vendorApplications;
+        $vendorIds = $this->vendorIds;
+        $appliactions = $this->project
+            ->vendorApplications
+            ->filter(function (VendorApplication $application) use ($vendorIds) {
+                return in_array($application->vendor->id, $vendorIds);
+            });
 
         $return = [];
 

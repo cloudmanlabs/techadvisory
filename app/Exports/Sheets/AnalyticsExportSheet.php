@@ -14,12 +14,15 @@ class AnalyticsExportSheet implements FromCollection, WithTitle
 {
     /** @var Project $project */
     private $project;
+    /** @var array $vendorIds */
+    private $vendorIds;
     private $title;
     private $pages;
 
-    public function __construct(Project $project, string $title, array $pages)
+    public function __construct(Project $project, array $vendorIds, string $title, array $pages)
     {
         $this->project = $project;
+        $this->vendorIds = $vendorIds;
         $this->title = $title;
         $this->pages = $pages;
     }
@@ -31,9 +34,16 @@ class AnalyticsExportSheet implements FromCollection, WithTitle
     {
         // What a fucking mess this is. Sorry :)
 
-        $applications = $this->project->vendorApplications->sortBy(function ($application, $key) {
-            return $application->vendor->id;
-        });
+        $vendorIds = $this->vendorIds;
+        $applications = $this
+            ->project
+            ->vendorApplications
+            ->filter(function(VendorApplication $application) use ($vendorIds) {
+                return in_array($application->vendor->id, $vendorIds);
+            })
+            ->sortBy(function ($application, $key) {
+                return $application->vendor->id;
+            });
 
         $firstRow = [
             'Question' => 'Question'

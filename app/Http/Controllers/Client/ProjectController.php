@@ -697,9 +697,17 @@ class ProjectController extends Controller
     }
 
 
-    public function exportAnalytics(Project $project)
+    public function exportAnalytics(Request $request, Project $project)
     {
-        $export = new AnalyticsExport($project);
+        $allVendors = $project
+            ->vendorApplications
+            ->filter(function (VendorApplication $application) {
+                return $application->phase == 'submitted';
+            })
+            ->pluck('vendor.id')
+            ->toArray();
+
+        $export = new AnalyticsExport($project, json_decode($request->vendors) ?? $allVendors);
 
         SecurityLog::createLog('User exported analytics for project with ID ' . $project->id);
 
