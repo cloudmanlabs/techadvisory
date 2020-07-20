@@ -136,17 +136,18 @@
         RACI Matrix
     </h6>
     <h6 style="margin-bottom: 1rem">
-        Staffing cost
-    </h6>
-    <h6 style="margin-bottom: 1rem">
-        Travel cost
-    </h6>
-    <h6 style="margin-bottom: 1rem">
-        Additional cost
-    </h6>
-    <h6 style="margin-bottom: 1rem">
         Overall Implementation cost
-    </h6>
+    </h6>    
+    <li style="margin-bottom: 1rem; font-size: .9375rem; font-weight: 600;">
+        Staffing cost
+    </li>
+    <li style="margin-bottom: 1rem; font-size: .9375rem; font-weight: 600;">
+        Travel cost
+    </li>
+    <li style="margin-bottom: 1rem; font-size: .9375rem; font-weight: 600;">
+        Additional cost
+    </li>
+    
 
     <br><br>
     <h4>Run</h4>
@@ -158,9 +159,12 @@
         Pricing model
     </h6>
     <h6 style="margin-bottom: 1rem">
+       Run cost
+    </h6>
+    <li style="margin-bottom: 1rem; font-size: .9375rem; font-weight: 600;">
         Estimate first 5 years billing plan
-    </h6>
-    <h6 style="margin-bottom: 1rem">
+    </li>
+    <li style="margin-bottom: 1rem; font-size: .9375rem; font-weight: 600;">
         Detailed breakdown
-    </h6>
+    </li>
 </div>
