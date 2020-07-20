@@ -80,6 +80,8 @@ class AnalyticsExportSheet implements FromCollection, WithTitle
 
                 foreach ($applications as $key => $application) {
                     $response = $responses->filter(function($response) use ($application){
+                        if($response->vendor == null) return false;
+
                         return $response->vendor->is($application->vendor);
                     })->first();
                     if($response == null){
