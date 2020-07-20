@@ -155,12 +155,12 @@
                                         <div class="card-body">
                                             <h4>Extract vendor replies for all RFP questions</h4>
                                             <div style="text-align: center; margin-top: 30px;">
-                                                <a class="btn btn-primary btn-lg btn-icon-text"
+                                                <button class="btn btn-primary btn-lg btn-icon-text"
                                                     target="_blank"
-                                                    href="{{route('accenture.exportAnalytics', ['project' => $project])}}">
+                                                    id="exportExcelButton">
                                                     <i data-feather="download"></i> &nbsp;
                                                     Download responses
-                                                </a>
+                                                </button>
                                             </div>
                                         </div>
                                     </div>
@@ -214,6 +214,23 @@ $(document).ready(function() {
             hideAfter: 1000,
             position: 'bottom-right'
         })
+    });
+
+    $("#exportExcelButton").click(function(){
+        let url = "{{route('accenture.exportAnalytics', ['project' => $project])}}";
+
+        var selectedVendors = $('#vendorSelect').select2('data').map((el) => {
+            return $(el.element).data('vendorId')
+        });
+        if(selectedVendors.length == 0){
+            selectedVendors = $('#vendorSelect').children().toArray().map((el) => {
+                return $(el).data('vendorId')
+            });
+        }
+
+        console.log(selectedVendors)
+
+        window.open(url + "?vendors=" + JSON.stringify(selectedVendors), '_blank')
     });
 
 

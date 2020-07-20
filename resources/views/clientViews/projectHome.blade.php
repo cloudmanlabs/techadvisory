@@ -58,7 +58,24 @@
                         </div>
                     </div>
                 </div>
+                <br>
+                <div class="row">
+                    <div class="col-lg-12 grid-margin stretch-card">
+                        <div class="card">
+                            <div class="card-body">
+                                <h3>Disqualified vendors</h3>
+                                <br>
+                                <br>
 
+                                @foreach ($disqualifiedVendors as $vendor)
+                                <x-vendorCard :showProgressBar="false" :vendor="$vendor" :project="$project">
+                                </x-vendorCard>
+                                @endforeach
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <br>
                <x-deadline :project="$project" />
             </div>
 

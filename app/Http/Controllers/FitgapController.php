@@ -163,6 +163,26 @@ class FitgapController extends Controller
                 'Client' => $row['Client'],
                 'Business Opportunity' => $row['Business Opportunity'],
             ];
+
+            // Check if the value has changed. If it has, reset the vendor responses
+            if(
+                $row['Requirement Type'] != $project->fitgap5Columns[$key]['Requirement Type']
+                || $row['Level 1'] != $project->fitgap5Columns[$key]['Level 1']
+                || $row['Level 2'] != $project->fitgap5Columns[$key]['Level 2']
+                || $row['Level 3'] != $project->fitgap5Columns[$key]['Level 3']
+                || $row['Requirement'] != $project->fitgap5Columns[$key]['Requirement']
+            ){
+                foreach ($project->vendorApplications as $key1 => $application) {
+                    /** @var VendorApplication $application */
+                    $fitgapVendorColumns = $application->fitgapVendorColumns;
+
+                    $fitgapVendorColumns[$key]['Vendor Response'] = '';
+                    $fitgapVendorColumns[$key]['Comments'] = '';
+
+                    $application->fitgapVendorColumns = $fitgapVendorColumns;
+                    $application->save();
+                }
+            }
         }
 
         $project->fitgapClientColumns = $resultClient;

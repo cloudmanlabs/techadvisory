@@ -17,7 +17,7 @@
                             <div class="card-body">
                                 <div style="display: flex; justify-content: space-between">
                                     <h3>Edit project information</h3>
-                                    <a class="btn btn-primary btn-lg btn-icon-text" href="{{route('accenture.projectView', ['project' => $project])}}">Save</a>
+                                    <a class="btn btn-primary btn-lg btn-icon-text" href="{{route('accenture.projectView', ['project' => $project])}}">View</a>
                                 </div>
                                 <br>
                                 <div class="alert alert-warning" role="alert">Please note that this project is currently
@@ -479,6 +479,37 @@
         });
 
         $('#saveVendorsButton').click(function(){
+            const submittedVendors = [
+                @foreach($project->vendorApplications->filter(function($application){
+                    return $application->phase == "submitted";
+                }) as $application)
+                    "{{$application->vendor->id}}",
+                @endforeach
+            ]
+
+            const listOfVendors = $('#vendorSelection').val();
+            console.log(listOfVendors)
+            console.log(submittedVendors)
+
+            function intersect(a, b) {
+                var t;
+                if (b.length > a.length) t = b, b = a, a = t; // indexOf to loop over shorter
+                return a.filter(function (e) {
+                    return b.indexOf(e) > -1;
+                });
+            }
+
+            if(intersect(submittedVendors, listOfVendors).length != submittedVendors.length){
+                $.toast({
+                    heading: 'Can\'t remove vendors who have submitted!',
+                    showHideTransition: 'slide',
+                    icon: 'error',
+                    hideAfter: 1000,
+                    position: 'bottom-right'
+                })
+                return;
+            }
+
             $.post('/accenture/newProjectSetUp/updateVendors', {
                 project_id: '{{$project->id}}',
                 vendorList: $('#vendorSelection').val()

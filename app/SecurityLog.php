@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 /**
  * @property User $user
  * @property string $text
+ * @property \Carbon\Carbon $created_at
  */
 class SecurityLog extends Model
 {

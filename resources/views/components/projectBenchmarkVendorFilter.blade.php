@@ -19,7 +19,7 @@
                             <br><br>
                             <select id="vendorSelect" class="w-100" multiple="multiple" required>
                                 @foreach ($applications as $application)
-                                <option>{{optional($application->vendor)->name}}</option>
+                                <option data-vendor-id="{{optional($application->vendor)->id}}">{{optional($application->vendor)->name}}</option>
                                 @endforeach
                             </select>
                         </div>

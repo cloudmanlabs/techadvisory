@@ -103,7 +103,7 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
 
                     Textarea::make('Vendor Solution View', 'accenture_vendorSolution_title'),
                     Textarea::make('Vendor Solution Edit', 'accenture_vendorSolutionEdit_title'),
-                    
+
                     Textarea::make('Project Setup: Description', 'accenture_projectSetUp_description'),
 
                     Textarea::make('Project Home: Invited', 'accenture_projectHome_invited'),
@@ -127,7 +127,7 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
                     Textarea::make('Project Benchmark Implementation: Vendor Ranking by Implementation section', 'accenture_projectBenchmarkImplementation_ranking'),
                     Textarea::make('Project Benchmark Implementation: Vendor comparison', 'accenture_projectBenchmarkImplementation_comparison'),
 
-                    Textarea::make('Project Value Targeting: Title', 'accenture_projectValueTargeting_Title'),
+                    Textarea::make('Project Value Targeting: Title', 'accenture_projectValueTargeting_title2'),
                     Textarea::make('Project Value Targeting: Selected Value Levers', 'accenture_projectValueTargeting_selected'),
                     Textarea::make('Project Value Targeting: Business Opportunity Details', 'accenture_projectValueTargeting_business'),
                     Textarea::make('Project Value Targeting: Conclusions', 'accenture_projectValueTargeting_conclusions'),
@@ -146,7 +146,7 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
 
                     Textarea::make('Home profile create: Title', 'client_homeProfileCreate_title'),
                     Textarea::make('Profile: Title', 'client_profile_title'),
-                    
+
                     Textarea::make('Project Setup: Description', 'client_projectSetUp_description'),
 
                     Textarea::make('Project Home: Invited', 'client_projectHome_invited'),

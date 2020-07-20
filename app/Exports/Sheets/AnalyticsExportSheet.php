@@ -4,7 +4,9 @@ namespace App\Exports\Sheets;
 
 use App\SelectionCriteriaQuestionResponse;
 use App\Project;
+use App\SelectionCriteriaQuestion;
 use App\VendorApplication;
+use Illuminate\Support\Facades\Log;
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\WithTitle;
 
@@ -12,12 +14,15 @@ class AnalyticsExportSheet implements FromCollection, WithTitle
 {
     /** @var Project $project */
     private $project;
+    /** @var array $vendorIds */
+    private $vendorIds;
     private $title;
     private $pages;
 
-    public function __construct(Project $project, string $title, array $pages)
+    public function __construct(Project $project, array $vendorIds, string $title, array $pages)
     {
         $this->project = $project;
+        $this->vendorIds = $vendorIds;
         $this->title = $title;
         $this->pages = $pages;
     }
@@ -29,52 +34,71 @@ class AnalyticsExportSheet implements FromCollection, WithTitle
     {
         // What a fucking mess this is. Sorry :)
 
-        $vendors = $this->project->vendorApplications;
-
-        $firstRow = $vendors
+        $vendorIds = $this->vendorIds;
+        $applications = $this
+            ->project
+            ->vendorApplications
+            ->filter(function(VendorApplication $application) use ($vendorIds) {
+                return in_array($application->vendor->id, $vendorIds);
+            })
             ->sortBy(function ($application, $key) {
                 return $application->vendor->id;
+            });
+
+        $firstRow = [
+            'Question' => 'Question'
+        ];
+        foreach ($applications as $key => $application) {
+            $firstRow[] = $application->vendor->name . ' Response';
+            $firstRow[] = $application->vendor->name . ' Score';
+        }
+
+        $rows = [];
+
+        $questionsByPage = $this->project->selectionCriteriaQuestions
+            ->filter(function (SelectionCriteriaQuestionResponse $response) {
+                return in_array($response->originalQuestion->page, $this->pages);
             })
-            ->map(function (VendorApplication $application) {
-                return [
-                    'Vendor Response' => $application->vendor->name . ' Response',
-                    'Vendor Score' => $application->vendor->name . ' Score',
+            ->groupBy(function (SelectionCriteriaQuestionResponse $response, $key) {
+                return $response->originalQuestion->page;
+            });
+
+        foreach ($questionsByPage as $page => $questions) {
+            $rows[] = [
+                SelectionCriteriaQuestion::pagesSelect[$page] ?? ''
+            ];
+            $rows[] = $firstRow;
+
+            $questionsGrouped = $questions->groupBy(function ($question) {
+                return $question->originalQuestion->id;
+            });
+
+            foreach ($questionsGrouped as $key => $responses) {
+                $return = [
+                    $responses[0]->originalQuestion->label,
                 ];
-            })
-            ->prepend([
-                'Question' => 'Question',
-            ])
-            ->flatten();
 
-        $rows = $this->project->selectionCriteriaQuestions
-                ->filter(function (SelectionCriteriaQuestionResponse $response) {
-                    return in_array($response->originalQuestion->page, $this->pages);
-                })
-                ->groupBy(function (SelectionCriteriaQuestionResponse $response, $key) {
-                    return $response->originalQuestion->id;
-                })
-                ->filter(function($arrayOfResponses){
-                    return count($arrayOfResponses) > 0;
-                })
-                ->map(function($arrayOfResponses){
-                    return collect($arrayOfResponses)
-                            ->sortBy(function (SelectionCriteriaQuestionResponse $response, $key) {
-                                return $response->vendor->id;
-                            })
-                            ->map(function(SelectionCriteriaQuestionResponse $response){
-                                return [
-                                    'Vendor Response' => $response->response,
-                                    'Vendor Score' => $response->score,
-                                ];
-                            })
-                            ->flatten()
-                            ->prepend($arrayOfResponses[0]->originalQuestion->label)
-                            ->toArray();
-                });
+                foreach ($applications as $key => $application) {
+                    $response = $responses->filter(function($response) use ($application){
+                        if($response->vendor == null) return false;
 
-        $rows->prepend($firstRow);
+                        return $response->vendor->is($application->vendor);
+                    })->first();
+                    if($response == null){
+                        $return[] = '';
+                        $return[] = '';
+                    }
+                    $return[] = $response->response ?? '';
+                    $return[] = $response->score ?? '';
+                }
 
-        return $rows;
+                $rows[] = $return;
+            }
+
+            $rows[] = [''];
+        }
+
+        return collect($rows);
     }
 
     /**
