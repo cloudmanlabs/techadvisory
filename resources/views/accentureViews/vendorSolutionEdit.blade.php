@@ -30,7 +30,7 @@
                                 </div>
 
                                 <div class="form-group">
-                                    <label for="practiceSelect">Practice*</label>
+                                    <label for="practiceSelect">SC Capabilities*</label>
                                     <select class="form-control" id="practiceSelect" required>
                                         <x-options.practices :selected="$solution->practice->id ?? -1" />
                                     </select>

@@ -14,13 +14,14 @@ $disabled = $disabled ?? false;
 
 <div class="form-group questionDiv">
     <label>Pricing Model Response</label>
-    <input
+    <textarea
         {{$disabled ? 'disabled' : ''}}
         class="form-control pricingModelInput"
-        type="text"
+        rows="10"
         data-changing="pricingModelResponse"
-        value="{{$vendorApplication->pricingModelResponse}}"
         placeholder="Pricing model response">
+        {{$vendorApplication->pricingModelResponse}}
+    </textarea>
 </div>
 
 <div class="form-group">

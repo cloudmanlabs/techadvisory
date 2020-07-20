@@ -5,19 +5,20 @@ $disabled = $disabled ?? false;
 @endphp
 
 <br><br>
-<h5>Detailed breakdown</h5>
+<h5>Describe the breakdown of the first five years of the Run Billing Plan</h5>
 
 <br>
 
 <div class="form-group questionDiv">
     <label>Detailed breakdown response</label>
-    <input
+    <textarea
         {{$disabled ? 'disabled' : ''}}
+        rows="10"
         class="form-control detailedBreakdownInput"
-        type="text"
         data-changing="detailedBreakdownResponse"
-        value="{{$vendorApplication->detailedBreakdownResponse}}"
         placeholder="Detailed breakdown response">
+        {{$vendorApplication->detailedBreakdownResponse}}
+    </textarea>
 </div>
 
 <div class="form-group">

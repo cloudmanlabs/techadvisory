@@ -165,6 +165,6 @@
         Estimate first 5 years billing plan
     </li>
     <li style="margin-bottom: 1rem; font-size: .9375rem; font-weight: 600;">
-        Detailed breakdown
+        Describe the breakdown of the first five years of the Run Billing Plan
     </li>
 </div>
