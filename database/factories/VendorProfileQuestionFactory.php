@@ -51,5 +51,10 @@ $factory->define(VendorProfileQuestion::class, function (Faker $faker) {
                 'label' => 'How are you?',
                 'type' => $type,
             ];
+        case 'percentage':
+            return [
+                'label' => 'How are you?',
+                'type' => $type,
+            ];
     }
 });

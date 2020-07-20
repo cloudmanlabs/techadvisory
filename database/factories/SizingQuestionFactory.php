@@ -58,5 +58,11 @@ $factory->define(SizingQuestion::class, function (Faker $faker) {
                 'type' => $type,
                 'required' => $faker->boolean,
             ];
+        case 'percentage':
+            return [
+                'label' => 'How are you?',
+                'type' => $type,
+                'required' => $faker->boolean,
+            ];
     }
 });

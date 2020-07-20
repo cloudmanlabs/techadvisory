@@ -20,6 +20,7 @@ abstract class Question extends Model
         'date' => 'Date',
         'number' => 'Number',
         'email' => 'Email',
+        'percentage' => 'Percentage',
     ];
 
     const selectTypesDisplay = [
@@ -30,6 +31,7 @@ abstract class Question extends Model
         'date' => 'Date',
         'number' => 'Number',
         'email' => 'Email',
+        'percentage' => 'Percentage',
         'file' => 'File',
         'special' => 'Special'
     ];
