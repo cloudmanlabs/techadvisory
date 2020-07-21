@@ -7,6 +7,7 @@ use App\Practice;
 use App\Project;
 use App\Subpractice;
 use App\User;
+use App\VendorSolution;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 
@@ -111,9 +112,13 @@ class AnalysisController extends Controller
             'practices' => Practice::all()->map(function(Practice $practice) {
                 return (object)[
                     'name' => $practice->name,
-                    'count' => User::vendorUsers()->get()->filter(function(User $vendor) use ($practice){
-                        return $vendor->getVendorResponse('vendorPractice') == $practice->name;
-                    })->count(),
+                    'count' => VendorSolution::all()
+                        ->filter(function(VendorSolution $solution) use ($practice){
+                            if($solution->practice == null) return false;
+
+                            return $solution->practice->is($practice);
+                        })
+                        ->count(),
                 ];
             }),
             'industries' => collect(config('arrays.industryExperience'))->map(function ($industry) {
