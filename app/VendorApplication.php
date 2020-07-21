@@ -532,7 +532,7 @@ class VendorApplication extends Model
 
         $difference = $cost - $minCost;
 
-        assert($difference >= 0, "Something minus the minimum should return a positive number or 0.");
+        if($difference < 0) $difference = 0;
 
         return ($difference / $minCost) * 100;
     }
@@ -583,7 +583,7 @@ class VendorApplication extends Model
 
         $difference = $cost - $minCost;
 
-        assert($difference >= 0, "Something minus the minimum should return a positive number or 0.");
+        if ($difference < 0) $difference = 0;
 
         return ($difference / $minCost) * 100;
     }

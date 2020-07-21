@@ -182,7 +182,7 @@ $(function () {
                     @php
                         // NOTE: We use 10 - val so we get the chart flipped horizontally
                         $ranking = 10 - $vendor->averageRanking();
-                        $score = $vendor->averageScore();
+                        $score = $vendor->averageScore() ?? 0;
                     @endphp
                     {
                         label: ["{{$vendor->name}}"],
