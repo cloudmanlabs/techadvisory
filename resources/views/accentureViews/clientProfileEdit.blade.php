@@ -140,8 +140,6 @@
                                 <br>
                                 <x-questionForeach :questions="$questions" :class="'profileQuestion'" :disabled="false" :required="true" />
 
-                                <x-folderFileUploader :folder="$client->profileFolder" :timeout="1000"/>
-
                                 <br>
                                 <div class="form-group">
                                     <label>Upload client logo</label>
@@ -158,7 +156,6 @@
                                         </span>
                                     </div>
                                 </div>
-                                <br>
 
                                 <p style="font-size: 12px">
                                     Do not include personal, sensitive data, personal data relating to criminal convictions and offences or financial data
@@ -166,6 +163,11 @@
                                     responsibility for the processing of this personal data (either your personal data or the personal data of others) by
                                     Accenture.
                                 </p>
+
+                                <br>
+
+                                <x-folderFileUploader :folder="$client->profileFolder" :timeout="1000" />
+
                                 <br>
                             </div>
                         </div>
