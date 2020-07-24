@@ -64,6 +64,7 @@
                         title: 'Requirement',
                         readOnly: true,
                         width: 600
+                        wordWrap: true
                     },
                     {
                         type: 'dropdown',
@@ -81,6 +82,7 @@
                         title: 'Business Opportunity',
                         width: 210,
                         readOnly: true,
+                        wordWrap: true
                     },
                     {
                         type: 'dropdown',
@@ -99,6 +101,7 @@
                         title: 'Comments',
                         width: 200,
                         readOnly: true,
+                        wordWrap: true
                     },
                     /*{
                         type: 'text',
