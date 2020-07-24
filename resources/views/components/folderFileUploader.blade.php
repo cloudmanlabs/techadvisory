@@ -92,6 +92,10 @@
     // We create it programmatically after timeout
     Dropzone.options['{{$folder->name}}'] = false;
 
+    if({{$disabled}}) {
+        Dropzone.disable();
+    }
+
     function setup(){
         $("form#{{$folder->name}}").dropzone({
             url: "/folder/uploadSingleFileToFolder",
