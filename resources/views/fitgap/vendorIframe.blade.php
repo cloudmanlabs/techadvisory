@@ -64,6 +64,7 @@
                         title: 'Requirement',
                         readOnly: true,
                         width: 600
+                        wordWrap: true
                     },
                     {
                         type: 'dropdown',
@@ -84,6 +85,7 @@
                         type: 'text',
                         title: 'Comments',
                         width: 200,
+                        wordWrap: true
 
                         @if($disabled)
                         readOnly: true,

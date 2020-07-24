@@ -94,6 +94,7 @@
                         type: 'text',
                         title: 'Business Opportunity',
                         width: 210,
+                        wordWrap: true
 
                         @if($disabled || !$isAccenture)
                         readOnly: true,
