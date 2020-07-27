@@ -14,8 +14,9 @@
 
 <h3>Overall weights</h3>
 <br>
-<p>
-    Please distribute all Percentage Bricks depending on how much weight you want to give to each section.
+<p class="welcome_text extra-top-15px">
+    In case you want to apply a different weight in sections inside Fit Gap,
+    please specify a percentage. To do so, drag and drop the building blocks.
 </p>
 
 <div class="table-responsive">
