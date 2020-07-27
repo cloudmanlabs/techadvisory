@@ -63,7 +63,7 @@
                         type: 'text',
                         title: 'Requirement',
                         readOnly: true,
-                        width: 600
+                        width: 600,
                         wordWrap: true
                     },
                     {
