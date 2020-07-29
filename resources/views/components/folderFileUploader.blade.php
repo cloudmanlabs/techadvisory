@@ -92,7 +92,7 @@
     // We create it programmatically after timeout
     Dropzone.options['{{$folder->name}}'] = false;
 
-    if({{$disabled}}) {
+    if({{$disabled ? 'true' : 'false'}}) {
         Dropzone.disable();
     }
 

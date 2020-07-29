@@ -187,7 +187,7 @@
                                             submits the complete project setup.
                                         </p>
                                         <br>
-                                        <textarea name="projectDescription" id="projectDescription" cols="80" rows="10"></textarea>
+                                        {{-- <textarea name="projectDescription" id="projectDescription" cols="80" rows="10"></textarea> --}}
 
                                         <br>
                                         <br>

@@ -112,7 +112,7 @@
                                                 </p>
                                                 <br>
 
-                                                <div class="form-group">
+                                                {{-- <div class="form-group">
                                                     <label>Upload a new Fitgap</label>
                                                     <input id="fitgapUpload" class="file-upload-default" name="img" type="file">
 
@@ -134,7 +134,7 @@
                                                     by
                                                     Accenture.
                                                 </p>
-                                                <br><br>
+                                                <br><br> --}}
 
                                                 <x-fitgapClientModal :project="$project" :isAccenture="false" />
 
