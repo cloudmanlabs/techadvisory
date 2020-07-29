@@ -51,7 +51,7 @@
                                             <label for="vendorRoleInput">Vendor company contact role</label>
                                             <input class="form-control" id="vendorRoleInput" placeholder="Enter Role"
                                                 type="text"
-                                                value="{{$vendor->role}}" 
+                                                value="{{$vendor->role}}"
                                                 disabled>
                                         </div> -->
 
@@ -59,7 +59,7 @@
                                             <label for="vendorAddressInput">Company address</label>
                                             <input class="form-control" id="vendorAddressInput" placeholder="Enter Address"
                                                 type="text"
-                                                value="{{$vendor->address}}" 
+                                                value="{{$vendor->address}}"
                                                 disabled>
                                         </div> -->
 
@@ -83,7 +83,7 @@
                                     <h2>Economic information</h2>
                                     <section>
                                         <x-questionForeach :questions="$legalQuestions" :class="'profileQuestion'" :disabled="true" :required="false" />
-                
+
                                     </section>
                                 </div>
                                 <div>
@@ -119,7 +119,8 @@
             $(this).datepicker({
                 format: "mm/dd/yyyy",
                 todayHighlight: true,
-                autoclose: true
+                autoclose: true,
+                startDate: "+0d"
             });
             $(this).datepicker('setDate', date);
         });

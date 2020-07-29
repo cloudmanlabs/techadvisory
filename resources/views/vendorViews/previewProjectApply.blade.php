@@ -183,7 +183,8 @@
             $(this).datepicker({
                 format: "mm/dd/yyyy",
                 todayHighlight: true,
-                autoclose: true
+                autoclose: true,
+                startDate: "+0d"
             });
             $(this).datepicker('setDate', date);
         });
