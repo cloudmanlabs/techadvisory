@@ -6,15 +6,12 @@ $values = $project->scoringValues ?? [0, 0, 0, 0, 0];
 $dataId = 0;
 @endphp
 
-<div>
-    <ul id="simpleList" class="brickList">
-        @for ($i = 0; $i < 20 - array_sum($values); $i++)
-        <li data-id="{{$dataId++}}" style="cursor: default">
-            5%
-        </li>
-        @endfor
-    </ul>
-</div>
+<h3>Overall weights</h3>
+<br>
+<p class="welcome_text extra-top-15px">
+    In case you want to apply a different weight in sections inside Fit Gap,
+    please specify a percentage. To do so, drag and drop the building blocks.
+</p>
 
 <div class="table-responsive">
     <table class="table table-striped">
