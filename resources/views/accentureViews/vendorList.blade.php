@@ -29,6 +29,8 @@
                                         </div>
                                         <div style="float: right; width: 20%; margin-right: 10%;">
                                             <h5>{{$vendor->getVendorResponse('vendorSegment', '-')}}</h5>
+                                            <h5>{{$vendor->getVendorResponse('vendorIndustry', '-')}}</h5>
+                                            <h5>{{implode(', ', json_decode($vendor->getVendorResponse('vendorRegions', '["-"]')))}}</h5>
                                         </div>
                                         <div style="float: right; width: 10%; margin-right: 10%;">
                                             <img alt="profile" src="{{url($vendor->logo ? ('/storage/' . $vendor->logo) : '/assets/images/user.png')}}" style="height: 20px">
@@ -62,6 +64,8 @@
                                         </div>
                                         <div style="float: right; width: 20%; margin-right: 10%;">
                                             <h5>{{$vendor->getVendorResponse('vendorSegment', '-')}}</h5>
+                                            <h5>{{$vendor->getVendorResponse('vendorIndustry', '-')}}</h5>
+                                            <h5>{{implode(', ', json_decode($vendor->getVendorResponse('vendorRegions', '["-"]')))}}</h5>
                                         </div>
                                         <div style="float: right; width: 10%; margin-right: 10%;">
                                             <img alt="profile" src="{{url($vendor->logo ? ('/storage/' . $vendor->logo) : '/assets/images/user.png')}}"
@@ -114,6 +118,7 @@
                                                 </div>
                                                 <div style="float: right; width: 20%; margin-right: 10%;">
                                                     <h5>{{$solution->vendor->name}}</h5>
+                                                    <h5>{{$solution->practice->name ?? 'No Practice'}}</h5>
                                                 </div>
                                                 <div style="float: right; width: 10%; margin-right: 10%;">
                                                     <img alt="profile" src="{{url($solution->vendor->logo ? ('/storage/' . $solution->vendor->logo) : '/assets/images/user.png')}}" style="height: 20px">

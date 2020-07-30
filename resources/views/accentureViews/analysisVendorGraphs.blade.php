@@ -97,7 +97,8 @@
             ...colors,
             ...colors.splice(0,colors.length-1).reverse(), // We use the split so we don't repeat a color
             ...colors.splice(1,colors.length)
-        ]
+        ];
+        const shortColorArray = ["#27003d","#5a008f","#8e00e0","#a50aff","#d285ff","#e9c2ff","#f8ebff"]
 
         new Chart($("#chartPractice"), {
             type: 'bar',
@@ -110,7 +111,7 @@
                 datasets: [
                     {
                         label: "",
-                        backgroundColor: longColorArray,
+                        backgroundColor: shortColorArray,
                         data: [
                             @foreach($practices as $practice)
                             "{{$practice->count}}",
@@ -194,7 +195,7 @@
                 datasets: [
                     {
                         label: "",
-                        backgroundColor: longColorArray,
+                        backgroundColor: shortColorArray,
                         data: [
                             @foreach($regions as $region)
                             "{{$region->count}}",
