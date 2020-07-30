@@ -29,7 +29,7 @@ $disabled = $disabled ?? false;
         <input id="detailedBreakdownUploadNameInput" disabled class="form-control file-upload-info"
             value="{{$vendorApplication->detailedBreakdownUpload ? 'File uploaded' : 'No file selected'}}" type="text">
         <span class="input-group-append">
-            <button class="file-upload-browse btn btn-primary" type="button">
+            <button id="detailedBreakdownUploadButtonButton" class="file-upload-browse btn btn-primary" type="button">
                 <span class="input-group-append"
                     id="detailedBreakdownUploadButton">{{$vendorApplication->detailedBreakdownUpload ? 'Replace file' : 'Select file'}}</span>
             </button>
@@ -59,6 +59,10 @@ $disabled = $disabled ?? false;
             })
 
             showSavedToast();
+        });
+
+        $('#detailedBreakdownUploadButtonButton').on('click', function(e) {
+            $("#detailedBreakdownUploadInput").trigger('click');
         });
 
         $("#detailedBreakdownUploadInput").change(function (){

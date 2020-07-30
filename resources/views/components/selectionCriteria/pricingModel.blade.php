@@ -32,7 +32,7 @@ $disabled = $disabled ?? false;
         <input id="pricingModelUploadNameInput" disabled class="form-control file-upload-info"
             value="{{$vendorApplication->pricingModelUpload ? 'File uploaded' : 'No file selected'}}" type="text">
         <span class="input-group-append">
-            <button class="file-upload-browse btn btn-primary" type="button">
+            <button id="pricingModelUploadButtonButton" class="file-upload-browse btn btn-primary" type="button">
                 <span class="input-group-append"
                     id="pricingModelUploadButton">{{$vendorApplication->pricingModelUpload ? 'Replace file' : 'Select file'}}</span>
             </button>
@@ -64,8 +64,7 @@ $disabled = $disabled ?? false;
             showSavedToast();
         });
 
-
-        $('.file-upload-browse').on('click', function(e) {
+        $('#pricingModelUploadButtonButton').on('click', function(e) {
             $("#pricingModelUploadInput").trigger('click');
         });
 
