@@ -129,7 +129,7 @@
                                             data-subpractices="{{json_encode($project->subpractices->pluck('name')->toArray()) ?? ''}}"
                                             data-year="{{$project->created_at->year}}"
                                             data-industry="{{$project->industry}}"
-                                            data-regions="{{json_encode($project->regions)}}"
+                                            data-regions="{{json_encode($project->regions ?? [])}}"
                                             data-phase="{{ucfirst($project->currentPhase)}}"
                                         >
                                             <div class="card-body">
@@ -177,12 +177,10 @@
                 const selectedRegions = getSelectedFrom('regionSelect')
                 const selectedPhases = getSelectedFrom('phaseSelect')
 
-                console.log(selectedPhases);
-
                 // Add a display none to the one which don't have this tags
                 $('#projectContainer').children().each(function () {
                     const practice = $(this).data('practice');
-                    const subpractices = $(this).data('subpractice');
+                    const subpractices = $(this).data('subpractices');
                     const client = $(this).data('client');
                     const year = $(this).data('year').toString();
                     const industry = $(this).data('industry');
