@@ -21,7 +21,6 @@
                                         </div>
                                     </div>
                                 </div>
-
                             </div>
                         </div>
                     </div>
@@ -40,7 +39,15 @@
                                 <br>
 
                                 <div id="filterContainer">
-                                    <br>
+                                    <div class="media-body" style="padding: 20px;">
+                                        <p class="welcome_text">
+                                            Search:
+                                        </p>
+                                        <div class="input-group">
+                                            <input type="text" class="form-control" id="searchBox">
+                                        </div>
+                                    </div>
+
                                     <div class="media-body" style="padding: 20px;">
                                         <p class="welcome_text">
                                             Please choose the Practices you'd like to see:
@@ -124,6 +131,7 @@
                                             class="card"
                                             style="margin-bottom: 30px;"
 
+                                            data-name="{{$project->name ?? ''}}"
                                             data-client="{{$project->client->name ?? ''}}"
                                             data-practice="{{$project->practice->name ?? ''}}"
                                             data-subpractices="{{json_encode($project->subpractices->pluck('name')->toArray()) ?? ''}}"
@@ -176,6 +184,9 @@
                 const selectedIndustries = getSelectedFrom('industrySelect')
                 const selectedRegions = getSelectedFrom('regionSelect')
                 const selectedPhases = getSelectedFrom('phaseSelect')
+                const searchBox = $('#searchBox').val().toLocaleLowerCase();
+
+                console.log(searchBox)
 
                 // Add a display none to the one which don't have this tags
                 $('#projectContainer').children().each(function () {
@@ -186,6 +197,7 @@
                     const industry = $(this).data('industry');
                     const regions = $(this).data('regions');
                     const phase = $(this).data('phase');
+                    const name = $(this).data('name');
 
                     if (
                         $.inArray(practice, selectedPractices) !== -1
@@ -195,6 +207,8 @@
                         && $.inArray(phase, selectedPhases) !== -1
                         && intersect(regions, selectedRegions).length !== 0
                         && intersect(subpractices, selectedSubpractices).length !== 0
+
+                        && name.toLocaleLowerCase().search(searchBox) > -1
                     ) {
                         $(this).css('display', 'flex')
                     } else {
@@ -251,6 +265,9 @@
             });
             $('#regionSelect').select2();
             $('#regionSelect').on('change', function (e) {
+                updateProjects();
+            });
+            $('#searchBox').on('input', function (e) {
                 updateProjects();
             });
             updateProjects();
