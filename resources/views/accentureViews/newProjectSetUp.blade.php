@@ -110,7 +110,7 @@
 
                                                         <div class="input-group col-xs-12">
                                                             <input id="fileNameInput" disabled class="form-control file-upload-info"
-                                                                value="No file selected" type="text">
+                                                                value="{{$project->hasUploadedFitgap ? 'File uploaded' : 'No file selected'}}" type="text">
                                                             <span class="input-group-append">
                                                                 <button class="file-upload-browse btn btn-primary" type="button">
                                                                     <span class="input-group-append"
@@ -165,13 +165,15 @@
                                                     <x-scoringCriteriaWeights :isClient="false" :project="$project"/>
 
                                                     <br><br>
+                                                    @if (!$project->step4SubmittedAccenture)
                                                     <button
                                                         class="btn btn-primary"
                                                         id="step4Submit"
-                                                        {{ $project->hasUploadedFitgap ? '' : 'disabled'}}
+                                                        {{ !$project->hasUploadedFitgap ? 'disabled' : ''}}
                                                         {{ !$project->step3SubmittedAccenture ? 'disabled' : ''}}
                                                         {{ $project->step4SubmittedAccenture ? 'disabled' : ''}}
                                                     >{{ $project->step4SubmittedAccenture ? 'Submitted' : 'Submit'}}</button>
+                                                    @endif
                                                     <br><br>
                                                 </div>
                                             </div>
@@ -559,8 +561,6 @@
 
             $(this).attr('disabled', true);
             $(this).html('Submitted')
-
-            $('#step4Submit').attr('disabled', false);
         });
 
         $('#step4Submit').click(function(){

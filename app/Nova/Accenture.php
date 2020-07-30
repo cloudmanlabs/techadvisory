@@ -84,7 +84,7 @@ class Accenture extends Resource
 
             Select::make('User Type', 'userType')
                 ->options([
-                    'accenture' => 'Normal User',
+                    'accenture' => 'Project Manager',
                     'accentureAdmin' => 'Admin User'
                 ])
                 ->displayUsingLabels(),
