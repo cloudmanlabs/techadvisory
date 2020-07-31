@@ -13,6 +13,7 @@ use App\User;
 use App\VendorApplication;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Validation\Rule;
 use Maatwebsite\Excel\Facades\Excel;
 
 class ProjectController extends Controller

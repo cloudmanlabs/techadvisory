@@ -63,7 +63,7 @@
                                     <section>
                                         <h4>2.1 Upload your RFP document</h4>
                                         <br>
-                                        <x-folderFileUploader :folder="$project->rfpFolder" label="Upload your RFP" :timeout="1000" />
+                                        <x-folderFileUploader :folder="$project->rfpFolder" label="Upload your RFP" :timeout="1000" :disabled="$project->step4SubmittedClient" />
 
                                         <div class="form-group">
                                             <label for="rfpOtherInfo">Other information</label>
@@ -136,7 +136,7 @@
                                                 </p>
                                                 <br><br> --}}
 
-                                                <x-fitgapClientModal :project="$project" :isAccenture="false" />
+                                                <x-fitgapClientModal :project="$project" :isAccenture="false" :disabled="$project->step4SubmittedClient" />
 
                                                 <br><br>
                                                 <p class="welcome_text extra-top-15px">
@@ -340,6 +340,12 @@
                 $(this).attr('disabled', true);
             }
         })
+    }
+
+    function disableAll(){
+        $("input,textarea,select").each(function () {
+            $(this).attr('disabled', true);
+        });
     }
 
 
@@ -560,6 +566,9 @@
         $('#step4Submit').click(function(){
             $.post('/client/newProjectSetUp/setStep4Submitted', {
                 project_id: '{{$project->id}}',
+            }).done(function(){
+                // Reload the page so the fields are disabled
+                location.reload();
             })
 
             $.toast({
@@ -574,8 +583,8 @@
             $(this).html('Submitted')
 
             $('#step4SubmitButton').attr('disabled', true);
-            $('#step4SubmitButton').html('Submitted')
-            $('#step4SubmitModal').modal('hide')
+            $('#step4SubmitButton').html('Submitted');
+            $('#step4SubmitModal').modal('hide');
         });
 
 
@@ -669,6 +678,10 @@
         updateShownQuestionsAccordingToPractice();
         updateShownSubpracticeOptionsAccordingToPractice(false);
         updateSubmitStep3();
+
+        @if($project->step4SubmittedClient)
+            disableAll()
+        @endif
     });
 </script>
 @endsection
