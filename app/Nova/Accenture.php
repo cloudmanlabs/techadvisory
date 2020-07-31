@@ -87,11 +87,13 @@ class Accenture extends Resource
                     'accenture' => 'Project Manager',
                     'accentureAdmin' => 'Admin User'
                 ])
-                ->displayUsingLabels(),
+                ->displayUsingLabels()
+                ->required(),
 
             Select::make('Region', 'region')
                 ->options(config('arrays.regions'))
-                ->displayUsingLabels(),
+                ->displayUsingLabels()
+                ->required(),
 
             // Text::make('Region', 'region'),
         ];
