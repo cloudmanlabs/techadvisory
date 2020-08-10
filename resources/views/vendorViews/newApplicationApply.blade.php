@@ -206,7 +206,6 @@
                                                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
                                                             <button id="submitButton" type="button" class="btn btn-primary">Submit</button>
                                                         </div>
-                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>

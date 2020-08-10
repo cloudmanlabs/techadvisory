@@ -238,18 +238,15 @@ class ProjectController extends Controller
         $answers = $project->getAnsweredQuestions('vendor_corporate');
         $similarproject = $project->getSimilarProject($vendor);
 
+        /*
         var_dump($similarproject->project_id);
         var_dump($similarproject->vendor_id);
         var_dump($similarproject->practice_id);
         var_dump($similarproject->question_id);
         var_dump($similarproject->response);
+                die();
 
-
-        die();
-
-
-
-
+        */
 
 
         SecurityLog::createLog('User accessed project with ID ' . $project->id);
