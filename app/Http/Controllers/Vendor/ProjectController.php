@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Vendor;
 
+use App\Practice;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Project;
@@ -9,6 +10,7 @@ use App\SecurityLog;
 use App\User;
 use App\VendorApplication;
 use Illuminate\Support\Facades\Log;
+Use App\Providers\Utils;
 
 class ProjectController extends Controller
 {
@@ -76,6 +78,7 @@ class ProjectController extends Controller
         $implementationRunQuestions = $project->selectionCriteriaQuestionsForVendor($vendor)->get()->filter(function ($question) {
             return $question->originalQuestion->page == 'implementation_run';
         });
+
 
         SecurityLog::createLog('User accessed project with ID ' . $project->id);
 
@@ -151,6 +154,8 @@ class ProjectController extends Controller
             abort(404);
         }
 
+
+
         $clients = User::clientUsers()->get();
 
         $sizingQuestions = $project->sizingQuestions->filter(function ($el) {
@@ -168,6 +173,9 @@ class ProjectController extends Controller
         ]);
     }
 
+
+
+
     public function newApplicationApply(Project $project)
     {
         /** @var User $vendor */
@@ -175,6 +183,12 @@ class ProjectController extends Controller
         if (!$vendor->hasAppliedToProject($project)) {
             abort(404);
         }
+
+        // feature 1: similar project
+
+        //$project = $similarProject;
+
+
         $vendorApplication = \App\VendorApplication::where('project_id', $project->id)->where('vendor_id', $vendor->id)->first();
         if($vendorApplication->phase != 'applicating'){
             abort(404);
@@ -211,12 +225,41 @@ class ProjectController extends Controller
         $implementationRunQuestions = $project->selectionCriteriaQuestionsForVendor($vendor)->get()->filter(function($question){
             return $question->originalQuestion->page == 'implementation_run';
         });
+        // feature 1: getResponses.
+        $vendorCorporateResponses = $project->selectionCriteriaQuestionsForVendor($vendor)->get()->filter(function($question){
+            return $question->originalQuestion->page == 'vendor_corporate';
+        });
+
+        // Feature 1: get Responses
+
+        $projectType = $project->getPractice();     // Practice of the Project.
+        //$projectVendor = $project->getVendor();     // Vendor of the Project.
+        $projectQuestions = $project->getQuestions('vendor_corporate');
+        $answers = $project->getAnsweredQuestions('vendor_corporate');
+        $similarproject = $project->getSimilarProject($vendor);
+
+        var_dump($similarproject->project_id);
+        var_dump($similarproject->vendor_id);
+        var_dump($similarproject->practice_id);
+        var_dump($similarproject->question_id);
+        var_dump($similarproject->response);
+
+
+        die();
+
+
+
+
+
 
         SecurityLog::createLog('User accessed project with ID ' . $project->id);
+
 
         return view('vendorViews.newApplicationApply', [
             'project' => $project,
             'vendorApplication' => $vendorApplication,
+
+            //feature 1
 
             'fitgapQuestions' => $fitgapQuestions,
             'vendorCorporateQuestions' => $vendorCorporateQuestions,
@@ -319,4 +362,6 @@ class ProjectController extends Controller
             'implementationRunQuestions' => $implementationRunQuestions,
         ]);
     }
+
+
 }
