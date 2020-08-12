@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Carbon;
 
 /**
  * @property string|null $response
@@ -31,5 +32,32 @@ class SelectionCriteriaQuestionResponse extends Model
         return $this->belongsTo(User::class, 'vendor_id');
     }
 
+    /**
+     * Returns the responses of the most recent similar project, with their questions.
+     * @param $vendor vendor of the project
+     * @param $project current project
+     * @return mixed
+     */
+    public static function getResponsesFromSimilarProject($vendor, $project)
+    {
+        $current_date = date('Y-m-d');
+        $date_limit = Carbon::parse($current_date)->addMonths(-12)->format('Y-m-d');    // Date range limit: 1 year ago
 
+        // Query for similar project.
+        $similar_project = Project::select('projects.id')
+            ->join('selection_criteria_question_responses as scqr', 'scqr.project_id', '=', 'projects.id')
+            ->where('projects.practice_id', '=', $project->practice_id)
+            ->whereDate('projects.created_at', '>=', $date_limit)
+            ->where('projects.id', '!=', $project->id)
+            ->where('scqr.vendor_id', '=', $vendor->id)
+            ->whereNotNull('scqr.response')
+            ->orderby('projects.created_at', 'DESC')
+            ->first();
+
+        return self::select('question_id', 'response')
+            ->where('project_id', '=', $similar_project->id)
+            ->whereNotNull('response')
+            ->where('vendor_id', '=', $vendor->id)
+            ->get();
+    }
 }

@@ -166,14 +166,17 @@ class Project extends Model
     {
         return $this->morphOne(Folder::class, 'folderable')->where('folderable_group', 'selectedValueLevers');
     }
+
     public function businessOpportunityFolder()
     {
         return $this->morphOne(Folder::class, 'folderable')->where('folderable_group', 'businessOpportunity');
     }
+
     public function vtConclusionsFolder()
     {
         return $this->morphOne(Folder::class, 'folderable')->where('folderable_group', 'vtConclusions');
     }
+
     public function rfpFolder()
     {
         return $this->morphOne(Folder::class, 'folderable')->where('folderable_group', 'rfp');
@@ -259,86 +262,20 @@ class Project extends Model
         return $this->hasMany(SelectionCriteriaQuestionResponse::class, 'project_id')->where('vendor_id', $vendor->id);
     }
 
-    public function getVendorCorporateResponses($vendor){
+    public function getVendorCorporateResponses($vendor)
+    {
         $questions_ids = $this->hasMany(SelectionCriteriaQuestionResponse::class, 'project_id')
             ->where('vendor_id', $vendor->id);
 
     }
 
-    /**
-     * @return Practice of the Project (as object Practice)
-     */
-    public function getPractice(){
-        /*
-        $projectType = select('projects.id','projects.practice_id','practices.name')
-                            ->join('practices','practices.id','=','projects.practice_id')
-                            ->get();
-        */
-        $projectType = $this->join('practices','practices.id','=','projects.practice_id')
-            ->first();
-
-        return $projectType;
-
-    }
-
-    public function getQuestions($page){
-        $projectQuestions= $this->join('selection_criteria_question_responses as scqr','scqr.project_id', '=','projects.id')
-            ->join('selection_criteria_questions as q','q.id', '=','scqr.question_id')
-            ->where('q.page','=',$page)
-            ->where('projects.id','=',$this->id)
-            ->select('q.id','q.label')
-            ->distinct('q.id')
-            ->get();
-
-        return $projectQuestions;
-    }
-
-
-    public function getAnsweredQuestions($page){
-
-        $projectAnswers= $this->join('selection_criteria_question_responses as scqr','scqr.project_id', '=','projects.id')
-            ->join('selection_criteria_questions as q','q.id', '=','scqr.question_id')
-            ->where('q.page','=',$page)
-            ->where('projects.id','=',$this->id)
-            ->select('q.id','q.label','scqr.response')
-            ->distinct('q.id')
-            ->get();
-
-        return $projectAnswers;
-    }
-
-
-    /**
-     * returns the most recent similar project (same practice) of the same vendor.
-     * @param Project $project current project to search
-     * @return |null    similar porject. null if there are no similar project.
-     */
-    public function getSimilarProject($vendor){
-        $current_date = date('Y-m-d');
-        // Date range limit: 1 year ago
-        $date_limit = Carbon::parse($current_date)->addMonths(-12)->format('Y-m-d');
-
-        // Query
-        $similar_project= $this->join('selection_criteria_question_responses as scqr','scqr.project_id', '=','projects.id')
-            ->where('scqr.vendor_id','=',$vendor->id)
-            ->where('projects.practice_id','=',$this->practice_id)
-            ->whereDate('projects.created_at', '>=',$date_limit)
-            ->orderby('projects.created_at','DESC')
-            ->first();
-
-        return $similar_project;
-    }
-
     // Sorry for this  🙃
     public function shortDescription()
     {
-        return optional($this->generalInfoQuestions()->whereHas('originalQuestion', function($query){
+        return optional($this->generalInfoQuestions()->whereHas('originalQuestion', function ($query) {
             return $query->where('label', 'Short Description');
         })->first())->response;
     }
-
-
-
 
     public function progress()
     {
@@ -398,7 +335,7 @@ class Project extends Model
     {
         $score = 0;
 
-        if($this->hasOrals){
+        if ($this->hasOrals) {
             if ($this->publishedAnalytics) {
                 $score += 5;
             }
@@ -424,69 +361,55 @@ class Project extends Model
         return $score;
     }
 
-    public function getResponsesFromQuestionsOfSimilarProjectOfSameVendor(){
+    public function getResponsesFromQuestionsOfSimilarProjectOfSameVendor()
+    {
         /*
         $question = $this->originalQuestion();
         $project = $this->project();
         $vendor = $this->vendor();
         */
 
-        $responses = $this->select('selection_criteria_question_responses.response', 'projects.id')->join('selection_criteria_question_responses as scqr','scqr.project_id','projects.id')->get();
+        $responses = $this->select('selection_criteria_question_responses.response', 'projects.id')->join('selection_criteria_question_responses as scqr', 'scqr.project_id', 'projects.id')->get();
 
         return $responses;
 
     }
 
-
-
-
-
-
     /**
      * Returns the minimum Implementation cost of all the vendors in this Project
      *
-     * @throws \Exception
      * @return int
+     * @throws \Exception
      */
-    public function minImplementationCost() : int
+    public function minImplementationCost(): int
     {
         return $this->vendorApplications
-            ->filter(function(VendorApplication $application){
-                return $application->phase == 'submitted';
-            })
-            ->map(function (VendorApplication $application) {
-                return $application->implementationCost();
-            })
-            ->min() ?? 0;
+                ->filter(function (VendorApplication $application) {
+                    return $application->phase == 'submitted';
+                })
+                ->map(function (VendorApplication $application) {
+                    return $application->implementationCost();
+                })
+                ->min() ?? 0;
     }
 
     /**
      * Returns the minimum Run cost of all the vendors in this Project
      *
-     * @throws \Exception
      * @return int
+     * @throws \Exception
      */
-    public function minRunCost() : int
+    public function minRunCost(): int
     {
         return $this->vendorApplications
-            ->filter(function (VendorApplication $application) {
-                return $application->phase == 'submitted';
-            })
-            ->map(function (VendorApplication $application) {
-                return $application->averageRunCost();
-            })
-            ->min() ?? 0;
+                ->filter(function (VendorApplication $application) {
+                    return $application->phase == 'submitted';
+                })
+                ->map(function (VendorApplication $application) {
+                    return $application->averageRunCost();
+                })
+                ->min() ?? 0;
     }
-
-
-
-
-
-
-
-
-
-
 
 
     public function publish()
@@ -504,10 +427,6 @@ class Project extends Model
 
         return $this;
     }
-
-
-
-
 
 
     /**

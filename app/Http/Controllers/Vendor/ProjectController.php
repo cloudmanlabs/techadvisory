@@ -2,21 +2,20 @@
 
 namespace App\Http\Controllers\Vendor;
 
-use App\Practice;
+use App\SelectionCriteriaQuestionResponse;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Project;
 use App\SecurityLog;
 use App\User;
 use App\VendorApplication;
-use Illuminate\Support\Facades\Log;
-Use App\Providers\Utils;
+use App\Providers\Utils;
 
 class ProjectController extends Controller
 {
     public function previewProject(Project $project)
     {
-        if(! auth()->user()->hasAppliedToProject($project)){
+        if (!auth()->user()->hasAppliedToProject($project)) {
             abort(404);
         }
 
@@ -28,7 +27,7 @@ class ProjectController extends Controller
 
         SecurityLog::createLog('User accessed project with ID ' . $project->id);
 
-        return view('vendorViews.previewProject',[
+        return view('vendorViews.previewProject', [
             'project' => $project,
             'clients' => $clients,
 
@@ -102,9 +101,9 @@ class ProjectController extends Controller
     public function setRejected(Request $request, Project $project)
     {
         $application = VendorApplication::where('vendor_id', auth()->id())
-                                            ->where('project_id', $project->id)
-                                            ->first();
-        if($application == null){
+            ->where('project_id', $project->id)
+            ->first();
+        if ($application == null) {
             abort(404);
         }
 
@@ -140,12 +139,9 @@ class ProjectController extends Controller
 
         return response()->json([
             'status' => 200,
-            'message' =>'hello'
+            'message' => 'hello'
         ]);
     }
-
-
-
 
 
     public function newApplication(Project $project)
@@ -153,8 +149,6 @@ class ProjectController extends Controller
         if (!auth()->user()->hasAppliedToProject($project)) {
             abort(404);
         }
-
-
 
         $clients = User::clientUsers()->get();
 
@@ -174,8 +168,6 @@ class ProjectController extends Controller
     }
 
 
-
-
     public function newApplicationApply(Project $project)
     {
         /** @var User $vendor */
@@ -184,80 +176,57 @@ class ProjectController extends Controller
             abort(404);
         }
 
-        // feature 1: similar project
-
-        //$project = $similarProject;
-
-
         $vendorApplication = \App\VendorApplication::where('project_id', $project->id)->where('vendor_id', $vendor->id)->first();
-        if($vendorApplication->phase != 'applicating'){
+        if ($vendorApplication->phase != 'applicating') {
             abort(404);
         }
 
-        $fitgapQuestions = $project->selectionCriteriaQuestionsForVendor($vendor)->get()->filter(function($question){
+        $fitgapQuestions = $project->selectionCriteriaQuestionsForVendor($vendor)->get()->filter(function ($question) {
             return $question->originalQuestion->page == 'fitgap';
         });
-        $vendorCorporateQuestions = $project->selectionCriteriaQuestionsForVendor($vendor)->get()->filter(function($question){
+        $vendorCorporateQuestions = $project->selectionCriteriaQuestionsForVendor($vendor)->get()->filter(function ($question) {
             return $question->originalQuestion->page == 'vendor_corporate';
         });
-        $vendorMarketQuestions = $project->selectionCriteriaQuestionsForVendor($vendor)->get()->filter(function($question){
+        $vendorMarketQuestions = $project->selectionCriteriaQuestionsForVendor($vendor)->get()->filter(function ($question) {
             return $question->originalQuestion->page == 'vendor_market';
         });
-        $experienceQuestions = $project->selectionCriteriaQuestionsForVendor($vendor)->get()->filter(function($question){
+        $experienceQuestions = $project->selectionCriteriaQuestionsForVendor($vendor)->get()->filter(function ($question) {
             return $question->originalQuestion->page == 'experience';
         });
-        $innovationDigitalEnablersQuestions = $project->selectionCriteriaQuestionsForVendor($vendor)->get()->filter(function($question){
+        $innovationDigitalEnablersQuestions = $project->selectionCriteriaQuestionsForVendor($vendor)->get()->filter(function ($question) {
             return $question->originalQuestion->page == 'innovation_digitalEnablers';
         });
-        $innovationAlliancesQuestions = $project->selectionCriteriaQuestionsForVendor($vendor)->get()->filter(function($question){
+        $innovationAlliancesQuestions = $project->selectionCriteriaQuestionsForVendor($vendor)->get()->filter(function ($question) {
             return $question->originalQuestion->page == 'innovation_alliances';
         });
-        $innovationProductQuestions = $project->selectionCriteriaQuestionsForVendor($vendor)->get()->filter(function($question){
+        $innovationProductQuestions = $project->selectionCriteriaQuestionsForVendor($vendor)->get()->filter(function ($question) {
             return $question->originalQuestion->page == 'innovation_product';
         });
-        $innovationSustainabilityQuestions = $project->selectionCriteriaQuestionsForVendor($vendor)->get()->filter(function($question){
+        $innovationSustainabilityQuestions = $project->selectionCriteriaQuestionsForVendor($vendor)->get()->filter(function ($question) {
             return $question->originalQuestion->page == 'innovation_sustainability';
         });
-
-        $implementationImplementationQuestions = $project->selectionCriteriaQuestionsForVendor($vendor)->get()->filter(function($question){
+        $implementationImplementationQuestions = $project->selectionCriteriaQuestionsForVendor($vendor)->get()->filter(function ($question) {
             return $question->originalQuestion->page == 'implementation_implementation';
         });
-        $implementationRunQuestions = $project->selectionCriteriaQuestionsForVendor($vendor)->get()->filter(function($question){
+        $implementationRunQuestions = $project->selectionCriteriaQuestionsForVendor($vendor)->get()->filter(function ($question) {
             return $question->originalQuestion->page == 'implementation_run';
         });
-        // feature 1: getResponses.
-        $vendorCorporateResponses = $project->selectionCriteriaQuestionsForVendor($vendor)->get()->filter(function($question){
-            return $question->originalQuestion->page == 'vendor_corporate';
-        });
 
-        // Feature 1: get Responses
-
-        $projectType = $project->getPractice();     // Practice of the Project.
-        //$projectVendor = $project->getVendor();     // Vendor of the Project.
-        $projectQuestions = $project->getQuestions('vendor_corporate');
-        $answers = $project->getAnsweredQuestions('vendor_corporate');
-        $similarproject = $project->getSimilarProject($vendor);
-
-        /*
-        var_dump($similarproject->project_id);
-        var_dump($similarproject->vendor_id);
-        var_dump($similarproject->practice_id);
-        var_dump($similarproject->question_id);
-        var_dump($similarproject->response);
-                die();
-
-        */
-
+        // Feature 1: get Responses from similar project
+        $selectionCriteriaQuestionsResponsesFromSimilarProject = SelectionCriteriaQuestionResponse::getResponsesFromSimilarProject($vendor, $project);
+        $this->replaceResponses($vendorCorporateQuestions, $selectionCriteriaQuestionsResponsesFromSimilarProject);
+        $this->replaceResponses($vendorMarketQuestions, $selectionCriteriaQuestionsResponsesFromSimilarProject);
+        $this->replaceResponses($experienceQuestions, $selectionCriteriaQuestionsResponsesFromSimilarProject);
+        $this->replaceResponses($innovationDigitalEnablersQuestions, $selectionCriteriaQuestionsResponsesFromSimilarProject);
+        $this->replaceResponses($innovationAlliancesQuestions, $selectionCriteriaQuestionsResponsesFromSimilarProject);
+        $this->replaceResponses($innovationProductQuestions, $selectionCriteriaQuestionsResponsesFromSimilarProject);
+        $this->replaceResponses($innovationSustainabilityQuestions, $selectionCriteriaQuestionsResponsesFromSimilarProject);
 
         SecurityLog::createLog('User accessed project with ID ' . $project->id);
-
 
         return view('vendorViews.newApplicationApply', [
             'project' => $project,
             'vendorApplication' => $vendorApplication,
-
-            //feature 1
-
             'fitgapQuestions' => $fitgapQuestions,
             'vendorCorporateQuestions' => $vendorCorporateQuestions,
             'vendorMarketQuestions' => $vendorMarketQuestions,
@@ -346,7 +315,6 @@ class ProjectController extends Controller
         return view('vendorViews.submittedApplication', [
             'project' => $project,
             'vendorApplication' => $vendorApplication,
-
             'fitgapQuestions' => $fitgapQuestions,
             'vendorCorporateQuestions' => $vendorCorporateQuestions,
             'vendorMarketQuestions' => $vendorMarketQuestions,
@@ -360,5 +328,17 @@ class ProjectController extends Controller
         ]);
     }
 
-
+    private function replaceResponses($currentResponses, $similarResponses)
+    {
+        // Replace answers for Page Vendor Corporate
+        foreach ($currentResponses as $currentResponse) {
+            if ($currentResponse->response === null) {
+                foreach ($similarResponses as $similarResponse) {
+                    if ($currentResponse->question_id == $similarResponse->question_id) {
+                        $currentResponse->response = $similarResponse->response;
+                    }
+                }
+            }
+        }
+    }
 }
