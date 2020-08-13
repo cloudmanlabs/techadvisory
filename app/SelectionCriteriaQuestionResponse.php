@@ -33,10 +33,10 @@ class SelectionCriteriaQuestionResponse extends Model
     }
 
     /**
-     * Returns the responses of the most recent similar project, with their questions.
+     * Returns the responses of the most recent similar open project if exists, with their questions.
      * @param $vendor vendor of the project
      * @param $project current project
-     * @return mixed
+     * @return mixed. null if project not exists
      */
     public static function getResponsesFromSimilarProject($vendor, $project)
     {
@@ -49,10 +49,17 @@ class SelectionCriteriaQuestionResponse extends Model
             ->where('projects.practice_id', '=', $project->practice_id)
             ->whereDate('projects.created_at', '>=', $date_limit)
             ->where('projects.id', '!=', $project->id)
-            ->where('scqr.vendor_id', '=', $vendor->id)
+            ->where(function ($query) {
+                $query->where('projects.currentPhase', '=', 'open')
+                    ->orWhere('projects.currentPhase', '=', 'old');
+            })->where('scqr.vendor_id', '=', $vendor->id)
             ->whereNotNull('scqr.response')
             ->orderby('projects.created_at', 'DESC')
             ->first();
+
+        if ($similar_project == null) {
+            return [];
+        }
 
         return self::select('question_id', 'response')
             ->where('project_id', '=', $similar_project->id)

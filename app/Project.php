@@ -2,12 +2,10 @@
 
 namespace App;
 
-use Carbon\Carbon;
 use Guimcaballero\LaravelFolders\Models\Folder;
 use Illuminate\Database\Eloquent\Model;
 use \Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\Log;
 
 /**
  * @property string $name
@@ -209,7 +207,6 @@ class Project extends Model
         });
     }
 
-
     public function sizingQuestions()
     {
         return $this->hasMany(SizingQuestionResponse::class, 'project_id');
@@ -363,12 +360,6 @@ class Project extends Model
 
     public function getResponsesFromQuestionsOfSimilarProjectOfSameVendor()
     {
-        /*
-        $question = $this->originalQuestion();
-        $project = $this->project();
-        $vendor = $this->vendor();
-        */
-
         $responses = $this->select('selection_criteria_question_responses.response', 'projects.id')->join('selection_criteria_question_responses as scqr', 'scqr.project_id', 'projects.id')->get();
 
         return $responses;
