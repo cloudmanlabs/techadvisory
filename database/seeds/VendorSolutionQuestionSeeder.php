@@ -37,7 +37,7 @@ class VendorSolutionQuestionSeeder extends Seeder
         ]);
 
         factory(VendorSolutionQuestion::class)->create([
-            'label' => 'SC Capabilities',
+            'label' => 'SC Capabilities (Practice)',
             'type' => 'selectMultiple',
             'presetOption' => 'practices',
         ]);

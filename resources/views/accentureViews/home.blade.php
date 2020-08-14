@@ -63,7 +63,7 @@
                                         <p class="welcome_text">
                                             Please choose the Project's name:
                                         </p>
-                                        <input id="homeNameInput" type="text" class="" placeholder="name">
+                                        <input id="homeNameInput" class="form-control" type="text" placeholder="name">
                                     </div>
                                 </div>
                             </div>
@@ -394,6 +394,7 @@
                 searchInputText = event.target.value.toLowerCase();
                 updateOpenProjects();
             });
+
             updateOpenProjects();
         });
     </script>

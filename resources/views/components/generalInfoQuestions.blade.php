@@ -150,7 +150,7 @@
 <br>
 
 <div class="form-group">
-    <label for="practiceSelect">SC Capabilities*</label>
+    <label for="practiceSelect">SC Capabilities (Practice)*</label>
     <select class="form-control" id="practiceSelect" required
         {{$disabled ? 'disabled' : ''}}
         {{$projectEdit ? 'disabled' : ''}}
