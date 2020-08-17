@@ -313,43 +313,31 @@
                     const practice = $(this).data('practice');
                     const client = $(this).data('client');
                     const year = $(this).data('year').toString();
-                    const name = String($(this).data('name')).toLowerCase();          // feature 1.6
+                    const name = String($(this).data('name')).toLowerCase();       // feature 1.6
 
                     if ($.inArray(practice, selectedPractices) !== -1
                         && $.inArray(client, selectedClients) !== -1
-                        && $.inArray(year, selectedYears) !== -1) {
-                        $(this).css('display', 'flex')
-                    } else {
-                        $(this).css('display', 'none')
-                    }
+                        && $.inArray(year, selectedYears) !== -1
+                        && (!searchInputText || name.includes(searchInputText))) {
 
-                    // feature 1.6: Show/hide projects by its name.
-                    if (!searchInputText || name.includes(searchInputText)) {
-                        $(this).css('display', 'flex')
+                        $(this).css('display', 'flex');
                     } else {
-                        $(this).css('display', 'none')
+                        $(this).css('display', 'none');
                     }
-
                 });
                 $('#preparationPhaseContainer').children().each(function () {
                     const practice = $(this).data('practice');
                     const client = $(this).data('client');
                     const year = $(this).data('year').toString();
-                    const name = String($(this).data('name')).toLowerCase();          // feature 1.6
+                    const name = String($(this).data('name')).toLowerCase();       // feature 1.6
 
                     if ($.inArray(practice, selectedPractices) !== -1
                         && $.inArray(client, selectedClients) !== -1
-                        && $.inArray(year, selectedYears) !== -1) {
-                        $(this).css('display', 'flex')
+                        && $.inArray(year, selectedYears) !== -1
+                        && (!searchInputText || name.includes(searchInputText))) {
+                        $(this).css('display', 'flex');
                     } else {
-                        $(this).css('display', 'none')
-                    }
-
-                    // feature 1.6: Show/hide projects by its name.
-                    if (!searchInputText || name.includes(searchInputText)) {
-                        $(this).css('display', 'flex')
-                    } else {
-                        $(this).css('display', 'none')
+                        $(this).css('display', 'none');
                     }
                 });
 
@@ -357,21 +345,15 @@
                     const practice = $(this).data('practice');
                     const client = $(this).data('client');
                     const year = $(this).data('year').toString();
-                    const name = String($(this).data('name')).toLowerCase();          // feature 1.6
+                    const name = String($(this).data('name')).toLowerCase();       // feature 1.6
 
                     if ($.inArray(practice, selectedPractices) !== -1
                         && $.inArray(client, selectedClients) !== -1
-                        && $.inArray(year, selectedYears) !== -1) {
-                        $(this).css('display', 'flex')
+                        && $.inArray(year, selectedYears) !== -1
+                        && (!searchInputText || name.includes(searchInputText))) {
+                        $(this).css('display', 'flex');
                     } else {
-                        $(this).css('display', 'none')
-                    }
-
-                    // feature 1.6: Show/hide projects by its name.
-                    if (!searchInputText || name.includes(searchInputText)) {
-                        $(this).css('display', 'flex')
-                    } else {
-                        $(this).css('display', 'none')
+                        $(this).css('display', 'none');
                     }
                 });
             }
@@ -389,12 +371,11 @@
                 updateOpenProjects();
             });
 
-            // feature 1.6
+            //feature 1.6
             $("#homeNameInput").keyup(function (event) {
                 searchInputText = event.target.value.toLowerCase();
                 updateOpenProjects();
             });
-
             updateOpenProjects();
         });
     </script>
