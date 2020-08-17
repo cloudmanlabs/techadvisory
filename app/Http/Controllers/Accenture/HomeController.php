@@ -13,10 +13,12 @@ class HomeController extends Controller
 {
     public function home()
     {
-        // Get projects
-        $openProjects = Project::openProjects();
-        $preparationProjects = Project::preparationProjects();
-        $oldProjects = Project::oldProjects();
+
+        // feature 2.4: get projects but filtered by region
+        $myRegion = auth()->user()->region;
+        $openProjects = Project::openProjectsFromMyRegion($myRegion);
+        $preparationProjects = Project::preparationProjectsFromMyRegion($myRegion);
+        $oldProjects = Project::oldProjectsFromMyRegion($myRegion);
 
         $practices = Practice::all()->pluck('name');
         $clients = User::clientUsers()->pluck('name');

@@ -449,4 +449,38 @@ class Project extends Model
     {
         return self::where('currentPhase', 'old')->get();
     }
+
+    // feature 2.4: Add region filter
+    public static function openProjectsFromMyRegion($myRegion): Collection
+    {
+        return self::where('currentPhase', 'open')
+            ->where(function ($query) use ($myRegion) {
+                $myRegionAsText = config('arrays.regions')[$myRegion];
+                $query->where('regions', 'like', '%' . $myRegionAsText . '%')
+                    ->orWhere('regions', 'like', '%' . "Worldwide" . '%');
+            })->get();
+    }
+
+    // feature 2.4: Add region filter
+    public static function preparationProjectsFromMyRegion($myRegion): Collection
+    {
+        return self::where('currentPhase', 'preparation')
+            ->where(function ($query) use ($myRegion) {
+                $myRegionAsText = config('arrays.regions')[$myRegion];
+                $query->where('regions', 'like', '%' . $myRegionAsText . '%')
+                    ->orWhere('regions', 'like', '%' . "Worldwide" . '%');
+            })->get();
+    }
+
+    // feature 2.4: Add region filter
+    public static function oldProjectsFromMyRegion($myRegion): Collection
+    {
+        return self::where('currentPhase', 'old')
+            ->where(function ($query) use ($myRegion) {
+                $myRegionAsText = config('arrays.regions')[$myRegion];
+                $query->where('regions', 'like', '%' . $myRegionAsText . '%')
+                    ->orWhere('regions', 'like', '%' . "Worldwide" . '%');
+            })->get();
+    }
+
 }
