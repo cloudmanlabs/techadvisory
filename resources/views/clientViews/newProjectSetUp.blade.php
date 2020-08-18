@@ -89,6 +89,15 @@
                                             data-submitted="{{ $project->step3SubmittedClient }}">
                                             {{ $project->step3SubmittedClient ? 'Submitted' : 'Submit'}}
                                         </button>
+                                        <!-- feature 2.8: rollback accenture step 3-->
+                                        <button
+                                            id="step3Rollback"
+                                            class="btn btn-primary"
+                                            {{ $project->step3SubmittedClient ? '' : 'disabled'}}
+                                            data-submitted="{{ $project->step3SubmittedClient }}"
+                                        >
+                                            {{ $project->step3SubmittedClient ? 'Rollback' : 'Rollback Completed'}}
+                                        </button>
                                     </section>
 
                                     <h2>Selection Criteria</h2>
@@ -165,6 +174,7 @@
 
                                             <h3>Scoring criteria</h3>
                                             <div>
+
                                                 <x-scoringCriteriaBricks :isClient="true" :project="$project"/>
                                                 <br>
 
@@ -172,6 +182,7 @@
 
                                                 <br>
                                                 <br>
+
 
                                                 <button
                                                     id = "step4SubmitButton"
@@ -561,6 +572,24 @@
 
             $(this).attr('disabled', true);
             $(this).html('Submitted')
+        });
+
+        // feature 2.8: Make Rollback from Accenture step 3 to initial state
+        $('#step3Rollback').click(function(){
+            $.post('/client/newProjectSetUp/setStep3Rollback', {
+                project_id: '{{$project->id}}',
+            })
+
+            $.toast({
+                heading: 'Rollback to client initial state completed!',
+                showHideTransition: 'slide',
+                icon: 'success',
+                hideAfter: 1000,
+                position: 'bottom-right'
+            })
+
+            $(this).attr('disabled', true);
+            $(this).html('Rollback Completed')
         });
 
         $('#step4Submit').click(function(){

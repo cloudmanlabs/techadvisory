@@ -16,9 +16,9 @@ class HomeController extends Controller
 
         // feature 2.4: get projects but filtered by region
         $myRegion = auth()->user()->region;
-        $openProjects = Project::openProjectsFromMyRegion($myRegion);
-        $preparationProjects = Project::preparationProjectsFromMyRegion($myRegion);
-        $oldProjects = Project::oldProjectsFromMyRegion($myRegion);
+        $openProjects = Project::projectsFromMyRegion($myRegion, 'open');
+        $preparationProjects = Project::projectsFromMyRegion($myRegion, 'preparation');
+        $oldProjects = Project::projectsFromMyRegion($myRegion, 'old');
 
         $practices = Practice::all()->pluck('name');
         $clients = User::clientUsers()->pluck('name');

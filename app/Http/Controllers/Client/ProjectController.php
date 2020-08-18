@@ -68,7 +68,7 @@ class ProjectController extends Controller
 
         return view('clientViews.newProjectSetUp', [
             'project' => $project,
-            'clients' => User::clientUsers()->get()->filter(function($user) use ($project){
+            'clients' => User::clientUsers()->get()->filter(function ($user) use ($project) {
                 // We only return the selected one, this way we don't let the client see all the client names in the html
                 return $user->is($project->client);
             }),
@@ -326,7 +326,6 @@ class ProjectController extends Controller
     }
 
 
-
     public function changeRFPOtherInfo(Request $request)
     {
         $request->validate([
@@ -365,6 +364,27 @@ class ProjectController extends Controller
         return \response()->json([
             'status' => 200,
             'message' => 'Success'
+        ]);
+    }
+
+    // feature 2.8: Rollback from Client step 3 to Accenture step 3
+    public function setStep3Rollback(Request $request)
+    {
+        $request->validate([
+            'project_id' => 'required|numeric',
+        ]);
+
+        $project = Project::find($request->project_id);
+        if ($project == null) {
+            abort(404);
+        }
+
+        $project->step3SubmittedClient = false;
+        $project->save();
+
+        return \response()->json([
+            'status' => 200,
+            'message' => 'rollback client completed'
         ]);
     }
 
@@ -515,7 +535,7 @@ class ProjectController extends Controller
 
     public function orals(Project $project)
     {
-        if(! $project->hasOrals){
+        if (!$project->hasOrals) {
             abort(404);
         }
 
@@ -544,10 +564,10 @@ class ProjectController extends Controller
             'project' => $project,
             'applications' => $project
                 ->vendorApplications
-                ->filter(function(VendorApplication $application){
+                ->filter(function (VendorApplication $application) {
                     return $application->phase == 'submitted';
                 })
-                ->sortByDesc(function(VendorApplication $application){
+                ->sortByDesc(function (VendorApplication $application) {
                     return $application->totalScore();
                 }),
         ]);
@@ -560,7 +580,7 @@ class ProjectController extends Controller
         return view('clientViews.projectBenchmarkFitgap', [
             'project' => $project,
             'applications' => $project->vendorApplications
-                ->filter(function(VendorApplication $application){
+                ->filter(function (VendorApplication $application) {
                     return $application->phase == 'submitted';
                 }),
         ]);
@@ -573,7 +593,7 @@ class ProjectController extends Controller
         return view('clientViews.projectBenchmarkVendor', [
             'project' => $project,
             'applications' => $project->vendorApplications
-                ->filter(function(VendorApplication $application){
+                ->filter(function (VendorApplication $application) {
                     return $application->phase == 'submitted';
                 }),
         ]);
@@ -586,7 +606,7 @@ class ProjectController extends Controller
         return view('clientViews.projectBenchmarkExperience', [
             'project' => $project,
             'applications' => $project->vendorApplications
-                ->filter(function(VendorApplication $application){
+                ->filter(function (VendorApplication $application) {
                     return $application->phase == 'submitted';
                 }),
         ]);
@@ -599,7 +619,7 @@ class ProjectController extends Controller
         return view('clientViews.projectBenchmarkInnovation', [
             'project' => $project,
             'applications' => $project->vendorApplications
-                ->filter(function(VendorApplication $application){
+                ->filter(function (VendorApplication $application) {
                     return $application->phase == 'submitted';
                 }),
         ]);
@@ -612,7 +632,7 @@ class ProjectController extends Controller
         return view('clientViews.projectBenchmarkImplementation', [
             'project' => $project,
             'applications' => $project->vendorApplications
-                ->filter(function(VendorApplication $application){
+                ->filter(function (VendorApplication $application) {
                     return $application->phase == 'submitted';
                 }),
         ]);

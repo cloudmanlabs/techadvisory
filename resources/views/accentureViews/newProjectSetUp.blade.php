@@ -88,6 +88,15 @@
                                         >
                                             {{ $project->step3SubmittedAccenture ? 'Submitted' : 'Submit'}}
                                         </button>
+                                        <!-- feature 2.8: rollback accenture step 3-->
+                                        <button
+                                            id="step3Rollback"
+                                            class="btn btn-primary"
+                                            {{ $project->step3SubmittedAccenture ? '' : 'disabled'}}
+                                            data-submitted="{{ $project->step3SubmittedAccenture }}"
+                                        >
+                                            {{ $project->step3SubmittedAccenture ? 'Rollback' : 'Rollback Completed'}}
+                                        </button>
                                     </section>
 
                                     <h2>Selection Criteria</h2>
@@ -160,6 +169,9 @@
 
                                                 <h3>Scoring criteria</h3>
                                                 <div>
+                                                    {{var_dump($project->hasUploadedFitgap)}}
+                                                    {{var_dump($project->step3SubmittedAccenture)}}
+                                                    {{var_dump($project->step4SubmittedAccenture)}}
                                                     <x-scoringCriteriaBricks :isClient="false" :project="$project"/>
                                                     <br>
                                                     <x-scoringCriteriaWeights :isClient="false" :project="$project"/>
@@ -174,6 +186,9 @@
                                                         {{ $project->step4SubmittedAccenture ? 'disabled' : ''}}
                                                     >{{ $project->step4SubmittedAccenture ? 'Submitted' : 'Submit'}}</button>
                                                     @endif
+
+
+
                                                     <br><br>
                                                 </div>
                                             </div>
@@ -561,6 +576,24 @@
 
             $(this).attr('disabled', true);
             $(this).html('Submitted')
+        });
+
+        // feature 2.8: Make Rollback from Accenture step 3 to initial state
+        $('#step3Rollback').click(function(){
+            $.post('/accenture/newProjectSetUp/setStep3Rollback', {
+                project_id: '{{$project->id}}',
+            })
+
+            $.toast({
+                heading: 'Rollback to initial Client State completed!',
+                showHideTransition: 'slide',
+                icon: 'success',
+                hideAfter: 1000,
+                position: 'bottom-right'
+            })
+
+            $(this).attr('disabled', true);
+            $(this).html('Rollback Completed')
         });
 
         $('#step4Submit').click(function(){

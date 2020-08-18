@@ -48,6 +48,7 @@ Route::
             Route::post('/newProjectSetUp/changeDeadline', 'ProjectController@changeDeadline');
             Route::post('/newProjectSetUp/changeRFPOtherInfo', 'ProjectController@changeRFPOtherInfo');
             Route::post('/newProjectSetUp/setStep3Submitted', 'ProjectController@setStep3Submitted');
+            Route::post('/newProjectSetUp/setStep3Rollback', 'ProjectController@setStep3Rollback');         //feature 2.8
             Route::post('/newProjectSetUp/setStep4Submitted', 'ProjectController@setStep4Submitted');
             Route::post('/newProjectSetUp/publishProject', 'ProjectController@publishProject');
             Route::post('/newProjectSetUp/publishProjectAnalytics', 'ProjectController@publishProjectAnalytics');

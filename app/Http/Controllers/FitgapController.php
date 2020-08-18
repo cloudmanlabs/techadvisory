@@ -122,7 +122,7 @@ class FitgapController extends Controller
                 $vendorApplication->fitgapVendorColumns[$key] ?? [
                     'Vendor Response' => '',
                     'Comments' => '',
-                ],
+                ]
             );
             //$row['Score'] = $vendorApplication->fitgapVendorScores[$key] ?? 5;
 
