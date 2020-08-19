@@ -390,7 +390,7 @@ class ProjectController extends Controller
 
         return \response()->json([
             'status' => 200,
-            'message' => 'rollback completed'
+            'message' => 'Success'
         ]);
     }
 
@@ -407,6 +407,26 @@ class ProjectController extends Controller
         }
 
         $project->step4SubmittedAccenture = true;
+        $project->save();
+
+        return \response()->json([
+            'status' => 200,
+            'message' => 'Success'
+        ]);
+    }
+
+    public function setStep4Rollback(Request $request)
+    {
+        $request->validate([
+            'project_id' => 'required|numeric',
+        ]);
+
+        $project = Project::find($request->project_id);
+        if ($project == null) {
+            abort(404);
+        }
+
+        $project->step4SubmittedAccenture = false;
         $project->save();
 
         return \response()->json([

@@ -7,12 +7,12 @@ use Illuminate\Support\Facades\Route;
 
 
 Route::
-    prefix('accenture')
+prefix('accenture')
     ->name('accenture.')
     ->namespace('Accenture')
     ->group(function () {
-        Route::get('/', function(){
-            if(Auth::check() && Auth::user()->isAccenture()){
+        Route::get('/', function () {
+            if (Auth::check() && Auth::user()->isAccenture()) {
                 return redirect()->route('accenture.home');
             } else {
                 return redirect()->route('accenture.login');
@@ -48,8 +48,9 @@ Route::
             Route::post('/newProjectSetUp/changeDeadline', 'ProjectController@changeDeadline');
             Route::post('/newProjectSetUp/changeRFPOtherInfo', 'ProjectController@changeRFPOtherInfo');
             Route::post('/newProjectSetUp/setStep3Submitted', 'ProjectController@setStep3Submitted');
-            Route::post('/newProjectSetUp/setStep3Rollback', 'ProjectController@setStep3Rollback');         //feature 2.8
+            Route::post('/newProjectSetUp/setStep3Rollback', 'ProjectController@setStep3Rollback');         // feature 2.8
             Route::post('/newProjectSetUp/setStep4Submitted', 'ProjectController@setStep4Submitted');
+            Route::post('/newProjectSetUp/setStep4Rollback', 'ProjectController@setStep4Rollback');         // feature 2.8
             Route::post('/newProjectSetUp/publishProject', 'ProjectController@publishProject');
             Route::post('/newProjectSetUp/publishProjectAnalytics', 'ProjectController@publishProjectAnalytics');
             Route::post('/newProjectSetUp/updateVendors', 'ProjectController@updateVendors');
@@ -62,7 +63,6 @@ Route::
 
             Route::post('/orals/changeInvitedToOrals', 'VendorApplicationController@changeInvitedToOrals');
             Route::post('/orals/changeOralsCompleted', 'VendorApplicationController@changeOralsCompleted');
-
 
 
             Route::post('createClient', 'ClientVendorListController@createClientPost')
@@ -139,7 +139,6 @@ Route::
                 ->name('project.markCompleted');
 
 
-
             Route::get('/project/vendorProposal/view/{project}/{vendor}', 'ProjectController@vendorProposalView')
                 ->name('viewVendorProposal');
             Route::get('/project/vendorProposal/edit/{project}/{vendor}', 'ProjectController@vendorProposalEdit')
@@ -164,10 +163,6 @@ Route::
                 ->name('analysis.vendor.graphs');
             Route::get('analysis/vendor/custom', 'AnalysisController@vendorCustom')
                 ->name('analysis.vendor.custom');
-
-
-
-
 
 
             Route::get('/exportCredentials/{user}', 'ClientVendorListController@exportCredentials');

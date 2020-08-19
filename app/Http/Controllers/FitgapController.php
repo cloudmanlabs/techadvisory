@@ -53,21 +53,15 @@ class FitgapController extends Controller
     }
 
 
-
-
-
-
-
-
     public function clientJson(Project $project)
     {
         $result = [];
         // Merge the two arrays
         foreach ($project->fitgap5Columns as $key => $something) {
             $result[] = array_merge($project->fitgap5Columns[$key], $project->fitgapClientColumns[$key] ?? [
-                'Client' => '',
-                'Business Opportunity' => '',
-            ]);
+                    'Client' => '',
+                    'Business Opportunity' => '',
+                ]);
         }
 
         return $result;
@@ -133,10 +127,6 @@ class FitgapController extends Controller
     }
 
 
-
-
-
-
     public function clientJsonUpload(Request $request, Project $project)
     {
         $request->validate([
@@ -150,7 +140,7 @@ class FitgapController extends Controller
         $result5Cols = [];
         $resultClient = [];
         foreach ($request->data as $key => $row) {
-            if($row['Requirement Type'] == null || $row['Requirement Type'] == "") continue;
+            if ($row['Requirement Type'] == null || $row['Requirement Type'] == "") continue;
 
             $result5Cols[] = [
                 'Requirement Type' => $row['Requirement Type'],
@@ -165,13 +155,13 @@ class FitgapController extends Controller
             ];
 
             // Check if the value has changed. If it has, reset the vendor responses
-            if(
+            if (
                 $row['Requirement Type'] != $project->fitgap5Columns[$key]['Requirement Type']
                 || $row['Level 1'] != $project->fitgap5Columns[$key]['Level 1']
                 || $row['Level 2'] != $project->fitgap5Columns[$key]['Level 2']
                 || $row['Level 3'] != $project->fitgap5Columns[$key]['Level 3']
                 || $row['Requirement'] != $project->fitgap5Columns[$key]['Requirement']
-            ){
+            ) {
                 foreach ($project->vendorApplications as $key1 => $application) {
                     /** @var VendorApplication $application */
                     $fitgapVendorColumns = $application->fitgapVendorColumns;
@@ -259,13 +249,6 @@ class FitgapController extends Controller
             'message' => 'Success'
         ]);
     }
-
-
-
-
-
-
-
 
 
     public function clientIframe(Request $request, Project $project)

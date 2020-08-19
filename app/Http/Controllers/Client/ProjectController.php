@@ -408,6 +408,27 @@ class ProjectController extends Controller
         ]);
     }
 
+    // feature 2.8: Rollback from setp 4 Client to step 4 Accenture
+    public function setStep4Rollback(Request $request)
+    {
+        $request->validate([
+            'project_id' => 'required|numeric',
+        ]);
+
+        $project = Project::find($request->project_id);
+        if ($project == null) {
+            abort(404);
+        }
+
+        $project->step4SubmittedClient = false;
+        $project->save();
+
+        return \response()->json([
+            'status' => 200,
+            'message' => 'Success'
+        ]);
+    }
+
     public function updateScoringValues(Request $request)
     {
         $request->validate([
