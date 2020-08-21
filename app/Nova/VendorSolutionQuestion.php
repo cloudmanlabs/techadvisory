@@ -76,7 +76,7 @@ class VendorSolutionQuestion extends Resource
 
             Boolean::make('Required', 'required'),
 
-            BelongsTo::make('Practice', 'practice', \App\Nova\Practice::class)
+            BelongsTo::make('SC Capability (Practice)', 'practice', \App\Nova\Practice::class)
                 ->nullable()
                 ->help('Select a Practice if you want this Question to only show on projects with that Practice'),
         ];

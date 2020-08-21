@@ -25,7 +25,7 @@
                                             Please choose the Practices you'd like to see:
                                         </p>
                                         <select id="homePracticeSelect" class="w-100" multiple="multiple">
-                                            <option>No practice</option>
+                                            <option>No SC Capability (Practice)</option>
                                             @foreach ($practices as $practice)
                                                 <option>{{$practice}}</option>
                                             @endforeach
@@ -63,7 +63,7 @@
                                         <p class="welcome_text">
                                             Please choose the Project's name:
                                         </p>
-                                        <input id="homeNameInput" class="form-control" type="text" placeholder="name">
+                                        <input id="homeNameInput" class="form-control" type="text">
                                     </div>
                                 </div>
                             </div>
@@ -87,14 +87,14 @@
                                         <div class="card" style="margin-bottom: 30px;"
                                              data-client="{{$project->client->name ?? 'No client'}}"
                                              data-name="{{$project->name ?? 'No name'}}"
-                                             data-practice="{{$project->practice->name ?? 'No practice'}}"
+                                             data-practice="{{$project->practice->name ?? 'No SC Capability (Practice)'}}"
                                              data-year="{{$project->created_at->year}}">
                                             <div class="card-body"
                                                  style="display: flex; flex-direction: row; justify-content: space-between; align-items: center">
                                                 <div style="width: 30%;">
                                                     <h4>{{$project->name}}</h4>
                                                     <h6>{{$project->client->name ?? 'No client'}}
-                                                        - {{$project->practice->name ?? 'No practice'}}</h6>
+                                                        - {{$project->practice->name ?? 'No SC Capability (Practice)'}}</h6>
                                                 </div>
                                                 <x-projectProgressBar :project="$project"/>
 
@@ -143,13 +143,13 @@
                                         <div class="card" style="margin-bottom: 30px;"
                                              data-client="{{$project->client->name ?? 'No client'}}"
                                              data-name="{{$project->name ?? 'No name'}}"
-                                             data-practice="{{$project->practice->name ?? 'No practice'}}"
+                                             data-practice="{{$project->practice->name ?? 'No SC Capability (Practice)'}}"
                                              data-year="{{$project->created_at->year}}">
                                             <div class="card-body">
                                                 <div style="float: left; max-width: 40%;">
                                                     <h4>{{$project->name}}</h4>
                                                     <h6>{{$project->client->name ?? 'No client'}}
-                                                        - {{$project->practice->name ?? 'No practice'}}</h6>
+                                                        - {{$project->practice->name ?? 'No SC Capability (Practice)'}}</h6>
                                                 </div>
                                                 <div style="float: right; text-align: right; width: 17%;">
                                                     <a class="btn btn-primary btn-lg btn-icon-text"
@@ -190,13 +190,13 @@
                                         <div class="card" style="margin-bottom: 30px;"
                                              data-client="{{$project->client->name ?? 'No client'}}"
                                              data-name="{{$project->name ?? 'No name'}}"
-                                             data-practice="{{$project->practice->name ?? 'No practice'}}"
+                                             data-practice="{{$project->practice->name ?? 'No SC Capability (Practice)'}}"
                                              data-year="{{$project->created_at->year}}">
                                             <div class="card-body">
                                                 <div style="float: left; max-width: 40%;">
                                                     <h4>{{$project->name}}</h4>
                                                     <h6>{{$project->client->name ?? 'No client'}}
-                                                        - {{$project->practice->name ?? 'No practice'}}</h6>
+                                                        - {{$project->practice->name ?? 'No SC Capability (Practice)'}}</h6>
                                                 </div>
                                                 <div style="float: right; text-align: right; width: 17%;">
                                                     <a class="btn btn-primary btn-lg btn-icon-text"

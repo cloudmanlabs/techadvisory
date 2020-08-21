@@ -54,8 +54,8 @@ class Subpractice extends Resource
 
             Text::make('Name', 'name'),
 
-            BelongsTo::make('Practice', 'practice', 'App\Nova\Practice'),
-            BelongsToMany::make('Projects with this Practice', 'projects', 'App\Nova\Project')
+            BelongsTo::make('SC Capability (Practice)', 'practice', 'App\Nova\Practice'),
+            BelongsToMany::make('Projects with this SC Capability (Practice)', 'projects', 'App\Nova\Project')
         ];
     }
 

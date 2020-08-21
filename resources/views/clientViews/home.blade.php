@@ -28,7 +28,7 @@
                                         <div class="card-body">
                                             <div style="float: left; max-width: 40%;">
                                                 <h4>{{$project->name}}</h4>
-                                                <h6>Practice: {{$project->practice->name ?? 'No practice'}}</h6>
+                                                <h6>SC Capability (Practice): {{$project->practice->name ?? 'No SC Capability (Practice)'}}</h6>
                                                 <h6>Last updated: {{$project->updated_at->format('d/m/Y')}}</h6>
                                             </div>
                                             <div style="float: right; text-align: right; width: 17%;">
@@ -63,7 +63,7 @@
                                         <div class="card-body">
                                             <div style="float: left; max-width: 40%;">
                                                 <h4>{{$project->name}}</h4>
-                                                <h6>Practice: {{$project->practice->name ?? 'No practice'}}</h6>
+                                                <h6>SC Capability (Practice): {{$project->practice->name ?? 'No SC Capability (Practice)'}}</h6>
                                                 <h6>Last updated: {{$project->updated_at->format('d/m/Y')}}</h6>
                                             </div>
                                             <div style="float: right; text-align: right; width: 17%;">
@@ -103,7 +103,7 @@
                                         <div class="card-body">
                                             <div style="float: left; max-width: 40%;">
                                                 <h4>{{$project->name}}</h4>
-                                                <h6>Practice: {{$project->practice->name ?? 'No practice'}}</h6>
+                                                <h6>Practice: {{$project->practice->name ?? 'No SC Capability (Practice)'}}</h6>
                                             </div>
                                             <div style="float: right; text-align: right; width: 17%;">
                                                 <a class="btn btn-primary btn-lg btn-icon-text" href="{{route('client.projectHome', ['project' => $project])}}">

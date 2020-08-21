@@ -79,7 +79,7 @@ class SizingQuestion extends Resource
             //         return auth()->user()->isAdmin();
             //     }),
 
-            BelongsTo::make('Practice', 'practice', 'App\Nova\Practice')
+            BelongsTo::make('SC Capability (Practice)', 'practice', 'App\Nova\Practice')
                 ->nullable()
                 ->help('Select a Practice if you want this Question to only show on projects with that Practice')
         ];

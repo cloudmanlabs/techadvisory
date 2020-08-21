@@ -146,7 +146,7 @@
 <x-questionForeachWithOnlyView :questions="$project->generalInfoQuestionsInPage('project_info')" :class="'generalQuestion'" :disabled="$disabled"
     :required="$required" :skipQuestionsInVendor="$hideQuestionsForVendor" :onlyView="$disableSpecialQuestions"/>
 
-<h4>1.2. Practice</h4>
+<h4>1.2. SC Capability (Practice)</h4>
 <br>
 
 <div class="form-group">

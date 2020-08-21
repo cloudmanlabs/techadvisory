@@ -124,7 +124,7 @@ class Project extends Resource
 
             BelongsTo::make('Client', 'client', 'App\Nova\Client')
                 ->sortable(),
-            BelongsTo::make('Practice', 'practice', 'App\Nova\Practice')
+            BelongsTo::make('SC Capability (Practice)', 'practice', 'App\Nova\Practice')
                 ->sortable(),
 
 			Text::make('Industry', 'industry')
