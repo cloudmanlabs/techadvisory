@@ -464,11 +464,8 @@ class Project extends Model
     // feature 2.4: Add region filter
     public static function projectsFromMyRegion($myRegion,$currentPhase): Collection
     {
+        $myRegionAsText = config('arrays.regions')[$myRegion];
         return self::where('currentPhase', $currentPhase)
-            ->where(function ($query) use ($myRegion) {
-                $myRegionAsText = config('arrays.regions')[$myRegion];
-                $query->where('regions', 'like', '%' . $myRegionAsText . '%')
-                    ->orWhere('regions', 'like', '%Worldwide%');
-            })->get();
+                ->where('regions', 'like', '%' . $myRegionAsText . '%')->get();
     }
 }
