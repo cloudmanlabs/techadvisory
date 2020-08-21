@@ -13,12 +13,19 @@ class HomeController extends Controller
 {
     public function home()
     {
-
         // feature 2.4: get projects but filtered by region
         $myRegion = auth()->user()->region;
-        $openProjects = Project::projectsFromMyRegion($myRegion, 'open');
-        $preparationProjects = Project::projectsFromMyRegion($myRegion, 'preparation');
-        $oldProjects = Project::projectsFromMyRegion($myRegion, 'old');
+        if($myRegion =='0'){
+            // No region filter
+            $openProjects = Project::openProjects();
+            $preparationProjects = Project::preparationProjects();
+            $oldProjects = Project::oldProjects();
+        }else{
+            // filter by his region
+            $openProjects = Project::projectsFromMyRegion($myRegion, 'open');
+            $preparationProjects = Project::projectsFromMyRegion($myRegion, 'preparation');
+            $oldProjects = Project::projectsFromMyRegion($myRegion, 'old');
+        }
 
         $practices = Practice::all()->pluck('name');
         $clients = User::clientUsers()->pluck('name');
