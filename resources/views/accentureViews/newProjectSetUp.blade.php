@@ -588,36 +588,6 @@
                 $(this).html('Submitted')
             });
 
-            // feature 2.8: Make Rollback from Accenture step 3 to initial state
-            $('#step3Rollback').click(function () {
-                $(this).attr('disabled', true);
-
-                $.post('/accenture/newProjectSetUp/setStep3Rollback', {
-                    project_id: '{{$project->id}}',
-                }).done(function () {
-                    $(this).html('Rollback Completed')
-                    $.toast({
-                        heading: 'Rollback completed!',
-                        showHideTransition: 'slide',
-                        icon: 'success',
-                        hideAfter: 1000,
-                        position: 'bottom-right'
-                    })
-                    setTimeout(function () {
-                        location.reload();
-                    }, 1000);
-                }).fail(function () {
-                    $(this).attr('disabled', false);
-                    $.toast({
-                        heading: 'Rollback failed!',
-                        showHideTransition: 'slide',
-                        icon: 'error',
-                        hideAfter: 3000,
-                        position: 'bottom-right'
-                    })
-                })
-            });
-
             $('#step4Submit').click(function () {
                 $.post('/accenture/newProjectSetUp/setStep4Submitted', {
                     project_id: '{{$project->id}}',

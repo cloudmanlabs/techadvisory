@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Accenture;
 use App\Exports\AnalyticsExport;
 use App\Exports\VendorResponsesExport;
 use App\GeneralInfoQuestionResponse;
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Mail\ProjectInvitationEmail;
 use App\Practice;
@@ -17,7 +16,7 @@ use App\Subpractice;
 use App\User;
 use App\VendorApplication;
 use Carbon\Carbon;
-use Illuminate\Support\Facades\Log;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Validation\Rule;
 use Maatwebsite\Excel\Facades\Excel;
@@ -373,27 +372,6 @@ class ProjectController extends Controller
         ]);
     }
 
-    // feature 2.8: Rollback from Accenture step 3 to initial state
-    public function setStep3Rollback(Request $request)
-    {
-        $request->validate([
-            'project_id' => 'required|numeric',
-        ]);
-
-        $project = Project::find($request->project_id);
-        if ($project == null) {
-            abort(404);
-        }
-
-        $project->step3SubmittedAccenture = false;
-        $project->save();
-
-        return \response()->json([
-            'status' => 200,
-            'message' => 'Success'
-        ]);
-    }
-
 
     public function setStep4Submitted(Request $request)
     {
@@ -414,27 +392,6 @@ class ProjectController extends Controller
             'message' => 'Success'
         ]);
     }
-
-    public function setStep4Rollback(Request $request)
-    {
-        $request->validate([
-            'project_id' => 'required|numeric',
-        ]);
-
-        $project = Project::find($request->project_id);
-        if ($project == null) {
-            abort(404);
-        }
-
-        $project->step4SubmittedAccenture = false;
-        $project->save();
-
-        return \response()->json([
-            'status' => 200,
-            'message' => 'Success'
-        ]);
-    }
-
 
     public function publishProject(Request $request)
     {
@@ -1085,4 +1042,92 @@ class ProjectController extends Controller
 
         return Excel::download($export, 'responses.xlsx');
     }
+
+    /* Feature 2.8: Rollbacks ************************************************************************************** */
+
+    // Rollback from Accenture step 3 to initial state
+    public function setStep1Rollback(Request $request)
+    {
+        $request->validate([
+            'project_id' => 'required|numeric',
+        ]);
+
+        $project = Project::find($request->project_id);
+        if ($project == null) {
+            abort(404);
+        }
+
+        $project->step3SubmittedAccenture = false;
+        $project->save();
+
+        return \response()->json([
+            'status' => 200,
+            'message' => 'Success'
+        ]);
+    }
+
+    // Rollback from Client step 3 to Accenture step 3
+    public function setStep2Rollback(Request $request)
+    {
+        $request->validate([
+            'project_id' => 'required|numeric',
+        ]);
+
+        $project = Project::find($request->project_id);
+        if ($project == null) {
+            abort(404);
+        }
+
+        $project->step3SubmittedClient = false;
+        $project->save();
+
+        return \response()->json([
+            'status' => 200,
+            'message' => 'Success'
+        ]);
+    }
+
+    // Rollback from Accenture step 4 to Client step 3
+    public function setStep3Rollback(Request $request)
+    {
+        $request->validate([
+            'project_id' => 'required|numeric',
+        ]);
+
+        $project = Project::find($request->project_id);
+        if ($project == null) {
+            abort(404);
+        }
+
+        $project->step4SubmittedAccenture = false;
+        $project->save();
+
+        return \response()->json([
+            'status' => 200,
+            'message' => 'Success'
+        ]);
+    }
+
+    // Rollback from Client step 4 to Accenture step 4
+    public function setStep4Rollback(Request $request)
+    {
+        $request->validate([
+            'project_id' => 'required|numeric',
+        ]);
+
+        $project = Project::find($request->project_id);
+        if ($project == null) {
+            abort(404);
+        }
+
+        $project->step4SubmittedClient = false;
+        $project->save();
+
+        return \response()->json([
+            'status' => 200,
+            'message' => 'Success'
+        ]);
+    }
+
+    /* ************************************************************************************************************* */
 }
