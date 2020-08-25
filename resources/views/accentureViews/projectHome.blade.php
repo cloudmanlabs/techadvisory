@@ -25,6 +25,15 @@
             font-size: 25px;
             color: red;
         }
+        #summary button {
+            font-size: 15px;
+        }
+
+        #vendorApplyCard a  {
+            font-size: 15px;
+        }
+
+
     </style>
 @endsection
 
@@ -166,7 +175,6 @@
                                 </p>
                                 <br>
                                 <br>
-
                                 @foreach ($applicatingVendors as $vendor)
                                     <x-vendorCard :vendor="$vendor" :project="$project">
                                         <div style="text-align: right; width: 15%; margin-right: 1rem">
@@ -200,13 +208,14 @@
                                                 Download responses
                                             </a>
                                         </div>
-                                        <!-- feature 2.8 Vendor rollback-->
-                                        {{--<div style="text-align: right; width: 15%; margin-right: 1rem">
+                                        <!-- feature 2.8 Vendor rollback -->
+                                        <div style="text-align: right; width: 15%; margin-right: 1rem">
                                             <a class="btn btn-primary btn-lg btn-icon-text text-white cursor-pointer">
                                                 Rollback
                                             </a>
-                                        </div>--}}
+                                        </div>
                                     </x-vendorCard>
+
                                 @endforeach
                             </div>
                         </div>

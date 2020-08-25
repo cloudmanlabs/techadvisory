@@ -3,8 +3,7 @@
     --}}
 
 @props(['showProgressBar', 'vendor', 'application', 'project'])
-
-<div class="card" style="margin-bottom: 30px;">
+<div class="card" style="margin-bottom: 30px;" id="vendorApplyCard">
     <div class="card-body" style="display: flex; flex-direction: row; justify-content: space-between; align-items: center">
         <div style="max-width: 40%; padding-top: 8px;">
             <h4>{{$vendor->name }}</h4>
@@ -31,5 +30,6 @@
         @endif
 
         {{$slot}}
+
     </div>
 </div>
