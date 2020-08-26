@@ -31,6 +31,7 @@ use Illuminate\Support\Facades\Log;
 class VendorApplication extends Model
 {
     public $guarded = [];
+    //public $phase = "";
 
     protected $casts = [
         'invitedToOrals' => 'boolean',
@@ -69,12 +70,7 @@ class VendorApplication extends Model
         return $this->morphOne(Folder::class, 'folderable')->where('folderable_group', 'experience');
     }
 
-
-
-
-
-
-    public function progress() : int
+    public function progress(): int
     {
         $progressSetUp = $this->progressFitgap();
         $progressValue = $this->progressVendor();
@@ -91,18 +87,18 @@ class VendorApplication extends Model
             $progressSubmit;
     }
 
-    public function progressFitgap() : int
+    public function progressFitgap(): int
     {
         $score = 0;
 
-        if($this->hasCompletedFitgap()){
+        if ($this->hasCompletedFitgap()) {
             $score += 30;
         }
 
         return $score;
     }
 
-    public function progressVendor() : int
+    public function progressVendor(): int
     {
         $score = 0;
 
@@ -113,7 +109,7 @@ class VendorApplication extends Model
         return $score;
     }
 
-    public function progressExperience() : int
+    public function progressExperience(): int
     {
         $score = 0;
         if ($this->hasCompletedVendorSelectionCriteriaIn(['experience'])) {
@@ -122,7 +118,7 @@ class VendorApplication extends Model
         return $score;
     }
 
-    public function progressInnovation() : int
+    public function progressInnovation(): int
     {
         $score = 0;
         if ($this->hasCompletedVendorSelectionCriteriaIn(['innovation_digitalEnablers', 'innovation_alliances', 'innovation_product', 'innovation_sustainability'])) {
@@ -131,7 +127,7 @@ class VendorApplication extends Model
         return $score;
     }
 
-    public function progressImplementation() : int
+    public function progressImplementation(): int
     {
         $score = 0;
         if ($this->hasCompletedImplementation()) {
@@ -140,7 +136,7 @@ class VendorApplication extends Model
         return $score;
     }
 
-    public function progressSubmit() : int
+    public function progressSubmit(): int
     {
         $score = 0;
         if (in_array($this->phase, ['pendingEvaluation', 'evaluated', 'submitted'])) {
@@ -157,19 +153,19 @@ class VendorApplication extends Model
         return true;
     }
 
-    function hasCompletedImplementation() : bool
+    function hasCompletedImplementation(): bool
     {
         if ($this->project->isBinding) {
-            if(
+            if (
                 $this->staffingCost == null ||
                 $this->travelCost == null ||
                 $this->additionalCost == null ||
                 $this->estimate5Years == null
-            ){
+            ) {
                 return false;
             }
         } else {
-            if(
+            if (
                 $this->overallImplementationMin == null ||
                 $this->overallImplementationMax == null ||
                 $this->averageYearlyCostMin == null ||
@@ -185,32 +181,32 @@ class VendorApplication extends Model
     function hasCompletedVendorSelectionCriteriaIn(array $pages = []): bool
     {
         $vendorQuestions = $this->project
-                                ->selectionCriteriaQuestionsOriginals()
-                                ->whereIn('page', $pages)
-                                ->where('required', true)
-                                ->pluck('id')
-                                ->toArray();
+            ->selectionCriteriaQuestionsOriginals()
+            ->whereIn('page', $pages)
+            ->where('required', true)
+            ->pluck('id')
+            ->toArray();
 
         $answeredQuestions = $this->project
-                                ->selectionCriteriaQuestionsForVendor($this->vendor)
-                                ->get()
-                                ->filter(function(SelectionCriteriaQuestionResponse $response){
-                                    return
-                                        $response->response != null
-                                        && $response->response != ""
-                                        && $response->response != "[]";
-                                })
-                                ->map(function($response){
-                                    return $response->originalQuestion;
-                                })
-                                ->filter(function($question) use ($pages) {
-                                    return in_array($question->page, $pages);
-                                })
-                                ->pluck('id')
-                                ->toArray();
+            ->selectionCriteriaQuestionsForVendor($this->vendor)
+            ->get()
+            ->filter(function (SelectionCriteriaQuestionResponse $response) {
+                return
+                    $response->response != null
+                    && $response->response != ""
+                    && $response->response != "[]";
+            })
+            ->map(function ($response) {
+                return $response->originalQuestion;
+            })
+            ->filter(function ($question) use ($pages) {
+                return in_array($question->page, $pages);
+            })
+            ->pluck('id')
+            ->toArray();
 
         foreach ($vendorQuestions as $key => $question) {
-            if(!in_array($question, $answeredQuestions)){
+            if (!in_array($question, $answeredQuestions)) {
                 return false;
             }
         }
@@ -219,23 +215,19 @@ class VendorApplication extends Model
     }
 
 
-
-
-
-
     public function ranking()
     {
-        if($this->project == null){
+        if ($this->project == null) {
             return 0;
         }
 
-        $applications = $this->project->vendorApplications->sortByDesc(function($application){
+        $applications = $this->project->vendorApplications->sortByDesc(function ($application) {
             return $application->totalScore();
         });
 
         $rank = 1;
         foreach ($applications as $key => $app) {
-            if($app->is($this)){
+            if ($app->is($this)) {
                 return $rank;
             } else {
                 $rank++;
@@ -252,15 +244,15 @@ class VendorApplication extends Model
         }
 
         $weights = collect($this->project->scoringValues ?? [0, 0, 0, 0, 0])
-                            ->map(function($times){
-                                // We save the number of blocks, not the actual percentage
-                                return $times * 5;
-                            });
+            ->map(function ($times) {
+                // We save the number of blocks, not the actual percentage
+                return $times * 5;
+            });
 
         $totalWeight = $weights->sum();
 
         // If they haven't set the weights, just do the average
-        if($totalWeight == 0){
+        if ($totalWeight == 0) {
             return collect([
                 $this->fitgapScore(),
                 $this->vendorScore(),
@@ -271,11 +263,11 @@ class VendorApplication extends Model
         }
 
         return
-                $this->fitgapScore() * ($weights[0] / $totalWeight) +
-                $this->vendorScore() * ($weights[1] / $totalWeight) +
-                $this->experienceScore() * ($weights[2] / $totalWeight) +
-                $this->innovationScore() * ($weights[3] / $totalWeight) +
-                $this->implementationScore() * ($weights[4] / $totalWeight);
+            $this->fitgapScore() * ($weights[0] / $totalWeight) +
+            $this->vendorScore() * ($weights[1] / $totalWeight) +
+            $this->experienceScore() * ($weights[2] / $totalWeight) +
+            $this->innovationScore() * ($weights[3] / $totalWeight) +
+            $this->implementationScore() * ($weights[4] / $totalWeight);
     }
 
     /**
@@ -299,9 +291,9 @@ class VendorApplication extends Model
 
     function getScoreFromResponse(string $response)
     {
-        if($response == 'Product fully supports the functionality') return $this->project->fitgapWeightFullySupports ?? 3;
-        if($response == 'Product partially supports the functionality') return $this->project->fitgapWeightPartiallySupports ?? 2;
-        if($response == 'Functionality planned for a future release') return $this->project->fitgapWeightPlanned ?? 1;
+        if ($response == 'Product fully supports the functionality') return $this->project->fitgapWeightFullySupports ?? 3;
+        if ($response == 'Product partially supports the functionality') return $this->project->fitgapWeightPartiallySupports ?? 2;
+        if ($response == 'Functionality planned for a future release') return $this->project->fitgapWeightPlanned ?? 1;
 
         return $this->project->fitgapWeightNotSupported ?? 0;
     }
@@ -310,14 +302,14 @@ class VendorApplication extends Model
     {
         $response = $this->project->fitgapClientColumns[$row]['Client'] ?? '';
 
-        if($response == 'Must') return $this->project->fitgapWeightMust ?? 10;
-        if($response == 'Required') return $this->project->fitgapWeightRequired ?? 5;
-        if($response == 'Nice to have') return $this->project->fitgapWeightNiceToHave ?? 1;
+        if ($response == 'Must') return $this->project->fitgapWeightMust ?? 10;
+        if ($response == 'Required') return $this->project->fitgapWeightRequired ?? 5;
+        if ($response == 'Nice to have') return $this->project->fitgapWeightNiceToHave ?? 1;
 
         return 1;
     }
 
-    function averageScoreOfType(string $type) : float
+    function averageScoreOfType(string $type): float
     {
         $fitgap5cols = $this->project->fitgap5Columns;
 
@@ -333,14 +325,14 @@ class VendorApplication extends Model
             }
         }
 
-        if(count($scores) == 0 || count($maxScores) == 0) {
+        if (count($scores) == 0 || count($maxScores) == 0) {
             return 0;
         }
 
         $num = array_sum($scores);
         $denom = array_sum($maxScores);
 
-        if($denom == 0) return 0;
+        if ($denom == 0) return 0;
 
         return
             10 * ($num / $denom);
@@ -367,18 +359,16 @@ class VendorApplication extends Model
     }
 
 
-
-
     public function vendorScore()
     {
         $corp = $this->project->selectionCriteriaQuestionsForVendor($this->vendor)->whereHas('originalQuestion', function ($query) {
-            $query
-                ->where('page', 'vendor_corporate');
-        })->avg('score') ?? 0;
+                $query
+                    ->where('page', 'vendor_corporate');
+            })->avg('score') ?? 0;
         $market = $this->project->selectionCriteriaQuestionsForVendor($this->vendor)->whereHas('originalQuestion', function ($query) {
-            $query
-                ->where('page', 'vendor_market');
-        })->avg('score') ?? 0;
+                $query
+                    ->where('page', 'vendor_market');
+            })->avg('score') ?? 0;
 
         return collect([$corp, $market])->avg();
     }
@@ -386,29 +376,29 @@ class VendorApplication extends Model
     public function experienceScore()
     {
         return $this->project->selectionCriteriaQuestionsForVendor($this->vendor)->whereHas('originalQuestion', function ($query) {
-            $query
-                ->where('page', 'experience');
-        })->avg('score') ?? 0;
+                $query
+                    ->where('page', 'experience');
+            })->avg('score') ?? 0;
     }
 
     public function innovationScore()
     {
         $digital = $this->project->selectionCriteriaQuestionsForVendor($this->vendor)->whereHas('originalQuestion', function ($query) {
-            $query
-                ->where('page', 'innovation_digitalEnablers');
-        })->avg('score') ?? 0;
+                $query
+                    ->where('page', 'innovation_digitalEnablers');
+            })->avg('score') ?? 0;
         $alliances = $this->project->selectionCriteriaQuestionsForVendor($this->vendor)->whereHas('originalQuestion', function ($query) {
-            $query
-                ->where('page', 'innovation_alliances');
-        })->avg('score') ?? 0;
+                $query
+                    ->where('page', 'innovation_alliances');
+            })->avg('score') ?? 0;
         $product = $this->project->selectionCriteriaQuestionsForVendor($this->vendor)->whereHas('originalQuestion', function ($query) {
-            $query
-                ->where('page', 'innovation_product');
-        })->avg('score') ?? 0;
+                $query
+                    ->where('page', 'innovation_product');
+            })->avg('score') ?? 0;
         $sustainability = $this->project->selectionCriteriaQuestionsForVendor($this->vendor)->whereHas('originalQuestion', function ($query) {
-            $query
-                ->where('page', 'innovation_sustainability');
-        })->avg('score') ?? 0;
+                $query
+                    ->where('page', 'innovation_sustainability');
+            })->avg('score') ?? 0;
 
         return collect([$digital, $alliances, $product, $sustainability])->avg();
     }
@@ -429,15 +419,15 @@ class VendorApplication extends Model
         $delta = $this->implementationCostDelta();
 
         if ($delta == 0) return 10;
-        if($delta <= 5) return 9;
-        if($delta <= 10) return 8;
-        if($delta <= 15) return 7;
-        if($delta <= 20) return 6;
-        if($delta <= 25) return 5;
-        if($delta <= 30) return 4;
-        if($delta <= 35) return 3;
-        if($delta <= 40) return 2;
-        if($delta <= 45) return 1;
+        if ($delta <= 5) return 9;
+        if ($delta <= 10) return 8;
+        if ($delta <= 15) return 7;
+        if ($delta <= 20) return 6;
+        if ($delta <= 25) return 5;
+        if ($delta <= 30) return 4;
+        if ($delta <= 35) return 3;
+        if ($delta <= 40) return 2;
+        if ($delta <= 45) return 1;
         return 0;
     }
 
@@ -459,23 +449,22 @@ class VendorApplication extends Model
     }
 
 
-
     public function averageImplementationCost()
     {
-        if($this->project->isBinding){
+        if ($this->project->isBinding) {
             return collect([
                 collect($this->staffingCost ?? ['cost' => '0',])
-                    ->map(function($el){
+                    ->map(function ($el) {
                         return $el['cost'] ?? 0;
                     })
                     ->avg(),
                 collect($this->travelCost ?? ['cost' => '0',])
-                    ->map(function($el){
+                    ->map(function ($el) {
                         return $el['cost'] ?? 0;
                     })
                     ->avg(),
                 collect($this->additionalCost ?? ['cost' => '0',])
-                    ->map(function($el){
+                    ->map(function ($el) {
                         return $el['cost'] ?? 0;
                     })
                     ->avg(),
@@ -523,16 +512,16 @@ class VendorApplication extends Model
         $minCost = $this->project->minImplementationCost();
         $cost = $this->implementationCost();
 
-        if($minCost == 0){
+        if ($minCost == 0) {
             // If the min and this vendors cost is 0, the delta is 0
-            if($cost == 0) return 0;
+            if ($cost == 0) return 0;
             // If not, it means that this vendor has a cost, but there is a vendor with cost 0, so delta is "infinite"
             return 100000000;
         }
 
         $difference = $cost - $minCost;
 
-        if($difference < 0) $difference = 0;
+        if ($difference < 0) $difference = 0;
 
         return ($difference / $minCost) * 100;
     }
@@ -541,10 +530,10 @@ class VendorApplication extends Model
     {
         if ($this->project->isBinding) {
             return collect($this->estimate5Years ?? [0, 0, 0, 0, 0])
-                ->filter(function ($el) {
-                    return $el != 0;
-                })
-                ->average() ?? 0;
+                    ->filter(function ($el) {
+                        return $el != 0;
+                    })
+                    ->average() ?? 0;
         }
 
         return collect([
@@ -557,10 +546,10 @@ class VendorApplication extends Model
     {
         if ($this->project->isBinding) {
             return collect($this->estimate5Years ?? [0, 0, 0, 0, 0])
-                ->filter(function ($el) {
-                    return $el != 0;
-                })
-                ->average() ?? 0;
+                    ->filter(function ($el) {
+                        return $el != 0;
+                    })
+                    ->average() ?? 0;
         }
 
         return collect([
@@ -589,13 +578,9 @@ class VendorApplication extends Model
     }
 
 
-
-
-
-
     public function checkIfAllSelectionCriteriaQuestionsWereAnswered(): bool
     {
-        if($this->project->isBinding){
+        if ($this->project->isBinding) {
             if ($this->staffingCost == null) return false;
             if ($this->travelCost == null) return false;
             if ($this->additionalCost == null) return false;
@@ -610,7 +595,7 @@ class VendorApplication extends Model
                     $query->where('required', 'true');
                 })
                 ->get()
-                ->filter(function($response){
+                ->filter(function ($response) {
                     return $response->response == null;
                 })
                 ->count() > 0;
@@ -619,8 +604,7 @@ class VendorApplication extends Model
     }
 
 
-
-    public function setApplicating() : VendorApplication
+    public function setApplicating(): VendorApplication
     {
         $this->phase = 'applicating';
         $this->save();
@@ -668,9 +652,30 @@ class VendorApplication extends Model
         return $this;
     }
 
-
-
-
+    public function doRollback(): VendorApplication
+    {
+        switch ($this->phase) {
+            case "invitation":
+                break;
+            case "rejected":
+            case "applicating":
+            $this->phase = "invitation";
+                break;
+            case "disqualified":
+            case "pendingEvaluation":
+            $this->phase = "applicating";
+                break;
+            case "evaluated":
+                $this->phase = "pendingEvaluation";
+                break;
+            case "submitted":
+                $this->phase = "evaluated";
+                break;
+            default:
+                $this->phase = "invitation";
+        }
+        return $this;
+    }
 
 
     public function fitgapCollectionExport(): \Illuminate\Support\Collection
@@ -712,7 +717,7 @@ class VendorApplication extends Model
         return $result;
     }
 
-    public function implementationCollectionExport() : \Illuminate\Support\Collection
+    public function implementationCollectionExport(): \Illuminate\Support\Collection
     {
         $result = [
             [
@@ -757,9 +762,9 @@ class VendorApplication extends Model
             foreach ($this->raciMatrix as $key => $row) {
                 $result[] = [
                     (intval($key) + 1),
-                    $row['title']  ?? '',
-                    $row['client']  ?? '',
-                    $row['vendor']  ?? '',
+                    $row['title'] ?? '',
+                    $row['client'] ?? '',
+                    $row['vendor'] ?? '',
                     $row['accenture'] ?? ''
                 ];
             }
@@ -832,10 +837,10 @@ class VendorApplication extends Model
                 $totalAdditional = 0;
                 foreach ($this->additionalCost as $key => $row) {
                     $result[] = [
-                        $row['title']  ?? '',
-                        $row['cost']  ?? '',
+                        $row['title'] ?? '',
+                        $row['cost'] ?? '',
                     ];
-                    $totalAdditional += $row['cost']  ?? 0;
+                    $totalAdditional += $row['cost'] ?? 0;
                 }
                 $result[] = [
                     '',

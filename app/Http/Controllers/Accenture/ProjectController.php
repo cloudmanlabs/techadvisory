@@ -1129,5 +1129,17 @@ class ProjectController extends Controller
         ]);
     }
 
+    // feature 2.8: vendor Rollback
+    public function vendorApplyRollback(Request $request, Project $project, User $vendor)
+    {
+        $application = VendorApplication::where('vendor_id', $vendor->id)
+            ->where('project_id', $project->id)
+            ->first();
+
+        $application->doRollback()->save();
+
+        return redirect()->route('accenture.projectHome', ['project' => $project]);
+    }
+
     /* ************************************************************************************************************* */
 }

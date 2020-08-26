@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Vendor;
 
+use App\Nova\Vendor;
 use App\SelectionCriteriaQuestionResponse;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -142,7 +143,6 @@ class ProjectController extends Controller
             'message' => 'hello'
         ]);
     }
-
 
     public function newApplication(Project $project)
     {

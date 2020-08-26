@@ -25,14 +25,14 @@
             font-size: 25px;
             color: red;
         }
+
         #summary button {
             font-size: 15px;
         }
 
-        #vendorApplyCard a  {
+        #vendorApplyCard a {
             font-size: 15px;
         }
-
 
     </style>
 @endsection
@@ -208,9 +208,12 @@
                                                 Download responses
                                             </a>
                                         </div>
+
                                         <!-- feature 2.8 Vendor rollback -->
                                         <div style="text-align: right; width: 15%; margin-right: 1rem">
-                                            <a class="btn btn-primary btn-lg btn-icon-text text-white cursor-pointer">
+                                            <a id="vendorRollback"
+                                               class="btn btn-primary btn-lg btn-icon-text text-white cursor-pointer"
+                                               href="{{route('accenture.project.vendorApplyRollback', ['project' => $project, 'vendor' => $vendor])}}">
                                                 Rollback
                                             </a>
                                         </div>
@@ -258,6 +261,14 @@
                                             <a class="btn btn-primary btn-lg btn-icon-text" target="_blank"
                                                href="{{route('accenture.downloadVendorProposal', ['project' => $project, 'vendor' => $vendor])}}">Download
                                                 responses
+                                            </a>
+                                        </div>
+                                        <!-- feature 2.8 Vendor rollback -->
+                                        <div style="text-align: right; width: 15%; margin-right: 1rem">
+                                            <a id="vendorRollback"
+                                               class="btn btn-primary btn-lg btn-icon-text text-white cursor-pointer"
+                                               href="{{route('accenture.project.vendorApplyRollback', ['project' => $project, 'vendor' => $vendor])}}">
+                                                Rollback
                                             </a>
                                         </div>
                                     </x-vendorCard>
@@ -317,6 +328,14 @@
                                                 responses
                                             </a>
                                         </div>
+                                        <!-- feature 2.8 Vendor rollback -->
+                                        <div style="text-align: right; width: 15%; margin-right: 1rem">
+                                            <a id="vendorRollback"
+                                               class="btn btn-primary btn-lg btn-icon-text text-white cursor-pointer"
+                                               href="{{route('accenture.project.vendorApplyRollback', ['project' => $project, 'vendor' => $vendor])}}">
+                                                Rollback
+                                            </a>
+                                        </div>
                                     </x-vendorCard>
                                 @endforeach
                             </div>
@@ -347,6 +366,14 @@
                                             <a class="btn btn-primary btn-lg btn-icon-text" target="_blank"
                                                href="{{route('accenture.downloadVendorProposal', ['project' => $project, 'vendor' => $vendor])}}">Download
                                                 responses
+                                            </a>
+                                        </div>
+                                        <!-- feature 2.8 Vendor rollback -->
+                                        <div style="text-align: right; width: 15%; margin-right: 1rem">
+                                            <a id="vendorRollback"
+                                               class="btn btn-primary btn-lg btn-icon-text text-white cursor-pointer"
+                                               href="{{route('accenture.project.vendorApplyRollback', ['project' => $project, 'vendor' => $vendor])}}">
+                                                Rollback
                                             </a>
                                         </div>
                                     </x-vendorCard>
@@ -401,6 +428,14 @@
                                         <a class="btn btn-primary btn-lg btn-icon-text"
                                            href="{{route('accenture.viewVendorProposal', ['project' => $project, 'vendor' => $vendor])}}">View
                                             Response</a>
+                                        <!-- feature 2.8 Vendor rollback -->
+                                        <div style="text-align: right; width: 15%; margin-right: 1rem">
+                                            <a id="vendorRollback"
+                                               class="btn btn-primary btn-lg btn-icon-text text-white cursor-pointer"
+                                               href="{{route('accenture.project.vendorApplyRollback', ['project' => $project, 'vendor' => $vendor])}}">
+                                                Rollback
+                                            </a>
+                                        </div>
                                     </x-vendorCard>
                                 @endforeach
                             </div>
@@ -538,6 +573,7 @@
                 })
             })
         });
+
     </script>
 @endsection
 

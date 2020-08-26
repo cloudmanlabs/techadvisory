@@ -168,5 +168,9 @@ prefix('accenture')
             Route::get('/exportCredentials/{user}', 'ClientVendorListController@exportCredentials');
             Route::get('/exportAnalytics/{project}', 'ProjectController@exportAnalytics')
                 ->name('exportAnalytics');
+
+            // feature 2.8
+            Route::get('/project/vendorApplyRollback/{project}/{vendor}', 'ProjectController@vendorApplyRollback')
+                ->name('project.vendorApplyRollback');
         });
     });
