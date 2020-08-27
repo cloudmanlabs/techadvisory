@@ -118,7 +118,7 @@
                                                 </div>
                                                 <div style="float: right; width: 20%; margin-right: 10%;">
                                                     <h5>{{$solution->vendor->name}}</h5>
-                                                    <h5>{{$solution->practice->name ?? 'No Practice'}}</h5>
+                                                    <h5>{{$solution->practice->name ?? 'No SC Capability (Practice)'}}</h5>
                                                 </div>
                                                 <div style="float: right; width: 10%; margin-right: 10%;">
                                                     <img alt="profile" src="{{url($solution->vendor->logo ? ('/storage/' . $solution->vendor->logo) : '/assets/images/user.png')}}" style="height: 20px">

@@ -128,6 +128,8 @@ prefix('accenture')
                 ->name('projectBenchmarkInnovation');
             Route::get('project/benchmark/implementation/{project}', 'ProjectController@benchmarkImplementation')
                 ->name('projectBenchmarkImplementation');
+            Route::get('project/benchmark/vendorComparison/{project}', 'ProjectController@benchmarkVendorComparison')
+                ->name('projectBenchmarkVendorComparison');     // feature 1.2
 
             Route::post('project/disqualifyVendor/{project}/{vendor}', 'ProjectController@disqualifyVendor')
                 ->name('project.disqualifyVendor');

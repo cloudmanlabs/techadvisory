@@ -42,7 +42,7 @@ class VendorProfileQuestionSeeder extends Seeder
         ]);
         factory(VendorProfileQuestion::class)->create([
             'page' => 'general',
-            'label' => 'Practice',
+            'label' => 'SC Capability (Practice)',
             'type' => 'selectSingle',
             'presetOption' => 'practices',
 

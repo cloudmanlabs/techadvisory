@@ -372,7 +372,6 @@ class ProjectController extends Controller
         ]);
     }
 
-
     public function setStep4Submitted(Request $request)
     {
         $request->validate([
@@ -612,7 +611,6 @@ class ProjectController extends Controller
         ]);
     }
 
-
     public function home(Project $project)
     {
         $invitedVendors = $project->vendorsApplied(['invitation'])->get();
@@ -678,7 +676,6 @@ class ProjectController extends Controller
 
         return redirect()->route('accenture.projectHome', ['project' => $project]);
     }
-
 
     public function view(Project $project)
     {
@@ -806,7 +803,6 @@ class ProjectController extends Controller
         ]);
     }
 
-
     public function benchmark(Project $project)
     {
         SecurityLog::createLog('User accessed project benchmarks of project with ID ' . $project->id);
@@ -889,6 +885,19 @@ class ProjectController extends Controller
         ]);
     }
 
+    // feature 1.2: new view for graphics about vendor comparison
+    public function benchmarkVendorComparison(Project $project)
+    {
+        SecurityLog::createLog('User accessed project benchmarks of project with ID ' . $project->id);
+
+        return view('accentureViews.projectBenchmarkVendorComparison', [
+            'project' => $project,
+            'applications' => $project->vendorApplications
+                ->filter(function (VendorApplication $application) {
+                    return $application->phase == 'submitted';
+                }),
+        ]);
+    }
 
     function arrayOfSelectionCriteriaQuestions(Project $project, User $vendor, VendorApplication $application = null)
     {
@@ -1008,7 +1017,6 @@ class ProjectController extends Controller
 
         Mail::to($request->email)->send(new ProjectInvitationEmail($vendor, $project, $text));
     }
-
 
     public function downloadVendorProposal(Project $project, User $vendor)
     {

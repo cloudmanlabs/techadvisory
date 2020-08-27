@@ -56,7 +56,7 @@
                                     <div class="col-xl-12 grid-margin stretch-card">
                                         <div class="card">
                                             <div class="card-body">
-                                                <h4>BY PRACTICE</h4>
+                                                <h4>BY SC CAPABILITY (PRACTICE)</h4>
                                                 <br><br>
                                                 <canvas id="projectsByYearAndPractice"></canvas>
                                             </div>
@@ -139,7 +139,7 @@
                 scales: {
                     yAxes: [{
                         ticks: {
-                            beginAtZero: true,        
+                            beginAtZero: true,
                             suggestedMax: 20,
                             fontSize: 17
                         }
@@ -191,7 +191,7 @@
                 scales: {
                     yAxes: [{
                         ticks: {
-                            beginAtZero: true,                            
+                            beginAtZero: true,
                             suggestedMax: 20,
                             stepSize: 1,
                             fontSize: 17
@@ -240,7 +240,7 @@
                 scales: {
                     yAxes: [{
                         ticks: {
-                            beginAtZero: true,                            
+                            beginAtZero: true,
                             suggestedMax: 20,
                             stepSize: 1,
                             fontSize: 17
@@ -289,7 +289,7 @@
                 scales: {
                     yAxes: [{
                         ticks: {
-                            beginAtZero: true,                            
+                            beginAtZero: true,
                             suggestedMax: 20,
                             stepSize: 1,
                             fontSize: 17
