@@ -140,6 +140,11 @@
                                 href="{{route('accenture.projectBenchmarkImplementation', ['project' => $project])}}">Implementation
                                 & Commercials</a>
                         </li>
+                        <li class="header-link-item ml-3 pl-3 border-left d-flex align-items-center {{$subsection == 'vendorComparison' ? 'active' : ''}}">
+                            <a class="pt-1px d-none d-md-block"
+                               href="{{route('accenture.projectBenchmarkVendorComparison', ['project' => $project])}}">Vendor Comparison
+                            </a>
+                        </li>
                     </ul>
                 </div>
             </div>

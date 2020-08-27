@@ -463,7 +463,7 @@ class ProjectController extends Controller
                 'project_id' => $project->id,
                 'vendor_id' => $vendor->id
             ])->first();
-            if($application != null){
+            if ($application != null) {
                 $application->delete();
             }
         }
@@ -471,7 +471,7 @@ class ProjectController extends Controller
         $addedVendors = array_diff($request->vendorList, $currentVendors);
         foreach ($addedVendors as $key => $vendor_id) {
             $vendor = User::find($vendor_id);
-            if($vendor == null || ! $vendor->isVendor() || ! $vendor->hasFinishedSetup) continue;
+            if ($vendor == null || !$vendor->isVendor() || !$vendor->hasFinishedSetup) continue;
 
             $vendor->applyToProject($project);
         }
@@ -613,14 +613,6 @@ class ProjectController extends Controller
     }
 
 
-
-
-
-
-
-
-
-
     public function home(Project $project)
     {
         $invitedVendors = $project->vendorsApplied(['invitation'])->get();
@@ -648,8 +640,8 @@ class ProjectController extends Controller
     public function disqualifyVendor(Request $request, Project $project, User $vendor)
     {
         $application = VendorApplication::where('vendor_id', $vendor->id)
-                                            ->where('project_id', $project->id)
-                                            ->first();
+            ->where('project_id', $project->id)
+            ->first();
         if ($application == null) {
             abort(404);
         }
@@ -662,8 +654,8 @@ class ProjectController extends Controller
     public function releaseResponse(Request $request, Project $project, User $vendor)
     {
         $application = VendorApplication::where('vendor_id', $vendor->id)
-                                            ->where('project_id', $project->id)
-                                            ->first();
+            ->where('project_id', $project->id)
+            ->first();
         if ($application == null) {
             abort(404);
         }
@@ -676,8 +668,8 @@ class ProjectController extends Controller
     public function submitEvaluation(Request $request, Project $project, User $vendor)
     {
         $application = VendorApplication::where('vendor_id', $vendor->id)
-                                            ->where('project_id', $project->id)
-                                            ->first();
+            ->where('project_id', $project->id)
+            ->first();
         if ($application == null) {
             abort(404);
         }
@@ -686,11 +678,6 @@ class ProjectController extends Controller
 
         return redirect()->route('accenture.projectHome', ['project' => $project]);
     }
-
-
-
-
-
 
 
     public function view(Project $project)
@@ -798,7 +785,7 @@ class ProjectController extends Controller
 
     public function orals(Project $project)
     {
-        if(! $project->hasOrals){
+        if (!$project->hasOrals) {
             abort(404);
         }
 
@@ -820,7 +807,6 @@ class ProjectController extends Controller
     }
 
 
-
     public function benchmark(Project $project)
     {
         SecurityLog::createLog('User accessed project benchmarks of project with ID ' . $project->id);
@@ -829,10 +815,10 @@ class ProjectController extends Controller
             'project' => $project,
             'applications' => $project
                 ->vendorApplications
-                ->filter(function(VendorApplication $application){
+                ->filter(function (VendorApplication $application) {
                     return $application->phase == 'submitted';
                 })
-                ->sortByDesc(function(VendorApplication $application){
+                ->sortByDesc(function (VendorApplication $application) {
                     return $application->totalScore();
                 }),
         ]);
@@ -845,7 +831,7 @@ class ProjectController extends Controller
         return view('accentureViews.projectBenchmarkFitgap', [
             'project' => $project,
             'applications' => $project->vendorApplications
-                ->filter(function(VendorApplication $application){
+                ->filter(function (VendorApplication $application) {
                     return $application->phase == 'submitted';
                 }),
         ]);
@@ -858,7 +844,7 @@ class ProjectController extends Controller
         return view('accentureViews.projectBenchmarkVendor', [
             'project' => $project,
             'applications' => $project->vendorApplications
-                ->filter(function(VendorApplication $application){
+                ->filter(function (VendorApplication $application) {
                     return $application->phase == 'submitted';
                 }),
         ]);
@@ -871,7 +857,7 @@ class ProjectController extends Controller
         return view('accentureViews.projectBenchmarkExperience', [
             'project' => $project,
             'applications' => $project->vendorApplications
-                ->filter(function(VendorApplication $application){
+                ->filter(function (VendorApplication $application) {
                     return $application->phase == 'submitted';
                 }),
         ]);
@@ -884,7 +870,7 @@ class ProjectController extends Controller
         return view('accentureViews.projectBenchmarkInnovation', [
             'project' => $project,
             'applications' => $project->vendorApplications
-                ->filter(function(VendorApplication $application){
+                ->filter(function (VendorApplication $application) {
                     return $application->phase == 'submitted';
                 }),
         ]);
@@ -897,19 +883,29 @@ class ProjectController extends Controller
         return view('accentureViews.projectBenchmarkImplementation', [
             'project' => $project,
             'applications' => $project->vendorApplications
-                ->filter(function(VendorApplication $application){
+                ->filter(function (VendorApplication $application) {
+                    return $application->phase == 'submitted';
+                }),
+        ]);
+    }
+
+    // feature 1.2: new view for graphics about vendor comparison
+    public function benchmarkVendorComparison(Project $project)
+    {
+        SecurityLog::createLog('User accessed project benchmarks of project with ID ' . $project->id);
+
+        return view('accentureViews.projectBenchmarkVendorComparison', [
+            'project' => $project,
+            'applications' => $project->vendorApplications
+                ->filter(function (VendorApplication $application) {
                     return $application->phase == 'submitted';
                 }),
         ]);
     }
 
 
-
-
-
-
-
-    function arrayOfSelectionCriteriaQuestions(Project $project, User $vendor, VendorApplication $application = null){
+    function arrayOfSelectionCriteriaQuestions(Project $project, User $vendor, VendorApplication $application = null)
+    {
         $fitgapQuestions = $project->selectionCriteriaQuestionsForVendor($vendor)->get()->filter(function ($question) {
             return $question->originalQuestion->page == 'fitgap';
         });
@@ -1026,7 +1022,6 @@ class ProjectController extends Controller
 
         Mail::to($request->email)->send(new ProjectInvitationEmail($vendor, $project, $text));
     }
-
 
 
     public function downloadVendorProposal(Project $project, User $vendor)

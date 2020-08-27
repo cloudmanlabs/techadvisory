@@ -26,21 +26,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="6cf12ba9-442a-474e-a7fb-06e070055955" name="Default Changelist" comment="Query for similar projects ready and project working.">
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/views/accentureViews/projectBenchmarkVendorComparison.blade.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/accentureViews/analysisProjectClient.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/accentureViews/analysisProjectClient.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/accentureViews/analysisProjectCustom.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/accentureViews/analysisProjectCustom.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/accentureViews/analysisProjectHistorical.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/accentureViews/analysisProjectHistorical.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/accentureViews/analysisProjectVendor.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/accentureViews/analysisProjectVendor.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/accentureViews/analysisVendorGraphs.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/accentureViews/analysisVendorGraphs.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/accentureViews/home.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/accentureViews/home.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/techFrontend/Tech Advisory Platform.htm" beforeDir="false" afterPath="$PROJECT_DIR$/techFrontend/Tech Advisory Platform.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/techFrontend/accenture_analysis_client.html" beforeDir="false" afterPath="$PROJECT_DIR$/techFrontend/accenture_analysis_client.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/techFrontend/accenture_analysis_historic.html" beforeDir="false" afterPath="$PROJECT_DIR$/techFrontend/accenture_analysis_historic.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/techFrontend/accenture_analysis_vendor.html" beforeDir="false" afterPath="$PROJECT_DIR$/techFrontend/accenture_analysis_vendor.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/techFrontend/accenture_home.html" beforeDir="false" afterPath="$PROJECT_DIR$/techFrontend/accenture_home.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/techFrontend/accenture_new_project_set_up.html" beforeDir="false" afterPath="$PROJECT_DIR$/techFrontend/accenture_new_project_set_up.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/techFrontend/client_new_project_set_up.html" beforeDir="false" afterPath="$PROJECT_DIR$/techFrontend/client_new_project_set_up.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Accenture/ProjectController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Accenture/ProjectController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/components/accenture/projectNavbar.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/components/accenture/projectNavbar.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/routes/accentureRoutes.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/accentureRoutes.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -256,6 +246,7 @@
       <workItem from="1597849313447" duration="1522000" />
       <workItem from="1597908559786" duration="17223000" />
       <workItem from="1597993723869" duration="2928000" />
+      <workItem from="1598516110562" duration="3600000" />
     </task>
     <task id="LOCAL-00001" summary="Consulta Projects -1 year">
       <created>1596709547344</created>
@@ -334,7 +325,14 @@
       <option name="project" value="LOCAL" />
       <updated>1597836106764</updated>
     </task>
-    <option name="localTasksCounter" value="12" />
+    <task id="LOCAL-00012" summary="fixed some missing names for SC Capabilities and .idea added to gitignore 2.1">
+      <created>1598515246447</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1598515246447</updated>
+    </task>
+    <option name="localTasksCounter" value="13" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -394,7 +392,8 @@
     <MESSAGE value="1.6 bug fixed: all filters working" />
     <MESSAGE value="f2.8 2/4 rollbacks completed" />
     <MESSAGE value="f 2.8 4/4 rollbacks completed. Waiting for client feedback" />
-    <option name="LAST_COMMIT_MESSAGE" value="f 2.8 4/4 rollbacks completed. Waiting for client feedback" />
+    <MESSAGE value="fixed some missing names for SC Capabilities and .idea added to gitignore 2.1" />
+    <option name="LAST_COMMIT_MESSAGE" value="fixed some missing names for SC Capabilities and .idea added to gitignore 2.1" />
   </component>
   <component name="WindowStateProjectService">
     <state x="729" y="450" width="524" height="491" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog" timestamp="1597225023503">
@@ -407,9 +406,10 @@
     </state>
     <state x="100" y="100" width="1720" height="1000" key="DiffContextDialog/1920.120.1920.1080/0.147.1920.1053@0.147.1920.1053" timestamp="1597663927711" />
     <state x="2020" y="147" width="1536" height="901" key="DiffContextDialog/1920.120.1920.1080/0.147.1920.1053@1920.120.1920.1080" timestamp="1597913617109" />
-    <state x="2711" y="599" width="399" height="156" key="NewPhpFileDialog" timestamp="1596816823968">
-      <screen x="1920" y="120" width="1920" height="1080" />
+    <state x="791" y="457" width="389" height="156" key="NewPhpFileDialog" timestamp="1598520810894">
+      <screen x="0" y="27" width="1920" height="969" />
     </state>
+    <state x="791" y="457" width="389" height="156" key="NewPhpFileDialog/0.27.1920.969/1920.0.1920.1080@0.27.1920.969" timestamp="1598520810894" />
     <state x="2711" y="599" width="399" height="156" key="NewPhpFileDialog/1920.120.1920.1080/0.147.1920.1053@1920.120.1920.1080" timestamp="1596816823968" />
     <state x="2635" y="259" width="410" height="640" key="RollbackChangesDialog" timestamp="1597934314016">
       <screen x="1920" y="120" width="1920" height="1080" />
@@ -424,9 +424,10 @@
       <screen x="0" y="147" width="1920" height="1053" />
     </state>
     <state width="684" height="446" key="SwitcherDM/1920.120.1920.1080/0.147.1920.1053@0.147.1920.1053" timestamp="1597154770813" />
-    <state x="2475" y="299" width="800" height="535" key="Vcs.Push.Dialog.v2" timestamp="1597836125763">
-      <screen x="1920" y="120" width="1920" height="1080" />
+    <state x="555" y="188" width="800" height="535" key="Vcs.Push.Dialog.v2" timestamp="1598515259027">
+      <screen x="0" y="27" width="1920" height="969" />
     </state>
+    <state x="555" y="188" key="Vcs.Push.Dialog.v2/0.27.1920.969/1920.0.1920.1080@0.27.1920.969" timestamp="1598515259027" />
     <state x="555" y="322" width="800" height="563" key="Vcs.Push.Dialog.v2/1920.120.1920.1080/0.147.1920.1053@0.147.1920.1053" timestamp="1597663590228" />
     <state x="2475" y="299" width="800" height="535" key="Vcs.Push.Dialog.v2/1920.120.1920.1080/0.147.1920.1053@1920.120.1920.1080" timestamp="1597836125763" />
     <state x="741" y="515" width="438" height="177" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1597659262264">
