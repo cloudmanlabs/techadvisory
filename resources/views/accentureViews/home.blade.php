@@ -22,7 +22,7 @@
                                     <br>
                                     <div class="media-body" style="padding: 20px;">
                                         <p class="welcome_text">
-                                            Please choose the Practices you'd like to see:
+                                            Please choose the SC Capability (Practice) you'd like to see:
                                         </p>
                                         <select id="homePracticeSelect" class="w-100" multiple="multiple">
                                             <option>No SC Capability (Practice)</option>

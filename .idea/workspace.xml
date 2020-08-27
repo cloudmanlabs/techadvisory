@@ -1,27 +1,46 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="BranchesTreeState">
-    <expand />
+    <expand>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="LOCAL_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="GROUP_NODE:origin" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="GROUP_NODE:origin" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="GROUP_NODE:feature" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+    </expand>
     <select />
   </component>
   <component name="ChangeListManager">
     <list default="true" id="6cf12ba9-442a-474e-a7fb-06e070055955" name="Default Changelist" comment="Query for similar projects ready and project working.">
-      <change beforePath="$PROJECT_DIR$/app/Nova/GeneralInfoQuestion.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Nova/GeneralInfoQuestion.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Nova/Practice.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Nova/Practice.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Nova/Project.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Nova/Project.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Nova/SizingQuestion.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Nova/SizingQuestion.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Nova/Subpractice.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Nova/Subpractice.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Nova/VendorSolutionQuestion.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Nova/VendorSolutionQuestion.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/seeds/VendorProfileQuestionSeeder.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/seeds/VendorProfileQuestionSeeder.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/accentureViews/analysisVendorCustom.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/accentureViews/analysisVendorCustom.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/accentureViews/analysisProjectClient.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/accentureViews/analysisProjectClient.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/accentureViews/analysisProjectCustom.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/accentureViews/analysisProjectCustom.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/accentureViews/analysisProjectHistorical.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/accentureViews/analysisProjectHistorical.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/accentureViews/analysisProjectVendor.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/accentureViews/analysisProjectVendor.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/accentureViews/analysisVendorGraphs.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/accentureViews/analysisVendorGraphs.blade.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/views/accentureViews/home.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/accentureViews/home.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/accentureViews/vendorList.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/accentureViews/vendorList.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/clientViews/home.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/clientViews/home.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/components/generalInfoQuestions.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/components/generalInfoQuestions.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/components/options/practices.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/components/options/practices.blade.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/techFrontend/Tech Advisory Platform.htm" beforeDir="false" afterPath="$PROJECT_DIR$/techFrontend/Tech Advisory Platform.htm" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/techFrontend/accenture_analysis_client.html" beforeDir="false" afterPath="$PROJECT_DIR$/techFrontend/accenture_analysis_client.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/techFrontend/accenture_analysis_historic.html" beforeDir="false" afterPath="$PROJECT_DIR$/techFrontend/accenture_analysis_historic.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/techFrontend/accenture_analysis_vendor.html" beforeDir="false" afterPath="$PROJECT_DIR$/techFrontend/accenture_analysis_vendor.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/techFrontend/accenture_home.html" beforeDir="false" afterPath="$PROJECT_DIR$/techFrontend/accenture_home.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/techFrontend/vendor_home_profile_create.html" beforeDir="false" afterPath="$PROJECT_DIR$/techFrontend/vendor_home_profile_create.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/techFrontend/accenture_new_project_set_up.html" beforeDir="false" afterPath="$PROJECT_DIR$/techFrontend/accenture_new_project_set_up.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/techFrontend/client_new_project_set_up.html" beforeDir="false" afterPath="$PROJECT_DIR$/techFrontend/client_new_project_set_up.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -418,9 +437,10 @@
       <screen x="1920" y="120" width="1920" height="1080" />
     </state>
     <state x="2172" y="147" width="1141" height="1009" key="dock-window-1/1920.120.1920.1080/0.147.1920.1053@1920.120.1920.1080" timestamp="1597741134086" />
-    <state x="2175" y="276" width="911" height="783" key="find.popup" timestamp="1597996346667">
-      <screen x="1920" y="120" width="1920" height="1080" />
+    <state x="255" y="167" width="911" height="703" key="find.popup" timestamp="1598515054165">
+      <screen x="0" y="27" width="1920" height="969" />
     </state>
+    <state x="255" y="167" width="911" height="703" key="find.popup/0.27.1920.969/1920.0.1920.1080@0.27.1920.969" timestamp="1598515054165" />
     <state x="304" y="436" width="1270" height="764" key="find.popup/1920.120.1920.1080/0.147.1920.1053@0.147.1920.1053" timestamp="1597664255339" />
     <state x="2175" y="276" width="911" height="783" key="find.popup/1920.120.1920.1080/0.147.1920.1053@1920.120.1920.1080" timestamp="1597996346667" />
     <state x="2583" y="271" width="584" height="619" key="git4idea.branch.GitSmartOperationDialog" timestamp="1597913574528">

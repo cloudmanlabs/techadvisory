@@ -43,7 +43,7 @@
                                     <div class="col-xl-12 grid-margin stretch-card">
                                         <div class="card">
                                             <div class="card-body">
-                                                <h4>VENDORS BY PRACTICE</h4>
+                                                <h4>VENDORS BY SC CAPABILITY (PRACTICE)</h4>
                                                 <br><br>
                                                 <canvas id="chartPractice"></canvas>
                                             </div>
