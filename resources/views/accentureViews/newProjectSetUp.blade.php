@@ -355,7 +355,6 @@
 
 @section('head')
     @parent
-    <link rel="stylesheet" href="{{url('/assets/css/techadvisory/vendorValidateResponses.css')}}">
 
     <style>
         select.form-control {
@@ -397,6 +396,7 @@
             font-size: 15px;
         }
     </style>
+    <link rel="stylesheet" href="{{url('/assets/css/techadvisory/vendorValidateResponses.css')}}">
 @endsection
 
 
