@@ -96,15 +96,6 @@
                                             data-submitted="{{ $project->step3SubmittedClient }}">
                                             {{ $project->step3SubmittedClient ? 'Submitted' : 'Submit'}}
                                         </button>
-
-                                        <!-- feature 2.8: rollback from accenture step 3 to initial state -->
-                                        @if($project->step3SubmittedClient)
-                                            <button
-                                                id="step3Rollback"
-                                                class="btn btn-primary"
-                                            >Rollback
-                                            </button>
-                                        @endif
                                     </section>
 
                                     <h2>Selection Criteria</h2>
@@ -208,16 +199,6 @@
                                                 >
                                                     {{ $project->step4SubmittedClient ? 'Submitted' : 'Submit'}}
                                                 </button>
-
-                                                <!-- feature 2.8: Rollback from client step 4 to accenture step 4-->
-                                                @if($project->step4SubmittedClient && $project->step3SubmittedClient)
-                                                    <button
-                                                        id="step4Rollback"
-                                                        type="button"
-                                                        class="btn btn-primary btn-lg btn-icon-text"
-                                                    >Rollback
-                                                    </button>
-                                                @endif
                                             </div>
                                         </div>
                                     </section>
@@ -595,36 +576,6 @@
                 $(this).html('Submitted')
             });
 
-            // feature 2.8: Make Rollback from Accenture step 3 to initial state
-            $('#step3Rollback').click(function () {
-                $(this).attr('disabled', true);
-
-                $.post('/client/newProjectSetUp/setStep3Rollback', {
-                    project_id: '{{$project->id}}',
-                }).done(function () {
-                    $(this).html('Rollback Completed')
-                    $.toast({
-                        heading: 'Rollback completed!',
-                        showHideTransition: 'slide',
-                        icon: 'success',
-                        hideAfter: 1000,
-                        position: 'bottom-right'
-                    })
-                    setTimeout(function () {
-                        location.reload();
-                    }, 1000);
-                }).fail(function () {
-                    $(this).attr('disabled', false);
-                    $.toast({
-                        heading: 'Rollback failed!',
-                        showHideTransition: 'slide',
-                        icon: 'error',
-                        hideAfter: 3000,
-                        position: 'bottom-right'
-                    })
-                })
-            });
-
             $('#step4Submit').click(function () {
                 $.post('/client/newProjectSetUp/setStep4Submitted', {
                     project_id: '{{$project->id}}',
@@ -647,36 +598,6 @@
                 $('#step4SubmitButton').attr('disabled', true);
                 $('#step4SubmitButton').html('Submitted');
                 $('#step4SubmitModal').modal('hide');
-            });
-
-            // feature 2.8: Rollback from client step 4 to accenture step 4.
-            $('#step4Rollback').click(function () {
-                $(this).attr('disabled', true);
-
-                $.post('/client/newProjectSetUp/setStep4Rollback', {
-                    project_id: '{{$project->id}}',
-                }).done(function () {
-                    $(this).html('Rollback Completed')
-                    $.toast({
-                        heading: 'Rollback completed!',
-                        showHideTransition: 'slide',
-                        icon: 'success',
-                        hideAfter: 1000,
-                        position: 'bottom-right'
-                    })
-                    setTimeout(function () {
-                        location.reload();
-                    }, 1000);
-                }).fail(function () {
-                    $(this).attr('disabled', false);
-                    $.toast({
-                        heading: 'Rollback failed!',
-                        showHideTransition: 'slide',
-                        icon: 'error',
-                        hideAfter: 3000,
-                        position: 'bottom-right'
-                    })
-                })
             });
 
             // On change for the rest

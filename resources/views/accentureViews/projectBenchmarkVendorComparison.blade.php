@@ -11,7 +11,6 @@
         <div class="page-wrapper">
             <div class="page-content">
                 <x-accenture.projectNavbar section="projectBenchmark" subsection="VendorComparison" :project="$project" />
-                <p>Aquí irá la gráfica de Vendor Comparison.</p>
 <!--
                 <br>
                 <x-projectBenchmarkVendorFilter :applications="$applications" />

@@ -1,7 +1,6 @@
 @extends('accentureViews.layouts.app')
 @section('head')
     @parent
-
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css"
           integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog=="
           crossorigin="anonymous"/>
@@ -24,10 +23,6 @@
         #summary .fa-times-circle {
             font-size: 25px;
             color: red;
-        }
-
-        #summary button {
-            font-size: 15px;
         }
 
         #vendorApplyCard a {
@@ -403,6 +398,14 @@
                                             <a class="btn btn-primary btn-lg btn-icon-text" target="_blank"
                                                href="{{route('accenture.downloadVendorProposal', ['project' => $project, 'vendor' => $vendor])}}">Download
                                                 responses
+                                            </a>
+                                        </div>
+                                        <!-- feature 2.8 Vendor rollback -->
+                                        <div style="text-align: right; width: 15%; margin-right: 1rem">
+                                            <a id="vendorRollback"
+                                               class="btn btn-primary btn-lg btn-icon-text text-white cursor-pointer"
+                                               href="{{route('accenture.project.vendorApplyRollback', ['project' => $project, 'vendor' => $vendor])}}">
+                                                Rollback
                                             </a>
                                         </div>
                                     </x-vendorCard>

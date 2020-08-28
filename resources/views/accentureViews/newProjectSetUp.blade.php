@@ -1,4 +1,10 @@
 @extends('accentureViews.layouts.forms')
+@section('head')
+    @parent
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css"
+          integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog=="
+          crossorigin="anonymous"/>
+@endsection
 
 @section('content')
     <div class="main-wrapper">
@@ -10,6 +16,102 @@
                          :text="nova_get_setting('video_newProject_text')"/>
 
                 <br><br>
+
+                <!-- feature 2.8-->
+                <div id="summary" class="row">
+                    <div class="col-lg-12 grid-margin stretch-card">
+                        <div class="card">
+                            <div class="card-body">
+                                <h3>Summary</h3>
+                                <p class="welcome_text extra-top-15px">Check the project summary and execute rollback
+                                    to the previous state. </p>
+                                <br>
+
+                                <!-- feature 2.8: Accenture-Client Rollbacks display -->
+                                <table class="table">
+                                    <tbody>
+                                    <tr>
+                                        <td> Accenture submitted First 3 pages</td>
+                                        <td>
+                                            @if($project->step3SubmittedAccenture)
+                                                <i class="far fa-check-circle"></i>
+                                            @else
+                                                <i class="far fa-times-circle"></i>
+                                            @endif
+                                        </td>
+                                        <td class="text-right">
+                                            @if($project->step3SubmittedAccenture && !$project->step3SubmittedClient &&
+                                            !$project->step4SubmittedAccenture && !$project->step4SubmittedClient)
+                                                <button id="rollback1"
+                                                        class="btn btn-primary btn-lg btn-icon-text">
+                                                    Rollback
+                                                </button>
+                                            @endif
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td> Client submitted First 3 pages</td>
+                                        <td>
+                                            @if($project->step3SubmittedClient)
+                                                <i class="far fa-check-circle"></i>
+                                            @else
+                                                <i class="far fa-times-circle"></i>
+                                            @endif
+                                        </td>
+                                        <td class="text-right">
+                                            @if($project->step3SubmittedAccenture && $project->step3SubmittedClient &&
+                                            !$project->step4SubmittedAccenture && !$project->step4SubmittedClient)
+                                                <button id="rollback2"
+                                                        class="btn btn-primary btn-lg btn-icon-text">
+                                                    Rollback
+                                                </button>
+                                            @endif
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td> Accenture submitted Selection Criteria</td>
+                                        <td>
+                                            @if($project->step4SubmittedAccenture)
+                                                <i class="far fa-check-circle"></i>
+                                            @else
+                                                <i class="far fa-times-circle"></i>
+                                            @endif
+                                        </td>
+                                        <td class="text-right">
+                                            @if($project->step3SubmittedAccenture && $project->step3SubmittedClient &&
+                                            $project->step4SubmittedAccenture && !$project->step4SubmittedClient)
+                                                <button id="rollback3"
+                                                        class="btn btn-primary btn-lg btn-icon-text">
+                                                    Rollback
+                                                </button>
+                                            @endif
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td> Client submitted Selection Criteria</td>
+                                        <td>
+                                            @if($project->step4SubmittedClient)
+                                                <i class="far fa-check-circle"></i>
+                                            @else
+                                                <i class="far fa-times-circle"></i>
+                                            @endif
+                                        </td>
+                                        <td class="text-right">
+                                            @if($project->step3SubmittedAccenture && $project->step3SubmittedClient &&
+                                            $project->step4SubmittedAccenture && $project->step4SubmittedClient)
+                                                <button id="rollback4"
+                                                        class="btn btn-primary btn-lg btn-icon-text">
+                                                    Rollback
+                                                </button>
+                                            @endif
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
                 <div class="row">
                     <div class="col-md-12 grid-margin stretch-card">
@@ -94,13 +196,6 @@
                                         >
                                             {{ $project->step3SubmittedAccenture ? 'Submitted' : 'Submit'}}
                                         </button>
-
-                                        <!-- feature 2.8: rollback accenture step 3-->
-                                        @if($project->step3SubmittedAccenture)
-                                            <button id="step3Rollback" class="btn btn-primary">
-                                                Rollback
-                                            </button>
-                                        @endif
                                     </section>
 
                                     <h2>Selection Criteria</h2>
@@ -186,20 +281,14 @@
 
                                                     <br><br>
                                                 @if (!$project->step4SubmittedAccenture)
-                                                    <!--{{ !$project->hasUploadedFitgap ? 'disabled' : ''}}-->
                                                         <button
                                                             class="btn btn-primary"
                                                             id="step4Submit"
                                                             {{ !$project->step3SubmittedAccenture ? 'disabled' : ''}}
                                                             {{ $project->step4SubmittedAccenture ? 'disabled' : ''}}
-                                                        >{{ $project->step4SubmittedAccenture ? 'Submitted' : 'Submit'}}</button>
-                                                    @endif
-                                                    @if ($project->step4SubmittedAccenture)
-                                                        <button
-                                                            class="btn btn-primary"
-                                                            id="step4Rollback"
-                                                            {{ !$project->step4SubmittedAccenture ? 'disabled' : ''}}
-                                                        >{{ $project->step4SubmittedAccenture ? 'Rollback' : ''}}</button>
+                                                            {{ !$project->hasUploadedFitgap ? 'disabled' : ''}}
+                                                        >{{ $project->step4SubmittedAccenture ? 'Submitted' : 'Submit'}}
+                                                        </button>
                                                     @endif
 
                                                     <br><br>
@@ -266,6 +355,7 @@
 
 @section('head')
     @parent
+    <link rel="stylesheet" href="{{url('/assets/css/techadvisory/vendorValidateResponses.css')}}">
 
     <style>
         select.form-control {
@@ -279,8 +369,34 @@
         #subwizard_here ul > li {
             display: block;
         }
+
+        /* feature 2.8: icons */
+        #summary i {
+            font-size: 25px;
+            padding: 15px;
+        }
+
+        #summary .fa-check-circle {
+            font-size: 25px;
+            color: forestgreen;
+        }
+
+        #summary .fa-times-circle {
+            font-size: 25px;
+            color: red;
+        }
+
+        #summary, button {
+            font-size: 15px;
+        }
+
+        #summary, b{
+            font-size: 15px;
+        }
+        table button{
+            font-size: 15px;
+        }
     </style>
-    <link rel="stylesheet" href="{{url('/assets/css/techadvisory/vendorValidateResponses.css')}}">
 @endsection
 
 
@@ -610,36 +726,6 @@
                 }
             });
 
-            // feature 2.8: rollback from Accenture step 4 to Client step 3
-            $('#step4Rollback').click(function () {
-                $(this).attr('disabled', true);
-
-                $.post('/accenture/newProjectSetUp/setStep4Rollback', {
-                    project_id: '{{$project->id}}',
-                }).done(function () {
-                    $(this).html('Rollback Completed')
-                    $.toast({
-                        heading: 'Rollback completed!',
-                        showHideTransition: 'slide',
-                        icon: 'success',
-                        hideAfter: 1000,
-                        position: 'bottom-right'
-                    })
-                    setTimeout(function () {
-                        location.reload();
-                    }, 1000);
-                }).fail(function () {
-                    $(this).attr('disabled', false);
-                    $.toast({
-                        heading: 'Rollback failed!',
-                        showHideTransition: 'slide',
-                        icon: 'error',
-                        hideAfter: 3000,
-                        position: 'bottom-right'
-                    })
-                })
-            });
-
             $('#publishButton').click(function () {
                 $.post('/accenture/newProjectSetUp/publishProject', {
                     project_id: '{{$project->id}}',
@@ -775,6 +861,103 @@
             updateShownQuestionsAccordingToPractice();
             updateShownSubpracticeOptionsAccordingToPractice(false);
             updateSubmitStep3();
+        });
+
+        /* Feature 2.8 **************************************************************************/
+        // feature 2.8: Make Rollback from Accenture step 3 to initial state
+        $('#rollback1').click(function () {
+            $(this).attr('disabled', true);
+
+            $.post('/accenture/ProjectController/setStep1Rollback', {
+                project_id: '{{$project->id}}',
+            }).done(function () {
+                $(this).html('Rollback Completed')
+
+                setTimeout(function () {
+                    location.reload();
+                }, 1000);
+            }).fail(function () {
+                $(this).attr('disabled', false);
+                $.toast({
+                    heading: 'Rollback failed!',
+                    showHideTransition: 'slide',
+                    icon: 'error',
+                    hideAfter: 3000,
+                    position: 'bottom-right'
+                })
+            })
+        });
+
+        // feature 2.8: Make Rollback from Client step 3 to Accenture step 3
+        $('#rollback2').click(function () {
+            $(this).attr('disabled', true);
+
+            $.post('/accenture/ProjectController/setStep2Rollback', {
+                project_id: '{{$project->id}}',
+            }).done(function () {
+                $(this).html('Rollback Completed')
+
+                setTimeout(function () {
+                    location.reload();
+                }, 1000);
+            }).fail(function () {
+                $(this).attr('disabled', false);
+                $.toast({
+                    heading: 'Rollback failed!',
+                    showHideTransition: 'slide',
+                    icon: 'error',
+                    hideAfter: 3000,
+                    position: 'bottom-right'
+                })
+            })
+        });
+
+        // feature 2.8: Make Rollback from Accenture step 4 step 3 to Client step 3
+        $('#rollback3').click(function () {
+            $(this).attr('disabled', true);
+
+            $.post('/accenture/ProjectController/setStep3Rollback', {
+                project_id: '{{$project->id}}',
+            }).done(function () {
+                $(this).html('Rollback Completed')
+
+                setTimeout(function () {
+                    location.reload();
+                }, 1000);
+            }).fail(function () {
+                $(this).attr('disabled', false);
+                $.toast({
+                    heading: 'Rollback failed!',
+                    showHideTransition: 'slide',
+                    icon: 'error',
+                    hideAfter: 3000,
+                    position: 'bottom-right'
+                })
+            })
+        });
+
+        // feature 2.8: Make Rollback from Client step 4 step 3 to Accenture step 4
+        $('#rollback4').click(function () {
+            $(this).attr('disabled', true);
+
+            $.post('/accenture/ProjectController/setStep4Rollback', {
+                project_id: '{{$project->id}}',
+            }).done(function () {
+                $(this).html('Rollback Completed')
+
+                setTimeout(function () {
+                    location.reload();
+                }, 1000);
+            }).fail(function () {
+                $(this).attr('disabled', false);
+                $.toast({
+                    heading: 'Rollback failed!',
+                    showHideTransition: 'slide',
+                    icon: 'error',
+                    hideAfter: 3000,
+                    position: 'bottom-right'
+                })
+            })
         });
     </script>
 @endsection
