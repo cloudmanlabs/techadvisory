@@ -15,7 +15,7 @@ class HomeController extends Controller
     {
         // feature 2.4: get projects but filtered by region
         $myRegion = auth()->user()->region;
-        if($myRegion =='0'){
+        if(empty($myRegion)){
             // No region filter
             $openProjects = Project::openProjects();
             $preparationProjects = Project::preparationProjects();
