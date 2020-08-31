@@ -861,13 +861,15 @@ class ProjectController extends Controller
 
     public function benchmarkInnovation(Project $project)
     {
-        SecurityLog::createLog('User accessed project benchmarks of project with ID ' . $project->id);
-
         return view('accentureViews.projectBenchmarkInnovation', [
             'project' => $project,
-            'applications' => $project->vendorApplications
+            'applications' => $project
+                ->vendorApplications
                 ->filter(function (VendorApplication $application) {
                     return $application->phase == 'submitted';
+                })
+                ->sortByDesc(function (VendorApplication $application) {
+                    return $application->totalScore();
                 }),
         ]);
     }
@@ -888,7 +890,6 @@ class ProjectController extends Controller
     // feature 1.2: new view for graphics about vendor comparison
     public function benchmarkVendorComparison(Project $project)
     {
-        SecurityLog::createLog('User accessed project benchmarks of project with ID ' . $project->id);
 
         return view('accentureViews.projectBenchmarkVendorComparison', [
             'project' => $project,
