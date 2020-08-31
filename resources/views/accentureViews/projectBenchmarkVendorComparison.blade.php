@@ -12,20 +12,43 @@
 
 @php
     // Values for best from vendors
-    function getMaxScore($applications,$scoreType){
-        $array_temporal = [];
+
+    function getAllVendorsAndScores($applications){
+        $vendorsAndScores = [];
         foreach ($applications as $key=>$application){
-            $array_temporal[$key] = number_format($application->$scoreType(), 2);
+            $vendorsAndScores[$application->vendor->name] = number_format($application->totalScore(), 2);
         }
-        return max($array_temporal);
+        return $vendorsAndScores;
     }
 
-    $bestVendorsScoreDatasets = [];
-    $bestVendorsScoreDatasets[0] = getMaxScore($applications,"fitgapScore");
-    $bestVendorsScoreDatasets[1] = getMaxScore($applications,"vendorScore");
-    $bestVendorsScoreDatasets[2] = getMaxScore($applications,"experienceScore");
-    $bestVendorsScoreDatasets[3] = getMaxScore($applications,"innovationScore");
-    $bestVendorsScoreDatasets[4] = getMaxScore($applications,"implementationScore");
+    function getScoresFromVendor($applications,$vendor){
+        $scores = [];
+        foreach ($applications as $key=>$application){
+            if($application->vendor->name == $vendor){
+                $scores[0] = number_format($application->fitgapScore(), 2);
+                $scores[1] = number_format($application->vendorScore(), 2);
+                $scores[2] = number_format($application->experienceScore(), 2);
+                $scores[3] = number_format($application->innovationScore(), 2);
+                $scores[4] = number_format($application->implementationScore(), 2);
+            }
+        }
+        return $scores;
+    }
+
+    function ponderateScoresByClient($bestScores,$actualScores){
+        $scoresPonderated = [];
+        foreach ($actualScores as $key=>$actualScore){
+            $scoresPonderated[$key] = $actualScores[$key]*10*($bestScores[$key]/100);
+        }
+        return $scoresPonderated;
+    }
+
+    $allVendorsAndScores = getAllVendorsAndScores($applications);
+    $bestScore = max($allVendorsAndScores);
+    $bestVendor = array_search($bestScore,$allVendorsAndScores);
+    $bestVendorScores = getScoresFromVendor($applications,$bestVendor);
+    $bestVendorsScoreDatasets = ponderateScoresByClient($bestPossibleDatasets,$bestVendorScores);
+
 @endphp
 
 @php
@@ -40,27 +63,25 @@
         return $average;
     }
 
-    $averageBestVendorsDatasets = [];
-    $averageBestVendorsDatasets[0] = getAverageScore($applications,"fitgapScore");
-    $averageBestVendorsDatasets[1] = getAverageScore($applications,"vendorScore");
-    $averageBestVendorsDatasets[2] = getAverageScore($applications,"experienceScore");
-    $averageBestVendorsDatasets[3] = getAverageScore($applications,"innovationScore");
-    $averageBestVendorsDatasets[4] = getAverageScore($applications,"implementationScore");
+    $averages = [];
+    $averages[0] = getAverageScore($applications,"fitgapScore");
+    $averages[1] = getAverageScore($applications,"vendorScore");
+    $averages[2] = getAverageScore($applications,"experienceScore");
+    $averages[3] = getAverageScore($applications,"innovationScore");
+    $averages[4] = getAverageScore($applications,"implementationScore");
+    $averageBestVendorsDatasets = ponderateScoresByClient($bestPossibleDatasets,$averages)
 @endphp
 
 @php
     // Values from selected vendor
-/*
-    function getVendorScore($applications,$scoreType){
-        $array_temporal = [];
-        $applications->filter(function (User $vendor) {
-                    return $vendor->name == 'Vendor 2';
-                })->$scoreType;
-    }
-    dd(getVendorScore($applications,"fitgapScore"));*/
+
+    $selectedVendor = '';
+    var_dump($selectedVendor);
+    die();
+    $scores = getScoresFromVendor($applications, $selectedVendor);
+    $vendorSelectedDatasets = ponderateScoresByClient($bestPossibleDatasets,scores);
+
 @endphp
-
-
 
 @section('content')
     <div class="main-wrapper">
@@ -114,7 +135,6 @@
 @section('scripts')
     @parent
     <script>
-
         var bestPossibleDatasets = [
             @foreach ($bestPossibleDatasets as $dataset)
             {{$dataset}},
@@ -132,7 +152,14 @@
             @endforeach
         ];
 
-        var vendorSelected = [];
+
+        var vendorSelectedDatasets = [
+            @foreach ($vendorSelectedDatasets as $dataset)
+            {{$dataset}},
+            @endforeach
+        ];
+
+
 
         var ctx = document.getElementById('bestVendorGraph');
         var stackedBarChart = new Chart(ctx, {
@@ -143,31 +170,31 @@
                     {
                         label: 'FitGap',
                         data: [bestPossibleDatasets[0], bestVendorsValuesDatasets[0],
-                            averageBestVendorsDatasets[0], vendorSelected[0]],
+                            averageBestVendorsDatasets[0], vendorSelectedDatasets[0]],
                         backgroundColor: '#608FD1'
                     },
                     {
                         label: 'Vendor',
                         data: [bestPossibleDatasets[1], bestVendorsValuesDatasets[1],
-                            averageBestVendorsDatasets[1], vendorSelected[1]],
+                            averageBestVendorsDatasets[1], vendorSelectedDatasets[1]],
                         backgroundColor: '#E08733'
                     },
                     {
                         label: 'Experience',
                         data: [bestPossibleDatasets[2], bestVendorsValuesDatasets[2],
-                            averageBestVendorsDatasets[2], vendorSelected[2]],
+                            averageBestVendorsDatasets[2], vendorSelectedDatasets[2]],
                         backgroundColor: '#4A922A'
                     },
                     {
                         label: 'Innovation & vision',
                         data: [bestPossibleDatasets[3], bestVendorsValuesDatasets[3],
-                            averageBestVendorsDatasets[3], vendorSelected[3]],
+                            averageBestVendorsDatasets[3], vendorSelectedDatasets[3]],
                         backgroundColor: '#C645D5'
                     },
                     {
                         label: 'Implementation & Commercials',
                         data: [bestPossibleDatasets[4], bestVendorsValuesDatasets[4],
-                            averageBestVendorsDatasets[4], vendorSelected[4]],
+                            averageBestVendorsDatasets[4], vendorSelectedDatasets[4]],
                         backgroundColor: '#a30749'
                     }
                 ]
