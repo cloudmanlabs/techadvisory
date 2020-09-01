@@ -173,9 +173,10 @@
 
         $('#vendorSelect').change(function(){
             var selectedVendor = $(this).children("option:selected").data('vendorId');
+            var projectId = {{$project->id}}
             var url_args = '?vendor='+selectedVendor;
             // pass vendor id through url params as get paramether
-            location.replace('/accenture/project/benchmark/vendorComparison/49'+url_args);
+            location.replace('/accenture/project/benchmark/vendorComparison/'+projectId+url_args);
         });
 
         var bestPossibleDatasets = [
