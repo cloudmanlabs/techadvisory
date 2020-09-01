@@ -890,6 +890,10 @@ class ProjectController extends Controller
     public function benchmarkVendorComparison(Request $request, Project $project)
     {
         $vendor = $request->input('vendor');
+        $vendorName = 'Choose vendor';
+        if(!empty($vendor)){
+            $vendorName = User::find($vendor)->name;
+        }
         return view('accentureViews.projectBenchmarkVendorComparison', [
             'project' => $project,
             'applications' => $project->vendorApplications
@@ -897,6 +901,7 @@ class ProjectController extends Controller
                     return $application->phase == 'submitted';
                 }),
             'vendor'=> $vendor,
+            'vendorName'=> $vendorName,
         ]);
     }
 

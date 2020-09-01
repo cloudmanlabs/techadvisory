@@ -88,6 +88,7 @@
         $scores = getScoresFromVendor($applications, $selectedVendor);
         $vendorSelectedDatasets = [];
         $vendorSelectedDatasets = ponderateScoresByClient($bestPossibleDatasets,$scores);
+
     }
 
 @endphp
@@ -118,7 +119,9 @@
                                                 <option disabled selected value> -- select a vendor --</option>
                                                 @foreach ($applications as $application)
                                                     <option
-                                                        data-vendor-id="{{optional($application->vendor)->id}}">{{optional($application->vendor)->name}}</option>
+                                                        data-vendor-id="{{optional($application->vendor)->id}}"
+                                                        data-vendor-name="{{optional($application->vendor)->name}}">
+                                                        {{optional($application->vendor)->name}}</option>
                                                 @endforeach
                                             </select>
                                         </div>
@@ -173,7 +176,8 @@
 
         $('#vendorSelect').change(function () {
             var selectedVendor = $(this).children("option:selected").data('vendorId');
-            var projectId = {{$project->id}}
+            //selectedVendorBarTag = $(this).children("option:selected").data('vendorName');
+            var projectId = {{$project->id}};
             var url_args = '?vendor=' + selectedVendor;
             // pass vendor id through url params as get paramether
             location.replace('/accenture/project/benchmark/vendorComparison/' + projectId + url_args);
@@ -202,11 +206,14 @@
             @endforeach
         ];
 
+        var selectedVendorBarTag = '{{$vendorName}}';
+
+
         var ctx = document.getElementById('bestVendorGraph');
         var stackedBarChart = new Chart(ctx, {
             type: 'bar',
             data: {
-                labels: ['Best Possible', 'Best Vendors', 'Average', 'Selected Vendor'],
+                labels: ['Best Possible', 'Best Vendors', 'Average', selectedVendorBarTag],
                 datasets: [
                     {
                         label: 'FitGap',
