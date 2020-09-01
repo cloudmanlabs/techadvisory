@@ -4,10 +4,11 @@
     // Values for Best Possible
     $values = $project->scoringValues;
     $bestPossibleDatasets= [];
-    foreach ($values as $key=>$bestPossible){
-        $bestPossibleDatasets[$key] = $values[$key] * 5;
+    if(!empty($values)){
+        foreach ($values as $key=>$bestPossible){
+            $bestPossibleDatasets[$key] = $values[$key] * 5;
+        }
     }
-
 @endphp
 
 @php
@@ -114,9 +115,10 @@
                                             Please choose the Vendors you'd like to add in the comparison tables:
                                             <br><br>
                                             <select id="vendorSelect" class="w-100" required>
-                                                <option disabled selected value> -- select a vendor -- </option>
+                                                <option disabled selected value> -- select a vendor --</option>
                                                 @foreach ($applications as $application)
-                                                    <option data-vendor-id="{{optional($application->vendor)->id}}">{{optional($application->vendor)->name}}</option>
+                                                    <option
+                                                        data-vendor-id="{{optional($application->vendor)->id}}">{{optional($application->vendor)->name}}</option>
                                                 @endforeach
                                             </select>
                                         </div>
@@ -169,12 +171,12 @@
     @parent
     <script>
 
-        $('#vendorSelect').change(function(){
+        $('#vendorSelect').change(function () {
             var selectedVendor = $(this).children("option:selected").data('vendorId');
             var projectId = {{$project->id}}
-            var url_args = '?vendor='+selectedVendor;
+            var url_args = '?vendor=' + selectedVendor;
             // pass vendor id through url params as get paramether
-            location.replace('/accenture/project/benchmark/vendorComparison/'+projectId+url_args);
+            location.replace('/accenture/project/benchmark/vendorComparison/' + projectId + url_args);
         });
 
         var bestPossibleDatasets = [
