@@ -55,20 +55,43 @@
                                     <p class="welcome_text">
                                         Please choose the SC Capability (Practice) you'd like to see:
                                     </p>
-                                    <select id="practiceSelect" class="w-100" multiple="multiple">
+                                    <select id="practiceSelect" class="w-100">
                                         @foreach ($practices as $practice)
                                         <option>{{$practice}}</option>
                                         @endforeach
                                     </select>
                                 </div>
-
-                                <div class="media-body" style="padding: 20px;">
+<!--
+                                <div class="media-body" style="padding: 20px; border:1px solid black; display:none">
+                                    <p class="welcome_text">
+                                        Please choose the Scope response you'd like to see:
+                                    </p>
+                                    <select id="scopeSelect" class="w-100 " style="display:none">
+                                       @foreach ($scopes as $scope)
+                                            @switch($scope->type)
+                                                @case('text')
+                                                <div class="form-group questionDiv" data-practice="{{$scope->practice->id ?? ''}}">
+                                                    <label>{{$scope->label}}</label>
+                                                    <input
+                                                        class="form-control"
+                                                        type="text"
+                                                        data-changing="{{$scope->id}}"
+                                                        value=""
+                                                        placeholder="{{$scope->placeholder}}">
+                                                </div>
+                                                @break
+                                            @endswitch
+                                        @endforeach
+                                    </select>
+                                </div>
+                                -->
+                                <div class="media-body" style="padding: 20px; ">
                                     <p class="welcome_text">
                                         Please choose the Regions you'd like to see:
                                     </p>
                                     <select id="regionSelect" class="w-100" multiple="multiple">
                                         @foreach ($regions as $region)
-                                        <option>{{$region}}</option>
+                                            <option>{{$region}}</option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -120,6 +143,14 @@
 <script src="{{url('assets/vendors/select2/select2.min.js')}}"></script>
 <script>
     $(document).ready(function(){
+
+        $('#selectPractice').change()
+
+
+
+
+
+
             function updateProjects() {
                 // Get all selected practices. If there are none, get all of them
                 const selectedSegments = getSelectedFrom('segmentSelect')

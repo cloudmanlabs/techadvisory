@@ -8,6 +8,7 @@ use App\Project;
 use App\Subpractice;
 use App\User;
 use App\VendorSolution;
+use App\VendorSolutionQuestion;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 
@@ -142,9 +143,12 @@ class AnalysisController extends Controller
 
     public function vendorCustom()
     {
+     $scopes = VendorSolutionQuestion::select('label','practice_id','type','placeholder')->get();
+
         return view('accentureViews.analysisVendorCustom', [
             'segments' => collect(['Megasuite', 'SCM suite', 'Specific solution']),
             'practices' => Practice::pluck('name')->toArray(),
+            'scopes' => $scopes,
             'regions' => collect(config('arrays.regions')),
             'industries' => collect(config('arrays.industryExperience')),
             'years' => collect(range(2017, intval(date('Y')))),

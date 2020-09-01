@@ -77,7 +77,6 @@
         $averageBestVendorsDatasets = ponderateScoresByClient($bestPossibleDatasets,$averages);
     }
 
-
 @endphp
 
 @php

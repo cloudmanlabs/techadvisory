@@ -34,8 +34,8 @@ class SelectionCriteriaQuestionResponse extends Model
 
     /**
      * Returns the responses of the most recent similar open project if exists, with their questions.
-     * @param $vendor vendor of the project
-     * @param $project current project
+     * @param $vendor vendor
+     * @param $project current
      * @return mixed. null if project not exists
      */
     public static function getResponsesFromSimilarProject($vendor, $project)
