@@ -58,7 +58,6 @@
                                             <option value="2021">2023</option>
                                         </select>
                                     </div>
-                                    <!-- feature 1.6 -->
                                     <div class="media-body" style="padding: 20px;">
                                         <p class="welcome_text">
                                             Please choose the Project's name:
@@ -255,7 +254,7 @@
     @parent
     <script>
         $(document).ready(function () {
-            var searchInputText = null;     // feature 1.6: To filter by name
+            var searchInputText = null;
 
             $('#filterH3').click(function () {
                 if ($('#filterContainer').css('display') === 'none') {
@@ -313,7 +312,7 @@
                     const practice = $(this).data('practice');
                     const client = $(this).data('client');
                     const year = $(this).data('year').toString();
-                    const name = String($(this).data('name')).toLowerCase();       // feature 1.6
+                    const name = String($(this).data('name')).toLowerCase();
 
                     if ($.inArray(practice, selectedPractices) !== -1
                         && $.inArray(client, selectedClients) !== -1
@@ -329,7 +328,7 @@
                     const practice = $(this).data('practice');
                     const client = $(this).data('client');
                     const year = $(this).data('year').toString();
-                    const name = String($(this).data('name')).toLowerCase();       // feature 1.6
+                    const name = String($(this).data('name')).toLowerCase();
 
                     if ($.inArray(practice, selectedPractices) !== -1
                         && $.inArray(client, selectedClients) !== -1
@@ -345,7 +344,7 @@
                     const practice = $(this).data('practice');
                     const client = $(this).data('client');
                     const year = $(this).data('year').toString();
-                    const name = String($(this).data('name')).toLowerCase();       // feature 1.6
+                    const name = String($(this).data('name')).toLowerCase();
 
                     if ($.inArray(practice, selectedPractices) !== -1
                         && $.inArray(client, selectedClients) !== -1
@@ -371,7 +370,6 @@
                 updateOpenProjects();
             });
 
-            //feature 1.6
             $("#homeNameInput").keyup(function (event) {
                 searchInputText = event.target.value.toLowerCase();
                 updateOpenProjects();

@@ -13,7 +13,6 @@ class HomeController extends Controller
 {
     public function home()
     {
-        // feature 2.4: get projects but filtered by region
         $myRegion = auth()->user()->region;
         if(empty($myRegion)){
             // No region filter

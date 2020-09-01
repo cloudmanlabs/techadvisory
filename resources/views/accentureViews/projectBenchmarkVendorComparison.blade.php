@@ -1,4 +1,3 @@
-<!-- Feature 1.2: New Tab for Best vendor Comparison graph -->
 @extends('accentureViews.layouts.benchmark')
 
 @php
@@ -8,7 +7,6 @@
     foreach ($values as $key=>$bestPossible){
         $bestPossibleDatasets[$key] = $values[$key] * 5;
     }
-
 
 @endphp
 

@@ -887,7 +887,6 @@ class ProjectController extends Controller
         ]);
     }
 
-    // feature 1.2: new view for graphics about vendor comparison
     public function benchmarkVendorComparison(Request $request, Project $project)
     {
         $vendor = $request->input('vendor');
@@ -1053,8 +1052,6 @@ class ProjectController extends Controller
         return Excel::download($export, 'responses.xlsx');
     }
 
-    /* Feature 2.8: Rollbacks ************************************************************************************** */
-
     // Rollback from Accenture step 3 to initial state
     public function setStep1Rollback(Request $request)
     {
@@ -1139,7 +1136,6 @@ class ProjectController extends Controller
         ]);
     }
 
-    // feature 2.8: vendor Rollback
     public function vendorApplyRollback(Request $request, Project $project, User $vendor)
     {
         $application = VendorApplication::where('vendor_id', $vendor->id)

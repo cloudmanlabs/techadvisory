@@ -14,10 +14,7 @@
             <div class="page-content">
                 <x-video :src="nova_get_setting('video_newProject_file')"
                          :text="nova_get_setting('video_newProject_text')"/>
-
                 <br><br>
-
-                <!-- feature 2.8-->
                 <div id="summary" class="row">
                     <div class="col-lg-12 grid-margin stretch-card">
                         <div class="card">
@@ -26,8 +23,6 @@
                                 <p class="welcome_text extra-top-15px">Check the project summary and execute rollback
                                     to the previous state. </p>
                                 <br>
-
-                                <!-- feature 2.8: Accenture-Client Rollbacks display -->
                                 <table class="table">
                                     <tbody>
                                     <tr>
@@ -369,7 +364,6 @@
             display: block;
         }
 
-        /* feature 2.8: icons */
         #summary i {
             font-size: 25px;
             padding: 15px;
@@ -863,8 +857,7 @@
             updateSubmitStep3();
         });
 
-        /* Feature 2.8 **************************************************************************/
-        // feature 2.8: Make Rollback from Accenture step 3 to initial state
+        // Make Rollback from Accenture step 3 to initial state
         $('#rollback1').click(function () {
             $(this).attr('disabled', true);
 
@@ -888,7 +881,7 @@
             })
         });
 
-        // feature 2.8: Make Rollback from Client step 3 to Accenture step 3
+        // Make Rollback from Client step 3 to Accenture step 3
         $('#rollback2').click(function () {
             $(this).attr('disabled', true);
 
@@ -912,7 +905,7 @@
             })
         });
 
-        // feature 2.8: Make Rollback from Accenture step 4 step 3 to Client step 3
+        // Make Rollback from Accenture step 4 step 3 to Client step 3
         $('#rollback3').click(function () {
             $(this).attr('disabled', true);
 
@@ -936,7 +929,7 @@
             })
         });
 
-        // feature 2.8: Make Rollback from Client step 4 step 3 to Accenture step 4
+        // Make Rollback from Client step 4 step 3 to Accenture step 4
         $('#rollback4').click(function () {
             $(this).attr('disabled', true);
 

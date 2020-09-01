@@ -367,7 +367,6 @@ class ProjectController extends Controller
         ]);
     }
 
-    // feature 2.8: Rollback from Client step 3 to Accenture step 3
     public function setStep3Rollback(Request $request)
     {
         $request->validate([
@@ -408,7 +407,6 @@ class ProjectController extends Controller
         ]);
     }
 
-    // feature 2.8: Rollback from setp 4 Client to step 4 Accenture
     public function setStep4Rollback(Request $request)
     {
         $request->validate([

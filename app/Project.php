@@ -450,7 +450,6 @@ class Project extends Model
         return self::where('currentPhase', 'old')->get();
     }
 
-    // feature 2.4: Add region filter
     public static function projectsFromMyRegion($myRegion,$currentPhase): Collection
     {
         $myRegionAsText = config('arrays.regions')[$myRegion];

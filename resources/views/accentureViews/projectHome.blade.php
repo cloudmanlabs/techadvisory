@@ -9,7 +9,6 @@
             color: #495057;
         }
 
-        /* feature 2.8: icons */
         #summary i {
             font-size: 25px;
             padding: 15px;
@@ -39,8 +38,6 @@
         <div class="page-wrapper">
             <div class="page-content">
                 <x-accenture.projectNavbar section="projectHome" :project="$project"/>
-
-                <!-- feature 2.8-->
                 <div id="summary" class="row">
                     <div class="col-lg-12 grid-margin stretch-card">
                         <div class="card">
@@ -50,7 +47,7 @@
                                     to the previous state. </p>
                                 <br>
 
-                                <!-- feature 2.8: Accenture-Client Rollbacks display -->
+                                <!-- Accenture-Client Rollbacks display -->
                                 <table class="table">
                                     <tbody>
                                     <tr>
@@ -203,8 +200,6 @@
                                                 Download responses
                                             </a>
                                         </div>
-
-                                        <!-- feature 2.8 Vendor rollback -->
                                         <div style="text-align: right; width: 15%; margin-right: 1rem">
                                             <a id="vendorRollback"
                                                class="btn btn-primary btn-lg btn-icon-text text-white cursor-pointer"
@@ -258,7 +253,6 @@
                                                 responses
                                             </a>
                                         </div>
-                                        <!-- feature 2.8 Vendor rollback -->
                                         <div style="text-align: right; width: 15%; margin-right: 1rem">
                                             <a id="vendorRollback"
                                                class="btn btn-primary btn-lg btn-icon-text text-white cursor-pointer"
@@ -323,7 +317,6 @@
                                                 responses
                                             </a>
                                         </div>
-                                        <!-- feature 2.8 Vendor rollback -->
                                         <div style="text-align: right; width: 15%; margin-right: 1rem">
                                             <a id="vendorRollback"
                                                class="btn btn-primary btn-lg btn-icon-text text-white cursor-pointer"
@@ -363,7 +356,6 @@
                                                 responses
                                             </a>
                                         </div>
-                                        <!-- feature 2.8 Vendor rollback -->
                                         <div style="text-align: right; width: 15%; margin-right: 1rem">
                                             <a id="vendorRollback"
                                                class="btn btn-primary btn-lg btn-icon-text text-white cursor-pointer"
@@ -400,7 +392,6 @@
                                                 responses
                                             </a>
                                         </div>
-                                        <!-- feature 2.8 Vendor rollback -->
                                         <div style="text-align: right; width: 15%; margin-right: 1rem">
                                             <a id="vendorRollback"
                                                class="btn btn-primary btn-lg btn-icon-text text-white cursor-pointer"
@@ -431,7 +422,6 @@
                                         <a class="btn btn-primary btn-lg btn-icon-text"
                                            href="{{route('accenture.viewVendorProposal', ['project' => $project, 'vendor' => $vendor])}}">View
                                             Response</a>
-                                        <!-- feature 2.8 Vendor rollback -->
                                         <div style="text-align: right; width: 15%; margin-right: 1rem">
                                             <a id="vendorRollback"
                                                class="btn btn-primary btn-lg btn-icon-text text-white cursor-pointer"
@@ -457,7 +447,7 @@
 @section('scripts')
     @parent
     <script>
-        // feature 2.8: Make Rollback from Accenture step 3 to initial state
+        // Make Rollback from Accenture step 3 to initial state
         $('#rollback1').click(function () {
             $(this).attr('disabled', true);
 
@@ -487,7 +477,6 @@
             })
         });
 
-        // feature 2.8: Make Rollback from Client step 3 to Accenture step 3
         $('#rollback2').click(function () {
             $(this).attr('disabled', true);
 
@@ -517,7 +506,7 @@
             })
         });
 
-        // feature 2.8: Make Rollback from Accenture step 4 step 3 to Client step 3
+        // Make Rollback from Accenture step 4 step 3 to Client step 3
         $('#rollback3').click(function () {
             $(this).attr('disabled', true);
 
@@ -547,7 +536,7 @@
             })
         });
 
-        // feature 2.8: Make Rollback from Client step 4 step 3 to Accenture step 4
+        // Make Rollback from Client step 4 step 3 to Accenture step 4
         $('#rollback4').click(function () {
             $(this).attr('disabled', true);
 

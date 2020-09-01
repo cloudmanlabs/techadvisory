@@ -46,10 +46,10 @@ prefix('accenture')
             Route::post('/newProjectSetUp/changeDeadline', 'ProjectController@changeDeadline');
             Route::post('/newProjectSetUp/changeRFPOtherInfo', 'ProjectController@changeRFPOtherInfo');
             Route::post('/newProjectSetUp/setStep3Submitted', 'ProjectController@setStep3Submitted');
-            Route::post('/ProjectController/setStep1Rollback', 'ProjectController@setStep1Rollback');         // feature 2.8
-            Route::post('/ProjectController/setStep2Rollback', 'ProjectController@setStep2Rollback');         // feature 2.8
-            Route::post('/ProjectController/setStep3Rollback', 'ProjectController@setStep3Rollback');         // feature 2.8
-            Route::post('/ProjectController/setStep4Rollback', 'ProjectController@setStep4Rollback');         // feature 2.8
+            Route::post('/ProjectController/setStep1Rollback', 'ProjectController@setStep1Rollback');
+            Route::post('/ProjectController/setStep2Rollback', 'ProjectController@setStep2Rollback');
+            Route::post('/ProjectController/setStep3Rollback', 'ProjectController@setStep3Rollback');
+            Route::post('/ProjectController/setStep4Rollback', 'ProjectController@setStep4Rollback');
             Route::post('/newProjectSetUp/setStep4Submitted', 'ProjectController@setStep4Submitted');
             Route::post('/newProjectSetUp/publishProject', 'ProjectController@publishProject');
             Route::post('/newProjectSetUp/publishProjectAnalytics', 'ProjectController@publishProjectAnalytics');
@@ -129,7 +129,7 @@ prefix('accenture')
             Route::get('project/benchmark/implementation/{project}', 'ProjectController@benchmarkImplementation')
                 ->name('projectBenchmarkImplementation');
             Route::get('project/benchmark/vendorComparison/{project}', 'ProjectController@benchmarkVendorComparison')
-                ->name('projectBenchmarkVendorComparison');     // feature 1.2
+                ->name('projectBenchmarkVendorComparison');
 
             Route::post('project/disqualifyVendor/{project}/{vendor}', 'ProjectController@disqualifyVendor')
                 ->name('project.disqualifyVendor');
@@ -171,7 +171,6 @@ prefix('accenture')
             Route::get('/exportAnalytics/{project}', 'ProjectController@exportAnalytics')
                 ->name('exportAnalytics');
 
-            // feature 2.8
             Route::get('/project/vendorApplyRollback/{project}/{vendor}', 'ProjectController@vendorApplyRollback')
                 ->name('project.vendorApplyRollback');
         });

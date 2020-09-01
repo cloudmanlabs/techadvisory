@@ -212,7 +212,6 @@ class ProjectController extends Controller
             return $question->originalQuestion->page == 'implementation_run';
         });
 
-        // Feature 1: get Responses from similar project
         $selectionCriteriaQuestionsResponsesFromSimilarProject = SelectionCriteriaQuestionResponse::getResponsesFromSimilarProject($vendor, $project);
         $this->replaceResponses($vendorCorporateQuestions, $selectionCriteriaQuestionsResponsesFromSimilarProject);
         $this->replaceResponses($vendorMarketQuestions, $selectionCriteriaQuestionsResponsesFromSimilarProject);
