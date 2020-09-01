@@ -8,15 +8,16 @@
     foreach ($values as $key=>$bestPossible){
         $bestPossibleDatasets[$key] = $values[$key] * 5;
     }
+
+
 @endphp
 
 @php
     // Values for best from vendors
-
     function getAllVendorsAndScores($applications){
         $vendorsAndScores = [];
         foreach ($applications as $key=>$application){
-            $vendorsAndScores[$application->vendor->name] = number_format($application->totalScore(), 2);
+            $vendorsAndScores[$application->vendor->id] = number_format($application->totalScore(), 2);
         }
         return $vendorsAndScores;
     }
@@ -24,7 +25,7 @@
     function getScoresFromVendor($applications,$vendor){
         $scores = [];
         foreach ($applications as $key=>$application){
-            if($application->vendor->name == $vendor){
+            if($application->vendor->id == $vendor){
                 $scores[0] = number_format($application->fitgapScore(), 2);
                 $scores[1] = number_format($application->vendorScore(), 2);
                 $scores[2] = number_format($application->experienceScore(), 2);
@@ -43,11 +44,14 @@
         return $scoresPonderated;
     }
 
+    $bestVendorsScoreDatasets = [];
     $allVendorsAndScores = getAllVendorsAndScores($applications);
-    $bestScore = max($allVendorsAndScores);
-    $bestVendor = array_search($bestScore,$allVendorsAndScores);
-    $bestVendorScores = getScoresFromVendor($applications,$bestVendor);
-    $bestVendorsScoreDatasets = ponderateScoresByClient($bestPossibleDatasets,$bestVendorScores);
+    if (!empty($allVendorsAndScores)){
+        $bestScore = max($allVendorsAndScores);
+        $bestVendor = array_search($bestScore,$allVendorsAndScores);
+        $bestVendorScores = getScoresFromVendor($applications,$bestVendor);
+        $bestVendorsScoreDatasets = ponderateScoresByClient($bestPossibleDatasets,$bestVendorScores);
+    }
 
 @endphp
 
@@ -63,23 +67,29 @@
         return $average;
     }
 
-    $averages = [];
-    $averages[0] = getAverageScore($applications,"fitgapScore");
-    $averages[1] = getAverageScore($applications,"vendorScore");
-    $averages[2] = getAverageScore($applications,"experienceScore");
-    $averages[3] = getAverageScore($applications,"innovationScore");
-    $averages[4] = getAverageScore($applications,"implementationScore");
-    $averageBestVendorsDatasets = ponderateScoresByClient($bestPossibleDatasets,$averages)
+    $averageBestVendorsDatasets = [];
+    if (!empty($allVendorsAndScores)){
+        $averages = [];
+        $averages[0] = getAverageScore($applications,"fitgapScore");
+        $averages[1] = getAverageScore($applications,"vendorScore");
+        $averages[2] = getAverageScore($applications,"experienceScore");
+        $averages[3] = getAverageScore($applications,"innovationScore");
+        $averages[4] = getAverageScore($applications,"implementationScore");
+        $averageBestVendorsDatasets = ponderateScoresByClient($bestPossibleDatasets,$averages);
+    }
+
+
 @endphp
 
 @php
     // Values from selected vendor
-
-    $selectedVendor = '';
-    var_dump($selectedVendor);
-    die();
-    $scores = getScoresFromVendor($applications, $selectedVendor);
-    $vendorSelectedDatasets = ponderateScoresByClient($bestPossibleDatasets,scores);
+    $selectedVendor = $vendor;
+    $vendorSelectedDatasets = [];
+    if(!empty($vendor)){
+        $scores = getScoresFromVendor($applications, $selectedVendor);
+        $vendorSelectedDatasets = [];
+        $vendorSelectedDatasets = ponderateScoresByClient($bestPossibleDatasets,$scores);
+    }
 
 @endphp
 
@@ -92,7 +102,32 @@
                 <x-accenture.projectNavbar section="projectBenchmark" subsection="VendorComparison"
                                            :project="$project"/>
                 <br>
-                <x-projectBenchmarkVendorFilter :applications="$applications"/>
+                <div class="row">
+                    <div class="col-12 col-xl-12 stretch-card">
+                        <div class="card">
+                            <div class="card-body">
+                                <div style="float: left;">
+                                    <h3>Benchmark and Analytics</h3>
+                                </div>
+                                <br><br>
+                                <div class="welcome_text welcome_box" style="clear: both; margin-top: 20px;">
+                                    <div class="media d-block d-sm-flex">
+                                        <div class="media-body" style="padding: 20px;">
+                                            Please choose the Vendors you'd like to add in the comparison tables:
+                                            <br><br>
+                                            <select id="vendorSelect" class="w-100" required>
+                                                <option disabled selected value> -- select a vendor -- </option>
+                                                @foreach ($applications as $application)
+                                                    <option data-vendor-id="{{optional($application->vendor)->id}}">{{optional($application->vendor)->name}}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 <br><br>
                 <div class="row">
                     <div class="col-lg-12 grid-margin stretch-card">
@@ -135,6 +170,14 @@
 @section('scripts')
     @parent
     <script>
+
+        $('#vendorSelect').change(function(){
+            var selectedVendor = $(this).children("option:selected").data('vendorId');
+            var url_args = '?vendor='+selectedVendor;
+            // pass vendor id through url params as get paramether
+            location.replace('/accenture/project/benchmark/vendorComparison/49'+url_args);
+        });
+
         var bestPossibleDatasets = [
             @foreach ($bestPossibleDatasets as $dataset)
             {{$dataset}},
@@ -152,14 +195,11 @@
             @endforeach
         ];
 
-
         var vendorSelectedDatasets = [
             @foreach ($vendorSelectedDatasets as $dataset)
             {{$dataset}},
             @endforeach
         ];
-
-
 
         var ctx = document.getElementById('bestVendorGraph');
         var stackedBarChart = new Chart(ctx, {

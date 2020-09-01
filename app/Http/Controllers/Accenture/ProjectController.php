@@ -888,15 +888,16 @@ class ProjectController extends Controller
     }
 
     // feature 1.2: new view for graphics about vendor comparison
-    public function benchmarkVendorComparison(Project $project)
+    public function benchmarkVendorComparison(Request $request, Project $project)
     {
-
+        $vendor = $request->input('vendor');
         return view('accentureViews.projectBenchmarkVendorComparison', [
             'project' => $project,
             'applications' => $project->vendorApplications
                 ->filter(function (VendorApplication $application) {
                     return $application->phase == 'submitted';
                 }),
+            'vendor'=> $vendor,
         ]);
     }
 
