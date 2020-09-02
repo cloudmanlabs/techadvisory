@@ -9,6 +9,7 @@ use App\Subpractice;
 use App\User;
 use App\VendorSolution;
 use App\VendorSolutionQuestion;
+use App\VendorSolutionQuestionResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 
@@ -156,4 +157,29 @@ class AnalysisController extends Controller
             'vendors' => User::vendorUsers()->where('hasFinishedSetup', true)->get()
         ]);
     }
+
+    public function getScopesfromPractice(String $practiceName)
+    {
+        $practice = Practice::where('name',$practiceName)->first();
+        $scopes = VendorSolutionQuestion::where('practice_id',$practice->id)->get();
+        return \response()->json([
+            'status' => 200,
+            'scopes' => $scopes,
+            'message' => 'Success'
+        ]);
+    }
+
+    /* NOT WORKING*/
+    public function getResponsesFromScope(Scope $scope)
+    {
+        $responses = VendorSolutionQuestionResponse::where('question_id',$scope->id)->get();
+
+        return \response()->json([
+            'status' => 200,
+            'responses' => $responses,
+            'message' => 'Success'
+        ]);
+    }
+
+
 }

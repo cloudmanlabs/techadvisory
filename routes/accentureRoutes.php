@@ -173,5 +173,9 @@ prefix('accenture')
 
             Route::get('/project/vendorApplyRollback/{project}/{vendor}', 'ProjectController@vendorApplyRollback')
                 ->name('project.vendorApplyRollback');
+
+            Route::get('/analysis/vendor/custom/getScopes/{practice}', 'AnalysisController@getScopesfromPractice');
+            Route::get('/analysis/vendor/custom/getResponses/{scope}', 'AnalysisController@getResponsesFromScope');
+
         });
     });

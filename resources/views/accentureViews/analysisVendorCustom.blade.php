@@ -1,155 +1,188 @@
 @extends('accentureViews.layouts.benchmark')
 
 @section('content')
-<div class="main-wrapper">
-    <x-accenture.navbar activeSection="benchmark" />
+    <div class="main-wrapper">
+        <x-accenture.navbar activeSection="benchmark"/>
 
-    <div class="page-wrapper">
-        <div class="page-content">
-            <div class="row">
-                <div class="col-12 col-xl-12 stretch-card">
-                    <div class="card">
-                        <div class="card-body">
-                            <div style="float: left;">
-                                <h3>Global Analysis & Analytics</h3>
-                            </div>
-                            <br><br>
-                            <div class="welcome_text welcome_box" style="clear: both; margin-top: 20px;">
-                                <div class="media d-block d-sm-flex">
-                                    <div class="media-body" style="padding: 20px;">
-                                        {{nova_get_setting('accenture_analysisVendorCustom_title') ?? ''}}
-                                    </div>
+        <div class="page-wrapper">
+            <div class="page-content">
+                <div class="row">
+                    <div class="col-12 col-xl-12 stretch-card">
+                        <div class="card">
+                            <div class="card-body">
+                                <div style="float: left;">
+                                    <h3>Global Analysis & Analytics</h3>
                                 </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <br><br>
-
-            <div class="row">
-                <div class="col-lg-12 grid-margin stretch-card">
-                    <div class="card">
-                        <div class="card-body">
-                            <h3>Other Queries</h3>
-                            <p class="welcome_text extra-top-15px">
-                                {{nova_get_setting('accenture_analysisVendorCustom_otherQueries') ?? ''}}
-                            </p>
-                            <br>
-
-                            <div id="filterContainer">
-                                <br>
-                                <div class="media-body" style="padding: 20px;">
-                                    <p class="welcome_text">
-                                        Please choose the Vendor Segments you'd like to see:
-                                    </p>
-                                    <select id="segmentSelect" class="w-100" multiple="multiple">
-                                        @foreach ($segments as $segment)
-                                        <option>{{$segment}}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-
-                                <div class="media-body" style="padding: 20px;">
-                                    <p class="welcome_text">
-                                        Please choose the SC Capability (Practice) you'd like to see:
-                                    </p>
-                                    <select id="practiceSelect" class="w-100">
-                                        @foreach ($practices as $practice)
-                                        <option>{{$practice}}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-<!--
-                                <div class="media-body" style="padding: 20px; border:1px solid black; display:none">
-                                    <p class="welcome_text">
-                                        Please choose the Scope response you'd like to see:
-                                    </p>
-                                    <select id="scopeSelect" class="w-100 " style="display:none">
-                                       @foreach ($scopes as $scope)
-                                            @switch($scope->type)
-                                                @case('text')
-                                                <div class="form-group questionDiv" data-practice="{{$scope->practice->id ?? ''}}">
-                                                    <label>{{$scope->label}}</label>
-                                                    <input
-                                                        class="form-control"
-                                                        type="text"
-                                                        data-changing="{{$scope->id}}"
-                                                        value=""
-                                                        placeholder="{{$scope->placeholder}}">
-                                                </div>
-                                                @break
-                                            @endswitch
-                                        @endforeach
-                                    </select>
-                                </div>
-                                -->
-                                <div class="media-body" style="padding: 20px; ">
-                                    <p class="welcome_text">
-                                        Please choose the Regions you'd like to see:
-                                    </p>
-                                    <select id="regionSelect" class="w-100" multiple="multiple">
-                                        @foreach ($regions as $region)
-                                            <option>{{$region}}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-
-                                <div class="media-body" style="padding: 20px;">
-                                    <p class="welcome_text">
-                                        Please choose the Industries you'd like to see:
-                                    </p>
-                                    <select id="industrySelect" class="w-100" multiple="multiple">
-                                        @foreach ($industries as $industry)
-                                        <option>{{$industry}}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-
-                                <div id="projectContainer">
-                                    @foreach ($vendors as $vendor)
-                                    <div class="card" style="margin-bottom: 30px;"
-                                        data-segment="{{$vendor->getVendorResponse('vendorSegment')}}"
-                                        data-practice="{{json_encode($vendor->vendorSolutionsPractices()->pluck('name')->toArray())}}"
-                                        data-industry="{{$vendor->getVendorResponse('vendorIndustry')}}"
-                                        data-regions="{{$vendor->getVendorResponse('vendorRegions') ?? '[]'}}"
-                                    >
-                                        <div class="card-body">
-                                            <div style="float: left; max-width: 40%;">
-                                                <h4>{{$vendor->name}}</h4>
-                                                <p>{{$vendor->name}} - {{$vendor->vendorSolutionsPracticesNames()}}</p>
-                                                <p>{{$vendor->getVendorResponse('vendorSegment') ?? 'No segment'}} - {{$vendor->getVendorResponse('vendorIndustry') ?? 'No industry'}} -
-                                                    {{implode(', ', json_decode($vendor->getVendorResponse('vendorRegions')) ?? [])}}</p>
-                                            </div>
+                                <br><br>
+                                <div class="welcome_text welcome_box" style="clear: both; margin-top: 20px;">
+                                    <div class="media d-block d-sm-flex">
+                                        <div class="media-body" style="padding: 20px;">
+                                            {{nova_get_setting('accenture_analysisVendorCustom_title') ?? ''}}
                                         </div>
                                     </div>
-                                    @endforeach
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <br><br>
+
+                <div class="row">
+                    <div class="col-lg-12 grid-margin stretch-card">
+                        <div class="card">
+                            <div class="card-body">
+                                <h3>Other Queries</h3>
+                                <p class="welcome_text extra-top-15px">
+                                    {{nova_get_setting('accenture_analysisVendorCustom_otherQueries') ?? ''}}
+                                </p>
+                                <br>
+
+                                <div id="filterContainer">
+                                    <br>
+                                    <div class="media-body" style="padding: 20px;">
+                                        <p class="welcome_text">
+                                            Please choose the Vendor Segments you'd like to see:
+                                        </p>
+                                        <select id="segmentSelect" class="w-100" multiple="multiple">
+                                            @foreach ($segments as $segment)
+                                                <option>{{$segment}}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+
+                                    <div class="media-body" style="padding: 20px;">
+                                        <p class="welcome_text">
+                                            Please choose the SC Capability (Practice) you'd like to see:
+                                        </p>
+                                        <select id="practiceSelect" class="w-100">
+                                            <option selected="true" disabled="disabled">Choose SC Capability</option>
+                                            @foreach ($practices as $practice)
+                                                <option>{{$practice}}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+
+                                    <div id="scopesDiv" class="media-body" style="padding: 20px;">
+                                        <p class="welcome_text">
+                                            Please choose the Scope you'd like to see:
+                                        </p>
+                                        <br>
+                                        <div id="PlanningScope" class="form-group">
+                                            <p id="Planning1" class="welcome_text">Planning question 1</p>
+                                            <input id="PlanningInput1" type="text"
+                                                   class="w-100 form-text text-muted border">
+                                            <br>
+                                        </div>
+                                        <div id="TransportScope" class="form-group">
+                                            <p id="Transport1" class="welcome_text">Transport Flows</p>
+                                            <select id="selectTransport1" class="w-100 border">
+                                            </select>
+                                            <br>
+                                            <p id="Transport2" class="welcome_text">Transport Mode</p>
+                                            <select id="selectTransport2" class="w-100"></select>
+                                            <br>
+                                            <p id="Transport3" class="welcome_text">Transport Type</p>
+                                            <select id="selectTransport3" class="w-100"></select>
+                                            <br>
+                                        </div>
+                                    </div>
+
+                                    <div class="media-body" style="padding: 20px; ">
+                                        <p class="welcome_text">
+                                            Please choose the Regions you'd like to see:
+                                        </p>
+                                        <select id="regionSelect" class="w-100" multiple="multiple">
+                                            @foreach ($regions as $region)
+                                                <option>{{$region}}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+
+                                    <div class="media-body" style="padding: 20px;">
+                                        <p class="welcome_text">
+                                            Please choose the Industries you'd like to see:
+                                        </p>
+                                        <select id="industrySelect" class="w-100" multiple="multiple">
+                                            @foreach ($industries as $industry)
+                                                <option>{{$industry}}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+
+                                    <div id="projectContainer">
+                                        @foreach ($vendors as $vendor)
+                                            <div class="card" style="margin-bottom: 30px;"
+                                                 data-segment="{{$vendor->getVendorResponse('vendorSegment')}}"
+                                                 data-practice="{{json_encode($vendor->vendorSolutionsPractices()->pluck('name')->toArray())}}"
+                                                 data-industry="{{$vendor->getVendorResponse('vendorIndustry')}}"
+                                                 data-regions="{{$vendor->getVendorResponse('vendorRegions') ?? '[]'}}"
+                                            >
+                                                <div class="card-body">
+                                                    <div style="float: left; max-width: 40%;">
+                                                        <h4>{{$vendor->name}}</h4>
+                                                        <p>{{$vendor->name}}
+                                                            - {{$vendor->vendorSolutionsPracticesNames()}}</p>
+                                                        <p>{{$vendor->getVendorResponse('vendorSegment') ?? 'No segment'}}
+                                                            - {{$vendor->getVendorResponse('vendorIndustry') ?? 'No industry'}}
+                                                            -
+                                                            {{implode(', ', json_decode($vendor->getVendorResponse('vendorRegions')) ?? [])}}</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        @endforeach
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
 
-        <x-footer />
+            <x-footer/>
+        </div>
     </div>
-</div>
 @endsection
 
 @section('scripts')
-@parent
-<script src="{{url('assets/vendors/select2/select2.min.js')}}"></script>
-<script>
-    $(document).ready(function(){
+    @parent
+    <script>
+        /*
+        import Label from "../../../nova/resources/js/components/Form/Label";
+        export default {
+            components: {Label}
+        }
+        */
 
-        $('#selectPractice').change()
+    </script>
+    <script>
 
+        $('#practiceSelect').change(function () {
+            var selectedPractice = $(this).children("option:selected").val();
+            $.get("/accenture/analysis/vendor/custom/getScopes/" + selectedPractice, function (data) {
 
+                $('#scopesDiv').show();
 
+                var scopes = data.scopes;
+                var firstScope = scopes[0].type;
 
+                if (firstScope.includes('textarea')) {
+                    $('#PlanningScope').show();
+                    $('#TransportScope').hide();
+                }
+                if (firstScope.includes('selectMultiple')) {
+                    $('#TransportScope').show();
+                    $('#PlanningScope').hide();
+                }
 
+            });
+        });
+
+        $(document).ready(function () {
+
+            $('#TransportScope').hide();
+            $('#PlanningScope').hide();
+            $('#scopesDiv').hide();
 
             function updateProjects() {
                 // Get all selected practices. If there are none, get all of them
@@ -178,11 +211,11 @@
                 });
             }
 
-            function getSelectedFrom(id){
+            function getSelectedFrom(id) {
                 let selectedPractices = $(`#${id}`).select2('data').map((el) => {
                     return el.text
                 });
-                if(selectedPractices.length == 0){
+                if (selectedPractices.length == 0) {
                     selectedPractices = $(`#${id}`).children().toArray().map((el) => {
                         return el.innerHTML.replace('&amp;', '&')
                     });
@@ -198,7 +231,6 @@
                     return b.indexOf(e) > -1;
                 });
             }
-
 
 
             $('#practiceSelect').select2();
@@ -219,5 +251,5 @@
             });
             updateProjects();
         });
-</script>
+    </script>
 @endsection
