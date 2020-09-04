@@ -1,5 +1,15 @@
 @extends('accentureViews.layouts.benchmark')
 
+@php
+/*
+    foreach ($vendors as $vendor) {
+        var_dump($vendor->id,$vendor->getVendorResponsesFromScope(9));
+    }
+    die()
+ */
+@endphp
+
+
 @section('content')
     <div class="main-wrapper">
         <x-accenture.navbar activeSection="benchmark"/>
@@ -76,14 +86,28 @@
                                         </div>
                                         <div id="TransportScope" class="form-group">
                                             <p id="Transport1" class="welcome_text">Transport Flows</p>
-                                            <select id="selectTransport1" class="w-100 border">
+                                            <select id="selectTransport1" class="w-100">
+                                                <option selected="true" disabled="disabled">Choose a option</option>
+                                                @foreach ($transportFlows as $transportFlow)
+                                                    <option>{{$transportFlow}}</option>
+                                                @endforeach
                                             </select>
                                             <br>
                                             <p id="Transport2" class="welcome_text">Transport Mode</p>
-                                            <select id="selectTransport2" class="w-100"></select>
+                                            <select id="selectTransport2" class="w-100">
+                                                <option selected="true" disabled="disabled">Choose a option</option>
+                                                @foreach ($transportModes as $transportMode)
+                                                    <option>{{$transportMode}}</option>
+                                                @endforeach
+                                            </select>
                                             <br>
                                             <p id="Transport3" class="welcome_text">Transport Type</p>
-                                            <select id="selectTransport3" class="w-100"></select>
+                                            <select id="selectTransport3" class="w-100">
+                                                <option selected="true" disabled="disabled">Choose a option</option>
+                                                @foreach ($transportTypes as $transportType)
+                                                    <option>{{$transportType}}</option>
+                                                @endforeach
+                                            </select>
                                             <br>
                                         </div>
                                     </div>
@@ -157,24 +181,60 @@
     </script>
     <script>
 
+        /*        var vendorsResponses = [{id:'',
+                    segment:'',
+                    practice:'',
+                    transportFlow:'',
+                    transportMode:'',
+                    transportType:'',
+                    planning:'',
+                    manufacturing:'',
+                    regions: [],
+                    industries:''
+
+                }];*/
+        // problema con practices: &quot
+        var vendorsResponses = [
+                @foreach($vendors as $vendor)
+            {
+                id: '{{$vendor->id}}',
+                segment: "{{$vendor->getVendorResponse('vendorSegment')}}",
+                practice: "{{json_encode($vendor->vendorSolutionsPractices()->pluck('name')->toArray())}}",
+                transportFlow: "{{''}}",
+                transportMode: '{{''}}',
+                transportType: '{{''}}',
+                planning: '{{''}}',
+                manufacturing: '{{''}}',
+                regions: '{{$vendor->region}}',
+                industry: "{{$vendor->getVendorResponse('vendorIndustry')}}"
+            },
+            @endforeach
+        ]
+        console.log(vendorsResponses);
+
         $('#practiceSelect').change(function () {
             var selectedPractice = $(this).children("option:selected").val();
+            $('#TransportScope').hide();
+            $('#PlanningScope').hide();
+            $('#scopesDiv').hide();
+
             $.get("/accenture/analysis/vendor/custom/getScopes/" + selectedPractice, function (data) {
+                if (Array.isArray(data.scopes)) {
+                    var scopes = data.scopes;
+                    $('#scopesDiv').show();
+                    var firstScope = scopes[0].type;
 
-                $('#scopesDiv').show();
+                    if (firstScope.includes('textarea')) {
+                        $('#PlanningScope').show();
+                        $('#TransportScope').hide();
+                        $('#Planning1').text(scopes[0].label)
+                    }
 
-                var scopes = data.scopes;
-                var firstScope = scopes[0].type;
-
-                if (firstScope.includes('textarea')) {
-                    $('#PlanningScope').show();
-                    $('#TransportScope').hide();
+                    if (firstScope.includes('selectMultiple')) {
+                        $('#TransportScope').show();
+                        $('#PlanningScope').hide();
+                    }
                 }
-                if (firstScope.includes('selectMultiple')) {
-                    $('#TransportScope').show();
-                    $('#PlanningScope').hide();
-                }
-
             });
         });
 

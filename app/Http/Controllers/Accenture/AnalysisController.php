@@ -30,7 +30,7 @@ class AnalysisController extends Controller
             'clients' => User::clientUsers()->where('hasFinishedSetup', true)->get(),
 
             'industries' => collect(config('arrays.industryExperience'))
-                ->map(function($industry){
+                ->map(function ($industry) {
                     return (object)[
                         'name' => $industry,
                         'projectCount' => Project::all()
@@ -61,18 +61,18 @@ class AnalysisController extends Controller
 
         return view('accentureViews.analysisProjectHistorical', [
             'practices' => Practice::all(),
-            'years' => collect(range(2017, intval(date('Y')) ))->map(function($year){
+            'years' => collect(range(2017, intval(date('Y'))))->map(function ($year) {
                 return (object)[
                     'year' => $year,
-                    'projectCount' => Project::all()->filter(function($project) use ($year){
+                    'projectCount' => Project::all()->filter(function ($project) use ($year) {
                         return $project->created_at->year == $year;
                     })->count(),
                 ];
             }),
             'industries' => collect(config('arrays.industryExperience'))->map(function ($industry) {
-                return (object) [
+                return (object)[
                     'name' => $industry,
-                    'projectCounts' => collect(range(2017, intval(date('Y')) ))->map(function($year) use ($industry){
+                    'projectCounts' => collect(range(2017, intval(date('Y'))))->map(function ($year) use ($industry) {
                         return Project::all()->filter(function ($project) use ($year, $industry) {
                             return $project->created_at->year == $year && $project->industry == $industry;
                         })->count();
@@ -80,9 +80,9 @@ class AnalysisController extends Controller
                 ];
             }),
             'regions' => collect(config('arrays.regions'))->map(function ($region) {
-                return (object) [
+                return (object)[
                     'name' => $region,
-                    'projectCounts' => collect(range(2017, intval(date('Y')) ))->map(function($year) use ($region){
+                    'projectCounts' => collect(range(2017, intval(date('Y'))))->map(function ($year) use ($region) {
                         return Project::all()->filter(function ($project) use ($year, $region) {
                             return $project->created_at->year == $year && in_array($region, $project->regions ?? []);
                         })->count();
@@ -111,12 +111,12 @@ class AnalysisController extends Controller
     public function vendorGraphs()
     {
         return view('accentureViews.analysisVendorGraphs', [
-            'practices' => Practice::all()->map(function(Practice $practice) {
+            'practices' => Practice::all()->map(function (Practice $practice) {
                 return (object)[
                     'name' => $practice->name,
                     'count' => VendorSolution::all()
-                        ->filter(function(VendorSolution $solution) use ($practice){
-                            if($solution->practice == null) return false;
+                        ->filter(function (VendorSolution $solution) use ($practice) {
+                            if ($solution->practice == null) return false;
 
                             return $solution->practice->is($practice);
                         })
@@ -124,7 +124,7 @@ class AnalysisController extends Controller
                 ];
             }),
             'industries' => collect(config('arrays.industryExperience'))->map(function ($industry) {
-                return (object) [
+                return (object)[
                     'name' => $industry,
                     'count' => User::vendorUsers()->get()->filter(function (User $vendor) use ($industry) {
                         return $vendor->getVendorResponse('vendorIndustry') == $industry;
@@ -132,7 +132,7 @@ class AnalysisController extends Controller
                 ];
             }),
             'regions' => collect(config('arrays.regions'))->map(function ($region) {
-                return (object) [
+                return (object)[
                     'name' => $region,
                     'count' => User::vendorUsers()->get()->filter(function (User $vendor) use ($region) {
                         return in_array($region, json_decode($vendor->getVendorResponse('vendorRegions')) ?? []);
@@ -144,42 +144,33 @@ class AnalysisController extends Controller
 
     public function vendorCustom()
     {
-     $scopes = VendorSolutionQuestion::select('label','practice_id','type','placeholder')->get();
+        $transportFlows = collect(config('arrays.transportFlows'));
+        $transportModes = collect(config('arrays.transportModes'));
+        $transportTypes = collect(config('arrays.transportFlows'));
 
         return view('accentureViews.analysisVendorCustom', [
             'segments' => collect(['Megasuite', 'SCM suite', 'Specific solution']),
             'practices' => Practice::pluck('name')->toArray(),
-            'scopes' => $scopes,
             'regions' => collect(config('arrays.regions')),
             'industries' => collect(config('arrays.industryExperience')),
             'years' => collect(range(2017, intval(date('Y')))),
 
-            'vendors' => User::vendorUsers()->where('hasFinishedSetup', true)->get()
+            'vendors' => User::vendorUsers()->where('hasFinishedSetup', true)->get(),
+
+            'transportFlows' => $transportFlows,
+            'transportModes' => $transportModes,
+            'transportTypes' => $transportTypes,
         ]);
     }
 
-    public function getScopesfromPractice(String $practiceName)
+    public function getScopesfromPractice(string $practiceName)
     {
-        $practice = Practice::where('name',$practiceName)->first();
-        $scopes = VendorSolutionQuestion::where('practice_id',$practice->id)->get();
+        $practice = Practice::where('name', $practiceName)->first();
+        $scopes = VendorSolutionQuestion::where('practice_id', $practice->id)->get();
         return \response()->json([
             'status' => 200,
             'scopes' => $scopes,
             'message' => 'Success'
         ]);
     }
-
-    /* NOT WORKING*/
-    public function getResponsesFromScope(Scope $scope)
-    {
-        $responses = VendorSolutionQuestionResponse::where('question_id',$scope->id)->get();
-
-        return \response()->json([
-            'status' => 200,
-            'responses' => $responses,
-            'message' => 'Success'
-        ]);
-    }
-
-
 }

@@ -89,23 +89,40 @@ class User extends Authenticatable
     public function vendorSolutionsPractices()
     {
         return $this->vendorSolutions
-            ->map(function(VendorSolution $sol){
+            ->map(function (VendorSolution $sol) {
                 return $sol->practice;
             })
-            ->filter(function($smth){
+            ->filter(function ($smth) {
                 return $smth != null;
             })
             ->unique('id')
             ->values();
     }
 
-    public function vendorSolutionsPracticesNames() : string
+    public function vendorSolutionsPracticesNames(): string
     {
         $practices = $this->vendorSolutionsPractices();
 
-        if($practices->count() == 0) return 'None';
+        if ($practices->count() == 0) return 'None';
 
         return implode(', ', $practices->pluck('name')->toArray());
+    }
+
+    public function getVendorResponsesFromScope(int $scope_id)
+    {
+        $result = null;
+        $vendor_solutionsFromVendor = $this->vendorSolutions()->get();  // vendor_solutions
+        foreach ($vendor_solutionsFromVendor as $vs) {
+            $questionsResponses = $vs->questions()
+                ->where('question_id','=',$scope_id)
+                ->get();                                       // vendor_solution_question_responses
+            foreach ($questionsResponses as $response) {
+                if (!empty($response->response)) {
+                    $result = $response->response;
+                }
+            }
+        }
+        return $result;
     }
 
     // TODO Implement fixed and fixedQuestionIdentifier for clientProfileQuestions
@@ -133,22 +150,16 @@ class User extends Authenticatable
      * @param string[]|null $phase
      * @return \Illuminate\Database\Eloquent\Builder
      */
-    public function vendorAppliedProjects($phase = null) : \Illuminate\Database\Eloquent\Builder
+    public function vendorAppliedProjects($phase = null): \Illuminate\Database\Eloquent\Builder
     {
         return Project::whereHas('vendorApplications', function (Builder $query) use ($phase) {
-            if($phase == null){
+            if ($phase == null) {
                 $query->where('vendor_id', $this->id);
             } else {
                 $query->where('vendor_id', $this->id)->whereIn('phase', $phase);
             }
         });
     }
-
-
-
-
-
-
 
     /**
      * Applies to project or returns the existing application
@@ -158,17 +169,17 @@ class User extends Authenticatable
      *
      * @throws Exception
      */
-    public function applyToProject(Project $project) : ?VendorApplication
+    public function applyToProject(Project $project): ?VendorApplication
     {
         // Only vendors who have finished setup can apply
-        if(!$this->isVendor()) throw new \Exception('Calling applyToProject on a non-vendor User');
-        if(!$this->hasFinishedSetup) throw new \Exception('Trying to apply to project with a user that hasn\'t finished setup');
+        if (!$this->isVendor()) throw new \Exception('Calling applyToProject on a non-vendor User');
+        if (!$this->hasFinishedSetup) throw new \Exception('Trying to apply to project with a user that hasn\'t finished setup');
 
         $existingApplication = VendorApplication::where([
             'project_id' => $project->id,
             'vendor_id' => $this->id
         ])->first();
-        if($existingApplication){
+        if ($existingApplication) {
             return $existingApplication;
         }
 
@@ -182,8 +193,7 @@ class User extends Authenticatable
 
         // If there are no questions attached (the vendor wasn't previously in this project), we add the questions
         // If there are some questions attached, it means that when the vendor was previously attached, so we don't want to add them again
-        if ($project->selectionCriteriaQuestionsForVendor($this)->count() == 0)
-        {
+        if ($project->selectionCriteriaQuestionsForVendor($this)->count() == 0) {
             foreach (SelectionCriteriaQuestion::all() as $key2 => $question) {
                 $response = new SelectionCriteriaQuestionResponse([
                     'question_id' => $question->id,
@@ -197,7 +207,7 @@ class User extends Authenticatable
         return $application;
     }
 
-    public function hasAppliedToProject(Project $project) : bool
+    public function hasAppliedToProject(Project $project): bool
     {
         if (!$this->isVendor()) throw new \Exception('Calling hasAppliedToProject on a non-vendor User');
         if (!$this->hasFinishedSetup) throw new \Exception('Checking if user has applied to project with a user that hasn\'t finished setup');
@@ -219,7 +229,7 @@ class User extends Authenticatable
             ->filter(function (VendorApplication $application) {
                 return $application->project != null;
             })
-            ->map(function ($application){
+            ->map(function ($application) {
                 return $application->totalScore();
             })
             ->average();
@@ -228,7 +238,7 @@ class User extends Authenticatable
     public function averageRanking()
     {
         return $this->vendorApplications
-            ->filter(function(VendorApplication $application){
+            ->filter(function (VendorApplication $application) {
                 return $application->project != null;
             })
             ->map(function (VendorApplication $application) {
@@ -275,7 +285,7 @@ class User extends Authenticatable
      *
      * @return boolean
      */
-    public function isAdmin() : bool
+    public function isAdmin(): bool
     {
         return $this->userType == 'admin';
     }
@@ -332,7 +342,7 @@ class User extends Authenticatable
      *
      * @return Builder
      */
-    public static function accentureUsers() : Builder
+    public static function accentureUsers(): Builder
     {
         return self::whereIn('userType', self::accentureTypes);
     }
@@ -342,7 +352,7 @@ class User extends Authenticatable
      *
      * @return Builder
      */
-    public static function clientUsers() : Builder
+    public static function clientUsers(): Builder
     {
         return self::whereIn('userType', self::clientTypes);
     }
@@ -352,7 +362,7 @@ class User extends Authenticatable
      *
      * @return Builder
      */
-    public static function vendorUsers() : Builder
+    public static function vendorUsers(): Builder
     {
         return self::whereIn('userType', self::vendorTypes);
     }
