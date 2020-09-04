@@ -1,15 +1,5 @@
 @extends('accentureViews.layouts.benchmark')
 
-@php
-/*
-    foreach ($vendors as $vendor) {
-        var_dump($vendor->id,$vendor->getVendorResponsesFromScope(9));
-    }
-    die()
- */
-@endphp
-
-
 @section('content')
     <div class="main-wrapper">
         <x-accenture.navbar activeSection="benchmark"/>
@@ -200,11 +190,11 @@
                 id: '{{$vendor->id}}',
                 segment: "{{$vendor->getVendorResponse('vendorSegment')}}",
                 practice: "{{json_encode($vendor->vendorSolutionsPractices()->pluck('name')->toArray())}}",
-                transportFlow: "{{''}}",
-                transportMode: '{{''}}',
-                transportType: '{{''}}',
-                planning: '{{''}}',
-                manufacturing: '{{''}}',
+                transportFlow: "{{$vendor->getVendorResponsesFromScope(9)}}",
+                transportMode: '{{$vendor->getVendorResponsesFromScope(10)}}',
+                transportType: '{{$vendor->getVendorResponsesFromScope(11)}}',
+                planning: '{{$vendor->getVendorResponsesFromScope(4)}}',
+                manufacturing: '{{$vendor->getVendorResponsesFromScope(5)}}',
                 regions: '{{$vendor->region}}',
                 industry: "{{$vendor->getVendorResponse('vendorIndustry')}}"
             },
