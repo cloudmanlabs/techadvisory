@@ -72,7 +72,7 @@
                                         <div id="PlanningScope" class="form-group">
                                             <p id="Planning1" class="welcome_text">Planning question 1</p>
                                             <input id="PlanningInput1" type="text"
-                                                   class="w-100 form-text text-muted border">
+                                                   class="w-100 form-text text-muted border p-2">
                                             <br>
                                         </div>
                                         <div id="TransportScope" class="form-group">
@@ -226,42 +226,6 @@
             $('#PlanningScope').hide();
             $('#scopesDiv').hide();
 
-            function updateProjects() {
-                // Get all selected practices. If there are none, get all of them
-                const selectedSegments = getSelectedFrom('segmentSelect')
-                const selectedPractices = getSelectedFrom('practiceSelect')
-                const selectedRegions = getSelectedFrom('regionSelect')
-                const selectedIndustries = getSelectedFrom('industrySelect')
-
-                // Add a display none to the one which don't have this tags
-                $('#projectContainer').children().each(function () {
-                    const segment = $(this).data('segment');
-                    const practices = $(this).data('practice');
-                    const regions = $(this).data('regions');
-                    const industry = $(this).data('industry');
-
-                    if (
-                        $.inArray(segment, selectedSegments) !== -1
-                        && $.inArray(industry, selectedIndustries) !== -1
-                        && (intersect(regions, selectedRegions).length !== 0)
-                        && (intersect(practices, selectedPractices).length !== 0)
-                    ) {
-                        $(this).css('display', 'flex')
-                    } else {
-                        $(this).css('display', 'none')
-                    }
-                });
-            }
-
-
-            function intersect(a, b) {
-                var t;
-                if (b.length > a.length) t = b, b = a, a = t; // indexOf to loop over shorter
-                return a.filter(function (e) {
-                    return b.indexOf(e) > -1;
-                });
-            }
-
             function filterVendors() {
 
                 let vendorsByPractice;
@@ -275,6 +239,7 @@
                 let vendorsByIndustries;
 
                 let vendorsByPlanningResponse;
+                let vendorsByManufacturingResponse;
 
                 const selectedSegments = $('#segmentSelect').val()
                 const selectedPractices = $('#practiceSelect').val()
@@ -282,7 +247,6 @@
                 const selectedTransportModes = $('#selectTransport2').val()
                 const selectedTransportTypes = $('#selectTransport3').val()
                 const textPlanning = String($('#PlanningInput1').val()).toLowerCase();
-                //const textManufacturing = $('#').val();
                 const selectedRegions = $('#regionSelect').val()
                 const selectedIndustries = $('#industrySelect').val()
 
@@ -300,6 +264,7 @@
                         response => response.practice.includes(selectedPractices)
                     );
                     vendorsByPractice = vendorsByPractice.map(vendor => vendor.id);
+                    console.log(vendorsByPractice)
                 } else vendorsByPractice = allVendorsResponses.map(vendor => vendor.id);
 
                 if (selectedTransportFlows) {
@@ -345,7 +310,7 @@
                 } else vendorsByPlanningResponse = allVendorsResponses.map(vendor => vendor.id);
 
                 $('#projectContainer').children().each(function () {
-                    var vendorToTest = String($(this).data('id'));
+                    let vendorToTest = String($(this).data('id'));
 
                     if (
                         $.inArray(vendorToTest, vendorsBySegment) !== -1
