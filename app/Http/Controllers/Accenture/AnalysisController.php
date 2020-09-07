@@ -156,6 +156,7 @@ class AnalysisController extends Controller
             'years' => collect(range(2017, intval(date('Y')))),
 
             'vendors' => User::vendorUsers()->where('hasFinishedSetup', true)->get(),
+            //'vendors' => User::vendorUsers()->get(),
 
             'transportFlows' => $transportFlows,
             'transportModes' => $transportModes,

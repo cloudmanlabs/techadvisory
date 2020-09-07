@@ -44,7 +44,8 @@
                                         <p class="welcome_text">
                                             Please choose the Vendor Segments you'd like to see:
                                         </p>
-                                        <select id="segmentSelect" class="w-100" multiple="multiple">
+                                        <select id="segmentSelect" class="w-100">
+                                            <option selected="true" value="">Choose a option</option>
                                             @foreach ($segments as $segment)
                                                 <option>{{$segment}}</option>
                                             @endforeach
@@ -56,7 +57,7 @@
                                             Please choose the SC Capability (Practice) you'd like to see:
                                         </p>
                                         <select id="practiceSelect" class="w-100">
-                                            <option selected="true" disabled="disabled">Choose SC Capability</option>
+                                            <option selected="true" value="">Choose a option</option>
                                             @foreach ($practices as $practice)
                                                 <option>{{$practice}}</option>
                                             @endforeach
@@ -77,7 +78,7 @@
                                         <div id="TransportScope" class="form-group">
                                             <p id="Transport1" class="welcome_text">Transport Flows</p>
                                             <select id="selectTransport1" class="w-100">
-                                                <option selected="true" disabled="disabled">Choose a option</option>
+                                                <option selected="true" value="">Choose a option</option>
                                                 @foreach ($transportFlows as $transportFlow)
                                                     <option>{{$transportFlow}}</option>
                                                 @endforeach
@@ -85,7 +86,7 @@
                                             <br>
                                             <p id="Transport2" class="welcome_text">Transport Mode</p>
                                             <select id="selectTransport2" class="w-100">
-                                                <option selected="true" disabled="disabled">Choose a option</option>
+                                                <option selected="true" value="">Choose a option</option>
                                                 @foreach ($transportModes as $transportMode)
                                                     <option>{{$transportMode}}</option>
                                                 @endforeach
@@ -93,7 +94,7 @@
                                             <br>
                                             <p id="Transport3" class="welcome_text">Transport Type</p>
                                             <select id="selectTransport3" class="w-100">
-                                                <option selected="true" disabled="disabled">Choose a option</option>
+                                                <option selected="true" value="">Choose a option</option>
                                                 @foreach ($transportTypes as $transportType)
                                                     <option>{{$transportType}}</option>
                                                 @endforeach
@@ -106,7 +107,8 @@
                                         <p class="welcome_text">
                                             Please choose the Regions you'd like to see:
                                         </p>
-                                        <select id="regionSelect" class="w-100" multiple="multiple">
+                                        <select id="regionSelect" class="w-100">
+                                            <option selected="true" value="">Choose a option</option>
                                             @foreach ($regions as $region)
                                                 <option>{{$region}}</option>
                                             @endforeach
@@ -117,7 +119,8 @@
                                         <p class="welcome_text">
                                             Please choose the Industries you'd like to see:
                                         </p>
-                                        <select id="industrySelect" class="w-100" multiple="multiple">
+                                        <select id="industrySelect" class="w-100">
+                                            <option selected="true" value="">Choose a option</option>
                                             @foreach ($industries as $industry)
                                                 <option>{{$industry}}</option>
                                             @endforeach
@@ -126,7 +129,8 @@
 
                                     <div id="projectContainer">
                                         @foreach ($vendors as $vendor)
-                                            <div class="card" style="margin-bottom: 30px;"
+                                            <div class="card" id="{{$vendor->id}}" style="margin-bottom: 30px;"
+                                                 data-id="{{$vendor->id}}"
                                                  data-segment="{{$vendor->getVendorResponse('vendorSegment')}}"
                                                  data-practice="{{json_encode($vendor->vendorSolutionsPractices()->pluck('name')->toArray())}}"
                                                  data-industry="{{$vendor->getVendorResponse('vendorIndustry')}}"
@@ -171,20 +175,7 @@
     </script>
     <script>
 
-        /*        var vendorsResponses = [{id:'',
-                    segment:'',
-                    practice:'',
-                    transportFlow:'',
-                    transportMode:'',
-                    transportType:'',
-                    planning:'',
-                    manufacturing:'',
-                    regions: [],
-                    industries:''
-
-                }];*/
-        // problema con practices: &quot
-        var vendorsResponses = [
+        var allVendorsResponses = [
                 @foreach($vendors as $vendor)
             {
                 id: '{{$vendor->id}}',
@@ -195,37 +186,38 @@
                 transportType: '{{$vendor->getVendorResponsesFromScope(11)}}',
                 planning: '{{$vendor->getVendorResponsesFromScope(4)}}',
                 manufacturing: '{{$vendor->getVendorResponsesFromScope(5)}}',
-                regions: '{{$vendor->region}}',
+                regions: '{{$vendor->getVendorResponse('vendorRegions') ?? '[]'}}',
                 industry: "{{$vendor->getVendorResponse('vendorIndustry')}}"
             },
             @endforeach
         ]
-        console.log(vendorsResponses);
 
         $('#practiceSelect').change(function () {
             var selectedPractice = $(this).children("option:selected").val();
             $('#TransportScope').hide();
             $('#PlanningScope').hide();
             $('#scopesDiv').hide();
+            if (selectedPractice) {
+                $.get("/accenture/analysis/vendor/custom/getScopes/" + selectedPractice, function (data) {
+                    if (Array.isArray(data.scopes)) {
+                        var scopes = data.scopes;
+                        $('#scopesDiv').show();
+                        var firstScope = scopes[0].type;
 
-            $.get("/accenture/analysis/vendor/custom/getScopes/" + selectedPractice, function (data) {
-                if (Array.isArray(data.scopes)) {
-                    var scopes = data.scopes;
-                    $('#scopesDiv').show();
-                    var firstScope = scopes[0].type;
+                        if (firstScope.includes('textarea')) {
+                            $('#PlanningScope').show();
+                            $('#TransportScope').hide();
+                            $('#Planning1').text(scopes[0].label)
+                        }
 
-                    if (firstScope.includes('textarea')) {
-                        $('#PlanningScope').show();
-                        $('#TransportScope').hide();
-                        $('#Planning1').text(scopes[0].label)
+                        if (firstScope.includes('selectMultiple')) {
+                            $('#TransportScope').show();
+                            $('#PlanningScope').hide();
+                        }
                     }
+                });
 
-                    if (firstScope.includes('selectMultiple')) {
-                        $('#TransportScope').show();
-                        $('#PlanningScope').hide();
-                    }
-                }
-            });
+            }
         });
 
         $(document).ready(function () {
@@ -261,18 +253,6 @@
                 });
             }
 
-            function getSelectedFrom(id) {
-                let selectedPractices = $(`#${id}`).select2('data').map((el) => {
-                    return el.text
-                });
-                if (selectedPractices.length == 0) {
-                    selectedPractices = $(`#${id}`).children().toArray().map((el) => {
-                        return el.innerHTML.replace('&amp;', '&')
-                    });
-                }
-
-                return selectedPractices;
-            }
 
             function intersect(a, b) {
                 var t;
@@ -282,24 +262,154 @@
                 });
             }
 
+            function filterVendors() {
 
-            $('#practiceSelect').select2();
+                let vendorsByPractice;
+                let vendorsBySegment;
+
+                let vendorsByTransportFlows;
+                let vendorsByTransportModes;
+                let vendorsByTransportTypes;
+
+                let vendorsByRegions;
+                let vendorsByIndustries;
+
+                let vendorsByPlanningResponse;
+
+                const selectedSegments = $('#segmentSelect').val()
+                const selectedPractices = $('#practiceSelect').val()
+                const selectedTransportFlows = $('#selectTransport1').val()
+                const selectedTransportModes = $('#selectTransport2').val()
+                const selectedTransportTypes = $('#selectTransport3').val()
+                const textPlanning = String($('#PlanningInput1').val()).toLowerCase();
+                //const textManufacturing = $('#').val();
+                const selectedRegions = $('#regionSelect').val()
+                const selectedIndustries = $('#industrySelect').val()
+
+                if (selectedSegments) {
+                    vendorsBySegment = allVendorsResponses.filter(
+                        response => response.segment.includes(selectedSegments)
+                    );
+                    vendorsBySegment = vendorsBySegment.map(vendor => vendor.id);
+                } else {
+                    vendorsBySegment = allVendorsResponses.map(vendor => vendor.id);
+                }
+
+                if (selectedPractices) {
+                    vendorsByPractice = allVendorsResponses.filter(
+                        response => response.practice.includes(selectedPractices)
+                    );
+                    vendorsByPractice = vendorsByPractice.map(vendor => vendor.id);
+                } else vendorsByPractice = allVendorsResponses.map(vendor => vendor.id);
+
+                if (selectedTransportFlows) {
+                    vendorsByTransportFlows = allVendorsResponses.filter(
+                        response => response.transportFlow.includes(selectedTransportFlows)
+                    );
+                    vendorsByTransportFlows = vendorsByTransportFlows.map(vendor => vendor.id);
+                } else vendorsByTransportFlows = allVendorsResponses.map(vendor => vendor.id);
+
+                if (selectedTransportModes) {
+                    vendorsByTransportModes = allVendorsResponses.filter(
+                        response => response.transportMode.includes(selectedTransportModes)
+                    );
+                    vendorsByTransportModes = vendorsByTransportModes.map(vendor => vendor.id);
+                } else vendorsByTransportModes = allVendorsResponses.map(vendor => vendor.id);
+
+                if (selectedTransportTypes) {
+                    vendorsByTransportTypes = allVendorsResponses.filter(
+                        response => response.transportType.includes(selectedTransportTypes)
+                    );
+                    vendorsByTransportTypes = vendorsByTransportTypes.map(vendor => vendor.id);
+                } else vendorsByTransportTypes = allVendorsResponses.map(vendor => vendor.id);
+
+                if (selectedRegions) {
+                    vendorsByRegions = allVendorsResponses.filter(
+                        response => response.regions.includes(selectedRegions)
+                    );
+                    vendorsByRegions = vendorsByRegions.map(vendor => vendor.id);
+                } else vendorsByRegions = allVendorsResponses.map(vendor => vendor.id);
+
+                if (selectedIndustries) {
+                    vendorsByIndustries = allVendorsResponses.filter(
+                        response => response.industry.includes(selectedIndustries)
+                    );
+                    vendorsByIndustries = vendorsByIndustries.map(vendor => vendor.id);
+                } else vendorsByIndustries = allVendorsResponses.map(vendor => vendor.id);
+
+                if (textPlanning.length>0) {
+                    vendorsByPlanningResponse = allVendorsResponses.filter(
+                        response => response.planning.includes(textPlanning)
+                    );
+                    vendorsByPlanningResponse = vendorsByPlanningResponse.map(vendor => vendor.id);
+                } else vendorsByPlanningResponse = allVendorsResponses.map(vendor => vendor.id);
+
+                $('#projectContainer').children().each(function () {
+                    var vendorToTest = String($(this).data('id'));
+
+                    if (
+                        $.inArray(vendorToTest, vendorsBySegment) !== -1
+                        && $.inArray(vendorToTest, vendorsByPractice) !== -1
+                        && $.inArray(vendorToTest, vendorsByTransportFlows) !== -1
+                        && $.inArray(vendorToTest, vendorsByTransportModes) !== -1
+                        && $.inArray(vendorToTest, vendorsByTransportTypes) !== -1
+                        && $.inArray(vendorToTest, vendorsByRegions) !== -1
+                        && $.inArray(vendorToTest, vendorsByIndustries) !== -1
+                        && $.inArray(vendorToTest, vendorsByPlanningResponse) !== -1){
+
+                        $(this).css('display', 'flex')
+                    } else {
+                        $(this).css('display', 'none')
+                    }
+                });
+            }
+
+            /*            function filterSpecificColumn(selectedValue, allVendors,column){
+                            var vendorsByThisCategory = [];
+                            if (selectedValue) {
+                                vendorsByThisCategory = allVendors.filter(
+                                    response => response.column.includes(selectedValue)
+                                );
+                                vendorsByThisCategory = vendorsByThisCategory.map(vendor => vendor.id);
+                            } else {
+                                vendorsByThisCategory = allVendors.map(vendor => vendor.id);
+                            }
+                            return vendorsByThisCategory;
+                        }*/
+
             $('#practiceSelect').on('change', function (e) {
-                updateProjects();
+                filterVendors();
             });
-            $('#segmentSelect').select2();
+
             $('#segmentSelect').on('change', function (e) {
-                updateProjects();
+                filterVendors();
             });
-            $('#industrySelect').select2();
-            $('#industrySelect').on('change', function (e) {
-                updateProjects();
+
+            $('#selectTransport1').on('change', function (e) {
+                filterVendors();
             });
-            $('#regionSelect').select2();
+
+            $('#selectTransport2').on('change', function (e) {
+                filterVendors();
+            });
+
+            $('#selectTransport3').on('change', function (e) {
+                filterVendors();
+            });
+
             $('#regionSelect').on('change', function (e) {
-                updateProjects();
+                filterVendors();
             });
-            updateProjects();
+            $('#industrySelect').on('change', function (e) {
+                filterVendors();
+            });
+
+            $('#PlanningInput1').keyup(function (){
+                filterVendors();
+            })
+
+
+
         });
     </script>
 @endsection
