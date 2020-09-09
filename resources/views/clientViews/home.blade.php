@@ -8,7 +8,6 @@
             <div class="page-content">
 
                 <x-video :src="nova_get_setting('video_opening_file')" :text="nova_get_setting('video_opening_text')"/>
-
                 <br><br>
 
                 <div class="row">

@@ -108,20 +108,36 @@ class User extends Authenticatable
         return implode(', ', $practices->pluck('name')->toArray());
     }
 
+    /**
+     * Returns the responses from a specific scope, a sub-type of a SC Capability Response
+     * The scope has to be a parameter in id, because of the database design.
+     *  9: scope_id for transportFlow
+     *  10: scope_id for transportMode
+     *  11: scope_id for transportType
+     *  4: scope_id for Planning
+     *  5: scope_id for Manufacturing
+     * @param int $scope_id [9,10,11,4,5]
+     * @return |null
+     */
     public function getVendorResponsesFromScope(int $scope_id)
     {
         $result = null;
-        $vendor_solutionsFromVendor = $this->vendorSolutions()->get();  // vendor_solutions
-        foreach ($vendor_solutionsFromVendor as $vs) {
-            $questionsResponses = $vs->questions()
-                ->where('question_id','=',$scope_id)
-                ->get();                                       // vendor_solution_question_responses
-            foreach ($questionsResponses as $response) {
-                if (!empty($response->response)) {
-                    $result = $response->response;
+        if (array_search($scope_id, [4, 5, 9, 10, 11])) {
+
+            $SolutionsFromVendor = $this->vendorSolutions()->get();  // vendor_solutions
+            foreach ($SolutionsFromVendor as $vs) {
+                $questionsResponses = $vs->questions()
+                    ->where('question_id', '=', $scope_id)
+                    ->get();                                       // vendor_solution_question_responses
+
+                foreach ($questionsResponses as $response) {
+                    if (!empty($response->response)) {
+                        $result = $response->response;
+                    }
                 }
             }
         }
+
         return $result;
     }
 

@@ -33,6 +33,7 @@ class FitgapController extends Controller
                 'Level 3' => $row[3] ?? '',
                 'Requirement' => $row[4] ?? '',
             ];
+
             $resultClient[] = [
                 'Client' => $row[5] ?? '',
                 'Business Opportunity' => $row[6] ?? '',

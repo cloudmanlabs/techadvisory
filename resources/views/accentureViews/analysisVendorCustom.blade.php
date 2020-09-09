@@ -193,24 +193,31 @@
         ]
 
         $('#practiceSelect').change(function () {
+
             var selectedPractice = $(this).children("option:selected").val();
             $('#TransportScope').hide();
             $('#PlanningScope').hide();
             $('#scopesDiv').hide();
+
             if (selectedPractice) {
-                $.get("/accenture/analysis/vendor/custom/getScopes/" + selectedPractice, function (data) {
+
+                $.get("/accenture/analysis/vendor/custom/getScopes/"
+                    + selectedPractice, function (data) {
+
                     if (Array.isArray(data.scopes)) {
+
                         var scopes = data.scopes;
-                        $('#scopesDiv').show();
                         var firstScope = scopes[0].type;
 
-                        if (firstScope.includes('textarea')) {
+                        if (firstScope.includes('textarea') && selectedPractice.includes(('Planning'))) {
+                            $('#scopesDiv').show();
                             $('#PlanningScope').show();
                             $('#TransportScope').hide();
                             $('#Planning1').text(scopes[0].label)
                         }
 
                         if (firstScope.includes('selectMultiple')) {
+                            $('#scopesDiv').show();
                             $('#TransportScope').show();
                             $('#PlanningScope').hide();
                         }
@@ -234,19 +241,19 @@
                 let vendorsByTransportFlows;
                 let vendorsByTransportModes;
                 let vendorsByTransportTypes;
+                let vendorsByPlanningResponse;
 
                 let vendorsByRegions;
                 let vendorsByIndustries;
 
-                let vendorsByPlanningResponse;
-                let vendorsByManufacturingResponse;
-
                 const selectedSegments = $('#segmentSelect').val()
                 const selectedPractices = $('#practiceSelect').val()
+
                 const selectedTransportFlows = $('#selectTransport1').val()
                 const selectedTransportModes = $('#selectTransport2').val()
                 const selectedTransportTypes = $('#selectTransport3').val()
                 const textPlanning = String($('#PlanningInput1').val()).toLowerCase();
+
                 const selectedRegions = $('#regionSelect').val()
                 const selectedIndustries = $('#industrySelect').val()
 
@@ -264,7 +271,6 @@
                         response => response.practice.includes(selectedPractices)
                     );
                     vendorsByPractice = vendorsByPractice.map(vendor => vendor.id);
-                    console.log(vendorsByPractice)
                 } else vendorsByPractice = allVendorsResponses.map(vendor => vendor.id);
 
                 if (selectedTransportFlows) {
@@ -302,7 +308,7 @@
                     vendorsByIndustries = vendorsByIndustries.map(vendor => vendor.id);
                 } else vendorsByIndustries = allVendorsResponses.map(vendor => vendor.id);
 
-                if (textPlanning.length>0) {
+                if (textPlanning.length > 0) {
                     vendorsByPlanningResponse = allVendorsResponses.filter(
                         response => response.planning.includes(textPlanning)
                     );
@@ -310,6 +316,7 @@
                 } else vendorsByPlanningResponse = allVendorsResponses.map(vendor => vendor.id);
 
                 $('#projectContainer').children().each(function () {
+
                     let vendorToTest = String($(this).data('id'));
 
                     if (
@@ -320,7 +327,7 @@
                         && $.inArray(vendorToTest, vendorsByTransportTypes) !== -1
                         && $.inArray(vendorToTest, vendorsByRegions) !== -1
                         && $.inArray(vendorToTest, vendorsByIndustries) !== -1
-                        && $.inArray(vendorToTest, vendorsByPlanningResponse) !== -1){
+                        && $.inArray(vendorToTest, vendorsByPlanningResponse) !== -1) {
 
                         $(this).css('display', 'flex')
                     } else {
@@ -328,19 +335,6 @@
                     }
                 });
             }
-
-            /*            function filterSpecificColumn(selectedValue, allVendors,column){
-                            var vendorsByThisCategory = [];
-                            if (selectedValue) {
-                                vendorsByThisCategory = allVendors.filter(
-                                    response => response.column.includes(selectedValue)
-                                );
-                                vendorsByThisCategory = vendorsByThisCategory.map(vendor => vendor.id);
-                            } else {
-                                vendorsByThisCategory = allVendors.map(vendor => vendor.id);
-                            }
-                            return vendorsByThisCategory;
-                        }*/
 
             $('#practiceSelect').on('change', function (e) {
                 filterVendors();
@@ -369,11 +363,9 @@
                 filterVendors();
             });
 
-            $('#PlanningInput1').keyup(function (){
+            $('#PlanningInput1').keyup(function () {
                 filterVendors();
             })
-
-
 
         });
     </script>

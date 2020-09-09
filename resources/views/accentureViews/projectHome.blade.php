@@ -38,7 +38,7 @@
         <div class="page-wrapper">
             <div class="page-content">
                 <x-accenture.projectNavbar section="projectHome" :project="$project"/>
-                <div id="summary" class="row">
+{{--                <div id="summary" class="row">
                     <div class="col-lg-12 grid-margin stretch-card">
                         <div class="card">
                             <div class="card-body">
@@ -131,7 +131,7 @@
                             </div>
                         </div>
                     </div>
-                </div>
+                </div>--}}
 
                 <br>
                 <div class="row">

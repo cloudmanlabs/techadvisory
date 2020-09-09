@@ -151,12 +151,12 @@ class AnalysisController extends Controller
         return view('accentureViews.analysisVendorCustom', [
             'segments' => collect(['Megasuite', 'SCM suite', 'Specific solution']),
             'practices' => Practice::pluck('name')->toArray(),
+
             'regions' => collect(config('arrays.regions')),
             'industries' => collect(config('arrays.industryExperience')),
-            'years' => collect(range(2017, intval(date('Y')))),
 
+            'years' => collect(range(2017, intval(date('Y')))),
             'vendors' => User::vendorUsers()->where('hasFinishedSetup', true)->get(),
-            //'vendors' => User::vendorUsers()->get(),
 
             'transportFlows' => $transportFlows,
             'transportModes' => $transportModes,
@@ -168,6 +168,7 @@ class AnalysisController extends Controller
     {
         $practice = Practice::where('name', $practiceName)->first();
         $scopes = VendorSolutionQuestion::where('practice_id', $practice->id)->get();
+
         return \response()->json([
             'status' => 200,
             'scopes' => $scopes,
