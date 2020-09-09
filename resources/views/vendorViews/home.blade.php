@@ -56,6 +56,7 @@
                 </div>
                 <br><br>
 
+                <!-- Invitation -->
                 <div class="row">
                     <div class="col-lg-12 grid-margin stretch-card" id="open_projects">
                         <div class="card">
@@ -72,6 +73,7 @@
                                     @foreach ($invitationProjects as $project)
                                         <div class="card" style="margin-bottom: 30px;"
                                              data-practice="{{$project->practice->name}}"
+                                             data-name="{{$project->name}}"
                                              data-year="{{$project->created_at->year}}">
                                             <div class="card-body">
                                                 <div style="float: left; max-width: 40%;">
@@ -119,6 +121,8 @@
                     </div>
                 </div>
                 <br>
+
+                <!-- Started -->
                 <div class="row" id="preparation_phase">
                     <div class="col-lg-12 grid-margin stretch-card">
                         <div class="card">
@@ -134,6 +138,7 @@
                                     @foreach ($startedProjects as $project)
                                         <div class="card" style="margin-bottom: 30px;"
                                              data-practice="{{$project->practice->name}}"
+                                             data-name="{{$project->name}}"
                                              data-year="{{$project->created_at->year}}">
                                             <div class="card-body">
                                                 <div style="float: left; max-width: 40%;">
@@ -160,6 +165,8 @@
                     </div>
                 </div>
                 <br>
+
+                <!-- Submitted -->
                 <div class="row" id="preparation_phase">
                     <div class="col-lg-12 grid-margin stretch-card">
                         <div class="card">
@@ -175,6 +182,7 @@
                                     @foreach ($submittedProjects as $project)
                                         <div class="card" style="margin-bottom: 30px;"
                                              data-practice="{{$project->practice->name}}"
+                                             data-name="{{$project->name}}"
                                              data-year="{{$project->created_at->year}}">
                                             <div class="card-body">
                                                 <div style="float: left; max-width: 40%;">
@@ -202,6 +210,7 @@
                     </div>
                 </div>
 
+                <!-- Rejected -->
                 <div class="row">
                     <div class="col-lg-12 grid-margin stretch-card" id="open_projects">
                         <div class="card">
@@ -216,6 +225,7 @@
                                     @foreach ($rejectedProjects as $project)
                                         <div class="card" style="margin-bottom: 30px;"
                                              data-practice="{{$project->practice->name}}"
+                                             data-name="{{$project->name}}"
                                              data-year="{{$project->created_at->year}}">
                                             <div class="card-body">
                                                 <div style="float: left; max-width: 40%;">
@@ -259,6 +269,7 @@
             })
 
             function updateProjects() {
+
                 // Get all selected practices. If there are none, get all of them
                 var selectedPractices = $('#homePracticeSelect').select2('data').map((el) => {
                     return el.text
@@ -278,14 +289,13 @@
                     });
                 }
 
-                // Add a display none to the one which don't have this tags
-                $('#openPhaseContainer').children().each(function () {
+                // Filter projects into the cards.
+                $('#invitationPhaseContainer').children().each(function () {
                     const practice = $(this).data('practice');
                     const year = $(this).data('year').toString();
                     const name = String($(this).data('name')).toLowerCase();
 
                     if ($.inArray(practice, selectedPractices) !== -1
-                        && $.inArray(client, selectedClients) !== -1
                         && $.inArray(year, selectedYears) !== -1
                         && (!searchInputText || name.includes(searchInputText))) {
 
@@ -294,13 +304,13 @@
                         $(this).css('display', 'none');
                     }
                 });
-                $('#preparationPhaseContainer').children().each(function () {
+
+                $('#startedPhaseContainer').children().each(function () {
                     const practice = $(this).data('practice');
                     const year = $(this).data('year').toString();
                     const name = String($(this).data('name')).toLowerCase();
 
                     if ($.inArray(practice, selectedPractices) !== -1
-                        && $.inArray(client, selectedClients) !== -1
                         && $.inArray(year, selectedYears) !== -1
                         && (!searchInputText || name.includes(searchInputText))) {
                         $(this).css('display', 'flex');
@@ -309,13 +319,26 @@
                     }
                 });
 
-                $('#oldPhaseContainer').children().each(function () {
+                $('#submittedPhaseContainer').children().each(function () {
                     const practice = $(this).data('practice');
                     const year = $(this).data('year').toString();
                     const name = String($(this).data('name')).toLowerCase();
 
                     if ($.inArray(practice, selectedPractices) !== -1
-                        && $.inArray(client, selectedClients) !== -1
+                        && $.inArray(year, selectedYears) !== -1
+                        && (!searchInputText || name.includes(searchInputText))) {
+                        $(this).css('display', 'flex');
+                    } else {
+                        $(this).css('display', 'none');
+                    }
+                });
+
+                $('#rejectedPhaseContainer').children().each(function () {
+                    const practice = $(this).data('practice');
+                    const year = $(this).data('year').toString();
+                    const name = String($(this).data('name')).toLowerCase();
+
+                    if ($.inArray(practice, selectedPractices) !== -1
                         && $.inArray(year, selectedYears) !== -1
                         && (!searchInputText || name.includes(searchInputText))) {
                         $(this).css('display', 'flex');
