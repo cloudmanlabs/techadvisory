@@ -15,94 +15,99 @@
                 <x-video :src="nova_get_setting('video_newProject_file')"
                          :text="nova_get_setting('video_newProject_text')"/>
                 <br><br>
+
+                <!-- Summary Pannel -->
                 <div id="summary" class="row">
                     <div class="col-lg-12 grid-margin stretch-card">
                         <div class="card">
                             <div class="card-body">
-                                <h3>Summary</h3>
-                                <p class="welcome_text extra-top-15px">Check the project summary and execute rollback
-                                    to the previous state. </p>
-                                <br>
-                                <table class="table">
-                                    <tbody>
-                                    <tr>
-                                        <td> Accenture submitted First 3 pages</td>
-                                        <td>
-                                            @if($project->step3SubmittedAccenture)
-                                                <i class="far fa-check-circle"></i>
-                                            @else
-                                                <i class="far fa-times-circle"></i>
-                                            @endif
-                                        </td>
-                                        <td class="text-right">
-                                            @if($project->step3SubmittedAccenture && !$project->step3SubmittedClient &&
-                                            !$project->step4SubmittedAccenture && !$project->step4SubmittedClient)
-                                                <button id="rollback1"
-                                                        class="btn btn-primary btn-lg btn-icon-text">
-                                                    Rollback
-                                                </button>
-                                            @endif
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td> Client submitted First 3 pages</td>
-                                        <td>
-                                            @if($project->step3SubmittedClient)
-                                                <i class="far fa-check-circle"></i>
-                                            @else
-                                                <i class="far fa-times-circle"></i>
-                                            @endif
-                                        </td>
-                                        <td class="text-right">
-                                            @if($project->step3SubmittedAccenture && $project->step3SubmittedClient &&
-                                            !$project->step4SubmittedAccenture && !$project->step4SubmittedClient)
-                                                <button id="rollback2"
-                                                        class="btn btn-primary btn-lg btn-icon-text">
-                                                    Rollback
-                                                </button>
-                                            @endif
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td> Accenture submitted Selection Criteria</td>
-                                        <td>
-                                            @if($project->step4SubmittedAccenture)
-                                                <i class="far fa-check-circle"></i>
-                                            @else
-                                                <i class="far fa-times-circle"></i>
-                                            @endif
-                                        </td>
-                                        <td class="text-right">
-                                            @if($project->step3SubmittedAccenture && $project->step3SubmittedClient &&
-                                            $project->step4SubmittedAccenture && !$project->step4SubmittedClient)
-                                                <button id="rollback3"
-                                                        class="btn btn-primary btn-lg btn-icon-text">
-                                                    Rollback
-                                                </button>
-                                            @endif
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td> Client submitted Selection Criteria</td>
-                                        <td>
-                                            @if($project->step4SubmittedClient)
-                                                <i class="far fa-check-circle"></i>
-                                            @else
-                                                <i class="far fa-times-circle"></i>
-                                            @endif
-                                        </td>
-                                        <td class="text-right">
-                                            @if($project->step3SubmittedAccenture && $project->step3SubmittedClient &&
-                                            $project->step4SubmittedAccenture && $project->step4SubmittedClient)
-                                                <button id="rollback4"
-                                                        class="btn btn-primary btn-lg btn-icon-text">
-                                                    Rollback
-                                                </button>
-                                            @endif
-                                        </td>
-                                    </tr>
-                                    </tbody>
-                                </table>
+                                <h3 style="cursor:pointer">Summary +</h3>
+                                <div id="summaryColapse">
+                                    <p class="welcome_text extra-top-15px">Check the project summary and execute rollback
+                                        to the previous state. </p>
+                                    <br>
+                                    <table class="table">
+                                        <tbody>
+                                        <tr>
+                                            <td> Accenture submitted First 3 pages</td>
+                                            <td>
+                                                @if($project->step3SubmittedAccenture)
+                                                    <i class="far fa-check-circle"></i>
+                                                @else
+                                                    <i class="far fa-times-circle"></i>
+                                                @endif
+                                            </td>
+                                            <td class="text-right">
+                                                @if($project->step3SubmittedAccenture && !$project->step3SubmittedClient &&
+                                                !$project->step4SubmittedAccenture && !$project->step4SubmittedClient)
+                                                    <button id="rollback1"
+                                                            class="btn btn-primary btn-lg btn-icon-text">
+                                                        Rollback
+                                                    </button>
+                                                @endif
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td> Client submitted First 3 pages</td>
+                                            <td>
+                                                @if($project->step3SubmittedClient)
+                                                    <i class="far fa-check-circle"></i>
+                                                @else
+                                                    <i class="far fa-times-circle"></i>
+                                                @endif
+                                            </td>
+                                            <td class="text-right">
+                                                @if($project->step3SubmittedAccenture && $project->step3SubmittedClient &&
+                                                !$project->step4SubmittedAccenture && !$project->step4SubmittedClient)
+                                                    <button id="rollback2"
+                                                            class="btn btn-primary btn-lg btn-icon-text">
+                                                        Rollback
+                                                    </button>
+                                                @endif
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td> Accenture submitted Selection Criteria</td>
+                                            <td>
+                                                @if($project->step4SubmittedAccenture)
+                                                    <i class="far fa-check-circle"></i>
+                                                @else
+                                                    <i class="far fa-times-circle"></i>
+                                                @endif
+                                            </td>
+                                            <td class="text-right">
+                                                @if($project->step3SubmittedAccenture && $project->step3SubmittedClient &&
+                                                $project->step4SubmittedAccenture && !$project->step4SubmittedClient)
+                                                    <button id="rollback3"
+                                                            class="btn btn-primary btn-lg btn-icon-text">
+                                                        Rollback
+                                                    </button>
+                                                @endif
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td> Client submitted Selection Criteria</td>
+                                            <td>
+                                                @if($project->step4SubmittedClient)
+                                                    <i class="far fa-check-circle"></i>
+                                                @else
+                                                    <i class="far fa-times-circle"></i>
+                                                @endif
+                                            </td>
+                                            <td class="text-right">
+                                                @if($project->step3SubmittedAccenture && $project->step3SubmittedClient &&
+                                                $project->step4SubmittedAccenture && $project->step4SubmittedClient)
+                                                    <button id="rollback4"
+                                                            class="btn btn-primary btn-lg btn-icon-text">
+                                                        Rollback
+                                                    </button>
+                                                @endif
+                                            </td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+
                             </div>
                         </div>
                     </div>
@@ -275,7 +280,7 @@
                                                     <x-scoringCriteriaWeights :isClient="false" :project="$project"/>
 
                                                     <br><br>
-                                                @if (!$project->step4SubmittedAccenture)
+                                                    @if (!$project->step4SubmittedAccenture)
                                                         <button
                                                             class="btn btn-primary"
                                                             id="step4Submit"
@@ -383,10 +388,11 @@
             font-size: 15px;
         }
 
-        #summary, b{
+        #summary, b {
             font-size: 15px;
         }
-        table button{
+
+        table button {
             font-size: 15px;
         }
     </style>
@@ -406,6 +412,12 @@
         jQuery.expr[':'].hasValue = function (el, index, match) {
             return el.value != "";
         };
+
+        // Hide Summary Panel.
+        $('#summaryColapse').hide()
+        $('#summary').click(function () {
+            $('#summaryColapse').toggle()
+        })
 
         /**
          *  Returns false if any field is empty
