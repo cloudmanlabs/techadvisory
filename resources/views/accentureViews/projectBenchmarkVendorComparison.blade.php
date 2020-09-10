@@ -9,9 +9,7 @@
             $bestPossibleDatasets[$key] = $values[$key] * 5;
         }
     }
-@endphp
 
-@php
     // Values for best from vendors
     function getAllVendorsAndScores($applications){
         $vendorsAndScores = [];
@@ -52,9 +50,6 @@
         $bestVendorsScoreDatasets = ponderateScoresByClient($bestPossibleDatasets,$bestVendorScores);
     }
 
-@endphp
-
-@php
     // Values from average from vendors
     function getAverageScore($applications,$scoreType){
         $array_temporal = [];
@@ -63,6 +58,7 @@
         }
         $array_temporal = array_filter($array_temporal);
         $average = array_sum($array_temporal)/count($array_temporal);
+        $average = round($average,2);
         return $average;
     }
 
@@ -77,9 +73,7 @@
         $averageBestVendorsDatasets = ponderateScoresByClient($bestPossibleDatasets,$averages);
     }
 
-@endphp
 
-@php
     // Values from selected vendor
     $selectedVendor = $vendor;
     $vendorSelectedDatasets = [];
@@ -143,6 +137,15 @@
         return $scores;
     }
 
+    // Fitgap 3st colunm
+    if(!empty($orderedApps)){
+        $averageFitgap[0] = getAverageScore($applications,"fitgapFunctionalScore");
+        $averageFitgap[1] = getAverageScore($applications,"fitgapTechnicalScore");
+        $averageFitgap[2] = getAverageScore($applications,"fitgapServiceScore");
+        $averageFitgap[3] = getAverageScore($applications,"fitgapOtherScore");
+        $averageFitgap = ponderateScoresByClient($bestFitgapPossible,$averageFitgap);
+    }
+
     // Fitgap 4th column
     $selectedVendor = (int)$vendor;
     if(is_int($selectedVendor)){
@@ -203,7 +206,15 @@
         return $scores;
     }
 
-    // Fitgap 4th column
+    // Implementation 3st column
+    if(!empty($orderedApps)){
+        $averageImplementation[0] = getAverageScore($applications,"implementationImplementationScore");
+        $averageImplementation[1] = getAverageScore($applications,"implementationRunScore");
+        $averageImplementation = ponderateScoresByClient($bestImplementationPossible,
+                                                        $averageImplementation);
+    }
+
+    // Implementation 4th column
     if(is_int($selectedVendor)){
         $selectedImplementation = getImplementationScores($applications, $selectedVendor);
         $selectedImplementation = ponderateScoresByClient($bestImplementationPossible,
@@ -442,7 +453,11 @@
             {{$dataset}},
             @endforeach
         ];
-        var averageFitgap = [];
+        var averageFitgap = [
+            @foreach($averageFitgap as $dataset)
+            {{$dataset}},
+            @endforeach
+        ];
         var selectedFitgap = [
             @foreach($selectedFitgap as $dataset)
             {{$dataset}},
@@ -464,19 +479,19 @@
                     {
                         label: 'Technical',
                         data: [bestFitgapPossible[1],bestFitgapVendor[1],
-                        averageFitgap[0],selectedFitgap[1]],
+                        averageFitgap[1],selectedFitgap[1]],
                         backgroundColor: '#E08733'
                     },
                     {
                         label: 'Service',
                         data: [bestFitgapPossible[2],bestFitgapVendor[2],
-                        averageFitgap[0],selectedFitgap[2]],
+                        averageFitgap[2],selectedFitgap[2]],
                         backgroundColor: '#4A922A'
                     },
                     {
                         label: 'Others',
                         data: [bestFitgapPossible[3],bestFitgapVendor[3],
-                        averageFitgap[0],selectedFitgap[3]],
+                        averageFitgap[3],selectedFitgap[3]],
                         backgroundColor: '#C645D5'
                     },
                 ]
@@ -500,7 +515,11 @@
             {{$dataset}},
             @endforeach
         ];
-        var averageImplementation = [];
+        var averageImplementation = [
+            @foreach($averageImplementation as $dataset)
+            {{$dataset}},
+            @endforeach
+        ];
         var selectedImplementation = [
             @foreach($selectedImplementation as $dataset)
             {{$dataset}},
@@ -522,7 +541,7 @@
                     {
                         label: 'Run',
                         data: [bestImplementationPossible[1],bestImplementationVendor[1],
-                        averageImplementation[0], selectedImplementation[1]],
+                        averageImplementation[1], selectedImplementation[1]],
                         backgroundColor: '#E08733'
                     },
                 ]
