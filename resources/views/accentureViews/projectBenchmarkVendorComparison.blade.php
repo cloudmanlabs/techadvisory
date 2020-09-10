@@ -87,7 +87,6 @@
         $scores = getScoresFromVendor($applications, $selectedVendor);
         $vendorSelectedDatasets = [];
         $vendorSelectedDatasets = ponderateScoresByClient($bestPossibleDatasets,$scores);
-
     }
 
 @endphp
@@ -107,12 +106,8 @@
         isset($project->fitgapServiceWeight) ? $project->fitgapServiceWeight / 5 : 5,
         isset($project->fitgapOthersWeight) ? $project->fitgapOthersWeight / 5 : 5
     ];
-/*    $vendors = [];
-    foreach ($applications as $app){
-        $vendors =$app->vendor->id;
-    }*/
 
-    // Fitgap 1ª column: Best possible.
+    // Fitgap 1st column: Best possible.
     if(!empty($weightValues)){
         for($i=0;$i<count($weightValues);$i++){
             $bestFitgapPossible[$i] = $weightValues[$i] * 5;
@@ -128,23 +123,32 @@
         ];
     })
     ->sortByDesc('score');
-    $bestVendorFitgap = $orderedApps->first();
 
-    foreach($applications as $app){
-        if($app->vendor->id == $bestVendorFitgap->id){
-           $bestFitgapVendor = getFitgapScores($app);
-        }
+    $bestVendorFitgapOverall = $orderedApps->first();
+    if(!empty($bestVendorFitgapOverall)){
+        $bestFitgapVendor = getFitgapScoresFromVendor($applications,$bestVendorFitgapOverall->id);
+        $bestFitgapVendor = ponderateScoresByClient($bestFitgapPossible,$bestFitgapVendor);
     }
-    function getFitgapScores($application){
+
+    function getFitgapScoresFromVendor($applications,$vendor_id){
         $scores = [];
-        $scores[0] = number_format($application->fitgapFunctionalScore(), 2);
-        $scores[1] = number_format($application->fitgapTechnicalScore(), 2);
-        $scores[2] = number_format($application->fitgapServiceScore(), 2);
-        $scores[3] = number_format($application->fitgapOtherScore(), 2);
+        foreach($applications as $application){
+            if($application->vendor->id == $vendor_id){
+                $scores[0] = number_format($application->fitgapFunctionalScore(), 2);
+                $scores[1] = number_format($application->fitgapTechnicalScore(), 2);
+                $scores[2] = number_format($application->fitgapServiceScore(), 2);
+                $scores[3] = number_format($application->fitgapOtherScore(), 2);
+            }
+        }
         return $scores;
     }
-    $bestFitgapVendor = ponderateScoresByClient($bestFitgapPossible,$bestFitgapVendor);
 
+    // Fitgap 4th column
+    $selectedVendor = (int)$vendor;
+    if(is_int($selectedVendor)){
+        $selectedFitgap = getFitgapScoresFromVendor($applications, $selectedVendor);
+        $selectedFitgap = ponderateScoresByClient($bestFitgapPossible,$selectedFitgap);
+    }
 
 @endphp
 
@@ -179,21 +183,33 @@
         ];
     })
     ->sortByDesc('score');
-    $bestVendorImplementation = $orderedApps->first();
+    $bestVendorImplementationOverall = $orderedApps->first();
 
-    foreach($applications as $app){
-        if($app->vendor->id == $bestVendorImplementation->id){
-           $bestImplementationVendor = getImplementationScores($app);
-        }
+    if(!empty($bestVendorImplementationOverall)){
+        $bestImplementationVendor = getImplementationScores($applications,$bestVendorImplementationOverall->id);
+        $bestImplementationVendor = ponderateScoresByClient($bestImplementationPossible,$bestImplementationVendor);
     }
-    function getImplementationScores($application){
+
+    function getImplementationScores($applications,$vendor_id){
         $scores = [];
-        $scores[0] = (float)number_format($application->implementationImplementationScore(), 2);
-        $scores[1] = (float)number_format($application->implementationRunScore(), 2);
+
+        foreach($applications as $application){
+            if($application->vendor->id == $vendor_id){
+                $scores[0] = (float)number_format($application->implementationImplementationScore(), 2);
+                $scores[1] = (float)number_format($application->implementationRunScore(), 2);
+            }
+        }
 
         return $scores;
     }
-    $bestImplementationVendor = ponderateScoresByClient($bestImplementationPossible,$bestImplementationVendor)
+
+    // Fitgap 4th column
+    if(is_int($selectedVendor)){
+        $selectedImplementation = getImplementationScores($applications, $selectedVendor);
+        $selectedImplementation = ponderateScoresByClient($bestImplementationPossible,
+                                                            $selectedImplementation);
+    }
+
 
 @endphp
 
@@ -427,7 +443,11 @@
             @endforeach
         ];
         var averageFitgap = [];
-        var selectedFitgap = [];
+        var selectedFitgap = [
+            @foreach($selectedFitgap as $dataset)
+            {{$dataset}},
+            @endforeach
+        ];
 
         var ctxFitgap = document.getElementById('bestFitgapGraph');
         var stackedBarChartFitgap = new Chart(ctxFitgap, {
@@ -437,22 +457,26 @@
                 datasets: [
                     {
                         label: 'Functional',
-                        data: [bestFitgapPossible[0],bestFitgapVendor[0]],
+                        data: [bestFitgapPossible[0],bestFitgapVendor[0],
+                        averageFitgap[0],selectedFitgap[0]],
                         backgroundColor: '#608FD1'
                     },
                     {
                         label: 'Technical',
-                        data: [bestFitgapPossible[1],bestFitgapVendor[1]],
+                        data: [bestFitgapPossible[1],bestFitgapVendor[1],
+                        averageFitgap[0],selectedFitgap[1]],
                         backgroundColor: '#E08733'
                     },
                     {
                         label: 'Service',
-                        data: [bestFitgapPossible[2],bestFitgapVendor[2]],
+                        data: [bestFitgapPossible[2],bestFitgapVendor[2],
+                        averageFitgap[0],selectedFitgap[2]],
                         backgroundColor: '#4A922A'
                     },
                     {
                         label: 'Others',
-                        data: [bestFitgapPossible[3],bestFitgapVendor[3]],
+                        data: [bestFitgapPossible[3],bestFitgapVendor[3],
+                        averageFitgap[0],selectedFitgap[3]],
                         backgroundColor: '#C645D5'
                     },
                 ]
@@ -477,7 +501,11 @@
             @endforeach
         ];
         var averageImplementation = [];
-        var selectedImplementation = [];
+        var selectedImplementation = [
+            @foreach($selectedImplementation as $dataset)
+            {{$dataset}},
+            @endforeach
+        ];
 
         var ctxImpl = document.getElementById('bestImplementationGraph');
         var stackedBarChartImplementation = new Chart(ctxImpl, {
@@ -487,12 +515,14 @@
                 datasets: [
                     {
                         label: 'Implementation',
-                        data: [bestImplementationPossible[0],bestImplementationVendor[0]],
+                        data: [bestImplementationPossible[0],bestImplementationVendor[0],
+                        averageImplementation[0], selectedImplementation[0]],
                         backgroundColor: '#608FD1'
                     },
                     {
                         label: 'Run',
-                        data: [bestImplementationPossible[1],bestImplementationVendor[1]],
+                        data: [bestImplementationPossible[1],bestImplementationVendor[1],
+                        averageImplementation[0], selectedImplementation[1]],
                         backgroundColor: '#E08733'
                     },
                 ]
