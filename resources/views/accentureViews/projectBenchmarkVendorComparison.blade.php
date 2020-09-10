@@ -92,6 +92,66 @@
 
 @endphp
 
+@php
+    // fitgap graphic ***********************************************************
+
+    $weightValues = [
+        isset($project->fitgapFunctionalWeight) ? $project->fitgapFunctionalWeight / 5 : 5,
+        isset($project->fitgapTechnicalWeight) ? $project->fitgapTechnicalWeight / 5 : 5,
+        isset($project->fitgapServiceWeight) ? $project->fitgapServiceWeight / 5 : 5,
+        isset($project->fitgapOthersWeight) ? $project->fitgapOthersWeight / 5 : 5
+    ];
+    $bestFitgapPossible = [];
+    // Fitgap 1ª column: Best possible.
+    if(!empty($weightValues)){
+        for($i=0;$i<count($weightValues);$i++){
+            $bestFitgapPossible[$i] = $weightValues[$i] * 5;
+        }
+    }
+
+/*    $bestFitgapVendor = [];
+    function getAllVendorsAndScoresFitgap($applications){
+        $vendorsAndScores = [];
+        foreach ($applications as $key=>$application){
+            $vendorsAndScores[$application->vendor->id] = number_format($application->totalScore(), 2);
+        }
+        return $vendorsAndScores;
+    }
+    function getFitgapScoresFromVendor($applications,$vendor){
+        $scores = [];
+        foreach ($applications as $key=>$application){
+            if($application->vendor->id == $vendor){
+                $scores[0] = number_format($application->fitgapFunctionalScore(), 2);
+                $scores[1] = number_format($application->fitgapTechnicalScore(), 2);
+                $scores[2] = number_format($application->fitgapServiceScore(), 2);
+                $scores[3] = number_format($application->fitgapOtherScore(), 2);
+            }
+        }
+        return $scores;
+    }
+    $bestFitgapVendor = getFitgapScoresFromVendor*/
+
+
+
+@endphp
+
+@php
+
+    // Implementation & Commercials Graphic
+    $implementationValues = [
+        isset($project->implementationImplementationWeight) ? $project->implementationImplementationWeight / 5 : 10,
+        isset($project->implementationRunWeight) ? $project->implementationRunWeight / 5 : 10
+    ];
+
+    $bestImplementationPossible = [];
+    if(!empty($implementationValues)){
+        for($i=0;$i<count($implementationValues);$i++){
+            $bestImplementationPossible[$i] = $implementationValues[$i] * 5;
+        }
+    }
+
+@endphp
+
 @section('content')
     <div class="main-wrapper">
         <x-accenture.navbar activeSection="sections"/>
@@ -101,6 +161,7 @@
                 <x-accenture.projectNavbar section="projectBenchmark" subsection="VendorComparison"
                                            :project="$project"/>
                 <br>
+                <!-- Vendor selector -->
                 <div class="row">
                     <div class="col-12 col-xl-12 stretch-card">
                         <div class="card">
@@ -131,6 +192,7 @@
                     </div>
                 </div>
                 <br><br>
+                <!-- Graphic best vendor (Overall)-->
                 <div class="row">
                     <div class="col-lg-12 grid-margin stretch-card">
                         <div class="card">
@@ -149,6 +211,62 @@
                                                 <br>
                                                 <br>
                                                 <canvas id="bestVendorGraph"></canvas>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <br><br>
+                <!-- Graphic best fitgap (Overall)-->
+                <div class="row">
+                    <div class="col-lg-12 grid-margin stretch-card">
+                        <div class="card">
+                            <div class="card-body">
+                                <h3>FitGap Vendor comparison</h3>
+                                <p class="welcome_text extra-top-15px">
+                                    {{nova_get_setting('accenture_projectBenchmarkVendor_comparison') ?? ''}}
+                                </p>
+                                <br>
+                                <br>
+                                <div class="row">
+                                    <div class="col-xl-12 grid-margin stretch-card">
+                                        <div class="card">
+                                            <div class="card-body">
+                                                <h4>Best FitGap vendor comparison</h4>
+                                                <br>
+                                                <br>
+                                                <canvas id="bestFitgapGraph"></canvas>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <br><br>
+                <!-- Graphic best Implementation & Commercials (Overall)-->
+                <div class="row">
+                    <div class="col-lg-12 grid-margin stretch-card">
+                        <div class="card">
+                            <div class="card-body">
+                                <h3>Implementation & Commercials Vendor comparison</h3>
+                                <p class="welcome_text extra-top-15px">
+                                    {{nova_get_setting('accenture_projectBenchmarkVendor_comparison') ?? ''}}
+                                </p>
+                                <br>
+                                <br>
+                                <div class="row">
+                                    <div class="col-xl-12 grid-margin stretch-card">
+                                        <div class="card">
+                                            <div class="card-body">
+                                                <h4>Best Implementation & Commercials vendor comparison</h4>
+                                                <br>
+                                                <br>
+                                                <canvas id="bestImplementationGraph"></canvas>
                                             </div>
                                         </div>
                                     </div>
@@ -182,6 +300,9 @@
             location.replace('/accenture/project/benchmark/vendorComparison/' + projectId + url_args);
         });
 
+        var selectedVendorBarTag = '{{$vendorName}}';
+
+        // Chart for best Vendor (Overall) ********************************************
         var bestPossibleDatasets = [
             @foreach ($bestPossibleDatasets as $dataset)
             {{$dataset}},
@@ -192,21 +313,16 @@
             {{$dataset}},
             @endforeach
         ];
-
         var averageBestVendorsDatasets = [
             @foreach ($averageBestVendorsDatasets as $dataset)
             {{$dataset}},
             @endforeach
         ];
-
         var vendorSelectedDatasets = [
             @foreach ($vendorSelectedDatasets as $dataset)
             {{$dataset}},
             @endforeach
         ];
-
-        var selectedVendorBarTag = '{{$vendorName}}';
-
 
         var ctx = document.getElementById('bestVendorGraph');
         var stackedBarChart = new Chart(ctx, {
@@ -254,5 +370,88 @@
             }
         });
 
+        // Chart for Fitgap (Overall) *************************************************
+
+        var bestFitgapPossible = [
+            @foreach($bestFitgapPossible as $dataset)
+            {{$dataset}},
+            @endforeach
+        ];
+        var bestFitgapVendor = [];
+        var averageFitgap = [];
+        var selectedFitgap = [];
+
+        var ctxFitgap = document.getElementById('bestFitgapGraph');
+        var stackedBarChartFitgap = new Chart(ctxFitgap, {
+            type: 'bar',
+            data: {
+                labels: ['Best Possible', 'Best Vendors', 'Average', selectedVendorBarTag],
+                datasets: [
+                    {
+                        label: 'Functional',
+                        data: [bestFitgapPossible[0]],
+                        backgroundColor: '#608FD1'
+                    },
+                    {
+                        label: 'Technical',
+                        data: [bestFitgapPossible[1]],
+                        backgroundColor: '#E08733'
+                    },
+                    {
+                        label: 'Service',
+                        data: [bestFitgapPossible[2]],
+                        backgroundColor: '#4A922A'
+                    },
+                    {
+                        label: 'Others',
+                        data: [bestFitgapPossible[3]],
+                        backgroundColor: '#C645D5'
+                    },
+                ]
+            },
+            options: {
+                scales: {
+                    xAxes: [{stacked: true}],
+                    yAxes: [{stacked: true}]
+                }
+            }
+        });
+
+        // Chart for Implemetation & Comercials ***************************************
+
+        var bestImplementationPossible = [
+            @foreach($bestImplementationPossible as $dataset)
+            {{$dataset}},
+            @endforeach
+        ];
+        var bestImplementationVendor = [];
+        var averageImplementation = [];
+        var selectedImplementation = [];
+
+        var ctxImpl = document.getElementById('bestImplementationGraph');
+        var stackedBarChartImplementation = new Chart(ctxImpl, {
+            type: 'bar',
+            data: {
+                labels: ['Best Possible', 'Best Vendors', 'Average', selectedVendorBarTag],
+                datasets: [
+                    {
+                        label: 'Implementation',
+                        data: [bestImplementationPossible[0]],
+                        backgroundColor: '#608FD1'
+                    },
+                    {
+                        label: 'Run',
+                        data: [bestImplementationPossible[1]],
+                        backgroundColor: '#E08733'
+                    },
+                ]
+            },
+            options: {
+                scales: {
+                    xAxes: [{stacked: true}],
+                    yAxes: [{stacked: true}]
+                }
+            }
+        });
     </script>
 @endsection
