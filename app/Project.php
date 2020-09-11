@@ -106,6 +106,13 @@ class Project extends Model
         'implementationRunWeight' => 80,
     ];
 
+    /**
+     * Get the owner from this project.
+     */
+    public function owner()
+    {
+        return $this->belongsTo('App\Owner', 'owner_id', 'id');
+    }
 
     public function conclusionsFolder()
     {
