@@ -15,7 +15,7 @@ class AddOwnerToUser extends Migration
     {
         Schema::table('users', function (Blueprint $table) {
             if(!Schema::hasColumn('users', 'owner_id')){
-                $table->integer('owner_id');
+                $table->integer('owner_id')->default('1');
 
             }
 /*            $table->foreign('owner_id')

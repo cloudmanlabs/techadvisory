@@ -54,10 +54,10 @@ class Owner extends Resource
 
             Text::make('Name', 'name'),
 
-            HasMany::make('Projects from this Owner', 'projects', 'App\Nova\Project'),
+            HasMany::make('Projects', 'projectsClient', \App\Nova\Project::class),
 
-            HasMany::make('Projects from this User', 'users', 'App\Nova\User'),
-            HasMany::make('Projects from this User', 'users', 'App\Nova\Accenture'),
+            HasMany::make('Owner with this User', 'users', \App\Nova\User::class),
+            //HasMany::make('Owner with this User', 'users', \App\Nova\Acenture::class),
 
         ];
     }
@@ -104,16 +104,5 @@ class Owner extends Resource
     public function actions(Request $request)
     {
         return [];
-    }
-
-    public static function label()
-    {
-        return __('Owner');
-
-    }
-
-    public static function singularLabel()
-    {
-        return __('Owners');
     }
 }

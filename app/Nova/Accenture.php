@@ -90,12 +90,13 @@ class Accenture extends Resource
                 ->displayUsingLabels()
                 ->required(),
 
-            Select::make('Region', 'region')
+/*            Select::make('Region', 'region')
                 ->options(config('arrays.regions'))
                 ->displayUsingLabels()
-                ->required(),
+                ->required(),*/
 
-            BelongsTo::make('Owner','owner','App\Nova\Owner'),
+            BelongsTo::make('owners'),
+
             // Text::make('Region', 'region'),
         ];
     }

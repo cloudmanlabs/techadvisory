@@ -15,7 +15,7 @@ class AddOwnerToProject extends Migration
     {
         Schema::table('projects', function (Blueprint $table) {
             if (!Schema::hasColumn('projects', 'owner_id')) {
-                $table->integer('owner_id');
+                $table->integer('owner_id')->default('1');
 
             }
             /*            $table->foreign('owner_id')

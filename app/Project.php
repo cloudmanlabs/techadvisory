@@ -111,7 +111,15 @@ class Project extends Model
      */
     public function owner()
     {
-        return $this->belongsTo('App\Owner', 'owner_id', 'id');
+        return $this->belongsTo(Owner::class, 'owner_id', 'id')->first();
+    }
+
+    /**
+     * Magia para que funcione el Nova de Owner project
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function owners(){
+        return $this->belongsTo(Owner::class, 'owner_id', 'id');
     }
 
     public function conclusionsFolder()
@@ -462,5 +470,16 @@ class Project extends Model
         $myRegionAsText = config('arrays.regions')[$myRegion];
         return self::where('currentPhase', $currentPhase)
                 ->where('regions', 'like', '%' . $myRegionAsText . '%')->get();
+    }
+
+    /**
+     * @param $owner_id
+     * @param $currentPhase, Project phase. 'old','preparation' or 'open'
+     * @return Collection
+     */
+    public static function projectsFromOwner($owner_id, $currentPhase): Collection
+    {
+        return self::where('currentPhase', $currentPhase)
+            ->where('owner_id','=',$owner_id)->get();
     }
 }

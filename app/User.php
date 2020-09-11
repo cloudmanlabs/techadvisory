@@ -54,17 +54,16 @@ class User extends Authenticatable
      */
     public function owner()
     {
-        return $this->belongsTo('App\Owner', 'owner_id', 'id');
+        return $this->belongsTo(Owner::class, 'owner_id', 'id')->first();;
     }
 
     /**
-     * Get the owner namefrom this user.
+     * Magia para que funcione el Nova de Owner project
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function ownerName()
-    {
-        return $this->belongsTo('App\Owner', 'owner_id', 'id')->name();
+    public function owners(){
+        return $this->belongsTo(Owner::class, 'owner_id', 'id');
     }
-
 
     public function credentials()
     {

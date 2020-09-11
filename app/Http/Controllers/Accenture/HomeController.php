@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Accenture;
 
+use App\Owner;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Practice;
@@ -13,17 +14,17 @@ class HomeController extends Controller
 {
     public function home()
     {
-        $myRegion = auth()->user()->region;
-        if(empty($myRegion)){
+        $myOwner_id = auth()->user()->owner()->id;
+        if(empty($myOwner_id)){
             // No region filter
             $openProjects = Project::openProjects();
             $preparationProjects = Project::preparationProjects();
             $oldProjects = Project::oldProjects();
         }else{
             // filter by his region
-            $openProjects = Project::projectsFromMyRegion($myRegion, 'open');
-            $preparationProjects = Project::projectsFromMyRegion($myRegion, 'preparation');
-            $oldProjects = Project::projectsFromMyRegion($myRegion, 'old');
+            $openProjects = Project::projectsFromOwner($myOwner_id, 'open');
+            $preparationProjects = Project::projectsFromOwner($myOwner_id, 'preparation');
+            $oldProjects = Project::projectsFromOwner($myOwner_id, 'old');
         }
 
         $practices = Practice::all()->pluck('name');
