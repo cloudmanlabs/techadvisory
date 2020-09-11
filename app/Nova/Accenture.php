@@ -95,6 +95,7 @@ class Accenture extends Resource
                 ->displayUsingLabels()
                 ->required(),
 
+            BelongsTo::make('Owner','owner','App\Nova\Owner'),
             // Text::make('Region', 'region'),
         ];
     }
@@ -149,4 +150,5 @@ class Accenture extends Resource
             new ExportUsers
         ];
     }
+
 }

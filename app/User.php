@@ -19,6 +19,7 @@ use Laravel\Nova\Fields\Boolean;
  */
 class User extends Authenticatable
 {
+
     use Notifiable;
 
     /**
@@ -47,6 +48,22 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    /**
+     * Get the owner from this user.
+     */
+    public function owner()
+    {
+        return $this->belongsTo('App\Owner', 'owner_id', 'id');
+    }
+
+    /**
+     * Get the owner namefrom this user.
+     */
+    public function ownerName()
+    {
+        return $this->belongsTo('App\Owner', 'owner_id', 'id')->name();
+    }
 
 
     public function credentials()

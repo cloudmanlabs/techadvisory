@@ -3,21 +3,27 @@
 namespace App\Nova;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Laravel\Nova\Fields\BelongsTo;
-use Laravel\Nova\Fields\Gravatar;
+use Laravel\Nova\Fields\BelongsToMany;
+use Laravel\Nova\Fields\Boolean;
+use Laravel\Nova\Fields\HasMany;
+use Laravel\Nova\Fields\HasOne;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Password;
 use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Text;
+use Laravel\Nova\Http\Requests\NovaRequest;
+use Laravel\Nova\Panel;
 
-class User extends Resource
+class Owner extends Resource
 {
     /**
      * The model the resource corresponds to.
      *
      * @var string
      */
-    public static $model = 'App\User';
+    public static $model = 'App\Owner';
 
     /**
      * The single value that should be used to represent the resource when being displayed.
@@ -32,7 +38,7 @@ class User extends Resource
      * @var array
      */
     public static $search = [
-        'id', 'name', 'email',
+        'id',
     ];
 
     /**
@@ -46,26 +52,13 @@ class User extends Resource
         return [
             ID::make()->sortable(),
 
-            Text::make('Name')
-                ->sortable()
-                ->rules('required', 'max:255'),
+            Text::make('Name', 'name'),
 
-            Text::make('Email')
-                ->sortable()
-                ->rules('required', 'email', 'max:254')
-                ->creationRules('unique:users,email')
-                ->updateRules('unique:users,email,{{resourceId}}'),
+            HasMany::make('Projects from this Owner', 'projects', 'App\Nova\Project'),
 
-            Select::make('Type', 'userType')
-                ->options(\App\User::allTypes)
-                ->displayUsingLabels(),
+            HasMany::make('Projects from this User', 'users', 'App\Nova\User'),
+            HasMany::make('Projects from this User', 'users', 'App\Nova\Accenture'),
 
-            Password::make('Password')
-                ->onlyOnForms()
-                ->creationRules('required', 'string', 'min:8')
-                ->updateRules('nullable', 'string', 'min:8'),
-
-            //BelongsTo::make('Owner')->nullable,
         ];
     }
 
@@ -113,5 +106,14 @@ class User extends Resource
         return [];
     }
 
+    public static function label()
+    {
+        return __('Owner');
 
+    }
+
+    public static function singularLabel()
+    {
+        return __('Owners');
+    }
 }

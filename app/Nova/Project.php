@@ -73,6 +73,9 @@ class Project extends Resource
                 })
                 ->sortable(),
 
+            BelongsTo::make('Owner', 'owner', 'App\Nova\Owner')
+                ->sortable(),
+
             DateTime::make('Deadline', 'deadline')
                 ->sortable(),
 

@@ -4,9 +4,18 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
+
+/**
+ * @property string $name
+ * Class Owner
+ * @package App
+ */
 class Owner extends Model
 {
     public $guarded = [];
+    protected $table = 'owners';
+
+    public static $title = 'name';
 
     /**
      * Get the Users from the Owner.
