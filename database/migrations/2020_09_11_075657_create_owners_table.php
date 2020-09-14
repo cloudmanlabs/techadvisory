@@ -7,17 +7,34 @@ use Illuminate\Support\Facades\Schema;
 class CreateOwnersTable extends Migration
 {
     /**
-     * Run the migrations.
+     * Create table Owner an his dependences to project and user.
      *
      * @return void
      */
     public function up()
     {
-        Schema::create('owners', function (Blueprint $table) {
-            $table->id();
-            $table->timestamps();
 
-            $table->string('name');
+        if (!Schema::hasTable('owners')) {
+            Schema::create('owners', function (Blueprint $table) {
+                $table->id();
+                $table->timestamps();
+
+                $table->string('name');
+            });
+        }
+
+        Schema::table('projects', function (Blueprint $table) {
+            if (!Schema::hasColumn('projects', 'owner_id')) {
+                $table->integer('owner_id')->default(null);
+
+            }
+        });
+
+        Schema::table('users', function (Blueprint $table) {
+            if (!Schema::hasColumn('users', 'owner_id')) {
+                $table->integer('owner_id')->default(null);
+
+            }
         });
     }
 

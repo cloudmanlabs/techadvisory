@@ -7,6 +7,7 @@ use App\Exports\VendorResponsesExport;
 use App\GeneralInfoQuestionResponse;
 use App\Http\Controllers\Controller;
 use App\Mail\ProjectInvitationEmail;
+use App\Owner;
 use App\Practice;
 use App\Project;
 use App\SecurityLog;
@@ -51,6 +52,8 @@ class ProjectController extends Controller
         $implementationImplementationQuestions = $project->selectionCriteriaQuestionsOriginals()->where('page', 'implementation_implementation');
         $implementationRunQuestions = $project->selectionCriteriaQuestionsOriginals()->where('page', 'implementation_run');
 
+        $allOwners = Owner::get();
+
         SecurityLog::createLog('User accessed project with ID ' . $project->id);
 
         return view('accentureViews.newProjectSetUp', [
@@ -71,6 +74,7 @@ class ProjectController extends Controller
             'innovationSustainabilityQuestions' => $innovationSustainabilityQuestions,
             'implementationImplementationQuestions' => $implementationImplementationQuestions,
             'implementationRunQuestions' => $implementationRunQuestions,
+            'allOwners' => $allOwners,
         ]);
     }
 
@@ -87,6 +91,27 @@ class ProjectController extends Controller
         }
 
         $project->name = $request->newName;
+        $project->save();
+
+        return \response()->json([
+            'status' => 200,
+            'message' => 'Success'
+        ]);
+    }
+
+    public function changeProjectOwner(Request $request)
+    {
+        $request->validate([
+            'project_id' => 'required|numeric',
+            'owner_id' => 'required|string'
+        ]);
+
+        $project = Project::find($request->project_id);
+        if ($project == null) {
+            abort(404);
+        }
+
+        $project->owner_id = $request->owner_id;
         $project->save();
 
         return \response()->json([

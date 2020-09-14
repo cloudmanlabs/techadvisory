@@ -347,6 +347,17 @@
             showSavedToast();
             updateSubmitButton();
         });
+        $('#ownerSelect').change(function (e) {
+            var value = $(this).val();
+            $.post('/accenture/newProjectSetUp/changeProjectOwner', {
+                project_id: '{{$project->id}}',
+                owner_id: value
+            })
+
+            showSavedToast();
+            updateSubmitStep3();
+        });
+
 
         $('#chooseClientSelect').change(function (e) {
             var value = $(this).val();

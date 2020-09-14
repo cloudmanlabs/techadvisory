@@ -7,13 +7,14 @@
     firstTime - boolean - Whether to set the value field for name. This is so that they don't see the placeholder name that is set on create
     --}}
 
-@props(['project', 'clients', 'disableSpecialQuestions', 'disabled', 'required', 'firstTime', 'projectEdit', 'hideQuestionsForVendor'])
+@props(['project', 'clients', 'disableSpecialQuestions', 'disabled', 'required', 'firstTime', 'projectEdit', 'hideQuestionsForVendor','allOwners'])
 
 @php
     $firstTime = $firstTime ?? false;
     $projectEdit = $projectEdit ?? false;
     $projectEdit = $projectEdit ?? false;
     $hideQuestionsForVendor = $hideQuestionsForVendor ?? false;
+
 @endphp
 
 <h4>1.1. Project Info</h4>
@@ -22,13 +23,25 @@
 <div class="form-group">
     <label for="projectName">Project Name*</label>
     <input type="text" class="form-control"
-        id="projectName"
-        data-changing="name"
-        placeholder="Project Name"
-        value="{{$firstTime ? '' : $project->name}}"
-        {{$disableSpecialQuestions ? 'disabled' : ''}}
-        {{$disabled ? 'disabled' : ''}}
-        required>
+           id="projectName"
+           data-changing="name"
+           placeholder="Project Name"
+           value="{{$firstTime ? '' : $project->name}}"
+           {{$disableSpecialQuestions ? 'disabled' : ''}}
+           {{$disabled ? 'disabled' : ''}}
+           required>
+</div>
+<div class="form-group">
+    <label for="ownerSelect">Choose the owner of the project*</label>
+    <select id="ownerSelect"
+            class="form-control"
+            data-changing="owner_id"
+            required>
+        <option selected="" disabled="">Please select the Owner name</option>
+        @foreach ($allOwners as $owner)
+            <option value="{{$owner->id}}">{{$owner->name}}</option>
+        @endforeach
+    </select>
 </div>
 
 @if(!$hideQuestionsForVendor)
@@ -47,37 +60,38 @@
                 $currentlySelected = $project->client->id ?? -1;
             @endphp
             @foreach ($clients as $client)
-            <option
-                value="{{$client->id}}"
-                @if($currentlySelected == $client->id) selected @endif
+                <option
+                    value="{{$client->id}}"
+                    @if($currentlySelected == $client->id) selected @endif
                 >{{$client->name}}</option>
             @endforeach
         </select>
     </div>
     @if(!$projectEdit && !$disableSpecialQuestions && !$disabled)
-    <p style="font-weight: 300">Please refresh the page after making changes to autofill the responses by this Client</p>
-    <br>
+        <p style="font-weight: 300">Please refresh the page after making changes to autofill the responses by this
+            Client</p>
+        <br>
     @endif
 @endif
 
 @if(!$hideQuestionsForVendor)
-<div class="form-group">
-    <label for="valueTargeting">Value Targeting*</label>
-    <select class="form-control" id="valueTargeting" required
-        {{$disableSpecialQuestions ? 'disabled' : ''}}
-        {{$disabled ? 'disabled' : ''}}
-    >
-        <option disabled="">Please select an option</option>
-        <option value="yes" @if($project->hasValueTargeting) selected @endif>Yes</option>
-        <option value="no" @if(!$project->hasValueTargeting) selected @endif>No</option>
-    </select>
-</div>
+    <div class="form-group">
+        <label for="valueTargeting">Value Targeting*</label>
+        <select class="form-control" id="valueTargeting" required
+            {{$disableSpecialQuestions ? 'disabled' : ''}}
+            {{$disabled ? 'disabled' : ''}}
+        >
+            <option disabled="">Please select an option</option>
+            <option value="yes" @if($project->hasValueTargeting) selected @endif>Yes</option>
+            <option value="no" @if(!$project->hasValueTargeting) selected @endif>No</option>
+        </select>
+    </div>
 @endif
 
 <div class="form-group">
     <label for="oralsSelect">Orals*</label>
     <select class="form-control" id="oralsSelect"
-        required
+            required
         {{$disableSpecialQuestions ? 'disabled' : ''}}
         {{$disabled ? 'disabled' : ''}}
     >
@@ -106,20 +120,20 @@
         {{$disabled ? 'disabled' : ''}}
         {{$required ? 'required' : ''}}
     >
-        <x-options.industryExperience :selected="$project->industry ?? ''" />
+        <x-options.industryExperience :selected="$project->industry ?? ''"/>
     </select>
 </div>
 
 @if(!$hideQuestionsForVendor)
-<div class="form-group">
-    <label for="regionSelect">{{$required ? 'Regions*' : 'Regions'}}</label>
-    <select class="js-example-basic-multiple w-100" id="regionSelect" multiple="multiple"
-        {{$disabled ? 'disabled' : ''}}
-        {{$required ? 'required' : ''}}
-    >
-        <x-options.geographies :selected="$project->regions ?? []" />
-    </select>
-</div>
+    <div class="form-group">
+        <label for="regionSelect">{{$required ? 'Regions*' : 'Regions'}}</label>
+        <select class="js-example-basic-multiple w-100" id="regionSelect" multiple="multiple"
+            {{$disabled ? 'disabled' : ''}}
+            {{$required ? 'required' : ''}}
+        >
+            <x-options.geographies :selected="$project->regions ?? []"/>
+        </select>
+    </div>
 @endif
 
 <div class="form-group">
@@ -128,23 +142,25 @@
         {{$disabled ? 'disabled' : ''}}
         {{$disableSpecialQuestions ? 'disabled' : ''}}
     >
-        <x-options.projectType :selected="$project->projectType ?? ''" />
+        <x-options.projectType :selected="$project->projectType ?? ''"/>
     </select>
 </div>
 
 <div class="form-group">
     <label for="projectType">Currency*</label>
     <select class="form-control" id="currencySelect"
-    required
+            required
         {{$disabled ? 'disabled' : ''}}
         {{$disableSpecialQuestions ? 'disabled' : ''}}
     >
-        <x-options.currencies :selected="$project->currency ?? ''" />
+        <x-options.currencies :selected="$project->currency ?? ''"/>
     </select>
 </div>
 
-<x-questionForeachWithOnlyView :questions="$project->generalInfoQuestionsInPage('project_info')" :class="'generalQuestion'" :disabled="$disabled"
-    :required="$required" :skipQuestionsInVendor="$hideQuestionsForVendor" :onlyView="$disableSpecialQuestions"/>
+<x-questionForeachWithOnlyView :questions="$project->generalInfoQuestionsInPage('project_info')"
+                               :class="'generalQuestion'" :disabled="$disabled"
+                               :required="$required" :skipQuestionsInVendor="$hideQuestionsForVendor"
+                               :onlyView="$disableSpecialQuestions"/>
 
 <h4>1.2. SC Capability (Practice)</h4>
 <br>
@@ -156,7 +172,7 @@
         {{$projectEdit ? 'disabled' : ''}}
         {{$disableSpecialQuestions ? 'disabled' : ''}}
     >
-        <x-options.practices :selected="$project->practice->id ?? -1" />
+        <x-options.practices :selected="$project->practice->id ?? -1"/>
     </select>
 </div>
 
@@ -171,20 +187,20 @@
         {{$disabled ? 'disabled' : ''}}
     >
         @php
-        $select = $project->subpractices()->pluck('subpractices.id')->toArray();
+            $select = $project->subpractices()->pluck('subpractices.id')->toArray();
         @endphp
-        <x-options.subpractices :selected="$select" />
+        <x-options.subpractices :selected="$select"/>
     </select>
 </div>
 
 <x-questionForeachWithOnlyView :questions="$project->generalInfoQuestionsInPage('practice')" :class="'generalQuestion'"
-    :disabled="$disabled" :required="$required" :onlyView="$disableSpecialQuestions"/>
+                               :disabled="$disabled" :required="$required" :onlyView="$disableSpecialQuestions"/>
 
 <h4>1.3. Scope</h4>
 <br>
 
 <x-questionForeachWithOnlyView :questions="$project->generalInfoQuestionsInPage('scope')" :class="'generalQuestion'"
-    :disabled="$disabled" :required="$required" :onlyView="$disableSpecialQuestions"/>
+                               :disabled="$disabled" :required="$required" :onlyView="$disableSpecialQuestions"/>
 
 <h4>1.4. Timeline</h4>
 <br>
@@ -193,13 +209,13 @@
     <label for="deadline">Tentative date for Vendor Response completion*</label>
     <div class="input-group date datepicker" data-initialValue="{{$firstTime ? '' : $project->deadline}}">
         <input required
-            id="deadline"
-            value="{{$firstTime ? '' : $project->deadline}}" type="text"
-            {{$disabled ? 'disabled' : ''}}
-            class="form-control">
+               id="deadline"
+               value="{{$firstTime ? '' : $project->deadline}}" type="text"
+               {{$disabled ? 'disabled' : ''}}
+               class="form-control">
         <span class="input-group-addon"><i data-feather="calendar"></i></span>
     </div>
 </div>
 
 <x-questionForeachWithOnlyView :questions="$project->generalInfoQuestionsInPage('timeline')" :class="'generalQuestion'"
-    :disabled="$disabled" :required="$required" :onlyView="$disableSpecialQuestions"/>
+                               :disabled="$disabled" :required="$required" :onlyView="$disableSpecialQuestions"/>

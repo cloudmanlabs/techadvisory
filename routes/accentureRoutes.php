@@ -33,6 +33,7 @@ prefix('accenture')
 
             // This started as just a couple fields,  but has been growing over time. I'd refactor it to be a single route or something, but it's a bit late now
             Route::post('/newProjectSetUp/changeProjectName', 'ProjectController@changeProjectName');
+            Route::post('/newProjectSetUp/changeProjectOwner', 'ProjectController@changeProjectOwner');
             Route::post('/newProjectSetUp/changeProjectClient', 'ProjectController@changeProjectClient');
             Route::post('/newProjectSetUp/changeProjectHasValueTargeting', 'ProjectController@changeProjectHasValueTargeting');
             Route::post('/newProjectSetUp/changeProjectHasOrals', 'ProjectController@changeProjectHasOrals');

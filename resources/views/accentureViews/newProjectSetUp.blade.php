@@ -132,13 +132,15 @@
                                             Client
                                             company name and contacts will not be shared with vendors.
                                         </p>
-                                        <br>
+                                        <br><br>
+
                                         <x-generalInfoQuestions
                                             :project="$project"
                                             :clients="$clients"
                                             :disableSpecialQuestions="false"
                                             :disabled="false"
                                             :required="false"
+                                            :allOwners="$allOwners"
                                             :firstTime="$firstTime"/>
                                     </section>
 
@@ -558,6 +560,16 @@
                 $.post('/accenture/newProjectSetUp/changeProjectName', {
                     project_id: '{{$project->id}}',
                     newName: value
+                })
+
+                showSavedToast();
+                updateSubmitStep3();
+            });
+            $('#ownerSelect').change(function (e) {
+                var value = $(this).val();
+                $.post('/accenture/newProjectSetUp/changeProjectOwner', {
+                    project_id: '{{$project->id}}',
+                    owner_id: value
                 })
 
                 showSavedToast();
