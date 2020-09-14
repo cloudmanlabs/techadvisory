@@ -365,7 +365,6 @@
 
         $('#vendorSelect').change(function () {
             var selectedVendor = $(this).children("option:selected").data('vendorId');
-            //selectedVendorBarTag = $(this).children("option:selected").data('vendorName');
             var projectId = {{$project->id}};
             var url_args = '?vendor=' + selectedVendor;
             // pass vendor id through url params as get paramether
@@ -373,6 +372,13 @@
         });
 
         var selectedVendorBarTag = '{{$vendorName}}';
+        var colorsPaletteHEX = [
+            '#27003d',
+            '#460073',
+            '#5a008f',
+            '#7500c0',
+            '#a100ff'
+        ];
 
         // Chart for best Vendor (Overall) ********************************************
         var bestPossibleDatasets = [
@@ -406,31 +412,31 @@
                         label: 'FitGap',
                         data: [bestPossibleDatasets[0], bestVendorsValuesDatasets[0],
                             averageBestVendorsDatasets[0], vendorSelectedDatasets[0]],
-                        backgroundColor: '#608FD1'
+                        backgroundColor: colorsPaletteHEX[0]
                     },
                     {
                         label: 'Vendor',
                         data: [bestPossibleDatasets[1], bestVendorsValuesDatasets[1],
                             averageBestVendorsDatasets[1], vendorSelectedDatasets[1]],
-                        backgroundColor: '#E08733'
+                        backgroundColor: colorsPaletteHEX[1]
                     },
                     {
                         label: 'Experience',
                         data: [bestPossibleDatasets[2], bestVendorsValuesDatasets[2],
                             averageBestVendorsDatasets[2], vendorSelectedDatasets[2]],
-                        backgroundColor: '#4A922A'
+                        backgroundColor: colorsPaletteHEX[2]
                     },
                     {
                         label: 'Innovation & vision',
                         data: [bestPossibleDatasets[3], bestVendorsValuesDatasets[3],
                             averageBestVendorsDatasets[3], vendorSelectedDatasets[3]],
-                        backgroundColor: '#C645D5'
+                        backgroundColor: colorsPaletteHEX[3]
                     },
                     {
                         label: 'Implementation & Commercials',
                         data: [bestPossibleDatasets[4], bestVendorsValuesDatasets[4],
                             averageBestVendorsDatasets[4], vendorSelectedDatasets[4]],
-                        backgroundColor: '#a30749'
+                        backgroundColor: colorsPaletteHEX[4]
                     }
                 ]
             },
@@ -474,25 +480,25 @@
                         label: 'Functional',
                         data: [bestFitgapPossible[0],bestFitgapVendor[0],
                         averageFitgap[0],selectedFitgap[0]],
-                        backgroundColor: '#608FD1'
+                        backgroundColor: colorsPaletteHEX[0]
                     },
                     {
                         label: 'Technical',
                         data: [bestFitgapPossible[1],bestFitgapVendor[1],
                         averageFitgap[1],selectedFitgap[1]],
-                        backgroundColor: '#E08733'
+                        backgroundColor: colorsPaletteHEX[1]
                     },
                     {
                         label: 'Service',
                         data: [bestFitgapPossible[2],bestFitgapVendor[2],
                         averageFitgap[2],selectedFitgap[2]],
-                        backgroundColor: '#4A922A'
+                        backgroundColor: colorsPaletteHEX[2]
                     },
                     {
                         label: 'Others',
                         data: [bestFitgapPossible[3],bestFitgapVendor[3],
                         averageFitgap[3],selectedFitgap[3]],
-                        backgroundColor: '#C645D5'
+                        backgroundColor: colorsPaletteHEX[3]
                     },
                 ]
             },
@@ -536,13 +542,13 @@
                         label: 'Implementation',
                         data: [bestImplementationPossible[0],bestImplementationVendor[0],
                         averageImplementation[0], selectedImplementation[0]],
-                        backgroundColor: '#608FD1'
+                        backgroundColor: colorsPaletteHEX[0]
                     },
                     {
                         label: 'Run',
                         data: [bestImplementationPossible[1],bestImplementationVendor[1],
                         averageImplementation[1], selectedImplementation[1]],
-                        backgroundColor: '#E08733'
+                        backgroundColor: colorsPaletteHEX[1]
                     },
                 ]
             },
