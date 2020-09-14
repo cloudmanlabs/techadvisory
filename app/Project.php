@@ -115,7 +115,7 @@ class Project extends Model
     }
 
     /**
-     * Magia para que funcione el Nova de Owner project
+     * Magia para que funcione el Nova de Owner project.
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function owners(){
