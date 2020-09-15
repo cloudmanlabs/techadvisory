@@ -725,6 +725,8 @@ class ProjectController extends Controller
         $implementationImplementationQuestions = $project->selectionCriteriaQuestionsOriginals()->where('page', 'implementation_implementation');
         $implementationRunQuestions = $project->selectionCriteriaQuestionsOriginals()->where('page', 'implementation_run');
 
+        $allOwners = Owner::get();
+
         SecurityLog::createLog('User accessed project with ID ' . $project->id);
 
         return view('accentureViews.projectView', [
@@ -744,6 +746,8 @@ class ProjectController extends Controller
             'innovationSustainabilityQuestions' => $innovationSustainabilityQuestions,
             'implementationImplementationQuestions' => $implementationImplementationQuestions,
             'implementationRunQuestions' => $implementationRunQuestions,
+
+            'allOwners' => $allOwners,
         ]);
     }
 
@@ -770,6 +774,8 @@ class ProjectController extends Controller
         $implementationImplementationQuestions = $project->selectionCriteriaQuestionsOriginals()->where('page', 'implementation_implementation');
         $implementationRunQuestions = $project->selectionCriteriaQuestionsOriginals()->where('page', 'implementation_run');
 
+        $allOwners = Owner::get();
+
         SecurityLog::createLog('User accessed project with ID ' . $project->id);
 
         return view('accentureViews.projectEdit', [
@@ -789,6 +795,8 @@ class ProjectController extends Controller
             'innovationSustainabilityQuestions' => $innovationSustainabilityQuestions,
             'implementationImplementationQuestions' => $implementationImplementationQuestions,
             'implementationRunQuestions' => $implementationRunQuestions,
+
+            'allOwners' => $allOwners,
         ]);
     }
 

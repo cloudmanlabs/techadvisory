@@ -38,6 +38,7 @@
                                             :disableSpecialQuestions="false"
                                             :disabled="false"
                                             :required="false"
+                                            :allOwners="$allOwners"
                                             :projectEdit="true" />
                                     </section>
 

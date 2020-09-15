@@ -28,6 +28,7 @@
                                             :clients="$clients"
                                             :disableSpecialQuestions="false"
                                             :disabled="true"
+                                            :allOwners="$allOwners"
                                             :required="false" />
                                     </section>
 
