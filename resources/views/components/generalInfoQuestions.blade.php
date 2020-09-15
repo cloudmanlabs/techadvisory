@@ -15,6 +15,9 @@
     $projectEdit = $projectEdit ?? false;
     $hideQuestionsForVendor = $hideQuestionsForVendor ?? false;
 
+    $allOwners = $allOwners ?? [];
+    $currentOwner = $project->owner()->id ?? 0;
+
 @endphp
 
 <h4>1.1. Project Info</h4>
@@ -31,18 +34,25 @@
            {{$disabled ? 'disabled' : ''}}
            required>
 </div>
-<div class="form-group">
-    <label for="ownerSelect">Choose the owner of the project*</label>
-    <select id="ownerSelect"
-            class="form-control"
-            data-changing="owner_id"
-            required>
-        <option selected="" disabled="">Please select the Owner name</option>
-        @foreach ($allOwners as $owner)
-            <option value="{{$owner->id}}">{{$owner->name}}</option>
-        @endforeach
-    </select>
-</div>
+
+@if(auth()->user()->isAccenture())
+    <div class="form-group">
+        <label for="ownerSelect">Choose the owner of the project*</label>
+        <select id="ownerSelect"
+                class="form-control"
+                data-changing="owner_id"
+                {{$disabled ? 'disabled' : ''}}
+                required>
+            <option selected="selected" disabled="disabled">Please select the Owner name</option>
+            @foreach ($allOwners as $owner)
+                <option value="{{$owner->id}}"
+                        @if($currentOwner == $owner->id) selected @endif
+                >{{$owner->name}}
+                </option>
+            @endforeach
+        </select>
+    </div>
+@endif
 
 @if(!$hideQuestionsForVendor)
     <div class="form-group">
