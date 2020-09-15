@@ -2,12 +2,11 @@
 
 namespace App\Nova\Filters;
 
-use App\GeneralInfoQuestion;
+use App\Nova\SelectionCriteriaQuestion;
 use Illuminate\Http\Request;
 use Laravel\Nova\Filters\Filter;
-use function _HumbugBoxe251c92b00d9\React\Promise\all;
 
-class PageTypeGeneral extends Filter
+class PageTypeSelectionCriteria extends Filter
 {
     /**
      * The filter's component.
@@ -15,6 +14,8 @@ class PageTypeGeneral extends Filter
      * @var string
      */
     public $component = 'select-filter';
+    public $name = 'Page Type (Selection Criteria Questions)';
+
 
     /**
      * Apply the filter to the given query.
@@ -26,7 +27,6 @@ class PageTypeGeneral extends Filter
      */
     public function apply(Request $request, $query, $value)
     {
-        //$valueTranslated =
         return $query->where('page', $value);
     }
 
@@ -38,12 +38,14 @@ class PageTypeGeneral extends Filter
      */
     public function options(Request $request)
     {
-        //return GeneralInfoQuestion::select('page')->groupBy('page')->get()->pluck('page')->toArray();
-        $allData = GeneralInfoQuestion::pagesSelect;
-        $options = array_keys($allData);
-/*        foreach ($allData as $key=>$value){
-            $options[$key] = $key;
-        }*/
-        return $allData;
+
+        $selectionPageTypes = \App\SelectionCriteriaQuestion::pagesSelect;
+        $options = [];
+        // Reverse the arrays values, because Nova works like that.
+        foreach ($selectionPageTypes as $key => $value) {
+            $options[$value] = $key;
+        }
+
+        return $options;
     }
 }
