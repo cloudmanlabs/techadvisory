@@ -94,6 +94,9 @@ class SelectionCriteriaQuestion extends Resource
 
             BelongsTo::make('Related Vendor Profile Question', 'vendorProfileQuestion', VendorProfileQuestion::class)
                 ->nullable(),
+
+            BelongsTo::make('SC Capability (Practice)', 'practice', Practice::class)
+                ->nullable(),
         ];
 
         // NOTE All of the fields here should be hidden on index and create

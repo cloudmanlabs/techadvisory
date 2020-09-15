@@ -48,4 +48,8 @@ class SelectionCriteriaQuestion extends Question
     {
         return $this->belongsTo(VendorProfileQuestion::class, 'vendor_profile_question_id');
     }
+
+    public function practice(){
+        return $this->belongsTo(Practice::class,'practice_id');
+    }
 }

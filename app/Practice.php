@@ -16,6 +16,9 @@ class Practice extends Model
         return $this->hasMany(Project::class);
     }
 
+    public function selectionCriteriaQuestions(){
+        return $this->hasMany(SelectionCriteriaQuestion::class);
+    }
 
     public function applicationsInProjectsWithThisPractice()
     {

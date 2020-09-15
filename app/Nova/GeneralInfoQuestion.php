@@ -2,7 +2,7 @@
 
 namespace App\Nova;
 
-use App\Nova\Filters\PageTypeGeneral;
+use App\Nova\Filters\PageTypeGeneralInfo;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Laravel\Nova\Fields\BelongsTo;
@@ -175,7 +175,7 @@ class GeneralInfoQuestion extends Resource
     public function filters(Request $request)
     {
         return [
-            (new PageTypeGeneral())
+            (new PageTypeGeneralInfo())
         ];
     }
 
