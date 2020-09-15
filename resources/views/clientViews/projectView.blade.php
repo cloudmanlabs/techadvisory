@@ -79,15 +79,19 @@
                                                 </h6>
                                                 @endforeach
                                             </div>
+                                            {{dd($project)}}
 
-                                            <x-selectionCriteriaQuestionsForAccentureAndClient :vendorCorporateQuestions="$vendorCorporateQuestions"
-                                                :vendorMarketQuestions="$vendorMarketQuestions" :experienceQuestions="$experienceQuestions"
+                                            <x-selectionCriteriaQuestionsForAccentureAndClient
+                                                :project="$project"
+                                                :vendorCorporateQuestions="$vendorCorporateQuestions"
+                                                :vendorMarketQuestions="$vendorMarketQuestions"
+                                                :experienceQuestions="$experienceQuestions"
                                                 :innovationDigitalEnablersQuestions="$innovationDigitalEnablersQuestions"
                                                 :innovationAlliancesQuestions="$innovationAlliancesQuestions"
                                                 :innovationProductQuestions="$innovationProductQuestions"
                                                 :innovationSustainabilityQuestions="$innovationSustainabilityQuestions"
                                                 :implementationImplementationQuestions="$implementationImplementationQuestions"
-                                                :implementationRunQuestions="$implementationRunQuestions" />
+                                                :implementationRunQuestions="$implementationRunQuestions"/>
 
                                             <h3>Scoring criteria</h3>
                                             <div>

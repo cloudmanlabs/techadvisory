@@ -46,7 +46,7 @@
                                 <br>
                                 <div id="wizard_client_newProjectSetUp">
                                     <h2>General Info</h2>
-                                    <section>
+                                    <section>true
                                         <p class="welcome_text extra-top-15px">
                                             Input all relevant information concerning project type, scope and timelines.
                                             Client company name nd contacts will not be shared with vendors.

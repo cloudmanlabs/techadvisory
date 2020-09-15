@@ -5,7 +5,7 @@
     This is part of the subwizard
     --}}
 
-@props(['vendorCorporateQuestions','vendorMarketQuestions','experienceQuestions','innovationDigitalEnablersQuestions','innovationAlliancesQuestions','innovationProductQuestions','innovationSustainabilityQuestions','implementationImplementationQuestions','implementationRunQuestions'])
+@props(['project','vendorCorporateQuestions','vendorMarketQuestions','experienceQuestions','innovationDigitalEnablersQuestions','innovationAlliancesQuestions','innovationProductQuestions','innovationSustainabilityQuestions','implementationImplementationQuestions','implementationRunQuestions'])
 
 <h3>Vendor</h3>
 <div>
@@ -19,9 +19,11 @@
     </p>
     <br>
     @foreach ($vendorCorporateQuestions as $question)
-        <h6 style="margin-bottom: 1rem">
-            {{$question->label}}
-        </h6>
+        @if($question->practice_id == $project->practice_id)
+            <h6 style="margin-bottom: 1rem">
+                {{$question->label}}
+            </h6>
+        @endif
     @endforeach
 
     <br><br>
@@ -31,27 +33,33 @@
     </p>
     <br>
     @foreach ($vendorMarketQuestions as $question)
-        <h6 style="margin-bottom: 1rem">
-            {{$question->label}}
-        </h6>
+        @if($question->practice_id == $project->practice_id)
+            <h6 style="margin-bottom: 1rem">
+                {{$question->label}}
+            </h6>
+        @endif
     @endforeach
 </div>
 
 <h3>Experience</h3>
 <div>
     <p class="welcome_text extra-top-15px">
-        This section is designed to know more about the vendor’s previous experiences in the industry and with other clients.
+        This section is designed to know more about the vendor’s previous experiences in the industry and with other
+        clients.
     </p>
     <br>
     <h4>Questions</h4>
     <p class="welcome_text extra-top-15px">
-        Below is the questionnaire designed to know more about the vendor’s previous experiences with other clients and within the industry.
+        Below is the questionnaire designed to know more about the vendor’s previous experiences with other clients and
+        within the industry.
     </p>
     <br>
     @foreach ($experienceQuestions as $question)
-        <h6 style="margin-bottom: 1rem">
-            {{$question->label}}
-        </h6>
+        @if($question->practice_id == $project->practice_id)
+            <h6 style="margin-bottom: 1rem">
+                {{$question->label}}
+            </h6>
+        @endif
     @endforeach
 </div>
 
@@ -69,9 +77,11 @@
     </p>
     <br>
     @foreach ($innovationDigitalEnablersQuestions as $question)
-        <h6 style="margin-bottom: 1rem">
-            {{$question->label}}
-        </h6>
+        @if($question->practice_id == $project->practice_id)
+            <h6 style="margin-bottom: 1rem">
+                {{$question->label}}
+            </h6>
+        @endif
     @endforeach
     <br><br>
     <h4>Alliances</h4>
@@ -80,9 +90,11 @@
     </p>
     <br>
     @foreach ($innovationAlliancesQuestions as $question)
-        <h6 style="margin-bottom: 1rem">
-            {{$question->label}}
-        </h6>
+        @if($question->practice_id == $project->practice_id)
+            <h6 style="margin-bottom: 1rem">
+                {{$question->label}}
+            </h6>
+        @endif
     @endforeach
     <br><br>
     <h4>Product</h4>
@@ -92,9 +104,11 @@
     <br>
     <br>
     @foreach ($innovationProductQuestions as $question)
-        <h6 style="margin-bottom: 1rem">
-            {{$question->label}}
-        </h6>
+        @if($question->practice_id == $project->practice_id)
+            <h6 style="margin-bottom: 1rem">
+                {{$question->label}}
+            </h6>
+        @endif
     @endforeach
     <br><br>
     <h4>Sustainability</h4>
@@ -104,9 +118,11 @@
     <br>
     <br>
     @foreach ($innovationSustainabilityQuestions as $question)
-        <h6 style="margin-bottom: 1rem">
-            {{$question->label}}
-        </h6>
+        @if($question->practice_id == $project->practice_id)
+            <h6 style="margin-bottom: 1rem">
+                {{$question->label}}
+            </h6>
+        @endif
     @endforeach
 </div>
 
@@ -137,7 +153,7 @@
     </h6>
     <h6 style="margin-bottom: 1rem">
         Overall Implementation cost
-    </h6>    
+    </h6>
     <li style="margin-bottom: 1rem; font-size: .9375rem; font-weight: 600;">
         Staffing cost
     </li>
@@ -147,7 +163,7 @@
     <li style="margin-bottom: 1rem; font-size: .9375rem; font-weight: 600;">
         Additional cost
     </li>
-    
+
 
     <br><br>
     <h4>Run</h4>
@@ -159,7 +175,7 @@
         Pricing model
     </h6>
     <h6 style="margin-bottom: 1rem">
-       Run cost
+        Run cost
     </h6>
     <li style="margin-bottom: 1rem; font-size: .9375rem; font-weight: 600;">
         Estimate first 5 years billing plan
