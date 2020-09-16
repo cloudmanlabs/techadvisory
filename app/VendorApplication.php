@@ -361,9 +361,10 @@ class VendorApplication extends Model
 
     public function vendorScore()
     {
-        $corp = $this->project->selectionCriteriaQuestionsForVendor($this->vendor)->whereHas('originalQuestion', function ($query) {
-                $query
-                    ->where('page', 'vendor_corporate');
+        $corp = $this->project->selectionCriteriaQuestionsForVendor($this->vendor)
+                ->whereHas('originalQuestion', function ($query) {
+                $query->where('page', 'vendor_corporate');
+                //Aquí es donde habria que filtrar where linked is null
             })->avg('score') ?? 0;
         $market = $this->project->selectionCriteriaQuestionsForVendor($this->vendor)->whereHas('originalQuestion', function ($query) {
                 $query
