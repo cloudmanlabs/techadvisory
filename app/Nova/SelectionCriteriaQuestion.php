@@ -75,6 +75,9 @@ class SelectionCriteriaQuestion extends Resource
                     return $text;
                 }),
 
+            BelongsTo::make('Linked Question', 'linkedQuestion', SelectionCriteriaQuestion::class)
+                ->nullable(),
+
             Select::make('Page', 'page')
                 ->options(\App\SelectionCriteriaQuestion::pagesSelect)
                 ->displayUsingLabels()

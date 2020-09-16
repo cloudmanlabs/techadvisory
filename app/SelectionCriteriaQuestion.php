@@ -52,4 +52,8 @@ class SelectionCriteriaQuestion extends Question
     public function practice(){
         return $this->belongsTo(Practice::class,'practice_id');
     }
+
+    public function linkedQuestion(){
+        return $this->belongsTo(SelectionCriteriaQuestion::class,'linked_question_id');
+    }
 }
