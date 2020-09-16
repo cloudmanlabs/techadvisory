@@ -363,13 +363,19 @@ class VendorApplication extends Model
     {
         $corp = $this->project->selectionCriteriaQuestionsForVendor($this->vendor)
                 ->whereHas('originalQuestion', function ($query) {
-                $query->where('page', 'vendor_corporate');
-                //Aquí es donde habria que filtrar where linked is null
-            })->avg('score') ?? 0;
-        $market = $this->project->selectionCriteriaQuestionsForVendor($this->vendor)->whereHas('originalQuestion', function ($query) {
-                $query
-                    ->where('page', 'vendor_market');
-            })->avg('score') ?? 0;
+                    $query->where('page', 'vendor_corporate');
+                })
+                ->whereHas('originalQuestion', function ($query) {
+                    $query->whereNull('linked_question_id');
+                })->avg('score') ?? 0;
+
+        $market = $this->project->selectionCriteriaQuestionsForVendor($this->vendor)
+                ->whereHas('originalQuestion', function ($query) {
+                    $query->where('page', 'vendor_market');
+                })
+                ->whereHas('originalQuestion', function ($query) {
+                    $query->whereNull('linked_question_id');
+                })->avg('score') ?? 0;
 
         return collect([$corp, $market])->avg();
     }
@@ -377,8 +383,10 @@ class VendorApplication extends Model
     public function experienceScore()
     {
         return $this->project->selectionCriteriaQuestionsForVendor($this->vendor)->whereHas('originalQuestion', function ($query) {
-                $query
-                    ->where('page', 'experience');
+                $query->where('page', 'experience');
+            })
+                ->whereHas('originalQuestion', function ($query) {
+                $query->whereNull('linked_question_id');
             })->avg('score') ?? 0;
     }
 
@@ -387,18 +395,29 @@ class VendorApplication extends Model
         $digital = $this->project->selectionCriteriaQuestionsForVendor($this->vendor)->whereHas('originalQuestion', function ($query) {
                 $query
                     ->where('page', 'innovation_digitalEnablers');
+            })->whereHas('originalQuestion', function ($query) {
+                $query->whereNull('linked_question_id');
             })->avg('score') ?? 0;
+
         $alliances = $this->project->selectionCriteriaQuestionsForVendor($this->vendor)->whereHas('originalQuestion', function ($query) {
                 $query
                     ->where('page', 'innovation_alliances');
+            })->whereHas('originalQuestion', function ($query) {
+                $query->whereNull('linked_question_id');
             })->avg('score') ?? 0;
+
         $product = $this->project->selectionCriteriaQuestionsForVendor($this->vendor)->whereHas('originalQuestion', function ($query) {
                 $query
                     ->where('page', 'innovation_product');
+            })->whereHas('originalQuestion', function ($query) {
+                $query->whereNull('linked_question_id');
             })->avg('score') ?? 0;
+
         $sustainability = $this->project->selectionCriteriaQuestionsForVendor($this->vendor)->whereHas('originalQuestion', function ($query) {
                 $query
                     ->where('page', 'innovation_sustainability');
+            })->whereHas('originalQuestion', function ($query) {
+                $query->whereNull('linked_question_id');
             })->avg('score') ?? 0;
 
         return collect([$digital, $alliances, $product, $sustainability])->avg();
@@ -660,11 +679,11 @@ class VendorApplication extends Model
                 break;
             case "rejected":
             case "applicating":
-            $this->phase = "invitation";
+                $this->phase = "invitation";
                 break;
             case "disqualified":
             case "pendingEvaluation":
-            $this->phase = "applicating";
+                $this->phase = "applicating";
                 break;
             case "evaluated":
                 $this->phase = "pendingEvaluation";

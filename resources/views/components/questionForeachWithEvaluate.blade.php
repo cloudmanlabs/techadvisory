@@ -8,9 +8,12 @@
         @case('text')
         <div class="form-group questionDiv {{$class}}"
              data-practice="{{$question->originalQuestion->practice->id ?? ''}}">
-            <x-accenture.evaluateInputGroup :required="$required || $question->originalQuestion->required"
-                                            :changing="$question->id" :score="$question->score"
-                                            :disabled="$evalDisabled">
+            <x-accenture.evaluateInputGroup
+                :required="$required || $question->originalQuestion->required"
+                :changing="$question->id"
+                :score="$question->score"
+                :disabled="$evalDisabled"
+                :disable-score="$question->originalQuestion->linkedQuestion()->first()">
                 <label>{{$question->originalQuestion->label}}{{$question->originalQuestion->required ? '*' : ''}}</label>
                 <input
                     {{$required ? 'required' : ''}}
@@ -21,9 +24,7 @@
                     data-changing="{{$question->id}}"
                     value="{{$question->response}}"
                     placeholder="{{$question->originalQuestion->placeholder}}">
-                @if(!$question->originalQuestion->linkedQuestion()->first())
             </x-accenture.evaluateInputGroup>
-            @endif
         </div>
         @break
         @case('textarea')
@@ -31,7 +32,8 @@
              data-practice="{{$question->originalQuestion->practice->id ?? ''}}">
             <x-accenture.evaluateInputGroup :required="$required || $question->originalQuestion->required"
                                             :changing="$question->id" :score="$question->score"
-                                            :disabled="$evalDisabled">
+                                            :disabled="$evalDisabled"
+                                            :disable-score="$question->originalQuestion->linkedQuestion()->first()">
                 <label>{{$question->originalQuestion->label}}{{$question->originalQuestion->required ? '*' : ''}}</label>
                 <textarea
                     {{$required ? 'required' : ''}}
@@ -41,9 +43,7 @@
                     data-changing="{{$question->id}}"
                         {{$question->originalQuestion->required ? 'required' : ''}}
                     >{{$question->response}}</textarea>
-                @if(!$question->originalQuestion->linkedQuestion()->first())
             </x-accenture.evaluateInputGroup>
-            @endif
         </div>
         @break
         @case('selectSingle')
@@ -51,7 +51,8 @@
              data-practice="{{$question->originalQuestion->practice->id ?? ''}}">
             <x-accenture.evaluateInputGroup :required="$required || $question->originalQuestion->required"
                                             :changing="$question->id" :score="$question->score"
-                                            :disabled="$evalDisabled">
+                                            :disabled="$evalDisabled"
+                                            :disable-score="$question->originalQuestion->linkedQuestion()->first()">
                 <label>{{$question->originalQuestion->label}}{{$question->originalQuestion->required ? '*' : ''}}</label>
                 <select
                     {{$required ? 'required' : ''}}
@@ -82,7 +83,8 @@
              data-practice="{{$question->originalQuestion->practice->id ?? ''}}">
             <x-accenture.evaluateInputGroup :required="$required || $question->originalQuestion->required"
                                             :changing="$question->id" :score="$question->score"
-                                            :disabled="$evalDisabled">
+                                            :disabled="$evalDisabled"
+                                            :disable-score="$question->originalQuestion->linkedQuestion()->first()">
                 <label>{{$question->originalQuestion->label}}{{$question->originalQuestion->required ? '*' : ''}}</label>
                 <select
                     {{$required ? 'required' : ''}}
@@ -114,7 +116,8 @@
         <div class="questionDiv {{$class}}" data-practice="{{$question->originalQuestion->practice->id ?? ''}}">
             <x-accenture.evaluateInputGroup :required="$required || $question->originalQuestion->required"
                                             :changing="$question->id" :score="$question->score"
-                                            :disabled="$evalDisabled">
+                                            :disabled="$evalDisabled"
+                                            :disable-score="$question->originalQuestion->linkedQuestion()->first()">
                 <label>{{$question->originalQuestion->label}}{{$question->originalQuestion->required ? '*' : ''}}</label>
                 <div class="input-group date datepicker" data-initialValue="{{$question->response}}">
                     <input
@@ -135,7 +138,8 @@
              data-practice="{{$question->originalQuestion->practice->id ?? ''}}">
             <x-accenture.evaluateInputGroup :required="$required || $question->originalQuestion->required"
                                             :changing="$question->id" :score="$question->score"
-                                            :disabled="$evalDisabled">
+                                            :disabled="$evalDisabled"
+                                            :disable-score="$question->originalQuestion->linkedQuestion()->first()">
                 <label>{{$question->originalQuestion->label}}{{$question->originalQuestion->required || $required? '*' : ''}}</label>
                 <input
                     {{$required ? 'required' : ''}}
@@ -157,7 +161,8 @@
              data-practice="{{$question->originalQuestion->practice->id ?? ''}}">
             <x-accenture.evaluateInputGroup :required="$required || $question->originalQuestion->required"
                                             :changing="$question->id" :score="$question->score"
-                                            :disabled="$evalDisabled">
+                                            :disabled="$evalDisabled"
+                                            :disable-score="$question->originalQuestion->linkedQuestion()->first()">
                 <label>{{$question->originalQuestion->label}}{{$question->originalQuestion->required || $required? '*' : ''}}
                     (%)</label>
                 <input
@@ -180,7 +185,8 @@
              data-practice="{{$question->originalQuestion->practice->id ?? ''}}">
             <x-accenture.evaluateInputGroup :required="$required || $question->originalQuestion->required"
                                             :changing="$question->id" :score="$question->score"
-                                            :disabled="$evalDisabled">
+                                            :disabled="$evalDisabled"
+                                            :disable-score="$question->originalQuestion->linkedQuestion()->first()">
                 <label>{{$question->originalQuestion->label}}{{$question->originalQuestion->required ? '*' : ''}}</label>
                 <input
                     {{$required ? 'required' : ''}}
