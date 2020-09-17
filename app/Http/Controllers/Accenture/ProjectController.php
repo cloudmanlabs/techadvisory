@@ -924,7 +924,7 @@ class ProjectController extends Controller
     {
         $vendor = $request->input('vendor');
         $vendorName = 'Choose vendor';
-        if(!empty($vendor)){
+        if (!empty($vendor)) {
             $vendorName = User::find($vendor)->name;
         }
         return view('accentureViews.projectBenchmarkVendorComparison', [
@@ -933,8 +933,8 @@ class ProjectController extends Controller
                 ->filter(function (VendorApplication $application) {
                     return $application->phase == 'submitted';
                 }),
-            'vendor'=> $vendor,
-            'vendorName'=> $vendorName,
+            'vendor' => $vendor,
+            'vendorName' => $vendorName,
         ]);
     }
 
@@ -990,6 +990,96 @@ class ProjectController extends Controller
         ];
     }
 
+    function arrayOfSelectionCriteriaResponsesQuestionsByPractice(Project $project, User $vendor, VendorApplication $application = null)
+    {
+
+        $fitgapQuestions = $project->selectionCriteriaQuestionsForVendor($vendor)->get()
+            ->filter(function ($question) {
+                return $question->originalQuestion->page == 'fitgap';
+            });
+
+        $practiceOfTheProject = $project->practice_id;
+
+        $vendorCorporateQuestions = $project->selectionCriteriaQuestionsForVendor($vendor)
+            ->whereHas('originalQuestion', function ($query) use ($practiceOfTheProject) {
+                $query->where('practice_id', '=', $practiceOfTheProject);
+            })->get()
+            ->filter(function ($question) {
+                return $question->originalQuestion->page == 'vendor_corporate';
+            });
+
+        $vendorMarketQuestions = $project->selectionCriteriaQuestionsForVendor($vendor)
+            ->whereHas('originalQuestion', function ($query) use ($practiceOfTheProject) {
+                $query->where('practice_id', '=', $practiceOfTheProject);
+            })->get()
+            ->filter(function ($question) {
+                return $question->originalQuestion->page == 'vendor_market';
+            });
+        $experienceQuestions = $project->selectionCriteriaQuestionsForVendor($vendor)
+            ->whereHas('originalQuestion', function ($query) use ($practiceOfTheProject) {
+                $query->where('practice_id', '=', $practiceOfTheProject);
+            })->get()
+            ->filter(function ($question) {
+                return $question->originalQuestion->page == 'experience';
+            });
+        $innovationDigitalEnablersQuestions = $project->selectionCriteriaQuestionsForVendor($vendor)
+            ->whereHas('originalQuestion', function ($query) use ($practiceOfTheProject) {
+                $query->where('practice_id', '=', $practiceOfTheProject);
+            })->get()
+            ->filter(function ($question) {
+                return $question->originalQuestion->page == 'innovation_digitalEnablers';
+            });
+        $innovationAlliancesQuestions = $project->selectionCriteriaQuestionsForVendor($vendor)
+            ->whereHas('originalQuestion', function ($query) use ($practiceOfTheProject) {
+                $query->where('practice_id', '=', $practiceOfTheProject);
+            })->get()
+            ->filter(function ($question) {
+                return $question->originalQuestion->page == 'innovation_alliances';
+            });
+        $innovationProductQuestions = $project->selectionCriteriaQuestionsForVendor($vendor)
+            ->whereHas('originalQuestion', function ($query) use ($practiceOfTheProject) {
+                $query->where('practice_id', '=', $practiceOfTheProject);
+            })->get()
+            ->filter(function ($question) {
+                return $question->originalQuestion->page == 'innovation_product';
+            });
+        $innovationSustainabilityQuestions = $project->selectionCriteriaQuestionsForVendor($vendor)
+            ->whereHas('originalQuestion', function ($query) use ($practiceOfTheProject) {
+                $query->where('practice_id', '=', $practiceOfTheProject);
+            })->get()
+            ->filter(function ($question) {
+                return $question->originalQuestion->page == 'innovation_sustainability';
+            });
+
+        $implementationImplementationQuestions = $project->selectionCriteriaQuestionsForVendor($vendor)
+            ->get()
+            ->filter(function ($question) {
+                return $question->originalQuestion->page == 'implementation_implementation';
+            });
+        $implementationRunQuestions = $project->selectionCriteriaQuestionsForVendor($vendor)
+            ->get()
+            ->filter(function ($question) {
+                return $question->originalQuestion->page == 'implementation_run';
+            });
+
+        return [
+            'project' => $project,
+            'vendor' => $vendor,
+            'vendorApplication' => $application,
+
+            'fitgapQuestions' => $fitgapQuestions,
+            'vendorCorporateQuestions' => $vendorCorporateQuestions,
+            'vendorMarketQuestions' => $vendorMarketQuestions,
+            'experienceQuestions' => $experienceQuestions,
+            'innovationDigitalEnablersQuestions' => $innovationDigitalEnablersQuestions,
+            'innovationAlliancesQuestions' => $innovationAlliancesQuestions,
+            'innovationProductQuestions' => $innovationProductQuestions,
+            'innovationSustainabilityQuestions' => $innovationSustainabilityQuestions,
+            'implementationImplementationQuestions' => $implementationImplementationQuestions,
+            'implementationRunQuestions' => $implementationRunQuestions,
+        ];
+    }
+
     public function vendorProposalView(Project $project, User $vendor)
     {
         $application = VendorApplication::where('vendor_id', $vendor->id)
@@ -1001,7 +1091,7 @@ class ProjectController extends Controller
 
         SecurityLog::createLog('User viewed vendor proposal for vendor with ID ' . $vendor->id . ' in project with ID ' . $project->id);
 
-        return view('accentureViews.viewVendorProposal', $this->arrayOfSelectionCriteriaQuestions($project, $vendor, $application));
+        return view('accentureViews.viewVendorProposal', $this->arrayOfSelectionCriteriaResponsesQuestionsByPractice($project, $vendor, $application));
     }
 
     public function vendorProposalEdit(Project $project, User $vendor)
@@ -1015,7 +1105,7 @@ class ProjectController extends Controller
 
         SecurityLog::createLog('User viewed vendor proposal for vendor with ID ' . $vendor->id . ' in project with ID ' . $project->id);
 
-        return view('accentureViews.editVendorProposal', $this->arrayOfSelectionCriteriaQuestions($project, $vendor, $application));
+        return view('accentureViews.editVendorProposal', $this->arrayOfSelectionCriteriaResponsesQuestionsByPractice($project, $vendor, $application));
     }
 
     public function vendorProposalEvaluation(Project $project, User $vendor)
@@ -1029,7 +1119,16 @@ class ProjectController extends Controller
 
         SecurityLog::createLog('User viewed vendor proposal for vendor with ID ' . $vendor->id . ' in project with ID ' . $project->id);
 
-        return view('accentureViews.viewVendorProposalEvaluation', $this->arrayOfSelectionCriteriaQuestions($project, $vendor, $application));
+        return view('accentureViews.viewVendorProposalEvaluation', $this->arrayOfSelectionCriteriaResponsesQuestionsByPractice($project, $vendor, $application));
+    }
+
+    public function filterQuestionsResponsesByPractice($responses)
+    {
+        $questionResponsesWithTheSamePracticeAsProyect = [];
+        foreach ($responses as $response) {
+            var_dump($response);
+        }
+        die();
     }
 
     public function resendInvitation(Request $request)

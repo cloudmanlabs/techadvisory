@@ -1,5 +1,8 @@
 @extends('accentureViews.layouts.forms')
 
+@php
+
+@endphp
 @section('content')
 <div class="main-wrapper">
     <x-accenture.navbar activeSection="sections" />
