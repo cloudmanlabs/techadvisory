@@ -671,27 +671,64 @@ class ProjectController extends Controller
         $fitgapQuestions = $project->selectionCriteriaQuestionsForVendor($vendor)->get()->filter(function ($question) {
             return $question->originalQuestion->page == 'fitgap';
         });
-        $vendorCorporateQuestions = $project->selectionCriteriaQuestionsForVendor($vendor)->get()->filter(function ($question) {
-            return $question->originalQuestion->page == 'vendor_corporate';
-        });
-        $vendorMarketQuestions = $project->selectionCriteriaQuestionsForVendor($vendor)->get()->filter(function ($question) {
-            return $question->originalQuestion->page == 'vendor_market';
-        });
-        $experienceQuestions = $project->selectionCriteriaQuestionsForVendor($vendor)->get()->filter(function ($question) {
-            return $question->originalQuestion->page == 'experience';
-        });
-        $innovationDigitalEnablersQuestions = $project->selectionCriteriaQuestionsForVendor($vendor)->get()->filter(function ($question) {
-            return $question->originalQuestion->page == 'innovation_digitalEnablers';
-        });
-        $innovationAlliancesQuestions = $project->selectionCriteriaQuestionsForVendor($vendor)->get()->filter(function ($question) {
-            return $question->originalQuestion->page == 'innovation_alliances';
-        });
-        $innovationProductQuestions = $project->selectionCriteriaQuestionsForVendor($vendor)->get()->filter(function ($question) {
-            return $question->originalQuestion->page == 'innovation_product';
-        });
-        $innovationSustainabilityQuestions = $project->selectionCriteriaQuestionsForVendor($vendor)->get()->filter(function ($question) {
-            return $question->originalQuestion->page == 'innovation_sustainability';
-        });
+
+        $practiceOfTheProject = $project->practice_id;
+
+        $vendorCorporateQuestions = $project->selectionCriteriaQuestionsForVendor($vendor)
+            ->whereHas('originalQuestion', function ($query) use ($practiceOfTheProject) {
+                $query->where('practice_id', '=', $practiceOfTheProject);
+            })->get()
+            ->filter(function ($question) {
+                return $question->originalQuestion->page == 'vendor_corporate';
+            });
+
+        $vendorMarketQuestions = $project->selectionCriteriaQuestionsForVendor($vendor)
+            ->whereHas('originalQuestion', function ($query) use ($practiceOfTheProject) {
+                $query->where('practice_id', '=', $practiceOfTheProject);
+            })->get()
+            ->filter(function ($question) {
+                return $question->originalQuestion->page == 'vendor_market';
+            });
+
+        $experienceQuestions = $project->selectionCriteriaQuestionsForVendor($vendor)
+            ->whereHas('originalQuestion', function ($query) use ($practiceOfTheProject) {
+                $query->where('practice_id', '=', $practiceOfTheProject);
+            })->get()
+            ->filter(function ($question) {
+                return $question->originalQuestion->page == 'experience';
+            });
+
+        $innovationDigitalEnablersQuestions = $project->selectionCriteriaQuestionsForVendor($vendor)
+            ->whereHas('originalQuestion', function ($query) use ($practiceOfTheProject) {
+                $query->where('practice_id', '=', $practiceOfTheProject);
+            })->get()
+            ->filter(function ($question) {
+                return $question->originalQuestion->page == 'innovation_digitalEnablers';
+            });
+
+        $innovationAlliancesQuestions = $project->selectionCriteriaQuestionsForVendor($vendor)
+            ->whereHas('originalQuestion', function ($query) use ($practiceOfTheProject) {
+                $query->where('practice_id', '=', $practiceOfTheProject);
+            })->get()
+            ->filter(function ($question) {
+                return $question->originalQuestion->page == 'innovation_alliances';
+            });
+
+        $innovationProductQuestions = $project->selectionCriteriaQuestionsForVendor($vendor)
+            ->whereHas('originalQuestion', function ($query) use ($practiceOfTheProject) {
+                $query->where('practice_id', '=', $practiceOfTheProject);
+            })->get()
+            ->filter(function ($question) {
+                return $question->originalQuestion->page == 'innovation_product';
+            });
+
+        $innovationSustainabilityQuestions = $project->selectionCriteriaQuestionsForVendor($vendor)
+            ->whereHas('originalQuestion', function ($query) use ($practiceOfTheProject) {
+                $query->where('practice_id', '=', $practiceOfTheProject);
+            })->get()
+            ->filter(function ($question) {
+                return $question->originalQuestion->page == 'innovation_sustainability';
+            });
 
         $implementationImplementationQuestions = $project->selectionCriteriaQuestionsForVendor($vendor)->get()->filter(function ($question) {
             return $question->originalQuestion->page == 'implementation_implementation';

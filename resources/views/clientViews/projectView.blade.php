@@ -79,7 +79,6 @@
                                                 </h6>
                                                 @endforeach
                                             </div>
-                                            {{dd($project)}}
 
                                             <x-selectionCriteriaQuestionsForAccentureAndClient
                                                 :project="$project"
