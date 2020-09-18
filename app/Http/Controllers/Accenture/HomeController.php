@@ -14,17 +14,19 @@ class HomeController extends Controller
 {
     public function home()
     {
-        $myOwner_id = auth()->user()->owner()->id;
-        if(empty($myOwner_id)){
+
+        if (empty(auth()->user()->owner())) {
             // No region filter
+
             $openProjects = Project::openProjects();
             $preparationProjects = Project::preparationProjects();
             $oldProjects = Project::oldProjects();
-        }else{
+        } else {
             // filter by his region
-            $openProjects = Project::projectsFromOwner($myOwner_id, 'open');
-            $preparationProjects = Project::projectsFromOwner($myOwner_id, 'preparation');
-            $oldProjects = Project::projectsFromOwner($myOwner_id, 'old');
+            $myOwnerId = auth()->user()->owner()->id;
+            $openProjects = Project::projectsFromOwner($myOwnerId, 'open');
+            $preparationProjects = Project::projectsFromOwner($myOwnerId, 'preparation');
+            $oldProjects = Project::projectsFromOwner($myOwnerId, 'old');
         }
 
         $practices = Practice::all()->pluck('name');
