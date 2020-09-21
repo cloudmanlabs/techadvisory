@@ -16,7 +16,7 @@
     $hideQuestionsForVendor = $hideQuestionsForVendor ?? false;
 
     $allOwners = $allOwners ?? [];
-    $currentOwner = 0;
+    $currentOwner = null;
     if($project->owner()){
         $currentOwner = $project->owner()->id;
     }
