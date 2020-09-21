@@ -57,7 +57,10 @@
             $array_temporal[$key] = number_format($application->$scoreType(), 2);
         }
         $array_temporal = array_filter($array_temporal);
-        $average = array_sum($array_temporal)/count($array_temporal);
+        $average = 0;
+        if(count($array_temporal)>0){
+            $average = array_sum($array_temporal)/count($array_temporal);
+        }
         $average = round($average,2);
         return $average;
     }
