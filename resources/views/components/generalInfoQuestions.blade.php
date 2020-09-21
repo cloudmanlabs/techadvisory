@@ -16,7 +16,10 @@
     $hideQuestionsForVendor = $hideQuestionsForVendor ?? false;
 
     $allOwners = $allOwners ?? [];
-    $currentOwner = $project->owner()->id ?? 0;
+    $currentOwner = 0;
+    if($project->owner()){
+        $currentOwner = $project->owner()->id;
+    }
 
 @endphp
 
@@ -43,7 +46,7 @@
                 data-changing="owner_id"
                 {{$disabled ? 'disabled' : ''}}
                 required>
-            <option selected="selected" disabled="disabled">Please select the Owner name</option>
+            <option selected="selected" value="null">Please select the Owner name</option>
             @foreach ($allOwners as $owner)
                 <option value="{{$owner->id}}"
                         @if($currentOwner == $owner->id) selected @endif
