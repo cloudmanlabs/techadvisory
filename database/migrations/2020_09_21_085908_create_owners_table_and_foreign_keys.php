@@ -47,7 +47,6 @@ class CreateOwnersTableAndForeignKeys extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('owners');
 
         Schema::table('projects', function (Blueprint $table) {
             if (!Schema::hasColumn('projects', 'owner_id')) {
@@ -60,5 +59,8 @@ class CreateOwnersTableAndForeignKeys extends Migration
                 $table->dropColumn('owner_id');
             }
         });
+
+        Schema::dropIfExists('owners');
+
     }
 }
