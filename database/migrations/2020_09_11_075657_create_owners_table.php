@@ -25,14 +25,14 @@ class CreateOwnersTable extends Migration
 
         Schema::table('projects', function (Blueprint $table) {
             if (!Schema::hasColumn('projects', 'owner_id')) {
-                $table->integer('owner_id')->default(null);
+                $table->integer('owner_id')->nullable();
 
             }
         });
 
         Schema::table('users', function (Blueprint $table) {
             if (!Schema::hasColumn('users', 'owner_id')) {
-                $table->integer('owner_id')->default(null);
+                $table->integer('owner_id')->nullable();
 
             }
         });
