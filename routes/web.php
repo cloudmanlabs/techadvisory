@@ -22,7 +22,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/test', function(){
+Route::get('/test', function () {
     return nova_get_setting('test');
 });
 
@@ -33,7 +33,7 @@ Route::view('/terms', 'terms')
 Route::view('/privacy', 'privacy')
     ->name('privacy');
 
-Route::post('logout', function(Request $request){
+Route::post('logout', function (Request $request) {
     SecurityLog::createLog('User logged out');
 
     Auth::logout();
@@ -86,8 +86,6 @@ Route::middleware(['auth'])->group(function () {
     Route::post('folder/removeFile', 'FolderController@removeFile');
 
 
-
-
     Route::post('import5Columns/{project}', 'FitgapController@import5Columns')
         ->name('import5Columns');
 
@@ -111,7 +109,6 @@ Route::middleware(['auth'])->group(function () {
         ->name('fitgapVendorIframe');
     Route::get('fitgapEvaluationIframe/{vendor}/{project}', 'FitgapController@evaluationIframe')
         ->name('fitgapEvaluationIframe');
-
 
 
     Route::get('security/logs/export', 'SecurityLogController@exportAll');
