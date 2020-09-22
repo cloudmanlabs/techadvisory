@@ -56,13 +56,35 @@ class FitgapController extends Controller
 
     public function clientJson(Project $project)
     {
-        $result = [];
-        // Merge the two arrays
-        foreach ($project->fitgap5Columns as $key => $something) {
-            $result[] = array_merge($project->fitgap5Columns[$key], $project->fitgapClientColumns[$key] ?? [
-                    'Client' => '',
-                    'Business Opportunity' => '',
-                ]);
+        /*       $result = [];
+                // Merge the two arrays
+                foreach ($project->fitgap5Columns as $key => $something) {
+                    $result[] = array_merge($project->fitgap5Columns[$key], $project->fitgapClientColumns[$key] ?? [
+                            'Client' => '',
+                            'Business Opportunity' => '',
+                        ]);
+                }*/
+        $result = [];   // The complete table.
+        foreach ($project->fitgap5Columns as $key => $fitgapRow) {
+
+            $result[$key] = $fitgapRow;
+
+            foreach ($project->fitgapClientColumns as $fitgapClientRow) {
+                // Add vendor Responses only where the column from Accenture exists (It could be deleted)
+                $hasClientData = array_key_exists('Requirement Client Response', $fitgapClientRow);
+                if ($hasClientData) {
+                    // Add the client data with the relation.
+                    if ($fitgapClientRow['Requirement Client Response'] == $fitgapRow['Requirement']) {
+                        $result[$key]['Client'] = $fitgapClientRow['Client'];
+                        $result[$key]['Business Opportunity'] = $fitgapClientRow['Business Opportunity'];
+                    }
+                } else {
+                    // Add the client data without the relation.
+                    $result[$key]['Client'] = $fitgapClientRow['Client'];
+                    $result[$key]['Business Opportunity'] = $fitgapClientRow['Business Opportunity'];
+                }
+
+            }
         }
 
         return $result;
@@ -86,7 +108,17 @@ class FitgapController extends Controller
 
             foreach ($vendorApplication->fitgapVendorColumns as $fitgapVendorRow) {
                 // Add vendor Responses only where the column from Accenture exists (It could be deleted)
-                if ($fitgapVendorRow['Requirement Response'] == $fitgapRow['Requirement']) {
+                $hasVendorData = array_key_exists('Requirement Response', $fitgapVendorRow);
+                if ($hasVendorData) {
+
+                    // Add the client data with the relation.
+                    if ($fitgapVendorRow['Requirement Response'] == $fitgapRow['Requirement']) {
+                        $result[$key]['Vendor Response'] = $fitgapVendorRow['Vendor Response'];
+                        $result[$key]['Comments'] = $fitgapVendorRow['Comments'];
+                    }
+                } else {
+
+                    // Add the client data without the relation.
                     $result[$key]['Vendor Response'] = $fitgapVendorRow['Vendor Response'];
                     $result[$key]['Comments'] = $fitgapVendorRow['Comments'];
                 }
@@ -156,6 +188,7 @@ class FitgapController extends Controller
             $resultClient[] = [
                 'Client' => $row['Client'],
                 'Business Opportunity' => $row['Business Opportunity'],
+                'Requirement Client Response' => $row['Requirement'],
             ];
 
             // Check if the value has changed. If it has, reset the vendor responses

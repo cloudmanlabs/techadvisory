@@ -19,7 +19,6 @@
 
         <div id="spreadsheet"></div>
 
-
         <script>
             $(function () {
                 $.ajaxSetup({
@@ -28,7 +27,6 @@
                     }
                 });
             });
-
 
             var mySpreadsheet = jexcel(document.getElementById('spreadsheet'), {
                 url:"{{route('fitgapClientJson', ['project' => $project])}}",

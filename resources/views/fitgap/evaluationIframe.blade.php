@@ -122,10 +122,10 @@
                 }
             });
 
-
             document.getElementById('download').onclick = function () {
                 mySpreadsheet.download();
             }
+
         </script>
     </body>
 </html>

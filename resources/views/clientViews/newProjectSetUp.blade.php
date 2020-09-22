@@ -166,6 +166,7 @@
                                             </div>
 
                                             <x-selectionCriteriaQuestionsForAccentureAndClient
+                                                :project="$project"
                                                 :vendorCorporateQuestions="$vendorCorporateQuestions"
                                                 :vendorMarketQuestions="$vendorMarketQuestions"
                                                 :experienceQuestions="$experienceQuestions"
