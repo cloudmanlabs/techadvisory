@@ -29,6 +29,10 @@
                 });
             });
 
+            $.get("{{route('fitgapVendorJson', ['vendor' => $vendor, 'project' => $project])}}",function(data){
+                console.log(data[0]);
+            });
+
 
             var mySpreadsheet = jexcel(document.getElementById('spreadsheet'), {
                 url:"{{route('fitgapVendorJson', ['vendor' => $vendor, 'project' => $project])}}",
@@ -108,3 +112,7 @@
         </script>
     </body>
 </html>
+
+@php
+
+@endphp

@@ -79,16 +79,18 @@ class FitgapController extends Controller
             abort(404);
         }
 
-        $result = [];
-        // Merge the two arrays
-        foreach ($project->fitgap5Columns as $key => $something) {
-            $result[] = array_merge(
-                $project->fitgap5Columns[$key],
-                $vendorApplication->fitgapVendorColumns[$key] ?? [
-                    'Vendor Response' => '',
-                    'Comments' => '',
-                ]
-            );
+        $result = [];   // The complete table.
+        foreach ($project->fitgap5Columns as $key => $fitgapRow) {
+
+            $result[$key] = $fitgapRow;
+
+            foreach ($vendorApplication->fitgapVendorColumns as $fitgapVendorRow) {
+                // Add vendor Responses only where the column from Accenture exists (It could be deleted)
+                if ($fitgapVendorRow['Requirement Response'] == $fitgapRow['Requirement']) {
+                    $result[$key]['Vendor Response'] = $fitgapVendorRow['Vendor Response'];
+                    $result[$key]['Comments'] = $fitgapVendorRow['Comments'];
+                }
+            }
         }
 
         return $result;
@@ -106,6 +108,7 @@ class FitgapController extends Controller
         }
 
         $result = [];
+
         // Merge the two arrays
         foreach ($project->fitgap5Columns as $key => $something) {
             $row = array_merge(
@@ -204,9 +207,11 @@ class FitgapController extends Controller
         // Parse stuff here
         $result = [];
         foreach ($request->data as $key => $row) {
+
             $result[] = [
                 'Vendor Response' => $row['Vendor Response'],
                 'Comments' => $row['Comments'],
+                'Requirement Response' => $row['Requirement'],
             ];
         }
 
