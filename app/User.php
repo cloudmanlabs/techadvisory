@@ -125,6 +125,38 @@ class User extends Authenticatable
     }
 
     /**
+     * @return array that this vendor has applied on any project.
+     */
+    public function vendorAppliedSubpractices()
+    {
+        $myAppliedProjects = $this->vendorAppliedProjects()->get();
+        $subpracticesApplied = [];
+        $subpracticesAppliedIDs = [];
+
+        if(!empty($myAppliedProjects)){
+
+            foreach ($myAppliedProjects as $project){
+                $subpracticesPivotApplied = $project->subpractices()->get();
+
+                if(!empty($subpracticesPivotApplied)){
+
+                    foreach ($subpracticesPivotApplied as $subpractice){
+                        array_push($subpracticesAppliedIDs, $subpractice->pivot->subpractice_id);
+                    }
+                }
+            }
+            if(!empty($subpracticesAppliedIDs)){
+                foreach ($subpracticesAppliedIDs as $subpracticeId){
+                    $subpractice = Subpractice::find($subpracticeId);
+                    array_push($subpracticesApplied,$subpractice);
+                }
+            }
+            $subpracticesApplied = collect($subpracticesApplied);
+        }
+        return $subpracticesApplied->pluck('name')->toArray();
+    }
+
+    /**
      * Returns the responses from a specific scope, a sub-type of a SC Capability Response
      * The scope has to be a parameter in id, because of the database design.
      *  9: scope_id for transportFlow

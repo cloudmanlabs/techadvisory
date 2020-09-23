@@ -175,4 +175,16 @@ class AnalysisController extends Controller
             'message' => 'Success'
         ]);
     }
+
+    public function getSubpracticesfromPractice(string $practiceName)
+    {
+        $practice = Practice::where('name', $practiceName)->first();
+        $subpractices = Subpractice::where('practice_id', $practice->id)->get();
+
+        return \response()->json([
+            'status' => 200,
+            'subpractices' => $subpractices,
+            'message' => 'Success'
+        ]);
+    }
 }

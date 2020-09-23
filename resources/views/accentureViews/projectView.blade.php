@@ -79,6 +79,7 @@
                                                 @endforeach
                                             </div>
 
+
                                             <x-selectionCriteriaQuestionsForAccentureAndClient
                                                 :vendorCorporateQuestions="$vendorCorporateQuestions"
                                                 :project="$project"
