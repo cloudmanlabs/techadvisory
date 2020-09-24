@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 /**
  * @property string $name
  * Class Owner
+ * This is what we named 'Organization' at Frontend later.
  * @package App
  */
 class Owner extends Model

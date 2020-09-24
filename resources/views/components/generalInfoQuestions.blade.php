@@ -40,13 +40,13 @@
 
 @if(auth()->user()->isAccenture())
     <div class="form-group">
-        <label for="ownerSelect">Choose the owner of the project*</label>
+        <label for="ownerSelect">Choose the Organization of the project*</label>
         <select id="ownerSelect"
                 class="form-control"
                 data-changing="owner_id"
                 {{$disabled ? 'disabled' : ''}}
                 required>
-            <option selected="selected" value="null">Please select the Owner name</option>
+            <option selected="selected" value="null">Please select the Organization name</option>
             @foreach ($allOwners as $owner)
                 <option value="{{$owner->id}}"
                         @if($currentOwner == $owner->id) selected @endif
