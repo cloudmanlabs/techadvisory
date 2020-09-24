@@ -55,6 +55,26 @@ class SelectionCriteriaQuestion extends Resource
         $common = [
             ID::make()->sortable(),
 
+            Text::make('Label', 'label')
+                ->required()
+                ->displayUsing(function ($text) {
+                    if (strlen($text) > 30) {
+                        return substr($text, 0, 30) . '...';
+                    }
+                    return $text;
+                }),
+
+            Select::make('Page', 'page')
+                ->options(\App\SelectionCriteriaQuestion::pagesSelect)
+                ->displayUsingLabels()
+                ->rules('required'),
+
+            BelongsTo::make('SC Capability (Practice)', 'practice', Practice::class)
+                ->nullable(),
+
+            BelongsTo::make('Linked Question', 'linkedQuestion', SelectionCriteriaQuestion::class)
+                ->nullable(),
+
             Select::make('Type', 'type')
                 ->options(\App\SelectionCriteriaQuestion::selectTypesDisplay)
                 ->displayUsingLabels()
@@ -65,23 +85,6 @@ class SelectionCriteriaQuestion extends Resource
                 ->rules('required')
                 ->onlyOnForms()
                 ->help('In order to include options for Select and Select Multiple, please click on edit'),
-
-            Text::make('Label', 'label')
-                ->required()
-                ->displayUsing(function ($text) {
-                    if (strlen($text) > 30) {
-                        return substr($text, 0, 30) . '...';
-                    }
-                    return $text;
-                }),
-
-            BelongsTo::make('Linked Question', 'linkedQuestion', SelectionCriteriaQuestion::class)
-                ->nullable(),
-
-            Select::make('Page', 'page')
-                ->options(\App\SelectionCriteriaQuestion::pagesSelect)
-                ->displayUsingLabels()
-                ->rules('required'),
 
             Boolean::make('Required', 'required'),
             Boolean::make('Fixed', 'fixed')
@@ -98,8 +101,6 @@ class SelectionCriteriaQuestion extends Resource
             BelongsTo::make('Related Vendor Profile Question', 'vendorProfileQuestion', VendorProfileQuestion::class)
                 ->nullable(),
 
-            BelongsTo::make('SC Capability (Practice)', 'practice', Practice::class)
-                ->nullable(),
         ];
 
         // NOTE All of the fields here should be hidden on index and create
