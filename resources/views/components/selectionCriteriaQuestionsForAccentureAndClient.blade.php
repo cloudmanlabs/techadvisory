@@ -19,7 +19,7 @@
     </p>
     <br>
     @foreach ($vendorCorporateQuestions as $question)
-        @if($question->practice_id == $project->practice_id)
+        @if($question->practice_id == $project->practice_id || empty($question->practice_id))
             <h6 style="margin-bottom: 1rem">
                 {{$question->label}}
             </h6>
@@ -33,7 +33,7 @@
     </p>
     <br>
     @foreach ($vendorMarketQuestions as $question)
-        @if($question->practice_id == $project->practice_id)
+        @if($question->practice_id == $project->practice_id || empty($question->practice_id))
             <h6 style="margin-bottom: 1rem">
                 {{$question->label}}
             </h6>
@@ -55,7 +55,7 @@
     </p>
     <br>
     @foreach ($experienceQuestions as $question)
-        @if($question->practice_id == $project->practice_id)
+        @if($question->practice_id == $project->practice_id || empty($question->practice_id))
             <h6 style="margin-bottom: 1rem">
                 {{$question->label}}
             </h6>
@@ -76,8 +76,8 @@
         by vendor solutions.
     </p>
     <br>
-    @foreach ($innovationDigitalEnablersQuestions as $question)
-        @if($question->practice_id == $project->practice_id)
+    @foreach ($innovationDigitalEnablersQuestions as $question )
+        @if($question->practice_id == $project->practice_id || empty($question->practice_id))
             <h6 style="margin-bottom: 1rem">
                 {{$question->label}}
             </h6>
@@ -90,7 +90,7 @@
     </p>
     <br>
     @foreach ($innovationAlliancesQuestions as $question)
-        @if($question->practice_id == $project->practice_id)
+        @if($question->practice_id == $project->practice_id || empty($question->practice_id))
             <h6 style="margin-bottom: 1rem">
                 {{$question->label}}
             </h6>
@@ -104,7 +104,7 @@
     <br>
     <br>
     @foreach ($innovationProductQuestions as $question)
-        @if($question->practice_id == $project->practice_id)
+        @if($question->practice_id == $project->practice_id || empty($question->practice_id))
             <h6 style="margin-bottom: 1rem">
                 {{$question->label}}
             </h6>
@@ -118,7 +118,7 @@
     <br>
     <br>
     @foreach ($innovationSustainabilityQuestions as $question)
-        @if($question->practice_id == $project->practice_id)
+        @if($question->practice_id == $project->practice_id || empty($question->practice_id))
             <h6 style="margin-bottom: 1rem">
                 {{$question->label}}
             </h6>
