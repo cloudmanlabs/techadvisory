@@ -121,7 +121,13 @@
                                             @endforeach
                                         </select>
                                     </div>
-
+                                    <br>
+                                    <h3>Search Results</h3>
+                                    <p class="welcome_text extra-top-15px">
+                                        {{nova_get_setting('accenture_analysisVendorCustom_otherQueries') ?? ''}}
+                                    </p>
+                                    <br>
+                                    <br>
                                     <!-- All Vendors -->
                                     <div id="projectContainer">
                                         @foreach ($vendors as $vendor)
@@ -219,7 +225,7 @@
                 $.get("/accenture/analysis/vendor/custom/getSubpractices/"
                     + selectedPractice, function (data) {
 
-                    if (data){
+                    if (data) {
                         $('#subpracticesContainer').show();
 
                         $('#selectSubpractices').empty();
@@ -227,7 +233,7 @@
                         var $dropdown = $("#selectSubpractices");
                         $dropdown.append($("<option />").val(null).text('Choose an option'));
                         var subpractices = data.subpractices;
-                        $.each(subpractices, function() {
+                        $.each(subpractices, function () {
                             $dropdown.append($("<option />").val(this.name).text(this.name));
                         });
                     }
@@ -253,9 +259,9 @@
                 let vendorsByTransportFlows;
                 let vendorsByTransportModes;
                 let vendorsByTransportTypes;
-/*
-                let vendorsByPlanningResponse;
-*/
+                /*
+                                let vendorsByPlanningResponse;
+                */
                 let vendorsByRegions;
                 let vendorsByIndustries;
 
@@ -329,12 +335,12 @@
                     vendorsByIndustries = vendorsByIndustries.map(vendor => vendor.id);
                 } else vendorsByIndustries = allVendorsResponses.map(vendor => vendor.id);
 
-/*                if (textPlanning.length > 0) {
-                    vendorsByPlanningResponse = allVendorsResponses.filter(
-                        response => response.planning.includes(textPlanning)
-                    );
-                    vendorsByPlanningResponse = vendorsByPlanningResponse.map(vendor => vendor.id);
-                } else vendorsByPlanningResponse = allVendorsResponses.map(vendor => vendor.id);*/
+                /*                if (textPlanning.length > 0) {
+                                    vendorsByPlanningResponse = allVendorsResponses.filter(
+                                        response => response.planning.includes(textPlanning)
+                                    );
+                                    vendorsByPlanningResponse = vendorsByPlanningResponse.map(vendor => vendor.id);
+                                } else vendorsByPlanningResponse = allVendorsResponses.map(vendor => vendor.id);*/
 
                 $('#projectContainer').children().each(function () {
 
@@ -349,9 +355,9 @@
                         && $.inArray(vendorToTest, vendorsByTransportTypes) !== -1
                         && $.inArray(vendorToTest, vendorsByRegions) !== -1
                         && $.inArray(vendorToTest, vendorsByIndustries) !== -1)
-/*
-                        && $.inArray(vendorToTest, vendorsByPlanningResponse) !== -1)
-*/
+                        /*
+                                                && $.inArray(vendorToTest, vendorsByPlanningResponse) !== -1)
+                        */
                     {
 
                         $(this).css('display', 'flex')
