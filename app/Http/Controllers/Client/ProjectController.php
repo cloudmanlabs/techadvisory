@@ -693,7 +693,8 @@ class ProjectController extends Controller
 
         $vendorCorporateQuestions = $project->selectionCriteriaQuestionsForVendor($vendor)
             ->whereHas('originalQuestion', function ($query) use ($practiceOfTheProject) {
-                $query->where('practice_id', '=', $practiceOfTheProject);
+                $query->where('practice_id', '=', $practiceOfTheProject)
+                    ->orWhere('practice_id','=',null);
             })->get()
             ->filter(function ($question) {
                 return $question->originalQuestion->page == 'vendor_corporate';
@@ -701,7 +702,8 @@ class ProjectController extends Controller
 
         $vendorMarketQuestions = $project->selectionCriteriaQuestionsForVendor($vendor)
             ->whereHas('originalQuestion', function ($query) use ($practiceOfTheProject) {
-                $query->where('practice_id', '=', $practiceOfTheProject);
+                $query->where('practice_id', '=', $practiceOfTheProject)
+                    ->orWhere('practice_id','=',null);
             })->get()
             ->filter(function ($question) {
                 return $question->originalQuestion->page == 'vendor_market';
@@ -709,7 +711,8 @@ class ProjectController extends Controller
 
         $experienceQuestions = $project->selectionCriteriaQuestionsForVendor($vendor)
             ->whereHas('originalQuestion', function ($query) use ($practiceOfTheProject) {
-                $query->where('practice_id', '=', $practiceOfTheProject);
+                $query->where('practice_id', '=', $practiceOfTheProject)
+                    ->orWhere('practice_id','=',null);
             })->get()
             ->filter(function ($question) {
                 return $question->originalQuestion->page == 'experience';
@@ -717,7 +720,8 @@ class ProjectController extends Controller
 
         $innovationDigitalEnablersQuestions = $project->selectionCriteriaQuestionsForVendor($vendor)
             ->whereHas('originalQuestion', function ($query) use ($practiceOfTheProject) {
-                $query->where('practice_id', '=', $practiceOfTheProject);
+                $query->where('practice_id', '=', $practiceOfTheProject)
+                    ->orWhere('practice_id','=',null);
             })->get()
             ->filter(function ($question) {
                 return $question->originalQuestion->page == 'innovation_digitalEnablers';
@@ -725,7 +729,8 @@ class ProjectController extends Controller
 
         $innovationAlliancesQuestions = $project->selectionCriteriaQuestionsForVendor($vendor)
             ->whereHas('originalQuestion', function ($query) use ($practiceOfTheProject) {
-                $query->where('practice_id', '=', $practiceOfTheProject);
+                $query->where('practice_id', '=', $practiceOfTheProject)
+                    ->orWhere('practice_id','=',null);
             })->get()
             ->filter(function ($question) {
                 return $question->originalQuestion->page == 'innovation_alliances';
@@ -733,7 +738,8 @@ class ProjectController extends Controller
 
         $innovationProductQuestions = $project->selectionCriteriaQuestionsForVendor($vendor)
             ->whereHas('originalQuestion', function ($query) use ($practiceOfTheProject) {
-                $query->where('practice_id', '=', $practiceOfTheProject);
+                $query->where('practice_id', '=', $practiceOfTheProject)
+                    ->orWhere('practice_id','=',null);
             })->get()
             ->filter(function ($question) {
                 return $question->originalQuestion->page == 'innovation_product';
@@ -741,7 +747,8 @@ class ProjectController extends Controller
 
         $innovationSustainabilityQuestions = $project->selectionCriteriaQuestionsForVendor($vendor)
             ->whereHas('originalQuestion', function ($query) use ($practiceOfTheProject) {
-                $query->where('practice_id', '=', $practiceOfTheProject);
+                $query->where('practice_id', '=', $practiceOfTheProject)
+                    ->orWhere('practice_id','=',null);
             })->get()
             ->filter(function ($question) {
                 return $question->originalQuestion->page == 'innovation_sustainability';
