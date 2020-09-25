@@ -3,6 +3,7 @@
 namespace App\Nova;
 
 use App\Nova\Filters\PageTypeSelectionCriteria;
+use App\Nova\Filters\PracticeType;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Laravel\Nova\Fields\BelongsTo;
@@ -186,7 +187,8 @@ class SelectionCriteriaQuestion extends Resource
     public function filters(Request $request)
     {
         return [
-            (new PageTypeSelectionCriteria)
+            new PageTypeSelectionCriteria,
+            new PracticeType
         ];
     }
 
