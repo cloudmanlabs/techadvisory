@@ -1002,7 +1002,8 @@ class ProjectController extends Controller
 
         $vendorCorporateQuestions = $project->selectionCriteriaQuestionsForVendor($vendor)
             ->whereHas('originalQuestion', function ($query) use ($practiceOfTheProject) {
-                $query->where('practice_id', '=', $practiceOfTheProject);
+                $query->where('practice_id', '=', $practiceOfTheProject)
+                    ->orWhere('practice_id', '=', null);
             })->get()
             ->filter(function ($question) {
                 return $question->originalQuestion->page == 'vendor_corporate';
@@ -1010,42 +1011,48 @@ class ProjectController extends Controller
 
         $vendorMarketQuestions = $project->selectionCriteriaQuestionsForVendor($vendor)
             ->whereHas('originalQuestion', function ($query) use ($practiceOfTheProject) {
-                $query->where('practice_id', '=', $practiceOfTheProject);
+                $query->where('practice_id', '=', $practiceOfTheProject)
+                    ->orWhere('practice_id', '=', null);
             })->get()
             ->filter(function ($question) {
                 return $question->originalQuestion->page == 'vendor_market';
             });
         $experienceQuestions = $project->selectionCriteriaQuestionsForVendor($vendor)
             ->whereHas('originalQuestion', function ($query) use ($practiceOfTheProject) {
-                $query->where('practice_id', '=', $practiceOfTheProject);
+                $query->where('practice_id', '=', $practiceOfTheProject)
+                    ->orWhere('practice_id', '=', null);
             })->get()
             ->filter(function ($question) {
                 return $question->originalQuestion->page == 'experience';
             });
         $innovationDigitalEnablersQuestions = $project->selectionCriteriaQuestionsForVendor($vendor)
             ->whereHas('originalQuestion', function ($query) use ($practiceOfTheProject) {
-                $query->where('practice_id', '=', $practiceOfTheProject);
+                $query->where('practice_id', '=', $practiceOfTheProject)
+                    ->orWhere('practice_id', '=', null);
             })->get()
             ->filter(function ($question) {
                 return $question->originalQuestion->page == 'innovation_digitalEnablers';
             });
         $innovationAlliancesQuestions = $project->selectionCriteriaQuestionsForVendor($vendor)
             ->whereHas('originalQuestion', function ($query) use ($practiceOfTheProject) {
-                $query->where('practice_id', '=', $practiceOfTheProject);
+                $query->where('practice_id', '=', $practiceOfTheProject)
+                    ->orWhere('practice_id', '=', null);
             })->get()
             ->filter(function ($question) {
                 return $question->originalQuestion->page == 'innovation_alliances';
             });
         $innovationProductQuestions = $project->selectionCriteriaQuestionsForVendor($vendor)
             ->whereHas('originalQuestion', function ($query) use ($practiceOfTheProject) {
-                $query->where('practice_id', '=', $practiceOfTheProject);
+                $query->where('practice_id', '=', $practiceOfTheProject)
+                    ->orWhere('practice_id', '=', null);
             })->get()
             ->filter(function ($question) {
                 return $question->originalQuestion->page == 'innovation_product';
             });
         $innovationSustainabilityQuestions = $project->selectionCriteriaQuestionsForVendor($vendor)
             ->whereHas('originalQuestion', function ($query) use ($practiceOfTheProject) {
-                $query->where('practice_id', '=', $practiceOfTheProject);
+                $query->where('practice_id', '=', $practiceOfTheProject)
+                    ->orWhere('practice_id', '=', null);
             })->get()
             ->filter(function ($question) {
                 return $question->originalQuestion->page == 'innovation_sustainability';
