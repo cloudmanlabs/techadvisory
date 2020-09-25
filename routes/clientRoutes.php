@@ -90,6 +90,8 @@ Route::prefix('client')
                         ->name('projectBenchmarkInnovation');
                     Route::get('project/benchmark/implementation/{project}', 'ProjectController@benchmarkImplementation')
                         ->name('projectBenchmarkImplementation');
+                    Route::get('project/benchmark/vendorComparison/{project}', 'ProjectController@benchmarkVendorComparison')
+                        ->name('projectBenchmarkVendorComparison');
 
                     Route::get('/project/vendorProposal/view/{project}/{vendor}', 'ProjectController@vendorProposalView')
                         ->name('viewVendorProposal');

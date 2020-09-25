@@ -657,6 +657,23 @@ class ProjectController extends Controller
         ]);
     }
 
+    public function benchmarkVendorComparison(Request $request, Project $project)
+    {
+        $vendor = $request->input('vendor');
+        $vendorName = 'Choose vendor';
+        if (!empty($vendor)) {
+            $vendorName = User::find($vendor)->name;
+        }
+        return view('clientViews.projectBenchmarkVendorComparison', [
+            'project' => $project,
+            'applications' => $project->vendorApplications
+                ->filter(function (VendorApplication $application) {
+                    return $application->phase == 'submitted';
+                }),
+            'vendor' => $vendor,
+            'vendorName' => $vendorName,
+        ]);
+    }
 
     public function vendorProposalView(Project $project, User $vendor)
     {
