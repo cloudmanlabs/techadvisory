@@ -15,7 +15,7 @@
 <h3>Overall weights</h3>
 <br>
 <p class="welcome_text extra-top-15px">
-    In case you want to apply a different weight in sections inside Fit Gap,
+    In case you want to apply a different weight for the different sections,
     please specify a percentage. To do so, drag and drop the building blocks.
 </p>
 
