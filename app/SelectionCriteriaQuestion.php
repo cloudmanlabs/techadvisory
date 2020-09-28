@@ -49,11 +49,43 @@ class SelectionCriteriaQuestion extends Question
         return $this->belongsTo(VendorProfileQuestion::class, 'vendor_profile_question_id');
     }
 
-    public function practice(){
-        return $this->belongsTo(Practice::class,'practice_id');
+    public function practice()
+    {
+        return $this->belongsTo(Practice::class, 'practice_id');
     }
 
-    public function linkedQuestion(){
-        return $this->belongsTo(SelectionCriteriaQuestion::class,'linked_question_id');
+    public function linkedQuestion()
+    {
+        return $this->belongsTo(SelectionCriteriaQuestion::class, 'linked_question_id');
+    }
+
+    /**
+     * Each SelectionCriteriaQuestion has a group of SelectionCriteriaQuestion that can be linked to,
+     *  depending to their page and practice (SC Capability) chosen before.
+     * @return |null linked Question to select (only for backoffice purposes)
+     */
+    public function getPossibleLinkedQuestionsFiltered()
+    {
+        $result = SelectionCriteriaQuestion::where('id', '!=', $this->id)
+        ->whereNull('linked_question_id');
+        if ($this->page != null) {
+            // in fact, page is a required attribute.
+            $result = $result->where('page', '=', $this->page);
+
+            if ($this->practice != null) {
+                // practice filter.
+                $result = $result->where('practice_id', '=', $this->practice->id);
+
+            } else {
+                // no practice filter.
+                $result = $result->whereNull('practice_id');
+            }
+        }
+        // [question id] => question label
+        $questionsStructureForNova = [];
+        foreach ($result->get() as $question) {
+            $questionsStructureForNova[$question->id] = $question->label;
+        }
+        return $questionsStructureForNova;
     }
 }

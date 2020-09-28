@@ -17,6 +17,7 @@ use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Panel;
+use PhpParser\Node\Expr\Cast\Int_;
 
 class SelectionCriteriaQuestion extends Resource
 {
@@ -48,7 +49,7 @@ class SelectionCriteriaQuestion extends Resource
     /**
      * Get the fields displayed by the resource.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
      * @return array
      */
     public function fields(Request $request)
@@ -73,8 +74,9 @@ class SelectionCriteriaQuestion extends Resource
             BelongsTo::make('SC Capability (Practice)', 'practice', Practice::class)
                 ->nullable(),
 
-            BelongsTo::make('Linked Question', 'linkedQuestion', SelectionCriteriaQuestion::class)
-                ->nullable(),
+            /*            BelongsTo::make('Linked Question', 'linkedQuestion', SelectionCriteriaQuestion::class)
+                            ->nullable(),*/
+
 
             Select::make('Type', 'type')
                 ->options(\App\SelectionCriteriaQuestion::selectTypesDisplay)
@@ -95,12 +97,15 @@ class SelectionCriteriaQuestion extends Resource
                 ->exceptOnForms(),
 
             Boolean::make('Fixed', 'fixed')
-                ->canSee(function(){
+                ->canSee(function () {
                     return auth()->user()->isAdmin();
                 }),
 
             BelongsTo::make('Related Vendor Profile Question', 'vendorProfileQuestion', VendorProfileQuestion::class)
                 ->nullable(),
+
+            BelongsTo::make('Linked Question', 'linkedQuestion', SelectionCriteriaQuestion::class)
+                ->nullable()->hideWhenCreating()->hideWhenUpdating()
 
         ];
 
@@ -164,13 +169,34 @@ class SelectionCriteriaQuestion extends Resource
                 break;
         }
 
+        // adding linked question field.
+        if ($this->resource->page) {
+            if (!empty($request->resourceId)) {
+                $id = intval($request->resourceId);
+                $a = \App\SelectionCriteriaQuestion::find($id)->getPossibleLinkedQuestionsFiltered();
+
+                array_push($other,
+                    Select::make('Linked Question', 'linked_question_id')
+                        ->options(
+                            \App\SelectionCriteriaQuestion::find($id)
+                                ->getPossibleLinkedQuestionsFiltered()
+                        )
+                        ->nullable()
+                        ->hideWhenCreating()
+                        ->hideFromIndex()
+                        ->displayUsingLabels()
+                );
+            }
+
+        }
+
         return array_merge($common, $other);
     }
 
     /**
      * Get the cards available for the request.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
      * @return array
      */
     public function cards(Request $request)
@@ -181,7 +207,7 @@ class SelectionCriteriaQuestion extends Resource
     /**
      * Get the filters available for the resource.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
      * @return array
      */
     public function filters(Request $request)
@@ -195,7 +221,7 @@ class SelectionCriteriaQuestion extends Resource
     /**
      * Get the lenses available for the resource.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
      * @return array
      */
     public function lenses(Request $request)
@@ -206,7 +232,7 @@ class SelectionCriteriaQuestion extends Resource
     /**
      * Get the actions available for the resource.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
      * @return array
      */
     public function actions(Request $request)
