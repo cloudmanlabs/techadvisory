@@ -375,12 +375,19 @@
         });
 
         var selectedVendorBarTag = '{{$vendorName}}';
-        var colorsPaletteHEX = [
+/*        var colorsPaletteHEX = [
             '#27003d',
             '#460073',
             '#5a008f',
             '#7500c0',
             '#a100ff'
+        ];*/
+        var colorsPaletteHEX = [
+            '#A12BFE',
+            '#BEBEBE',
+            '#460D72',
+            '#5A5A5A',
+            '#234DFF'
         ];
 
         // Chart for best Vendor (Overall) ********************************************

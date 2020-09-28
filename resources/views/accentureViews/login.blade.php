@@ -52,12 +52,12 @@
                                             @endif
                                         </div>
 
-                                        <div class="form-check form-check-flat form-check-primary">
+{{--                                        <div class="form-check form-check-flat form-check-primary">
                                             <label class="form-check-label">
                                                 <input class="form-check-input" type="checkbox" name="remember">
                                                 Remember me
                                             </label>
-                                        </div>
+                                        </div>--}}
                                         <p style="margin-top: 1rem; margin-bottom: 2rem" target="_blank">
                                             By logging into the platform, I agree to the <a href="{{route('terms')}}">Terms of Use</a>
                                             and I acknowledge receipt of <a href="{{route('privacy')}}">Privacy Statement</a>
