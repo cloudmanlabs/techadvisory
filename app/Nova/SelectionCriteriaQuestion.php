@@ -74,9 +74,11 @@ class SelectionCriteriaQuestion extends Resource
             BelongsTo::make('SC Capability (Practice)', 'practice', Practice::class)
                 ->nullable(),
 
-            /*            BelongsTo::make('Linked Question', 'linkedQuestion', SelectionCriteriaQuestion::class)
-                            ->nullable(),*/
-
+            BelongsTo::make('Linked Question', 'linkedQuestion', SelectionCriteriaQuestion::class)
+                ->nullable()
+                ->hideWhenCreating()
+                ->hideWhenUpdating()
+                ->onlyOnIndex(),
 
             Select::make('Type', 'type')
                 ->options(\App\SelectionCriteriaQuestion::selectTypesDisplay)
@@ -104,8 +106,6 @@ class SelectionCriteriaQuestion extends Resource
             BelongsTo::make('Related Vendor Profile Question', 'vendorProfileQuestion', VendorProfileQuestion::class)
                 ->nullable(),
 
-            BelongsTo::make('Linked Question', 'linkedQuestion', SelectionCriteriaQuestion::class)
-                ->nullable()->hideWhenCreating()->hideWhenUpdating()
 
         ];
 
@@ -158,6 +158,7 @@ class SelectionCriteriaQuestion extends Resource
                         ->hideWhenCreating()
                         ->help('Select a preset of options for the Dropdown, or select Custom to add a custom list of options in "Custom options"'),
                     Text::make('Custom options', 'options')
+                        ->onlyOnForms()
                         ->hideFromIndex()
                         ->hideWhenCreating()
                         ->help('Add a list of comma separated options.'),
@@ -173,7 +174,6 @@ class SelectionCriteriaQuestion extends Resource
         if ($this->resource->page) {
             if (!empty($request->resourceId)) {
                 $id = intval($request->resourceId);
-                $a = \App\SelectionCriteriaQuestion::find($id)->getPossibleLinkedQuestionsFiltered();
 
                 array_push($other,
                     Select::make('Linked Question', 'linked_question_id')
@@ -182,8 +182,8 @@ class SelectionCriteriaQuestion extends Resource
                                 ->getPossibleLinkedQuestionsFiltered()
                         )
                         ->nullable()
-                        ->hideWhenCreating()
                         ->hideFromIndex()
+                        ->hideWhenCreating()
                         ->displayUsingLabels()
                 );
             }
