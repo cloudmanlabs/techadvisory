@@ -57,9 +57,9 @@
                                             Please choose the SC Capability (Practice) you'd like to see:
                                         </p>
                                         <select id="practiceSelect" class="w-100" multiple>
-{{--
-                                            <option selected="true" value="" >Choose a option</option>
---}}
+                                            {{--
+                                                                                        <option selected="true" value="" >Choose a option</option>
+                                            --}}
                                             @foreach ($practices as $practice)
                                                 <option>{{$practice}}</option>
                                             @endforeach
@@ -205,42 +205,52 @@
             $('#scopesDiv').hide();
             $('#subpracticesContainer').hide();
 
+
             if (selectedPractice) {
 
-                // Scopes from practice (Only for Transport)
-                $.get("/accenture/analysis/vendor/custom/getScopes/"
-                    + selectedPractice, function (data) {
+                if ($('#practiceSelect').val().length > 1) {
+                    // More than one selection. No more subfilters permited.
+                    $('#TransportScope').hide();
+                    $('#PlanningScope').hide();
+                    $('#scopesDiv').hide();
+                    $('#subpracticesContainer').hide();
 
-                    if (selectedPractice.includes('Transport') && Array.isArray(data.scopes)) {
+                } else {
+                    // Scopes from practice (Only for Transport)
+                    $.get("/accenture/analysis/vendor/custom/getScopes/"
+                        + selectedPractice, function (data) {
 
-                        var scopes = data.scopes;
-                        var firstScope = scopes[0].type;
+                        if (selectedPractice.includes('Transport') && Array.isArray(data.scopes)) {
 
-                        if (firstScope.includes('selectMultiple')) {
-                            $('#scopesDiv').show();
-                            $('#TransportScope').show();
+                            var scopes = data.scopes;
+                            var firstScope = scopes[0].type;
+
+                            if (firstScope.includes('selectMultiple')) {
+                                $('#scopesDiv').show();
+                                $('#TransportScope').show();
+                            }
                         }
-                    }
-                });
+                    });
 
-                // subpractices from practice
-                $.get("/accenture/analysis/vendor/custom/getSubpractices/"
-                    + selectedPractice, function (data) {
+                    // subpractices from practice
+                    $.get("/accenture/analysis/vendor/custom/getSubpractices/"
+                        + selectedPractice, function (data) {
 
-                    if (data) {
-                        $('#subpracticesContainer').show();
+                        if (data) {
+                            $('#subpracticesContainer').show();
 
-                        $('#selectSubpractices').empty();
+                            $('#selectSubpractices').empty();
 
-                        var $dropdown = $("#selectSubpractices");
-                        $dropdown.append($("<option />").val(null).text('Choose an option'));
-                        var subpractices = data.subpractices;
-                        $.each(subpractices, function () {
-                            $dropdown.append($("<option />").val(this.name).text(this.name));
-                        });
-                    }
+                            var $dropdown = $("#selectSubpractices");
+                            $dropdown.append($("<option />").val(null).text('Choose an option'));
+                            var subpractices = data.subpractices;
+                            $.each(subpractices, function () {
+                                $dropdown.append($("<option />").val(this.name).text(this.name));
+                            });
+                        }
 
-                });
+                    });
+                }
             }
         });
 
@@ -288,13 +298,16 @@
                     vendorsBySegment = allVendorsResponses.map(vendor => vendor.id);
                 }
 
-                if (selectedPractices) {
-                    vendorsByPractice = allVendorsResponses.filter(
-                        response => {
-                            return response.practice.includes(selectedPractices)
-                        }
+                // Multiple filter.
+                if (selectedPractices.length > 0) {
+                    vendorsByPractice = [];
+                    var vendorsByThisPractice = [];
+                    for (let i = 0; i < selectedPractices.length; i++) {
+                        let thisPractice = selectedPractices[i];
+                        vendorsByThisPractice = getFilteredByPracticeResultsAsArray(thisPractice);
+                        vendorsByPractice = vendorsByPractice.concat(vendorsByThisPractice);
+                    }
 
-                    );
                     vendorsByPractice = vendorsByPractice.map(vendor => vendor.id);
                 } else vendorsByPractice = allVendorsResponses.map(vendor => vendor.id);
 
@@ -370,6 +383,12 @@
                         $(this).css('display', 'none')
                     }
                 });
+            }
+
+            function getFilteredByPracticeResultsAsArray(selectedPractice) {
+                return allVendorsResponses.filter(
+                    response => response.practice.includes(selectedPractice)
+                )
             }
 
             $('#practiceSelect').select2();
