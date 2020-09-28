@@ -56,8 +56,10 @@
                                         <p class="welcome_text">
                                             Please choose the SC Capability (Practice) you'd like to see:
                                         </p>
-                                        <select id="practiceSelect" class="w-100">
-                                            <option selected="true" value="">Choose a option</option>
+                                        <select id="practiceSelect" class="w-100" multiple>
+{{--
+                                            <option selected="true" value="" >Choose a option</option>
+--}}
                                             @foreach ($practices as $practice)
                                                 <option>{{$practice}}</option>
                                             @endforeach
@@ -122,7 +124,7 @@
                                         </select>
                                     </div>
                                     <br>
-                                    <h3>Search Results</h3>
+                                    <h3 style="color: #A12BFE">Search Results</h3>
                                     <p class="welcome_text extra-top-15px">
                                         {{nova_get_setting('accenture_analysisVendorCustom_otherQueries') ?? ''}}
                                     </p>
@@ -288,7 +290,10 @@
 
                 if (selectedPractices) {
                     vendorsByPractice = allVendorsResponses.filter(
-                        response => response.practice.includes(selectedPractices)
+                        response => {
+                            return response.practice.includes(selectedPractices)
+                        }
+
                     );
                     vendorsByPractice = vendorsByPractice.map(vendor => vendor.id);
                 } else vendorsByPractice = allVendorsResponses.map(vendor => vendor.id);
@@ -367,6 +372,7 @@
                 });
             }
 
+            $('#practiceSelect').select2();
             $('#practiceSelect').on('change', function (e) {
                 filterVendors();
             });
