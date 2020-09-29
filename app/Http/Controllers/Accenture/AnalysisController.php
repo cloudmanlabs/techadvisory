@@ -92,6 +92,7 @@ class AnalysisController extends Controller
         ]);
     }
 
+    // Move to Custom Searches
     public function projectCustom()
     {
         return view('accentureViews.analysisProjectCustom', [
@@ -106,7 +107,6 @@ class AnalysisController extends Controller
             'projects' => Project::all(),
         ]);
     }
-
 
     public function vendorGraphs()
     {
@@ -142,6 +142,7 @@ class AnalysisController extends Controller
         ]);
     }
 
+    // Move to Custom Searches
     public function vendorCustom()
     {
         $transportFlows = collect(config('arrays.transportFlows'));
@@ -163,7 +164,7 @@ class AnalysisController extends Controller
             'transportTypes' => $transportTypes,
         ]);
     }
-
+    // Move this to Custom Searches
     public function getScopesfromPractice(string $practiceName)
     {
         $practice = Practice::where('name', $practiceName)->first();
@@ -175,7 +176,7 @@ class AnalysisController extends Controller
             'message' => 'Success'
         ]);
     }
-
+    // Move this to Custom Searches
     public function getSubpracticesfromPractice(string $practiceName)
     {
         $practice = Practice::where('name', $practiceName)->first();

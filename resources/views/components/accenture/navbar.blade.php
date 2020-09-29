@@ -79,7 +79,7 @@
                     {{-- <img src="{{url('/assets/images/simple-logo.png')}}" style="height: 50px; margin-top: 4px"> --}}
                 </a>
             </div>
-            <ul class="nav page-navigation">
+            <ul class="nav page-navigation " style="position: relative; float: right">
                 <li class="nav-item {{$activeSection == 'home' ? 'active' : ''}}">
                     <a class="nav-link" href="{{route('accenture.home')}}">
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
@@ -126,7 +126,6 @@
                         </ul>
                     </div>
                 </li>
-
                 <li class="nav-item {{$activeSection == 'benchmark' ? 'active' : ''}}">
                     <a href="#" class="nav-link">
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
@@ -156,17 +155,29 @@
                                     From historcal side
                                 </a>
                             </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="{{route('accenture.analysis.project.custom')}}">
-                                    Custom searches
-                                </a>
-                            </li>
                             <li class="category-heading">Vendors Benchmark</li>
                             <li class="nav-item">
                                 <a class="nav-link" href="{{route('accenture.analysis.vendor.graphs')}}">
                                     Graphs
                                 </a>
                             </li>
+                        </ul>
+                    </div>
+                </li>
+                <li class="nav-item {{$activeSection == 'customSearches' ? 'active' : ''}}">
+                    <a href="#" class="nav-link">
+                        <i class="fa fa-search"></i>
+                        <span class="menu-title">Custom searches</span>
+                        <i class="link-arrow"></i>
+                    </a>
+                    <div class="submenu">
+                        <ul class="submenu-item">
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{route('accenture.analysis.project.custom')}}">
+                                    Custom searches
+                                </a>
+                            </li>
+
                             <li class="nav-item">
                                 <a class="nav-link" href="{{route('accenture.analysis.vendor.custom')}}">
                                     Custom searches
