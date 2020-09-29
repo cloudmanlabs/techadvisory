@@ -14,28 +14,27 @@ class AuthController extends Controller
     /**
      * Handle an authentication attempt.
      *
-     * @param  \Illuminate\Http\Request $request
+     * @param \Illuminate\Http\Request $request
      *
      * @return Response
      */
     public function login(Request $request)
     {
+
         $request->validate([
             'email' => 'required|string',
             'password' => 'required|string',
-
-            'remember' => 'nullable|boolean'
         ]);
 
         // Check if the user is Accenture
         $user = User::where('email', $request->input('email'))->first();
-        if ($user == null ||  ! $user->isAccenture()){
+        if ($user == null || !$user->isAccenture()) {
             return redirect()->back()
-                    ->withErrors(['notAccenture' => 'You\'re not an Accenture User, please use your corresponding login page.']);
+                ->withErrors(['notAccenture' => 'You\'re not an Accenture User, please use your corresponding login page.']);
         }
 
         $credentials = $request->only('email', 'password');
-        $remember = $request->input('remember') ?? false;
+        $remember = $request->input('remember') == 'on';
 
         if (Auth::attempt($credentials, $remember)) {
             SecurityLog::createLog('User logged in');

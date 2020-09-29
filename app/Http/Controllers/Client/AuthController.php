@@ -27,8 +27,6 @@ class AuthController extends Controller
         $request->validate([
             'email' => 'required|string',
             'password' => 'required|string',
-
-            'remember' => 'nullable|string'
         ]);
 
         // There used to be code here to log in with the main client email, but it's removed now. Check git to see it

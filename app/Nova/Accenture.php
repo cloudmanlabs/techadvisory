@@ -95,7 +95,8 @@ class Accenture extends Resource
                 ->displayUsingLabels()
                 ->required(),*/
 
-            BelongsTo::make('owners')->nullable(),
+            BelongsTo::make('Organization','owners',Owner::class)->nullable(),
+
 
             // Text::make('Region', 'region'),
         ];

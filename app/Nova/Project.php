@@ -73,7 +73,7 @@ class Project extends Resource
                 })
                 ->sortable(),
 
-            BelongsTo::make('owners')->nullable(),
+            BelongsTo::make('Organization','owners',Owner::class)->nullable(),
 
             DateTime::make('Deadline', 'deadline')
                 ->sortable(),
