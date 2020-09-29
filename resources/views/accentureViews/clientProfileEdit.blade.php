@@ -301,8 +301,8 @@
                 var name = $('#clientFirstNameInput').val();
                 $.post('/accenture/clientProfileEdit/createFirstCredential', {
                     client_id: {{$client->id}},
-                    email,
-                    name
+                    email: email,
+                    name: name
                 })
 
                 showSavedToast();

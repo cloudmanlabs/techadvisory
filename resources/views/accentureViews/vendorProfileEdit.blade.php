@@ -257,8 +257,8 @@
                 var name = $('#vendorFirstNameInput').val();
                 $.post('/accenture/vendorProfileEdit/createFirstCredential', {
                     vendor_id: {{$vendor->id}},
-                    email,
-                    name
+                    email: email,
+                    name: name
                 })
 
                 showSavedToast();

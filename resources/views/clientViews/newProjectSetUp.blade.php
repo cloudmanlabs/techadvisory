@@ -432,7 +432,7 @@
             var value = $(this).val();
             $.post('/client/newProjectSetUp/changeProjectHasValueTargeting', {
                 project_id: '{{$project->id}}',
-                value
+                value: value
             })
 
             showSavedToast();
@@ -443,7 +443,7 @@
             var value = $(this).val();
             $.post('/client/newProjectSetUp/changeProjectHasOrals', {
                 project_id: '{{$project->id}}',
-                value
+                value: value
             })
 
             showSavedToast();
@@ -454,7 +454,7 @@
             var value = $(this).val();
             $.post('/client/newProjectSetUp/changeProjectIsBinding', {
                 project_id: '{{$project->id}}',
-                value
+                value: value
             })
 
             showSavedToast();
@@ -490,7 +490,7 @@
             var value = $(this).val();
             $.post('/client/newProjectSetUp/changeIndustry', {
                 project_id: '{{$project->id}}',
-                value
+                value: value
             })
 
             showSavedToast();
@@ -500,7 +500,7 @@
             var value = $(this).val();
             $.post('/client/newProjectSetUp/changeRegions', {
                 project_id: '{{$project->id}}',
-                value
+                value: value
             })
 
             showSavedToast();
@@ -510,7 +510,7 @@
             var value = $(this).val();
             $.post('/client/newProjectSetUp/changeProjectType', {
                 project_id: '{{$project->id}}',
-                value
+                value: value
             })
 
             showSavedToast();
@@ -520,7 +520,7 @@
             var value = $(this).val();
             $.post('/client/newProjectSetUp/changeCurrency', {
                 project_id: '{{$project->id}}',
-                value
+                value: value
             })
 
             showSavedToast();
@@ -530,7 +530,7 @@
             var value = $(this).val();
             $.post('/client/newProjectSetUp/changeDeadline', {
                 project_id: '{{$project->id}}',
-                value
+                value: value
             })
 
             showSavedToast();
@@ -540,7 +540,7 @@
             var value = $(this).val();
             $.post('/client/newProjectSetUp/changeRFPOtherInfo', {
                 project_id: '{{$project->id}}',
-                value
+                value: value
             })
 
             showSavedToast();

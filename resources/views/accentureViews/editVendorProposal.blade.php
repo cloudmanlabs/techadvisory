@@ -228,7 +228,7 @@
 
                 $.post('/selectionCriteriaQuestion/changeResponse', {
                     changing: $(this).data('changing'),
-                    value
+                    value: value
                 })
 
                 showSavedToast();

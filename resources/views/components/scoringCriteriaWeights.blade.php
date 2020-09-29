@@ -195,7 +195,7 @@
             animation: 150,
             ghostClass: "sortable-ghost",
             onEnd: function() {
-                updateFitGapWeights();
+                updateFitGapWeights(true);
             }
         });
 
@@ -206,7 +206,7 @@
             animation: 150,
             ghostClass: "sortable-ghost",
             onEnd: function() {
-                updateFitGapWeights();
+                updateFitGapWeights(true);
             }
         });
 
@@ -217,7 +217,7 @@
             animation: 150,
             ghostClass: "sortable-ghost",
             onEnd: function() {
-                updateFitGapWeights();
+                updateFitGapWeights(true);
             }
         });
 
@@ -228,7 +228,7 @@
             animation: 150,
             ghostClass: "sortable-ghost",
             onEnd: function() {
-                updateFitGapWeights();
+                updateFitGapWeights(true);
             }
         });
 
@@ -239,7 +239,7 @@
             animation: 150,
             ghostClass: "sortable-ghost",
             onEnd: function() {
-                updateImplementationWeights();
+                updateImplementationWeights(true);
             }
         });
 
@@ -250,12 +250,12 @@
             animation: 150,
             ghostClass: "sortable-ghost",
             onEnd: function() {
-                updateImplementationWeights();
+                updateImplementationWeights(true);
             }
         });
     }
 
-    function updateFitGapWeights(showToast = true){
+    function updateFitGapWeights(showToast){
         var functionalBricks = document.getElementById("functionalBricks");
         var technicalBricks = document.getElementById("technicalBricks");
         var serviceBricks = document.getElementById("serviceBricks");
@@ -285,7 +285,7 @@
         }
     }
 
-    function updateImplementationWeights(showToast = true){
+    function updateImplementationWeights(showToast){
         var detailImplementationBricks = document.getElementById("detailImplementationBricks");
         var runBricks = document.getElementById("runBricks");
 
