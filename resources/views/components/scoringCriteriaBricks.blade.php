@@ -118,7 +118,7 @@
 <script src="https://cdn.jsdelivr.net/npm/sortablejs@latest/Sortable.min.js"></script>
 <script>
     // Timeout cause otherwise the steps thingy messes it up
-    setTimeout(() => {
+    setTimeout(function () {
         setUp();
         updateTotals(false);
     }, 3000);
@@ -137,7 +137,7 @@
             animation: 150,
             ghostClass: "sortable-ghost",
             onEnd: function() {
-                updateTotals();
+                updateTotals(true);
             }
         });
 
@@ -148,7 +148,7 @@
             animation: 150,
             ghostClass: "sortable-ghost",
             onEnd: function() {
-                updateTotals();
+                updateTotals(true);
             }
         });
 
@@ -159,7 +159,7 @@
             animation: 150,
             ghostClass: "sortable-ghost",
             onEnd: function() {
-                updateTotals();
+                updateTotals(true);
             }
         });
 
@@ -170,7 +170,7 @@
             animation: 150,
             ghostClass: "sortable-ghost",
             onEnd: function() {
-                updateTotals();
+                updateTotals(true);
             }
         });
 
@@ -181,12 +181,12 @@
             animation: 150,
             ghostClass: "sortable-ghost",
             onEnd: function() {
-                updateTotals();
+                updateTotals(true);
             }
         });
     }
 
-    function updateTotals(showToast = true) {
+    function updateTotals(showToast) {
         var simpleList = document.getElementById("simpleList");
         var fitgapBricks = document.getElementById("fitgapBricks");
         var vendorBricks = document.getElementById("vendorBricks");

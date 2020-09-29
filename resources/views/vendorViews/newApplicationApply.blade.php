@@ -333,7 +333,7 @@
         $('#submitButton').click(function(){
             $.post('{{route("vendor.application.setSubmitted", ["project" => $project])}}', {
                 success: function () {
-                    setTimeout(() => {
+                    setTimeout(function() {
                         window.location.replace("/vendors/home");
                     }, 300);
                 }

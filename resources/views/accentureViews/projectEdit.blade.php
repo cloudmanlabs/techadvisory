@@ -266,7 +266,7 @@
         });
     }
 
-    function updateShownSubpracticeOptionsAccordingToPractice(removeCurrentSelection = true){
+    function updateShownSubpracticeOptionsAccordingToPractice(removeCurrentSelection){
         // Deselect the current subpractice
         if(removeCurrentSelection){
             $('#subpracticeSelect').val([]);
@@ -404,7 +404,7 @@
             updateSubmitButton();
 
             updateShownQuestionsAccordingToPractice();
-            updateShownSubpracticeOptionsAccordingToPractice();
+            updateShownSubpracticeOptionsAccordingToPractice(true);
         });
 
         $('#subpracticeSelect').change(function (e) {
