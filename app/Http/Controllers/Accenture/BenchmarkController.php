@@ -8,18 +8,6 @@ use App\Http\Controllers\Controller;
 
 class BenchmarkController extends Controller
 {
-    /**
-     * To the father structure.
-     * @return \Illuminate\View\View
-     */
-    public function benchmark()
-    {
-        $example = 1;
-
-        return View('accentureViews.benchmarkStructure', [
-            'example' => $example,
-        ]);
-    }
 
     public function overviewGeneral()
     {
@@ -39,7 +27,6 @@ class BenchmarkController extends Controller
     {
 
     }
-
 
     public function projectResults()
     {
