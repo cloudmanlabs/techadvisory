@@ -141,7 +141,6 @@ prefix('accenture')
             Route::post('project/markCompleted/{project}', 'ProjectController@markCompleted')
                 ->name('project.markCompleted');
 
-
             Route::get('/project/vendorProposal/view/{project}/{vendor}', 'ProjectController@vendorProposalView')
                 ->name('viewVendorProposal');
             Route::get('/project/vendorProposal/edit/{project}/{vendor}', 'ProjectController@vendorProposalEdit')
@@ -167,7 +166,6 @@ prefix('accenture')
             Route::get('analysis/vendor/custom', 'AnalysisController@vendorCustom')
                 ->name('analysis.vendor.custom');
 
-
             Route::get('/exportCredentials/{user}', 'ClientVendorListController@exportCredentials');
             Route::get('/exportAnalytics/{project}', 'ProjectController@exportAnalytics')
                 ->name('exportAnalytics');
@@ -179,5 +177,7 @@ prefix('accenture')
             Route::get('/analysis/vendor/custom/getSubpractices/{practice}', 'AnalysisController@getSubpracticesfromPractice');
             Route::get('/analysis/vendor/custom/getResponses', 'AnalysisController@getResponsesFromScope');
 
+            Route::get('/benchmark', 'BenchmarkController@benchmark')
+                ->name('benchmark');
         });
     });

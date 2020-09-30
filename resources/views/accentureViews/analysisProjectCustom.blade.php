@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="main-wrapper">
-    <x-accenture.navbar activeSection="benchmark" />
+    <x-accenture.navbar activeSection="custom" />
 
         <div class="page-wrapper">
             <div class="page-content">
