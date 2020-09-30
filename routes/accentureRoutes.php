@@ -177,7 +177,10 @@ prefix('accenture')
             Route::get('/analysis/vendor/custom/getSubpractices/{practice}', 'AnalysisController@getSubpracticesfromPractice');
             Route::get('/analysis/vendor/custom/getResponses', 'AnalysisController@getResponsesFromScope');
 
-            Route::get('/benchmark', 'BenchmarkController@benchmark')
+            Route::get('/benchmark/overview', 'BenchmarkController@overviewGeneral')
                 ->name('benchmark');
+            Route::get('/benchmark/projectResults', 'BenchmarkController@projectResultsOverall')
+                ->name('benchmark.projectResults');
+
         });
     });

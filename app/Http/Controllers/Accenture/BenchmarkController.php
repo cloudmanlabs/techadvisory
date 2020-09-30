@@ -25,7 +25,7 @@ class BenchmarkController extends Controller
     {
         $example = 1;
 
-        return View('accentureViews.benchmarkStructure', [
+        return View('accentureViews.benchmarkOverview', [
             'example' => $example,
         ]);
     }
@@ -48,7 +48,11 @@ class BenchmarkController extends Controller
 
     public function projectResultsOverall()
     {
+        $example = 2;
 
+        return View('accentureViews.benchmarkProjectResults', [
+            'example' => $example,
+        ]);
     }
 
     public function projectResultsFitgap()
