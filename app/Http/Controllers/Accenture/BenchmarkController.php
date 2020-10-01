@@ -18,7 +18,7 @@ class BenchmarkController extends Controller
         // Data for selects.
         $regions = collect(config('arrays.regions'));
 
-        // Data for graphics.
+        // Data for charts without filters.
         $practices = Practice::all();
         $vendors = User::vendorUsers()->where('hasFinishedSetup', true)->get();
         $clients = User::clientUsers()->where('hasFinishedSetup', true)->get();
