@@ -179,6 +179,9 @@ prefix('accenture')
 
             Route::get('/benchmark/overview/', 'BenchmarkController@overviewGeneral')
                 ->name('benchmark');
+            Route::get('/benchmark/overview/historical', 'BenchmarkController@overviewHistorical')
+                ->name('benchmark.overview.historical');
+
             Route::get('/benchmark/projectResults', 'BenchmarkController@projectResultsOverall')
                 ->name('benchmark.projectResults');
 

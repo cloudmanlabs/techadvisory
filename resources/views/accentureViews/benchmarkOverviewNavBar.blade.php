@@ -5,11 +5,11 @@
                 <ul class="links d-flex flex-row mt-3 mt-md-0">
                     <li class="header-link-item ">
                         <a class=""
-                           href="#">General</a>
+                           href="{{route('accenture.benchmark')}}">General</a>
                     </li>
                     <li class="header-link-item ml-3 pl-3 border-left ">
                         <a class=""
-                           href="#">Historical</a>
+                           href="{{route('accenture.benchmark.overview.historical')}}">Historical</a>
                     </li>
                     <li class="header-link-item ml-3 pl-3 border-left ">
                         <a class=""

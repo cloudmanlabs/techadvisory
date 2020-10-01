@@ -18,7 +18,7 @@
             <div class="profile-page" id="benchmark-nav-container">
                 <div class="row">
                     <div class="col-12 grid-margin">
-                        @include('accentureViews.benchmarkStructure')
+                        @include('accentureViews.benchmarkNavBar')
                         @include('accentureViews.benchmarkProjectResultsNavBar')
                     </div>
                 </div>
