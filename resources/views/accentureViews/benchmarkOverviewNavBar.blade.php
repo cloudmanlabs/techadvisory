@@ -13,7 +13,7 @@
                     </li>
                     <li class="header-link-item ml-3 pl-3 border-left ">
                         <a class=""
-                           href="#">Vendor</a>
+                           href="{{route('accenture.benchmark.overview.vendor')}}">Vendor</a>
                     </li>
                 </ul>
             </div>

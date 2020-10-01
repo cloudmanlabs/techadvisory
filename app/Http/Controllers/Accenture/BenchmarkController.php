@@ -8,6 +8,7 @@ use App\Http\Controllers\Controller;
 use App\Practice;
 use App\Project;
 use App\User;
+use App\VendorSolution;
 use Illuminate\Http\Request;
 
 class BenchmarkController extends Controller
@@ -85,7 +86,41 @@ class BenchmarkController extends Controller
 
     public function overviewVendor()
     {
+        // Data for graphs.
+        $practices = Practice::all()->map(function (Practice $practice) {
+            return (object)[
+                'name' => $practice->name,
+                'count' => VendorSolution::all()
+                    ->filter(function (VendorSolution $solution) use ($practice) {
+                        if ($solution->practice == null) return false;
 
+                        return $solution->practice->is($practice);
+                    })
+                    ->count(),
+            ];
+        });
+        $industries = collect(config('arrays.industryExperience'))->map(function ($industry) {
+            return (object)[
+                'name' => $industry,
+                'count' => User::vendorUsers()->get()->filter(function (User $vendor) use ($industry) {
+                    return $vendor->getVendorResponse('vendorIndustry') == $industry;
+                })->count(),
+            ];
+        });
+        $regions = collect(config('arrays.regions'))->map(function ($region) {
+        return (object)[
+            'name' => $region,
+            'count' => User::vendorUsers()->get()->filter(function (User $vendor) use ($region) {
+                return in_array($region, json_decode($vendor->getVendorResponse('vendorRegions')) ?? []);
+            })->count(),
+        ];
+    });
+
+        return View('accentureViews.benchmarkOverviewVendor', [
+            'practices' => $practices,
+            'industries' => $industries,
+            'regions' => $regions,
+        ]);
     }
 
     public function projectResultsOverall()
