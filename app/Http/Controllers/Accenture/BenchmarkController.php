@@ -125,10 +125,29 @@ class BenchmarkController extends Controller
 
     public function projectResultsOverall()
     {
-        $example = 2;
+        // Data for selects
+        $practices = Practice::all();
+        $subpractices = [];
+        $projectsByYears = collect(range(2017, intval(date('Y'))))->map(function ($year) {
+            return (object)[
+                'year' => $year,
+                'projectCount' => Project::all()->filter(function ($project) use ($year) {
+                    return $project->created_at->year == $year;
+                })->count(),
+            ];
+        });
+        $industries = collect(config('arrays.industryExperience'));
+        $subIndustries = [];
+        $regions = collect(config('arrays.regions'));
+
 
         return View('accentureViews.benchmarkProjectResults', [
-            'example' => $example,
+            'practices' => $practices,
+            'subpractices' => $subpractices,
+            'projectsByYears' => $projectsByYears,
+            'industries' => $industries,
+            'subIndustries' => $subIndustries,
+            'regions' => $regions,
         ]);
     }
 

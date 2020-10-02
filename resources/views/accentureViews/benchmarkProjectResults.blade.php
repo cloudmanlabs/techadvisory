@@ -24,17 +24,126 @@
                 </div>
             </div>
 
-            <div class="card" id="overall-container">
-                <div class="card-body">
-                    <div style="float: left;">
-                        <h3>Project Results Overall stuff</h3>
-                        <br>
-                        <p>datos recibidos: {{$example}}</p>
+            <div class="row" id="content-container">
+                <div class="col-12 stretch-card">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="row">
+                                <aside id="filters-container" class="col-4">
+                                    <h3>Filters</h3>
+                                    <br>
+                                    <select id="practice-select">
+                                        <option value="null" selected>Chose a Practice</option>
+                                        @foreach ($practices as $practice)
+                                            <option value="{{$practice->id}}">{{$practice->name}}</option>
+                                        @endforeach
+                                    </select>
+                                    <br>
+                                    @if(count($subpractices)>0)
+                                        <select id="subpractice-select">
+                                            <option value="null" selected>Chose a Subpractice</option>
+                                            @foreach ($subpractices as $subpracice)
+                                                <option value="{{$subpractice->id}}">{{$subpractice->name}}</option>
+                                            @endforeach
+                                        </select>
+                                        <br>
+                                    @endif
+                                    <select id="years-select">
+                                        <option value="null" selected>Chose a Year</option>
+                                        @foreach ($projectsByYears as $year)
+                                            <option value="{{$year->year}}">{{$year->year}}</option>
+                                        @endforeach
+                                    </select>
+                                    <br>
+                                    <select id="industries-select">
+                                        <option value="null" selected>Chose a Industry</option>
+                                        @foreach ($industries as $industry)
+                                            <option value="{{$industry}}">{{$industry}}</option>
+                                        @endforeach
+                                    </select>
+                                    <br>
+                                    <select id="region-select">
+                                        <option value="null" selected>Chose a Region</option>
+                                        @foreach ($regions as $region)
+                                            <option value="{{$region}}">{{$region}}</option>
+                                        @endforeach
+                                    </select>
+                                </aside>
+                                <div id="charts-container" class="col-8 border-left">
+                                    <div class="row pl-3">
+                                        <h3>Overall Results</h3>
+                                        <p class="welcome_text extra-top-15px">
+                                        </p>
+                                    </div>
+                                    <br>
+                                    <div class="row justify-content-center" id="information-panels-row1">
+                                        <div class="col-5 grid-margin stretch-card">
+                                            <div class="card">
+                                                <div class="card-body text-center">
+                                                    <h5>Total Clients</h5>
+                                                    <br>
+                                                    <h3>48</h3>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-5 grid-margin stretch-card">
+                                            <div class="card">
+                                                <div class="card-body text-center">
+                                                    <h5>Total Vendors</h5>
+                                                    <br>
+                                                    <h3>48</h3>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div id="information-panels">
+                                        <div class="row justify-content-center" id="information-panels-row2">
+                                            <div class="col-5 grid-margin stretch-card">
+                                                <div class="card">
+                                                    <div class="card-body text-center">
+                                                        <h5>Total Proyects</h5>
+                                                        <br>
+                                                        <h3>48</h3>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-5 grid-margin stretch-card">
+                                                <div class="card">
+                                                    <div class="card-body text-center">
+                                                        <h5>Total Solutions</h5>
+                                                        <br>
+                                                        <h3>48</h3>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row justify-content-center" id="buttons-graphic-panels">
+                                        <button class="btn">Experience</button>
+                                        <button class="btn">Innovation & Vision</button>
+                                        <button class="btn">Implementation & Comercials</button>
+                                    </div>
+                                    <br>
+                                    <div class="row" id="chart1-row">
+                                        <div class="col-xl-12 grid-margin stretch-card">
+                                            <div class="card">
+                                                <div class="card-body">
+                                                    <h4>Best Vendors Overall</h4>
+                                                    <br><br>
+                                                    <canvas id="region-chart"></canvas>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+</div>
 
 
 </div>
