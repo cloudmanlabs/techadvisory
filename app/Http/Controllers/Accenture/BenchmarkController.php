@@ -14,6 +14,8 @@ use Illuminate\Http\Request;
 class BenchmarkController extends Controller
 {
 
+    // Overview Controllers *****************************************************************************
+
     public function overviewGeneral(Request $request)
     {
         // Data for selects.
@@ -108,13 +110,13 @@ class BenchmarkController extends Controller
             ];
         });
         $regions = collect(config('arrays.regions'))->map(function ($region) {
-        return (object)[
-            'name' => $region,
-            'count' => User::vendorUsers()->get()->filter(function (User $vendor) use ($region) {
-                return in_array($region, json_decode($vendor->getVendorResponse('vendorRegions')) ?? []);
-            })->count(),
-        ];
-    });
+            return (object)[
+                'name' => $region,
+                'count' => User::vendorUsers()->get()->filter(function (User $vendor) use ($region) {
+                    return in_array($region, json_decode($vendor->getVendorResponse('vendorRegions')) ?? []);
+                })->count(),
+            ];
+        });
 
         return View('accentureViews.benchmarkOverviewVendor', [
             'practices' => $practices,
@@ -122,6 +124,8 @@ class BenchmarkController extends Controller
             'regions' => $regions,
         ]);
     }
+
+    // Project results Controllers ***************************************************************************
 
     public function projectResultsOverall()
     {
@@ -140,8 +144,70 @@ class BenchmarkController extends Controller
         $subIndustries = [];
         $regions = collect(config('arrays.regions'));
 
+        // Data for charts
+        $vendors = User::vendorUsers()->where('hasFinishedSetup', true)->get();
 
         return View('accentureViews.benchmarkProjectResults', [
+            'practices' => $practices,
+            'subpractices' => $subpractices,
+            'projectsByYears' => $projectsByYears,
+            'industries' => $industries,
+            'subIndustries' => $subIndustries,
+            'regions' => $regions,
+            'vendors' => $vendors,
+        ]);
+    }
+
+    public function projectResultsFitgap()
+    {
+        // Data for selects
+        $practices = Practice::all();
+        $subpractices = [];
+        $projectsByYears = collect(range(2017, intval(date('Y'))))->map(function ($year) {
+            return (object)[
+                'year' => $year,
+                'projectCount' => Project::all()->filter(function ($project) use ($year) {
+                    return $project->created_at->year == $year;
+                })->count(),
+            ];
+        });
+        $industries = collect(config('arrays.industryExperience'));
+        $subIndustries = [];
+        $regions = collect(config('arrays.regions'));
+
+        // Data for charts
+
+        return View('accentureViews.benchmarkProjectResultsFitgap', [
+            'practices' => $practices,
+            'subpractices' => $subpractices,
+            'projectsByYears' => $projectsByYears,
+            'industries' => $industries,
+            'subIndustries' => $subIndustries,
+            'regions' => $regions,
+        ]);
+
+    }
+
+    public function projectResultsVendor()
+    {
+        // Data for selects
+        $practices = Practice::all();
+        $subpractices = [];
+        $projectsByYears = collect(range(2017, intval(date('Y'))))->map(function ($year) {
+            return (object)[
+                'year' => $year,
+                'projectCount' => Project::all()->filter(function ($project) use ($year) {
+                    return $project->created_at->year == $year;
+                })->count(),
+            ];
+        });
+        $industries = collect(config('arrays.industryExperience'));
+        $subIndustries = [];
+        $regions = collect(config('arrays.regions'));
+
+        // Data for charts
+
+        return View('accentureViews.benchmarkProjectResultsVendor', [
             'practices' => $practices,
             'subpractices' => $subpractices,
             'projectsByYears' => $projectsByYears,
@@ -151,14 +217,91 @@ class BenchmarkController extends Controller
         ]);
     }
 
-    public function projectResultsFitgap()
+    public function projectResultsExperience()
     {
+        // Data for selects
+        $practices = Practice::all();
+        $subpractices = [];
+        $projectsByYears = collect(range(2017, intval(date('Y'))))->map(function ($year) {
+            return (object)[
+                'year' => $year,
+                'projectCount' => Project::all()->filter(function ($project) use ($year) {
+                    return $project->created_at->year == $year;
+                })->count(),
+            ];
+        });
+        $industries = collect(config('arrays.industryExperience'));
+        $subIndustries = [];
+        $regions = collect(config('arrays.regions'));
 
+        // Data for charts
+
+        return View('accentureViews.benchmarkProjectResultsExperience', [
+            'practices' => $practices,
+            'subpractices' => $subpractices,
+            'projectsByYears' => $projectsByYears,
+            'industries' => $industries,
+            'subIndustries' => $subIndustries,
+            'regions' => $regions,
+        ]);
     }
 
-    public function projectResultsVendor()
+    public function projectResultsInnovation()
     {
+        // Data for selects
+        $practices = Practice::all();
+        $subpractices = [];
+        $projectsByYears = collect(range(2017, intval(date('Y'))))->map(function ($year) {
+            return (object)[
+                'year' => $year,
+                'projectCount' => Project::all()->filter(function ($project) use ($year) {
+                    return $project->created_at->year == $year;
+                })->count(),
+            ];
+        });
+        $industries = collect(config('arrays.industryExperience'));
+        $subIndustries = [];
+        $regions = collect(config('arrays.regions'));
 
+        // Data for charts
+
+        return View('accentureViews.benchmarkProjectResultsInnovation', [
+            'practices' => $practices,
+            'subpractices' => $subpractices,
+            'projectsByYears' => $projectsByYears,
+            'industries' => $industries,
+            'subIndustries' => $subIndustries,
+            'regions' => $regions,
+        ]);
+    }
+
+    public function projectResultsImplementation()
+    {
+        // Data for selects
+        $practices = Practice::all();
+        $subpractices = [];
+        $projectsByYears = collect(range(2017, intval(date('Y'))))->map(function ($year) {
+            return (object)[
+                'year' => $year,
+                'projectCount' => Project::all()->filter(function ($project) use ($year) {
+                    return $project->created_at->year == $year;
+                })->count(),
+            ];
+        });
+        $industries = collect(config('arrays.industryExperience'));
+        $subIndustries = [];
+        $regions = collect(config('arrays.regions'));
+
+        // Data for charts
+
+        return View('accentureViews.benchmarkProjectResultsImplementation', [
+            'practices' => $practices,
+            'subpractices' => $subpractices,
+            'projectsByYears' => $projectsByYears,
+            'industries' => $industries,
+            'subIndustries' => $subIndustries,
+            'regions' => $regions,
+        ]);
     }
 
 }

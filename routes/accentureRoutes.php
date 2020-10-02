@@ -186,6 +186,16 @@ prefix('accenture')
 
             Route::get('/benchmark/projectResults', 'BenchmarkController@projectResultsOverall')
                 ->name('benchmark.projectResults');
+            Route::get('/benchmark/projectResults/fitgap', 'BenchmarkController@projectResultsFitgap')
+                ->name('benchmark.projectResults.fitgap');
+            Route::get('/benchmark/projectResults/vendor', 'BenchmarkController@projectResultsVendor')
+                ->name('benchmark.projectResults.vendor');
+            Route::get('/benchmark/projectResults/experience', 'BenchmarkController@projectResultsExperience')
+                ->name('benchmark.projectResults.experience');
+            Route::get('/benchmark/projectResults/innovation', 'BenchmarkController@projectResultsInnovation')
+                ->name('benchmark.projectResults.innovation');
+            Route::get('/benchmark/projectResults/implementation', 'BenchmarkController@projectResultsImplementation')
+                ->name('benchmark.projectResults.implementation');
 
         });
     });

@@ -76,27 +76,27 @@
                                         </p>
                                     </div>
                                     <br>
-                                    <div class="row justify-content-center" id="information-panels-row1">
-                                        <div class="col-5 grid-margin stretch-card">
-                                            <div class="card">
-                                                <div class="card-body text-center">
-                                                    <h5>Total Clients</h5>
-                                                    <br>
-                                                    <h3>48</h3>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-5 grid-margin stretch-card">
-                                            <div class="card">
-                                                <div class="card-body text-center">
-                                                    <h5>Total Vendors</h5>
-                                                    <br>
-                                                    <h3>48</h3>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
                                     <div id="information-panels">
+                                        <div class="row justify-content-center" id="information-panels-row1">
+                                            <div class="col-5 grid-margin stretch-card">
+                                                <div class="card">
+                                                    <div class="card-body text-center">
+                                                        <h5>Total Clients</h5>
+                                                        <br>
+                                                        <h3>48</h3>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-5 grid-margin stretch-card">
+                                                <div class="card">
+                                                    <div class="card-body text-center">
+                                                        <h5>Total Vendors</h5>
+                                                        <br>
+                                                        <h3>48</h3>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
                                         <div class="row justify-content-center" id="information-panels-row2">
                                             <div class="col-5 grid-margin stretch-card">
                                                 <div class="card">
@@ -118,11 +118,6 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="row justify-content-center" id="buttons-graphic-panels">
-                                        <button class="btn">Experience</button>
-                                        <button class="btn">Innovation & Vision</button>
-                                        <button class="btn">Implementation & Comercials</button>
-                                    </div>
                                     <br>
                                     <div class="row" id="chart1-row">
                                         <div class="col-xl-12 grid-margin stretch-card">
@@ -131,6 +126,17 @@
                                                     <h4>Best Vendors Overall</h4>
                                                     <br><br>
                                                     <canvas id="region-chart"></canvas>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row" id="chart2-row">
+                                        <div class="col-xl-12 grid-margin stretch-card">
+                                            <div class="card">
+                                                <div class="card-body">
+                                                    <h4>Vendor Performance Overview</h4>
+                                                    <br>
+                                                    <canvas id="vendor-performance-chart"></canvas>
                                                 </div>
                                             </div>
                                         </div>
@@ -146,4 +152,76 @@
 </div>
 
 
-</div>
+@section('scripts')
+    @parent
+    <script>
+        var vendorPerformance = new Chart($('#vendor-performance-chart'), {
+            type: 'bubble',
+            data: {
+                labels: "",
+                datasets: [
+                        @foreach($vendors as $vendor)
+                        @php
+                            // NOTE: We use 10 - val so we get the chart flipped horizontally
+                            $ranking = 10 - $vendor->averageRanking();
+                            $score = $vendor->averageScore() ?? 0;
+                        @endphp
+                    {
+                        label: ["{{$vendor->name}}"],
+                        backgroundColor: ["#27003d", "#410066", "#5a008f",
+                            "#7400b8", "#8e00e0", "#9b00f5", "#a50aff", "#c35cff", "#d285ff", "#e9c2ff", "#f0d6ff", "#f8ebff"][{{$loop->index}} % 12],
+                borderColor: ["#27003d", "#410066", "#5a008f",
+                    "#7400b8", "#8e00e0", "#9b00f5", "#a50aff", "#c35cff", "#d285ff", "#e9c2ff", "#f0d6ff", "#f8ebff"][{{$loop->index}} % 12
+        ],
+        data: [
+            {
+                x: {{$ranking}},
+                y: {{$score}},
+                r: {{ ($ranking + $score) * 3 }}
+            }
+        ],
+            hidden
+        : {{$loop->index > 3 ? 'true' : 'false'}},
+        },
+        @endforeach
+        ]
+        },
+        options: {
+            scales: {
+                yAxes: [{
+                    scaleLabel: {
+                        display: true,
+                        labelString: "Av. Score",
+                        fontSize: 17
+                    },
+                    ticks: {
+                        beginAtZero: false,
+                        min: 1,
+                        max: 10,
+                        fontSize: 17
+                    }
+                }],
+                    xAxes
+            :
+                [{
+                    scaleLabel: {
+                        display: true,
+                        labelString: "Av. Ranking",
+                        fontSize: 17
+                    },
+                    ticks: {
+                        beginAtZero: false,
+                        min: 1,
+                        max: 10,
+                        fontSize: 17,
+                        callback: function (tick, index, ticks) {
+                            return (11 - tick).toString();
+                        }
+                    }
+                }]
+            }
+        }
+        })
+        ;
+    </script>
+@endsection
