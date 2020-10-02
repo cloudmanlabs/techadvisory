@@ -37,6 +37,9 @@
                                             <br>
                                             <select id="year-select">
                                                 <option value="null" selected>Chose a Year</option>
+                                                @foreach ($years as $year)
+                                                    <option value="{{$year->year}}">{{$year->year}}</option>
+                                                @endforeach
                                             </select>
                                             <br>
                                             <select id="region-select">

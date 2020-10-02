@@ -20,6 +20,14 @@ class BenchmarkController extends Controller
     {
         // Data for selects.
         $regions = collect(config('arrays.regions'));
+        $years = collect(range(2017, intval(date('Y'))))->map(function ($year) {
+            return (object)[
+                'year' => $year,
+                'projectCount' => Project::all()->filter(function ($project) use ($year) {
+                    return $project->created_at->year == $year;
+                })->count(),
+            ];
+        });
 
         // Data for charts without filters.
         $practices = Practice::all();
@@ -35,14 +43,6 @@ class BenchmarkController extends Controller
                     ->count()
             ];
         });
-        $years = collect(range(2017, intval(date('Y'))))->map(function ($year) {
-            return (object)[
-                'year' => $year,
-                'projectCount' => Project::all()->filter(function ($project) use ($year) {
-                    return $project->created_at->year == $year;
-                })->count(),
-            ];
-        });
 
         // Applying filters.
         $regionToFilter = $request->input('region');
@@ -52,11 +52,11 @@ class BenchmarkController extends Controller
 
         return View('accentureViews.benchmarkOverview', [
             'regions' => $regions,
+            'years' => $years,
             'practices' => $practices,
             'vendors' => $vendors,
             'clients' => $clients,
             'industries' => $industries,
-            'years' => $years,
         ]);
     }
 
