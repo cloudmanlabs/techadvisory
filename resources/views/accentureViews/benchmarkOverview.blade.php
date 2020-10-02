@@ -131,11 +131,17 @@
 @section('scripts')
     @parent
     <script>
-
         $('#region-select').change(function () {
             var selectedRegion = $(this).children("option:selected").val();
             var url_args = '?region=' + selectedRegion;
-            location.replace('/accenture/benchmark/overview/' + url_args);
+            location.replace('/accenture/benchmark/overview' + url_args);
+        });
+
+        $('#year-select').change(function () {
+            var selected = $(this).children("option:selected").val();
+            var url_args = '?year=' + selected;
+            console.log('aa');
+            location.replace('/accenture/benchmark/overview' + url_args);
         });
 
         // Chart 1

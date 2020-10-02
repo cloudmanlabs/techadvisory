@@ -49,6 +49,11 @@ class BenchmarkController extends Controller
         if (!empty($regionToFilter)) {
 
         }
+        $yearToFilter = $request->input('year');
+        if (!empty($yearToFilter)) {
+            $yearToFilter = intval($yearToFilter);
+            dd($yearToFilter);
+        }
 
         return View('accentureViews.benchmarkOverview', [
             'regions' => $regions,

@@ -93,6 +93,22 @@
     @parent
     <script>
 
+        $('#industry-select').change(function () {
+            var selected = $(this).children("option:selected").val();
+            var url_args = '?industry=' + selected;
+            location.replace('/accenture/benchmark/overview/historical' + url_args);
+        });
+        $('#region-select').change(function () {
+            var selected = $(this).children("option:selected").val();
+            var url_args = '?region=' + selected;
+            location.replace('/accenture/benchmark/overview/historical' + url_args);
+        });
+        $('#practice-select').change(function () {
+            var selected = $(this).children("option:selected").val();
+            var url_args = '?practice=' + selected;
+            location.replace('/accenture/benchmark/overview/historical' + url_args);
+        });
+
         // Chart 1
         new Chart($('#projects-by-year-chart'), {
             type: 'line',
