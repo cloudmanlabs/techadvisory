@@ -377,6 +377,17 @@ class User extends Authenticatable
             ->average();
     }
 
+    public function averageScoreInnovation(){
+        return $this->vendorApplications
+            ->filter(function (VendorApplication $application) {
+                return $application->project != null;
+            })
+            ->map(function ($application) {
+                return $application->innovationScore();
+            })
+            ->average();
+    }
+
     public function averageRanking()
     {
         return $this->vendorApplications
@@ -602,6 +613,18 @@ class User extends Authenticatable
         $vendorScores = [];
         foreach ($vendors as $vendor) {
             $vendorScores[$vendor->id] = doubleval($vendor->averageScoreExperience());
+        }
+        arsort($vendorScores);
+        $vendorScores = array_slice($vendorScores, 0, 5, true);
+        return $vendorScores;
+    }
+
+    public static function bestVendorsScoreInnovation($numberOfVendors)
+    {
+        $vendors = User::vendorUsers()->where('hasFinishedSetup', true)->get();
+        $vendorScores = [];
+        foreach ($vendors as $vendor) {
+            $vendorScores[$vendor->id] = doubleval($vendor->averageScoreInnovation());
         }
         arsort($vendorScores);
         $vendorScores = array_slice($vendorScores, 0, 5, true);
