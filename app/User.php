@@ -61,7 +61,8 @@ class User extends Authenticatable
      * Magia para que funcione el Nova de Owner project
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function owners(){
+    public function owners()
+    {
         return $this->belongsTo(Owner::class, 'owner_id', 'id');
     }
 
@@ -133,22 +134,22 @@ class User extends Authenticatable
         $subpracticesApplied = [];
         $subpracticesAppliedIDs = [];
 
-        if(!empty($myAppliedProjects)){
+        if (!empty($myAppliedProjects)) {
 
-            foreach ($myAppliedProjects as $project){
+            foreach ($myAppliedProjects as $project) {
                 $subpracticesPivotApplied = $project->subpractices()->get();
 
-                if(!empty($subpracticesPivotApplied)){
+                if (!empty($subpracticesPivotApplied)) {
 
-                    foreach ($subpracticesPivotApplied as $subpractice){
+                    foreach ($subpracticesPivotApplied as $subpractice) {
                         array_push($subpracticesAppliedIDs, $subpractice->pivot->subpractice_id);
                     }
                 }
             }
-            if(!empty($subpracticesAppliedIDs)){
-                foreach ($subpracticesAppliedIDs as $subpracticeId){
+            if (!empty($subpracticesAppliedIDs)) {
+                foreach ($subpracticesAppliedIDs as $subpracticeId) {
                     $subpractice = Subpractice::find($subpracticeId);
-                    array_push($subpracticesApplied,$subpractice);
+                    array_push($subpracticesApplied, $subpractice);
                 }
             }
             $subpracticesApplied = collect($subpracticesApplied);
@@ -430,4 +431,31 @@ class User extends Authenticatable
     {
         return self::whereIn('userType', self::vendorTypes);
     }
+
+    // Methods for obtain general data for Benchmark & analitycs
+
+    public static function bestVendorsOverallScore($numberOfVendors)
+    {
+        $vendors = User::vendorUsers()->where('hasFinishedSetup', true)->get();
+        $vendorScores = [];
+        foreach ($vendors as $vendor) {
+            $vendorScores[$vendor->id] = doubleval($vendor->averageScore());
+        }
+        arsort($vendorScores);
+        if (is_integer($numberOfVendors)) {
+            $vendorScores = array_slice($vendorScores, 0, $numberOfVendors, true);
+        }
+        return $vendorScores;
+    }
+
+    /*    public function bestVendorsFitgapScore($numberOfVendors){
+            $vendors = User::vendorUsers()->where('hasFinishedSetup', true)->get();
+            $vendorScores = [];
+            foreach ($vendors as $vendor){
+                $vendorScores[$vendor->id] = doubleval($vendor->averageScore());
+            }
+            arsort($vendorScores);
+            $vendorScores = array_slice($vendorScores, 0, 5,true);
+            return $vendorScores;
+        }*/
 }

@@ -83,7 +83,7 @@
                                                     <div class="card-body text-center">
                                                         <h5>Total Clients</h5>
                                                         <br>
-                                                        <h3>48</h3>
+                                                        <h3>{{$totalClients}}</h3>
                                                     </div>
                                                 </div>
                                             </div>
@@ -92,7 +92,7 @@
                                                     <div class="card-body text-center">
                                                         <h5>Total Vendors</h5>
                                                         <br>
-                                                        <h3>48</h3>
+                                                        <h3>{{$totalVendors}}</h3>
                                                     </div>
                                                 </div>
                                             </div>
@@ -103,7 +103,7 @@
                                                     <div class="card-body text-center">
                                                         <h5>Total Proyects</h5>
                                                         <br>
-                                                        <h3>48</h3>
+                                                        <h3>{{$totalProjects}}</h3>
                                                     </div>
                                                 </div>
                                             </div>
@@ -112,7 +112,7 @@
                                                     <div class="card-body text-center">
                                                         <h5>Total Solutions</h5>
                                                         <br>
-                                                        <h3>48</h3>
+                                                        <h3>{{$totalSolutions}}</h3>
                                                     </div>
                                                 </div>
                                             </div>
@@ -155,73 +155,6 @@
 @section('scripts')
     @parent
     <script>
-        var vendorPerformance = new Chart($('#vendor-performance-chart'), {
-            type: 'bubble',
-            data: {
-                labels: "",
-                datasets: [
-                        @foreach($vendors as $vendor)
-                        @php
-                            // NOTE: We use 10 - val so we get the chart flipped horizontally
-                            $ranking = 10 - $vendor->averageRanking();
-                            $score = $vendor->averageScore() ?? 0;
-                        @endphp
-                    {
-                        label: ["{{$vendor->name}}"],
-                        backgroundColor: ["#27003d", "#410066", "#5a008f",
-                            "#7400b8", "#8e00e0", "#9b00f5", "#a50aff", "#c35cff", "#d285ff", "#e9c2ff", "#f0d6ff", "#f8ebff"][{{$loop->index}} % 12],
-                borderColor: ["#27003d", "#410066", "#5a008f",
-                    "#7400b8", "#8e00e0", "#9b00f5", "#a50aff", "#c35cff", "#d285ff", "#e9c2ff", "#f0d6ff", "#f8ebff"][{{$loop->index}} % 12
-        ],
-        data: [
-            {
-                x: {{$ranking}},
-                y: {{$score}},
-                r: {{ ($ranking + $score) * 3 }}
-            }
-        ],
-            hidden
-        : {{$loop->index > 3 ? 'true' : 'false'}},
-        },
-        @endforeach
-        ]
-        },
-        options: {
-            scales: {
-                yAxes: [{
-                    scaleLabel: {
-                        display: true,
-                        labelString: "Av. Score",
-                        fontSize: 17
-                    },
-                    ticks: {
-                        beginAtZero: false,
-                        min: 1,
-                        max: 10,
-                        fontSize: 17
-                    }
-                }],
-                    xAxes
-            :
-                [{
-                    scaleLabel: {
-                        display: true,
-                        labelString: "Av. Ranking",
-                        fontSize: 17
-                    },
-                    ticks: {
-                        beginAtZero: false,
-                        min: 1,
-                        max: 10,
-                        fontSize: 17,
-                        callback: function (tick, index, ticks) {
-                            return (11 - tick).toString();
-                        }
-                    }
-                }]
-            }
-        }
-        })
-        ;
+
     </script>
 @endsection

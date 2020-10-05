@@ -44,6 +44,7 @@ class BenchmarkController extends Controller
             ];
         });
 
+
         // Applying filters.
         $regionToFilter = $request->input('region');
         if (!empty($regionToFilter)) {
@@ -52,7 +53,6 @@ class BenchmarkController extends Controller
         $yearToFilter = $request->input('year');
         if (!empty($yearToFilter)) {
             $yearToFilter = intval($yearToFilter);
-            dd($yearToFilter);
         }
 
         return View('accentureViews.benchmarkOverview', [
@@ -146,19 +146,28 @@ class BenchmarkController extends Controller
             ];
         });
         $industries = collect(config('arrays.industryExperience'));
-        $subIndustries = [];
         $regions = collect(config('arrays.regions'));
+
+        // data for informative panels (counts)
+        $totalVendors = User::vendorUsers()->where('hasFinishedSetup', true)->count();
+        $totalClients = User::clientUsers()->where('hasFinishedSetup', true)->count();
+        $totalProjects = Project::all()->count();
+        $totalSolutions = 0;
 
         // Data for charts
         $vendors = User::vendorUsers()->where('hasFinishedSetup', true)->get();
+        $vendorScores = User::bestVendorsOverallScore(5);
 
         return View('accentureViews.benchmarkProjectResults', [
             'practices' => $practices,
             'subpractices' => $subpractices,
             'projectsByYears' => $projectsByYears,
             'industries' => $industries,
-            'subIndustries' => $subIndustries,
             'regions' => $regions,
+            'totalVendors' => $totalVendors,
+            'totalClients' => $totalClients,
+            'totalProjects' => $totalProjects,
+            'totalSolutions' => $totalSolutions,
             'vendors' => $vendors,
         ]);
     }
