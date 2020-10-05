@@ -554,6 +554,8 @@ class User extends Authenticatable
 
     // Methods for obtain general data for Benchmark & analitycs **********************************************
 
+    // This methods returns an associative array: vendorScore[vendorId as int] => vendorScore as double
+
     public static function bestVendorsScoreOverall($numberOfVendors)
     {
         $vendors = User::vendorUsers()->where('hasFinishedSetup', true)->get();

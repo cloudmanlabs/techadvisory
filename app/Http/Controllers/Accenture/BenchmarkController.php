@@ -164,11 +164,14 @@ class BenchmarkController extends Controller
             'projectsByYears' => $projectsByYears,
             'industries' => $industries,
             'regions' => $regions,
+
             'totalVendors' => $totalVendors,
             'totalClients' => $totalClients,
             'totalProjects' => $totalProjects,
             'totalSolutions' => $totalSolutions,
+
             'vendors' => $vendors,
+            'vendorScores' => $vendorScores,
         ]);
     }
 
@@ -186,7 +189,6 @@ class BenchmarkController extends Controller
             ];
         });
         $industries = collect(config('arrays.industryExperience'));
-        $subIndustries = [];
         $regions = collect(config('arrays.regions'));
 
         // Data for charts
@@ -201,7 +203,6 @@ class BenchmarkController extends Controller
             'subpractices' => $subpractices,
             'projectsByYears' => $projectsByYears,
             'industries' => $industries,
-            'subIndustries' => $subIndustries,
             'regions' => $regions,
         ]);
 
