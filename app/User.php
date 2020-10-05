@@ -355,6 +355,28 @@ class User extends Authenticatable
             ->average();
     }
 
+    public function averageScoreVendor(){
+        return $this->vendorApplications
+            ->filter(function (VendorApplication $application) {
+                return $application->project != null;
+            })
+            ->map(function ($application) {
+                return $application->vendorScore();
+            })
+            ->average();
+    }
+
+    public function averageScoreExperience(){
+        return $this->vendorApplications
+            ->filter(function (VendorApplication $application) {
+                return $application->project != null;
+            })
+            ->map(function ($application) {
+                return $application->experienceScore();
+            })
+            ->average();
+    }
+
     public function averageRanking()
     {
         return $this->vendorApplications
@@ -556,6 +578,30 @@ class User extends Authenticatable
         $vendorScores = [];
         foreach ($vendors as $vendor) {
             $vendorScores[$vendor->id] = doubleval($vendor->averageScoreFitgapOthers());
+        }
+        arsort($vendorScores);
+        $vendorScores = array_slice($vendorScores, 0, 5, true);
+        return $vendorScores;
+    }
+
+    public static function bestVendorsScoreVendor($numberOfVendors)
+    {
+        $vendors = User::vendorUsers()->where('hasFinishedSetup', true)->get();
+        $vendorScores = [];
+        foreach ($vendors as $vendor) {
+            $vendorScores[$vendor->id] = doubleval($vendor->averageScoreVendor());
+        }
+        arsort($vendorScores);
+        $vendorScores = array_slice($vendorScores, 0, 5, true);
+        return $vendorScores;
+    }
+
+    public static function bestVendorsScoreExperience($numberOfVendors)
+    {
+        $vendors = User::vendorUsers()->where('hasFinishedSetup', true)->get();
+        $vendorScores = [];
+        foreach ($vendors as $vendor) {
+            $vendorScores[$vendor->id] = doubleval($vendor->averageScoreExperience());
         }
         arsort($vendorScores);
         $vendorScores = array_slice($vendorScores, 0, 5, true);

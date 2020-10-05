@@ -225,6 +225,7 @@ class BenchmarkController extends Controller
         $regions = collect(config('arrays.regions'));
 
         // Data for charts
+        $vendorScoresVendor = User::bestVendorsScoreVendor(5);
 
         return View('accentureViews.benchmarkProjectResultsVendor', [
             'practices' => $practices,
@@ -254,6 +255,7 @@ class BenchmarkController extends Controller
         $regions = collect(config('arrays.regions'));
 
         // Data for charts
+        $vendorScoresExperience = User::bestVendorsScoreExperience(5);
 
         return View('accentureViews.benchmarkProjectResultsExperience', [
             'practices' => $practices,
