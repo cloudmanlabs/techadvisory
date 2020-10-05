@@ -358,7 +358,6 @@ class VendorApplication extends Model
         return $this->averageScoreOfType('Others');
     }
 
-
     public function vendorScore()
     {
         $corp = $this->project->selectionCriteriaQuestionsForVendor($this->vendor)

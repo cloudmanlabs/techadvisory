@@ -156,7 +156,7 @@ class BenchmarkController extends Controller
 
         // Data for charts
         $vendors = User::vendorUsers()->where('hasFinishedSetup', true)->get();
-        $vendorScores = User::bestVendorsOverallScore(5);
+        $vendorScores = User::bestVendorsScoreOverall(5);
 
         return View('accentureViews.benchmarkProjectResults', [
             'practices' => $practices,
@@ -190,6 +190,11 @@ class BenchmarkController extends Controller
         $regions = collect(config('arrays.regions'));
 
         // Data for charts
+        $vendorScoresFitgap = User::bestVendorsScoreFitgap(5);
+        $vendorScoresFitgapFunctional = User::bestVendorsScoreFitgapFunctional(5);
+        $vendorScoresFitgapTechnical = User::bestVendorsScoreFitgapTechnical(5);
+        $vendorScoresFitgapService = User::bestVendorsScoreFitgapService(5);
+        $vendorScoresFitgapOthers = User::bestVendorsScoreFitgapOthers(5);
 
         return View('accentureViews.benchmarkProjectResultsFitgap', [
             'practices' => $practices,

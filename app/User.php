@@ -300,6 +300,61 @@ class User extends Authenticatable
             ->average();
     }
 
+    public function averageScoreFitgap(){
+        return $this->vendorApplications
+            ->filter(function (VendorApplication $application) {
+                return $application->project != null;
+            })
+            ->map(function ($application) {
+                return $application->fitgapScore();
+            })
+            ->average();
+    }
+
+    public function averageScoreFitgapFunctional(){
+        return $this->vendorApplications
+            ->filter(function (VendorApplication $application) {
+                return $application->project != null;
+            })
+            ->map(function ($application) {
+                return $application->fitgapFunctionalScore();
+            })
+            ->average();
+    }
+
+    public function averageScoreFitgapTechnical(){
+        return $this->vendorApplications
+            ->filter(function (VendorApplication $application) {
+                return $application->project != null;
+            })
+            ->map(function ($application) {
+                return $application->fitgapTechnicalScore();
+            })
+            ->average();
+    }
+
+    public function averageScoreFitgapService(){
+        return $this->vendorApplications
+            ->filter(function (VendorApplication $application) {
+                return $application->project != null;
+            })
+            ->map(function ($application) {
+                return $application->fitgapServiceScore();
+            })
+            ->average();
+    }
+
+    public function averageScoreFitgapOthers(){
+        return $this->vendorApplications
+            ->filter(function (VendorApplication $application) {
+                return $application->project != null;
+            })
+            ->map(function ($application) {
+                return $application->fitgapOtherScore();
+            })
+            ->average();
+    }
+
     public function averageRanking()
     {
         return $this->vendorApplications
@@ -311,7 +366,6 @@ class User extends Authenticatable
             })
             ->average();
     }
-
 
     const allTypes = [
         'accenture' => 'Accenture',
@@ -432,9 +486,9 @@ class User extends Authenticatable
         return self::whereIn('userType', self::vendorTypes);
     }
 
-    // Methods for obtain general data for Benchmark & analitycs
+    // Methods for obtain general data for Benchmark & analitycs **********************************************
 
-    public static function bestVendorsOverallScore($numberOfVendors)
+    public static function bestVendorsScoreOverall($numberOfVendors)
     {
         $vendors = User::vendorUsers()->where('hasFinishedSetup', true)->get();
         $vendorScores = [];
@@ -448,14 +502,63 @@ class User extends Authenticatable
         return $vendorScores;
     }
 
-    /*    public function bestVendorsFitgapScore($numberOfVendors){
-            $vendors = User::vendorUsers()->where('hasFinishedSetup', true)->get();
-            $vendorScores = [];
-            foreach ($vendors as $vendor){
-                $vendorScores[$vendor->id] = doubleval($vendor->averageScore());
-            }
-            arsort($vendorScores);
-            $vendorScores = array_slice($vendorScores, 0, 5,true);
-            return $vendorScores;
-        }*/
+    public static function bestVendorsScoreFitgap($numberOfVendors)
+    {
+        $vendors = User::vendorUsers()->where('hasFinishedSetup', true)->get();
+        $vendorScores = [];
+        foreach ($vendors as $vendor) {
+            $vendorScores[$vendor->id] = doubleval($vendor->averageScoreFitgap());
+        }
+        arsort($vendorScores);
+        $vendorScores = array_slice($vendorScores, 0, 5, true);
+        return $vendorScores;
+    }
+
+    public static function bestVendorsScoreFitgapFunctional($numberOfVendors)
+    {
+        $vendors = User::vendorUsers()->where('hasFinishedSetup', true)->get();
+        $vendorScores = [];
+        foreach ($vendors as $vendor) {
+            $vendorScores[$vendor->id] = doubleval($vendor->averageScoreFitgapFunctional());
+        }
+        arsort($vendorScores);
+        $vendorScores = array_slice($vendorScores, 0, 5, true);
+        return $vendorScores;
+    }
+
+    public static function bestVendorsScoreFitgapTechnical($numberOfVendors)
+    {
+        $vendors = User::vendorUsers()->where('hasFinishedSetup', true)->get();
+        $vendorScores = [];
+        foreach ($vendors as $vendor) {
+            $vendorScores[$vendor->id] = doubleval($vendor->averageScoreFitgapTechnical());
+        }
+        arsort($vendorScores);
+        $vendorScores = array_slice($vendorScores, 0, 5, true);
+        return $vendorScores;
+    }
+
+    public static function bestVendorsScoreFitgapService($numberOfVendors)
+    {
+        $vendors = User::vendorUsers()->where('hasFinishedSetup', true)->get();
+        $vendorScores = [];
+        foreach ($vendors as $vendor) {
+            $vendorScores[$vendor->id] = doubleval($vendor->averageScoreFitgapService());
+        }
+        arsort($vendorScores);
+        $vendorScores = array_slice($vendorScores, 0, 5, true);
+        return $vendorScores;
+    }
+
+    public static function bestVendorsScoreFitgapOthers($numberOfVendors)
+    {
+        $vendors = User::vendorUsers()->where('hasFinishedSetup', true)->get();
+        $vendorScores = [];
+        foreach ($vendors as $vendor) {
+            $vendorScores[$vendor->id] = doubleval($vendor->averageScoreFitgapOthers());
+        }
+        arsort($vendorScores);
+        $vendorScores = array_slice($vendorScores, 0, 5, true);
+        return $vendorScores;
+    }
 }
