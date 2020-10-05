@@ -388,6 +388,39 @@ class User extends Authenticatable
             ->average();
     }
 
+    public function averageScoreImplementation(){
+        return $this->vendorApplications
+            ->filter(function (VendorApplication $application) {
+                return $application->project != null;
+            })
+            ->map(function ($application) {
+                return $application->implementationScore();
+            })
+            ->average();
+    }
+
+    public function averageScoreImplementationImplementation(){
+        return $this->vendorApplications
+            ->filter(function (VendorApplication $application) {
+                return $application->project != null;
+            })
+            ->map(function ($application) {
+                return $application->implementationImplementationScore();
+            })
+            ->average();
+    }
+
+    public function averageScoreImplementationRun(){
+        return $this->vendorApplications
+            ->filter(function (VendorApplication $application) {
+                return $application->project != null;
+            })
+            ->map(function ($application) {
+                return $application->implementationRunScore();
+            })
+            ->average();
+    }
+
     public function averageRanking()
     {
         return $this->vendorApplications
@@ -625,6 +658,42 @@ class User extends Authenticatable
         $vendorScores = [];
         foreach ($vendors as $vendor) {
             $vendorScores[$vendor->id] = doubleval($vendor->averageScoreInnovation());
+        }
+        arsort($vendorScores);
+        $vendorScores = array_slice($vendorScores, 0, 5, true);
+        return $vendorScores;
+    }
+
+    public static function bestVendorsScoreImplementation($numberOfVendors)
+    {
+        $vendors = User::vendorUsers()->where('hasFinishedSetup', true)->get();
+        $vendorScores = [];
+        foreach ($vendors as $vendor) {
+            $vendorScores[$vendor->id] = doubleval($vendor->averageScoreImplementation());
+        }
+        arsort($vendorScores);
+        $vendorScores = array_slice($vendorScores, 0, 5, true);
+        return $vendorScores;
+    }
+
+    public static function bestVendorsScoreImplementationImplementation($numberOfVendors)
+    {
+        $vendors = User::vendorUsers()->where('hasFinishedSetup', true)->get();
+        $vendorScores = [];
+        foreach ($vendors as $vendor) {
+            $vendorScores[$vendor->id] = doubleval($vendor->averageScoreImplementationImplementation());
+        }
+        arsort($vendorScores);
+        $vendorScores = array_slice($vendorScores, 0, 5, true);
+        return $vendorScores;
+    }
+
+    public static function bestVendorsScoreImplementationRun($numberOfVendors)
+    {
+        $vendors = User::vendorUsers()->where('hasFinishedSetup', true)->get();
+        $vendorScores = [];
+        foreach ($vendors as $vendor) {
+            $vendorScores[$vendor->id] = doubleval($vendor->averageScoreImplementationRun());
         }
         arsort($vendorScores);
         $vendorScores = array_slice($vendorScores, 0, 5, true);

@@ -140,7 +140,6 @@
         $('#year-select').change(function () {
             var selected = $(this).children("option:selected").val();
             var url_args = '?year=' + selected;
-            console.log('aa');
             location.replace('/accenture/benchmark/overview' + url_args);
         });
 
