@@ -119,7 +119,7 @@
                                         <div class="col-xl-12 grid-margin stretch-card">
                                             <div class="card">
                                                 <div class="card-body">
-                                                    <h4>Best Vendors Fitgap Functional Score</h4>
+                                                    <h4>Best {{count($vendorScoresFitgapFunctional)}} Vendors Fitgap Functional Score</h4>
                                                     <br><br>
                                                     <canvas id="best-fitgap-functional-chart"></canvas>
                                                 </div>
@@ -131,7 +131,7 @@
                                         <div class="col-xl-12 grid-margin stretch-card">
                                             <div class="card">
                                                 <div class="card-body">
-                                                    <h4>Best Vendors Fitgap By Technical Score</h4>
+                                                    <h4>Best {{count($vendorScoresFitgapTechnical)}} Vendors Fitgap By Technical Score</h4>
                                                     <br><br>
                                                     <canvas id="best-fitgap-technical-chart"></canvas>
                                                 </div>
@@ -143,7 +143,7 @@
                                         <div class="col-xl-12 grid-margin stretch-card">
                                             <div class="card">
                                                 <div class="card-body">
-                                                    <h4>Best Vendors Fitgap By Services Score</h4>
+                                                    <h4>Best {{count($vendorScoresFitgapService)}} Vendors Fitgap By Services Score</h4>
                                                     <br><br>
                                                     <canvas id="best-fitgap-services-chart"></canvas>
                                                 </div>
@@ -155,7 +155,7 @@
                                         <div class="col-xl-12 grid-margin stretch-card">
                                             <div class="card">
                                                 <div class="card-body">
-                                                    <h4>Best Vendors Fitgap By Others Score</h4>
+                                                    <h4>Best {{count($vendorScoresFitgapOthers)}} Vendors Fitgap By Others Score</h4>
                                                     <br><br>
                                                     <canvas id="best-fitgap-others-chart"></canvas>
                                                 </div>
@@ -201,7 +201,6 @@
                         yAxes: [{
                             ticks: {
                                 beginAtZero: true,
-                                max: 7,
                                 fontSize: 17
                             }
                         }],
@@ -235,7 +234,6 @@
                         yAxes: [{
                             ticks: {
                                 beginAtZero: true,
-                                max: 7,
                                 fontSize: 17
                             }
                         }],
@@ -269,7 +267,6 @@
                         yAxes: [{
                             ticks: {
                                 beginAtZero: true,
-                                max: 7,
                                 fontSize: 17
                             }
                         }],
@@ -303,7 +300,6 @@
                         yAxes: [{
                             ticks: {
                                 beginAtZero: true,
-                                max: 7,
                                 fontSize: 17
                             }
                         }],
@@ -337,7 +333,6 @@
                         yAxes: [{
                             ticks: {
                                 beginAtZero: true,
-                                max: 7,
                                 fontSize: 17
                             }
                         }],

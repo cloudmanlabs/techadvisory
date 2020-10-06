@@ -116,9 +116,20 @@
                                         <div class="col-xl-12 grid-margin stretch-card">
                                             <div class="card">
                                                 <div class="card-body">
-                                                    <h4>Best Implementations 2</h4>
+                                                    <h4>Best Vendors by Implementation Score</h4>
                                                     <br><br>
-                                                    <canvas id="-chart"></canvas>
+                                                    <canvas id="best-implementation-implementation-chart"></canvas>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row" id="chart3-row">
+                                        <div class="col-xl-12 grid-margin stretch-card">
+                                            <div class="card">
+                                                <div class="card-body">
+                                                    <h4>Best Vendors by Run Score</h4>
+                                                    <br><br>
+                                                    <canvas id="best-implementation-run-chart"></canvas>
                                                 </div>
                                             </div>
                                         </div>
@@ -162,7 +173,6 @@
                         yAxes: [{
                             ticks: {
                                 beginAtZero: true,
-                                max: 7,
                                 fontSize: 17
                             }
                         }],
@@ -170,6 +180,73 @@
                 }
             }
         );
+
+        var implementationImplementationChart = new Chart($('#best-implementation-implementation-chart'), {
+                type: 'bar',
+                data: {
+                    labels: [
+                        @foreach($vendorScoresImplementationImplementation as $key=>$value)
+                            "{{\App\User::find($key)->name}}",
+                        @endforeach
+                    ],
+                    datasets: [
+                        {
+                            backgroundColor: ["#27003d", "#5a008f", "#8e00e0", "#a50aff", "#d285ff", "#e9c2ff", "#f8ebff"],
+                            data: [
+                                @foreach($vendorScoresImplementationImplementation as $key => $value)
+                                    "{{$value}}",
+                                @endforeach
+                            ]
+                        }
+                    ]
+                },
+                options: {
+                    legend: {display: false},
+                    scales: {
+                        yAxes: [{
+                            ticks: {
+                                beginAtZero: true,
+                                fontSize: 17
+                            }
+                        }],
+                    }
+                }
+            }
+        );
+
+        var implementationRunChart = new Chart($('#best-implementation-run-chart'), {
+                type: 'bar',
+                data: {
+                    labels: [
+                        @foreach($vendorScoresImplementationRun as $key=>$value)
+                            "{{\App\User::find($key)->name}}",
+                        @endforeach
+                    ],
+                    datasets: [
+                        {
+                            backgroundColor: ["#27003d", "#5a008f", "#8e00e0", "#a50aff", "#d285ff", "#e9c2ff", "#f8ebff"],
+                            data: [
+                                @foreach($vendorScoresImplementationRun as $key => $value)
+                                    "{{$value}}",
+                                @endforeach
+                            ]
+                        }
+                    ]
+                },
+                options: {
+                    legend: {display: false},
+                    scales: {
+                        yAxes: [{
+                            ticks: {
+                                beginAtZero: true,
+                                fontSize: 17
+                            }
+                        }],
+                    }
+                }
+            }
+        );
+
     </script>
 @endsection
 
