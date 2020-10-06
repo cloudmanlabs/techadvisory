@@ -80,7 +80,7 @@
                                         <div class="col-xl-12 grid-margin stretch-card">
                                             <div class="card">
                                                 <div class="card-body">
-                                                    <h4>Best Implementations 1</h4>
+                                                    <h4>Best {{count($vendorScoresImplementation)}} Vendors By Innovation & Vision Score</h4>
                                                     <br><br>
                                                     <canvas id="-chart"></canvas>
                                                 </div>

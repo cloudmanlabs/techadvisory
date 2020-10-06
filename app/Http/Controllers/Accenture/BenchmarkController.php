@@ -305,6 +305,8 @@ class BenchmarkController extends Controller
             'industries' => $industries,
             'subIndustries' => $subIndustries,
             'regions' => $regions,
+
+            'vendorScoresInnovation' => $vendorScoresInnovation,
         ]);
     }
 
@@ -337,6 +339,10 @@ class BenchmarkController extends Controller
             'industries' => $industries,
             'subIndustries' => $subIndustries,
             'regions' => $regions,
+
+            'vendorScoresImplementation' => $vendorScoresImplementation,
+            'vendorScoresImplementationImplementation' => $vendorScoresImplementationImplementation,
+            'vendorScoresImplementationRun' => $vendorScoresImplementationRun,
         ]);
     }
 

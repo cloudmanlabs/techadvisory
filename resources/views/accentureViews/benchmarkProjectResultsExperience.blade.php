@@ -80,7 +80,8 @@
                                         <div class="col-xl-12 grid-margin stretch-card">
                                             <div class="card">
                                                 <div class="card-body">
-                                                    <h4>Best {{count($vendorScoresExperience)}} Vendors By Experience Score</h4>
+                                                    <h4>Best {{count($vendorScoresExperience)}} Vendors By Experience
+                                                        Score</h4>
                                                     <br><br>
                                                     <canvas id="best-experience-chart"></canvas>
                                                 </div>
@@ -126,6 +127,7 @@
 @section('scripts')
     @parent
     <script>
+
         var experienceChart = new Chart($('#best-experience-chart'), {
                 type: 'bar',
                 data: {
@@ -159,8 +161,7 @@
                 }
             }
         );
+
     </script>
-
-
 @endsection
 

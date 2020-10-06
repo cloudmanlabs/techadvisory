@@ -80,9 +80,34 @@
                                         <div class="col-xl-12 grid-margin stretch-card">
                                             <div class="card">
                                                 <div class="card-body">
-                                                    <h4>Best Innovation & Vision Overall</h4>
+                                                    <h4>Best {{count($vendorScoresInnovation)}} Vendors By Innovation & Vision Score</h4>
                                                     <br><br>
-                                                    <canvas id="-chart"></canvas>
+                                                    <canvas id="best-innovation-chart"></canvas>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row" id="table-projects-count-row">
+                                        <div class="col-xl-12 grid-margin stretch-card">
+                                            <div class="card">
+                                                <div class="card-body">
+                                                    <h5>Number of projects</h5>
+                                                    <table class="table">
+                                                        <thead>
+                                                        <tr>
+                                                            <th scope="col">Vendor name</th>
+                                                            <th scope="col">Projects applied</th>
+                                                        </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                        @foreach($vendorScoresInnovation as $key=>$vendorScore)
+                                                            <tr>
+                                                                <td>{{\App\User::find($key)->name}}</td>
+                                                                <td>{{count(\App\User::find($key)->vendorApplications)}}</td>
+                                                            </tr>
+                                                        @endforeach
+                                                        </tbody>
+                                                    </table>
                                                 </div>
                                             </div>
                                         </div>
@@ -100,5 +125,41 @@
 
 @section('scripts')
     @parent
+
+    <script>
+        var inovationChart = new Chart($('#best-innovation-chart'), {
+                type: 'bar',
+                data: {
+                    labels: [
+                        @foreach($vendorScoresInnovation as $key=>$value)
+                            "{{\App\User::find($key)->name}}",
+                        @endforeach
+                    ],
+                    datasets: [
+                        {
+                            backgroundColor: ["#27003d", "#5a008f", "#8e00e0", "#a50aff", "#d285ff", "#e9c2ff", "#f8ebff"],
+                            data: [
+                                @foreach($vendorScoresInnovation as $key => $value)
+                                    "{{$value}}",
+                                @endforeach
+                            ]
+                        }
+                    ]
+                },
+                options: {
+                    legend: {display: false},
+                    scales: {
+                        yAxes: [{
+                            ticks: {
+                                beginAtZero: true,
+                                max: 7,
+                                fontSize: 17
+                            }
+                        }],
+                    }
+                }
+            }
+        );
+    </script>
 @endsection
 
