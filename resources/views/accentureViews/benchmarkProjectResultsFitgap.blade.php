@@ -88,6 +88,31 @@
                                             </div>
                                         </div>
                                     </div>
+                                    <div class="row" id="table-projects-count-row">
+                                        <div class="col-xl-12 grid-margin stretch-card">
+                                            <div class="card">
+                                                <div class="card-body">
+                                                    <h5>Number of projects</h5>
+                                                    <table class="table">
+                                                        <thead>
+                                                        <tr>
+                                                            <th scope="col">Vendor name</th>
+                                                            <th scope="col">Projects applied</th>
+                                                        </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                        @foreach($vendorScoresFitgap as $key=>$vendorScore)
+                                                            <tr>
+                                                                <td>{{\App\User::find($key)->name}}</td>
+                                                                <td>{{count(\App\User::find($key)->vendorApplications)}}</td>
+                                                            </tr>
+                                                        @endforeach
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                     <div class="row" id="chart2-row">
                                         <div class="col-xl-12 grid-margin stretch-card">
                                             <div class="card">
