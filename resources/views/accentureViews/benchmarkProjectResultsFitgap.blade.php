@@ -88,6 +88,7 @@
                                             </div>
                                         </div>
                                     </div>
+
                                     <div class="row" id="table-projects-count-row">
                                         <div class="col-xl-12 grid-margin stretch-card">
                                             <div class="card">
@@ -113,18 +114,54 @@
                                             </div>
                                         </div>
                                     </div>
+
                                     <div class="row" id="chart2-row">
                                         <div class="col-xl-12 grid-margin stretch-card">
                                             <div class="card">
                                                 <div class="card-body">
-                                                    <h4>Best Vendors Fitgap 2</h4>
+                                                    <h4>Best Vendors Fitgap Functional Score</h4>
                                                     <br><br>
-                                                    <canvas id="-chart"></canvas>
+                                                    <canvas id="best-fitgap-functional-chart"></canvas>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
 
+                                    <div class="row" id="chart3-row">
+                                        <div class="col-xl-12 grid-margin stretch-card">
+                                            <div class="card">
+                                                <div class="card-body">
+                                                    <h4>Best Vendors Fitgap By Technical Score</h4>
+                                                    <br><br>
+                                                    <canvas id="best-fitgap-technical-chart"></canvas>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row" id="chart4-row">
+                                        <div class="col-xl-12 grid-margin stretch-card">
+                                            <div class="card">
+                                                <div class="card-body">
+                                                    <h4>Best Vendors Fitgap By Services Score</h4>
+                                                    <br><br>
+                                                    <canvas id="best-fitgap-services-chart"></canvas>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row" id="chart5-row">
+                                        <div class="col-xl-12 grid-margin stretch-card">
+                                            <div class="card">
+                                                <div class="card-body">
+                                                    <h4>Best Vendors Fitgap By Others Score</h4>
+                                                    <br><br>
+                                                    <canvas id="best-fitgap-others-chart"></canvas>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -152,6 +189,142 @@
                             backgroundColor: ["#27003d", "#5a008f", "#8e00e0", "#a50aff", "#d285ff", "#e9c2ff", "#f8ebff"],
                             data: [
                                 @foreach($vendorScoresFitgap as $key => $value)
+                                    "{{$value}}",
+                                @endforeach
+                            ]
+                        }
+                    ]
+                },
+                options: {
+                    legend: {display: false},
+                    scales: {
+                        yAxes: [{
+                            ticks: {
+                                beginAtZero: true,
+                                max: 7,
+                                fontSize: 17
+                            }
+                        }],
+                    }
+                }
+            }
+        );
+
+        var fitgapFunctionalChart = new Chart($('#best-fitgap-functional-chart'), {
+                type: 'bar',
+                data: {
+                    labels: [
+                        @foreach($vendorScoresFitgapFunctional as $key=>$value)
+                            "{{\App\User::find($key)->name}}",
+                        @endforeach
+                    ],
+                    datasets: [
+                        {
+                            backgroundColor: ["#27003d", "#5a008f", "#8e00e0", "#a50aff", "#d285ff", "#e9c2ff", "#f8ebff"],
+                            data: [
+                                @foreach($vendorScoresFitgapFunctional as $key => $value)
+                                    "{{$value}}",
+                                @endforeach
+                            ]
+                        }
+                    ]
+                },
+                options: {
+                    legend: {display: false},
+                    scales: {
+                        yAxes: [{
+                            ticks: {
+                                beginAtZero: true,
+                                max: 7,
+                                fontSize: 17
+                            }
+                        }],
+                    }
+                }
+            }
+        );
+
+        var fitgapTechnicalChart = new Chart($('#best-fitgap-technical-chart'), {
+                type: 'bar',
+                data: {
+                    labels: [
+                        @foreach($vendorScoresFitgapTechnical as $key=>$value)
+                            "{{\App\User::find($key)->name}}",
+                        @endforeach
+                    ],
+                    datasets: [
+                        {
+                            backgroundColor: ["#27003d", "#5a008f", "#8e00e0", "#a50aff", "#d285ff", "#e9c2ff", "#f8ebff"],
+                            data: [
+                                @foreach($vendorScoresFitgapTechnical as $key => $value)
+                                    "{{$value}}",
+                                @endforeach
+                            ]
+                        }
+                    ]
+                },
+                options: {
+                    legend: {display: false},
+                    scales: {
+                        yAxes: [{
+                            ticks: {
+                                beginAtZero: true,
+                                max: 7,
+                                fontSize: 17
+                            }
+                        }],
+                    }
+                }
+            }
+        );
+
+        var fitgapServicesChart = new Chart($('#best-fitgap-services-chart'), {
+                type: 'bar',
+                data: {
+                    labels: [
+                        @foreach($vendorScoresFitgapService as $key=>$value)
+                            "{{\App\User::find($key)->name}}",
+                        @endforeach
+                    ],
+                    datasets: [
+                        {
+                            backgroundColor: ["#27003d", "#5a008f", "#8e00e0", "#a50aff", "#d285ff", "#e9c2ff", "#f8ebff"],
+                            data: [
+                                @foreach($vendorScoresFitgapService as $key => $value)
+                                    "{{$value}}",
+                                @endforeach
+                            ]
+                        }
+                    ]
+                },
+                options: {
+                    legend: {display: false},
+                    scales: {
+                        yAxes: [{
+                            ticks: {
+                                beginAtZero: true,
+                                max: 7,
+                                fontSize: 17
+                            }
+                        }],
+                    }
+                }
+            }
+        );
+
+        var fitgapOthersChart = new Chart($('#best-fitgap-others-chart'), {
+                type: 'bar',
+                data: {
+                    labels: [
+                        @foreach($vendorScoresFitgapOthers as $key=>$value)
+                            "{{\App\User::find($key)->name}}",
+                        @endforeach
+                    ],
+                    datasets: [
+                        {
+                            backgroundColor: ["#27003d", "#5a008f", "#8e00e0", "#a50aff", "#d285ff", "#e9c2ff", "#f8ebff"],
+                            data: [
+                                @foreach($vendorScoresFitgapOthers as $key => $value)
                                     "{{$value}}",
                                 @endforeach
                             ]

@@ -211,7 +211,6 @@ class BenchmarkController extends Controller
             'vendorScoresFitgapService' => $vendorScoresFitgapService,
             'vendorScoresFitgapOthers' => $vendorScoresFitgapOthers,
         ]);
-
     }
 
     public function projectResultsVendor()
