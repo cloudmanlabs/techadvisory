@@ -81,7 +81,7 @@
                                         <div class="col-xl-12 grid-margin stretch-card">
                                             <div class="card">
                                                 <div class="card-body">
-                                                    <h4>Best Vendors Fitgap Overall</h4>
+                                                    <h4>Best {{count($vendorScoresFitgap)}} Vendors By Fitgap Score</h4>
                                                     <br><br>
                                                     <canvas id="best-fitgap-chart"></canvas>
                                                 </div>
