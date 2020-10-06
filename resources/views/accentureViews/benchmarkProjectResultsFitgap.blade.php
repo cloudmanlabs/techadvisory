@@ -83,7 +83,7 @@
                                                 <div class="card-body">
                                                     <h4>Best Vendors Fitgap Overall</h4>
                                                     <br><br>
-                                                    <canvas id="-chart"></canvas>
+                                                    <canvas id="best-fitgap-chart"></canvas>
                                                 </div>
                                             </div>
                                         </div>
@@ -113,4 +113,40 @@
 
 @section('scripts')
     @parent
+    <script>
+        var fitgapChart = new Chart($('#best-fitgap-chart'), {
+                type: 'bar',
+                data: {
+                    labels: [
+                        @foreach($vendorScoresFitgap as $key=>$value)
+                            "{{\App\User::find($key)->name}}",
+                        @endforeach
+                    ],
+                    datasets: [
+                        {
+                            backgroundColor: ["#27003d", "#5a008f", "#8e00e0", "#a50aff", "#d285ff", "#e9c2ff", "#f8ebff"],
+                            data: [
+                                @foreach($vendorScoresFitgap as $key => $value)
+                                    "{{$value}}",
+                                @endforeach
+                            ]
+                        }
+                    ]
+                },
+                options: {
+                    legend: {display: false},
+                    scales: {
+                        yAxes: [{
+                            ticks: {
+                                beginAtZero: true,
+                                max: 7,
+                                fontSize: 17
+                            }
+                        }],
+                    }
+                }
+            }
+        );
+
+    </script>
 @endsection

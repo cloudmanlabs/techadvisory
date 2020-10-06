@@ -139,8 +139,8 @@
                                                     <table class="table">
                                                         <thead>
                                                         <tr>
-                                                            <th scope="col">Name</th>
-                                                            <th scope="col">#</th>
+                                                            <th scope="col">Vendor name</th>
+                                                            <th scope="col">Projects applied</th>
                                                         </tr>
                                                         </thead>
                                                         <tbody>

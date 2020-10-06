@@ -204,6 +204,12 @@ class BenchmarkController extends Controller
             'projectsByYears' => $projectsByYears,
             'industries' => $industries,
             'regions' => $regions,
+
+            'vendorScoresFitgap' => $vendorScoresFitgap,
+            'vendorScoresFitgapFunctional' => $vendorScoresFitgapFunctional,
+            'vendorScoresFitgapTechnical' => $vendorScoresFitgapTechnical,
+            'vendorScoresFitgapService' => $vendorScoresFitgapService,
+            'vendorScoresFitgapOthers' => $vendorScoresFitgapOthers,
         ]);
 
     }
