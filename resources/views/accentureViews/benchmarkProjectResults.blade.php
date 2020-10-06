@@ -126,6 +126,32 @@
                                                     <h4>Best {{count($vendorScores)}} Vendors By Overall Score</h4>
                                                     <br><br>
                                                     <canvas id="overall-chart"></canvas>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row" id="table-projects-count-row">
+                                        <div class="col-xl-12 grid-margin stretch-card">
+                                            <div class="card">
+                                                <div class="card-body">
+                                                    <h5>Number of projects</h5>
+                                                    <table class="table">
+                                                        <thead>
+                                                        <tr>
+                                                            <th scope="col">Name</th>
+                                                            <th scope="col">#</th>
+                                                        </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                        @foreach($vendorScores as $key=>$vendorScore)
+                                                            <tr>
+                                                                <td>{{\App\User::find($key)->name}}</td>
+                                                                <td>{{count(\App\User::find($key)->vendorApplications)}}</td>
+                                                            </tr>
+                                                        @endforeach
+                                                        </tbody>
+                                                    </table>
                                                 </div>
                                             </div>
                                         </div>
@@ -188,8 +214,7 @@
                     }
                 }
             }
-        )
-
+        );
 
         var vendorPerformance = new Chart($('#vendor-performance-chart'), {
             type: 'bubble',
