@@ -18,7 +18,7 @@ $disabled = $disabled ?? false;
             <p>Vendor</p>
         </div>
         <div style="width: 25%; padding: 0 0.5rem">
-            <p>Accenture</p>
+            <p>Integrator</p>
         </div>
     </div>
     <div id="raciContainer">
