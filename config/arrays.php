@@ -34,9 +34,9 @@ return [
     ],
 
     'industryExperience' => [
-        'Automative',
+        'Automotive',
         'Consumer goods & services',
-        'Industrial Equipement',
+        'Industrial Equipment',
         'Life Sciences',
         'Retail',
         'Transport services',
