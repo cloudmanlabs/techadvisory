@@ -22,7 +22,7 @@ $disabled = $disabled ?? false;
 </div>
 
 <div class="form-group">
-    <label>Detailed breakdown Upload*</label>
+    <label>Detailed breakdown Upload</label>
     <input id="detailedBreakdownUploadInput" class="file-upload-default" name="img[]" type="file">
 
     <div class="input-group col-xs-12">
