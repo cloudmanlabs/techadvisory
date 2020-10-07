@@ -156,6 +156,15 @@
                 </x-accenture.evaluateInputGroup>
             </div>
             @break
+        @case('file')
+            <x-accenture.evaluateInputGroup :required="$required || $question->originalQuestion->required" :changing="$question->id" :score="$question->score" :disabled="$evalDisabled">
+                <div class="form-group questionDiv" data-practice="{{$question->originalQuestion->practice->id ?? ''}}">
+                    <x-questionFileUploader :question="$question"
+                        :fileUploadRoute="$fileUploadRoute ?? '/selectionCriteriaQuestion/uploadFile'" :disabled="true"
+                        :required="$required" />
+                </div>
+            </x-accenture.evaluateInputGroup>
+            @break
         @default
 
     @endswitch

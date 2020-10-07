@@ -27,13 +27,20 @@
             value="{{$question->response ? 'File selected' : 'No file selected'}}"
             type="text">
         @if (!$disabled)
-        <span class="input-group-append">
-            <button class="btn btn-primary" id="button-{{$identifier}}" type="button">
-                <span
-                    class="input-group-append"
-                    id="span-{{$identifier}}">{{$question->response ? 'Replace file' : 'Select file'}}</span>
-            </button>
-        </span>
+            <span class="input-group-append">
+                <button class="btn btn-primary" id="button-{{$identifier}}" type="button">
+                    <span
+                        class="input-group-append"
+                        id="span-{{$identifier}}">{{$question->response ? 'Replace file' : 'Select file'}}</span>
+                </button>
+            </span>
+        @endif
+        @if ($question->response)
+            <span class="input-group-append">
+                <a class="btn btn-primary" href="/storage/{{$question->response}}">
+                    <span class="input-group-append">Download</span>
+                </a>
+            </span>
         @endif
     </div>
 </div>
