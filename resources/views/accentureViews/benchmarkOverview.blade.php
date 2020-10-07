@@ -1,6 +1,5 @@
 @extends('accentureViews.layouts.benchmark')
 @section('content')
-
     <div class="main-wrapper">
         <x-accenture.navbar activeSection="benchmark"/>
         <div class="page-wrapper">
@@ -130,8 +129,6 @@
             </div>
         </div>
     </div>
-    </div>
-
 @endSection
 
 @section('scripts')

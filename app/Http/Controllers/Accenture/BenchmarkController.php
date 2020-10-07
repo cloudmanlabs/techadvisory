@@ -65,7 +65,7 @@ class BenchmarkController extends Controller
         ]);
     }
 
-    public function overviewHistorical()
+    public function overviewHistorical(Request $request)
     {
         // Data for selects.
         $regions = collect(config('arrays.regions'));
@@ -81,6 +81,21 @@ class BenchmarkController extends Controller
                 })->count(),
             ];
         });
+
+        // Applying filters.
+        $industryToFilter = $request->input('industry');
+        if ($industryToFilter) {
+
+        }
+        $regionToFilter = $request->input('region');
+        if ($regionToFilter) {
+
+        }
+
+        $practicesToFilter = $request->input('practices');
+        if ($practicesToFilter) {
+            $practicesToFilter = explode(',', $practicesToFilter);
+        }
 
         return View('accentureViews.benchmarkOverviewHistorical', [
             'regions' => $regions,

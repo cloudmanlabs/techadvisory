@@ -49,12 +49,18 @@
                                                 @endforeach
                                             </select>
                                             <br>
-                                            <select id="practice-select">
-                                                <option value="null" selected>Chose a Practice</option>
+                                            <br>
+                                            <label for="practice-select">Chose a Practice</label>
+                                            <select id="practice-select" multiple>
                                                 @foreach ($practices as $practice)
                                                     <option value="{{$practice->id}}">{{$practice->name}}</option>
                                                 @endforeach
                                             </select>
+                                            <br>
+                                            <br>
+                                            <button id="filter-btn" class="btn btn-primary btn-lg btn-icon-text">
+                                                Click to Filter
+                                            </button>
                                         </aside>
                                         <div id="charts-container" class="col-8 border-left">
                                             <div class="row pl-3">
@@ -93,20 +99,16 @@
     @parent
     <script>
 
-        $('#industry-select').change(function () {
-            var selected = $(this).children("option:selected").val();
-            var url_args = '?industry=' + selected;
-            location.replace('/accenture/benchmark/overview/historical' + url_args);
-        });
-        $('#region-select').change(function () {
-            var selected = $(this).children("option:selected").val();
-            var url_args = '?region=' + selected;
-            location.replace('/accenture/benchmark/overview/historical' + url_args);
-        });
-        $('#practice-select').change(function () {
-            var selected = $(this).children("option:selected").val();
-            var url_args = '?practice=' + selected;
-            location.replace('/accenture/benchmark/overview/historical' + url_args);
+        $('#practice-select').select2();
+
+        $('#filter-btn').click(function () {
+            var industry = $('#industry-select').val();
+            var regions = $('#region-select').val();
+            var practices = $('#practice-select').val();
+
+            var currentUrl = '/accenture/benchmark/overview/historical';
+            var url = currentUrl + '?' + 'region=' + regions + '&industry=' + industry + '&practices=' + practices;
+            location.replace(url);
         });
 
         // Chart 1
