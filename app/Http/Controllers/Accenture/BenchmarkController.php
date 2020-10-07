@@ -44,15 +44,15 @@ class BenchmarkController extends Controller
             ];
         });
 
-
         // Applying filters.
-        $regionToFilter = $request->input('region');
-        if (!empty($regionToFilter)) {
+        $regionsToFilter = $request->input('regions');
+        if ($regionsToFilter) {
+            $regionsToFilter = explode(',', $regionsToFilter);
 
         }
-        $yearToFilter = $request->input('year');
-        if (!empty($yearToFilter)) {
-            $yearToFilter = intval($yearToFilter);
+        $yearsToFilter = $request->input('years');
+        if ($yearsToFilter) {
+            $yearsToFilter = explode(',', $yearsToFilter);
         }
 
         return View('accentureViews.benchmarkOverview', [
@@ -262,7 +262,7 @@ class BenchmarkController extends Controller
         $subIndustries = [];
         $regions = collect(config('arrays.regions'));
 
-        // Data for charts
+        // Data for charts.
         $vendorScoresExperience = User::bestVendorsScoreExperience(5);
 
         return View('accentureViews.benchmarkProjectResultsExperience', [

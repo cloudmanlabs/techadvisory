@@ -35,19 +35,25 @@
                                         <aside id="filters-container" class="col-4">
                                             <h3>Filters</h3>
                                             <br>
-                                            <select id="year-select">
-                                                <option value="null" selected>Chose a Year</option>
+                                            <label for="year-select">Chose a Year</label>
+                                            <select id="year-select" multiple>
                                                 @foreach ($years as $year)
                                                     <option value="{{$year->year}}">{{$year->year}}</option>
                                                 @endforeach
                                             </select>
                                             <br>
-                                            <select id="region-select">
-                                                <option value="null" selected>Chose a Region</option>
+                                            <br>
+                                            <label for="region-select">Chose a Region</label>
+                                            <select id="region-select" multiple>
                                                 @foreach ($regions as $region)
                                                     <option value="{{$region}}">{{$region}}</option>
                                                 @endforeach
                                             </select>
+                                            <br>
+                                            <br>
+                                            <button id="filter-btn" class="btn btn-primary btn-lg btn-icon-text">
+                                                Click to Filter
+                                            </button>
                                         </aside>
                                         <div id="charts-container" class="col-8 border-left">
                                             <div class="row pl-3">
@@ -131,16 +137,18 @@
 @section('scripts')
     @parent
     <script>
-        $('#region-select').change(function () {
-            var selectedRegion = $(this).children("option:selected").val();
-            var url_args = '?region=' + selectedRegion;
-            location.replace('/accenture/benchmark/overview' + url_args);
-        });
 
-        $('#year-select').change(function () {
-            var selected = $(this).children("option:selected").val();
-            var url_args = '?year=' + selected;
-            location.replace('/accenture/benchmark/overview' + url_args);
+        $('#region-select').select2();
+        $('#year-select').select2();
+
+        $('#filter-btn').click(function () {
+            var years = $('#year-select').val();
+            var regions = $('#region-select').val();
+
+            var currentUrl = '/accenture/benchmark/overview';
+            var url = currentUrl + '?' + 'regions=' + regions + '&years=' + years;
+            location.replace(url);
+
         });
 
         // Chart 1
@@ -206,28 +214,27 @@
                 ]
             },
         @endforeach
-        ]
-        },
-        options: {
-            scales: {
-                yAxes: [{
-                    ticks: {
-                        beginAtZero: true,
-                        max: 9,
-                        fontSize: 17
-                    }
-                }],
-                    xAxes
-            :
-                [{
-                    ticks: {
-                        fontSize: 17
-                    }
-                }]
+                ]
+                },
+            options: {
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero: true,
+                            max: 9,
+                            fontSize: 17
+                        }
+                    }],
+                        xAxes
+                :
+                    [{
+                        ticks: {
+                            fontSize: 17
+                        }
+                    }]
+                }
             }
-        }
-        })
-        ;
+            });
 
         const colors = ["#27003d", "#410066", "#5a008f", "#7400b8", "#8e00e0", "#9b00f5", "#a50aff", "#c35cff", "#d285ff", "#e9c2ff", "#f0d6ff", "#f8ebff"];
         const longColorArray = [
@@ -235,6 +242,7 @@
             ...colors.splice(0, colors.length - 1).reverse(), // We use the split so we don't repeat a color
             ...colors.splice(1, colors.length)
         ]
+
         // Chart 3
         new Chart($("#projects-per-practice-chart"), {
             type: 'bar',
@@ -357,6 +365,7 @@
                 }
             }
         });
+
 
     </script>
 @endsection
