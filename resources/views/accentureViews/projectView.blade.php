@@ -81,7 +81,9 @@
                                                 :innovationProductQuestions="$innovationProductQuestions"
                                                 :innovationSustainabilityQuestions="$innovationSustainabilityQuestions"
                                                 :implementationImplementationQuestions="$implementationImplementationQuestions"
-                                                :implementationRunQuestions="$implementationRunQuestions" />
+                                                :implementationRunQuestions="$implementationRunQuestions"
+                                                :project="$project"
+                                                 />
 
                                             <h3>Scoring criteria</h3>
                                             <div>

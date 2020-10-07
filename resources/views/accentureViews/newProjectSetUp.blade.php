@@ -156,6 +156,7 @@
                                                     :innovationSustainabilityQuestions="$innovationSustainabilityQuestions"
                                                     :implementationImplementationQuestions="$implementationImplementationQuestions"
                                                     :implementationRunQuestions="$implementationRunQuestions"
+                                                    :project="$project"
                                                 />
 
                                                 <h3>Scoring criteria</h3>
