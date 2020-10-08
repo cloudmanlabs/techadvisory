@@ -32,8 +32,8 @@
                                 <aside id="filters-container" class="col-4">
                                     <h3>Filters</h3>
                                     <br>
-                                    <label for="practice-select">Chose a Practice</label>
-                                    <select id="practice-select" multiple>
+                                    <label for="practices-select">Chose a Practice</label>
+                                    <select id="practices-select" multiple>
                                         @foreach ($practices as $practice)
                                             <option value="{{$practice->id}}">{{$practice->name}}</option>
                                         @endforeach
@@ -41,8 +41,8 @@
                                     <br>
                                     <br>
                                     <div id="subpractices-container">
-                                        <label for="subpractice-select">Chose a Subpractice</label>
-                                        <select id="subpractice-select" multiple>
+                                        <label for="subpractices-select">Chose a Subpractice</label>
+                                        <select id="subpractices-select" multiple>
                                             @foreach ($subpractices as $subpractice)
                                                 <option value="{{$subpractice->id}}">{{$subpractice->name}}</option>
                                             @endforeach
@@ -66,8 +66,8 @@
                                     </select>
                                     <br>
                                     <br>
-                                    <label for="region-select">Chose a Region</label>
-                                    <select id="region-select" multiple>
+                                    <label for="regions-select">Chose a Region</label>
+                                    <select id="regions-select" multiple>
                                         @foreach ($regions as $region)
                                             <option value="{{$region}}">{{$region}}</option>
                                         @endforeach
@@ -190,26 +190,45 @@
 @section('scripts')
     @parent
     <script>
-        $('#practice-select').select2();
-        $('#subpractice-select').select2();
+
+        $('#practices-select').select2();
+        $('#subpractices-select').select2();
         $('#years-select').select2();
         $('#industries-select').select2();
-        $('#region-select').select2();
+        $('#regions-select').select2();
 
         $('#subpractices-container').hide();
 
-        $('#practice-select').change(function () {
-            $('#subpractices-container').hide();
-            $('#subpractice-select').empty();
+        // Submit Filters
+        $('#filter-btn').click(function () {
+            var practices = $('#practices-select').val();
+            var subpractices = $('#subpractices-select').val();
+            var years = $('#years-select').val();
+            var industries = $('#industries-select').val();
+            var regions = $('#regions-select').val();
 
-            var selectedPractices = $('#practice-select').val();
-            if (selectedPractices.length == 1) {
+            var currentUrl = '/accenture/benchmark/projectResults';
+            var url = currentUrl + '?'
+                + 'practices=' + practices
+                + '&subpractices=' + subpractices
+                + '&years=' + years
+                + '&industries=' + industries
+                + '&regions=' + regions;
+            location.replace(url);
+        });
+
+        $('#practices-select').change(function () {
+            $('#subpractices-container').hide();
+            $('#subpractices-select').empty();
+
+            var selectedPractices = $(this).val();
+            if (selectedPractices.length === 1) {
                 $.get("/accenture/benchmark/projectResults/getSubpractices/"
                     + selectedPractices, function (data) {
 
                     $('#subpractices-container').show();
 
-                    var $dropdown = $("#subpractice-select");
+                    var $dropdown = $("#subpractices-select");
                     var subpractices = data.subpractices;
                     $.each(subpractices, function () {
                         $dropdown.append($("<option />").val(this.id).text(this.name));
@@ -217,111 +236,7 @@
                 });
             }
         });
+
+
     </script>
-    {{--    <script>
-
-
-            var overallChart = new Chart($('#overall-chart'), {
-                    type: 'bar',
-                    data: {
-                        labels: [
-                            @foreach($vendorScores as $key=>$vendorScore)
-                                "{{\App\User::find($key)->name}}",
-                            @endforeach
-                        ],
-                        datasets: [
-                            {
-                                backgroundColor: ["#27003d", "#5a008f", "#8e00e0", "#a50aff", "#d285ff", "#e9c2ff", "#f8ebff"],
-                                data: [
-                                    @foreach($vendorScores as $key => $value)
-                                        "{{$value}}",
-                                    @endforeach
-                                ]
-                            }
-                        ]
-                    },
-                    options: {
-                        legend: {display: false},
-                        scales: {
-                            yAxes: [{
-                                ticks: {
-                                    beginAtZero: true,
-                                    max: 7,
-                                    fontSize: 17
-                                }
-                            }],
-                        }
-                    }
-                }
-            );
-
-            var vendorPerformance = new Chart($('#vendor-performance-chart'), {
-                type: 'bubble',
-                data: {
-                    labels: "",
-                    datasets: [
-                            @foreach($vendors as $vendor)
-                            @php
-                                // NOTE: We use 10 - val so we get the chart flipped horizontally
-                                $ranking = 10 - $vendor->averageRanking();
-                                $score = $vendor->averageScore() ?? 0;
-                            @endphp
-                        {
-                            label: ["{{$vendor->name}}"],
-                            backgroundColor: ["#27003d", "#410066", "#5a008f",
-                                "#7400b8", "#8e00e0", "#9b00f5", "#a50aff", "#c35cff", "#d285ff", "#e9c2ff", "#f0d6ff", "#f8ebff"][{{$loop->index}} % 12],
-                    borderColor: ["#27003d", "#410066", "#5a008f",
-                        "#7400b8", "#8e00e0", "#9b00f5", "#a50aff", "#c35cff", "#d285ff", "#e9c2ff", "#f0d6ff", "#f8ebff"][{{$loop->index}} % 12
-            ],
-            data: [
-                {
-                    x: {{$ranking}},
-                    y: {{$score}},
-                    r: {{ ($ranking + $score) * 3 }}
-                }
-            ],
-                hidden
-            : {{$loop->index > 3 ? 'true' : 'false'}},
-            },
-            @endforeach
-            ]
-            },
-            options: {
-                scales: {
-                    yAxes: [{
-                        scaleLabel: {
-                            display: true,
-                            labelString: "Av. Score",
-                            fontSize: 17
-                        },
-                        ticks: {
-                            beginAtZero: false,
-                            min: 1,
-                            max: 10,
-                            fontSize: 17
-                        }
-                    }],
-                        xAxes
-                :
-                    [{
-                        scaleLabel: {
-                            display: true,
-                            labelString: "Av. Ranking",
-                            fontSize: 17
-                        },
-                        ticks: {
-                            beginAtZero: false,
-                            min: 1,
-                            max: 10,
-                            fontSize: 17,
-                            callback: function (tick, index, ticks) {
-                                return (11 - tick).toString();
-                            }
-                        }
-                    }]
-                }
-            }
-            })
-            ;
-        </script>--}}
 @endsection

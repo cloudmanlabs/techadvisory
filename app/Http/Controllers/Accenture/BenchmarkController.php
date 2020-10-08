@@ -148,7 +148,7 @@ class BenchmarkController extends Controller
 
     // Project results Controllers ***************************************************************************
 
-    public function projectResultsOverall()
+    public function projectResultsOverall(Request $request)
     {
         // Data for selects
         $practices = Practice::all();
@@ -174,6 +174,35 @@ class BenchmarkController extends Controller
         $vendors = User::vendorUsers()->where('hasFinishedSetup', true)->get();
         $vendorScores = User::bestVendorsScoreOverall(5);
 
+        // Receive data
+        $practicesIDsToFilter = $request->input('practices');
+        if ($practicesIDsToFilter) {
+            $practicesIDsToFilter = explode(',', $practicesIDsToFilter);
+        }
+
+        $subpracticesIDsToFilter = $request->input('subpractices');
+        if ($practicesIDsToFilter) {
+            $subpracticesIDsToFilter = explode(',', $subpracticesIDsToFilter);
+        }
+
+        $yearsToFilter = $request->input('years');
+        if ($yearsToFilter) {
+            $yearsToFilter = explode(',', $yearsToFilter);
+        }
+
+        $industryToFilter = $request->input('industries');
+        if ($industryToFilter) {
+            $industryToFilter = explode(',', $industryToFilter);
+            dd($industryToFilter);
+
+        }
+        $regionsToFilter = $request->input('regions');
+        if ($regionsToFilter) {
+            $regionsToFilter = explode(',', $regionsToFilter);
+            dd($regionsToFilter);
+
+        }
+
         return View('accentureViews.benchmarkProjectResults', [
             'practices' => $practices,
             'subpractices' => $subpractices,
@@ -191,7 +220,7 @@ class BenchmarkController extends Controller
         ]);
     }
 
-    public function projectResultsFitgap()
+    public function projectResultsFitgap(Request $request)
     {
         // Data for selects
         $practices = Practice::all();
@@ -213,6 +242,23 @@ class BenchmarkController extends Controller
         $vendorScoresFitgapTechnical = User::bestVendorsScoreFitgapTechnical(5);
         $vendorScoresFitgapService = User::bestVendorsScoreFitgapService(5);
         $vendorScoresFitgapOthers = User::bestVendorsScoreFitgapOthers(5);
+
+        // Receive data
+        $practicesToFilter = $request->input('practice');
+        if ($practicesToFilter) {
+        }
+        $industryToFilter = $request->input('industry');
+        if ($industryToFilter) {
+
+        }
+        $industryToFilter = $request->input('industry');
+        if ($industryToFilter) {
+
+        }
+        $industryToFilter = $request->input('industry');
+        if ($industryToFilter) {
+
+        }
 
         return View('accentureViews.benchmarkProjectResultsFitgap', [
             'practices' => $practices,
