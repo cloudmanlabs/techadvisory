@@ -248,7 +248,7 @@ class BenchmarkController extends Controller
         }
 
         $subpracticesIDsToFilter = $request->input('subpractices');
-        if ($practicesIDsToFilter) {
+        if ($subpracticesIDsToFilter) {
             $subpracticesIDsToFilter = explode(',', $subpracticesIDsToFilter);
         }
 
@@ -265,7 +265,6 @@ class BenchmarkController extends Controller
         $regionsToFilter = $request->input('regions');
         if ($regionsToFilter) {
             $regionsToFilter = explode(',', $regionsToFilter);
-
         }
 
         return View('accentureViews.benchmarkProjectResultsFitgap', [

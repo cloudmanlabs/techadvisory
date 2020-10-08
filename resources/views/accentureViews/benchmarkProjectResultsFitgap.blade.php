@@ -125,22 +125,19 @@
                                     </div>
 
                                     <div class="row" id="chart2-row">
-                                        <div class="col-xl-12 grid-margin stretch-card">
+                                        <div class="col-xl-6 grid-margin stretch-card">
                                             <div class="card">
                                                 <div class="card-body">
-                                                    <h4>Best {{count($vendorScoresFitgapFunctional)}} Vendors Fitgap Functional Score</h4>
+                                                    <h6>Best {{count($vendorScoresFitgapFunctional)}} Vendors Fitgap Functional Score</h6>
                                                     <br><br>
                                                     <canvas id="best-fitgap-functional-chart"></canvas>
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
-
-                                    <div class="row" id="chart3-row">
-                                        <div class="col-xl-12 grid-margin stretch-card">
+                                        <div class="col-xl-6 grid-margin stretch-card">
                                             <div class="card">
                                                 <div class="card-body">
-                                                    <h4>Best {{count($vendorScoresFitgapTechnical)}} Vendors Fitgap By Technical Score</h4>
+                                                    <h6>Best {{count($vendorScoresFitgapTechnical)}} Vendors Fitgap By Technical Score</h6>
                                                     <br><br>
                                                     <canvas id="best-fitgap-technical-chart"></canvas>
                                                 </div>
