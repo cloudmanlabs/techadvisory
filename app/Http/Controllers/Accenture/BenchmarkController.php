@@ -242,19 +242,29 @@ class BenchmarkController extends Controller
         $vendorScoresFitgapOthers = User::bestVendorsScoreFitgapOthers(5);
 
         // Receive data
-        $practicesToFilter = $request->input('practice');
-        if ($practicesToFilter) {
+        $practicesIDsToFilter = $request->input('practices');
+        if ($practicesIDsToFilter) {
+            $practicesIDsToFilter = explode(',', $practicesIDsToFilter);
         }
-        $industryToFilter = $request->input('industry');
+
+        $subpracticesIDsToFilter = $request->input('subpractices');
+        if ($practicesIDsToFilter) {
+            $subpracticesIDsToFilter = explode(',', $subpracticesIDsToFilter);
+        }
+
+        $yearsToFilter = $request->input('years');
+        if ($yearsToFilter) {
+            $yearsToFilter = explode(',', $yearsToFilter);
+        }
+
+        $industryToFilter = $request->input('industries');
         if ($industryToFilter) {
+            $industryToFilter = explode(',', $industryToFilter);
 
         }
-        $industryToFilter = $request->input('industry');
-        if ($industryToFilter) {
-
-        }
-        $industryToFilter = $request->input('industry');
-        if ($industryToFilter) {
+        $regionsToFilter = $request->input('regions');
+        if ($regionsToFilter) {
+            $regionsToFilter = explode(',', $regionsToFilter);
 
         }
 
