@@ -238,5 +238,107 @@
         });
 
 
+        var overallChart = new Chart($('#overall-chart'), {
+                type: 'bar',
+                data: {
+                    labels: [
+                        @foreach($vendorScores as $key=>$vendorScore)
+                            "{{\App\User::find($key)->name}}",
+                        @endforeach
+                    ],
+                    datasets: [
+                        {
+                            backgroundColor: ["#27003d", "#5a008f", "#8e00e0", "#a50aff", "#d285ff", "#e9c2ff", "#f8ebff"],
+                            data: [
+                                @foreach($vendorScores as $key => $value)
+                                    "{{$value}}",
+                                @endforeach
+                            ]
+                        }
+                    ]
+                },
+                options: {
+                    legend: {display: false},
+                    scales: {
+                        yAxes: [{
+                            ticks: {
+                                beginAtZero: true,
+                                max: 7,
+                                fontSize: 17
+                            }
+                        }],
+                    }
+                }
+            }
+        );
+
+        var vendorPerformance = new Chart($('#vendor-performance-chart'), {
+            type: 'bubble',
+            data: {
+                labels: "",
+                datasets: [
+                        @foreach($vendors as $vendor)
+                        @php
+                            // NOTE: We use 10 - val so we get the chart flipped horizontally
+                            $ranking = 10 - $vendor->averageRanking();
+                            $score = $vendor->averageScore() ?? 0;
+                        @endphp
+                    {
+                        label: ["{{$vendor->name}}"],
+                        backgroundColor: ["#27003d", "#410066", "#5a008f",
+                            "#7400b8", "#8e00e0", "#9b00f5", "#a50aff", "#c35cff", "#d285ff", "#e9c2ff", "#f0d6ff", "#f8ebff"][{{$loop->index}} % 12],
+                borderColor: ["#27003d", "#410066", "#5a008f",
+                    "#7400b8", "#8e00e0", "#9b00f5", "#a50aff", "#c35cff", "#d285ff", "#e9c2ff", "#f0d6ff", "#f8ebff"][{{$loop->index}} % 12
+        ],
+        data: [
+            {
+                x: {{$ranking}},
+                y: {{$score}},
+                r: {{ ($ranking + $score) * 3 }}
+            }
+        ],
+            hidden
+        : {{$loop->index > 3 ? 'true' : 'false'}},
+        },
+        @endforeach
+        ]
+        },
+        options: {
+            scales: {
+                yAxes: [{
+                    scaleLabel: {
+                        display: true,
+                        labelString: "Av. Score",
+                        fontSize: 17
+                    },
+                    ticks: {
+                        beginAtZero: false,
+                        min: 1,
+                        max: 10,
+                        fontSize: 17
+                    }
+                }],
+                    xAxes
+            :
+                [{
+                    scaleLabel: {
+                        display: true,
+                        labelString: "Av. Ranking",
+                        fontSize: 17
+                    },
+                    ticks: {
+                        beginAtZero: false,
+                        min: 1,
+                        max: 10,
+                        fontSize: 17,
+                        callback: function (tick, index, ticks) {
+                            return (11 - tick).toString();
+                        }
+                    }
+                }]
+            }
+        }
+        })
+        ;
     </script>
 @endsection
