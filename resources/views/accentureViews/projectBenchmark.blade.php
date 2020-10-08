@@ -219,11 +219,11 @@ $(document).ready(function() {
     $("#exportExcelButton").click(function(){
         let url = "{{route('accenture.exportAnalytics', ['project' => $project])}}";
 
-        var selectedVendors = $('#vendorSelect').select2('data').map((el) => {
+        var selectedVendors = $('#vendorSelect').select2('data').map(function(el) {
             return $(el.element).data('vendorId')
         });
         if(selectedVendors.length == 0){
-            selectedVendors = $('#vendorSelect').children().toArray().map((el) => {
+            selectedVendors = $('#vendorSelect').children().toArray().map(function(el) {
                 return $(el).data('vendorId')
             });
         }

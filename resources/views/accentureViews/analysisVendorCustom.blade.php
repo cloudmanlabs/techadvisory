@@ -148,11 +148,11 @@
             }
 
             function getSelectedFrom(id){
-                let selectedPractices = $(`#${id}`).select2('data').map((el) => {
+                let selectedPractices = $(`#${id}`).select2('data').map(function(el) {
                     return el.text
                 });
                 if(selectedPractices.length == 0){
-                    selectedPractices = $(`#${id}`).children().toArray().map((el) => {
+                    selectedPractices = $(`#${id}`).children().toArray().map(function(el) {
                         return el.innerHTML.replace('&amp;', '&')
                     });
                 }
