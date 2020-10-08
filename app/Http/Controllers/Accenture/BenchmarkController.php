@@ -458,7 +458,7 @@ class BenchmarkController extends Controller
         ]);
     }
 
-    public function projectResultsImplementation()
+    public function projectResultsImplementation(Request $request)
     {
         // Data for selects
         $practices = Practice::all();
@@ -479,6 +479,33 @@ class BenchmarkController extends Controller
         $vendorScoresImplementation = User::bestVendorsScoreImplementation(5);
         $vendorScoresImplementationImplementation = User::bestVendorsScoreImplementationImplementation(5);
         $vendorScoresImplementationRun = User::bestVendorsScoreImplementationRun(5);
+
+        // Receive data
+        $practicesIDsToFilter = $request->input('practices');
+        if ($practicesIDsToFilter) {
+            $practicesIDsToFilter = explode(',', $practicesIDsToFilter);
+        }
+
+        $subpracticesIDsToFilter = $request->input('subpractices');
+        if ($practicesIDsToFilter) {
+            $subpracticesIDsToFilter = explode(',', $subpracticesIDsToFilter);
+        }
+
+        $yearsToFilter = $request->input('years');
+        if ($yearsToFilter) {
+            $yearsToFilter = explode(',', $yearsToFilter);
+        }
+
+        $industriesToFilter = $request->input('industries');
+        if ($industriesToFilter) {
+            $industriesToFilter = explode(',', $industriesToFilter);
+
+        }
+        $regionsToFilter = $request->input('regions');
+        if ($regionsToFilter) {
+            $regionsToFilter = explode(',', $regionsToFilter);
+
+        }
 
         return View('accentureViews.benchmarkProjectResultsImplementation', [
             'practices' => $practices,
