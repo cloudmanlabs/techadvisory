@@ -32,42 +32,51 @@
                                 <aside id="filters-container" class="col-4">
                                     <h3>Filters</h3>
                                     <br>
-                                    <select id="practice-select">
-                                        <option value="null" selected>Chose a Practice</option>
+                                    <label for="practice-select">Chose a Practice</label>
+                                    <select id="practice-select" multiple>
                                         @foreach ($practices as $practice)
                                             <option value="{{$practice->id}}">{{$practice->name}}</option>
                                         @endforeach
                                     </select>
                                     <br>
-                                    @if(count($subpractices)>0)
-                                        <select id="subpractice-select">
-                                            <option value="null" selected>Chose a Subpractice</option>
-                                            @foreach ($subpractices as $subpracice)
+                                    <br>
+                                    <div id="subpractices-container">
+                                        <label for="subpractice-select">Chose a Subpractice</label>
+                                        <select id="subpractice-select" multiple>
+                                            @foreach ($subpractices as $subpractice)
                                                 <option value="{{$subpractice->id}}">{{$subpractice->name}}</option>
                                             @endforeach
                                         </select>
                                         <br>
-                                    @endif
-                                    <select id="years-select">
-                                        <option value="null" selected>Chose a Year</option>
+                                        <br>
+                                    </div>
+                                    <label for="years-select">Chose a Year</label>
+                                    <select id="years-select" multiple>
                                         @foreach ($projectsByYears as $year)
                                             <option value="{{$year->year}}">{{$year->year}}</option>
                                         @endforeach
                                     </select>
                                     <br>
-                                    <select id="industries-select">
-                                        <option value="null" selected>Chose a Industry</option>
+                                    <br>
+                                    <label for="industries-select">Chose a Industry</label>
+                                    <select id="industries-select" multiple>
                                         @foreach ($industries as $industry)
                                             <option value="{{$industry}}">{{$industry}}</option>
                                         @endforeach
                                     </select>
                                     <br>
-                                    <select id="region-select">
-                                        <option value="null" selected>Chose a Region</option>
+                                    <br>
+                                    <label for="region-select">Chose a Region</label>
+                                    <select id="region-select" multiple>
                                         @foreach ($regions as $region)
                                             <option value="{{$region}}">{{$region}}</option>
                                         @endforeach
                                     </select>
+                                    <br>
+                                    <br>
+                                    <button id="filter-btn" class="btn btn-primary btn-lg btn-icon-text">
+                                        Click to Filter
+                                    </button>
                                 </aside>
                                 <div id="charts-container" class="col-8 border-left">
                                     <div class="row pl-3">
@@ -181,108 +190,138 @@
 @section('scripts')
     @parent
     <script>
+        $('#practice-select').select2();
+        $('#subpractice-select').select2();
+        $('#years-select').select2();
+        $('#industries-select').select2();
+        $('#region-select').select2();
 
-        var overallChart = new Chart($('#overall-chart'), {
-                type: 'bar',
-                data: {
-                    labels: [
-                        @foreach($vendorScores as $key=>$vendorScore)
-                            "{{\App\User::find($key)->name}}",
-                        @endforeach
-                    ],
-                    datasets: [
-                        {
-                            backgroundColor: ["#27003d", "#5a008f", "#8e00e0", "#a50aff", "#d285ff", "#e9c2ff", "#f8ebff"],
-                            data: [
-                                @foreach($vendorScores as $key => $value)
-                                    "{{$value}}",
-                                @endforeach
-                            ]
-                        }
-                    ]
-                },
-                options: {
-                    legend: {display: false},
-                    scales: {
-                        yAxes: [{
-                            ticks: {
-                                beginAtZero: true,
-                                max: 7,
-                                fontSize: 17
+        $('#subpractices-container').hide();
+
+        $('#practice-select').change(function () {
+            $('#subpractices-container').hide();
+            $('#subpractice-select').empty();
+
+            var selectedPractices = $('#practice-select').val();
+            if (selectedPractices.length == 1) {
+                $.get("/accenture/benchmark/projectResults/getSubpractices/"
+                    + selectedPractices, function (data) {
+
+                    $('#subpractices-container').show();
+
+                    var $dropdown = $("#subpractice-select");
+                    var subpractices = data.subpractices;
+                    $.each(subpractices, function () {
+                        $dropdown.append($("<option />").val(this.id).text(this.name));
+                    });
+                });
+            }
+        });
+    </script>
+    {{--    <script>
+
+
+            var overallChart = new Chart($('#overall-chart'), {
+                    type: 'bar',
+                    data: {
+                        labels: [
+                            @foreach($vendorScores as $key=>$vendorScore)
+                                "{{\App\User::find($key)->name}}",
+                            @endforeach
+                        ],
+                        datasets: [
+                            {
+                                backgroundColor: ["#27003d", "#5a008f", "#8e00e0", "#a50aff", "#d285ff", "#e9c2ff", "#f8ebff"],
+                                data: [
+                                    @foreach($vendorScores as $key => $value)
+                                        "{{$value}}",
+                                    @endforeach
+                                ]
                             }
-                        }],
+                        ]
+                    },
+                    options: {
+                        legend: {display: false},
+                        scales: {
+                            yAxes: [{
+                                ticks: {
+                                    beginAtZero: true,
+                                    max: 7,
+                                    fontSize: 17
+                                }
+                            }],
+                        }
                     }
                 }
-            }
-        );
+            );
 
-        var vendorPerformance = new Chart($('#vendor-performance-chart'), {
-            type: 'bubble',
-            data: {
-                labels: "",
-                datasets: [
-                        @foreach($vendors as $vendor)
-                        @php
-                            // NOTE: We use 10 - val so we get the chart flipped horizontally
-                            $ranking = 10 - $vendor->averageRanking();
-                            $score = $vendor->averageScore() ?? 0;
-                        @endphp
-                    {
-                        label: ["{{$vendor->name}}"],
-                        backgroundColor: ["#27003d", "#410066", "#5a008f",
-                            "#7400b8", "#8e00e0", "#9b00f5", "#a50aff", "#c35cff", "#d285ff", "#e9c2ff", "#f0d6ff", "#f8ebff"][{{$loop->index}} % 12],
-                borderColor: ["#27003d", "#410066", "#5a008f",
-                    "#7400b8", "#8e00e0", "#9b00f5", "#a50aff", "#c35cff", "#d285ff", "#e9c2ff", "#f0d6ff", "#f8ebff"][{{$loop->index}} % 12
-        ],
-        data: [
-            {
-                x: {{$ranking}},
-                y: {{$score}},
-                r: {{ ($ranking + $score) * 3 }}
-            }
-        ],
-            hidden
-        : {{$loop->index > 3 ? 'true' : 'false'}},
-        },
-        @endforeach
-        ]
-        },
-        options: {
-            scales: {
-                yAxes: [{
-                    scaleLabel: {
-                        display: true,
-                        labelString: "Av. Score",
-                        fontSize: 17
-                    },
-                    ticks: {
-                        beginAtZero: false,
-                        min: 1,
-                        max: 10,
-                        fontSize: 17
-                    }
-                }],
-                    xAxes
-            :
-                [{
-                    scaleLabel: {
-                        display: true,
-                        labelString: "Av. Ranking",
-                        fontSize: 17
-                    },
-                    ticks: {
-                        beginAtZero: false,
-                        min: 1,
-                        max: 10,
-                        fontSize: 17,
-                        callback: function (tick, index, ticks) {
-                            return (11 - tick).toString();
+            var vendorPerformance = new Chart($('#vendor-performance-chart'), {
+                type: 'bubble',
+                data: {
+                    labels: "",
+                    datasets: [
+                            @foreach($vendors as $vendor)
+                            @php
+                                // NOTE: We use 10 - val so we get the chart flipped horizontally
+                                $ranking = 10 - $vendor->averageRanking();
+                                $score = $vendor->averageScore() ?? 0;
+                            @endphp
+                        {
+                            label: ["{{$vendor->name}}"],
+                            backgroundColor: ["#27003d", "#410066", "#5a008f",
+                                "#7400b8", "#8e00e0", "#9b00f5", "#a50aff", "#c35cff", "#d285ff", "#e9c2ff", "#f0d6ff", "#f8ebff"][{{$loop->index}} % 12],
+                    borderColor: ["#27003d", "#410066", "#5a008f",
+                        "#7400b8", "#8e00e0", "#9b00f5", "#a50aff", "#c35cff", "#d285ff", "#e9c2ff", "#f0d6ff", "#f8ebff"][{{$loop->index}} % 12
+            ],
+            data: [
+                {
+                    x: {{$ranking}},
+                    y: {{$score}},
+                    r: {{ ($ranking + $score) * 3 }}
+                }
+            ],
+                hidden
+            : {{$loop->index > 3 ? 'true' : 'false'}},
+            },
+            @endforeach
+            ]
+            },
+            options: {
+                scales: {
+                    yAxes: [{
+                        scaleLabel: {
+                            display: true,
+                            labelString: "Av. Score",
+                            fontSize: 17
+                        },
+                        ticks: {
+                            beginAtZero: false,
+                            min: 1,
+                            max: 10,
+                            fontSize: 17
                         }
-                    }
-                }]
+                    }],
+                        xAxes
+                :
+                    [{
+                        scaleLabel: {
+                            display: true,
+                            labelString: "Av. Ranking",
+                            fontSize: 17
+                        },
+                        ticks: {
+                            beginAtZero: false,
+                            min: 1,
+                            max: 10,
+                            fontSize: 17,
+                            callback: function (tick, index, ticks) {
+                                return (11 - tick).toString();
+                            }
+                        }
+                    }]
+                }
             }
-        }
-        })
-        ;
-    </script>
+            })
+            ;
+        </script>--}}
 @endsection

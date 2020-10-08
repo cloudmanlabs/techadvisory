@@ -34,6 +34,8 @@
                                     <div class="row">
                                         <aside id="filters-container" class="col-4">
                                             <h3>Filters</h3>
+                                            <br>
+                                            <label>No filters availables for this section</label>
                                         </aside>
                                         <div id="charts-container" class="col-8 border-left">
                                             <div class="row pl-3">

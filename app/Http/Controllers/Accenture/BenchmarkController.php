@@ -7,6 +7,7 @@ namespace App\Http\Controllers\Accenture;
 use App\Http\Controllers\Controller;
 use App\Practice;
 use App\Project;
+use App\Subpractice;
 use App\User;
 use App\VendorSolution;
 use Illuminate\Http\Request;
@@ -357,6 +358,19 @@ class BenchmarkController extends Controller
             'vendorScoresImplementation' => $vendorScoresImplementation,
             'vendorScoresImplementationImplementation' => $vendorScoresImplementationImplementation,
             'vendorScoresImplementationRun' => $vendorScoresImplementationRun,
+        ]);
+    }
+
+    public function getSubpracticesfromPractice(string $practiceId)
+    {
+        $practiceId = intval($practiceId);
+        $practice = Practice::find($practiceId);
+        $subpractices = Subpractice::where('practice_id', $practice->id)->get();
+
+        return \response()->json([
+            'status' => 200,
+            'subpractices' => $subpractices,
+            'message' => 'Success'
         ]);
     }
 
