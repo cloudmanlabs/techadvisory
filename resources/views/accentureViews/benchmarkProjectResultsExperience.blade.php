@@ -28,46 +28,57 @@
                     <div class="card">
                         <div class="card-body">
                             <div class="row">
+
                                 <aside id="filters-container" class="col-4">
                                     <h3>Filters</h3>
                                     <br>
-                                    <select id="practice-select">
-                                        <option value="null" selected>Chose a Practice</option>
+                                    <label for="practices-select">Chose a Practice</label>
+                                    <select id="practices-select" multiple>
                                         @foreach ($practices as $practice)
                                             <option value="{{$practice->id}}">{{$practice->name}}</option>
                                         @endforeach
                                     </select>
                                     <br>
-                                    @if(count($subpractices)>0)
-                                        <select id="subpractice-select">
-                                            <option value="null" selected>Chose a Subpractice</option>
-                                            @foreach ($subpractices as $subpracice)
+                                    <br>
+                                    <div id="subpractices-container">
+                                        <label for="subpractices-select">Chose a Subpractice</label>
+                                        <select id="subpractices-select" multiple>
+                                            @foreach ($subpractices as $subpractice)
                                                 <option value="{{$subpractice->id}}">{{$subpractice->name}}</option>
                                             @endforeach
                                         </select>
                                         <br>
-                                    @endif
-                                    <select id="years-select">
-                                        <option value="null" selected>Chose a Year</option>
+                                        <br>
+                                    </div>
+                                    <label for="years-select">Chose a Year</label>
+                                    <select id="years-select" multiple>
                                         @foreach ($projectsByYears as $year)
                                             <option value="{{$year->year}}">{{$year->year}}</option>
                                         @endforeach
                                     </select>
                                     <br>
-                                    <select id="industries-select">
-                                        <option value="null" selected>Chose a Industry</option>
+                                    <br>
+                                    <label for="industries-select">Chose a Industry</label>
+                                    <select id="industries-select" multiple>
                                         @foreach ($industries as $industry)
                                             <option value="{{$industry}}">{{$industry}}</option>
                                         @endforeach
                                     </select>
                                     <br>
-                                    <select id="region-select">
-                                        <option value="null" selected>Chose a Region</option>
+                                    <br>
+                                    <label for="regions-select">Chose a Region</label>
+                                    <select id="regions-select" multiple>
                                         @foreach ($regions as $region)
                                             <option value="{{$region}}">{{$region}}</option>
                                         @endforeach
                                     </select>
+                                    <br>
+                                    <br>
+                                    <button id="filter-btn" class="btn btn-primary btn-lg btn-icon-text">
+                                        Click to Filter
+                                    </button>
                                 </aside>
+
                                 <div id="charts-container" class="col-8 border-left">
                                     <div class="row pl-3">
                                         <h3>Experience Results</h3>
@@ -114,6 +125,7 @@
                                         </div>
                                     </div>
                                 </div>
+
                             </div>
                         </div>
                     </div>
@@ -127,6 +139,52 @@
 @section('scripts')
     @parent
     <script>
+
+        $('#practices-select').select2();
+        $('#subpractices-select').select2();
+        $('#years-select').select2();
+        $('#industries-select').select2();
+        $('#regions-select').select2();
+
+        $('#subpractices-container').hide();
+
+        // Submit Filters
+        $('#filter-btn').click(function () {
+            var practices = $('#practices-select').val();
+            var subpractices = $('#subpractices-select').val();
+            var years = $('#years-select').val();
+            var industries = $('#industries-select').val();
+            var regions = $('#regions-select').val();
+
+            var currentUrl = '/accenture/benchmark/projectResults/experience';
+            var url = currentUrl + '?'
+                + 'practices=' + practices
+                + '&subpractices=' + subpractices
+                + '&years=' + years
+                + '&industries=' + industries
+                + '&regions=' + regions;
+            location.replace(url);
+        });
+
+        $('#practices-select').change(function () {
+            $('#subpractices-container').hide();
+            $('#subpractices-select').empty();
+
+            var selectedPractices = $(this).val();
+            if (selectedPractices.length === 1) {
+                $.get("/accenture/benchmark/projectResults/getSubpractices/"
+                    + selectedPractices, function (data) {
+
+                    $('#subpractices-container').show();
+
+                    var $dropdown = $("#subpractices-select");
+                    var subpractices = data.subpractices;
+                    $.each(subpractices, function () {
+                        $dropdown.append($("<option />").val(this.id).text(this.name));
+                    });
+                });
+            }
+        });
 
         var experienceChart = new Chart($('#best-experience-chart'), {
                 type: 'bar',
