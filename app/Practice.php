@@ -34,16 +34,22 @@ class Practice extends Model
     // FILTERED
     public function applicationsInProjectsWithThisPractice2()
     {
-        $region = 'Worldwide';
+        $regions = ['Worldwide', 'EMEA'];
         $query = $this->projects();
-        if ($region) {
-            $query = $query->where('regions', 'like', '%' . $region . '%');
+        if ($regions) {
+            $query = $query->where(function ($query) use ($regions) {
+                for ($i = 0; $i < count($regions); $i++) {
+                    $query = $query->orWhere('regions', 'like', '%' . $regions[$i] . '%');
+                }
+            });
         }
+
         $query = $query->get()->map(function (Project $project) {
             return $project->vendorApplications->count();
         })->sum();
 
         return $query;
+
     }
 
     public function numberOfProjectsByVendor(User $vendor)

@@ -534,10 +534,4 @@ class BenchmarkController extends Controller
         ]);
     }
 
-    public function testFiltros(){
-        $vendor = App\User::find(13);
-        foreach ()
-
-    }
-
 }
