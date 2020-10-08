@@ -198,6 +198,8 @@ prefix('accenture')
                 ->name('benchmark.projectResults.implementation');
             Route::get('/benchmark/projectResults/getSubpractices/{practice}', 'BenchmarkController@getSubpracticesfromPractice');
 
+            Route::get('/benchmark/test', 'BenchmarkController@testFiltros');
+
 
         });
     });
