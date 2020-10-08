@@ -12,6 +12,10 @@
 			*{
 				font-size: 12px
 			}
+
+            td {
+                text-align:left;
+            }
 		</style>
 
     <body style="background-color: white !important; overflow-x: scroll">
