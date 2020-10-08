@@ -399,7 +399,7 @@ class BenchmarkController extends Controller
         ]);
     }
 
-    public function projectResultsInnovation()
+    public function projectResultsInnovation(Request $request)
     {
         // Data for selects
         $practices = Practice::all();
@@ -418,6 +418,32 @@ class BenchmarkController extends Controller
 
         // Data for charts
         $vendorScoresInnovation = User::bestVendorsScoreInnovation(5);
+
+        // Receive data
+        $practicesIDsToFilter = $request->input('practices');
+        if ($practicesIDsToFilter) {
+            $practicesIDsToFilter = explode(',', $practicesIDsToFilter);
+        }
+
+        $subpracticesIDsToFilter = $request->input('subpractices');
+        if ($practicesIDsToFilter) {
+            $subpracticesIDsToFilter = explode(',', $subpracticesIDsToFilter);
+        }
+
+        $yearsToFilter = $request->input('years');
+        if ($yearsToFilter) {
+            $yearsToFilter = explode(',', $yearsToFilter);
+        }
+
+        $industriesToFilter = $request->input('industries');
+        if ($industriesToFilter) {
+            $industriesToFilter = explode(',', $industriesToFilter);
+
+        }
+        $regionsToFilter = $request->input('regions');
+        if ($regionsToFilter) {
+            $regionsToFilter = explode(',', $regionsToFilter);
+        }
 
 
         return View('accentureViews.benchmarkProjectResultsInnovation', [
