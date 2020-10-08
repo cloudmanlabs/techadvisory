@@ -14,7 +14,7 @@
 			}
 
             td {
-                text-align:left;
+        text-align:left !important;
             }
 		</style>
 

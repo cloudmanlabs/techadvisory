@@ -13,7 +13,7 @@
             font-size: 12px
         }
         td {
-        text-align:left;
+        text-align:left !important;
         }
     </style>
 
