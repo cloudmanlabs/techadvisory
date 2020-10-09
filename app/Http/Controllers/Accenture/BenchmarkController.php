@@ -19,6 +19,18 @@ class BenchmarkController extends Controller
 
     public function overviewGeneral(Request $request)
     {
+
+        // Applying filters.
+        $regionsToFilter = $request->input('regions');
+        if ($regionsToFilter) {
+            $regionsToFilter = explode(',', $regionsToFilter);
+
+        }
+        $yearsToFilter = $request->input('years');
+        if ($yearsToFilter) {
+            $yearsToFilter = explode(',', $yearsToFilter);
+        }
+
         // Data for selects.
         $regions = collect(config('arrays.regions'));
         $years = collect(range(2017, intval(date('Y'))))->map(function ($year) {
@@ -45,17 +57,6 @@ class BenchmarkController extends Controller
             ];
         });
 
-        // Applying filters.
-        $regionsToFilter = $request->input('regions');
-        if ($regionsToFilter) {
-            $regionsToFilter = explode(',', $regionsToFilter);
-
-        }
-        $yearsToFilter = $request->input('years');
-        if ($yearsToFilter) {
-            $yearsToFilter = explode(',', $yearsToFilter);
-        }
-
         return View('accentureViews.benchmarkOverview', [
             'regions' => $regions,
             'years' => $years,
@@ -63,6 +64,9 @@ class BenchmarkController extends Controller
             'vendors' => $vendors,
             'clients' => $clients,
             'industries' => $industries,
+
+            'regionsToFilter' => $regionsToFilter,
+            'yearsToFilter' => $yearsToFilter,
         ]);
     }
 

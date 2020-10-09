@@ -24,7 +24,7 @@ class Practice extends Model
 
     // METHODS FOR BENCHMARK *****************************************************************
 
-    public function applicationsInProjectsWithThisPractice()
+   public function applicationsInProjectsWithThisPracticeOld()
     {
         return $this->projects->map(function (Project $project) {
             return $project->vendorApplications->count();
@@ -32,14 +32,22 @@ class Practice extends Model
     }
 
     // FILTERED
-    public function applicationsInProjectsWithThisPractice2()
+    public function applicationsInProjectsWithThisPractice($regions = [], $years = [])
     {
-        $regions = ['Worldwide', 'EMEA'];
-        $query = $this->projects();
+
+        $query = $this->projects()->select('id', 'regions', 'created_at');
         if ($regions) {
             $query = $query->where(function ($query) use ($regions) {
                 for ($i = 0; $i < count($regions); $i++) {
                     $query = $query->orWhere('regions', 'like', '%' . $regions[$i] . '%');
+                }
+            });
+        }
+
+        if ($years) {
+            $query = $query->where(function ($query) use ($years) {
+                for ($i = 0; $i < count($years); $i++) {
+                    $query = $query->orWhere('created_at', 'like', '%' . $years[$i] . '%');
                 }
             });
         }

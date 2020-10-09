@@ -163,7 +163,7 @@
                         backgroundColor: ["#27003d", "#5a008f", "#8e00e0", "#a50aff", "#d285ff", "#e9c2ff", "#f8ebff"],
                         data: [
                             @foreach($practices as $practice)
-                                "{{$practice->applicationsInProjectsWithThisPractice()}}",
+                                "{{$practice->applicationsInProjectsWithThisPractice($regionsToFilter,$yearsToFilter)}}",
                             @endforeach
                         ]
                     }
