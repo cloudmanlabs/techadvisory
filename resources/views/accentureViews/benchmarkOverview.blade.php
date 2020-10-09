@@ -206,7 +206,7 @@
                             "#7400b8", "#8e00e0", "#9b00f5", "#a50aff", "#c35cff", "#d285ff", "#e9c2ff", "#f0d6ff", "#f8ebff"][{{$loop->index}} % 12],
                 data: [
                     @foreach($practices as $practice)
-                        "{{$practice->numberOfProjectsByVendor($vendor)}}",
+                        "{{$practice->numberOfProjectsByVendor($vendor,$regionsToFilter,$yearsToFilter)}}",
                     @endforeach
                 ]
             },
