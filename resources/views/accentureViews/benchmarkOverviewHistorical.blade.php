@@ -35,15 +35,17 @@
                                         <aside id="filters-container" class="col-4">
                                             <h3>Filters</h3>
                                             <br>
-                                            <select id="industry-select">
-                                                <option value="null" selected>Chose a Industry</option>
+                                            <br>
+                                            <label for="practice-select">Chose a Industry</label>
+                                            <select id="industry-select" multiple>
                                                 @foreach($industries as $industry)
                                                     <option value="{{$industry}}">{{$industry}}</option>
                                                 @endforeach
                                             </select>
                                             <br>
-                                            <select id="region-select">
-                                                <option value="null" selected>Chose a Region</option>
+                                            <br>
+                                            <label for="region-select">Chose a region</label>
+                                            <select id="region-select" multiple>
                                                 @foreach ($regions as $region)
                                                     <option value="{{$region}}">{{$region}}</option>
                                                 @endforeach
@@ -99,6 +101,8 @@
     @parent
     <script>
 
+        $('#industry-select').select2();
+        $('#region-select').select2();
         $('#practice-select').select2();
 
         $('#filter-btn').click(function () {
@@ -107,7 +111,7 @@
             var practices = $('#practice-select').val();
 
             var currentUrl = '/accenture/benchmark/overview/historical';
-            var url = currentUrl + '?' + 'region=' + regions + '&industry=' + industry + '&practices=' + practices;
+            var url = currentUrl + '?' + 'regions=' + regions + '&industries=' + industry + '&practices=' + practices;
             location.replace(url);
         });
 

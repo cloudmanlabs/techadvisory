@@ -88,12 +88,14 @@ class BenchmarkController extends Controller
         });
 
         // Applying filters.
-        $industryToFilter = $request->input('industry');
-        if ($industryToFilter) {
+        $industriesToFilter = $request->input('industries');
+        if ($industriesToFilter) {
+            $industriesToFilter = explode(',', $industriesToFilter);
 
         }
-        $regionToFilter = $request->input('region');
-        if ($regionToFilter) {
+        $regionsToFilter = $request->input('regions');
+        if ($regionsToFilter) {
+            $regionsToFilter = explode(',', $regionsToFilter);
 
         }
 
