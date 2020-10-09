@@ -166,7 +166,6 @@
                                                     <x-scoringCriteriaWeights :isClient="false" :project="$project"/>
 
                                                     <br><br>
-                                                    @if (!$project->step4SubmittedAccenture)
                                                     <button
                                                         class="btn btn-primary"
                                                         id="step4Submit"
@@ -174,7 +173,6 @@
                                                         {{ !$project->step3SubmittedAccenture ? 'disabled' : ''}}
                                                         {{ $project->step4SubmittedAccenture ? 'disabled' : ''}}
                                                     >{{ $project->step4SubmittedAccenture ? 'Submitted' : 'Submit'}}</button>
-                                                    @endif
                                                     <br><br>
                                                 </div>
                                             </div>
@@ -230,7 +228,7 @@
 
             </div>
             <x-footer />
-        </div>
+        </div>j
     </div>
 @endsection
 
