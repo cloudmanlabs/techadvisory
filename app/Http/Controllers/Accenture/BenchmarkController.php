@@ -171,8 +171,8 @@ class BenchmarkController extends Controller
         // data for informative panels (counts)
         $totalVendors = User::vendorUsers()->where('hasFinishedSetup', true)->count();
         $totalClients = User::clientUsers()->where('hasFinishedSetup', true)->count();
-        $totalProjects = Project::all()->count();
-        $totalSolutions = 0;
+        $totalProjects = Project::all('id')->count();
+        $totalSolutions = VendorSolution::all('id')->count();
 
         // Data for charts
         $vendors = User::vendorUsers()->where('hasFinishedSetup', true)->get();
