@@ -24,7 +24,7 @@ class Practice extends Model
 
     // METHODS FOR BENCHMARK *****************************************************************
 
-    public function projectsFiltered($regions = [], $years = [])
+    public function projectsFilteredToBenchmarkOverview($regions = [], $years = [])
     {
         $query = $this->hasMany(Project::class)->select('id', 'regions', 'created_at');
         $query = $this->benchmarkOverviewFilters($query, $regions, $years);

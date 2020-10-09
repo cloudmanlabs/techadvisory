@@ -255,7 +255,7 @@
                         backgroundColor: longColorArray,
                         data: [
                             @foreach($practices as $practice)
-                                "{{$practice->projectsFiltered($regionsToFilter,$yearsToFilter)}}",
+                                "{{$practice->projectsFilteredToBenchmarkOverview($regionsToFilter,$yearsToFilter)}}",
                             @endforeach
                         ]
                     }
@@ -296,7 +296,7 @@
                         backgroundColor: longColorArray,
                         data: [
                             @foreach($clients as $client)
-                                "{{$client->projectsClient->count()}}",
+                                "{{$client->projectsClientFilteredBenchmarkOverview($regionsToFilter,$yearsToFilter)}}",
                             @endforeach
                         ]
                     }

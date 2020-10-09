@@ -82,6 +82,35 @@ class User extends Authenticatable
         return $this->hasMany(Project::class, 'client_id');
     }
 
+    public function projectsClientFilteredBenchmarkOverview($regions = [], $years = [])
+    {
+        $query = $this->hasMany(Project::class, 'client_id')
+            ->select('id', 'regions', 'created_at');
+        $query = $this->benchmarkOverviewFilters($query, $regions, $years);
+        $query = $query->count();
+        return $query;
+    }
+
+    // Encapsulate the filters for graphics from view: Overview - general
+    private function benchmarkOverviewFilters($query, $regions = [], $years = [])
+    {
+        if ($regions) {
+            $query = $query->where(function ($query) use ($regions) {
+                for ($i = 0; $i < count($regions); $i++) {
+                    $query = $query->orWhere('regions', 'like', '%' . $regions[$i] . '%');
+                }
+            });
+        }
+
+        if ($years) {
+            $query = $query->where(function ($query) use ($years) {
+                for ($i = 0; $i < count($years); $i++) {
+                    $query = $query->orWhere('created_at', 'like', '%' . $years[$i] . '%');
+                }
+            });
+        }
+        return $query;
+    }
 
     public function clientProfileQuestions()
     {
@@ -300,7 +329,8 @@ class User extends Authenticatable
             ->average();
     }
 
-    public function averageScoreFitgap(){
+    public function averageScoreFitgap()
+    {
         return $this->vendorApplications
             ->filter(function (VendorApplication $application) {
                 return $application->project != null;
@@ -311,7 +341,8 @@ class User extends Authenticatable
             ->average();
     }
 
-    public function averageScoreFitgapFunctional(){
+    public function averageScoreFitgapFunctional()
+    {
         return $this->vendorApplications
             ->filter(function (VendorApplication $application) {
                 return $application->project != null;
@@ -322,7 +353,8 @@ class User extends Authenticatable
             ->average();
     }
 
-    public function averageScoreFitgapTechnical(){
+    public function averageScoreFitgapTechnical()
+    {
         return $this->vendorApplications
             ->filter(function (VendorApplication $application) {
                 return $application->project != null;
@@ -333,7 +365,8 @@ class User extends Authenticatable
             ->average();
     }
 
-    public function averageScoreFitgapService(){
+    public function averageScoreFitgapService()
+    {
         return $this->vendorApplications
             ->filter(function (VendorApplication $application) {
                 return $application->project != null;
@@ -344,7 +377,8 @@ class User extends Authenticatable
             ->average();
     }
 
-    public function averageScoreFitgapOthers(){
+    public function averageScoreFitgapOthers()
+    {
         return $this->vendorApplications
             ->filter(function (VendorApplication $application) {
                 return $application->project != null;
@@ -355,7 +389,8 @@ class User extends Authenticatable
             ->average();
     }
 
-    public function averageScoreVendor(){
+    public function averageScoreVendor()
+    {
         return $this->vendorApplications
             ->filter(function (VendorApplication $application) {
                 return $application->project != null;
@@ -366,7 +401,8 @@ class User extends Authenticatable
             ->average();
     }
 
-    public function averageScoreExperience(){
+    public function averageScoreExperience()
+    {
         return $this->vendorApplications
             ->filter(function (VendorApplication $application) {
                 return $application->project != null;
@@ -377,7 +413,8 @@ class User extends Authenticatable
             ->average();
     }
 
-    public function averageScoreInnovation(){
+    public function averageScoreInnovation()
+    {
         return $this->vendorApplications
             ->filter(function (VendorApplication $application) {
                 return $application->project != null;
@@ -388,7 +425,8 @@ class User extends Authenticatable
             ->average();
     }
 
-    public function averageScoreImplementation(){
+    public function averageScoreImplementation()
+    {
         return $this->vendorApplications
             ->filter(function (VendorApplication $application) {
                 return $application->project != null;
@@ -399,7 +437,8 @@ class User extends Authenticatable
             ->average();
     }
 
-    public function averageScoreImplementationImplementation(){
+    public function averageScoreImplementationImplementation()
+    {
         return $this->vendorApplications
             ->filter(function (VendorApplication $application) {
                 return $application->project != null;
@@ -410,7 +449,8 @@ class User extends Authenticatable
             ->average();
     }
 
-    public function averageScoreImplementationRun(){
+    public function averageScoreImplementationRun()
+    {
         return $this->vendorApplications
             ->filter(function (VendorApplication $application) {
                 return $application->project != null;
