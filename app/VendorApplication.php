@@ -385,8 +385,8 @@ class VendorApplication extends Model
                 $query->where('page', 'experience');
             })
                 ->whereHas('originalQuestion', function ($query) {
-                $query->whereNull('linked_question_id');
-            })->avg('score') ?? 0;
+                    $query->whereNull('linked_question_id');
+                })->avg('score') ?? 0;
     }
 
     public function innovationScore()
@@ -987,5 +987,79 @@ class VendorApplication extends Model
         }
 
         return collect($result);
+    }
+
+    // Methods for benchmark & Analytics ******************************************************************
+
+    public static function calculateBestVendorsFilteredOverall(int $nVendors, $regions = [])
+    {
+        if (!is_integer($nVendors)) return 0;
+
+        // Raw data without user filters
+        $query = VendorApplication::
+        join('projects as p', 'project_id', '=', 'p.id')
+            ->join('users as u', 'vendor_id', '=', 'u.id')
+            ->where('u.hasFinishedSetup', true);
+
+        // Applying user filters to projects
+        if ($regions) {
+            $query = $query->where(function ($query) use ($regions) {
+                for ($i = 0; $i < count($regions); $i++) {
+                    $query = $query->orWhere('p.regions', 'like', '%' . $regions[$i] . '%');
+                }
+            });
+        }
+
+        $query = $query->get();
+
+        // Recalculate the scores for all the applications.
+        $scores = [];
+        $vendorsIds = [];
+        foreach ($query as $vendorApplication) {
+            array_push($vendorsIds, $vendorApplication->vendor->id);
+        }
+        $vendorsIds = array_unique($vendorsIds);
+        foreach ($vendorsIds as $vendor) {
+            $scores[$vendor] = 0;
+        }
+
+        foreach ($query as $vendorApplication) {
+
+            if (!is_array($scores[$vendorApplication->vendor->id])) {
+                $scores[$vendorApplication->vendor->id] = [$vendorApplication->totalScore()];
+
+            } else {
+                $scores[$vendorApplication->vendor->id][] = $vendorApplication->totalScore();
+            }
+        }
+
+        // averages. no funciona y no se pq. mañana lo vuelvo a intentar
+        /*       $media = 0;
+               foreach ($scores as $key => $vendorScores) {
+                   $n = count($vendorScores);
+                   foreach ($vendorScores as $nota) {
+
+                       $media = $media + $nota;
+
+                   }
+                   $media = $media / $n;
+                   $vendorScores = $media;
+                   $scores[$key] = $vendorScores;
+               }
+               var_dump($scores);
+               die();
+        */
+
+        arsort($scores);
+        $scores = array_slice($scores, 0, $nVendors, true);
+
+        return $scores;
+    }
+
+    public
+    static function calculateOverallScoreProjectFiltered()
+    {
+
+
     }
 }

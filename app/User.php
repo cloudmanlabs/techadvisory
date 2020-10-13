@@ -82,6 +82,7 @@ class User extends Authenticatable
         return $this->hasMany(Project::class, 'client_id');
     }
 
+
     public function projectsClientFilteredBenchmarkOverview($regions = [], $years = [])
     {
         $query = $this->hasMany(Project::class, 'client_id')
@@ -593,6 +594,29 @@ class User extends Authenticatable
     }
 
     // Methods for obtain general data for Benchmark & analitycs **********************************************
+    public static function vendorUsersBenchmarkProjectResults($regions = []): Builder
+    {
+        // Validated vendors
+        $query = User::where('userType', 'vendor', '')
+            ->where('hasFinishedSetup', true)
+            ->select('id', 'name');
+
+        // Applying filters to the proyects of the vendors
+        foreach ($query as $vendor) {
+            $vendor->projects()->select('id', 'practices', 'created_at', 'practices', 'industry', 'regions');
+
+            if ($regions) {
+                $query = $query->where(function ($query) use ($regions) {
+                    for ($i = 0; $i < count($regions); $i++) {
+                        $query = $query->orWhere('regions', 'like', '%' . $regions[$i] . '%');
+                    }
+                });
+            }
+            $query->count();
+        }
+
+        return $query;
+    }
 
     // This methods returns an associative array: vendorScore[vendorId as int] => vendorScore as double
 

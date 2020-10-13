@@ -9,6 +9,7 @@ use App\Practice;
 use App\Project;
 use App\Subpractice;
 use App\User;
+use App\VendorApplication;
 use App\VendorSolution;
 use Illuminate\Http\Request;
 
@@ -42,10 +43,11 @@ class BenchmarkController extends Controller
             ];
         });
 
-        // Data for charts without filters.
+        // Data for graphics (filters on model)
         $practices = Practice::all();
         $vendors = User::vendorUsers()->where('hasFinishedSetup', true)->get();
         $clients = User::clientUsers()->where('hasFinishedSetup', true)->get();
+        // feat 1 miss: Need to filter
         $industries = collect(config('arrays.industryExperience'))->map(function ($industry) {
             return (object)[
                 'name' => $industry,
@@ -156,31 +158,8 @@ class BenchmarkController extends Controller
 
     public function projectResultsOverall(Request $request)
     {
-        // Data for selects
-        $practices = Practice::all();
-        $subpractices = [];
-        $projectsByYears = collect(range(2017, intval(date('Y'))))->map(function ($year) {
-            return (object)[
-                'year' => $year,
-                'projectCount' => Project::all()->filter(function ($project) use ($year) {
-                    return $project->created_at->year == $year;
-                })->count(),
-            ];
-        });
-        $industries = collect(config('arrays.industryExperience'));
-        $regions = collect(config('arrays.regions'));
 
-        // data for informative panels (counts)
-        $totalVendors = User::vendorUsers()->where('hasFinishedSetup', true)->count();
-        $totalClients = User::clientUsers()->where('hasFinishedSetup', true)->count();
-        $totalProjects = Project::all('id')->count();
-        $totalSolutions = VendorSolution::all('id')->count();
-
-        // Data for charts
-        $vendors = User::vendorUsers()->where('hasFinishedSetup', true)->get();
-        $vendorScores = User::bestVendorsScoreOverall(5);
-
-        // Receive data
+        // Receive data. Applying filters
         $practicesIDsToFilter = $request->input('practices');
         if ($practicesIDsToFilter) {
             $practicesIDsToFilter = explode(',', $practicesIDsToFilter);
@@ -206,6 +185,31 @@ class BenchmarkController extends Controller
             $regionsToFilter = explode(',', $regionsToFilter);
 
         }
+        $vendorScores = VendorApplication::calculateBestVendorsFilteredOverall(5,$regionsToFilter);
+
+        // Data for selects
+        $practices = Practice::all();
+        $subpractices = [];
+        $projectsByYears = collect(range(2017, intval(date('Y'))))->map(function ($year) {
+            return (object)[
+                'year' => $year,
+                'projectCount' => Project::all()->filter(function ($project) use ($year) {
+                    return $project->created_at->year == $year;
+                })->count(),
+            ];
+        });
+        $industries = collect(config('arrays.industryExperience'));
+        $regions = collect(config('arrays.regions'));
+
+        // data for informative panels (counts)
+        $totalVendors = User::vendorUsers()->where('hasFinishedSetup', true)->count();
+        $totalClients = User::clientUsers()->where('hasFinishedSetup', true)->count();
+        $totalProjects = Project::all('id')->count();
+        $totalSolutions = VendorSolution::all('id')->count();
+
+        // Data for charts
+        $vendors = User::vendorUsers()->where('hasFinishedSetup', true)->get();
+        //$vendorScores = User::bestVendorsScoreOverall(5);
 
         return View('accentureViews.benchmarkProjectResults', [
             'practices' => $practices,
