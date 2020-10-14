@@ -24,7 +24,6 @@ class BenchmarkController extends Controller
         $regionsToFilter = $request->input('regions');
         if ($regionsToFilter) {
             $regionsToFilter = explode(',', $regionsToFilter);
-
         }
         $yearsToFilter = $request->input('years');
         if ($yearsToFilter) {
@@ -82,7 +81,6 @@ class BenchmarkController extends Controller
         $regionsToFilter = $request->input('regions');
         if ($regionsToFilter) {
             $regionsToFilter = explode(',', $regionsToFilter);
-
         }
         $practicesToFilter = $request->input('practices');
         if ($practicesToFilter) {
@@ -164,17 +162,14 @@ class BenchmarkController extends Controller
         if ($practicesIDsToFilter) {
             $practicesIDsToFilter = explode(',', $practicesIDsToFilter);
         }
-
         $subpracticesIDsToFilter = $request->input('subpractices');
         if ($practicesIDsToFilter) {
             $subpracticesIDsToFilter = explode(',', $subpracticesIDsToFilter);
         }
-
         $yearsToFilter = $request->input('years');
         if ($yearsToFilter) {
             $yearsToFilter = explode(',', $yearsToFilter);
         }
-
         $industriesToFilter = $request->input('industries');
         if ($industriesToFilter) {
             $industriesToFilter = explode(',', $industriesToFilter);
@@ -185,6 +180,15 @@ class BenchmarkController extends Controller
             $regionsToFilter = explode(',', $regionsToFilter);
 
         }
+
+        // Data for charts. Applying Filters
+        $howManyVendorsToChart = 5;
+        // Chart 1
+        $vendorScores = VendorApplication::calculateBestVendorsProjectResultsFiltered($howManyVendorsToChart,
+            'totalScore', $practicesIDsToFilter, $subpracticesIDsToFilter,
+            $yearsToFilter, $industriesToFilter, $regionsToFilter);
+        // Chart 2 ( no project filter)
+        $vendors = User::vendorUsers()->where('hasFinishedSetup', true)->get();
 
         // Data for selects
         $practices = Practice::all();
@@ -205,15 +209,6 @@ class BenchmarkController extends Controller
         $totalClients = User::clientUsers()->where('hasFinishedSetup', true)->count();
         $totalProjects = Project::all('id')->count();
         $totalSolutions = VendorSolution::all('id')->count();
-
-        // Data for charts. Applying Filters
-        $howManyVendorsToChart = 5;
-        // Chart 1
-        $vendorScores = VendorApplication::calculateBestVendorsProjectResultsFiltered($howManyVendorsToChart,
-            'totalScore', $practicesIDsToFilter, $subpracticesIDsToFilter,
-            $yearsToFilter, $industriesToFilter, $regionsToFilter);
-        // Chart 2 ( no vendor filter)
-        $vendors = User::vendorUsers()->where('hasFinishedSetup', true)->get();
 
         return View('accentureViews.benchmarkProjectResults', [
             'practices' => $practices,
@@ -239,17 +234,14 @@ class BenchmarkController extends Controller
         if ($practicesIDsToFilter) {
             $practicesIDsToFilter = explode(',', $practicesIDsToFilter);
         }
-
         $subpracticesIDsToFilter = $request->input('subpractices');
         if ($practicesIDsToFilter) {
             $subpracticesIDsToFilter = explode(',', $subpracticesIDsToFilter);
         }
-
         $yearsToFilter = $request->input('years');
         if ($yearsToFilter) {
             $yearsToFilter = explode(',', $yearsToFilter);
         }
-
         $industriesToFilter = $request->input('industries');
         if ($industriesToFilter) {
             $industriesToFilter = explode(',', $industriesToFilter);
@@ -260,20 +252,6 @@ class BenchmarkController extends Controller
             $regionsToFilter = explode(',', $regionsToFilter);
 
         }
-
-        // Data for selects
-        $practices = Practice::all();
-        $subpractices = [];
-        $projectsByYears = collect(range(2017, intval(date('Y'))))->map(function ($year) {
-            return (object)[
-                'year' => $year,
-                'projectCount' => Project::all()->filter(function ($project) use ($year) {
-                    return $project->created_at->year == $year;
-                })->count(),
-            ];
-        });
-        $industries = collect(config('arrays.industryExperience'));
-        $regions = collect(config('arrays.regions'));
 
         // Data for charts. Applying Filters
         $howManyVendorsToChart = 5;
@@ -298,6 +276,20 @@ class BenchmarkController extends Controller
             'fitgapOtherScore', $practicesIDsToFilter, $subpracticesIDsToFilter,
             $yearsToFilter, $industriesToFilter, $regionsToFilter);
 
+        // Data for selects
+        $practices = Practice::all();
+        $subpractices = [];
+        $projectsByYears = collect(range(2017, intval(date('Y'))))->map(function ($year) {
+            return (object)[
+                'year' => $year,
+                'projectCount' => Project::all()->filter(function ($project) use ($year) {
+                    return $project->created_at->year == $year;
+                })->count(),
+            ];
+        });
+        $industries = collect(config('arrays.industryExperience'));
+        $regions = collect(config('arrays.regions'));
+
         return View('accentureViews.benchmarkProjectResultsFitgap', [
             'practices' => $practices,
             'subpractices' => $subpractices,
@@ -315,6 +307,34 @@ class BenchmarkController extends Controller
 
     public function projectResultsVendor(Request $request)
     {
+        // Receive data
+        $practicesIDsToFilter = $request->input('practices');
+        if ($practicesIDsToFilter) {
+            $practicesIDsToFilter = explode(',', $practicesIDsToFilter);
+        }
+        $subpracticesIDsToFilter = $request->input('subpractices');
+        if ($practicesIDsToFilter) {
+            $subpracticesIDsToFilter = explode(',', $subpracticesIDsToFilter);
+        }
+        $yearsToFilter = $request->input('years');
+        if ($yearsToFilter) {
+            $yearsToFilter = explode(',', $yearsToFilter);
+        }
+        $industriesToFilter = $request->input('industries');
+        if ($industriesToFilter) {
+            $industriesToFilter = explode(',', $industriesToFilter);
+        }
+        $regionsToFilter = $request->input('regions');
+        if ($regionsToFilter) {
+            $regionsToFilter = explode(',', $regionsToFilter);
+        }
+
+        // Data for charts
+        $howManyVendorsToChart = 5;
+        $vendorScoresVendor = VendorApplication::calculateBestVendorsProjectResultsFiltered($howManyVendorsToChart,
+            'vendorScore', $practicesIDsToFilter, $subpracticesIDsToFilter,
+            $yearsToFilter, $industriesToFilter, $regionsToFilter);
+
         // Data for selects
         $practices = Practice::all();
         $subpractices = [];
@@ -329,35 +349,6 @@ class BenchmarkController extends Controller
         $industries = collect(config('arrays.industryExperience'));
         $subIndustries = [];
         $regions = collect(config('arrays.regions'));
-
-        // Data for charts
-        $vendorScoresVendor = User::bestVendorsScoreVendor(5);
-
-        // Receive data
-        $practicesIDsToFilter = $request->input('practices');
-        if ($practicesIDsToFilter) {
-            $practicesIDsToFilter = explode(',', $practicesIDsToFilter);
-        }
-
-        $subpracticesIDsToFilter = $request->input('subpractices');
-        if ($practicesIDsToFilter) {
-            $subpracticesIDsToFilter = explode(',', $subpracticesIDsToFilter);
-        }
-
-        $yearsToFilter = $request->input('years');
-        if ($yearsToFilter) {
-            $yearsToFilter = explode(',', $yearsToFilter);
-        }
-
-        $industriesToFilter = $request->input('industries');
-        if ($industriesToFilter) {
-            $industriesToFilter = explode(',', $industriesToFilter);
-
-        }
-        $regionsToFilter = $request->input('regions');
-        if ($regionsToFilter) {
-            $regionsToFilter = explode(',', $regionsToFilter);
-        }
 
         return View('accentureViews.benchmarkProjectResultsVendor', [
             'practices' => $practices,
@@ -373,6 +364,34 @@ class BenchmarkController extends Controller
 
     public function projectResultsExperience(Request $request)
     {
+        // Receive data
+        $practicesIDsToFilter = $request->input('practices');
+        if ($practicesIDsToFilter) {
+            $practicesIDsToFilter = explode(',', $practicesIDsToFilter);
+        }
+        $subpracticesIDsToFilter = $request->input('subpractices');
+        if ($practicesIDsToFilter) {
+            $subpracticesIDsToFilter = explode(',', $subpracticesIDsToFilter);
+        }
+        $yearsToFilter = $request->input('years');
+        if ($yearsToFilter) {
+            $yearsToFilter = explode(',', $yearsToFilter);
+        }
+        $industriesToFilter = $request->input('industries');
+        if ($industriesToFilter) {
+            $industriesToFilter = explode(',', $industriesToFilter);
+        }
+        $regionsToFilter = $request->input('regions');
+        if ($regionsToFilter) {
+            $regionsToFilter = explode(',', $regionsToFilter);
+        }
+
+        // Data for charts.
+        $howManyVendorsToChart = 5;
+        $vendorScoresExperience = VendorApplication::calculateBestVendorsProjectResultsFiltered($howManyVendorsToChart,
+            'experienceScore', $practicesIDsToFilter, $subpracticesIDsToFilter,
+            $yearsToFilter, $industriesToFilter, $regionsToFilter);
+
         // Data for selects
         $practices = Practice::all();
         $subpractices = [];
@@ -387,35 +406,6 @@ class BenchmarkController extends Controller
         $industries = collect(config('arrays.industryExperience'));
         $subIndustries = [];
         $regions = collect(config('arrays.regions'));
-
-        // Data for charts.
-        $vendorScoresExperience = User::bestVendorsScoreExperience(5);
-
-        // Receive data
-        $practicesIDsToFilter = $request->input('practices');
-        if ($practicesIDsToFilter) {
-            $practicesIDsToFilter = explode(',', $practicesIDsToFilter);
-        }
-
-        $subpracticesIDsToFilter = $request->input('subpractices');
-        if ($practicesIDsToFilter) {
-            $subpracticesIDsToFilter = explode(',', $subpracticesIDsToFilter);
-        }
-
-        $yearsToFilter = $request->input('years');
-        if ($yearsToFilter) {
-            $yearsToFilter = explode(',', $yearsToFilter);
-        }
-
-        $industriesToFilter = $request->input('industries');
-        if ($industriesToFilter) {
-            $industriesToFilter = explode(',', $industriesToFilter);
-
-        }
-        $regionsToFilter = $request->input('regions');
-        if ($regionsToFilter) {
-            $regionsToFilter = explode(',', $regionsToFilter);
-        }
 
 
         return View('accentureViews.benchmarkProjectResultsExperience', [
@@ -432,6 +422,34 @@ class BenchmarkController extends Controller
 
     public function projectResultsInnovation(Request $request)
     {
+        // Receive data
+        $practicesIDsToFilter = $request->input('practices');
+        if ($practicesIDsToFilter) {
+            $practicesIDsToFilter = explode(',', $practicesIDsToFilter);
+        }
+        $subpracticesIDsToFilter = $request->input('subpractices');
+        if ($practicesIDsToFilter) {
+            $subpracticesIDsToFilter = explode(',', $subpracticesIDsToFilter);
+        }
+        $yearsToFilter = $request->input('years');
+        if ($yearsToFilter) {
+            $yearsToFilter = explode(',', $yearsToFilter);
+        }
+        $industriesToFilter = $request->input('industries');
+        if ($industriesToFilter) {
+            $industriesToFilter = explode(',', $industriesToFilter);
+        }
+        $regionsToFilter = $request->input('regions');
+        if ($regionsToFilter) {
+            $regionsToFilter = explode(',', $regionsToFilter);
+        }
+
+        // Data for charts
+        $howManyVendorsToChart = 5;
+        $vendorScoresInnovation = VendorApplication::calculateBestVendorsProjectResultsFiltered($howManyVendorsToChart,
+            'innovationScore', $practicesIDsToFilter, $subpracticesIDsToFilter,
+            $yearsToFilter, $industriesToFilter, $regionsToFilter);
+
         // Data for selects
         $practices = Practice::all();
         $subpractices = [];
@@ -446,36 +464,6 @@ class BenchmarkController extends Controller
         $industries = collect(config('arrays.industryExperience'));
         $subIndustries = [];
         $regions = collect(config('arrays.regions'));
-
-        // Data for charts
-        $vendorScoresInnovation = User::bestVendorsScoreInnovation(5);
-
-        // Receive data
-        $practicesIDsToFilter = $request->input('practices');
-        if ($practicesIDsToFilter) {
-            $practicesIDsToFilter = explode(',', $practicesIDsToFilter);
-        }
-
-        $subpracticesIDsToFilter = $request->input('subpractices');
-        if ($practicesIDsToFilter) {
-            $subpracticesIDsToFilter = explode(',', $subpracticesIDsToFilter);
-        }
-
-        $yearsToFilter = $request->input('years');
-        if ($yearsToFilter) {
-            $yearsToFilter = explode(',', $yearsToFilter);
-        }
-
-        $industriesToFilter = $request->input('industries');
-        if ($industriesToFilter) {
-            $industriesToFilter = explode(',', $industriesToFilter);
-
-        }
-        $regionsToFilter = $request->input('regions');
-        if ($regionsToFilter) {
-            $regionsToFilter = explode(',', $regionsToFilter);
-        }
-
 
         return View('accentureViews.benchmarkProjectResultsInnovation', [
             'practices' => $practices,
