@@ -183,10 +183,6 @@ class BenchmarkController extends Controller
             $regionsToFilter = explode(',', $regionsToFilter);
 
         }
-        $howManyVendorsToChart = 5;
-        $vendorScores = VendorApplication::calculateBestVendorsFilteredOverall($howManyVendorsToChart,
-            'totalScore', $practicesIDsToFilter, $subpracticesIDsToFilter,
-            $yearsToFilter, $industriesToFilter, $regionsToFilter);
 
         // Data for selects
         $practices = Practice::all();
@@ -202,13 +198,19 @@ class BenchmarkController extends Controller
         $industries = collect(config('arrays.industryExperience'));
         $regions = collect(config('arrays.regions'));
 
-        // data for informative panels (counts)
+        // Data for informative panels (counts)
         $totalVendors = User::vendorUsers()->where('hasFinishedSetup', true)->count();
         $totalClients = User::clientUsers()->where('hasFinishedSetup', true)->count();
         $totalProjects = Project::all('id')->count();
         $totalSolutions = VendorSolution::all('id')->count();
 
         // Data for charts
+        $howManyVendorsToChart = 5;
+        // Chart 1
+        $vendorScores = VendorApplication::calculateBestVendorsFilteredOverall($howManyVendorsToChart,
+            'totalScore', $practicesIDsToFilter, $subpracticesIDsToFilter,
+            $yearsToFilter, $industriesToFilter, $regionsToFilter);
+        // Chart 2 ( no vendor filter)
         $vendors = User::vendorUsers()->where('hasFinishedSetup', true)->get();
 
         return View('accentureViews.benchmarkProjectResults', [

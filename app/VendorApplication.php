@@ -1029,7 +1029,7 @@ class VendorApplication extends Model
             }
         }
 
-        // The vendor score is the average of all his vendorApplicattion scores.
+        // The vendor score is the average of all his vendorApplication scores.
         foreach ($scores as $key => $vendorScores) {
             $n = count($vendorScores);
             $media = array_sum($vendorScores);
