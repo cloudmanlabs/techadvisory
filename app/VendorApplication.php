@@ -991,7 +991,8 @@ class VendorApplication extends Model
 
     // Methods for benchmark & Analytics ******************************************************************
 
-    public static function calculateBestVendorsFilteredOverall(int $nVendors, $regions = [])
+    public static function calculateBestVendorsFilteredOverall(int $nVendors, $functionNameForCalculateTheScores,
+                                                               $practicesID = [], $subpracticesID = [], $years = [], $industries = [], $regions = [])
     {
         if (!is_integer($nVendors)) return 0;
 
@@ -1002,13 +1003,8 @@ class VendorApplication extends Model
             ->where('u.hasFinishedSetup', true);
 
         // Applying user filters to projects
-        if ($regions) {
-            $query = $query->where(function ($query) use ($regions) {
-                for ($i = 0; $i < count($regions); $i++) {
-                    $query = $query->orWhere('p.regions', 'like', '%' . $regions[$i] . '%');
-                }
-            });
-        }
+        $query = VendorApplication::benchmarkProjectResultsFilters($query,
+            $practicesID, $subpracticesID, $years, $industries, $regions);
 
         $query = $query->get();
 
@@ -1026,10 +1022,10 @@ class VendorApplication extends Model
         foreach ($query as $vendorApplication) {
 
             if (!is_array($scores[$vendorApplication->vendor->id])) {
-                $scores[$vendorApplication->vendor->id] = [$vendorApplication->totalScore()];
+                $scores[$vendorApplication->vendor->id] = [$vendorApplication->$functionNameForCalculateTheScores()];
 
             } else {
-                $scores[$vendorApplication->vendor->id][] = $vendorApplication->totalScore();
+                $scores[$vendorApplication->vendor->id][] = $vendorApplication->$functionNameForCalculateTheScores();
             }
         }
 
@@ -1040,7 +1036,7 @@ class VendorApplication extends Model
 
             $media = $n > 0 ? $media / $n : $media;
 
-            $scores[$key] = $media;
+            $scores[$key] = round($media, 2);
         }
 
         arsort($scores);
@@ -1049,10 +1045,42 @@ class VendorApplication extends Model
         return $scores;
     }
 
-    public
-    static function calculateOverallScoreProjectFiltered()
+    // Encapsulate the filters for graphics from view: Project Results
+    private static function benchmarkProjectResultsFilters($query, $practicesID = [], $subpracticesID = [], $years = [], $industries = [], $regions = [])
     {
+        // Applying user filters to projects
+        if ($practicesID) {
+            $query = $query->where(function ($query) use ($practicesID) {
+                for ($i = 0; $i < count($practicesID); $i++) {
+                    $query = $query->orWhere('p.practice_id', '=', $practicesID[$i]);
+                }
+            });
+        }
+        if ($subpracticesID) {
 
+        }
+        if ($years) {
+            $query = $query->where(function ($query) use ($years) {
+                for ($i = 0; $i < count($years); $i++) {
+                    $query = $query->orWhere('p.created_at', 'like', '%' . $years[$i] . '%');
+                }
+            });
+        }
+        if ($industries) {
+            $query = $query->where(function ($query) use ($industries) {
+                for ($i = 0; $i < count($industries); $i++) {
+                    $query = $query->orWhere('p.industry', '=', $industries[$i]);
+                }
+            });
+        }
+        if ($regions) {
+            $query = $query->where(function ($query) use ($regions) {
+                for ($i = 0; $i < count($regions); $i++) {
+                    $query = $query->orWhere('p.regions', 'like', '%' . $regions[$i] . '%');
+                }
+            });
+        }
 
+        return $query;
     }
 }

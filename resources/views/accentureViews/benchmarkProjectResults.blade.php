@@ -291,9 +291,9 @@
         ],
         data: [
             {
-                x: {{$ranking}},
-                y: {{$score}},
-                r: {{ ($ranking + $score) * 3 }}
+                x: {{round($ranking,2)}},
+                y: {{round($score,2)}},
+                r: {{ (round($ranking,2) + round($score,2)) * 3 }}
             }
         ],
             hidden
@@ -313,7 +313,7 @@
                     ticks: {
                         beginAtZero: false,
                         min: 1,
-                        max: 10,
+                        max:10,
                         fontSize: 17
                     }
                 }],

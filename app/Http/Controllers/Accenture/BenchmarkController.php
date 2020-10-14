@@ -20,7 +20,6 @@ class BenchmarkController extends Controller
 
     public function overviewGeneral(Request $request)
     {
-
         // Applying filters.
         $regionsToFilter = $request->input('regions');
         if ($regionsToFilter) {
@@ -158,7 +157,6 @@ class BenchmarkController extends Controller
 
     public function projectResultsOverall(Request $request)
     {
-
         // Receive data. Applying filters
         $practicesIDsToFilter = $request->input('practices');
         if ($practicesIDsToFilter) {
@@ -185,7 +183,10 @@ class BenchmarkController extends Controller
             $regionsToFilter = explode(',', $regionsToFilter);
 
         }
-        $vendorScores = VendorApplication::calculateBestVendorsFilteredOverall(5,$regionsToFilter);
+        $howManyVendorsToChart = 5;
+        $vendorScores = VendorApplication::calculateBestVendorsFilteredOverall($howManyVendorsToChart,
+            'totalScore', $practicesIDsToFilter, $subpracticesIDsToFilter,
+            $yearsToFilter, $industriesToFilter, $regionsToFilter);
 
         // Data for selects
         $practices = Practice::all();
@@ -209,7 +210,6 @@ class BenchmarkController extends Controller
 
         // Data for charts
         $vendors = User::vendorUsers()->where('hasFinishedSetup', true)->get();
-        //$vendorScores = User::bestVendorsScoreOverall(5);
 
         return View('accentureViews.benchmarkProjectResults', [
             'practices' => $practices,
