@@ -20,7 +20,7 @@ class BenchmarkController extends Controller
 
     public function overviewGeneral(Request $request)
     {
-        // Applying filters.
+        // Receive data.
         $regionsToFilter = $request->input('regions');
         if ($regionsToFilter) {
             $regionsToFilter = explode(',', $regionsToFilter);
@@ -31,22 +31,11 @@ class BenchmarkController extends Controller
             $yearsToFilter = explode(',', $yearsToFilter);
         }
 
-        // Data for selects.
-        $regions = collect(config('arrays.regions'));
-        $years = collect(range(2017, intval(date('Y'))))->map(function ($year) {
-            return (object)[
-                'year' => $year,
-                'projectCount' => Project::all()->filter(function ($project) use ($year) {
-                    return $project->created_at->year == $year;
-                })->count(),
-            ];
-        });
-
-        // Data for graphics (filters on model)
-        $practices = Practice::all();
-        $vendors = User::vendorUsers()->where('hasFinishedSetup', true)->get();
-        $clients = User::clientUsers()->where('hasFinishedSetup', true)->get();
-        // feat 1 miss: Need to filter
+        // Data for graphics. Applying filters.
+        $practices = Practice::all();       // Chart 1
+        $vendors = User::vendorUsers()->where('hasFinishedSetup', true)->get();     // Chart 2
+        $clients = User::clientUsers()->where('hasFinishedSetup', true)->get();     // Chart 3
+        // Need to filter this. Chart 4
         $industries = collect(config('arrays.industryExperience'))->map(function ($industry) {
             return (object)[
                 'name' => $industry,
@@ -55,6 +44,18 @@ class BenchmarkController extends Controller
                         return $project->industry == $industry;
                     })
                     ->count()
+            ];
+        });
+        // Note: In this case, the filters are sended to the view in order to filter there, calling the models.
+
+        // Data for selects.
+        $regions = collect(config('arrays.regions'));
+        $years = collect(range(2017, intval(date('Y'))))->map(function ($year) {
+            return (object)[
+                'year' => $year,
+                'projectCount' => Project::all()->filter(function ($project) use ($year) {
+                    return $project->created_at->year == $year;
+                })->count(),
             ];
         });
 
@@ -73,12 +74,22 @@ class BenchmarkController extends Controller
 
     public function overviewHistorical(Request $request)
     {
-        // Data for selects.
-        $regions = collect(config('arrays.regions'));
-        $industries = collect(config('arrays.industryExperience'));
-        $practices = Practice::all();
+        // Receive data.
+        $industriesToFilter = $request->input('industries');
+        if ($industriesToFilter) {
+            $industriesToFilter = explode(',', $industriesToFilter);
+        }
+        $regionsToFilter = $request->input('regions');
+        if ($regionsToFilter) {
+            $regionsToFilter = explode(',', $regionsToFilter);
 
-        // Data for charts without filters.
+        }
+        $practicesToFilter = $request->input('practices');
+        if ($practicesToFilter) {
+            $practicesToFilter = explode(',', $practicesToFilter);
+        }
+
+        // Data for graphics. Applying filters. (no filter yet). Chart 1
         $years = collect(range(2017, intval(date('Y'))))->map(function ($year) {
             return (object)[
                 'year' => $year,
@@ -88,22 +99,10 @@ class BenchmarkController extends Controller
             ];
         });
 
-        // Applying filters.
-        $industriesToFilter = $request->input('industries');
-        if ($industriesToFilter) {
-            $industriesToFilter = explode(',', $industriesToFilter);
-
-        }
-        $regionsToFilter = $request->input('regions');
-        if ($regionsToFilter) {
-            $regionsToFilter = explode(',', $regionsToFilter);
-
-        }
-
-        $practicesToFilter = $request->input('practices');
-        if ($practicesToFilter) {
-            $practicesToFilter = explode(',', $practicesToFilter);
-        }
+        // Data for selects.
+        $regions = collect(config('arrays.regions'));
+        $industries = collect(config('arrays.industryExperience'));
+        $practices = Practice::all();
 
         return View('accentureViews.benchmarkOverviewHistorical', [
             'regions' => $regions,
@@ -117,6 +116,7 @@ class BenchmarkController extends Controller
     public function overviewVendor()
     {
         // Data for graphs.
+        // Chart 1
         $practices = Practice::all()->map(function (Practice $practice) {
             return (object)[
                 'name' => $practice->name,
@@ -129,6 +129,7 @@ class BenchmarkController extends Controller
                     ->count(),
             ];
         });
+        // Chart 2
         $industries = collect(config('arrays.industryExperience'))->map(function ($industry) {
             return (object)[
                 'name' => $industry,
@@ -137,6 +138,7 @@ class BenchmarkController extends Controller
                 })->count(),
             ];
         });
+        // Chart 3
         $regions = collect(config('arrays.regions'))->map(function ($region) {
             return (object)[
                 'name' => $region,
