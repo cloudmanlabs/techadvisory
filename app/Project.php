@@ -118,7 +118,8 @@ class Project extends Model
      * Magia para que funcione el Nova de Owner project.
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function owners(){
+    public function owners()
+    {
         return $this->belongsTo(Owner::class, 'owner_id', 'id');
     }
 
@@ -465,21 +466,75 @@ class Project extends Model
         return self::where('currentPhase', 'old')->get();
     }
 
-    public static function projectsFromMyRegion($myRegion,$currentPhase): Collection
+    public static function projectsFromMyRegion($myRegion, $currentPhase): Collection
     {
         $myRegionAsText = config('arrays.regions')[$myRegion];
         return self::where('currentPhase', $currentPhase)
-                ->where('regions', 'like', '%' . $myRegionAsText . '%')->get();
+            ->where('regions', 'like', '%' . $myRegionAsText . '%')->get();
     }
 
     /**
      * @param $owner_id
-     * @param $currentPhase, Project phase. 'old','preparation' or 'open'
+     * @param $currentPhase , Project phase. 'old','preparation' or 'open'
      * @return Collection
      */
     public static function projectsFromOwner($owner_id, $currentPhase): Collection
     {
         return self::where('currentPhase', $currentPhase)
-            ->where('owner_id','=',$owner_id)->get();
+            ->where('owner_id', '=', $owner_id)->get();
+    }
+
+    // Methods for benchmark *******************************************************************
+
+    /**
+     * returns an object collection as
+     *  'name' => industry name,
+     *  'projectCount' => Number of projects with this industry. Can search by null industry too.
+     * Includes possible filters by region and years.
+     * @param array $regions
+     * @param array $years
+     * @return Collection
+     */
+    public static function calculateProjectsPerIndustry($regions = [], $years = [])
+    {
+        return collect(config('arrays.industryExperience'))->map(function ($industry)
+        use ($regions, $years) {
+            return (object)[
+                'name' => $industry,
+                'projectCount' => Project::getProjectCountFromIndustry($industry, $regions, $years)];
+        });
+    }
+
+    private static function getProjectCountFromIndustry($industry, $regions = [], $years = [])
+    {
+        $query = Project::select('id', 'industry', 'regions', 'created_at');
+        $query = Project::benchmarkOverviewFilters($query, $regions, $years);
+
+        $query = $query->get()->filter(function (Project $project) use ($industry) {
+            return $project->industry == $industry;
+        })->count();
+
+        return $query;
+    }
+
+    // Encapsulate the filters for graphics from view: Overview - general
+    private static function benchmarkOverviewFilters($query, $regions = [], $years = [])
+    {
+        if ($regions) {
+            $query = $query->where(function ($query) use ($regions) {
+                for ($i = 0; $i < count($regions); $i++) {
+                    $query = $query->orWhere('regions', 'like', '%' . $regions[$i] . '%');
+                }
+            });
+        }
+
+        if ($years) {
+            $query = $query->where(function ($query) use ($years) {
+                for ($i = 0; $i < count($years); $i++) {
+                    $query = $query->orWhere('created_at', 'like', '%' . $years[$i] . '%');
+                }
+            });
+        }
+        return $query;
     }
 }

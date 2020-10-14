@@ -31,21 +31,11 @@ class BenchmarkController extends Controller
         }
 
         // Data for graphics. Applying filters.
-        $practices = Practice::all();       // Chart 1
+        $practices = Practice::all();                                                              // Chart 1
         $vendors = User::vendorUsers()->where('hasFinishedSetup', true)->get();     // Chart 2
         $clients = User::clientUsers()->where('hasFinishedSetup', true)->get();     // Chart 3
-        // Need to filter this. Chart 4
-        $industries = collect(config('arrays.industryExperience'))->map(function ($industry) {
-            return (object)[
-                'name' => $industry,
-                'projectCount' => Project::all()
-                    ->filter(function (Project $project) use ($industry) {
-                        return $project->industry == $industry;
-                    })
-                    ->count()
-            ];
-        });
-        // Note: In this case, the filters are sended to the view in order to filter there, calling the models.
+        // Note: In the 3 previous cases, the filters are sended to the view in order to filter there, calling the models.
+        $industries = Project::calculateProjectsPerIndustry($regionsToFilter, $yearsToFilter);     // Chart 4
 
         // Data for selects.
         $regions = collect(config('arrays.regions'));
