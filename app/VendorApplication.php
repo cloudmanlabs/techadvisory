@@ -991,10 +991,10 @@ class VendorApplication extends Model
 
     // Methods for benchmark & Analytics ******************************************************************
 
-    public static function calculateBestVendorsFilteredOverall(int $nVendors,
-                                                               $functionNameForCalculateTheScores,
-                                                               $practicesID = [], $subpracticesID = [],
-                                                               $years = [], $industries = [], $regions = [])
+    public static function calculateBestVendorsProjectResultsFiltered(int $nVendors,
+                                                                      $functionNameForCalculateTheScores,
+                                                                      $practicesID = [], $subpracticesID = [],
+                                                                      $years = [], $industries = [], $regions = [])
     {
         if (!is_integer($nVendors)) return 0;
 
