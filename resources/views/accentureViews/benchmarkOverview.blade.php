@@ -175,7 +175,6 @@
                     yAxes: [{
                         ticks: {
                             beginAtZero: true,
-                            max: 7,
                             fontSize: 17
                         }
                     }],
@@ -218,7 +217,6 @@
                     yAxes: [{
                         ticks: {
                             beginAtZero: true,
-                            max: 9,
                             fontSize: 17
                         }
                     }],
@@ -267,7 +265,6 @@
                     yAxes: [{
                         ticks: {
                             beginAtZero: true,
-                            suggestedMax: 20,
                             fontSize: 17
                         }
                     }],
@@ -308,7 +305,6 @@
                     yAxes: [{
                         ticks: {
                             beginAtZero: true,
-                            suggestedMax: 20,
                             fontSize: 17
                         }
                     }],
