@@ -157,7 +157,7 @@ class BenchmarkController extends Controller
 
     public function projectResultsOverall(Request $request)
     {
-        // Receive data. Applying filters
+        // Receive data.
         $practicesIDsToFilter = $request->input('practices');
         if ($practicesIDsToFilter) {
             $practicesIDsToFilter = explode(',', $practicesIDsToFilter);
@@ -204,7 +204,7 @@ class BenchmarkController extends Controller
         $totalProjects = Project::all('id')->count();
         $totalSolutions = VendorSolution::all('id')->count();
 
-        // Data for charts
+        // Data for charts. Applying Filters
         $howManyVendorsToChart = 5;
         // Chart 1
         $vendorScores = VendorApplication::calculateBestVendorsFilteredOverall($howManyVendorsToChart,
@@ -232,35 +232,14 @@ class BenchmarkController extends Controller
 
     public function projectResultsFitgap(Request $request)
     {
-        // Data for selects
-        $practices = Practice::all();
-        $subpractices = [];
-        $projectsByYears = collect(range(2017, intval(date('Y'))))->map(function ($year) {
-            return (object)[
-                'year' => $year,
-                'projectCount' => Project::all()->filter(function ($project) use ($year) {
-                    return $project->created_at->year == $year;
-                })->count(),
-            ];
-        });
-        $industries = collect(config('arrays.industryExperience'));
-        $regions = collect(config('arrays.regions'));
-
-        // Data for charts
-        $vendorScoresFitgap = User::bestVendorsScoreFitgap(5);
-        $vendorScoresFitgapFunctional = User::bestVendorsScoreFitgapFunctional(5);
-        $vendorScoresFitgapTechnical = User::bestVendorsScoreFitgapTechnical(5);
-        $vendorScoresFitgapService = User::bestVendorsScoreFitgapService(5);
-        $vendorScoresFitgapOthers = User::bestVendorsScoreFitgapOthers(5);
-
-        // Receive data
+        // Receive data.
         $practicesIDsToFilter = $request->input('practices');
         if ($practicesIDsToFilter) {
             $practicesIDsToFilter = explode(',', $practicesIDsToFilter);
         }
 
         $subpracticesIDsToFilter = $request->input('subpractices');
-        if ($subpracticesIDsToFilter) {
+        if ($practicesIDsToFilter) {
             $subpracticesIDsToFilter = explode(',', $subpracticesIDsToFilter);
         }
 
@@ -277,7 +256,45 @@ class BenchmarkController extends Controller
         $regionsToFilter = $request->input('regions');
         if ($regionsToFilter) {
             $regionsToFilter = explode(',', $regionsToFilter);
+
         }
+
+        // Data for selects
+        $practices = Practice::all();
+        $subpractices = [];
+        $projectsByYears = collect(range(2017, intval(date('Y'))))->map(function ($year) {
+            return (object)[
+                'year' => $year,
+                'projectCount' => Project::all()->filter(function ($project) use ($year) {
+                    return $project->created_at->year == $year;
+                })->count(),
+            ];
+        });
+        $industries = collect(config('arrays.industryExperience'));
+        $regions = collect(config('arrays.regions'));
+
+        // Data for charts. Applying Filters
+        $howManyVendorsToChart = 5;
+
+        $vendorScoresFitgap = VendorApplication::calculateBestVendorsFilteredOverall($howManyVendorsToChart,
+            'fitgapScore', $practicesIDsToFilter, $subpracticesIDsToFilter,
+            $yearsToFilter, $industriesToFilter, $regionsToFilter);
+
+        $vendorScoresFitgapFunctional = VendorApplication::calculateBestVendorsFilteredOverall($howManyVendorsToChart,
+            'fitgapFunctionalScore', $practicesIDsToFilter, $subpracticesIDsToFilter,
+            $yearsToFilter, $industriesToFilter, $regionsToFilter);
+
+        $vendorScoresFitgapTechnical = VendorApplication::calculateBestVendorsFilteredOverall($howManyVendorsToChart,
+            'fitgapTechnicalScore', $practicesIDsToFilter, $subpracticesIDsToFilter,
+            $yearsToFilter, $industriesToFilter, $regionsToFilter);
+
+        $vendorScoresFitgapService = VendorApplication::calculateBestVendorsFilteredOverall($howManyVendorsToChart,
+            'fitgapServiceScore', $practicesIDsToFilter, $subpracticesIDsToFilter,
+            $yearsToFilter, $industriesToFilter, $regionsToFilter);
+
+        $vendorScoresFitgapOthers = VendorApplication::calculateBestVendorsFilteredOverall($howManyVendorsToChart,
+            'fitgapOtherScore', $practicesIDsToFilter, $subpracticesIDsToFilter,
+            $yearsToFilter, $industriesToFilter, $regionsToFilter);
 
         return View('accentureViews.benchmarkProjectResultsFitgap', [
             'practices' => $practices,

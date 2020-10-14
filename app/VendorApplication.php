@@ -991,8 +991,10 @@ class VendorApplication extends Model
 
     // Methods for benchmark & Analytics ******************************************************************
 
-    public static function calculateBestVendorsFilteredOverall(int $nVendors, $functionNameForCalculateTheScores,
-                                                               $practicesID = [], $subpracticesID = [], $years = [], $industries = [], $regions = [])
+    public static function calculateBestVendorsFilteredOverall(int $nVendors,
+                                                               $functionNameForCalculateTheScores,
+                                                               $practicesID = [], $subpracticesID = [],
+                                                               $years = [], $industries = [], $regions = [])
     {
         if (!is_integer($nVendors)) return 0;
 
@@ -1022,10 +1024,12 @@ class VendorApplication extends Model
         foreach ($query as $vendorApplication) {
 
             if (!is_array($scores[$vendorApplication->vendor->id])) {
-                $scores[$vendorApplication->vendor->id] = [$vendorApplication->$functionNameForCalculateTheScores()];
+                $scores[$vendorApplication->vendor->id] =
+                    [$vendorApplication->$functionNameForCalculateTheScores()];
 
             } else {
-                $scores[$vendorApplication->vendor->id][] = $vendorApplication->$functionNameForCalculateTheScores();
+                $scores[$vendorApplication->vendor->id][] =
+                    $vendorApplication->$functionNameForCalculateTheScores();
             }
         }
 
