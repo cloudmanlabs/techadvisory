@@ -487,10 +487,30 @@ class Project extends Model
     // Methods for benchmark *******************************************************************
 
     /**
-     * returns an object collection as
+     * Returns an object collection as
+     *  'years' => year (as string),
+     *  'projectCount' => Number of projects from this year. Can search by null industry too.
+     * @param array $regions
+     * @param array $years
+     * @return Collection
+     */
+    public static function calculateProjectsPerYears()
+    {
+        return collect(range(2017, intval(date('Y'))))->map(function ($year) {
+            return (object)[
+                'year' => $year,
+                'projectCount' => Project::all()->filter(function ($project) use ($year) {
+                    return $project->created_at->year == $year;
+                })->count(),
+            ];
+        });
+    }
+
+    /**
+     * Returns an object collection as
      *  'name' => industry name,
      *  'projectCount' => Number of projects with this industry. Can search by null industry too.
-     * Includes possible filters by region and years.
+     * Supports possible filters by region and years.
      * @param array $regions
      * @param array $years
      * @return Collection

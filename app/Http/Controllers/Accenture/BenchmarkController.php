@@ -15,7 +15,6 @@ use Illuminate\Http\Request;
 
 class BenchmarkController extends Controller
 {
-
     // Overview Controllers *****************************************************************************
 
     public function overviewGeneral(Request $request)
@@ -39,14 +38,7 @@ class BenchmarkController extends Controller
 
         // Data for selects.
         $regions = collect(config('arrays.regions'));
-        $years = collect(range(2017, intval(date('Y'))))->map(function ($year) {
-            return (object)[
-                'year' => $year,
-                'projectCount' => Project::all()->filter(function ($project) use ($year) {
-                    return $project->created_at->year == $year;
-                })->count(),
-            ];
-        });
+        $years = Project::calculateProjectsPerYears();
 
         return View('accentureViews.benchmarkOverview', [
             'regions' => $regions,
@@ -78,14 +70,7 @@ class BenchmarkController extends Controller
         }
 
         // Data for graphics. Applying filters. (no filter yet). Chart 1
-        $years = collect(range(2017, intval(date('Y'))))->map(function ($year) {
-            return (object)[
-                'year' => $year,
-                'projectCount' => Project::all()->filter(function ($project) use ($year) {
-                    return $project->created_at->year == $year;
-                })->count(),
-            ];
-        });
+        $years = Project::calculateProjectsPerYears();
 
         // Data for selects.
         $regions = collect(config('arrays.regions'));
@@ -183,14 +168,7 @@ class BenchmarkController extends Controller
         // Data for selects
         $practices = Practice::all();
         $subpractices = [];
-        $projectsByYears = collect(range(2017, intval(date('Y'))))->map(function ($year) {
-            return (object)[
-                'year' => $year,
-                'projectCount' => Project::all()->filter(function ($project) use ($year) {
-                    return $project->created_at->year == $year;
-                })->count(),
-            ];
-        });
+        $projectsByYears = Project::calculateProjectsPerYears();
         $industries = collect(config('arrays.industryExperience'));
         $regions = collect(config('arrays.regions'));
 
@@ -269,14 +247,7 @@ class BenchmarkController extends Controller
         // Data for selects
         $practices = Practice::all();
         $subpractices = [];
-        $projectsByYears = collect(range(2017, intval(date('Y'))))->map(function ($year) {
-            return (object)[
-                'year' => $year,
-                'projectCount' => Project::all()->filter(function ($project) use ($year) {
-                    return $project->created_at->year == $year;
-                })->count(),
-            ];
-        });
+        $projectsByYears = Project::calculateProjectsPerYears();
         $industries = collect(config('arrays.industryExperience'));
         $regions = collect(config('arrays.regions'));
 
@@ -328,14 +299,7 @@ class BenchmarkController extends Controller
         // Data for selects
         $practices = Practice::all();
         $subpractices = [];
-        $projectsByYears = collect(range(2017, intval(date('Y'))))->map(function ($year) {
-            return (object)[
-                'year' => $year,
-                'projectCount' => Project::all()->filter(function ($project) use ($year) {
-                    return $project->created_at->year == $year;
-                })->count(),
-            ];
-        });
+        $projectsByYears = Project::calculateProjectsPerYears();
         $industries = collect(config('arrays.industryExperience'));
         $subIndustries = [];
         $regions = collect(config('arrays.regions'));
@@ -385,14 +349,7 @@ class BenchmarkController extends Controller
         // Data for selects
         $practices = Practice::all();
         $subpractices = [];
-        $projectsByYears = collect(range(2017, intval(date('Y'))))->map(function ($year) {
-            return (object)[
-                'year' => $year,
-                'projectCount' => Project::all()->filter(function ($project) use ($year) {
-                    return $project->created_at->year == $year;
-                })->count(),
-            ];
-        });
+        $projectsByYears = Project::calculateProjectsPerYears();
         $industries = collect(config('arrays.industryExperience'));
         $subIndustries = [];
         $regions = collect(config('arrays.regions'));
@@ -443,14 +400,7 @@ class BenchmarkController extends Controller
         // Data for selects
         $practices = Practice::all();
         $subpractices = [];
-        $projectsByYears = collect(range(2017, intval(date('Y'))))->map(function ($year) {
-            return (object)[
-                'year' => $year,
-                'projectCount' => Project::all()->filter(function ($project) use ($year) {
-                    return $project->created_at->year == $year;
-                })->count(),
-            ];
-        });
+        $projectsByYears = Project::calculateProjectsPerYears();
         $industries = collect(config('arrays.industryExperience'));
         $subIndustries = [];
         $regions = collect(config('arrays.regions'));
@@ -506,14 +456,7 @@ class BenchmarkController extends Controller
         // Data for selects
         $practices = Practice::all();
         $subpractices = [];
-        $projectsByYears = collect(range(2017, intval(date('Y'))))->map(function ($year) {
-            return (object)[
-                'year' => $year,
-                'projectCount' => Project::all()->filter(function ($project) use ($year) {
-                    return $project->created_at->year == $year;
-                })->count(),
-            ];
-        });
+        $projectsByYears = Project::calculateProjectsPerYears();
         $industries = collect(config('arrays.industryExperience'));
         $subIndustries = [];
         $regions = collect(config('arrays.regions'));
