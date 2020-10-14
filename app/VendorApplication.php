@@ -1033,22 +1033,15 @@ class VendorApplication extends Model
             }
         }
 
-        // averages. no funciona y no se pq. mañana lo vuelvo a intentar
-        /*       $media = 0;
-               foreach ($scores as $key => $vendorScores) {
-                   $n = count($vendorScores);
-                   foreach ($vendorScores as $nota) {
+        // The vendor score is the average of all his vendorApplicattion scores.
+        foreach ($scores as $key => $vendorScores) {
+            $n = count($vendorScores);
+            $media = array_sum($vendorScores);
 
-                       $media = $media + $nota;
+            $media = $n > 0 ? $media / $n : $media;
 
-                   }
-                   $media = $media / $n;
-                   $vendorScores = $media;
-                   $scores[$key] = $vendorScores;
-               }
-               var_dump($scores);
-               die();
-        */
+            $scores[$key] = $media;
+        }
 
         arsort($scores);
         $scores = array_slice($scores, 0, $nVendors, true);
