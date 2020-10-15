@@ -516,21 +516,21 @@ class Project extends Model
      * @param array $practices
      * @return Collection
      */
-    public static function calculateProjectsPerYearsHistoricalFiltered($industries = [], $regions = [], $practices = [])
+    public static function calculateProjectsPerYearsHistoricalFiltered($industries = [], $regions = [])
     {
         return collect(range(2017, intval(date('Y'))))
-            ->map(function ($year) use ($industries, $regions, $practices) {
+            ->map(function ($year) use ($industries, $regions) {
                 return (object)[
                     'year' => $year,
-                    'projectCount' => Project::getProjectCountfromYear($year, $industries, $regions, $practices)
+                    'projectCount' => Project::getProjectCountfromYear($year, $industries, $regions)
                 ];
             });
     }
 
-    public static function getProjectCountfromYear($year, $industries = [], $regions = [], $practices = [])
+    private static function getProjectCountfromYear($year, $industries = [], $regions = [])
     {
         $query = Project::select('id', 'industry', 'practice_id', 'regions', 'created_at');
-        $query = Project::benchmarkOverviewHistoricalFilters($query, $industries, $regions, $practices);
+        $query = Project::benchmarkOverviewHistoricalFilters($query, $industries, $regions);
 
         $query = $query->get()
             ->filter(function ($project) use ($year) {
@@ -539,6 +539,42 @@ class Project extends Model
 
         return $query;
     }
+
+    /**
+     * Returns an object collection as
+     *  'years' => year (as string),
+     *  'projectCount' => Number of projects from this year with the practice provided.
+     * Supports Historical Filters
+     * @param $practiceId
+     * @param array $industries
+     * @param array $regions
+     * @return Collection
+     */
+    public static function calculateProjectsPerYearsHistoricalFilteredByPractice($practiceId, $industries = [], $regions = [])
+    {
+        return collect(range(2017, intval(date('Y'))))
+            ->map(function ($year) use ($practiceId, $industries, $regions) {
+                return (object)[
+                    'year' => $year,
+                    'projectCount' =>
+                        Project::getProjectCountFromYearByPractice($practiceId, $year, $industries, $regions)
+                ];
+            });
+    }
+
+    private static function getProjectCountFromYearByPractice($practiceId, $year, $industries = [], $regions = [])
+    {
+        $query = Project::select('id', 'industry', 'practice_id', 'regions', 'created_at');
+        $query = Project::benchmarkOverviewHistoricalFilters($query, $industries, $regions, $practiceId);
+
+        $query = $query->get()
+            ->filter(function ($project) use ($year) {
+                return $project->created_at->year == $year;
+            })->count();
+
+        return $query;
+    }
+
 
     /**
      * Returns an object collection as
@@ -593,7 +629,7 @@ class Project extends Model
     }
 
     // Encapsulate the filters for graphics from view: Overview - Historical
-    private static function benchmarkOverviewHistoricalFilters($query, $industries = [], $regions = [], $practices = [])
+    private static function benchmarkOverviewHistoricalFilters($query, $industries = [], $regions = [], $practice = [])
     {
         if ($industries) {
             $query = $query->where(function ($query) use ($industries) {
@@ -611,11 +647,11 @@ class Project extends Model
             });
         }
 
-        if ($practices) {
-            $query = $query->where(function ($query) use ($practices) {
-                for ($i = 0; $i < count($practices); $i++) {
-                    $query = $query->orWhere('practice_id', '=', $practices[$i]);
-                }
+        // Single type select.
+        if ($practice) {
+            $practice = intval($practice);
+            $query = $query->where(function ($query) use ($practice) {
+                $query = $query->orWhere('practice_id', '=', $practice);
             });
         }
 

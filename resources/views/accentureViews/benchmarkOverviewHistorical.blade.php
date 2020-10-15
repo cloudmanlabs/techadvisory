@@ -115,6 +115,8 @@
             location.replace(url);
         });
 
+        if($practices)
+
         // Chart 1
         new Chart($('#projects-by-year-chart'), {
             type: 'line',
