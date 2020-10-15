@@ -279,8 +279,8 @@
                         @foreach($vendors as $vendor)
                         @php
                             // NOTE: We use 10 - val so we get the chart flipped horizontally
-                            $ranking = 10 - $vendor->averageRanking();
-                            $score = $vendor->averageScore() ?? 0;
+                            $ranking = round(10 - $vendor->averageRanking(),2);
+                            $score = round($vendor->averageScore(),2) ?? 0;
                         @endphp
                     {
                         label: ["{{$vendor->name}}"],
@@ -291,9 +291,9 @@
         ],
         data: [
             {
-                x: {{round($ranking,2)}},
-                y: {{round($score,2)}},
-                r: {{ (round($ranking,2) + round($score,2)) * 3 }}
+                x: {{$ranking}},
+                y: {{$score}},
+                r: {{ $ranking + $score * 3 }}
             }
         ],
             hidden
@@ -313,7 +313,7 @@
                     ticks: {
                         beginAtZero: false,
                         min: 1,
-                        max:10,
+                        max: 10,
                         fontSize: 17
                     }
                 }],
