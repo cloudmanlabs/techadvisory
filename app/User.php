@@ -318,6 +318,125 @@ class User extends Authenticatable
         }
     }
 
+    const allTypes = [
+        'accenture' => 'Accenture',
+        'accentureAdmin' => 'Accenture Admin',
+        'vendor' => 'Vendor',
+        'client' => 'Client'
+    ];
+
+    /**
+     * Available Admin types
+     *
+     * @var array
+     */
+    const adminTypes = ['admin'];
+    /**
+     * Available Accenture types
+     *
+     * @var array
+     */
+    const accentureTypes = ['accenture', 'accentureAdmin'];
+    /**
+     * Available Client types
+     *
+     * @var array
+     */
+    const clientTypes = ['client'];
+    /**
+     * Available Vendor types
+     *
+     * @var array
+     */
+    const vendorTypes = ['vendor'];
+
+    /**
+     * Returns true if the user is admin
+     *
+     * @return boolean
+     */
+    public function isAdmin(): bool
+    {
+        return $this->userType == 'admin';
+    }
+
+    /**
+     * Returns true if the user is Accenture
+     *
+     * @return boolean
+     */
+    public function isAccenture(): bool
+    {
+        return $this->userType == 'accenture'
+            || $this->usertype == 'accenture' // It's really fun, cause sometimes with observers and nova the property gets lowercased
+            || $this->userType == 'accentureAdmin'
+            || $this->usertype == 'accentureAdmin';
+    }
+
+    /**
+     * Returns true if the user is Accenture Admin
+     *
+     * @return boolean
+     */
+    public function isAccentureAdmin(): bool
+    {
+        return $this->userType == 'accentureAdmin'
+            || $this->usertype == 'accentureAdmin';
+    }
+
+
+    /**
+     * Returns true if the user is a client
+     *
+     * @return boolean
+     */
+    public function isClient(): bool
+    {
+        return $this->userType == 'client'
+            || $this->usertype == 'client';
+    }
+
+    /**
+     * Returns true if the user is a vendor
+     *
+     * @return boolean
+     */
+    public function isVendor(): bool
+    {
+        return $this->userType == 'vendor'
+            || $this->usertype == 'vendor';
+    }
+
+    /**
+     * Returns all the Accenture users
+     *
+     * @return Builder
+     */
+    public static function accentureUsers(): Builder
+    {
+        return self::whereIn('userType', self::accentureTypes);
+    }
+
+    /**
+     * Returns all the Client Users
+     *
+     * @return Builder
+     */
+    public static function clientUsers(): Builder
+    {
+        return self::whereIn('userType', self::clientTypes);
+    }
+
+    /**
+     * Returns all the Vendor Users
+     *
+     * @return Builder
+     */
+    public static function vendorUsers(): Builder
+    {
+        return self::whereIn('userType', self::vendorTypes);
+    }
+
     public function averageScore()
     {
         return $this->vendorApplications
@@ -474,341 +593,226 @@ class User extends Authenticatable
             ->average();
     }
 
-    const allTypes = [
-        'accenture' => 'Accenture',
-        'accentureAdmin' => 'Accenture Admin',
-        'vendor' => 'Vendor',
-        'client' => 'Client'
-    ];
 
-    /**
-     * Available Admin types
-     *
-     * @var array
-     */
-    const adminTypes = ['admin'];
-    /**
-     * Available Accenture types
-     *
-     * @var array
-     */
-    const accentureTypes = ['accenture', 'accentureAdmin'];
-    /**
-     * Available Client types
-     *
-     * @var array
-     */
-    const clientTypes = ['client'];
-    /**
-     * Available Vendor types
-     *
-     * @var array
-     */
-    const vendorTypes = ['vendor'];
+    // Methods for Benchmark & analitycs ************************************************************
 
-    /**
-     * Returns true if the user is admin
-     *
-     * @return boolean
-     */
-    public function isAdmin(): bool
-    {
-        return $this->userType == 'admin';
-    }
+    /* Old code. can be removed.
 
-    /**
-     * Returns true if the user is Accenture
-     *
-     * @return boolean
-     */
-    public function isAccenture(): bool
-    {
-        return $this->userType == 'accenture'
-            || $this->usertype == 'accenture' // It's really fun, cause sometimes with observers and nova the property gets lowercased
-            || $this->userType == 'accentureAdmin'
-            || $this->usertype == 'accentureAdmin';
-    }
+public static function vendorUsersBenchmarkProjectResults($regions = []): Builder
+{
+    // Validated vendors
+    $query = User::where('userType', 'vendor', '')
+        ->where('hasFinishedSetup', true)
+        ->select('id', 'name');
 
-    /**
-     * Returns true if the user is Accenture Admin
-     *
-     * @return boolean
-     */
-    public function isAccentureAdmin(): bool
-    {
-        return $this->userType == 'accentureAdmin'
-            || $this->usertype == 'accentureAdmin';
-    }
+    // Applying filters to the proyects of the vendors
+    foreach ($query as $vendor) {
+        $vendor->projects()->select('id', 'practices', 'created_at', 'practices', 'industry', 'regions');
 
-
-    /**
-     * Returns true if the user is a client
-     *
-     * @return boolean
-     */
-    public function isClient(): bool
-    {
-        return $this->userType == 'client'
-            || $this->usertype == 'client';
-    }
-
-    /**
-     * Returns true if the user is a vendor
-     *
-     * @return boolean
-     */
-    public function isVendor(): bool
-    {
-        return $this->userType == 'vendor'
-            || $this->usertype == 'vendor';
-    }
-
-    /**
-     * Returns all the Accenture users
-     *
-     * @return Builder
-     */
-    public static function accentureUsers(): Builder
-    {
-        return self::whereIn('userType', self::accentureTypes);
-    }
-
-    /**
-     * Returns all the Client Users
-     *
-     * @return Builder
-     */
-    public static function clientUsers(): Builder
-    {
-        return self::whereIn('userType', self::clientTypes);
-    }
-
-    /**
-     * Returns all the Vendor Users
-     *
-     * @return Builder
-     */
-    public static function vendorUsers(): Builder
-    {
-        return self::whereIn('userType', self::vendorTypes);
-    }
-
-    // Methods for obtain general data for Benchmark & analitycs **********************************************
-    public static function vendorUsersBenchmarkProjectResults($regions = []): Builder
-    {
-        // Validated vendors
-        $query = User::where('userType', 'vendor', '')
-            ->where('hasFinishedSetup', true)
-            ->select('id', 'name');
-
-        // Applying filters to the proyects of the vendors
-        foreach ($query as $vendor) {
-            $vendor->projects()->select('id', 'practices', 'created_at', 'practices', 'industry', 'regions');
-
-            if ($regions) {
-                $query = $query->where(function ($query) use ($regions) {
-                    for ($i = 0; $i < count($regions); $i++) {
-                        $query = $query->orWhere('regions', 'like', '%' . $regions[$i] . '%');
-                    }
-                });
-            }
-            $query->count();
-        }
-
-        return $query;
-    }
-
-    // This methods returns an associative array: vendorScore[vendorId as int] => vendorScore as double
-
-    public static function bestVendorsScoreOverall($numberOfVendors)
-    {
-        $vendors = User::vendorUsers()->where('hasFinishedSetup', true)->get();
-        $vendorScores = [];
-        foreach ($vendors as $vendor) {
-            $vendorScores[$vendor->id] = doubleval($vendor->averageScore());
-        }
-        arsort($vendorScores);
-        if (is_integer($numberOfVendors)) {
-            $vendorScores = array_slice($vendorScores, 0, $numberOfVendors, true);
-        }
-        return $vendorScores;
-    }
-
-    public static function bestVendorsScoreFitgap($numberOfVendors)
-    {
-        $vendors = User::vendorUsers()->where('hasFinishedSetup', true)->get();
-        $vendorScores = [];
-        foreach ($vendors as $vendor) {
-            $vendorScores[$vendor->id] = doubleval($vendor->averageScoreFitgap());
-        }
-        arsort($vendorScores);
-        $vendorScores = array_slice($vendorScores, 0, 5, true);
-        return $vendorScores;
-    }
-
-    public static function bestVendorsScoreFitgapFunctional($numberOfVendors)
-    {
-        $vendors = User::vendorUsers()->where('hasFinishedSetup', true)->get();
-        $vendorScores = [];
-        foreach ($vendors as $vendor) {
-            $vendorScores[$vendor->id] = doubleval($vendor->averageScoreFitgapFunctional());
-        }
-        arsort($vendorScores);
-        $vendorScores = array_slice($vendorScores, 0, 5, true);
-        return $vendorScores;
-    }
-
-    public static function bestVendorsScoreFitgapTechnical($numberOfVendors)
-    {
-        $vendors = User::vendorUsers()->where('hasFinishedSetup', true)->get();
-        $vendorScores = [];
-        foreach ($vendors as $vendor) {
-            $vendorScores[$vendor->id] = doubleval($vendor->averageScoreFitgapTechnical());
-        }
-        arsort($vendorScores);
-        $vendorScores = array_slice($vendorScores, 0, 5, true);
-        return $vendorScores;
-    }
-
-    public static function bestVendorsScoreFitgapService($numberOfVendors)
-    {
-        $vendors = User::vendorUsers()->where('hasFinishedSetup', true)->get();
-        $vendorScores = [];
-        foreach ($vendors as $vendor) {
-            $vendorScores[$vendor->id] = doubleval($vendor->averageScoreFitgapService());
-        }
-        arsort($vendorScores);
-        $vendorScores = array_slice($vendorScores, 0, 5, true);
-        return $vendorScores;
-    }
-
-    public static function bestVendorsScoreFitgapOthers($numberOfVendors)
-    {
-        $vendors = User::vendorUsers()->where('hasFinishedSetup', true)->get();
-        $vendorScores = [];
-        foreach ($vendors as $vendor) {
-            $vendorScores[$vendor->id] = doubleval($vendor->averageScoreFitgapOthers());
-        }
-        arsort($vendorScores);
-        $vendorScores = array_slice($vendorScores, 0, 5, true);
-        return $vendorScores;
-    }
-
-    public static function bestVendorsScoreVendor($numberOfVendors)
-    {
-        $vendors = User::vendorUsers()->where('hasFinishedSetup', true)->get();
-        $vendorScores = [];
-        foreach ($vendors as $vendor) {
-            $vendorScores[$vendor->id] = doubleval($vendor->averageScoreVendor());
-        }
-        arsort($vendorScores);
-        $vendorScores = array_slice($vendorScores, 0, 5, true);
-        return $vendorScores;
-    }
-
-    public static function bestVendorsScoreExperience($numberOfVendors)
-    {
-        $vendors = User::vendorUsers()->where('hasFinishedSetup', true)->get();
-        $vendorScores = [];
-        foreach ($vendors as $vendor) {
-            $vendorScores[$vendor->id] = doubleval($vendor->averageScoreExperience());
-        }
-        arsort($vendorScores);
-        $vendorScores = array_slice($vendorScores, 0, 5, true);
-        return $vendorScores;
-    }
-
-    public static function bestVendorsScoreInnovation($numberOfVendors)
-    {
-        $vendors = User::vendorUsers()->where('hasFinishedSetup', true)->get();
-        $vendorScores = [];
-        foreach ($vendors as $vendor) {
-            $vendorScores[$vendor->id] = doubleval($vendor->averageScoreInnovation());
-        }
-        arsort($vendorScores);
-        $vendorScores = array_slice($vendorScores, 0, 5, true);
-        return $vendorScores;
-    }
-
-    public static function bestVendorsScoreImplementation($numberOfVendors)
-    {
-        $vendors = User::vendorUsers()->where('hasFinishedSetup', true)->get();
-        $vendorScores = [];
-        foreach ($vendors as $vendor) {
-            $vendorScores[$vendor->id] = doubleval($vendor->averageScoreImplementation());
-        }
-        arsort($vendorScores);
-        $vendorScores = array_slice($vendorScores, 0, 5, true);
-        return $vendorScores;
-    }
-
-    public static function bestVendorsScoreImplementationImplementation($numberOfVendors)
-    {
-        $vendors = User::vendorUsers()->where('hasFinishedSetup', true)->get();
-        $vendorScores = [];
-        foreach ($vendors as $vendor) {
-            $vendorScores[$vendor->id] = doubleval($vendor->averageScoreImplementationImplementation());
-        }
-        arsort($vendorScores);
-        $vendorScores = array_slice($vendorScores, 0, 5, true);
-        return $vendorScores;
-    }
-
-    public static function bestVendorsScoreImplementationRun($numberOfVendors)
-    {
-        $vendors = User::vendorUsers()->where('hasFinishedSetup', true)->get();
-        $vendorScores = [];
-        foreach ($vendors as $vendor) {
-            $vendorScores[$vendor->id] = doubleval($vendor->averageScoreImplementationRun());
-        }
-        arsort($vendorScores);
-        $vendorScores = array_slice($vendorScores, 0, 5, true);
-        return $vendorScores;
-    }
-
-  /*  public static function vendorsValidateToChartsAndfiltered($practicesID = [], $subpracticesID = [], $years = [], $industries = [], $regions = []){
-        $query = User::vendorUsers()->where('hasFinishedSetup', true);
-        $query = User::benchmarkProjectResultsFilters($query,
-            $practicesID = [], $subpracticesID = [], $years = [], $industries = [], $regions = []);
-        return $query;
-    }
-
-    // Encapsulate the filters for graphics from view: Project Results
-    private static function benchmarkProjectResultsFilters($query, $practicesID = [], $subpracticesID = [], $years = [], $industries = [], $regions = [])
-    {
-        // Applying user filters to projects
-        if ($practicesID) {
-            $query = $query->where(function ($query) use ($practicesID) {
-                for ($i = 0; $i < count($practicesID); $i++) {
-                    $query = $query->orWhere('p.practice_id', '=', $practicesID[$i]);
-                }
-            });
-        }
-        if ($subpracticesID) {
-
-        }
-        if ($years) {
-            $query = $query->where(function ($query) use ($years) {
-                for ($i = 0; $i < count($years); $i++) {
-                    $query = $query->orWhere('p.created_at', 'like', '%' . $years[$i] . '%');
-                }
-            });
-        }
-        if ($industries) {
-            $query = $query->where(function ($query) use ($industries) {
-                for ($i = 0; $i < count($industries); $i++) {
-                    $query = $query->orWhere('p.industry', '=', $industries[$i]);
-                }
-            });
-        }
         if ($regions) {
             $query = $query->where(function ($query) use ($regions) {
                 for ($i = 0; $i < count($regions); $i++) {
-                    $query = $query->orWhere('p.regions', 'like', '%' . $regions[$i] . '%');
+                    $query = $query->orWhere('regions', 'like', '%' . $regions[$i] . '%');
                 }
             });
         }
+        $query->count();
+    }
 
-        return $query;
-    }*/
+    return $query;
+}
+
+// This methods returns an associative array: vendorScore[vendorId as int] => vendorScore as double
+
+public static function bestVendorsScoreOverall($numberOfVendors)
+{
+   $vendors = User::vendorUsers()->where('hasFinishedSetup', true)->get();
+   $vendorScores = [];
+   foreach ($vendors as $vendor) {
+       $vendorScores[$vendor->id] = doubleval($vendor->averageScore());
+   }
+   arsort($vendorScores);
+   if (is_integer($numberOfVendors)) {
+       $vendorScores = array_slice($vendorScores, 0, $numberOfVendors, true);
+   }
+   return $vendorScores;
+}
+
+public static function bestVendorsScoreFitgap($numberOfVendors)
+{
+   $vendors = User::vendorUsers()->where('hasFinishedSetup', true)->get();
+   $vendorScores = [];
+   foreach ($vendors as $vendor) {
+       $vendorScores[$vendor->id] = doubleval($vendor->averageScoreFitgap());
+   }
+   arsort($vendorScores);
+   $vendorScores = array_slice($vendorScores, 0, 5, true);
+   return $vendorScores;
+}
+
+public static function bestVendorsScoreFitgapFunctional($numberOfVendors)
+{
+   $vendors = User::vendorUsers()->where('hasFinishedSetup', true)->get();
+   $vendorScores = [];
+   foreach ($vendors as $vendor) {
+       $vendorScores[$vendor->id] = doubleval($vendor->averageScoreFitgapFunctional());
+   }
+   arsort($vendorScores);
+   $vendorScores = array_slice($vendorScores, 0, 5, true);
+   return $vendorScores;
+}
+
+public static function bestVendorsScoreFitgapTechnical($numberOfVendors)
+{
+   $vendors = User::vendorUsers()->where('hasFinishedSetup', true)->get();
+   $vendorScores = [];
+   foreach ($vendors as $vendor) {
+       $vendorScores[$vendor->id] = doubleval($vendor->averageScoreFitgapTechnical());
+   }
+   arsort($vendorScores);
+   $vendorScores = array_slice($vendorScores, 0, 5, true);
+   return $vendorScores;
+}
+
+public static function bestVendorsScoreFitgapService($numberOfVendors)
+{
+   $vendors = User::vendorUsers()->where('hasFinishedSetup', true)->get();
+   $vendorScores = [];
+   foreach ($vendors as $vendor) {
+       $vendorScores[$vendor->id] = doubleval($vendor->averageScoreFitgapService());
+   }
+   arsort($vendorScores);
+   $vendorScores = array_slice($vendorScores, 0, 5, true);
+   return $vendorScores;
+}
+
+public static function bestVendorsScoreFitgapOthers($numberOfVendors)
+{
+   $vendors = User::vendorUsers()->where('hasFinishedSetup', true)->get();
+   $vendorScores = [];
+   foreach ($vendors as $vendor) {
+       $vendorScores[$vendor->id] = doubleval($vendor->averageScoreFitgapOthers());
+   }
+   arsort($vendorScores);
+   $vendorScores = array_slice($vendorScores, 0, 5, true);
+   return $vendorScores;
+}
+
+public static function bestVendorsScoreVendor($numberOfVendors)
+{
+   $vendors = User::vendorUsers()->where('hasFinishedSetup', true)->get();
+   $vendorScores = [];
+   foreach ($vendors as $vendor) {
+       $vendorScores[$vendor->id] = doubleval($vendor->averageScoreVendor());
+   }
+   arsort($vendorScores);
+   $vendorScores = array_slice($vendorScores, 0, 5, true);
+   return $vendorScores;
+}
+
+public static function bestVendorsScoreExperience($numberOfVendors)
+{
+   $vendors = User::vendorUsers()->where('hasFinishedSetup', true)->get();
+   $vendorScores = [];
+   foreach ($vendors as $vendor) {
+       $vendorScores[$vendor->id] = doubleval($vendor->averageScoreExperience());
+   }
+   arsort($vendorScores);
+   $vendorScores = array_slice($vendorScores, 0, 5, true);
+   return $vendorScores;
+}
+
+public static function bestVendorsScoreInnovation($numberOfVendors)
+{
+   $vendors = User::vendorUsers()->where('hasFinishedSetup', true)->get();
+   $vendorScores = [];
+   foreach ($vendors as $vendor) {
+       $vendorScores[$vendor->id] = doubleval($vendor->averageScoreInnovation());
+   }
+   arsort($vendorScores);
+   $vendorScores = array_slice($vendorScores, 0, 5, true);
+   return $vendorScores;
+}
+
+public static function bestVendorsScoreImplementation($numberOfVendors)
+{
+   $vendors = User::vendorUsers()->where('hasFinishedSetup', true)->get();
+   $vendorScores = [];
+   foreach ($vendors as $vendor) {
+       $vendorScores[$vendor->id] = doubleval($vendor->averageScoreImplementation());
+   }
+   arsort($vendorScores);
+   $vendorScores = array_slice($vendorScores, 0, 5, true);
+   return $vendorScores;
+}
+
+public static function bestVendorsScoreImplementationImplementation($numberOfVendors)
+{
+   $vendors = User::vendorUsers()->where('hasFinishedSetup', true)->get();
+   $vendorScores = [];
+   foreach ($vendors as $vendor) {
+       $vendorScores[$vendor->id] = doubleval($vendor->averageScoreImplementationImplementation());
+   }
+   arsort($vendorScores);
+   $vendorScores = array_slice($vendorScores, 0, 5, true);
+   return $vendorScores;
+}
+
+public static function bestVendorsScoreImplementationRun($numberOfVendors)
+{
+   $vendors = User::vendorUsers()->where('hasFinishedSetup', true)->get();
+   $vendorScores = [];
+   foreach ($vendors as $vendor) {
+       $vendorScores[$vendor->id] = doubleval($vendor->averageScoreImplementationRun());
+   }
+   arsort($vendorScores);
+   $vendorScores = array_slice($vendorScores, 0, 5, true);
+   return $vendorScores;
+}*/
+
+    /*  public static function vendorsValidateToChartsAndfiltered($practicesID = [], $subpracticesID = [], $years = [], $industries = [], $regions = []){
+          $query = User::vendorUsers()->where('hasFinishedSetup', true);
+          $query = User::benchmarkProjectResultsFilters($query,
+              $practicesID = [], $subpracticesID = [], $years = [], $industries = [], $regions = []);
+          return $query;
+      }
+
+      // Encapsulate the filters for graphics from view: Project Results
+      private static function benchmarkProjectResultsFilters($query, $practicesID = [], $subpracticesID = [], $years = [], $industries = [], $regions = [])
+      {
+          // Applying user filters to projects
+          if ($practicesID) {
+              $query = $query->where(function ($query) use ($practicesID) {
+                  for ($i = 0; $i < count($practicesID); $i++) {
+                      $query = $query->orWhere('p.practice_id', '=', $practicesID[$i]);
+                  }
+              });
+          }
+          if ($subpracticesID) {
+
+          }
+          if ($years) {
+              $query = $query->where(function ($query) use ($years) {
+                  for ($i = 0; $i < count($years); $i++) {
+                      $query = $query->orWhere('p.created_at', 'like', '%' . $years[$i] . '%');
+                  }
+              });
+          }
+          if ($industries) {
+              $query = $query->where(function ($query) use ($industries) {
+                  for ($i = 0; $i < count($industries); $i++) {
+                      $query = $query->orWhere('p.industry', '=', $industries[$i]);
+                  }
+              });
+          }
+          if ($regions) {
+              $query = $query->where(function ($query) use ($regions) {
+                  for ($i = 0; $i < count($regions); $i++) {
+                      $query = $query->orWhere('p.regions', 'like', '%' . $regions[$i] . '%');
+                  }
+              });
+          }
+
+          return $query;
+      }*/
 }
