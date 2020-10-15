@@ -251,7 +251,6 @@ class Project extends Model
             });
     }
 
-
     public function selectionCriteriaQuestionsPivots()
     {
         return $this->hasMany(SelectionCriteriaQuestionProjectPivot::class, 'project_id');

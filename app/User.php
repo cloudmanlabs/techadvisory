@@ -593,7 +593,6 @@ class User extends Authenticatable
             ->average();
     }
 
-
     // Methods for Benchmark & analitycs ************************************************************
 
     /* Old code. can be removed.
