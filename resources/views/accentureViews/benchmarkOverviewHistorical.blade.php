@@ -145,7 +145,7 @@
                             @endforeach
                         ],
                         label: "Transport",
-                        borderColor: "#A12BFE",
+                        borderColor: "#460D72",
                         backgroundColor: "rgba(0,0,0,0)",
                         fill: false
                     },
@@ -159,7 +159,7 @@
                             @endforeach
                         ],
                         label: "Planning",
-                        borderColor: "#460D72",
+                        borderColor: "#A12BFE",
                         backgroundColor: "rgba(0,0,0,0)",
                         fill: false
                     },
@@ -206,7 +206,6 @@
                         fill: false
                     },
                     @endif
-
                 ]
             },
             options: {

@@ -1001,6 +1001,7 @@ class VendorApplication extends Model
         $query = VendorApplication::
         join('projects as p', 'project_id', '=', 'p.id')
             ->join('users as u', 'vendor_id', '=', 'u.id')
+            ->join('project_subpractice as sub', 'vendor_applications.project_id', '=', 'sub.project_id')
             ->where('u.hasFinishedSetup', true);
 
         // Applying user filters to projects
@@ -1060,7 +1061,11 @@ class VendorApplication extends Model
             });
         }
         if ($subpracticesID) {
-
+            $query = $query->where(function ($query) use ($subpracticesID) {
+                for ($i = 0; $i < count($subpracticesID); $i++) {
+                    $query = $query->orWhere('sub.subpractice_id', '=', $subpracticesID[$i]);
+                }
+            });
         }
         if ($years) {
             $query = $query->where(function ($query) use ($years) {
