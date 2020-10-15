@@ -70,7 +70,8 @@ class BenchmarkController extends Controller
         }
 
         // Data for graphics. Applying filters. (no filter yet). Chart 1
-        $years = Project::calculateProjectsPerYears();
+        $years = Project::calculateProjectsPerYearsHistoricalFiltered(
+            $industriesToFilter, $regionsToFilter, $practicesToFilter);
 
         // Data for selects.
         $regions = collect(config('arrays.regions'));

@@ -508,6 +508,40 @@ class Project extends Model
 
     /**
      * Returns an object collection as
+     *  'years' => year (as string),
+     *  'projectCount' => Number of projects from this year. Can search by null industry too.
+     * Supports Historical Filters
+     * @param array $industries
+     * @param array $regions
+     * @param array $practices
+     * @return Collection
+     */
+    public static function calculateProjectsPerYearsHistoricalFiltered($industries = [], $regions = [], $practices = [])
+    {
+        return collect(range(2017, intval(date('Y'))))
+            ->map(function ($year) use ($industries, $regions, $practices) {
+                return (object)[
+                    'year' => $year,
+                    'projectCount' => Project::getProjectCountfromYear($year, $industries, $regions, $practices)
+                ];
+            });
+    }
+
+    public static function getProjectCountfromYear($year, $industries = [], $regions = [], $practices = [])
+    {
+        $query = Project::select('id', 'industry', 'practice_id', 'regions', 'created_at');
+        $query = Project::benchmarkOverviewHistoricalFilters($query, $industries, $regions, $practices);
+
+        $query = $query->get()
+            ->filter(function ($project) use ($year) {
+                return $project->created_at->year == $year;
+            })->count();
+
+        return $query;
+    }
+
+    /**
+     * Returns an object collection as
      *  'name' => industry name,
      *  'projectCount' => Number of projects with this industry. Can search by null industry too.
      * Supports possible filters by region and years.
@@ -555,6 +589,36 @@ class Project extends Model
                 }
             });
         }
+        return $query;
+    }
+
+    // Encapsulate the filters for graphics from view: Overview - Historical
+    private static function benchmarkOverviewHistoricalFilters($query, $industries = [], $regions = [], $practices = [])
+    {
+        if ($industries) {
+            $query = $query->where(function ($query) use ($industries) {
+                for ($i = 0; $i < count($industries); $i++) {
+                    $query = $query->orWhere('industry', '=', $industries[$i]);
+                }
+            });
+        }
+
+        if ($regions) {
+            $query = $query->where(function ($query) use ($regions) {
+                for ($i = 0; $i < count($regions); $i++) {
+                    $query = $query->orWhere('regions', 'like', '%' . $regions[$i] . '%');
+                }
+            });
+        }
+
+        if ($practices) {
+            $query = $query->where(function ($query) use ($practices) {
+                for ($i = 0; $i < count($practices); $i++) {
+                    $query = $query->orWhere('practice_id', '=', $practices[$i]);
+                }
+            });
+        }
+
         return $query;
     }
 }
