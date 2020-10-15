@@ -115,8 +115,6 @@
             location.replace(url);
         });
 
-        if($practices)
-
         // Chart 1
         new Chart($('#projects-by-year-chart'), {
             type: 'line',
@@ -126,17 +124,90 @@
                     {{$year->year}},
                     @endforeach
                 ],
-                datasets: [{
-                    data: [
-                        @foreach($years as $year)
-                        {{$year->projectCount}},
-                        @endforeach
-                    ],
-                    label: "Total",
-                    borderColor: "#27003d",
-                    backgroundColor: "rgba(0,0,0,0)",
-                    fill: false
-                }]
+                datasets: [
+                    {
+                        data: [
+                            @foreach($years as $year)
+                            {{$year->projectCount}},
+                            @endforeach
+                        ],
+                        label: "Total",
+                        borderColor: "#27003d",
+                        backgroundColor: "rgba(0,0,0,0)",
+                        fill: false
+                    },
+
+                        @if(count($transportProjectsByYears))
+                    {
+                        data: [
+                            @foreach($transportProjectsByYears as $year)
+                            {{$year->projectCount}},
+                            @endforeach
+                        ],
+                        label: "Transport",
+                        borderColor: "#A12BFE",
+                        backgroundColor: "rgba(0,0,0,0)",
+                        fill: false
+                    },
+                        @endif
+
+                        @if(count($planningProjectsByYears))
+                    {
+                        data: [
+                            @foreach($planningProjectsByYears as $year)
+                            {{$year->projectCount}},
+                            @endforeach
+                        ],
+                        label: "Planning",
+                        borderColor: "#460D72",
+                        backgroundColor: "rgba(0,0,0,0)",
+                        fill: false
+                    },
+                        @endif
+
+                        @if(count($manufacturingProjectsByYears))
+                    {
+                        data: [
+                            @foreach($manufacturingProjectsByYears as $year)
+                            {{$year->projectCount}},
+                            @endforeach
+                        ],
+                        label: "Manufacturing",
+                        borderColor: "#234DFF",
+                        backgroundColor: "rgba(0,0,0,0)",
+                        fill: false
+                    },
+                        @endif
+
+                        @if(count($warehousingProjectsByYears))
+                    {
+                        data: [
+                            @foreach($warehousingProjectsByYears as $year)
+                            {{$year->projectCount}},
+                            @endforeach
+                        ],
+                        label: "Warehousing",
+                        borderColor: "#5A5A5A",
+                        backgroundColor: "rgba(0,0,0,0)",
+                        fill: false
+                    },
+                        @endif
+
+                        @if(count($warehousingProjectsByYears))
+                    {
+                        data: [
+                            @foreach($sourcingProjectsByYears as $year)
+                            {{$year->projectCount}},
+                            @endforeach
+                        ],
+                        label: "Sourcing",
+                        borderColor: "#111",
+                        backgroundColor: "rgba(0,0,0,0)",
+                        fill: false
+                    },
+                    @endif
+
+                ]
             },
             options: {
                 elements: {

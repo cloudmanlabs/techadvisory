@@ -66,7 +66,7 @@ class BenchmarkController extends Controller
         }
         $practicesToFilter = $request->input('practices');
         if ($practicesToFilter) {
-            $practicesToFilter = intval($practicesToFilter);
+            $practicesToFilter = explode(',', $practicesToFilter);
         }
 
         // Data for graphics. Applying filters. (no filter yet). Chart 1
@@ -76,35 +76,33 @@ class BenchmarkController extends Controller
         $warehousingProjectsByYears = [];
         $sourcingProjectsByYears = [];
 
+        $years = Project::calculateProjectsPerYearsHistoricalFiltered($industriesToFilter, $regionsToFilter);
+
         if ($practicesToFilter) {
 
             // Especific graphic for practices
-            if(in_array(1,$practicesToFilter)){
+            if (in_array(1, $practicesToFilter)) {
                 $transportProjectsByYears = Project::calculateProjectsPerYearsHistoricalFilteredByPractice(
                     1, $industriesToFilter, $regionsToFilter);
             }
-            if(in_array(2,$practicesToFilter)){
+            if (in_array(2, $practicesToFilter)) {
                 $planningProjectsByYears = Project::calculateProjectsPerYearsHistoricalFilteredByPractice(
                     2, $industriesToFilter, $regionsToFilter);
             }
-            if(in_array(3,$practicesToFilter)){
+            if (in_array(3, $practicesToFilter)) {
                 $manufacturingProjectsByYears = Project::calculateProjectsPerYearsHistoricalFilteredByPractice(
                     3, $industriesToFilter, $regionsToFilter);
             }
-            if(in_array(4,$practicesToFilter)){
+            if (in_array(4, $practicesToFilter)) {
                 $warehousingProjectsByYears = Project::calculateProjectsPerYearsHistoricalFilteredByPractice(
                     4, $industriesToFilter, $regionsToFilter);
             }
-            if(in_array(5,$practicesToFilter)){
+            if (in_array(5, $practicesToFilter)) {
                 $sourcingProjectsByYears = Project::calculateProjectsPerYearsHistoricalFilteredByPractice(
                     5, $industriesToFilter, $regionsToFilter);
             }
 
-        } else {
-            // general graphic with the filters
-            $years = Project::calculateProjectsPerYearsHistoricalFiltered($industriesToFilter, $regionsToFilter);
         }
-
 
         // Data for selects.
         $regions = collect(config('arrays.regions'));
@@ -115,6 +113,7 @@ class BenchmarkController extends Controller
             'regions' => $regions,
             'industries' => $industries,
             'practices' => $practices,
+            'years' => $years,
 
             'practicesToFilter' => $practicesToFilter,
 
