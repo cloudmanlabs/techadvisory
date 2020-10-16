@@ -40,7 +40,10 @@
                                                 @foreach ($years as $year)
                                                     <option
                                                         value="{{$year->year}}"
-                                                        {{ in_array($year->year,$yearsToFilter)? 'selected="selected"' : ''}}>
+                                                    @if($yearsToFilter)
+                                                        {{ in_array($year->year,$yearsToFilter)? 'selected="selected"' : ''}}
+                                                        @endif
+                                                    >
                                                         {{$year->year}}
                                                     </option>
                                                 @endforeach
@@ -52,7 +55,10 @@
                                                 @foreach ($regions as $region)
                                                     <option
                                                         value="{{$region}}"
-                                                        {{ in_array($region,$regionsToFilter)? 'selected="selected"' : ''}}>>
+                                                    @if($regionsToFilter)
+                                                        {{ in_array($region,$regionsToFilter)? 'selected="selected"' : ''}}
+                                                        @endif
+                                                    >
                                                         {{$region}}
                                                     </option>
                                                 @endforeach

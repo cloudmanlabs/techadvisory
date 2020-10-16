@@ -39,7 +39,14 @@
                                             <label for="practice-select">Chose a Industry</label>
                                             <select id="industry-select" multiple>
                                                 @foreach($industries as $industry)
-                                                    <option value="{{$industry}}">{{$industry}}</option>
+                                                    <option
+                                                        value="{{$industry}}"
+                                                    @if($industriesToFilter)
+                                                        {{ in_array($industry,$industriesToFilter)? 'selected="selected"' : ''}}
+                                                        @endif
+                                                    >
+                                                        {{$industry}}
+                                                    </option>
                                                 @endforeach
                                             </select>
                                             <br>
@@ -47,7 +54,14 @@
                                             <label for="region-select">Chose a region</label>
                                             <select id="region-select" multiple>
                                                 @foreach ($regions as $region)
-                                                    <option value="{{$region}}">{{$region}}</option>
+                                                    <option
+                                                        value="{{$region}}"
+                                                    @if($regionsToFilter)
+                                                        {{ in_array($region,$regionsToFilter)? 'selected="selected"' : ''}}
+                                                        @endif
+                                                    >
+                                                        {{$region}}
+                                                    </option>
                                                 @endforeach
                                             </select>
                                             <br>
@@ -55,7 +69,14 @@
                                             <label for="practice-select">Chose a Practice</label>
                                             <select id="practice-select" multiple>
                                                 @foreach ($practices as $practice)
-                                                    <option value="{{$practice->id}}">{{$practice->name}}</option>
+                                                    <option
+                                                        value="{{$practice->id}}"
+                                                    @if($practicesToFilter)
+                                                        {{ in_array($practice->id,$practicesToFilter)? 'selected="selected"' : ''}}
+                                                        @endif
+                                                    >
+                                                        {{$practice->name}}
+                                                    </option>
                                                 @endforeach
                                             </select>
                                             <br>

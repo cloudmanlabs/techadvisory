@@ -19,6 +19,8 @@ class BenchmarkController extends Controller
 
     public function overviewGeneral(Request $request)
     {
+        $regionsToFilter= [];
+        $yearsToFilter= [];
         // Receive data.
         $regionsToFilter = $request->input('regions');
         if ($regionsToFilter) {
@@ -115,14 +117,15 @@ class BenchmarkController extends Controller
             'practices' => $practices,
             'years' => $years,
 
-            'practicesToFilter' => $practicesToFilter,
-
             'transportProjectsByYears' => $transportProjectsByYears,
             'planningProjectsByYears' => $planningProjectsByYears,
             'manufacturingProjectsByYears' => $manufacturingProjectsByYears,
             'warehousingProjectsByYears' => $warehousingProjectsByYears,
             'sourcingProjectsByYears' => $sourcingProjectsByYears,
 
+            'industriesToFilter' => $industriesToFilter,
+            'regionsToFilter' => $regionsToFilter,
+            'practicesToFilter' => $practicesToFilter,
 
         ]);
     }
