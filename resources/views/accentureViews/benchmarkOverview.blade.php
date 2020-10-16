@@ -1,5 +1,6 @@
 @extends('accentureViews.layouts.benchmark')
 @section('content')
+
     <div class="main-wrapper">
         <x-accenture.navbar activeSection="benchmark"/>
         <div class="page-wrapper">
@@ -37,7 +38,11 @@
                                             <label for="year-select">Chose a Year</label>
                                             <select id="year-select" multiple>
                                                 @foreach ($years as $year)
-                                                    <option value="{{$year->year}}">{{$year->year}}</option>
+                                                    <option
+                                                        value="{{$year->year}}"
+                                                        {{ in_array($year->year,$yearsToFilter)? 'selected="selected"' : ''}}>
+                                                        {{$year->year}}
+                                                    </option>
                                                 @endforeach
                                             </select>
                                             <br>
@@ -45,7 +50,11 @@
                                             <label for="region-select">Chose a Region</label>
                                             <select id="region-select" multiple>
                                                 @foreach ($regions as $region)
-                                                    <option value="{{$region}}">{{$region}}</option>
+                                                    <option
+                                                        value="{{$region}}"
+                                                        {{ in_array($region,$regionsToFilter)? 'selected="selected"' : ''}}>>
+                                                        {{$region}}
+                                                    </option>
                                                 @endforeach
                                             </select>
                                             <br>
@@ -210,26 +219,27 @@
                 ]
             },
         @endforeach
-                ]
-                },
-            options: {
-                scales: {
-                    yAxes: [{
-                        ticks: {
-                            beginAtZero: true,
-                            fontSize: 17
-                        }
-                    }],
-                        xAxes
-                :
-                    [{
-                        ticks: {
-                            fontSize: 17
-                        }
-                    }]
-                }
+        ]
+        },
+        options: {
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        beginAtZero: true,
+                        fontSize: 17
+                    }
+                }],
+                    xAxes
+            :
+                [{
+                    ticks: {
+                        fontSize: 17
+                    }
+                }]
             }
-            });
+        }
+        })
+        ;
 
         const colors = ["#27003d", "#410066", "#5a008f", "#7400b8", "#8e00e0", "#9b00f5", "#a50aff", "#c35cff", "#d285ff", "#e9c2ff", "#f0d6ff", "#f8ebff"];
         const longColorArray = [
