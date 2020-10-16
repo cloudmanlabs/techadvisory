@@ -990,20 +990,6 @@ class VendorApplication extends Model
 
     // Methods for benchmark & Analytics ******************************************************************
 
-    /**
-     * returns an associative array like:
-     *  'key' => vendor id
-     *  'value' => Average Score from vendor.
-     * Supports filters for Project Results.
-     * @param int $nVendors. The Number of vendors to represent on the graphic. If 0, them it returns all
-     * @param $functionNameForCalculateTheScores
-     * @param array $practicesID
-     * @param array $subpracticesID
-     * @param array $years
-     * @param array $industries
-     * @param array $regions
-     * @return array|int
-     */
     public static function calculateBestVendorsProjectResultsFiltered(int $nVendors,
                                                                       $functionNameForCalculateTheScores,
                                                                       $practicesID = [], $subpracticesID = [],
@@ -1063,64 +1049,8 @@ class VendorApplication extends Model
         return $scores;
     }
 
-    // Pending to refactorize to 1 method and call it one time.
-    public static function calculateVendorsScoresForProjectResultsFiltered(
-                                                                      $functionNameForCalculateTheScores,
-                                                                      $practicesID = [], $subpracticesID = [],
-                                                                      $years = [], $industries = [], $regions = [])
-    {
-
-        // Raw data without user filters
-        $query = VendorApplication::
-        join('projects as p', 'project_id', '=', 'p.id')
-            ->join('users as u', 'vendor_id', '=', 'u.id')
-            ->join('project_subpractice as sub', 'vendor_applications.project_id', '=', 'sub.project_id')
-            ->where('u.hasFinishedSetup', true);
-
-        // Applying user filters to projects
-        $query = VendorApplication::benchmarkProjectResultsFilters($query,
-            $practicesID, $subpracticesID, $years, $industries, $regions);
-
-        $query = $query->get();
-
-        // Recalculate the scores for all the applications.
-        $scores = [];
-        $vendorsIds = [];
-        foreach ($query as $vendorApplication) {
-            array_push($vendorsIds, $vendorApplication->vendor->id);
-        }
-        $vendorsIds = array_unique($vendorsIds);
-        foreach ($vendorsIds as $vendor) {
-            $scores[$vendor] = 0;
-        }
-
-        foreach ($query as $vendorApplication) {
-
-            if (!is_array($scores[$vendorApplication->vendor->id])) {
-                $scores[$vendorApplication->vendor->id] =
-                    [$vendorApplication->$functionNameForCalculateTheScores()];
-
-            } else {
-                $scores[$vendorApplication->vendor->id][] =
-                    $vendorApplication->$functionNameForCalculateTheScores();
-            }
-        }
-
-        // The vendor score is the average of all his vendorApplication scores.
-        foreach ($scores as $key => $vendorScores) {
-            $n = count($vendorScores);
-            $media = array_sum($vendorScores);
-
-            $media = $n > 0 ? $media / $n : $media;
-
-            $scores[$key] = round($media, 2);
-        }
-
-        return $scores;
-    }
-
     // Encapsulate the filters for graphics from view: Project Results
-    private static function benchmarkProjectResultsFilters($query, $practicesID = [], $subpracticesID = [], $years = [], $industries = [], $regions = [])
+    public static function benchmarkProjectResultsFilters($query, $practicesID = [], $subpracticesID = [], $years = [], $industries = [], $regions = [])
     {
         // Applying user filters to projects
         if ($practicesID) {
@@ -1130,7 +1060,8 @@ class VendorApplication extends Model
                 }
             });
         }
-        if ($subpracticesID) {
+
+        if($subpracticesID){
             $query = $query->where(function ($query) use ($subpracticesID) {
                 for ($i = 0; $i < count($subpracticesID); $i++) {
                     $query = $query->orWhere('sub.subpractice_id', '=', $subpracticesID[$i]);

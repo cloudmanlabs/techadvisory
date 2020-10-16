@@ -201,8 +201,8 @@ class BenchmarkController extends Controller
         $howManyVendorsToChart = 5;
         // Chart 1
         $vendorScores = VendorApplication::calculateBestVendorsProjectResultsFiltered($howManyVendorsToChart,
-            'totalScore', $practicesIDsToFilter, $subpracticesIDsToFilter,
-            $yearsToFilter, $industriesToFilter, $regionsToFilter);
+            'totalScore', $practicesIDsToFilter, $subpracticesIDsToFilter, $yearsToFilter, $industriesToFilter, $regionsToFilter);
+
         // Chart 2 ( no project filter)
         $vendors = User::vendorUsers()->where('hasFinishedSetup', true)->get();
 
