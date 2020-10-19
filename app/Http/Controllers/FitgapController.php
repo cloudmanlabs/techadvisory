@@ -210,8 +210,6 @@ class FitgapController extends Controller
             abort(404);
         }
 
-        Log::debug(count($request->data));
-
         // Parse stuff here
         $result = [];
         foreach ($request->data as $key => $row) {
