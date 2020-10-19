@@ -355,7 +355,6 @@ class BenchmarkController extends Controller
         $subpractices = [];
         $years = Project::calculateProjectsPerYears();
         $industries = collect(config('arrays.industryExperience'));
-        $subIndustries = [];
         $regions = collect(config('arrays.regions'));
 
         return View('accentureViews.benchmarkProjectResultsVendor', [
@@ -363,7 +362,6 @@ class BenchmarkController extends Controller
             'subpractices' => $subpractices,
             'years' => $years,
             'industries' => $industries,
-            'subIndustries' => $subIndustries,
             'regions' => $regions,
 
             'vendorScoresVendor' => $vendorScoresVendor,
@@ -411,7 +409,6 @@ class BenchmarkController extends Controller
         $subpractices = [];
         $years = Project::calculateProjectsPerYears();
         $industries = collect(config('arrays.industryExperience'));
-        $subIndustries = [];
         $regions = collect(config('arrays.regions'));
 
 
@@ -420,7 +417,6 @@ class BenchmarkController extends Controller
             'subpractices' => $subpractices,
             'years' => $years,
             'industries' => $industries,
-            'subIndustries' => $subIndustries,
             'regions' => $regions,
 
             'vendorScoresExperience' => $vendorScoresExperience,
@@ -468,7 +464,6 @@ class BenchmarkController extends Controller
         $subpractices = [];
         $years = Project::calculateProjectsPerYears();
         $industries = collect(config('arrays.industryExperience'));
-        $subIndustries = [];
         $regions = collect(config('arrays.regions'));
 
         return View('accentureViews.benchmarkProjectResultsInnovation', [
@@ -476,14 +471,13 @@ class BenchmarkController extends Controller
             'subpractices' => $subpractices,
             'years' => $years,
             'industries' => $industries,
-            'subIndustries' => $subIndustries,
             'regions' => $regions,
 
             'vendorScoresInnovation' => $vendorScoresInnovation,
 
             'practicesIDsToFilter' => $practicesIDsToFilter,
             'subpracticesIDsToFilter' => $subpracticesIDsToFilter,
-            'years' => $years,
+            'yearsToFilter' => $yearsToFilter,
             'industriesToFilter' => $industriesToFilter,
             'regionsToFilter' => $regionsToFilter,
         ]);
@@ -530,7 +524,6 @@ class BenchmarkController extends Controller
         $subpractices = [];
         $projectsByYears = Project::calculateProjectsPerYears();
         $industries = collect(config('arrays.industryExperience'));
-        $subIndustries = [];
         $regions = collect(config('arrays.regions'));
 
         return View('accentureViews.benchmarkProjectResultsImplementation', [
@@ -538,7 +531,6 @@ class BenchmarkController extends Controller
             'subpractices' => $subpractices,
             'projectsByYears' => $projectsByYears,
             'industries' => $industries,
-            'subIndustries' => $subIndustries,
             'regions' => $regions,
 
             'vendorScoresImplementation' => $vendorScoresImplementation,
