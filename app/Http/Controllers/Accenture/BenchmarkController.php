@@ -255,7 +255,7 @@ class BenchmarkController extends Controller
         $subpracticesIDsToFilter = $request->input('subpractices');
         if ($subpracticesIDsToFilter) {
             $subpracticesIDsToFilter = explode(',', $subpracticesIDsToFilter);
-        }else{
+        } else {
             $subpracticesIDsToFilter = [];
         }
         $yearsToFilter = $request->input('years');
@@ -409,7 +409,7 @@ class BenchmarkController extends Controller
         // Data for selects
         $practices = Practice::all();
         $subpractices = [];
-        $projectsByYears = Project::calculateProjectsPerYears();
+        $years = Project::calculateProjectsPerYears();
         $industries = collect(config('arrays.industryExperience'));
         $subIndustries = [];
         $regions = collect(config('arrays.regions'));
@@ -418,7 +418,7 @@ class BenchmarkController extends Controller
         return View('accentureViews.benchmarkProjectResultsExperience', [
             'practices' => $practices,
             'subpractices' => $subpractices,
-            'projectsByYears' => $projectsByYears,
+            'years' => $years,
             'industries' => $industries,
             'subIndustries' => $subIndustries,
             'regions' => $regions,
@@ -466,7 +466,7 @@ class BenchmarkController extends Controller
         // Data for selects
         $practices = Practice::all();
         $subpractices = [];
-        $projectsByYears = Project::calculateProjectsPerYears();
+        $years = Project::calculateProjectsPerYears();
         $industries = collect(config('arrays.industryExperience'));
         $subIndustries = [];
         $regions = collect(config('arrays.regions'));
@@ -474,12 +474,18 @@ class BenchmarkController extends Controller
         return View('accentureViews.benchmarkProjectResultsInnovation', [
             'practices' => $practices,
             'subpractices' => $subpractices,
-            'projectsByYears' => $projectsByYears,
+            'years' => $years,
             'industries' => $industries,
             'subIndustries' => $subIndustries,
             'regions' => $regions,
 
             'vendorScoresInnovation' => $vendorScoresInnovation,
+
+            'practicesIDsToFilter' => $practicesIDsToFilter,
+            'subpracticesIDsToFilter' => $subpracticesIDsToFilter,
+            'years' => $years,
+            'industriesToFilter' => $industriesToFilter,
+            'regionsToFilter' => $regionsToFilter,
         ]);
     }
 
