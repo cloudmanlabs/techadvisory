@@ -522,14 +522,14 @@ class BenchmarkController extends Controller
         // Data for selects
         $practices = Practice::all();
         $subpractices = [];
-        $projectsByYears = Project::calculateProjectsPerYears();
+        $years = Project::calculateProjectsPerYears();
         $industries = collect(config('arrays.industryExperience'));
         $regions = collect(config('arrays.regions'));
 
         return View('accentureViews.benchmarkProjectResultsImplementation', [
             'practices' => $practices,
             'subpractices' => $subpractices,
-            'projectsByYears' => $projectsByYears,
+            'years' => $years,
             'industries' => $industries,
             'regions' => $regions,
 
