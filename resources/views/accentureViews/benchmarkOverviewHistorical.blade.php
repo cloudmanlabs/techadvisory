@@ -135,12 +135,12 @@
         $('#practice-select').select2();
 
         $('#filter-btn').click(function () {
-            var industry = encodeURIComponent($('#industry-select').val());
+            var industries = encodeURIComponent($('#industry-select').val());
             var regions = encodeURIComponent($('#region-select').val());
             var practices = encodeURIComponent($('#practice-select').val());
 
             var currentUrl = '/accenture/benchmark/overview/historical';
-            var url = currentUrl + '?' + 'regions=' + regions + '&industries=' + industry + '&practices=' + practices;
+            var url = currentUrl + '?' + 'regions=' + regions + '&industries=' + industries + '&practices=' + practices;
             location.replace(url);
         });
 

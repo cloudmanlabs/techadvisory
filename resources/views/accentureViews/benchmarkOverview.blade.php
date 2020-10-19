@@ -154,8 +154,8 @@
         $('#year-select').select2();
 
         $('#filter-btn').click(function () {
-            var years = $('#year-select').val();
-            var regions = $('#region-select').val();
+            var years = encodeURIComponent($('#year-select').val());
+            var regions = encodeURIComponent($('#region-select').val());
 
             var currentUrl = '/accenture/benchmark/overview';
             var url = currentUrl + '?' + 'regions=' + regions + '&years=' + years;
