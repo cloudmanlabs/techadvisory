@@ -174,11 +174,11 @@
 
         // Submit Filters
         $('#filter-btn').click(function () {
-            var practices = $('#practices-select').val();
-            var subpractices = $('#subpractices-select').val();
-            var years = $('#years-select').val();
-            var industries = $('#industries-select').val();
-            var regions = $('#regions-select').val();
+            var practices = encodeURIComponent($('#practices-select').val());
+            var subpractices = encodeURIComponent($('#subpractices-select').val());
+            var years = encodeURIComponent($('#years-select').val());
+            var industries = encodeURIComponent($('#industries-select').val());
+            var regions = encodeURIComponent($('#regions-select').val());
 
             var currentUrl = '/accenture/benchmark/projectResults/innovation';
             var url = currentUrl + '?'
