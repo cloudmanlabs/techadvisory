@@ -223,8 +223,13 @@
         $('#regions-select').select2();
 
         chargeSubpracticesFromPractice();
-        //populateSubpracticesSelected();
+        populateSubpracticesSelected();
+        $('#practices-select').change(function () {
+            chargeSubpracticesFromPractice();
+        });
 
+
+        // Not working
         function populateSubpracticesSelected() {
             var selected = [
                 @foreach($subpracticesIDsToFilter as $subpractice)
@@ -236,34 +241,30 @@
 
             if (selected.length && thereIsOnlyOnePracticeSelected) {
                 $('subpractices-container').show();
-                $.each(selected, function () {
-                    $("#subpractices-select option[value='" + $(this).id + "']").prop("selected", true);
-                });
+
             } else {
                 $('#subpractices-container').hide();
             }
         }
 
         function chargeSubpracticesFromPractice() {
-            $('#practices-select').change(function () {
-                $('#subpractices-container').hide();
-                $('#subpractices-select').empty();
+            $('#subpractices-container').hide();
+            $('#subpractices-select').empty();
 
-                var selectedPractices = $(this).val();
-                if (selectedPractices.length === 1) {
-                    $.get("/accenture/benchmark/projectResults/getSubpractices/"
-                        + selectedPractices, function (data) {
+            var selectedPractices = $(this).val();
+            if (selectedPractices.length === 1) {
+                $.get("/accenture/benchmark/projectResults/getSubpractices/"
+                    + selectedPractices, function (data) {
 
-                        $('#subpractices-container').show();
+                    $('#subpractices-container').show();
 
-                        var $dropdown = $("#subpractices-select");
-                        var subpractices = data.subpractices;
-                        $.each(subpractices, function () {
-                            $dropdown.append($("<option />").val(this.id).text(this.name));
-                        });
+                    var $dropdown = $("#subpractices-select");
+                    var subpractices = data.subpractices;
+                    $.each(subpractices, function () {
+                        $dropdown.append($("<option />").val(this.id).text(this.name));
                     });
-                }
-            });
+                });
+            }
         }
 
         // Submit Filters.

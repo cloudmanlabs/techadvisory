@@ -171,7 +171,56 @@
         $('#industries-select').select2();
         $('#regions-select').select2();
 
-        $('#subpractices-container').hide();
+        chargeSubpracticesFromPractice();
+        populateSubpracticesSelected();
+        $('#practices-select').change(function () {
+            chargeSubpracticesFromPractice();
+        });
+
+        function chargeSubpracticesFromPractice() {
+            $('#subpractices-container').hide();
+            $('#subpractices-select').empty();
+
+            var selectedPractices = $('#practices-select').val();
+            if (selectedPractices.length === 1) {
+                $.get("/accenture/benchmark/projectResults/getSubpractices/"
+                    + selectedPractices, function (data) {
+
+                    $('#subpractices-container').show();
+
+                    var $dropdown = $("#subpractices-select");
+                    var subpractices = data.subpractices;
+                    $.each(subpractices, function () {
+                        $dropdown.append($("<option />").val(this.id).text(this.name));
+                    });
+                });
+            }
+        }
+
+        function populateSubpracticesSelected() {
+            var selected = [
+                @foreach($subpracticesIDsToFilter as $subpractice)
+                    '{{\App\Subpractice::find($subpractice)->id}}',
+                @endforeach
+            ];
+            var thereIsOnlyOnePracticeSelected = {{count($practicesIDsToFilter)>0}};
+
+            if (selected.length && thereIsOnlyOnePracticeSelected) {
+                $('subpractices-container').show();
+/*                $.each(selected, function (i, e) {
+                    $('#subpractices-select').each(function(){
+                        if($(this).val().includes(e)){
+                            $(this).prop('selected',true)
+                            console.log($(this))
+                        }
+                    })
+                });*/
+
+            } else {
+                $('#subpractices-container').hide();
+            }
+        }
+
 
         // Submit Filters
         $('#filter-btn').click(function () {
@@ -189,26 +238,6 @@
                 + '&industries=' + industries
                 + '&regions=' + regions;
             location.replace(url);
-        });
-
-        $('#practices-select').change(function () {
-            $('#subpractices-container').hide();
-            $('#subpractices-select').empty();
-
-            var selectedPractices = $(this).val();
-            if (selectedPractices.length === 1) {
-                $.get("/accenture/benchmark/projectResults/getSubpractices/"
-                    + selectedPractices, function (data) {
-
-                    $('#subpractices-container').show();
-
-                    var $dropdown = $("#subpractices-select");
-                    var subpractices = data.subpractices;
-                    $.each(subpractices, function () {
-                        $dropdown.append($("<option />").val(this.id).text(this.name));
-                    });
-                });
-            }
         });
 
         var experienceChart = new Chart($('#best-experience-chart'), {
