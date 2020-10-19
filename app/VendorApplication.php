@@ -1060,8 +1060,7 @@ class VendorApplication extends Model
                 }
             });
         }
-
-        if($subpracticesID){
+        if(is_array($subpracticesID)){
             $query = $query->where(function ($query) use ($subpracticesID) {
                 for ($i = 0; $i < count($subpracticesID); $i++) {
                     $query = $query->orWhere('sub.subpractice_id', '=', $subpracticesID[$i]);

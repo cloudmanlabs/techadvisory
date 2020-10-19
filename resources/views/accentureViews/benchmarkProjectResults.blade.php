@@ -49,18 +49,16 @@
                                     <br>
                                     <div id="subpractices-container">
                                         <label for="subpractices-select">Chose a Subpractice</label>
-                                        <select id="subpractices-select" multiple>
-                                            @foreach ($subpractices as $subpractice)
-                                                <option
-                                                    value="{{$subpractice->id}}"
-                                                @if($subpracticesIDsToFilter)
-                                                    {{ in_array($subpractice->id,$subpracticesIDsToFilter)? 'selected="selected"' : ''}}
-                                                    @endif
-                                                >
-                                                    {{$subpractice->name}}
-                                                </option>
-                                            @endforeach
-                                        </select>
+                                        @foreach ($subpractices as $subpractice)
+                                            <option
+                                                value="{{$subpractice->id}}"
+                                            @if($subpracticesIDsToFilter)
+                                                {{ in_array($subpractice->id,$subpracticesIDsToFilter)? 'selected="selected"' : ''}}
+                                                @endif
+                                            >
+                                                {{$subpractice->name}}
+                                            </option>
+                                        @endforeach
                                         <br>
                                         <br>
                                     </div>

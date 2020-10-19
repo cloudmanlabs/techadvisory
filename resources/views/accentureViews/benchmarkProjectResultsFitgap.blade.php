@@ -1,4 +1,7 @@
 @extends('accentureViews.layouts.benchmark')
+@php
+
+    @endphp
 <div class="main-wrapper">
     <x-accenture.navbar activeSection="benchmark"/>
     <div class="page-wrapper">
@@ -35,7 +38,14 @@
                                     <label for="practices-select">Chose a Practice</label>
                                     <select id="practices-select" multiple>
                                         @foreach ($practices as $practice)
-                                            <option value="{{$practice->id}}">{{$practice->name}}</option>
+                                            <option
+                                                value="{{$practice->id}}"
+                                            @if($practicesIDsToFilter)
+                                                {{ in_array($practice->id,$practicesIDsToFilter)? 'selected="selected"' : ''}}
+                                                @endif
+                                            >
+                                                {{$practice->name}}
+                                            </option>
                                         @endforeach
                                     </select>
                                     <br>
@@ -43,25 +53,36 @@
                                     <div id="subpractices-container">
                                         <label for="subpractices-select">Chose a Subpractice</label>
                                         <select id="subpractices-select" multiple>
-                                            @foreach ($subpractices as $subpractice)
-                                                <option value="{{$subpractice->id}}">{{$subpractice->name}}</option>
-                                            @endforeach
                                         </select>
                                         <br>
                                         <br>
                                     </div>
                                     <label for="years-select">Chose a Year</label>
                                     <select id="years-select" multiple>
-                                        @foreach ($projectsByYears as $year)
-                                            <option value="{{$year->year}}">{{$year->year}}</option>
+                                        @foreach ($years as $year)
+                                            <option
+                                                value="{{$year->year}}"
+                                            @if($yearsToFilter)
+                                                {{ in_array($year->year,$yearsToFilter)? 'selected="selected"' : ''}}
+                                                @endif
+                                            >
+                                                {{$year->year}}
+                                            </option>
                                         @endforeach
                                     </select>
                                     <br>
                                     <br>
                                     <label for="industries-select">Chose a Industry</label>
                                     <select id="industries-select" multiple>
-                                        @foreach ($industries as $industry)
-                                            <option value="{{$industry}}">{{$industry}}</option>
+                                        @foreach($industries as $industry)
+                                            <option
+                                                value="{{$industry}}"
+                                            @if($industriesToFilter)
+                                                {{ in_array($industry,$industriesToFilter)? 'selected="selected"' : ''}}
+                                                @endif
+                                            >
+                                                {{$industry}}
+                                            </option>
                                         @endforeach
                                     </select>
                                     <br>
@@ -69,7 +90,14 @@
                                     <label for="regions-select">Chose a Region</label>
                                     <select id="regions-select" multiple>
                                         @foreach ($regions as $region)
-                                            <option value="{{$region}}">{{$region}}</option>
+                                            <option
+                                                value="{{$region}}"
+                                            @if($regionsToFilter)
+                                                {{ in_array($region,$regionsToFilter)? 'selected="selected"' : ''}}
+                                                @endif
+                                            >
+                                                {{$region}}
+                                            </option>
                                         @endforeach
                                     </select>
                                     <br>
@@ -128,7 +156,8 @@
                                         <div class="col-xl-6 grid-margin stretch-card">
                                             <div class="card">
                                                 <div class="card-body">
-                                                    <h6>Best {{count($vendorScoresFitgapFunctional)}} Vendors Fitgap Functional Score</h6>
+                                                    <h6>Best {{count($vendorScoresFitgapFunctional)}} Vendors Fitgap
+                                                        Functional Score</h6>
                                                     <br><br>
                                                     <canvas id="best-fitgap-functional-chart"></canvas>
                                                 </div>
@@ -137,7 +166,8 @@
                                         <div class="col-xl-6 grid-margin stretch-card">
                                             <div class="card">
                                                 <div class="card-body">
-                                                    <h6>Best {{count($vendorScoresFitgapTechnical)}} Vendors Fitgap By Technical Score</h6>
+                                                    <h6>Best {{count($vendorScoresFitgapTechnical)}} Vendors Fitgap By
+                                                        Technical Score</h6>
                                                     <br><br>
                                                     <canvas id="best-fitgap-technical-chart"></canvas>
                                                 </div>
@@ -149,7 +179,8 @@
                                         <div class="col-xl-12 grid-margin stretch-card">
                                             <div class="card">
                                                 <div class="card-body">
-                                                    <h4>Best {{count($vendorScoresFitgapService)}} Vendors Fitgap By Services Score</h4>
+                                                    <h4>Best {{count($vendorScoresFitgapService)}} Vendors Fitgap By
+                                                        Services Score</h4>
                                                     <br><br>
                                                     <canvas id="best-fitgap-services-chart"></canvas>
                                                 </div>
@@ -161,7 +192,8 @@
                                         <div class="col-xl-12 grid-margin stretch-card">
                                             <div class="card">
                                                 <div class="card-body">
-                                                    <h4>Best {{count($vendorScoresFitgapOthers)}} Vendors Fitgap By Others Score</h4>
+                                                    <h4>Best {{count($vendorScoresFitgapOthers)}} Vendors Fitgap By
+                                                        Others Score</h4>
                                                     <br><br>
                                                     <canvas id="best-fitgap-others-chart"></canvas>
                                                 </div>
@@ -182,6 +214,7 @@
 @section('scripts')
     @parent
     <script>
+
         $('#practices-select').select2();
         $('#subpractices-select').select2();
         $('#years-select').select2();
@@ -190,13 +223,13 @@
 
         $('#subpractices-container').hide();
 
-        // Submit Filters
+        // Submit Filters.
         $('#filter-btn').click(function () {
-            var practices = $('#practices-select').val();
-            var subpractices = $('#subpractices-select').val();
-            var years = $('#years-select').val();
-            var industries = $('#industries-select').val();
-            var regions = $('#regions-select').val();
+            var practices = encodeURIComponent($('#practices-select').val());
+            var subpractices = encodeURIComponent($('#subpractices-select').val());
+            var years = encodeURIComponent($('#years-select').val());
+            var industries = encodeURIComponent($('#industries-select').val());
+            var regions = encodeURIComponent($('#regions-select').val());
 
             var currentUrl = '/accenture/benchmark/projectResults/fitgap';
             var url = currentUrl + '?'
