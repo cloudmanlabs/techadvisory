@@ -44,8 +44,8 @@
                                             <h3>Filters</h3>
                                             <br>
                                             <br>
-                                            <label for="practice-select">Chose a Industry</label>
-                                            <select id="industry-select" multiple>
+                                            <label for="industries-select">Chose a Industry</label>
+                                            <select id="industries-select" multiple>
                                                 @foreach($industries as $industry)
                                                     <option
                                                         value="{{$industry}}"
@@ -59,8 +59,8 @@
                                             </select>
                                             <br>
                                             <br>
-                                            <label for="region-select">Chose a region</label>
-                                            <select id="region-select" multiple>
+                                            <label for="regions-select">Chose a region</label>
+                                            <select id="regions-select" multiple>
                                                 @foreach ($regions as $region)
                                                     <option
                                                         value="{{$region}}"
@@ -74,8 +74,8 @@
                                             </select>
                                             <br>
                                             <br>
-                                            <label for="practice-select">Chose a Practice</label>
-                                            <select id="practice-select" multiple>
+                                            <label for="practices-select">Chose a Practice</label>
+                                            <select id="practices-select" multiple>
                                                 @foreach ($practices as $practice)
                                                     <option
                                                         value="{{$practice->id}}"
@@ -130,14 +130,14 @@
     @parent
     <script>
 
-        $('#industry-select').select2();
-        $('#region-select').select2();
-        $('#practice-select').select2();
+        $('#industries-select').select2();
+        $('#regions-select').select2();
+        $('#practices-select').select2();
 
         $('#filter-btn').click(function () {
-            var industries = encodeURIComponent($('#industry-select').val());
-            var regions = encodeURIComponent($('#region-select').val());
-            var practices = encodeURIComponent($('#practice-select').val());
+            var industries = encodeURIComponent($('#industries-select').val());
+            var regions = encodeURIComponent($('#regions-select').val());
+            var practices = encodeURIComponent($('#practices-select').val());
 
             var currentUrl = '/accenture/benchmark/overview/historical';
             var url = currentUrl + '?' + 'regions=' + regions + '&industries=' + industries + '&practices=' + practices;

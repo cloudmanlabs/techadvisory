@@ -35,7 +35,14 @@
                                     <label for="practices-select">Chose a Practice</label>
                                     <select id="practices-select" multiple>
                                         @foreach ($practices as $practice)
-                                            <option value="{{$practice->id}}">{{$practice->name}}</option>
+                                            <option
+                                                value="{{$practice->id}}"
+                                            @if($practicesIDsToFilter)
+                                                {{ in_array($practice->id,$practicesIDsToFilter)? 'selected="selected"' : ''}}
+                                                @endif
+                                            >
+                                                {{$practice->name}}
+                                            </option>
                                         @endforeach
                                     </select>
                                     <br>
@@ -44,7 +51,14 @@
                                         <label for="subpractices-select">Chose a Subpractice</label>
                                         <select id="subpractices-select" multiple>
                                             @foreach ($subpractices as $subpractice)
-                                                <option value="{{$subpractice->id}}">{{$subpractice->name}}</option>
+                                                <option
+                                                    value="{{$subpractice->id}}"
+                                                @if($subpracticesIDsToFilter)
+                                                    {{ in_array($subpractice->id,$subpracticesIDsToFilter)? 'selected="selected"' : ''}}
+                                                    @endif
+                                                >
+                                                    {{$subpractice->name}}
+                                                </option>
                                             @endforeach
                                         </select>
                                         <br>
@@ -52,16 +66,30 @@
                                     </div>
                                     <label for="years-select">Chose a Year</label>
                                     <select id="years-select" multiple>
-                                        @foreach ($projectsByYears as $year)
-                                            <option value="{{$year->year}}">{{$year->year}}</option>
+                                        @foreach ($years as $year)
+                                            <option
+                                                value="{{$year->year}}"
+                                            @if($yearsToFilter)
+                                                {{ in_array($year->year,$yearsToFilter)? 'selected="selected"' : ''}}
+                                                @endif
+                                            >
+                                                {{$year->year}}
+                                            </option>
                                         @endforeach
                                     </select>
                                     <br>
                                     <br>
                                     <label for="industries-select">Chose a Industry</label>
                                     <select id="industries-select" multiple>
-                                        @foreach ($industries as $industry)
-                                            <option value="{{$industry}}">{{$industry}}</option>
+                                        @foreach($industries as $industry)
+                                            <option
+                                                value="{{$industry}}"
+                                            @if($industriesToFilter)
+                                                {{ in_array($industry,$industriesToFilter)? 'selected="selected"' : ''}}
+                                                @endif
+                                            >
+                                                {{$industry}}
+                                            </option>
                                         @endforeach
                                     </select>
                                     <br>
@@ -69,7 +97,14 @@
                                     <label for="regions-select">Chose a Region</label>
                                     <select id="regions-select" multiple>
                                         @foreach ($regions as $region)
-                                            <option value="{{$region}}">{{$region}}</option>
+                                            <option
+                                                value="{{$region}}"
+                                            @if($regionsToFilter)
+                                                {{ in_array($region,$regionsToFilter)? 'selected="selected"' : ''}}
+                                                @endif
+                                            >
+                                                {{$region}}
+                                            </option>
                                         @endforeach
                                     </select>
                                     <br>
@@ -199,13 +234,13 @@
 
         $('#subpractices-container').hide();
 
-        // Submit Filters
+        // Submit Filters.
         $('#filter-btn').click(function () {
-            var practices = $('#practices-select').val();
-            var subpractices = $('#subpractices-select').val();
-            var years = $('#years-select').val();
-            var industries = $('#industries-select').val();
-            var regions = $('#regions-select').val();
+            var practices = encodeURIComponent($('#practices-select').val());
+            var subpractices = encodeURIComponent($('#subpractices-select').val());
+            var years = encodeURIComponent($('#years-select').val());
+            var industries = encodeURIComponent($('#industries-select').val());
+            var regions = encodeURIComponent($('#regions-select').val());
 
             var currentUrl = '/accenture/benchmark/projectResults';
             var url = currentUrl + '?'

@@ -19,8 +19,8 @@ class BenchmarkController extends Controller
 
     public function overviewGeneral(Request $request)
     {
-        $regionsToFilter= [];
-        $yearsToFilter= [];
+        $regionsToFilter = [];
+        $yearsToFilter = [];
         // Receive data.
         $regionsToFilter = $request->input('regions');
         if ($regionsToFilter) {
@@ -212,7 +212,7 @@ class BenchmarkController extends Controller
         // Data for selects
         $practices = Practice::all();
         $subpractices = [];
-        $projectsByYears = Project::calculateProjectsPerYears();
+        $years = Project::calculateProjectsPerYears();
         $industries = collect(config('arrays.industryExperience'));
         $regions = collect(config('arrays.regions'));
 
@@ -225,7 +225,7 @@ class BenchmarkController extends Controller
         return View('accentureViews.benchmarkProjectResults', [
             'practices' => $practices,
             'subpractices' => $subpractices,
-            'projectsByYears' => $projectsByYears,
+            'years' => $years,
             'industries' => $industries,
             'regions' => $regions,
 
@@ -236,6 +236,12 @@ class BenchmarkController extends Controller
 
             'vendors' => $vendors,
             'vendorScores' => $vendorScores,
+
+            'practicesIDsToFilter' => $practicesIDsToFilter,
+            'subpracticesIDsToFilter' => $subpracticesIDsToFilter,
+            'yearsToFilter' => $yearsToFilter,
+            'industriesToFilter' => $industriesToFilter,
+            'regionsToFilter' => $regionsToFilter,
         ]);
     }
 
