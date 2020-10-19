@@ -255,6 +255,8 @@ class BenchmarkController extends Controller
         $subpracticesIDsToFilter = $request->input('subpractices');
         if ($subpracticesIDsToFilter) {
             $subpracticesIDsToFilter = explode(',', $subpracticesIDsToFilter);
+        }else{
+            $subpracticesIDsToFilter = [];
         }
         $yearsToFilter = $request->input('years');
         if ($yearsToFilter) {
