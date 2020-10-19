@@ -43,6 +43,9 @@ class BenchmarkController extends Controller
         $years = Project::calculateProjectsPerYears();
 
         return View('accentureViews.benchmarkOverview', [
+            'nav1' => 'overview',
+            'nav2' => 'general',
+
             'regions' => $regions,
             'years' => $years,
             'practices' => $practices,
@@ -112,6 +115,9 @@ class BenchmarkController extends Controller
         $practices = Practice::all();
 
         return View('accentureViews.benchmarkOverviewHistorical', [
+            'nav1' => 'overview',
+            'nav2' => 'historical',
+
             'regions' => $regions,
             'industries' => $industries,
             'practices' => $practices,
@@ -166,6 +172,9 @@ class BenchmarkController extends Controller
         });
 
         return View('accentureViews.benchmarkOverviewVendor', [
+            'nav1' => 'overview',
+            'nav2' => 'vendor',
+
             'practices' => $practices,
             'industries' => $industries,
             'regions' => $regions,
@@ -223,6 +232,9 @@ class BenchmarkController extends Controller
         $totalSolutions = VendorSolution::all('id')->count();
 
         return View('accentureViews.benchmarkProjectResults', [
+            'projectResults' => true,
+            'overall' => true,
+
             'practices' => $practices,
             'subpractices' => $subpractices,
             'years' => $years,
@@ -301,6 +313,9 @@ class BenchmarkController extends Controller
         $regions = collect(config('arrays.regions'));
 
         return View('accentureViews.benchmarkProjectResultsFitgap', [
+            'projectResults' => true,
+            'fitgap' => true,
+
             'practices' => $practices,
             'years' => $years,
             'industries' => $industries,
@@ -358,6 +373,9 @@ class BenchmarkController extends Controller
         $regions = collect(config('arrays.regions'));
 
         return View('accentureViews.benchmarkProjectResultsVendor', [
+            'projectResults' => true,
+            'vendor' => true,
+
             'practices' => $practices,
             'subpractices' => $subpractices,
             'years' => $years,
@@ -413,6 +431,9 @@ class BenchmarkController extends Controller
 
 
         return View('accentureViews.benchmarkProjectResultsExperience', [
+            'projectResults' => true,
+            'experience' => true,
+
             'practices' => $practices,
             'subpractices' => $subpractices,
             'years' => $years,
@@ -467,6 +488,9 @@ class BenchmarkController extends Controller
         $regions = collect(config('arrays.regions'));
 
         return View('accentureViews.benchmarkProjectResultsInnovation', [
+            'projectResults' => true,
+            'innovation' => true,
+
             'practices' => $practices,
             'subpractices' => $subpractices,
             'years' => $years,
@@ -527,6 +551,9 @@ class BenchmarkController extends Controller
         $regions = collect(config('arrays.regions'));
 
         return View('accentureViews.benchmarkProjectResultsImplementation', [
+            'projectResults' => true,
+            'implementation' => true,
+
             'practices' => $practices,
             'subpractices' => $subpractices,
             'years' => $years,
