@@ -28,13 +28,21 @@
                     <div class="card">
                         <div class="card-body">
                             <div class="row">
+
                                 <aside id="filters-container" class="col-4">
                                     <h3>Filters</h3>
                                     <br>
                                     <label for="practices-select">Chose a Practice</label>
                                     <select id="practices-select" multiple>
                                         @foreach ($practices as $practice)
-                                            <option value="{{$practice->id}}">{{$practice->name}}</option>
+                                            <option
+                                                value="{{$practice->id}}"
+                                            @if($practicesIDsToFilter)
+                                                {{ in_array($practice->id,$practicesIDsToFilter)? 'selected="selected"' : ''}}
+                                                @endif
+                                            >
+                                                {{$practice->name}}
+                                            </option>
                                         @endforeach
                                     </select>
                                     <br>
@@ -42,25 +50,36 @@
                                     <div id="subpractices-container">
                                         <label for="subpractices-select">Chose a Subpractice</label>
                                         <select id="subpractices-select" multiple>
-                                            @foreach ($subpractices as $subpractice)
-                                                <option value="{{$subpractice->id}}">{{$subpractice->name}}</option>
-                                            @endforeach
                                         </select>
                                         <br>
                                         <br>
                                     </div>
                                     <label for="years-select">Chose a Year</label>
                                     <select id="years-select" multiple>
-                                        @foreach ($projectsByYears as $year)
-                                            <option value="{{$year->year}}">{{$year->year}}</option>
+                                        @foreach ($years as $year)
+                                            <option
+                                                value="{{$year->year}}"
+                                            @if($yearsToFilter)
+                                                {{ in_array($year->year,$yearsToFilter)? 'selected="selected"' : ''}}
+                                                @endif
+                                            >
+                                                {{$year->year}}
+                                            </option>
                                         @endforeach
                                     </select>
                                     <br>
                                     <br>
                                     <label for="industries-select">Chose a Industry</label>
                                     <select id="industries-select" multiple>
-                                        @foreach ($industries as $industry)
-                                            <option value="{{$industry}}">{{$industry}}</option>
+                                        @foreach($industries as $industry)
+                                            <option
+                                                value="{{$industry}}"
+                                            @if($industriesToFilter)
+                                                {{ in_array($industry,$industriesToFilter)? 'selected="selected"' : ''}}
+                                                @endif
+                                            >
+                                                {{$industry}}
+                                            </option>
                                         @endforeach
                                     </select>
                                     <br>
@@ -68,7 +87,14 @@
                                     <label for="regions-select">Chose a Region</label>
                                     <select id="regions-select" multiple>
                                         @foreach ($regions as $region)
-                                            <option value="{{$region}}">{{$region}}</option>
+                                            <option
+                                                value="{{$region}}"
+                                            @if($regionsToFilter)
+                                                {{ in_array($region,$regionsToFilter)? 'selected="selected"' : ''}}
+                                                @endif
+                                            >
+                                                {{$region}}
+                                            </option>
                                         @endforeach
                                     </select>
                                     <br>
@@ -77,6 +103,7 @@
                                         Click to Filter
                                     </button>
                                 </aside>
+
                                 <div id="charts-container" class="col-8 border-left">
                                     <div class="row pl-3">
                                         <h3>Vendor Results</h3>

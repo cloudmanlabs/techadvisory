@@ -31,6 +31,7 @@
                     <div class="card">
                         <div class="card-body">
                             <div class="row">
+
                                 <aside id="filters-container" class="col-4">
                                     <h3>Filters</h3>
                                     <br>
@@ -105,6 +106,7 @@
                                         Click to Filter
                                     </button>
                                 </aside>
+
                                 <div id="charts-container" class="col-8 border-left">
                                     <div class="row pl-3">
                                         <h3>Fitgap Results</h3>

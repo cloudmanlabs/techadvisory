@@ -328,7 +328,7 @@ class BenchmarkController extends Controller
             $practicesIDsToFilter = explode(',', $practicesIDsToFilter);
         }
         $subpracticesIDsToFilter = $request->input('subpractices');
-        if ($practicesIDsToFilter) {
+        if ($subpracticesIDsToFilter) {
             $subpracticesIDsToFilter = explode(',', $subpracticesIDsToFilter);
         }
         $yearsToFilter = $request->input('years');
@@ -353,7 +353,7 @@ class BenchmarkController extends Controller
         // Data for selects
         $practices = Practice::all();
         $subpractices = [];
-        $projectsByYears = Project::calculateProjectsPerYears();
+        $years = Project::calculateProjectsPerYears();
         $industries = collect(config('arrays.industryExperience'));
         $subIndustries = [];
         $regions = collect(config('arrays.regions'));
@@ -361,12 +361,18 @@ class BenchmarkController extends Controller
         return View('accentureViews.benchmarkProjectResultsVendor', [
             'practices' => $practices,
             'subpractices' => $subpractices,
-            'projectsByYears' => $projectsByYears,
+            'years' => $years,
             'industries' => $industries,
             'subIndustries' => $subIndustries,
             'regions' => $regions,
 
             'vendorScoresVendor' => $vendorScoresVendor,
+
+            'practicesIDsToFilter' => $practicesIDsToFilter,
+            'subpracticesIDsToFilter' => $subpracticesIDsToFilter,
+            'yearsToFilter' => $yearsToFilter,
+            'industriesToFilter' => $industriesToFilter,
+            'regionsToFilter' => $regionsToFilter,
         ]);
     }
 
@@ -418,6 +424,12 @@ class BenchmarkController extends Controller
             'regions' => $regions,
 
             'vendorScoresExperience' => $vendorScoresExperience,
+
+            'practicesIDsToFilter' => $practicesIDsToFilter,
+            'subpracticesIDsToFilter' => $subpracticesIDsToFilter,
+            'yearsToFilter' => $yearsToFilter,
+            'industriesToFilter' => $industriesToFilter,
+            'regionsToFilter' => $regionsToFilter,
         ]);
     }
 
@@ -475,7 +487,7 @@ class BenchmarkController extends Controller
     {
         // Receive data
         $practicesIDsToFilter = $request->input('practices');
-        if ($subpracticesIDsToFilter) {
+        if ($practicesIDsToFilter) {
             $practicesIDsToFilter = explode(',', $practicesIDsToFilter);
         }
         $subpracticesIDsToFilter = $request->input('subpractices');
@@ -526,6 +538,12 @@ class BenchmarkController extends Controller
             'vendorScoresImplementation' => $vendorScoresImplementation,
             'vendorScoresImplementationImplementation' => $vendorScoresImplementationImplementation,
             'vendorScoresImplementationRun' => $vendorScoresImplementationRun,
+
+            'practicesIDsToFilter' => $practicesIDsToFilter,
+            'subpracticesIDsToFilter' => $subpracticesIDsToFilter,
+            'yearsToFilter' => $yearsToFilter,
+            'industriesToFilter' => $industriesToFilter,
+            'regionsToFilter' => $regionsToFilter,
         ]);
     }
 
