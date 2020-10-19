@@ -223,35 +223,15 @@
         $('#regions-select').select2();
 
         chargeSubpracticesFromPractice();
-        populateSubpracticesSelected();
         $('#practices-select').change(function () {
             chargeSubpracticesFromPractice();
         });
-
-
-        // Not working
-        function populateSubpracticesSelected() {
-            var selected = [
-                @foreach($subpracticesIDsToFilter as $subpractice)
-                    '{{$subpractice}}',
-                @endforeach
-            ];
-            var thereIsOnlyOnePracticeSelected =
-            {{count($practicesIDsToFilter)>0}}
-
-            if (selected.length && thereIsOnlyOnePracticeSelected) {
-                $('subpractices-container').show();
-
-            } else {
-                $('#subpractices-container').hide();
-            }
-        }
 
         function chargeSubpracticesFromPractice() {
             $('#subpractices-container').hide();
             $('#subpractices-select').empty();
 
-            var selectedPractices = $(this).val();
+            var selectedPractices = $('#practices-select').val();
             if (selectedPractices.length === 1) {
                 $.get("/accenture/benchmark/projectResults/getSubpractices/"
                     + selectedPractices, function (data) {

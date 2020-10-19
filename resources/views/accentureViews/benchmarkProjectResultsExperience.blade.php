@@ -172,7 +172,7 @@
         $('#regions-select').select2();
 
         chargeSubpracticesFromPractice();
-        populateSubpracticesSelected();
+        //populateSubpracticesSelected();
         $('#practices-select').change(function () {
             chargeSubpracticesFromPractice();
         });
@@ -197,30 +197,33 @@
             }
         }
 
-        function populateSubpracticesSelected() {
-            var selected = [
-                @foreach($subpracticesIDsToFilter as $subpractice)
-                    '{{\App\Subpractice::find($subpractice)->id}}',
-                @endforeach
-            ];
-            var thereIsOnlyOnePracticeSelected = {{count($practicesIDsToFilter)>0}};
+        {{--
+            function populateSubpracticesSelected() {
+                var selected = [
+                    {{$subpracticesIDsToFilter ? :[] }}
+                        @foreach($subpracticesIDsToFilter as $subpractice)
+                        '{{\App\Subpractice::find($subpractice)->id}}',
+                    @endforeach
+                ];
+                var thereIsOnlyOnePracticeSelected = {{count($practicesIDsToFilter)>0}};
 
-            if (selected.length && thereIsOnlyOnePracticeSelected) {
-                $('subpractices-container').show();
-/*                $.each(selected, function (i, e) {
-                    $('#subpractices-select').each(function(){
-                        if($(this).val().includes(e)){
-                            $(this).prop('selected',true)
-                            console.log($(this))
-                        }
-                    })
-                });*/
+                if (selected.length && thereIsOnlyOnePracticeSelected) {
+                    $('subpractices-container').show();
+                    /*                $.each(selected, function (i, e) {
+                                        $('#subpractices-select').each(function(){
+                                            if($(this).val().includes(e)){
+                                                $(this).prop('selected',true)
+                                                console.log($(this))
+                                            }
+                                        })
+                                    });*/
 
-            } else {
-                $('#subpractices-container').hide();
+                } else {
+                    $('#subpractices-container').hide();
+                }
             }
-        }
 
+         --}}
 
         // Submit Filters
         $('#filter-btn').click(function () {
