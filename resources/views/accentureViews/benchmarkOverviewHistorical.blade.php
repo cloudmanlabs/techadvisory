@@ -1,4 +1,12 @@
 @extends('accentureViews.layouts.benchmark')
+
+@php
+    /*foreach ($industriesToFilter as $industry){
+        $a = in_array($industry,$industriesToFilter);
+        var_dump($industry);
+        var_dump($a);
+    }*/
+@endphp
 @section('content')
 
     <div class="main-wrapper">
@@ -127,9 +135,9 @@
         $('#practice-select').select2();
 
         $('#filter-btn').click(function () {
-            var industry = $('#industry-select').val();
-            var regions = $('#region-select').val();
-            var practices = $('#practice-select').val();
+            var industry = encodeURIComponent($('#industry-select').val());
+            var regions = encodeURIComponent($('#region-select').val());
+            var practices = encodeURIComponent($('#practice-select').val());
 
             var currentUrl = '/accenture/benchmark/overview/historical';
             var url = currentUrl + '?' + 'regions=' + regions + '&industries=' + industry + '&practices=' + practices;
