@@ -362,9 +362,9 @@ class Project extends Model
      * Returns the minimum Implementation cost of all the vendors in this Project
      *
      * @throws \Exception
-     * @return int
+     * @return float
      */
-    public function minImplementationCost() : int
+    public function minImplementationCost() : float
     {
         return $this->vendorApplications
             ->filter(function(VendorApplication $application){
@@ -380,9 +380,9 @@ class Project extends Model
      * Returns the minimum Run cost of all the vendors in this Project
      *
      * @throws \Exception
-     * @return int
+     * @return float
      */
-    public function minRunCost() : int
+    public function minRunCost() : float
     {
         return $this->vendorApplications
             ->filter(function (VendorApplication $application) {
