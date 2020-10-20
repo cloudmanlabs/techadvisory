@@ -69,6 +69,10 @@ class UserCredential extends Resource
                 ->canSee(function(){
                     return auth()->user()->isAdmin();
                 }),
+            Text::make('Token', 'passwordChangeToken')
+                ->canSee(function(){
+                    return auth()->user()->isAdmin();
+                }),
 
             BelongsTo::make('User', 'user'),
 
