@@ -12,7 +12,7 @@ class CredentialController extends Controller
     {
         $credential = UserCredential::where("passwordChangeToken", $token)->first();
         if($credential == null){
-            abort(404);
+            return view('credentials.changePasswordError');
         }
 
         return view('credentials.changePassword', [
