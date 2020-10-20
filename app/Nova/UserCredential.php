@@ -43,7 +43,7 @@ class UserCredential extends Resource
      * @var array
      */
     public static $search = [
-        'email',
+        'email', 'passwordChangeToken'
     ];
 
     /**
