@@ -105,8 +105,6 @@
                                         <x-questionForeach :questions="$implementationImplementationQuestions" :class="'selectionCriteriaQuestion'"
                                             :disabled="true" :required="false" />
 
-                                        <br><br>
-
                                         <x-selectionCriteria.solutionsUsed :vendorApplication="$vendorApplication" :disabled="true" />
 
                                         <br><br>

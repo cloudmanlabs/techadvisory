@@ -4,7 +4,7 @@
 $disabled = $disabled ?? false;
 @endphp
 
-<div class="form-group questionDiv selectionCriteriaQuestion">
+<div class="form-group questionDiv selectionCriteriaQuestion" data-practice="">
     <label>Solutions used*</label>
     <select id="solutionsUsedSelect" {{$disabled ? 'disabled' : ''}} class="js-example-basic-multiple w-100 form-control" multiple="multiple">
         <x-options.vendorSolutions :selected="$vendorApplication->solutionsUsed" :vendor="$vendorApplication->vendor" />

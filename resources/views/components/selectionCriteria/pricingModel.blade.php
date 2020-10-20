@@ -12,7 +12,7 @@ $disabled = $disabled ?? false;
 
 <br>
 
-<div class="form-group questionDiv">
+<div class="form-group questionDiv" data-practice="">
     <label>Pricing Model Response</label>
     <textarea
         {{$disabled ? 'disabled' : ''}}
