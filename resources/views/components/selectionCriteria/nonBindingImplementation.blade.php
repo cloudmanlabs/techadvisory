@@ -40,7 +40,7 @@ $disabled = $disabled ?? false;
             value="{{$vendorApplication->staffingCostNonBinding}}" required
             {{$disabled ? 'disabled' : ''}} min="0">
         <input style="margin-left: 1rem;" type="text" class="form-control nonBindingInput" placeholder="Comments" data-changing="staffingCostNonBindingComments"
-            value="{{$vendorApplication->staffingCostNonBindingComments}}" required
+            value="{{$vendorApplication->staffingCostNonBindingComments}}"
             {{$disabled ? 'disabled' : ''}} min="0">
     </div>
 </div>
@@ -61,7 +61,7 @@ $disabled = $disabled ?? false;
             value="{{$vendorApplication->travelCostNonBinding}}" required
             {{$disabled ? 'disabled' : ''}} min="0">
         <input style="margin-left: 1rem;" type="text" class="form-control nonBindingInput" placeholder="Comments" data-changing="travelCostNonBindingComments"
-            value="{{$vendorApplication->travelCostNonBindingComments}}" required
+            value="{{$vendorApplication->travelCostNonBindingComments}}"
             {{$disabled ? 'disabled' : ''}} min="0">
     </div>
 </div>
@@ -82,7 +82,7 @@ $disabled = $disabled ?? false;
             value="{{$vendorApplication->additionalCostNonBinding}}" required
             {{$disabled ? 'disabled' : ''}} min="0">
         <input style="margin-left: 1rem;" type="text" class="form-control nonBindingInput" placeholder="Comments" data-changing="additionalCostNonBindingComments"
-            value="{{$vendorApplication->additionalCostNonBindingComments}}" required
+            value="{{$vendorApplication->additionalCostNonBindingComments}}"
             {{$disabled ? 'disabled' : ''}} min="0">
     </div>
 </div>
