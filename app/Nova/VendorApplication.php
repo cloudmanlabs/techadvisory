@@ -124,6 +124,37 @@ class VendorApplication extends Resource
 
             Boolean::make('Invited to Orals', 'invitedToOrals'),
             Boolean::make('Orals completed', 'oralsCompleted'),
+
+            Number::make('Fitgap Progress', function () {
+                return $this->progressFitgap();
+            })
+                ->exceptOnForms()
+                ->hideFromIndex(),
+            Number::make('Vendor Progress', function () {
+                return $this->progressVendor();
+            })
+                ->exceptOnForms()
+                ->hideFromIndex(),
+            Number::make('Experience Progress', function () {
+                return $this->progressExperience();
+            })
+                ->exceptOnForms()
+                ->hideFromIndex(),
+            Number::make('Innovation Progress', function () {
+                return $this->progressInnovation();
+            })
+                ->exceptOnForms()
+                ->hideFromIndex(),
+            Number::make('Implementation Progress', function () {
+                return $this->progressImplementation();
+            })
+                ->exceptOnForms()
+                ->hideFromIndex(),
+            Number::make('Submit Progress', function () {
+                return $this->progressSubmit();
+            })
+                ->exceptOnForms()
+                ->hideFromIndex(),
         ];
     }
 

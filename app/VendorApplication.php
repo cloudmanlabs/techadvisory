@@ -161,19 +161,19 @@ class VendorApplication extends Model
     {
         if ($this->project->isBinding) {
             if(
-                $this->staffingCost == null ||
-                $this->travelCost == null ||
-                $this->additionalCost == null ||
-                $this->estimate5Years == null
+                $this->staffingCost === null ||
+                $this->travelCost === null ||
+                $this->additionalCost === null ||
+                $this->estimate5Years === null
             ){
                 return false;
             }
         } else {
             if(
-                $this->overallImplementationMin == null ||
-                $this->overallImplementationMax == null ||
-                $this->averageYearlyCostMin == null ||
-                $this->averageYearlyCostMax == null
+                $this->overallImplementationMin === null ||
+                $this->overallImplementationMax === null ||
+                $this->averageYearlyCostMin === null ||
+                $this->averageYearlyCostMax === null
             ) {
                 return false;
             }
