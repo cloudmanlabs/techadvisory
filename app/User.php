@@ -184,7 +184,7 @@ class User extends Authenticatable
         // If there are some questions attached, it means that when the vendor was previously attached, so we don't want to add them again
         if ($project->selectionCriteriaQuestionsForVendor($this)->count() == 0)
         {
-            foreach (SelectionCriteriaQuestion::all() as $key2 => $question) {
+            foreach ($project->selectionCriteriaQuestionsOriginals() as $key2 => $question) {
                 $response = new SelectionCriteriaQuestionResponse([
                     'question_id' => $question->id,
                     'project_id' => $project->id,

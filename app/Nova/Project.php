@@ -2,6 +2,7 @@
 
 namespace App\Nova;
 
+use App\Nova\Actions\ClearNotAddedSelectionCriteriaResponses;
 use App\Nova\Filters\TenYearFilter;
 use App\User;
 use Illuminate\Http\Request;
@@ -242,6 +243,8 @@ class Project extends Resource
      */
     public function actions(Request $request)
     {
-        return [];
+        return [
+            (new ClearNotAddedSelectionCriteriaResponses())
+        ];
     }
 }
