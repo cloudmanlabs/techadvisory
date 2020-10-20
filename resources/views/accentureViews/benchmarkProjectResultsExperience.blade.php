@@ -198,32 +198,35 @@
         }
 
         {{--
-            function populateSubpracticesSelected() {
-                var selected = [
-                    {{$subpracticesIDsToFilter ? :[] }}
-                        @foreach($subpracticesIDsToFilter as $subpractice)
-                        '{{\App\Subpractice::find($subpractice)->id}}',
-                    @endforeach
-                ];
-                var thereIsOnlyOnePracticeSelected = {{count($practicesIDsToFilter)>0}};
+        function populateSubpracticesSelected() {
+            @if(is_array($subpracticesIDsToFilter))
+            var selectedIds = [
+                @foreach($subpracticesIDsToFilter as $subpractice)
+                    '{{\App\Subpractice::find($subpractice)->id}}',
+                @endforeach
+            ];
+            var selectedNames = [
+                @foreach($subpracticesIDsToFilter as $subpractice)
+                    '{{\App\Subpractice::find($subpractice)->name}}',
+                @endforeach
+            ];
+            var thereIsOnlyOnePracticeSelected = {{count($practicesIDsToFilter)==1}};
 
-                if (selected.length && thereIsOnlyOnePracticeSelected) {
-                    $('subpractices-container').show();
-                    /*                $.each(selected, function (i, e) {
-                                        $('#subpractices-select').each(function(){
-                                            if($(this).val().includes(e)){
-                                                $(this).prop('selected',true)
-                                                console.log($(this))
-                                            }
-                                        })
-                                    });*/
-
-                } else {
-                    $('#subpractices-container').hide();
+            if (selectedIds.length && thereIsOnlyOnePracticeSelected) {
+                $('subpractices-container').show();
+                for (let i = 0; i < selectedIds.length; i++) {
+                   $('#subpractices-select')[0].val(selectedIds[i]);
+                    $('#subpractices-select')[0].text(selectedNames[i]);*!/
+                    $('#subpractices-select').trigger('change'); // Notify any JS components that the value changed
+                    console.log($('#subpractices-select')[0])
                 }
-            }
 
-         --}}
+            } else {
+                $('#subpractices-container').hide();
+            }
+            @endif
+        }
+        --}}
 
         // Submit Filters
         $('#filter-btn').click(function () {
