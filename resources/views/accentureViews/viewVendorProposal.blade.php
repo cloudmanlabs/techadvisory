@@ -33,7 +33,7 @@
                                     <br><br>
                                     <h4>Questions</h4>
                                     <br>
-                                    <x-questionForeachWithEvaluate :questions="$fitgapQuestions" :class="'selectionCriteriaQuestion'" :disabled="true" :evalDisabled="true" :required="false" />
+                                    <x-questionForeach :questions="$fitgapQuestions" :class="'selectionCriteriaQuestion'" :disabled="true" :evalDisabled="true" :required="false" />
                                 </section>
 
                                 <h2>Vendor</h2>
