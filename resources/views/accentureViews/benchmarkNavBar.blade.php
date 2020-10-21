@@ -9,6 +9,10 @@
                 <a class=""
                    href="{{route('accenture.benchmark.projectResults')}}">Project Results</a>
             </li>
+            <li class="header-link-item ml-3 pl-3 border-left {{$nav1 == 'custom' ? 'active' : ''}}">
+                <a class=""
+                   href="{{--route('accenture.benchmark.customSearches')--}}">Custom Searches</a>
+            </li>
         </ul>
     </div>
 </div>

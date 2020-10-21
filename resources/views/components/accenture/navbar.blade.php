@@ -83,7 +83,7 @@
                     {{-- <img src="{{url('/assets/images/simple-logo.png')}}" style="height: 50px; margin-top: 4px"> --}}
                 </a>
             </div>
-            <ul class="nav page-navigation " style="position: relative; width:55%">
+            <ul class="nav page-navigation " style="position: relative">
                 <li class="nav-item {{$activeSection == 'home' ? 'active' : ''}}">
                     <a class="nav-link" href="{{route('accenture.home')}}">
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
@@ -167,7 +167,7 @@
                         </ul>
                     </div>--}}
                 </li>
-                <li class="nav-item {{$activeSection == 'custom' ? 'active' : ''}}">
+                {{--<li class="nav-item {{$activeSection == 'custom' ? 'active' : ''}}">
                     <a href="#" class="nav-link">
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
                              stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
@@ -193,8 +193,9 @@
                             </li>
                         </ul>
                     </div>
-                </li>
+                </li>--}}
             </ul>
+
         </div>
     </nav>
 </div>

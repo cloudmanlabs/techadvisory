@@ -196,6 +196,12 @@ prefix('accenture')
                 ->name('benchmark.projectResults.innovation');
             Route::get('/benchmark/projectResults/implementation', 'BenchmarkController@projectResultsImplementation')
                 ->name('benchmark.projectResults.implementation');
+
+            Route::get('/benchmark/customSearches/', 'BenchmarkController@customSearches')
+                ->name('benchmark.customSearches');
+            Route::get('/benchmark/customSearches/vendor', 'BenchmarkController@customSearches')
+                ->name('benchmark.customSearches.vendor');
+
             Route::get('/benchmark/projectResults/getSubpractices/{practice}', 'BenchmarkController@getSubpracticesfromPractice');
 
         });

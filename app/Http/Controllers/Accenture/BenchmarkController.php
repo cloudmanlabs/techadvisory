@@ -573,6 +573,17 @@ class BenchmarkController extends Controller
         ]);
     }
 
+    // Custom Searches Controllers ***************************************************************************
+    // This two methods give a clone view of custom searches only for accenture.
+    public function customSearches(){
+        // By default CustomSearches shows Custom project searches (analytic by projects).
+
+    }
+
+    public function customSearchesVendor(){
+
+    }
+
     public function getSubpracticesfromPractice(string $practiceId)
     {
         $practiceId = intval($practiceId);
