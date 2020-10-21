@@ -256,6 +256,9 @@ class Project extends Model
         return $this->hasMany(SelectionCriteriaQuestionProjectPivot::class, 'project_id');
     }
 
+    /**
+     * @return mixed
+     */
     public function selectionCriteriaQuestionsOriginals()
     {
         $questionIds = SelectionCriteriaQuestionProjectPivot::where('project_id', $this->id)->pluck('question_id')->toArray();
@@ -264,9 +267,51 @@ class Project extends Model
         return SelectionCriteriaQuestion::find($uniqueIds);
     }
 
+    /**
+     * WARNING: THIS FKN METHOD RETURNS THE RESPONSES, NOT THE QUESTIONS...
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
     public function selectionCriteriaQuestions()
     {
         return $this->hasMany(SelectionCriteriaQuestionResponse::class, 'project_id');
+    }
+
+    /**
+     * METHOD FOR NOVA
+     * The questions that are NOT linked to the project yet, in order to select them.
+     * @return array Array of questions: [question id] => question label
+     */
+    public function selectionCriteriaQuestionsAvailablesForMe()
+    {
+        $allQuestionsIDasArray =
+            SelectionCriteriaQuestion::all('id')->pluck('id')->toArray();
+        $mySelectionCriteriaQuestionsIDs =
+            $this->selectionCriteriaQuestionsOriginals()->pluck('id')->toArray();
+
+        if ($allQuestionsIDasArray) {
+            foreach ($allQuestionsIDasArray as $key => $question) {
+                if (in_array($question, $mySelectionCriteriaQuestionsIDs)) {
+                    // Question repetida. Delete
+                    unset($allQuestionsIDasArray[$key]);
+                }
+            }
+        }
+
+        // this returns a object with all, but not usefull for Nova.
+        /*        $availableQuestions = collect();
+                foreach ($allQuestionsIDasArray as $question) {
+                    $selectionCriteriaQuestion = SelectionCriteriaQuestion::find($question);
+                    $availableQuestions->push($selectionCriteriaQuestion);
+                }*/
+
+        // Only for Nova Structure: [question id] => question label
+        $questionsStructureForNova = [];
+        foreach ($allQuestionsIDasArray as $question) {
+            $selectionCriteriaQuestion = SelectionCriteriaQuestion::find($question);
+            $questionsStructureForNova[$selectionCriteriaQuestion->id] = $selectionCriteriaQuestion->label;
+        }
+
+        return $questionsStructureForNova;
     }
 
     public function selectionCriteriaQuestionsForVendor(User $vendor)
