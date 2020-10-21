@@ -577,12 +577,23 @@ class BenchmarkController extends Controller
     // This two methods give a clone view of custom searches but only for accenture.
     public function customSearches()
     {
+        // Data for populate the options.
+        $practices = Practice::pluck('name')->toArray();
         // By default CustomSearches shows Custom project searches (analytic by projects).
         return View('accentureViews.benchmarkCustomSearchesProject', [
             'nav1' => 'custom',
             'nav2' => 'project',
-        ]);
 
+            'practices' => Practice::pluck('name')->toArray(),
+            'subpractices' => Subpractice::pluck('name')->toArray(),
+            'clients' => User::clientUsers()->where('hasFinishedSetup', true)->pluck('name')->toArray(),
+            'vendors' => User::vendorUsers()->where('hasFinishedSetup', true)->pluck('name')->toArray(),
+            'regions' => collect(config('arrays.regions')),
+            'industries' => collect(config('arrays.industryExperience')),
+            'years' => collect(range(2017, intval(date('Y')))),
+
+            'projects' => Project::all(),
+        ]);
     }
 
     public function customSearchesVendor()
@@ -591,7 +602,6 @@ class BenchmarkController extends Controller
             'nav1' => 'custom',
             'nav2' => 'vendor',
         ]);
-
     }
 
     public function getSubpracticesfromPractice(string $practiceId)
