@@ -101,6 +101,7 @@ $disabled = $disabled ?? false;
             })
 
             showSavedToast();
+            updateSubmitButton();
         });
 
 
