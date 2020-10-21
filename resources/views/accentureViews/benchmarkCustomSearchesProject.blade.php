@@ -123,6 +123,11 @@
                                             </select>
                                         </div>
 
+                                        <br>
+                                        <h3 style="color: #A12BFE">Search Results</h3>
+                                        <br>
+                                        <br>
+
                                         <div id="projectContainer">
                                             @foreach ($projects as $project)
                                                 <div
@@ -174,6 +179,7 @@
     @parent
     <script src="{{url('assets/vendors/select2/select2.min.js')}}"></script>
     <script>
+
         $(document).ready(function(){
             function updateProjects() {
                 // Get all selected practices. If there are none, get all of them
@@ -185,8 +191,6 @@
                 const selectedRegions = getSelectedFrom('regionSelect')
                 const selectedPhases = getSelectedFrom('phaseSelect')
                 const searchBox = $('#searchBox').val().toLocaleLowerCase();
-
-                console.log(searchBox)
 
                 // Add a display none to the one which don't have this tags
                 $('#projectContainer').children().each(function () {
@@ -237,40 +241,47 @@
                 });
             }
 
-
-
             $('#practiceSelect').select2();
             $('#practiceSelect').on('change', function (e) {
                 updateProjects();
             });
+
             $('#subpracticeSelect').select2();
             $('#subpracticeSelect').on('change', function (e) {
                 updateProjects();
             });
+
             $('#clientSelect').select2();
             $('#clientSelect').on('change', function (e) {
                 updateProjects();
             });
+
             $('#yearSelect').select2();
             $('#yearSelect').on('change', function (e) {
                 updateProjects();
             });
+
             $('#industrySelect').select2();
             $('#industrySelect').on('change', function (e) {
                 updateProjects();
             });
+
             $('#phaseSelect').select2();
             $('#phaseSelect').on('change', function (e) {
                 updateProjects();
             });
+
             $('#regionSelect').select2();
             $('#regionSelect').on('change', function (e) {
                 updateProjects();
             });
+
             $('#searchBox').on('input', function (e) {
                 updateProjects();
             });
+
             updateProjects();
+
         });
     </script>
 @endsection
