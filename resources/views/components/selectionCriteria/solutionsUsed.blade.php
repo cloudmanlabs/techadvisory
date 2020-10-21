@@ -21,6 +21,9 @@ $disabled = $disabled ?? false;
                 value: $(this).val()
             })
             showSavedToast();
+            if (updateSubmitButton) {
+                updateSubmitButton();
+            }
         })
     });
 </script>
