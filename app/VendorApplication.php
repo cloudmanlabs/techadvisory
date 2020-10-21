@@ -419,6 +419,8 @@ class VendorApplication extends Model
 
         $runScore = $this->implementationRunScore();
 
+        Log::debug([$impScore, $runScore]);
+
         return
             (($this->project->implementationImplementationWeight ?? 20) / 100) * $impScore +
             (($this->project->implementationRunWeight ?? 80) / 100) * $runScore;
@@ -427,6 +429,8 @@ class VendorApplication extends Model
     public function implementationImplementationScore()
     {
         $delta = $this->implementationCostDelta();
+
+        Log::debug($delta);
 
         if ($delta == 0) return 10;
         if($delta <= 5) return 9;
@@ -522,6 +526,8 @@ class VendorApplication extends Model
     {
         $minCost = $this->project->minImplementationCost();
         $cost = $this->implementationCost();
+
+        Log::debug([$minCost, $cost]);
 
         if($minCost == 0){
             // If the min and this vendors cost is 0, the delta is 0

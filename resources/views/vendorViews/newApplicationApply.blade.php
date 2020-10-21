@@ -52,7 +52,7 @@
                                         <br>
                                         <x-questionForeach :questions="$vendorCorporateQuestions" :class="'selectionCriteriaQuestion'" :disabled="false" :required="false" />
 
-                                        <x-folderFileUploader :folder="$vendorApplication->corporateFolder" :timeout="1000" />
+                                        {{-- <x-folderFileUploader :folder="$vendorApplication->corporateFolder" :timeout="1000" /> --}}
 
                                         <br><br>
                                         <h4>Market presence</h4>
@@ -77,7 +77,7 @@
                                         <x-questionForeach :questions="$experienceQuestions" :class="'selectionCriteriaQuestion'" :disabled="false"
                                             :required="false" />
 
-                                        <x-folderFileUploader :folder="$vendorApplication->experienceFolder" :timeout="1000" />
+                                        {{-- <x-folderFileUploader :folder="$vendorApplication->experienceFolder" :timeout="1000" /> --}}
                                     </section>
 
                                     <h2>Innovation & Vision</h2>
