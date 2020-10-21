@@ -574,13 +574,23 @@ class BenchmarkController extends Controller
     }
 
     // Custom Searches Controllers ***************************************************************************
-    // This two methods give a clone view of custom searches only for accenture.
-    public function customSearches(){
+    // This two methods give a clone view of custom searches but only for accenture.
+    public function customSearches()
+    {
         // By default CustomSearches shows Custom project searches (analytic by projects).
+        return View('accentureViews.benchmarkCustomSearchesProject', [
+            'nav1' => 'customSearches',
+            'nav2' => 'project',
+        ]);
 
     }
 
-    public function customSearchesVendor(){
+    public function customSearchesVendor()
+    {
+        return View('accentureViews.benchmarkCustomSearchesVendor', [
+            'nav1' => 'customSearches',
+            'nav2' => 'vendor',S
+        ]);
 
     }
 
