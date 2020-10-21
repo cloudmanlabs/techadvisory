@@ -579,7 +579,7 @@ class BenchmarkController extends Controller
     {
         // By default CustomSearches shows Custom project searches (analytic by projects).
         return View('accentureViews.benchmarkCustomSearchesProject', [
-            'nav1' => 'customSearches',
+            'nav1' => 'custom',
             'nav2' => 'project',
         ]);
 
@@ -588,8 +588,8 @@ class BenchmarkController extends Controller
     public function customSearchesVendor()
     {
         return View('accentureViews.benchmarkCustomSearchesVendor', [
-            'nav1' => 'customSearches',
-            'nav2' => 'vendor',S
+            'nav1' => 'custom',
+            'nav2' => 'vendor',
         ]);
 
     }
