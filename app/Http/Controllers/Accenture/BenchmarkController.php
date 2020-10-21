@@ -577,22 +577,33 @@ class BenchmarkController extends Controller
     // This two methods give a clone view of custom searches but only for accenture.
     public function customSearches()
     {
-        // Data for populate the options.
+        // Data for populate the select options.
         $practices = Practice::pluck('name')->toArray();
+        $subpractices = Subpractice::pluck('name')->toArray();
+        $clients = User::clientUsers()->where('hasFinishedSetup', true)->pluck('name')->toArray();
+        $vendors = User::vendorUsers()->where('hasFinishedSetup', true)->pluck('name')->toArray();
+        $regions = collect(config('arrays.regions'));
+        $industries = collect(config('arrays.industryExperience'));
+        $years = collect(range(2017, intval(date('Y'))));
+
+        // Data to show and filter.
+        $projects = Project::all('id', 'name', 'practice_id', 'client_id',
+            'created_at', 'industry', 'regions', 'currentPhase');
+
         // By default CustomSearches shows Custom project searches (analytic by projects).
         return View('accentureViews.benchmarkCustomSearchesProject', [
             'nav1' => 'custom',
             'nav2' => 'project',
 
-            'practices' => Practice::pluck('name')->toArray(),
-            'subpractices' => Subpractice::pluck('name')->toArray(),
-            'clients' => User::clientUsers()->where('hasFinishedSetup', true)->pluck('name')->toArray(),
-            'vendors' => User::vendorUsers()->where('hasFinishedSetup', true)->pluck('name')->toArray(),
-            'regions' => collect(config('arrays.regions')),
-            'industries' => collect(config('arrays.industryExperience')),
-            'years' => collect(range(2017, intval(date('Y')))),
+            'practices' => $practices,
+            'subpractices' => $subpractices,
+            'clients' => $clients,
+            'vendors' => $vendors,
+            'regions' => $regions,
+            'industries' => $industries,
+            'years' => $years,
 
-            'projects' => Project::all(),
+            'projects' => $projects,
         ]);
     }
 
