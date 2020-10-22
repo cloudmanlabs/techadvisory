@@ -85,6 +85,7 @@
                                     @foreach ($openProjects as $project)
                                         <div class="card" style="margin-bottom: 30px;"
                                              data-client="{{$project->client->name ?? 'No client'}}"
+                                             data-vendors="{{json_encode($project->vendorsApplied()->pluck('name')->toArray() ?? '')}}"
                                              data-name="{{$project->name ?? 'No name'}}"
                                              data-practice="{{$project->practice->name ?? 'No SC Capability (Practice)'}}"
                                              data-year="{{$project->created_at->year}}">
@@ -92,8 +93,14 @@
                                                  style="display: flex; flex-direction: row; justify-content: space-between; align-items: center">
                                                 <div style="width: 30%;">
                                                     <h4>{{$project->name}}</h4>
-                                                    <h6>{{$project->client->name ?? 'No client'}}
-                                                        - {{$project->practice->name ?? 'No SC Capability (Practice)'}}</h6>
+                                                    <h6>
+                                                        {{$project->client->name ?? 'No client'}}
+                                                        - {{$project->practice->name ?? 'No SC Capability (Practice)'}}
+                                                    </h6>
+                                                    <h7>
+                                                        Vendors Applied:
+                                                        {{implode(', ', $project->vendorsApplied()->pluck('name')->toArray() ?? [])}}
+                                                    </h7>
                                                 </div>
                                                 <x-projectProgressBar :project="$project"/>
 
