@@ -58,6 +58,19 @@
                                             <option value="2021">2023</option>
                                         </select>
                                     </div>
+
+                                    <div class="media-body" style="padding: 20px;">
+                                        <p class="welcome_text">
+                                            Please choose the Vendor you'd like to see:
+                                        </p>
+                                        <select id="homeVendorSelect" class="w-100" multiple="multiple">
+                                            <option>No vendor</option>
+                                            @foreach ($vendors as $vendor)
+                                                <option>{{$vendor}}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+
                                     <div class="media-body" style="padding: 20px;">
                                         <p class="welcome_text">
                                             Please choose the Project's name:
@@ -368,12 +381,19 @@
             $('#homePracticeSelect').on('change', function (e) {
                 updateOpenProjects();
             });
+
             $('#homeClientSelect').select2();
             $('#homeClientSelect').on('change', function (e) {
                 updateOpenProjects();
             });
+
             $('#homeYearSelect').select2();
             $('#homeYearSelect').on('change', function (e) {
+                updateOpenProjects();
+            });
+
+            $('#homeVendorSelect').select2();
+            $('#homeVendorSelect').on('change', function (e) {
                 updateOpenProjects();
             });
 

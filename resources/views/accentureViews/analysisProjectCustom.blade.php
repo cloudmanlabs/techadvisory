@@ -177,6 +177,7 @@
 <script>
     $(document).ready(function(){
             function updateProjects() {
+
                 // Get all selected practices. If there are none, get all of them
                 const selectedPractices = getSelectedFrom('practiceSelect')
                 const selectedSubpractices = getSelectedFrom('subpracticeSelect')

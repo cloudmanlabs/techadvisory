@@ -31,10 +31,12 @@ class HomeController extends Controller
 
         $practices = Practice::all()->pluck('name');
         $clients = User::clientUsers()->pluck('name');
+        $vendors = User::vendorUsers()->where('hasFinishedSetup', true)->pluck('name');
 
         return view('accentureViews.home', [
             'practices' => $practices,
             'clients' => $clients,
+            'vendors' => $vendors,
 
             'openProjects' => $openProjects,
             'preparationProjects' => $preparationProjects,
