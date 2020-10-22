@@ -109,7 +109,7 @@
 
                                 <div id="charts-container" class="col-8 border-left">
                                     <div class="row pl-3">
-                                        <h3>Fitgap Results</h3>
+                                        <h3>Fitgap Overall Results</h3>
                                         <p class="welcome_text extra-top-15px">
                                         </p>
                                     </div>
@@ -161,13 +161,16 @@
                     </div>
                 </div>
             </div>
+            <br>
             <div class="row" id="content-container-2">
                 <div class="col-12 stretch-card">
                     <div class="card">
                         <div class="card-body">
+                            <h3>Figap Results By Type</h3>
+                            <br>
                             <div class="row">
 
-                                <div id="charts-container" class="col-12 border-left">
+                                <div id="charts-container" class="col-12">
 
                                     <div class="row" id="chart2-row">
                                         <div class="col-xl-6 grid-margin stretch-card">
