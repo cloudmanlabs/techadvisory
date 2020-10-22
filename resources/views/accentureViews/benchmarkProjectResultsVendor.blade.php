@@ -133,6 +133,7 @@
                                                         <tr>
                                                             <th scope="col">Vendor name</th>
                                                             <th scope="col">Projects applied</th>
+                                                            <th scope="col">Scores</th>
                                                         </tr>
                                                         </thead>
                                                         <tbody>
@@ -140,6 +141,7 @@
                                                             <tr>
                                                                 <td>{{\App\User::find($key)->name}}</td>
                                                                 <td>{{count(\App\User::find($key)->vendorApplications)}}</td>
+                                                                <td>{{$vendorScore}}</td>
                                                             </tr>
                                                         @endforeach
                                                         </tbody>
