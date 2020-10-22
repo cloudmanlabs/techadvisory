@@ -155,6 +155,19 @@
                                         </div>
                                     </div>
 
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row" id="content-container-2">
+                <div class="col-12 stretch-card">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="row">
+
+                                <div id="charts-container" class="col-12 border-left">
                                     <div class="row" id="chart2-row">
                                         <div class="col-xl-6 grid-margin stretch-card">
                                             <div class="card">
@@ -298,7 +311,6 @@
                                             </div>
                                         </div>
                                     </div>
-
                                 </div>
                             </div>
                         </div>
