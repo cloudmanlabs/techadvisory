@@ -168,6 +168,7 @@
                             <div class="row">
 
                                 <div id="charts-container" class="col-12 border-left">
+
                                     <div class="row" id="chart2-row">
                                         <div class="col-xl-6 grid-margin stretch-card">
                                             <div class="card">
@@ -188,6 +189,7 @@
                                                         <tr>
                                                             <th scope="col">Vendor name</th>
                                                             <th scope="col">Projects applied</th>
+                                                            <th scope="col">Score</th>
                                                         </tr>
                                                         </thead>
                                                         <tbody>
@@ -195,6 +197,7 @@
                                                             <tr>
                                                                 <td>{{\App\User::find($key)->name}}</td>
                                                                 <td>{{count(\App\User::find($key)->vendorApplications)}}</td>
+                                                                <td>{{$vendorScore}}</td>
                                                             </tr>
                                                         @endforeach
                                                         </tbody>
@@ -224,6 +227,7 @@
                                                         <tr>
                                                             <th scope="col">Vendor name</th>
                                                             <th scope="col">Projects applied</th>
+                                                            <th scope="col">Score</th>
                                                         </tr>
                                                         </thead>
                                                         <tbody>
@@ -231,6 +235,7 @@
                                                             <tr>
                                                                 <td>{{\App\User::find($key)->name}}</td>
                                                                 <td>{{count(\App\User::find($key)->vendorApplications)}}</td>
+                                                                <td>{{$vendorScore}}</td>
                                                             </tr>
                                                         @endforeach
                                                         </tbody>
@@ -260,6 +265,7 @@
                                                         <tr>
                                                             <th scope="col">Vendor name</th>
                                                             <th scope="col">Projects applied</th>
+                                                            <th scope="col">Scores</th>
                                                         </tr>
                                                         </thead>
                                                         <tbody>
@@ -267,6 +273,7 @@
                                                             <tr>
                                                                 <td>{{\App\User::find($key)->name}}</td>
                                                                 <td>{{count(\App\User::find($key)->vendorApplications)}}</td>
+                                                                <td>{{$vendorScore}}</td>
                                                             </tr>
                                                         @endforeach
                                                         </tbody>
@@ -296,6 +303,7 @@
                                                         <tr>
                                                             <th scope="col">Vendor name</th>
                                                             <th scope="col">Projects applied</th>
+                                                            <th scope="col">Scores</th>
                                                         </tr>
                                                         </thead>
                                                         <tbody>
@@ -303,6 +311,7 @@
                                                             <tr>
                                                                 <td>{{\App\User::find($key)->name}}</td>
                                                                 <td>{{count(\App\User::find($key)->vendorApplications)}}</td>
+                                                                <td>{{$vendorScore}}</td>
                                                             </tr>
                                                         @endforeach
                                                         </tbody>
