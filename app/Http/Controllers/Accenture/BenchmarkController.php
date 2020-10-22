@@ -534,14 +534,16 @@ class BenchmarkController extends Controller
         }
 
         // Data for charts.
-        $howManyVendorsToChart = 5;
-        $vendorScoresImplementation = VendorApplication::calculateBestVendorsProjectResultsFiltered($howManyVendorsToChart,
+        $howManyVendorsToFirstChart = 10;
+        $howManyVendorsToOthersCharts = 5;
+
+        $vendorScoresImplementation = VendorApplication::calculateBestVendorsProjectResultsFiltered($howManyVendorsToFirstChart,
             'implementationScore', $practicesIDsToFilter, $subpracticesIDsToFilter,
             $yearsToFilter, $industriesToFilter, $regionsToFilter);
-        $vendorScoresImplementationImplementation = VendorApplication::calculateBestVendorsProjectResultsFiltered($howManyVendorsToChart,
+        $vendorScoresImplementationImplementation = VendorApplication::calculateBestVendorsProjectResultsFiltered($howManyVendorsToOthersCharts,
             'implementationImplementationScore', $practicesIDsToFilter, $subpracticesIDsToFilter,
             $yearsToFilter, $industriesToFilter, $regionsToFilter);
-        $vendorScoresImplementationRun = VendorApplication::calculateBestVendorsProjectResultsFiltered($howManyVendorsToChart,
+        $vendorScoresImplementationRun = VendorApplication::calculateBestVendorsProjectResultsFiltered($howManyVendorsToOthersCharts,
             'implementationRunScore', $practicesIDsToFilter, $subpracticesIDsToFilter,
             $yearsToFilter, $industriesToFilter, $regionsToFilter);
 

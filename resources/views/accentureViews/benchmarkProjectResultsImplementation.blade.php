@@ -106,7 +106,7 @@
 
                                 <div id="charts-container" class="col-8 border-left">
                                     <div class="row pl-3">
-                                        <h3>Implementation & Comercials Results</h3>
+                                        <h3>Implementation & Comercials Overall Results</h3>
                                         <p class="welcome_text extra-top-15px">
                                         </p>
                                     </div>
@@ -116,7 +116,8 @@
                                         <div class="col-xl-12 grid-margin stretch-card">
                                             <div class="card">
                                                 <div class="card-body">
-                                                    <h4>Best {{count($vendorScoresImplementation)}} Vendors By Implementation & Commercials Score</h4>
+                                                    <h4>Best {{count($vendorScoresImplementation)}} Vendors By
+                                                        Implementation & Commercials Score</h4>
                                                     <br><br>
                                                     <canvas id="best-implementation-chart"></canvas>
                                                 </div>
@@ -133,6 +134,7 @@
                                                         <tr>
                                                             <th scope="col">Vendor name</th>
                                                             <th scope="col">Projects applied</th>
+                                                            <th scope="col">Scores</th>
                                                         </tr>
                                                         </thead>
                                                         <tbody>
@@ -140,6 +142,7 @@
                                                             <tr>
                                                                 <td>{{\App\User::find($key)->name}}</td>
                                                                 <td>{{count(\App\User::find($key)->vendorApplications)}}</td>
+                                                                <td>{{$vendorScore}}</td>
                                                             </tr>
                                                         @endforeach
                                                         </tbody>
@@ -148,24 +151,98 @@
                                             </div>
                                         </div>
                                     </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <br>
+            <div class="row" id="content-container-2">
+                <div class="col-12 stretch-card">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="row">
+
+                                <div id="charts-container" class="col-12 border-left">
+                                    <div class="row pl-3">
+                                        <h3>Implementation & Comercials Specific Results</h3>
+                                        <p class="welcome_text extra-top-15px">
+                                        </p>
+                                    </div>
+                                    <br>
+                                    <br>
                                     <div class="row" id="chart2-row">
-                                        <div class="col-xl-12 grid-margin stretch-card">
+                                        <div class="col-xl-6 grid-margin stretch-card">
                                             <div class="card">
                                                 <div class="card-body">
-                                                    <h4>Best Vendors by Implementation Score</h4>
+                                                    <h6>Best {{count($vendorScoresImplementationImplementation)}} Vendors By
+                                                         Implementation Score</h6>
                                                     <br><br>
                                                     <canvas id="best-implementation-implementation-chart"></canvas>
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div class="row" id="chart3-row">
-                                        <div class="col-xl-12 grid-margin stretch-card">
+                                        <div class="col-xl-6 grid-margin stretch-card">
                                             <div class="card">
                                                 <div class="card-body">
-                                                    <h4>Best Vendors by Run Score</h4>
+                                                    <h5>Number of projects</h5>
+                                                    <table class="table">
+                                                        <thead>
+                                                        <tr>
+                                                            <th scope="col">Vendor name</th>
+                                                            <th scope="col">Projects applied</th>
+                                                            <th scope="col">Score</th>
+                                                        </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                        @foreach($vendorScoresImplementationImplementation as $key=>$vendorScore)
+                                                            <tr>
+                                                                <td>{{\App\User::find($key)->name}}</td>
+                                                                <td>{{count(\App\User::find($key)->vendorApplications)}}</td>
+                                                                <td>{{$vendorScore}}</td>
+                                                            </tr>
+                                                        @endforeach
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row" id="chart3-row">
+                                        <div class="col-xl-6 grid-margin stretch-card">
+                                            <div class="card">
+                                                <div class="card-body">
+                                                    <h6>Best {{count($vendorScoresImplementationRun)}} Vendors By
+                                                        Implementation Score</h6>
                                                     <br><br>
                                                     <canvas id="best-implementation-run-chart"></canvas>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-xl-6 grid-margin stretch-card">
+                                            <div class="card">
+                                                <div class="card-body">
+                                                    <h5>Number of projects</h5>
+                                                    <table class="table">
+                                                        <thead>
+                                                        <tr>
+                                                            <th scope="col">Vendor name</th>
+                                                            <th scope="col">Projects applied</th>
+                                                            <th scope="col">Score</th>
+                                                        </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                        @foreach($vendorScoresImplementationRun as $key=>$vendorScore)
+                                                            <tr>
+                                                                <td>{{\App\User::find($key)->name}}</td>
+                                                                <td>{{count(\App\User::find($key)->vendorApplications)}}</td>
+                                                                <td>{{$vendorScore}}</td>
+                                                            </tr>
+                                                        @endforeach
+                                                        </tbody>
+                                                    </table>
                                                 </div>
                                             </div>
                                         </div>
