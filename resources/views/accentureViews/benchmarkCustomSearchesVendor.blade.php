@@ -32,7 +32,7 @@
                                 <div class="card-body">
                                     <h3>Other Queries</h3>
                                     <p class="welcome_text extra-top-15px">
-                                        {{nova_get_setting('accenture_analysisVendorCustom_otherQueries') ?? ''}}
+                                        Select the filter criteria to find all relevant vendors.
                                     </p>
                                     <br>
 
@@ -123,11 +123,9 @@
                                         </div>
                                         <br>
                                         <h3 style="color: #A12BFE">Search Results</h3>
-                                        <p class="welcome_text extra-top-15px">
-                                            {{nova_get_setting('accenture_analysisVendorCustom_otherQueries') ?? ''}}
-                                        </p>
                                         <br>
                                         <br>
+
                                         <!-- All Vendors -->
                                         <div id="projectContainer">
                                             @foreach ($vendors as $vendor)

@@ -167,40 +167,136 @@
                                         <div class="col-xl-6 grid-margin stretch-card">
                                             <div class="card">
                                                 <div class="card-body">
-                                                    <h6>Best {{count($vendorScoresFitgapTechnical)}} Vendors Fitgap By
+                                                    <h5>Number of projects</h5>
+                                                    <table class="table">
+                                                        <thead>
+                                                        <tr>
+                                                            <th scope="col">Vendor name</th>
+                                                            <th scope="col">Projects applied</th>
+                                                        </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                        @foreach($vendorScoresFitgapFunctional as $key=>$vendorScore)
+                                                            <tr>
+                                                                <td>{{\App\User::find($key)->name}}</td>
+                                                                <td>{{count(\App\User::find($key)->vendorApplications)}}</td>
+                                                            </tr>
+                                                        @endforeach
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row" id="chart3-row">
+                                        <div class="col-xl-6 grid-margin stretch-card">
+                                            <div class="card">
+                                                <div class="card-body">
+                                                    <h6>Best {{count($vendorScoresFitgapTechnical)}} Vendors Fitgap
                                                         Technical Score</h6>
                                                     <br><br>
                                                     <canvas id="best-fitgap-technical-chart"></canvas>
                                                 </div>
                                             </div>
                                         </div>
+                                        <div class="col-xl-6 grid-margin stretch-card">
+                                            <div class="card">
+                                                <div class="card-body">
+                                                    <h5>Number of projects</h5>
+                                                    <table class="table">
+                                                        <thead>
+                                                        <tr>
+                                                            <th scope="col">Vendor name</th>
+                                                            <th scope="col">Projects applied</th>
+                                                        </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                        @foreach($vendorScoresFitgapTechnical as $key=>$vendorScore)
+                                                            <tr>
+                                                                <td>{{\App\User::find($key)->name}}</td>
+                                                                <td>{{count(\App\User::find($key)->vendorApplications)}}</td>
+                                                            </tr>
+                                                        @endforeach
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
 
                                     <div class="row" id="chart4-row">
-                                        <div class="col-xl-12 grid-margin stretch-card">
+                                        <div class="col-xl-6 grid-margin stretch-card">
                                             <div class="card">
                                                 <div class="card-body">
-                                                    <h4>Best {{count($vendorScoresFitgapService)}} Vendors Fitgap By
-                                                        Services Score</h4>
+                                                    <h6>Best {{count($vendorScoresFitgapService)}} Vendors Fitgap
+                                                        Service Score</h6>
                                                     <br><br>
                                                     <canvas id="best-fitgap-services-chart"></canvas>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-xl-6 grid-margin stretch-card">
+                                            <div class="card">
+                                                <div class="card-body">
+                                                    <h5>Number of projects</h5>
+                                                    <table class="table">
+                                                        <thead>
+                                                        <tr>
+                                                            <th scope="col">Vendor name</th>
+                                                            <th scope="col">Projects applied</th>
+                                                        </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                        @foreach($vendorScoresFitgapService as $key=>$vendorScore)
+                                                            <tr>
+                                                                <td>{{\App\User::find($key)->name}}</td>
+                                                                <td>{{count(\App\User::find($key)->vendorApplications)}}</td>
+                                                            </tr>
+                                                        @endforeach
+                                                        </tbody>
+                                                    </table>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
 
                                     <div class="row" id="chart5-row">
-                                        <div class="col-xl-12 grid-margin stretch-card">
+                                        <div class="col-xl-6 grid-margin stretch-card">
                                             <div class="card">
                                                 <div class="card-body">
-                                                    <h4>Best {{count($vendorScoresFitgapOthers)}} Vendors Fitgap By
-                                                        Others Score</h4>
+                                                    <h6>Best {{count($vendorScoresFitgapOthers)}} Vendors Fitgap
+                                                        Others Score</h6>
                                                     <br><br>
                                                     <canvas id="best-fitgap-others-chart"></canvas>
                                                 </div>
                                             </div>
                                         </div>
+                                        <div class="col-xl-6 grid-margin stretch-card">
+                                            <div class="card">
+                                                <div class="card-body">
+                                                    <h5>Number of projects</h5>
+                                                    <table class="table">
+                                                        <thead>
+                                                        <tr>
+                                                            <th scope="col">Vendor name</th>
+                                                            <th scope="col">Projects applied</th>
+                                                        </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                        @foreach($vendorScoresFitgapOthers as $key=>$vendorScore)
+                                                            <tr>
+                                                                <td>{{\App\User::find($key)->name}}</td>
+                                                                <td>{{count(\App\User::find($key)->vendorApplications)}}</td>
+                                                            </tr>
+                                                        @endforeach
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
+
                                 </div>
                             </div>
                         </div>
@@ -209,226 +305,225 @@
             </div>
         </div>
     </div>
-</div>
 
 
-@section('scripts')
-    @parent
-    <script>
+    @section('scripts')
+        @parent
+        <script>
 
-        $('#practices-select').select2();
-        $('#subpractices-select').select2();
-        $('#years-select').select2();
-        $('#industries-select').select2();
-        $('#regions-select').select2();
+            $('#practices-select').select2();
+            $('#subpractices-select').select2();
+            $('#years-select').select2();
+            $('#industries-select').select2();
+            $('#regions-select').select2();
 
-        chargeSubpracticesFromPractice();
-        $('#practices-select').change(function () {
             chargeSubpracticesFromPractice();
-        });
+            $('#practices-select').change(function () {
+                chargeSubpracticesFromPractice();
+            });
 
-        function chargeSubpracticesFromPractice() {
-            $('#subpractices-container').hide();
-            $('#subpractices-select').empty();
+            function chargeSubpracticesFromPractice() {
+                $('#subpractices-container').hide();
+                $('#subpractices-select').empty();
 
-            var selectedPractices = $('#practices-select').val();
-            if (selectedPractices.length === 1) {
-                $.get("/accenture/benchmark/projectResults/getSubpractices/"
-                    + selectedPractices, function (data) {
+                var selectedPractices = $('#practices-select').val();
+                if (selectedPractices.length === 1) {
+                    $.get("/accenture/benchmark/projectResults/getSubpractices/"
+                        + selectedPractices, function (data) {
 
-                    $('#subpractices-container').show();
+                        $('#subpractices-container').show();
 
-                    var $dropdown = $("#subpractices-select");
-                    var subpractices = data.subpractices;
-                    $.each(subpractices, function () {
-                        $dropdown.append($("<option />").val(this.id).text(this.name));
+                        var $dropdown = $("#subpractices-select");
+                        var subpractices = data.subpractices;
+                        $.each(subpractices, function () {
+                            $dropdown.append($("<option />").val(this.id).text(this.name));
+                        });
                     });
-                });
-            }
-        }
-
-        // Submit Filters.
-        $('#filter-btn').click(function () {
-            var practices = encodeURIComponent($('#practices-select').val());
-            var subpractices = encodeURIComponent($('#subpractices-select').val());
-            var years = encodeURIComponent($('#years-select').val());
-            var industries = encodeURIComponent($('#industries-select').val());
-            var regions = encodeURIComponent($('#regions-select').val());
-
-            var currentUrl = '/accenture/benchmark/projectResults/fitgap';
-            var url = currentUrl + '?'
-                + 'practices=' + practices
-                + '&subpractices=' + subpractices
-                + '&years=' + years
-                + '&industries=' + industries
-                + '&regions=' + regions;
-            location.replace(url);
-        });
-
-        var fitgapChart = new Chart($('#best-fitgap-chart'), {
-                type: 'bar',
-                data: {
-                    labels: [
-                        @foreach($vendorScoresFitgap as $key=>$value)
-                            "{{\App\User::find($key)->name}}",
-                        @endforeach
-                    ],
-                    datasets: [
-                        {
-                            backgroundColor: ["#27003d", "#5a008f", "#8e00e0", "#a50aff", "#d285ff", "#e9c2ff", "#f8ebff"],
-                            data: [
-                                @foreach($vendorScoresFitgap as $key => $value)
-                                    "{{$value}}",
-                                @endforeach
-                            ]
-                        }
-                    ]
-                },
-                options: {
-                    legend: {display: false},
-                    scales: {
-                        yAxes: [{
-                            ticks: {
-                                beginAtZero: true,
-                                fontSize: 17
-                            }
-                        }],
-                    }
                 }
             }
-        );
 
-        var fitgapFunctionalChart = new Chart($('#best-fitgap-functional-chart'), {
-                type: 'bar',
-                data: {
-                    labels: [
-                        @foreach($vendorScoresFitgapFunctional as $key=>$value)
-                            "{{\App\User::find($key)->name}}",
-                        @endforeach
-                    ],
-                    datasets: [
-                        {
-                            backgroundColor: ["#27003d", "#5a008f", "#8e00e0", "#a50aff", "#d285ff", "#e9c2ff", "#f8ebff"],
-                            data: [
-                                @foreach($vendorScoresFitgapFunctional as $key => $value)
-                                    "{{$value}}",
-                                @endforeach
-                            ]
-                        }
-                    ]
-                },
-                options: {
-                    legend: {display: false},
-                    scales: {
-                        yAxes: [{
-                            ticks: {
-                                beginAtZero: true,
-                                fontSize: 17
+            // Submit Filters.
+            $('#filter-btn').click(function () {
+                var practices = encodeURIComponent($('#practices-select').val());
+                var subpractices = encodeURIComponent($('#subpractices-select').val());
+                var years = encodeURIComponent($('#years-select').val());
+                var industries = encodeURIComponent($('#industries-select').val());
+                var regions = encodeURIComponent($('#regions-select').val());
+
+                var currentUrl = '/accenture/benchmark/projectResults/fitgap';
+                var url = currentUrl + '?'
+                    + 'practices=' + practices
+                    + '&subpractices=' + subpractices
+                    + '&years=' + years
+                    + '&industries=' + industries
+                    + '&regions=' + regions;
+                location.replace(url);
+            });
+
+            var fitgapChart = new Chart($('#best-fitgap-chart'), {
+                    type: 'bar',
+                    data: {
+                        labels: [
+                            @foreach($vendorScoresFitgap as $key=>$value)
+                                "{{\App\User::find($key)->name}}",
+                            @endforeach
+                        ],
+                        datasets: [
+                            {
+                                backgroundColor: ["#27003d", "#5a008f", "#8e00e0", "#a50aff", "#d285ff", "#e9c2ff", "#f8ebff"],
+                                data: [
+                                    @foreach($vendorScoresFitgap as $key => $value)
+                                        "{{$value}}",
+                                    @endforeach
+                                ]
                             }
-                        }],
+                        ]
+                    },
+                    options: {
+                        legend: {display: false},
+                        scales: {
+                            yAxes: [{
+                                ticks: {
+                                    beginAtZero: true,
+                                    fontSize: 17
+                                }
+                            }],
+                        }
                     }
                 }
-            }
-        );
+            );
 
-        var fitgapTechnicalChart = new Chart($('#best-fitgap-technical-chart'), {
-                type: 'bar',
-                data: {
-                    labels: [
-                        @foreach($vendorScoresFitgapTechnical as $key=>$value)
-                            "{{\App\User::find($key)->name}}",
-                        @endforeach
-                    ],
-                    datasets: [
-                        {
-                            backgroundColor: ["#27003d", "#5a008f", "#8e00e0", "#a50aff", "#d285ff", "#e9c2ff", "#f8ebff"],
-                            data: [
-                                @foreach($vendorScoresFitgapTechnical as $key => $value)
-                                    "{{$value}}",
-                                @endforeach
-                            ]
-                        }
-                    ]
-                },
-                options: {
-                    legend: {display: false},
-                    scales: {
-                        yAxes: [{
-                            ticks: {
-                                beginAtZero: true,
-                                fontSize: 17
+            var fitgapFunctionalChart = new Chart($('#best-fitgap-functional-chart'), {
+                    type: 'bar',
+                    data: {
+                        labels: [
+                            @foreach($vendorScoresFitgapFunctional as $key=>$value)
+                                "{{\App\User::find($key)->name}}",
+                            @endforeach
+                        ],
+                        datasets: [
+                            {
+                                backgroundColor: ["#27003d", "#5a008f", "#8e00e0", "#a50aff", "#d285ff", "#e9c2ff", "#f8ebff"],
+                                data: [
+                                    @foreach($vendorScoresFitgapFunctional as $key => $value)
+                                        "{{$value}}",
+                                    @endforeach
+                                ]
                             }
-                        }],
+                        ]
+                    },
+                    options: {
+                        legend: {display: false},
+                        scales: {
+                            yAxes: [{
+                                ticks: {
+                                    beginAtZero: true,
+                                    fontSize: 17
+                                }
+                            }],
+                        }
                     }
                 }
-            }
-        );
+            );
 
-        var fitgapServicesChart = new Chart($('#best-fitgap-services-chart'), {
-                type: 'bar',
-                data: {
-                    labels: [
-                        @foreach($vendorScoresFitgapService as $key=>$value)
-                            "{{\App\User::find($key)->name}}",
-                        @endforeach
-                    ],
-                    datasets: [
-                        {
-                            backgroundColor: ["#27003d", "#5a008f", "#8e00e0", "#a50aff", "#d285ff", "#e9c2ff", "#f8ebff"],
-                            data: [
-                                @foreach($vendorScoresFitgapService as $key => $value)
-                                    "{{$value}}",
-                                @endforeach
-                            ]
-                        }
-                    ]
-                },
-                options: {
-                    legend: {display: false},
-                    scales: {
-                        yAxes: [{
-                            ticks: {
-                                beginAtZero: true,
-                                fontSize: 17
+            var fitgapTechnicalChart = new Chart($('#best-fitgap-technical-chart'), {
+                    type: 'bar',
+                    data: {
+                        labels: [
+                            @foreach($vendorScoresFitgapTechnical as $key=>$value)
+                                "{{\App\User::find($key)->name}}",
+                            @endforeach
+                        ],
+                        datasets: [
+                            {
+                                backgroundColor: ["#27003d", "#5a008f", "#8e00e0", "#a50aff", "#d285ff", "#e9c2ff", "#f8ebff"],
+                                data: [
+                                    @foreach($vendorScoresFitgapTechnical as $key => $value)
+                                        "{{$value}}",
+                                    @endforeach
+                                ]
                             }
-                        }],
+                        ]
+                    },
+                    options: {
+                        legend: {display: false},
+                        scales: {
+                            yAxes: [{
+                                ticks: {
+                                    beginAtZero: true,
+                                    fontSize: 17
+                                }
+                            }],
+                        }
                     }
                 }
-            }
-        );
+            );
 
-        var fitgapOthersChart = new Chart($('#best-fitgap-others-chart'), {
-                type: 'bar',
-                data: {
-                    labels: [
-                        @foreach($vendorScoresFitgapOthers as $key=>$value)
-                            "{{\App\User::find($key)->name}}",
-                        @endforeach
-                    ],
-                    datasets: [
-                        {
-                            backgroundColor: ["#27003d", "#5a008f", "#8e00e0", "#a50aff", "#d285ff", "#e9c2ff", "#f8ebff"],
-                            data: [
-                                @foreach($vendorScoresFitgapOthers as $key => $value)
-                                    "{{$value}}",
-                                @endforeach
-                            ]
-                        }
-                    ]
-                },
-                options: {
-                    legend: {display: false},
-                    scales: {
-                        yAxes: [{
-                            ticks: {
-                                beginAtZero: true,
-                                fontSize: 17
+            var fitgapServicesChart = new Chart($('#best-fitgap-services-chart'), {
+                    type: 'bar',
+                    data: {
+                        labels: [
+                            @foreach($vendorScoresFitgapService as $key=>$value)
+                                "{{\App\User::find($key)->name}}",
+                            @endforeach
+                        ],
+                        datasets: [
+                            {
+                                backgroundColor: ["#27003d", "#5a008f", "#8e00e0", "#a50aff", "#d285ff", "#e9c2ff", "#f8ebff"],
+                                data: [
+                                    @foreach($vendorScoresFitgapService as $key => $value)
+                                        "{{$value}}",
+                                    @endforeach
+                                ]
                             }
-                        }],
+                        ]
+                    },
+                    options: {
+                        legend: {display: false},
+                        scales: {
+                            yAxes: [{
+                                ticks: {
+                                    beginAtZero: true,
+                                    fontSize: 17
+                                }
+                            }],
+                        }
                     }
                 }
-            }
-        );
+            );
 
-    </script>
+            var fitgapOthersChart = new Chart($('#best-fitgap-others-chart'), {
+                    type: 'bar',
+                    data: {
+                        labels: [
+                            @foreach($vendorScoresFitgapOthers as $key=>$value)
+                                "{{\App\User::find($key)->name}}",
+                            @endforeach
+                        ],
+                        datasets: [
+                            {
+                                backgroundColor: ["#27003d", "#5a008f", "#8e00e0", "#a50aff", "#d285ff", "#e9c2ff", "#f8ebff"],
+                                data: [
+                                    @foreach($vendorScoresFitgapOthers as $key => $value)
+                                        "{{$value}}",
+                                    @endforeach
+                                ]
+                            }
+                        ]
+                    },
+                    options: {
+                        legend: {display: false},
+                        scales: {
+                            yAxes: [{
+                                ticks: {
+                                    beginAtZero: true,
+                                    fontSize: 17
+                                }
+                            }],
+                        }
+                    }
+                }
+            );
+
+        </script>
 @endsection
