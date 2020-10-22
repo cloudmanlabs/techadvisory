@@ -574,7 +574,7 @@ class BenchmarkController extends Controller
     }
 
     // Custom Searches Controllers ***************************************************************************
-    // This two methods give a clone view of custom searches but only for accenture.
+    // This two methods give a clone view of custom searches (only for accenture).
     public function customSearches()
     {
         // Data for populate the select options.
@@ -609,9 +609,26 @@ class BenchmarkController extends Controller
 
     public function customSearchesVendor()
     {
+        $transportFlows = collect(config('arrays.transportFlows'));
+        $transportModes = collect(config('arrays.transportModes'));
+        $transportTypes = collect(config('arrays.transportFlows'));
+
         return View('accentureViews.benchmarkCustomSearchesVendor', [
             'nav1' => 'custom',
             'nav2' => 'vendor',
+
+            'segments' => collect(['Megasuite', 'SCM suite', 'Specific solution']),
+            'practices' => Practice::pluck('name')->toArray(),
+
+            'regions' => collect(config('arrays.regions')),
+            'industries' => collect(config('arrays.industryExperience')),
+
+            'years' => collect(range(2017, intval(date('Y')))),
+            'vendors' => User::vendorUsers()->where('hasFinishedSetup', true)->get(),
+
+            'transportFlows' => $transportFlows,
+            'transportModes' => $transportModes,
+            'transportTypes' => $transportTypes,
         ]);
     }
 
