@@ -61,7 +61,7 @@
 
                                     <div class="media-body" style="padding: 20px;">
                                         <p class="welcome_text">
-                                            Please choose the Vendor you'd like to see:
+                                            Please choose the Vendors you'd like to see:
                                         </p>
                                         <select id="homeVendorSelect" class="w-100" multiple="multiple">
                                             <option>No vendor</option>
@@ -335,16 +335,27 @@
                     });
                 }
 
+                var selectedVendors = $('#homeVendorSelect').select2('data').map((el) => {
+                    return el.text
+                });
+                if (selectedVendors.length == 0) {
+                    selectedVendors = $('#homeVendorSelect').children().toArray().map((el) => {
+                        return el.innerHTML
+                    });
+                }
+
                 // Add a display none to the one which don't have this tags
                 $('#openPhaseContainer').children().each(function () {
                     const practice = $(this).data('practice');
                     const client = $(this).data('client');
                     const year = $(this).data('year').toString();
+                    const vendors = $(this).data('vendors');
                     const name = String($(this).data('name')).toLowerCase();
 
                     if ($.inArray(practice, selectedPractices) !== -1
                         && $.inArray(client, selectedClients) !== -1
                         && $.inArray(year, selectedYears) !== -1
+                        && intersect(vendors, selectedVendors).length !== 0
                         && (!searchInputText || name.includes(searchInputText))) {
 
                         $(this).css('display', 'flex');
@@ -352,15 +363,18 @@
                         $(this).css('display', 'none');
                     }
                 });
+
                 $('#preparationPhaseContainer').children().each(function () {
                     const practice = $(this).data('practice');
                     const client = $(this).data('client');
                     const year = $(this).data('year').toString();
+                    const vendors = $(this).data('vendors');
                     const name = String($(this).data('name')).toLowerCase();
 
                     if ($.inArray(practice, selectedPractices) !== -1
                         && $.inArray(client, selectedClients) !== -1
                         && $.inArray(year, selectedYears) !== -1
+                        && intersect(vendors, selectedVendors).length !== 0
                         && (!searchInputText || name.includes(searchInputText))) {
                         $(this).css('display', 'flex');
                     } else {
@@ -372,16 +386,26 @@
                     const practice = $(this).data('practice');
                     const client = $(this).data('client');
                     const year = $(this).data('year').toString();
+                    const vendors = $(this).data('vendors');
                     const name = String($(this).data('name')).toLowerCase();
 
                     if ($.inArray(practice, selectedPractices) !== -1
                         && $.inArray(client, selectedClients) !== -1
                         && $.inArray(year, selectedYears) !== -1
+                        && intersect(vendors, selectedVendors).length !== 0
                         && (!searchInputText || name.includes(searchInputText))) {
                         $(this).css('display', 'flex');
                     } else {
                         $(this).css('display', 'none');
                     }
+                });
+            }
+
+            function intersect(a, b) {
+                var t;
+                if (b.length > a.length) t = b, b = a, a = t; // indexOf to loop over shorter
+                return a.filter(function (e) {
+                    return b.indexOf(e) > -1;
                 });
             }
 
