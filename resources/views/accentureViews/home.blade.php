@@ -161,6 +161,7 @@
                                     @foreach ($preparationProjects as $project)
                                         <div class="card" style="margin-bottom: 30px;"
                                              data-client="{{$project->client->name ?? 'No client'}}"
+                                             data-vendors="{{json_encode($project->vendorsApplied()->pluck('name')->toArray() ?? '')}}"
                                              data-name="{{$project->name ?? 'No name'}}"
                                              data-practice="{{$project->practice->name ?? 'No SC Capability (Practice)'}}"
                                              data-year="{{$project->created_at->year}}">
@@ -168,7 +169,12 @@
                                                 <div style="float: left; max-width: 40%;">
                                                     <h4>{{$project->name}}</h4>
                                                     <h6>{{$project->client->name ?? 'No client'}}
-                                                        - {{$project->practice->name ?? 'No SC Capability (Practice)'}}</h6>
+                                                        - {{$project->practice->name ?? 'No SC Capability (Practice)'}}
+                                                    </h6>
+                                                    <h7>
+                                                        Vendors Applied:
+                                                        {{implode(', ', $project->vendorsApplied()->pluck('name')->toArray() ?? [])}}
+                                                    </h7>
                                                 </div>
                                                 <div style="float: right; text-align: right; width: 17%;">
                                                     <a class="btn btn-primary btn-lg btn-icon-text"
@@ -208,6 +214,7 @@
                                     @foreach ($oldProjects as $project)
                                         <div class="card" style="margin-bottom: 30px;"
                                              data-client="{{$project->client->name ?? 'No client'}}"
+                                             data-vendors="{{json_encode($project->vendorsApplied()->pluck('name')->toArray() ?? '')}}"
                                              data-name="{{$project->name ?? 'No name'}}"
                                              data-practice="{{$project->practice->name ?? 'No SC Capability (Practice)'}}"
                                              data-year="{{$project->created_at->year}}">
@@ -215,7 +222,8 @@
                                                 <div style="float: left; max-width: 40%;">
                                                     <h4>{{$project->name}}</h4>
                                                     <h6>{{$project->client->name ?? 'No client'}}
-                                                        - {{$project->practice->name ?? 'No SC Capability (Practice)'}}</h6>
+                                                        - {{$project->practice->name ?? 'No SC Capability (Practice)'}}
+                                                    </h6>
                                                 </div>
                                                 <div style="float: right; text-align: right; width: 17%;">
                                                     <a class="btn btn-primary btn-lg btn-icon-text"
