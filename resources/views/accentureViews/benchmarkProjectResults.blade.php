@@ -168,6 +168,7 @@
                                             <div class="card">
                                                 <div class="card-body">
                                                     <h4>Best {{count($vendorScores)}} Vendors By Overall Score</h4>
+
                                                     <br><br>
                                                     <canvas id="overall-chart"></canvas>
 
@@ -175,6 +176,7 @@
                                             </div>
                                         </div>
                                     </div>
+
                                     <div class="row" id="table-projects-count-row">
                                         <div class="col-xl-12 grid-margin stretch-card">
                                             <div class="card">
@@ -200,6 +202,7 @@
                                             </div>
                                         </div>
                                     </div>
+
                                     <div class="row" id="chart2-row">
                                         <div class="col-xl-12 grid-margin stretch-card">
                                             <div class="card">
@@ -254,7 +257,7 @@
                     var subpractices = data.subpractices;
                     $.each(subpractices, function () {
                         var selectedIds = [
-                            @if(is_array($subpracticesIDsToFilter))
+                           @if(is_array($subpracticesIDsToFilter) && count($subpracticesIDsToFilter)>0 )
                                 @foreach($subpracticesIDsToFilter as $subpractice)
                                 '{{\App\Subpractice::find($subpractice)->id}}',
                             @endforeach
@@ -320,6 +323,7 @@
                 }
             }
         );
+
 
         var vendorPerformance = new Chart($('#vendor-performance-chart'), {
             type: 'bubble',
