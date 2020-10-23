@@ -6,6 +6,7 @@
 
         <div class="page-wrapper">
             <div class="page-content">
+
                 <div class="row">
                     <div class="col-12 col-xl-12 stretch-card">
                         <div class="card">
@@ -176,6 +177,7 @@
 <script>
     $(document).ready(function(){
             function updateProjects() {
+
                 // Get all selected practices. If there are none, get all of them
                 const selectedPractices = getSelectedFrom('practiceSelect')
                 const selectedSubpractices = getSelectedFrom('subpracticeSelect')
@@ -232,7 +234,7 @@
             function intersect(a, b) {
                 var t;
                 if (b.length > a.length) t = b, b = a, a = t; // indexOf to loop over shorter
-                return a.filter(function (e) {
+                return Object.values(a).filter(function (e) {
                     return b.indexOf(e) > -1;
                 });
             }

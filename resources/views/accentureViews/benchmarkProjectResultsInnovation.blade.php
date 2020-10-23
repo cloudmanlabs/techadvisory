@@ -134,6 +134,7 @@
                                                         <tr>
                                                             <th scope="col">Vendor name</th>
                                                             <th scope="col">Projects applied</th>
+                                                            <th scope="col">Scores</th>
                                                         </tr>
                                                         </thead>
                                                         <tbody>
@@ -141,6 +142,7 @@
                                                             <tr>
                                                                 <td>{{\App\User::find($key)->name}}</td>
                                                                 <td>{{count(\App\User::find($key)->vendorApplications)}}</td>
+                                                                <td>{{$vendorScore}}</td>
                                                             </tr>
                                                         @endforeach
                                                         </tbody>
@@ -171,6 +173,41 @@
         $('#regions-select').select2();
 
         $('#subpractices-container').hide();
+        chargeSubpracticesFromPractice();
+        $('#practices-select').change(function () {
+            chargeSubpracticesFromPractice();
+        });
+
+        function chargeSubpracticesFromPractice() {
+            $('#subpractices-container').hide();
+            $('#subpractices-select').empty();
+
+            var selectedPractices = $('#practices-select').val();
+            if (selectedPractices.length === 1) {
+                $.get("/accenture/benchmark/projectResults/getSubpractices/"
+                    + selectedPractices, function (data) {
+
+                    $('#subpractices-container').show();
+
+                    var $dropdown = $("#subpractices-select");
+                    var subpractices = data.subpractices;
+                    $.each(subpractices, function () {
+                        var selectedIds = [
+                            @if(is_array($subpracticesIDsToFilter))
+                                @foreach($subpracticesIDsToFilter as $subpractice)
+                                '{{\App\Subpractice::find($subpractice)->id}}',
+                            @endforeach
+                            @endif
+                        ];
+                        var option = $("<option />").val(this.id).text(this.name);
+                        if (selectedIds.includes(String(this.id))) {
+                            option.attr('selected', 'selected');
+                        }
+                        $dropdown.append(option);
+                    });
+                });
+            }
+        }
 
         // Submit Filters
         $('#filter-btn').click(function () {
@@ -188,26 +225,6 @@
                 + '&industries=' + industries
                 + '&regions=' + regions;
             location.replace(url);
-        });
-
-        $('#practices-select').change(function () {
-            $('#subpractices-container').hide();
-            $('#subpractices-select').empty();
-
-            var selectedPractices = $(this).val();
-            if (selectedPractices.length === 1) {
-                $.get("/accenture/benchmark/projectResults/getSubpractices/"
-                    + selectedPractices, function (data) {
-
-                    $('#subpractices-container').show();
-
-                    var $dropdown = $("#subpractices-select");
-                    var subpractices = data.subpractices;
-                    $.each(subpractices, function () {
-                        $dropdown.append($("<option />").val(this.id).text(this.name));
-                    });
-                });
-            }
         });
 
         var inovationChart = new Chart($('#best-innovation-chart'), {
