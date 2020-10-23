@@ -192,6 +192,7 @@ class BenchmarkController extends Controller
         }
         $subpracticesIDsToFilter = $request->input('subpractices');
         if ($subpracticesIDsToFilter) {
+
             $subpracticesIDsToFilter = explode(',', $subpracticesIDsToFilter);
         }
         $yearsToFilter = $request->input('years');
@@ -216,7 +217,8 @@ class BenchmarkController extends Controller
             'totalScore', $practicesIDsToFilter, $subpracticesIDsToFilter, $yearsToFilter, $industriesToFilter, $regionsToFilter);
 
         // Chart 2 ( no project filter)
-        $vendors = User::vendorUsers()->where('hasFinishedSetup', true)->get();
+        $vendors = VendorApplication::getVendorsFilteredForRankingChart($practicesIDsToFilter,
+            $subpracticesIDsToFilter, $yearsToFilter, $industriesToFilter, $regionsToFilter);
 
         // Data for selects
         $practices = Practice::all();
@@ -268,8 +270,6 @@ class BenchmarkController extends Controller
         $subpracticesIDsToFilter = $request->input('subpractices');
         if ($subpracticesIDsToFilter) {
             $subpracticesIDsToFilter = explode(',', $subpracticesIDsToFilter);
-        } else {
-            $subpracticesIDsToFilter = [];
         }
         $yearsToFilter = $request->input('years');
         if ($yearsToFilter) {
@@ -285,25 +285,26 @@ class BenchmarkController extends Controller
         }
 
         // Data for charts. Applying Filters
-        $howManyVendorsToChart = 5;
+        $howManyVendorsToFirstChart = 10;
+        $howManyVendorsToTheRestChart = 5;
 
-        $vendorScoresFitgap = VendorApplication::calculateBestVendorsProjectResultsFiltered($howManyVendorsToChart,
+        $vendorScoresFitgap = VendorApplication::calculateBestVendorsProjectResultsFiltered($howManyVendorsToFirstChart,
             'fitgapScore', $practicesIDsToFilter, $subpracticesIDsToFilter,
             $yearsToFilter, $industriesToFilter, $regionsToFilter);
 
-        $vendorScoresFitgapFunctional = VendorApplication::calculateBestVendorsProjectResultsFiltered($howManyVendorsToChart,
+        $vendorScoresFitgapFunctional = VendorApplication::calculateBestVendorsProjectResultsFiltered($howManyVendorsToTheRestChart,
             'fitgapFunctionalScore', $practicesIDsToFilter, $subpracticesIDsToFilter,
             $yearsToFilter, $industriesToFilter, $regionsToFilter);
 
-        $vendorScoresFitgapTechnical = VendorApplication::calculateBestVendorsProjectResultsFiltered($howManyVendorsToChart,
+        $vendorScoresFitgapTechnical = VendorApplication::calculateBestVendorsProjectResultsFiltered($howManyVendorsToTheRestChart,
             'fitgapTechnicalScore', $practicesIDsToFilter, $subpracticesIDsToFilter,
             $yearsToFilter, $industriesToFilter, $regionsToFilter);
 
-        $vendorScoresFitgapService = VendorApplication::calculateBestVendorsProjectResultsFiltered($howManyVendorsToChart,
+        $vendorScoresFitgapService = VendorApplication::calculateBestVendorsProjectResultsFiltered($howManyVendorsToTheRestChart,
             'fitgapServiceScore', $practicesIDsToFilter, $subpracticesIDsToFilter,
             $yearsToFilter, $industriesToFilter, $regionsToFilter);
 
-        $vendorScoresFitgapOthers = VendorApplication::calculateBestVendorsProjectResultsFiltered($howManyVendorsToChart,
+        $vendorScoresFitgapOthers = VendorApplication::calculateBestVendorsProjectResultsFiltered($howManyVendorsToTheRestChart,
             'fitgapOtherScore', $practicesIDsToFilter, $subpracticesIDsToFilter,
             $yearsToFilter, $industriesToFilter, $regionsToFilter);
 
@@ -361,7 +362,7 @@ class BenchmarkController extends Controller
         }
 
         // Data for charts
-        $howManyVendorsToChart = 5;
+        $howManyVendorsToChart = 10;
         $vendorScoresVendor = VendorApplication::calculateBestVendorsProjectResultsFiltered($howManyVendorsToChart,
             'vendorScore', $practicesIDsToFilter, $subpracticesIDsToFilter,
             $yearsToFilter, $industriesToFilter, $regionsToFilter);
@@ -418,7 +419,7 @@ class BenchmarkController extends Controller
         }
 
         // Data for charts.
-        $howManyVendorsToChart = 5;
+        $howManyVendorsToChart = 10;
         $vendorScoresExperience = VendorApplication::calculateBestVendorsProjectResultsFiltered($howManyVendorsToChart,
             'experienceScore', $practicesIDsToFilter, $subpracticesIDsToFilter,
             $yearsToFilter, $industriesToFilter, $regionsToFilter);
@@ -476,7 +477,7 @@ class BenchmarkController extends Controller
         }
 
         // Data for charts
-        $howManyVendorsToChart = 5;
+        $howManyVendorsToChart = 10;
         $vendorScoresInnovation = VendorApplication::calculateBestVendorsProjectResultsFiltered($howManyVendorsToChart,
             'innovationScore', $practicesIDsToFilter, $subpracticesIDsToFilter,
             $yearsToFilter, $industriesToFilter, $regionsToFilter);
@@ -533,14 +534,16 @@ class BenchmarkController extends Controller
         }
 
         // Data for charts.
-        $howManyVendorsToChart = 5;
-        $vendorScoresImplementation = VendorApplication::calculateBestVendorsProjectResultsFiltered($howManyVendorsToChart,
+        $howManyVendorsToFirstChart = 10;
+        $howManyVendorsToOthersCharts = 5;
+
+        $vendorScoresImplementation = VendorApplication::calculateBestVendorsProjectResultsFiltered($howManyVendorsToFirstChart,
             'implementationScore', $practicesIDsToFilter, $subpracticesIDsToFilter,
             $yearsToFilter, $industriesToFilter, $regionsToFilter);
-        $vendorScoresImplementationImplementation = VendorApplication::calculateBestVendorsProjectResultsFiltered($howManyVendorsToChart,
+        $vendorScoresImplementationImplementation = VendorApplication::calculateBestVendorsProjectResultsFiltered($howManyVendorsToOthersCharts,
             'implementationImplementationScore', $practicesIDsToFilter, $subpracticesIDsToFilter,
             $yearsToFilter, $industriesToFilter, $regionsToFilter);
-        $vendorScoresImplementationRun = VendorApplication::calculateBestVendorsProjectResultsFiltered($howManyVendorsToChart,
+        $vendorScoresImplementationRun = VendorApplication::calculateBestVendorsProjectResultsFiltered($howManyVendorsToOthersCharts,
             'implementationRunScore', $practicesIDsToFilter, $subpracticesIDsToFilter,
             $yearsToFilter, $industriesToFilter, $regionsToFilter);
 
@@ -570,6 +573,72 @@ class BenchmarkController extends Controller
             'yearsToFilter' => $yearsToFilter,
             'industriesToFilter' => $industriesToFilter,
             'regionsToFilter' => $regionsToFilter,
+        ]);
+    }
+
+    // Custom Searches Controllers ***************************************************************************
+    // This two methods give a clone view of custom searches (only for accenture).
+    public function customSearches()
+    {
+        // Data for populate the select options.
+        $practices = Practice::pluck('name')->toArray();
+        $subpractices = Subpractice::pluck('name')->toArray();
+        $clients = User::clientUsers()->where('hasFinishedSetup', true)->pluck('name')->toArray();
+        $vendors = User::vendorUsers()->where('hasFinishedSetup', true)->pluck('name')->toArray();
+        $regions = collect(config('arrays.regions'));
+        $industries = collect(config('arrays.industryExperience'));
+        $years = collect(range(2017, intval(date('Y'))));
+
+        // Data to show and filter.
+        $projects = Project::all('id', 'name', 'practice_id', 'client_id',
+            'created_at', 'industry', 'regions', 'currentPhase');
+
+        // By default CustomSearches shows Custom project searches (analytic by projects).
+        return View('accentureViews.benchmarkCustomSearchesProject', [
+            'nav1' => 'custom',
+            'nav2' => 'project',
+
+            'practices' => $practices,
+            'subpractices' => $subpractices,
+            'clients' => $clients,
+            'vendors' => $vendors,
+            'regions' => $regions,
+            'industries' => $industries,
+            'years' => $years,
+
+            'projects' => $projects,
+        ]);
+    }
+
+    public function customSearchesVendor()
+    {
+        // Data for populate the select options.
+        $segments = collect(['Megasuite', 'SCM suite', 'Specific solution']);
+        $practices = Practice::pluck('name')->toArray();
+        $regions = collect(config('arrays.regions'));
+        $industries = collect(config('arrays.industryExperience'));
+        $years = collect(range(2017, intval(date('Y'))));
+        $transportFlows = collect(config('arrays.transportFlows'));
+        $transportModes = collect(config('arrays.transportModes'));
+        $transportTypes = collect(config('arrays.transportFlows'));
+
+        // Data to show and filter.
+        $vendors = User::vendorUsers()->where('hasFinishedSetup', true)->get();
+
+        return View('accentureViews.benchmarkCustomSearchesVendor', [
+            'nav1' => 'custom',
+            'nav2' => 'vendor',
+
+            'segments' => $segments,
+            'practices' => $practices,
+            'regions' => $regions,
+            'industries' => $industries,
+            'years' => $years,
+            'transportFlows' => $transportFlows,
+            'transportModes' => $transportModes,
+            'transportTypes' => $transportTypes,
+
+            'vendors' => $vendors,
         ]);
     }
 

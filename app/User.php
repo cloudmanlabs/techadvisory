@@ -449,6 +449,18 @@ class User extends Authenticatable
             ->average();
     }
 
+    public function averageRanking()
+    {
+        return $this->vendorApplications
+            ->filter(function (VendorApplication $application) {
+                return $application->project != null;
+            })
+            ->map(function (VendorApplication $application) {
+                return $application->ranking();
+            })
+            ->average();
+    }
+
     public function averageScoreFitgap()
     {
         return $this->vendorApplications
@@ -577,18 +589,6 @@ class User extends Authenticatable
             })
             ->map(function ($application) {
                 return $application->implementationRunScore();
-            })
-            ->average();
-    }
-
-    public function averageRanking()
-    {
-        return $this->vendorApplications
-            ->filter(function (VendorApplication $application) {
-                return $application->project != null;
-            })
-            ->map(function (VendorApplication $application) {
-                return $application->ranking();
             })
             ->average();
     }

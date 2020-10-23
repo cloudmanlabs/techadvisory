@@ -50,19 +50,13 @@
                                     <br>
                                     <div id="subpractices-container">
                                         <label for="subpractices-select">Chose a Subpractice</label>
-                                        @foreach ($subpractices as $subpractice)
-                                            <option
-                                                value="{{$subpractice->id}}"
-                                            @if($subpracticesIDsToFilter)
-                                                {{ in_array($subpractice->id,$subpracticesIDsToFilter)? 'selected="selected"' : ''}}
-                                                @endif
-                                            >
-                                                {{$subpractice->name}}
-                                            </option>
-                                        @endforeach
+                                        <select id="subpractices-select" multiple>
+                                        </select>
                                         <br>
                                         <br>
                                     </div>
+                                    <br>
+                                    <br>
                                     <label for="years-select">Chose a Year</label>
                                     <select id="years-select" multiple>
                                         @foreach ($years as $year)
@@ -168,6 +162,7 @@
                                             <div class="card">
                                                 <div class="card-body">
                                                     <h4>Best {{count($vendorScores)}} Vendors By Overall Score</h4>
+
                                                     <br><br>
                                                     <canvas id="overall-chart"></canvas>
 
@@ -175,6 +170,7 @@
                                             </div>
                                         </div>
                                     </div>
+
                                     <div class="row" id="table-projects-count-row">
                                         <div class="col-xl-12 grid-margin stretch-card">
                                             <div class="card">
@@ -200,6 +196,7 @@
                                             </div>
                                         </div>
                                     </div>
+
                                     <div class="row" id="chart2-row">
                                         <div class="col-xl-12 grid-margin stretch-card">
                                             <div class="card">
@@ -234,6 +231,42 @@
 
         $('#subpractices-container').hide();
 
+        chargeSubpracticesFromPractice();
+        $('#practices-select').change(function () {
+            chargeSubpracticesFromPractice();
+        });
+
+        function chargeSubpracticesFromPractice() {
+            $('#subpractices-container').hide();
+            $('#subpractices-select').empty();
+
+            var selectedPractices = $('#practices-select').val();
+            if (selectedPractices.length === 1) {
+                $.get("/accenture/benchmark/projectResults/getSubpractices/"
+                    + selectedPractices, function (data) {
+
+                    $('#subpractices-container').show();
+
+                    var $dropdown = $("#subpractices-select");
+                    var subpractices = data.subpractices;
+                    $.each(subpractices, function () {
+                        var selectedIds = [
+                            @if(is_array($subpracticesIDsToFilter))
+                                @foreach($subpracticesIDsToFilter as $subpractice)
+                                '{{\App\Subpractice::find($subpractice)->id}}',
+                            @endforeach
+                            @endif
+                        ];
+                        var option = $("<option />").val(this.id).text(this.name);
+                        if (selectedIds.includes(String(this.id))) {
+                            option.attr('selected', 'selected');
+                        }
+                        $dropdown.append(option);
+                    });
+                });
+            }
+        }
+
         // Submit Filters.
         $('#filter-btn').click(function () {
             var practices = encodeURIComponent($('#practices-select').val());
@@ -251,27 +284,6 @@
                 + '&regions=' + regions;
             location.replace(url);
         });
-
-        $('#practices-select').change(function () {
-            $('#subpractices-container').hide();
-            $('#subpractices-select').empty();
-
-            var selectedPractices = $(this).val();
-            if (selectedPractices.length === 1) {
-                $.get("/accenture/benchmark/projectResults/getSubpractices/"
-                    + selectedPractices, function (data) {
-
-                    $('#subpractices-container').show();
-
-                    var $dropdown = $("#subpractices-select");
-                    var subpractices = data.subpractices;
-                    $.each(subpractices, function () {
-                        $dropdown.append($("<option />").val(this.id).text(this.name));
-                    });
-                });
-            }
-        });
-
 
         var overallChart = new Chart($('#overall-chart'), {
                 type: 'bar',
@@ -306,6 +318,7 @@
             }
         );
 
+
         var vendorPerformance = new Chart($('#vendor-performance-chart'), {
             type: 'bubble',
             data: {
@@ -316,6 +329,7 @@
                             // NOTE: We use 10 - val so we get the chart flipped horizontally
                             $ranking = round(10 - $vendor->averageRanking(),2);
                             $score = round($vendor->averageScore(),2) ?? 0;
+
                         @endphp
                     {
                         label: ["{{$vendor->name}}"],

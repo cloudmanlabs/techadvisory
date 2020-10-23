@@ -282,7 +282,7 @@ class VendorApplication extends Model
             }
         }
 
-        throw new Exception('This exception is literally impossible to reach. VendorApplication::ranking');
+        //throw new Exception('This exception is literally impossible to reach. VendorApplication::ranking');
     }
 
     public function totalScore()
@@ -990,12 +990,11 @@ class VendorApplication extends Model
 
     // Methods for benchmark & Analytics ******************************************************************
 
-    public static function calculateBestVendorsProjectResultsFiltered(int $nVendors,
+    public static function calculateBestVendorsProjectResultsFiltered($nVendors,
                                                                       $functionNameForCalculateTheScores,
                                                                       $practicesID = [], $subpracticesID = [],
                                                                       $years = [], $industries = [], $regions = [])
     {
-        if (!is_integer($nVendors)) return 0;
 
         // Raw data without user filters
         $query = VendorApplication::
@@ -1007,7 +1006,6 @@ class VendorApplication extends Model
         // Applying user filters to projects
         $query = VendorApplication::benchmarkProjectResultsFilters($query,
             $practicesID, $subpracticesID, $years, $industries, $regions);
-
         $query = $query->get();
 
         // Recalculate the scores for all the applications.
@@ -1044,9 +1042,45 @@ class VendorApplication extends Model
         }
 
         arsort($scores);
-        $scores = array_slice($scores, 0, $nVendors, true);
+        if (is_integer($nVendors)) {
+            // Cut by nVendors.
+            $scores = array_slice($scores, 0, $nVendors, true);
+        }
 
         return $scores;
+    }
+
+
+    public static function getVendorsFilteredForRankingChart(
+        $practicesID = [], $subpracticesID = [],
+        $years = [], $industries = [], $regions = [])
+    {
+
+        // Raw data without user filters
+        $query = VendorApplication::
+        join('projects as p', 'project_id', '=', 'p.id')
+            ->join('users as u', 'vendor_id', '=', 'u.id')
+            ->join('project_subpractice as sub', 'vendor_applications.project_id', '=', 'sub.project_id')
+            ->where('u.hasFinishedSetup', true);
+
+        // Applying user filters to projects
+        $query = VendorApplication::benchmarkProjectResultsFilters($query,
+            $practicesID, $subpracticesID, $years, $industries, $regions);
+
+        $query = $query->get();
+
+        $result = [];
+        foreach ($query as $vendorApplication) {
+            $vendor = $vendorApplication->vendor;
+            if (!empty($vendor)) {
+                if (!in_array($vendor, $result)) {
+                    array_push($result, $vendor);
+
+                }
+            }
+        }
+
+        return $result;
     }
 
     // Encapsulate the filters for graphics from view: Project Results
@@ -1060,7 +1094,7 @@ class VendorApplication extends Model
                 }
             });
         }
-        if(is_array($subpracticesID)){
+        if (is_array($subpracticesID)) {
             $query = $query->where(function ($query) use ($subpracticesID) {
                 for ($i = 0; $i < count($subpracticesID); $i++) {
                     $query = $query->orWhere('sub.subpractice_id', '=', $subpracticesID[$i]);

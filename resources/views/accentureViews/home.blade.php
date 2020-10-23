@@ -58,6 +58,19 @@
                                             <option value="2021">2023</option>
                                         </select>
                                     </div>
+
+                                    <div class="media-body" style="padding: 20px;">
+                                        <p class="welcome_text">
+                                            Please choose the Vendors you'd like to see:
+                                        </p>
+                                        <select id="homeVendorSelect" class="w-100" multiple="multiple">
+                                            <option>No vendor</option>
+                                            @foreach ($vendors as $vendor)
+                                                <option>{{$vendor}}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+
                                     <div class="media-body" style="padding: 20px;">
                                         <p class="welcome_text">
                                             Please choose the Project's name:
@@ -85,6 +98,7 @@
                                     @foreach ($openProjects as $project)
                                         <div class="card" style="margin-bottom: 30px;"
                                              data-client="{{$project->client->name ?? 'No client'}}"
+                                             data-vendors="{{json_encode($project->vendorsApplied()->pluck('name')->toArray() ?? '')}}"
                                              data-name="{{$project->name ?? 'No name'}}"
                                              data-practice="{{$project->practice->name ?? 'No SC Capability (Practice)'}}"
                                              data-year="{{$project->created_at->year}}">
@@ -92,8 +106,14 @@
                                                  style="display: flex; flex-direction: row; justify-content: space-between; align-items: center">
                                                 <div style="width: 30%;">
                                                     <h4>{{$project->name}}</h4>
-                                                    <h6>{{$project->client->name ?? 'No client'}}
-                                                        - {{$project->practice->name ?? 'No SC Capability (Practice)'}}</h6>
+                                                    <h6>
+                                                        {{$project->client->name ?? 'No client'}}
+                                                        - {{$project->practice->name ?? 'No SC Capability (Practice)'}}
+                                                    </h6>
+                                                    <h7>
+                                                        Vendors Applied:
+                                                        {{implode(', ', $project->vendorsApplied()->pluck('name')->toArray() ?? [])}}
+                                                    </h7>
                                                 </div>
                                                 <x-projectProgressBar :project="$project"/>
 
@@ -141,6 +161,7 @@
                                     @foreach ($preparationProjects as $project)
                                         <div class="card" style="margin-bottom: 30px;"
                                              data-client="{{$project->client->name ?? 'No client'}}"
+                                             data-vendors="{{json_encode($project->vendorsApplied()->pluck('name')->toArray() ?? '')}}"
                                              data-name="{{$project->name ?? 'No name'}}"
                                              data-practice="{{$project->practice->name ?? 'No SC Capability (Practice)'}}"
                                              data-year="{{$project->created_at->year}}">
@@ -148,7 +169,12 @@
                                                 <div style="float: left; max-width: 40%;">
                                                     <h4>{{$project->name}}</h4>
                                                     <h6>{{$project->client->name ?? 'No client'}}
-                                                        - {{$project->practice->name ?? 'No SC Capability (Practice)'}}</h6>
+                                                        - {{$project->practice->name ?? 'No SC Capability (Practice)'}}
+                                                    </h6>
+                                                    <h7>
+                                                        Vendors Applied:
+                                                        {{implode(', ', $project->vendorsApplied()->pluck('name')->toArray() ?? [])}}
+                                                    </h7>
                                                 </div>
                                                 <div style="float: right; text-align: right; width: 17%;">
                                                     <a class="btn btn-primary btn-lg btn-icon-text"
@@ -188,6 +214,7 @@
                                     @foreach ($oldProjects as $project)
                                         <div class="card" style="margin-bottom: 30px;"
                                              data-client="{{$project->client->name ?? 'No client'}}"
+                                             data-vendors="{{json_encode($project->vendorsApplied()->pluck('name')->toArray() ?? '')}}"
                                              data-name="{{$project->name ?? 'No name'}}"
                                              data-practice="{{$project->practice->name ?? 'No SC Capability (Practice)'}}"
                                              data-year="{{$project->created_at->year}}">
@@ -195,7 +222,8 @@
                                                 <div style="float: left; max-width: 40%;">
                                                     <h4>{{$project->name}}</h4>
                                                     <h6>{{$project->client->name ?? 'No client'}}
-                                                        - {{$project->practice->name ?? 'No SC Capability (Practice)'}}</h6>
+                                                        - {{$project->practice->name ?? 'No SC Capability (Practice)'}}
+                                                    </h6>
                                                 </div>
                                                 <div style="float: right; text-align: right; width: 17%;">
                                                     <a class="btn btn-primary btn-lg btn-icon-text"
@@ -307,16 +335,27 @@
                     });
                 }
 
+                var selectedVendors = $('#homeVendorSelect').select2('data').map((el) => {
+                    return el.text
+                });
+                if (selectedVendors.length == 0) {
+                    selectedVendors = $('#homeVendorSelect').children().toArray().map((el) => {
+                        return el.innerHTML
+                    });
+                }
+
                 // Add a display none to the one which don't have this tags
                 $('#openPhaseContainer').children().each(function () {
                     const practice = $(this).data('practice');
                     const client = $(this).data('client');
                     const year = $(this).data('year').toString();
+                    const vendors = $(this).data('vendors');
                     const name = String($(this).data('name')).toLowerCase();
 
                     if ($.inArray(practice, selectedPractices) !== -1
                         && $.inArray(client, selectedClients) !== -1
                         && $.inArray(year, selectedYears) !== -1
+                        && intersect(vendors, selectedVendors).length !== 0
                         && (!searchInputText || name.includes(searchInputText))) {
 
                         $(this).css('display', 'flex');
@@ -324,15 +363,18 @@
                         $(this).css('display', 'none');
                     }
                 });
+
                 $('#preparationPhaseContainer').children().each(function () {
                     const practice = $(this).data('practice');
                     const client = $(this).data('client');
                     const year = $(this).data('year').toString();
+                    const vendors = $(this).data('vendors');
                     const name = String($(this).data('name')).toLowerCase();
 
                     if ($.inArray(practice, selectedPractices) !== -1
                         && $.inArray(client, selectedClients) !== -1
                         && $.inArray(year, selectedYears) !== -1
+                        && intersect(vendors, selectedVendors).length !== 0
                         && (!searchInputText || name.includes(searchInputText))) {
                         $(this).css('display', 'flex');
                     } else {
@@ -344,11 +386,13 @@
                     const practice = $(this).data('practice');
                     const client = $(this).data('client');
                     const year = $(this).data('year').toString();
+                    const vendors = $(this).data('vendors');
                     const name = String($(this).data('name')).toLowerCase();
 
                     if ($.inArray(practice, selectedPractices) !== -1
                         && $.inArray(client, selectedClients) !== -1
                         && $.inArray(year, selectedYears) !== -1
+                        && intersect(vendors, selectedVendors).length !== 0
                         && (!searchInputText || name.includes(searchInputText))) {
                         $(this).css('display', 'flex');
                     } else {
@@ -357,16 +401,31 @@
                 });
             }
 
+            function intersect(a, b) {
+                var t;
+                if (b.length > a.length) t = b, b = a, a = t; // indexOf to loop over shorter
+                return a.filter(function (e) {
+                    return b.indexOf(e) > -1;
+                });
+            }
+
             $('#homePracticeSelect').select2();
             $('#homePracticeSelect').on('change', function (e) {
                 updateOpenProjects();
             });
+
             $('#homeClientSelect').select2();
             $('#homeClientSelect').on('change', function (e) {
                 updateOpenProjects();
             });
+
             $('#homeYearSelect').select2();
             $('#homeYearSelect').on('change', function (e) {
+                updateOpenProjects();
+            });
+
+            $('#homeVendorSelect').select2();
+            $('#homeVendorSelect').on('change', function (e) {
                 updateOpenProjects();
             });
 
