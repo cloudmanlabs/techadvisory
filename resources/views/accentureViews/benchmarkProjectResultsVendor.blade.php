@@ -173,6 +173,42 @@
 
         $('#subpractices-container').hide();
 
+        chargeSubpracticesFromPractice();
+        $('#practices-select').change(function () {
+            chargeSubpracticesFromPractice();
+        });
+
+        function chargeSubpracticesFromPractice() {
+            $('#subpractices-container').hide();
+            $('#subpractices-select').empty();
+
+            var selectedPractices = $('#practices-select').val();
+            if (selectedPractices.length === 1) {
+                $.get("/accenture/benchmark/projectResults/getSubpractices/"
+                    + selectedPractices, function (data) {
+
+                    $('#subpractices-container').show();
+
+                    var $dropdown = $("#subpractices-select");
+                    var subpractices = data.subpractices;
+                    $.each(subpractices, function () {
+                        var selectedIds = [
+                            @if(is_array($subpracticesIDsToFilter))
+                                @foreach($subpracticesIDsToFilter as $subpractice)
+                                '{{\App\Subpractice::find($subpractice)->id}}',
+                            @endforeach
+                            @endif
+                        ];
+                        var option = $("<option />").val(this.id).text(this.name);
+                        if (selectedIds.includes(String(this.id))) {
+                            option.attr('selected', 'selected');
+                        }
+                        $dropdown.append(option);
+                    });
+                });
+            }
+        }
+
         // Submit Filters
         $('#filter-btn').click(function () {
             var practices = encodeURIComponent($('#practices-select').val());
@@ -189,26 +225,6 @@
                 + '&industries=' + industries
                 + '&regions=' + regions;
             location.replace(url);
-        });
-
-        $('#practices-select').change(function () {
-            $('#subpractices-container').hide();
-            $('#subpractices-select').empty();
-
-            var selectedPractices = $(this).val();
-            if (selectedPractices.length === 1) {
-                $.get("/accenture/benchmark/projectResults/getSubpractices/"
-                    + selectedPractices, function (data) {
-
-                    $('#subpractices-container').show();
-
-                    var $dropdown = $("#subpractices-select");
-                    var subpractices = data.subpractices;
-                    $.each(subpractices, function () {
-                        $dropdown.append($("<option />").val(this.id).text(this.name));
-                    });
-                });
-            }
         });
 
         var overallChart = new Chart($('#best-vendor-chart'), {

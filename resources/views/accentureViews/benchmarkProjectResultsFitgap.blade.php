@@ -362,7 +362,18 @@
                         var $dropdown = $("#subpractices-select");
                         var subpractices = data.subpractices;
                         $.each(subpractices, function () {
-                            $dropdown.append($("<option />").val(this.id).text(this.name));
+                            var selectedIds = [
+                                @if(is_array($subpracticesIDsToFilter))
+                                    @foreach($subpracticesIDsToFilter as $subpractice)
+                                    '{{\App\Subpractice::find($subpractice)->id}}',
+                                @endforeach
+                                @endif
+                            ];
+                            var option = $("<option />").val(this.id).text(this.name);
+                            if (selectedIds.includes(String(this.id))) {
+                                option.attr('selected', 'selected');
+                            }
+                            $dropdown.append(option);
                         });
                     });
                 }
