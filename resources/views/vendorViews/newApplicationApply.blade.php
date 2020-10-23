@@ -202,6 +202,10 @@
 
                                         <br><br>
 
+                                        <p class="welcome_text extra-top-15px" style="color:red">
+                                            Submit button will only be activated once all questions with an "*" are replied.
+                                        </p>
+
                                         <button
                                             class="btn btn-primary btn-lg btn-icon-text"
                                             id="finalSubmitButton"
