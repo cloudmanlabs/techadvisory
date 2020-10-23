@@ -1051,10 +1051,9 @@ class VendorApplication extends Model
     }
 
 
-    public static function calculateForRankingChart(
-
-                                                                      $practicesID = [], $subpracticesID = [],
-                                                                      $years = [], $industries = [], $regions = [])
+    public static function getVendorsFilteredForRankingChart(
+        $practicesID = [], $subpracticesID = [],
+        $years = [], $industries = [], $regions = [])
     {
 
         // Raw data without user filters
@@ -1071,10 +1070,10 @@ class VendorApplication extends Model
         $query = $query->get();
 
         $result = [];
-        foreach ($query as $vendorApplication){
+        foreach ($query as $vendorApplication) {
             $vendor = $vendorApplication->vendor;
-            if(!empty($vendor)) {
-                if(!in_array($vendor,$result)){
+            if (!empty($vendor)) {
+                if (!in_array($vendor, $result)) {
                     array_push($result, $vendor);
 
                 }
@@ -1083,6 +1082,7 @@ class VendorApplication extends Model
 
         return $result;
     }
+
     // Encapsulate the filters for graphics from view: Project Results
     public static function benchmarkProjectResultsFilters($query, $practicesID = [], $subpracticesID = [], $years = [], $industries = [], $regions = [])
     {

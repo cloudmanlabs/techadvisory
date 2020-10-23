@@ -192,10 +192,8 @@ class BenchmarkController extends Controller
         }
         $subpracticesIDsToFilter = $request->input('subpractices');
         if ($subpracticesIDsToFilter) {
-            $subpracticesIDsToFilter = [];
-        }else{
-            $subpracticesIDsToFilter = [];
 
+            $subpracticesIDsToFilter = explode(',', $subpracticesIDsToFilter);
         }
         $yearsToFilter = $request->input('years');
         if ($yearsToFilter) {
@@ -219,7 +217,8 @@ class BenchmarkController extends Controller
             'totalScore', $practicesIDsToFilter, $subpracticesIDsToFilter, $yearsToFilter, $industriesToFilter, $regionsToFilter);
 
         // Chart 2 ( no project filter)
-        $vendors = VendorApplication::calculateForRankingChart($practicesIDsToFilter, $subpracticesIDsToFilter, $yearsToFilter, $industriesToFilter, $regionsToFilter);
+        $vendors = VendorApplication::getVendorsFilteredForRankingChart($practicesIDsToFilter,
+            $subpracticesIDsToFilter, $yearsToFilter, $industriesToFilter, $regionsToFilter);
 
         // Data for selects
         $practices = Practice::all();
@@ -271,8 +270,6 @@ class BenchmarkController extends Controller
         $subpracticesIDsToFilter = $request->input('subpractices');
         if ($subpracticesIDsToFilter) {
             $subpracticesIDsToFilter = explode(',', $subpracticesIDsToFilter);
-        } else {
-            $subpracticesIDsToFilter = [];
         }
         $yearsToFilter = $request->input('years');
         if ($yearsToFilter) {

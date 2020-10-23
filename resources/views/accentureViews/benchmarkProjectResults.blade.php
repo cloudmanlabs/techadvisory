@@ -50,19 +50,13 @@
                                     <br>
                                     <div id="subpractices-container">
                                         <label for="subpractices-select">Chose a Subpractice</label>
-                                        @foreach ($subpractices as $subpractice)
-                                            <option
-                                                value="{{$subpractice->id}}"
-                                            @if($subpracticesIDsToFilter)
-                                                {{ in_array($subpractice->id,$subpracticesIDsToFilter)? 'selected="selected"' : ''}}
-                                                @endif
-                                            >
-                                                {{$subpractice->name}}
-                                            </option>
-                                        @endforeach
+                                        <select id="subpractices-select" multiple>
+                                        </select>
                                         <br>
                                         <br>
                                     </div>
+                                    <br>
+                                    <br>
                                     <label for="years-select">Chose a Year</label>
                                     <select id="years-select" multiple>
                                         @foreach ($years as $year)
@@ -257,7 +251,7 @@
                     var subpractices = data.subpractices;
                     $.each(subpractices, function () {
                         var selectedIds = [
-                           @if(is_array($subpracticesIDsToFilter) && count($subpracticesIDsToFilter)>0 )
+                            @if(is_array($subpracticesIDsToFilter))
                                 @foreach($subpracticesIDsToFilter as $subpractice)
                                 '{{\App\Subpractice::find($subpractice)->id}}',
                             @endforeach
@@ -335,6 +329,7 @@
                             // NOTE: We use 10 - val so we get the chart flipped horizontally
                             $ranking = round(10 - $vendor->averageRanking(),2);
                             $score = round($vendor->averageScore(),2) ?? 0;
+
                         @endphp
                     {
                         label: ["{{$vendor->name}}"],

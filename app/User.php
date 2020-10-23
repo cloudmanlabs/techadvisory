@@ -448,17 +448,6 @@ class User extends Authenticatable
             })
             ->average();
     }
-    public function averageScoreOnlyForChart()
-    {
-        return $this->vendorApplications
-            ->filter(function (VendorApplication $application) {
-                return $application->project != null;
-            })
-            ->map(function ($application) {
-                return $application->totalScore();
-            })
-            ->average();
-    }
 
     public function averageRanking()
     {
