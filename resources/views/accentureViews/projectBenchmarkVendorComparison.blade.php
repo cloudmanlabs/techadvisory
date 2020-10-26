@@ -1,9 +1,13 @@
 @extends('accentureViews.layouts.benchmark')
 
 @php
-    // Values for Best Possible
+    $bestPossibleDatasets = [];         // First Column
+    $bestVendorsScoreDatasets = [];     // Second Column
+    $averageBestVendorsDatasets = [];   // Third Column
+    $vendorSelectedDatasets = [];       // Fourth Column
+
+    // calculate first Column
     $values = $project->scoringValues;
-    $bestPossibleDatasets= [];
     if(!empty($values)){
         foreach ($values as $key=>$bestPossible){
             $bestPossibleDatasets[$key] = $values[$key] * 5;
@@ -11,7 +15,7 @@
     }
 
     // Values for best from vendors
-    function getAllVendorsAndScores($applications){
+    function calculateOverallScoresFromVendorsOfThisProject($applications){
         $vendorsAndScores = [];
         foreach ($applications as $key=>$application){
             $vendorsAndScores[$application->vendor->id] = number_format($application->totalScore(), 2);
@@ -41,8 +45,7 @@
         return $scoresPonderated;
     }
 
-    $bestVendorsScoreDatasets = [];
-    $allVendorsAndScores = getAllVendorsAndScores($applications);
+    $allVendorsAndScores = calculateOverallScoresFromVendorsOfThisProject($applications);
     if (!empty($allVendorsAndScores)){
         $bestScore = max($allVendorsAndScores);
         $bestVendor = array_search($bestScore,$allVendorsAndScores);
@@ -65,7 +68,6 @@
         return $average;
     }
 
-    $averageBestVendorsDatasets = [];
     if (!empty($allVendorsAndScores)){
         $averages = [];
         $averages[0] = getAverageScore($applications,"fitgapScore");
@@ -79,7 +81,6 @@
 
     // Values from selected vendor
     $selectedVendor = $vendor;
-    $vendorSelectedDatasets = [];
     if(!empty($vendor)){
         $scores = getScoresFromVendor($applications, $selectedVendor);
         $vendorSelectedDatasets = [];
