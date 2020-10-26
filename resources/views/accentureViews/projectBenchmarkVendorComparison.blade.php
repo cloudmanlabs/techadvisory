@@ -1,6 +1,6 @@
 @extends('accentureViews.layouts.benchmark')
 @php
-// Common view functions
+    // Common view functions
     // Values for best from vendors
     function calculateOverallScoresFromVendorsOfThisProject($applications){
         $vendorsAndScores = [];
@@ -24,39 +24,7 @@
         return $scores;
     }
 
-    function ponderateScoresByClient($bestScores,$actualScores){
-        $scoresPonderated = [];
-        foreach ($actualScores as $key=>$actualScore){
-            $scoresPonderated[$key] = $actualScores[$key]*10*($bestScores[$key]/100);
-        }
-        return $scoresPonderated;
-    }
-@endphp
-
-@php
-// First Graphic: Vendor Comparison.
-    $bestPossibleDatasets = [];         // First Column
-    $bestVendorsScoreDatasets = [];     // Second Column
-    $averageBestVendorsDatasets = [];   // Third Column
-    $vendorSelectedDatasets = [];       // Fourth Column
-
-    // calculate first Column
-    $values = $project->scoringValues;
-    if(!empty($values)){
-        foreach ($values as $key=>$bestPossible){
-            $bestPossibleDatasets[$key] = $values[$key] * 5;
-        }
-    }
-
-    $allVendorsAndScores = calculateOverallScoresFromVendorsOfThisProject($applications);
-    if (!empty($allVendorsAndScores)){
-        $bestScore = max($allVendorsAndScores);
-        $bestVendor = array_search($bestScore,$allVendorsAndScores);
-        $bestVendorScores = getScoresFromVendor($applications,$bestVendor);
-        $bestVendorsScoreDatasets = ponderateScoresByClient($bestPossibleDatasets,$bestVendorScores);
-    }
-
-    // Values from average from vendors
+        // Values from average from vendors
     function getAverageScore($applications,$scoreType){
         $array_temporal = [];
         foreach ($applications as $key=>$application){
@@ -71,24 +39,57 @@
         return $average;
     }
 
-    if (!empty($allVendorsAndScores)){
-        $averages = [];
-        $averages[0] = getAverageScore($applications,"fitgapScore");
-        $averages[1] = getAverageScore($applications,"vendorScore");
-        $averages[2] = getAverageScore($applications,"experienceScore");
-        $averages[3] = getAverageScore($applications,"innovationScore");
-        $averages[4] = getAverageScore($applications,"implementationScore");
-        $averageBestVendorsDatasets = ponderateScoresByClient($bestPossibleDatasets,$averages);
+    function ponderateScoresByClient($bestScores,$actualScores){
+        $scoresPonderated = [];
+        foreach ($actualScores as $key=>$actualScore){
+            $scoresPonderated[$key] = $actualScores[$key]*10*($bestScores[$key]/100);
+        }
+        return $scoresPonderated;
     }
+@endphp
 
+@php
+    // First Graphic: Vendor Comparison. Compare vendors by score type: fitgap, experience, etc.
+        $bestPossibleDatasets = [];         // First Column
+        $bestVendorsScoreDatasets = [];     // Second Column
+        $averageBestVendorsDatasets = [];   // Third Column
+        $vendorSelectedDatasets = [];       // Fourth Column
 
-    // Values from selected vendor
-    $selectedVendor = $vendor;
-    if(!empty($vendor)){
-        $scores = getScoresFromVendor($applications, $selectedVendor);
-        $vendorSelectedDatasets = [];
-        $vendorSelectedDatasets = ponderateScoresByClient($bestPossibleDatasets,$scores);
-    }
+        // Calculate first Column: Best Possible (Client preferences)
+        $values = $project->scoringValues;
+        if(!empty($values)){
+            foreach ($values as $key=>$bestPossible){
+                $bestPossibleDatasets[$key] = $values[$key] * 5;
+            }
+        }
+
+        // Calculate second column: Search the best vendor by Overall and get his other scores (fitgap, experience, etc.)
+        $allVendorsAndScores = calculateOverallScoresFromVendorsOfThisProject($applications);
+        if (!empty($allVendorsAndScores)){
+            $bestScore = max($allVendorsAndScores);                         // Best from Overall
+            $bestVendor = array_search($bestScore,$allVendorsAndScores);    // Its vendor
+            $bestVendorScores = getScoresFromVendor($applications,$bestVendor); // Its Other Scores
+            $bestVendorsScoreDatasets = ponderateScoresByClient($bestPossibleDatasets,$bestVendorScores);
+        }
+
+        // Calculate Third Column: Average scores from all vendors of this project, by score type (fitgap, experience, etc.)
+        if (!empty($allVendorsAndScores)){
+            $averages = [];
+            $averages[0] = getAverageScore($applications,"fitgapScore");
+            $averages[1] = getAverageScore($applications,"vendorScore");
+            $averages[2] = getAverageScore($applications,"experienceScore");
+            $averages[3] = getAverageScore($applications,"innovationScore");
+            $averages[4] = getAverageScore($applications,"implementationScore");
+            $averageBestVendorsDatasets = ponderateScoresByClient($bestPossibleDatasets,$averages);
+        }
+
+        // Calculate Fourth Column: All scores for a selected vendor by type (fitgap, experience, etc.)
+        $selectedVendor = $vendor;
+        if(!empty($vendor)){
+            $scores = getScoresFromVendor($applications, $selectedVendor);
+            $vendorSelectedDatasets = [];
+            $vendorSelectedDatasets = ponderateScoresByClient($bestPossibleDatasets,$scores);
+        }
 
 @endphp
 
@@ -379,13 +380,13 @@
         });
 
         var selectedVendorBarTag = '{{$vendorName}}';
-/*        var colorsPaletteHEX = [
-            '#27003d',
-            '#460073',
-            '#5a008f',
-            '#7500c0',
-            '#a100ff'
-        ];*/
+        /*        var colorsPaletteHEX = [
+                    '#27003d',
+                    '#460073',
+                    '#5a008f',
+                    '#7500c0',
+                    '#a100ff'
+                ];*/
         var colorsPaletteHEX = [
             '#A12BFE',
             '#BEBEBE',
@@ -492,26 +493,26 @@
                 datasets: [
                     {
                         label: 'Functional',
-                        data: [bestFitgapPossible[0],bestFitgapVendor[0],
-                        averageFitgap[0],selectedFitgap[0]],
+                        data: [bestFitgapPossible[0], bestFitgapVendor[0],
+                            averageFitgap[0], selectedFitgap[0]],
                         backgroundColor: colorsPaletteHEX[0]
                     },
                     {
                         label: 'Technical',
-                        data: [bestFitgapPossible[1],bestFitgapVendor[1],
-                        averageFitgap[1],selectedFitgap[1]],
+                        data: [bestFitgapPossible[1], bestFitgapVendor[1],
+                            averageFitgap[1], selectedFitgap[1]],
                         backgroundColor: colorsPaletteHEX[1]
                     },
                     {
                         label: 'Service',
-                        data: [bestFitgapPossible[2],bestFitgapVendor[2],
-                        averageFitgap[2],selectedFitgap[2]],
+                        data: [bestFitgapPossible[2], bestFitgapVendor[2],
+                            averageFitgap[2], selectedFitgap[2]],
                         backgroundColor: colorsPaletteHEX[2]
                     },
                     {
                         label: 'Others',
-                        data: [bestFitgapPossible[3],bestFitgapVendor[3],
-                        averageFitgap[3],selectedFitgap[3]],
+                        data: [bestFitgapPossible[3], bestFitgapVendor[3],
+                            averageFitgap[3], selectedFitgap[3]],
                         backgroundColor: colorsPaletteHEX[3]
                     },
                 ]
@@ -554,14 +555,14 @@
                 datasets: [
                     {
                         label: 'Implementation',
-                        data: [bestImplementationPossible[0],bestImplementationVendor[0],
-                        averageImplementation[0], selectedImplementation[0]],
+                        data: [bestImplementationPossible[0], bestImplementationVendor[0],
+                            averageImplementation[0], selectedImplementation[0]],
                         backgroundColor: colorsPaletteHEX[0]
                     },
                     {
                         label: 'Run',
-                        data: [bestImplementationPossible[1],bestImplementationVendor[1],
-                        averageImplementation[1], selectedImplementation[1]],
+                        data: [bestImplementationPossible[1], bestImplementationVendor[1],
+                            averageImplementation[1], selectedImplementation[1]],
                         backgroundColor: colorsPaletteHEX[1]
                     },
                 ]
