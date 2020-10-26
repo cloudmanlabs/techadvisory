@@ -9,7 +9,7 @@
         }
         return $vendorsAndScores;
     }
-    // Returns all scores from a vendor.
+    // Returns all scores from a vendor. (only for 1st graphic).
     function getScoresFromVendor($applications,$vendor){
         $scores = [];
         foreach ($applications as $key=>$application){
@@ -38,7 +38,21 @@
         return $scores;
     }
 
-        // Values from average from vendors
+    // Returns all Impl. type scores from a vendor. (only for 3st graphic).
+    function getImplementationScores($applications,$vendor_id){
+    $scores = [];
+
+    foreach($applications as $application){
+        if($application->vendor->id == $vendor_id){
+            $scores[0] = (float)number_format($application->implementationImplementationScore(), 2);
+            $scores[1] = (float)number_format($application->implementationRunScore(), 2);
+        }
+    }
+
+    return $scores;
+}
+
+    // Values from average from vendors of the project
     function getAverageScore($applications,$scoreType){
         $array_temporal = [];
         foreach ($applications as $key=>$application){
@@ -168,7 +182,7 @@
 
     // Implementation & Commercials Graphic *********************************************
 
-    // Arrays for Column.
+    // Arrays for columns.
     $bestImplementationPossible = [];
     $bestImplementationVendor = [];
     $averageImplementation = [];
@@ -179,6 +193,7 @@
         isset($project->implementationRunWeight) ? $project->implementationRunWeight / 5 : 10
     ];
 
+    // First Column: Best possible by Impl. type (Client preferences)
     $bestImplementationPossible = [];
     if(!empty($implementationValues)){
         for($i=0;$i<count($implementationValues);$i++){
@@ -186,6 +201,7 @@
         }
     }
 
+    // Second Column: All Impl. types scores from the vendor who has better score from Imp.
     // These are the generic scores from the vendors Implementation overall scores.
     // We search these in order to get the best vendor in Implementation terms.
     $orderedApps = $applications->map(function($application, $key){
@@ -196,40 +212,23 @@
     })
     ->sortByDesc('score');
     $bestVendorImplementationOverall = $orderedApps->first();
-
     if(!empty($bestVendorImplementationOverall)){
         $bestImplementationVendor = getImplementationScores($applications,$bestVendorImplementationOverall->id);
         $bestImplementationVendor = ponderateScoresByClient($bestImplementationPossible,$bestImplementationVendor);
     }
 
-    function getImplementationScores($applications,$vendor_id){
-        $scores = [];
-
-        foreach($applications as $application){
-            if($application->vendor->id == $vendor_id){
-                $scores[0] = (float)number_format($application->implementationImplementationScore(), 2);
-                $scores[1] = (float)number_format($application->implementationRunScore(), 2);
-            }
-        }
-
-        return $scores;
-    }
-
-    // Implementation 3st column
+    // Third column: Average Impl. scores from all vendors of this project, by Impl. type.
     if(!empty($orderedApps)){
-        $averageImplementation[0] = getAverageScore($applications,"implementationImplementationScore");
-        $averageImplementation[1] = getAverageScore($applications,"implementationRunScore");
-        $averageImplementation = ponderateScoresByClient($bestImplementationPossible,
-                                                        $averageImplementation);
+        $averageImplementation[0] = getAverageScore($applications, "implementationImplementationScore");
+        $averageImplementation[1] = getAverageScore($applications, "implementationRunScore");
+        $averageImplementation = ponderateScoresByClient($bestImplementationPossible, $averageImplementation);
     }
 
-    // Implementation 4th column
+    // Impl. 4th column: scores Impl. type from selected vendor.
     if(is_int($selectedVendor)){
         $selectedImplementation = getImplementationScores($applications, $selectedVendor);
-        $selectedImplementation = ponderateScoresByClient($bestImplementationPossible,
-                                                            $selectedImplementation);
+        $selectedImplementation = ponderateScoresByClient($bestImplementationPossible, $selectedImplementation);
     }
-
 
 @endphp
 
