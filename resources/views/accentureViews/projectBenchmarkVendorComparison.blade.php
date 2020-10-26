@@ -9,7 +9,7 @@
         }
         return $vendorsAndScores;
     }
-
+    // Returns all scores from a vendor.
     function getScoresFromVendor($applications,$vendor){
         $scores = [];
         foreach ($applications as $key=>$application){
@@ -19,6 +19,20 @@
                 $scores[2] = number_format($application->experienceScore(), 2);
                 $scores[3] = number_format($application->innovationScore(), 2);
                 $scores[4] = number_format($application->implementationScore(), 2);
+            }
+        }
+        return $scores;
+    }
+
+    // Returns all fitgap type scores from a vendor. (only for 2nd graphic).
+    function getFitgapScoresFromVendor($applications,$vendor_id){
+        $scores = [];
+        foreach($applications as $application){
+            if($application->vendor->id == $vendor_id){
+                $scores[0] = number_format($application->fitgapFunctionalScore(), 2);
+                $scores[1] = number_format($application->fitgapTechnicalScore(), 2);
+                $scores[2] = number_format($application->fitgapServiceScore(), 2);
+                $scores[3] = number_format($application->fitgapOtherScore(), 2);
             }
         }
         return $scores;
@@ -55,7 +69,7 @@
         $averageBestVendorsDatasets = [];   // Third Column
         $vendorSelectedDatasets = [];       // Fourth Column
 
-        // Calculate first Column: Best Possible (Client preferences)
+        // Calculate first Column: Best Possible By type (Client preferences)
         $values = $project->scoringValues;
         if(!empty($values)){
             foreach ($values as $key=>$bestPossible){
@@ -94,13 +108,13 @@
 @endphp
 
 @php
-    // fitgap graphic ***********************************************************
+    // Second Graphic: Compare vendors fitgap scores by fitgap type (functional, technical, etc.)
 
-    // Arrays for graphics.
-    $bestFitgapPossible = [];
-    $bestFitgapVendor = [];
-    $averageFitgap = [];
-    $selectedFitgap= [];
+    // Arrays for colunms.
+    $bestFitgapPossible = [];   // First Column.
+    $bestFitgapVendor = [];     // Second column.
+    $averageFitgap = [];        // Third Column.
+    $selectedFitgap= [];        // Fourth Column.
 
     $weightValues = [
         isset($project->fitgapFunctionalWeight) ? $project->fitgapFunctionalWeight / 5 : 5,
@@ -109,15 +123,16 @@
         isset($project->fitgapOthersWeight) ? $project->fitgapOthersWeight / 5 : 5
     ];
 
-    // Fitgap 1st column: Best possible.
+    // Fitgap 1st column: Best possible by fitgap type (Client preferences)
     if(!empty($weightValues)){
         for($i=0;$i<count($weightValues);$i++){
             $bestFitgapPossible[$i] = $weightValues[$i] * 5;
         }
     }
 
+    // Fitgap Second Column: All fitgap types scores from the vendor who has better score from fitgap
     // These are the generic scores from the vendors fitgap overall scores.
-    // We search these in order to get the best vendor in fitgap terms.
+    // We search these in order to get the best vendor in fitgap terms (functional, technical, etc.)
     $orderedApps = $applications->map(function($application, $key){
         return (object)[
             'id' => $application->vendor->id,
@@ -125,27 +140,13 @@
         ];
     })
     ->sortByDesc('score');
-
     $bestVendorFitgapOverall = $orderedApps->first();
     if(!empty($bestVendorFitgapOverall)){
         $bestFitgapVendor = getFitgapScoresFromVendor($applications,$bestVendorFitgapOverall->id);
         $bestFitgapVendor = ponderateScoresByClient($bestFitgapPossible,$bestFitgapVendor);
     }
 
-    function getFitgapScoresFromVendor($applications,$vendor_id){
-        $scores = [];
-        foreach($applications as $application){
-            if($application->vendor->id == $vendor_id){
-                $scores[0] = number_format($application->fitgapFunctionalScore(), 2);
-                $scores[1] = number_format($application->fitgapTechnicalScore(), 2);
-                $scores[2] = number_format($application->fitgapServiceScore(), 2);
-                $scores[3] = number_format($application->fitgapOtherScore(), 2);
-            }
-        }
-        return $scores;
-    }
-
-    // Fitgap 3st colunm
+    // Fitgap Third column: Average fitgap scores from all vendors of this project, by fitgap type (fitgap, experience, etc.)
     if(!empty($orderedApps)){
         $averageFitgap[0] = getAverageScore($applications,"fitgapFunctionalScore");
         $averageFitgap[1] = getAverageScore($applications,"fitgapTechnicalScore");
@@ -154,7 +155,7 @@
         $averageFitgap = ponderateScoresByClient($bestFitgapPossible,$averageFitgap);
     }
 
-    // Fitgap 4th column
+    // Fitgap 4th column: scores fitgap type from selected vendor.
     $selectedVendor = (int)$vendor;
     if(is_int($selectedVendor)){
         $selectedFitgap = getFitgapScoresFromVendor($applications, $selectedVendor);
@@ -167,7 +168,7 @@
 
     // Implementation & Commercials Graphic *********************************************
 
-    // Arrays for graphics.
+    // Arrays for Column.
     $bestImplementationPossible = [];
     $bestImplementationVendor = [];
     $averageImplementation = [];
