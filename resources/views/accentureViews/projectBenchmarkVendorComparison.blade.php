@@ -1,19 +1,6 @@
 @extends('accentureViews.layouts.benchmark')
-
 @php
-    $bestPossibleDatasets = [];         // First Column
-    $bestVendorsScoreDatasets = [];     // Second Column
-    $averageBestVendorsDatasets = [];   // Third Column
-    $vendorSelectedDatasets = [];       // Fourth Column
-
-    // calculate first Column
-    $values = $project->scoringValues;
-    if(!empty($values)){
-        foreach ($values as $key=>$bestPossible){
-            $bestPossibleDatasets[$key] = $values[$key] * 5;
-        }
-    }
-
+// Common view functions
     // Values for best from vendors
     function calculateOverallScoresFromVendorsOfThisProject($applications){
         $vendorsAndScores = [];
@@ -43,6 +30,22 @@
             $scoresPonderated[$key] = $actualScores[$key]*10*($bestScores[$key]/100);
         }
         return $scoresPonderated;
+    }
+@endphp
+
+@php
+// First Graphic: Vendor Comparison.
+    $bestPossibleDatasets = [];         // First Column
+    $bestVendorsScoreDatasets = [];     // Second Column
+    $averageBestVendorsDatasets = [];   // Third Column
+    $vendorSelectedDatasets = [];       // Fourth Column
+
+    // calculate first Column
+    $values = $project->scoringValues;
+    if(!empty($values)){
+        foreach ($values as $key=>$bestPossible){
+            $bestPossibleDatasets[$key] = $values[$key] * 5;
+        }
     }
 
     $allVendorsAndScores = calculateOverallScoresFromVendorsOfThisProject($applications);
