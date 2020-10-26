@@ -1008,7 +1008,7 @@ class VendorApplication extends Model
             $practicesID, $subpracticesID, $years, $industries, $regions);
         $query = $query->get();
 
-        // Recalculate the scores for all the applications.
+        // order the available vendors
         $scores = [];
         $vendorsIds = [];
         foreach ($query as $vendorApplication) {
@@ -1019,24 +1019,35 @@ class VendorApplication extends Model
             $scores[$vendor] = 0;
         }
 
+        // recalculate the scores for all the applications.
         foreach ($query as $vendorApplication) {
 
-            if (!is_array($scores[$vendorApplication->vendor->id])) {
-                $scores[$vendorApplication->vendor->id] =
-                    [$vendorApplication->$functionNameForCalculateTheScores()];
+            $vendorId = $vendorApplication->vendor->id;
+            $nota = $vendorApplication->$functionNameForCalculateTheScores();
 
-            } else {
-                $scores[$vendorApplication->vendor->id][] =
-                    $vendorApplication->$functionNameForCalculateTheScores();
-            }
+            // HERE: Change this to remove null scores (pending to evaluate).
+            //if ($nota != null)
+                if (!is_array($scores[$vendorId])) {
+                    $scores[$vendorId] = [$nota];
+
+                } else {
+                    $scores[$vendorId][] = $nota;
+                }
         }
+
 
         // The vendor score is the average of all his vendorApplication scores.
         foreach ($scores as $key => $vendorScores) {
-            $n = count($vendorScores);
-            $media = array_sum($vendorScores);
 
-            $media = $n > 0 ? $media / $n : $media;
+            if (is_array($vendorScores)) {
+                // for more than one score
+                $n = count($vendorScores);
+                $media = array_sum($vendorScores);
+                $media = $n > 0 ? $media / $n : $media;
+            } else {
+                // for only one score
+                $media = $vendorScores;
+            }
 
             $scores[$key] = round($media, 2);
         }
