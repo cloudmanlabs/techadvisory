@@ -38,7 +38,7 @@ class Owner extends Resource
      * @var array
      */
     public static $search = [
-        'id',
+        'id','name'
     ];
 
     /**
@@ -54,10 +54,9 @@ class Owner extends Resource
 
             Text::make('Name', 'name'),
 
-            HasMany::make('Projects with this owner', 'projects', \App\Nova\Project::class),
+            HasMany::make('Projects with this owner', 'projects', 'App\Nova\Project'),
 
-            HasMany::make('Owner with this User', 'users', \App\Nova\User::class),
-            //HasMany::make('Owner with this User', 'users', \App\Nova\Acenture::class),
+            HasMany::make('Owner with this User', 'users', 'App\Nova\Accenture'),
 
         ];
     }

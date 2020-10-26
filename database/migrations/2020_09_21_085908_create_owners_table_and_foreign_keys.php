@@ -49,13 +49,13 @@ class CreateOwnersTableAndForeignKeys extends Migration
     {
 
         Schema::table('projects', function (Blueprint $table) {
-            if (!Schema::hasColumn('projects', 'owner_id')) {
+            if (Schema::hasColumn('projects', 'owner_id')) {
                 $table->dropColumn('owner_id');
             }
         });
 
         Schema::table('users', function (Blueprint $table) {
-            if (!Schema::hasColumn('users', 'owner_id')) {
+            if (Schema::hasColumn('users', 'owner_id')) {
                 $table->dropColumn('owner_id');
             }
         });
