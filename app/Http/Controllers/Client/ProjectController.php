@@ -660,7 +660,7 @@ class ProjectController extends Controller
     public function benchmarkVendorComparison(Request $request, Project $project)
     {
         $vendor = $request->input('vendor');
-        $vendorName = 'Choose vendor';
+        $vendorName = 'Selected vendor';
         if (!empty($vendor)) {
             $vendorName = User::find($vendor)->name;
         }

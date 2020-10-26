@@ -416,7 +416,7 @@
         var stackedBarChart = new Chart(ctx, {
             type: 'bar',
             data: {
-                labels: ['Best Possible', 'Best Vendors', 'Average', selectedVendorBarTag],
+                labels: ['Best Possible', 'Best of Vendors', 'Average', selectedVendorBarTag],
                 datasets: [
                     {
                         label: 'FitGap',
@@ -484,7 +484,7 @@
         var stackedBarChartFitgap = new Chart(ctxFitgap, {
             type: 'bar',
             data: {
-                labels: ['Best Possible', 'Best Vendors', 'Average', selectedVendorBarTag],
+                labels: ['Best Possible', 'Best of Vendors', 'Average', selectedVendorBarTag],
                 datasets: [
                     {
                         label: 'Functional',
@@ -546,7 +546,7 @@
         var stackedBarChartImplementation = new Chart(ctxImpl, {
             type: 'bar',
             data: {
-                labels: ['Best Possible', 'Best Vendors', 'Average', selectedVendorBarTag],
+                labels: ['Best Possible', 'Best of Vendors', 'Average', selectedVendorBarTag],
                 datasets: [
                     {
                         label: 'Implementation',
