@@ -690,10 +690,6 @@
             updateShownQuestionsAccordingToPractice();
             updateShownSubpracticeOptionsAccordingToPractice(false);
             updateSubmitStep3();
-
-            @if($project->step4SubmittedClient)
-            disableAll()
-            @endif
         });
     </script>
 @endsection

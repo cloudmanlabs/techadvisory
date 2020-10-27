@@ -46,24 +46,46 @@ class SelectionCriteriaQuestionProjectPivot extends Resource
     /**
      * Get the fields displayed by the resource.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
      * @return array
      */
     public function fields(Request $request)
     {
-        return [
+        $common = [
             // ID::make()->sortable(),
 
             BelongsTo::make('Project', 'project', '\App\Nova\Project'),
             BelongsTo::make('Questions', 'question', '\App\Nova\SelectionCriteriaQuestion')
-                ->hideWhenUpdating(),
+                ->hideWhenUpdating()
+                ->hideWhenCreating()
+            ,
         ];
+
+        $other = [];
+
+        // Here we assume we are on a form from a Project to Selection criteria Question project Pivot
+        if (!empty($request->viaResourceId)) {
+            // viaResourceId is a id from project.
+            $projectId = intval($request->viaResourceId);
+            $project = \App\Project::find($projectId);
+            $options = $project->selectionCriteriaQuestionsAvailablesForMe();
+
+            array_push($other,
+                Select::make('Question', 'question_id')
+                    ->options($options)
+                    ->nullable()
+                    ->hideFromIndex()
+                    ->displayUsingLabels()
+            );
+        }
+
+        return array_merge($common, $other);
     }
 
     /**
      * Get the cards available for the request.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
      * @return array
      */
     public function cards(Request $request)
@@ -74,7 +96,7 @@ class SelectionCriteriaQuestionProjectPivot extends Resource
     /**
      * Get the filters available for the resource.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
      * @return array
      */
     public function filters(Request $request)
@@ -85,7 +107,7 @@ class SelectionCriteriaQuestionProjectPivot extends Resource
     /**
      * Get the lenses available for the resource.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
      * @return array
      */
     public function lenses(Request $request)
@@ -96,7 +118,7 @@ class SelectionCriteriaQuestionProjectPivot extends Resource
     /**
      * Get the actions available for the resource.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
      * @return array
      */
     public function actions(Request $request)
