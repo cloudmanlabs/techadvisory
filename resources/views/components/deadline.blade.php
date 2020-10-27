@@ -5,7 +5,7 @@
         <div class="card">
             <div class="card-body">
                 <h3>Project deadline</h3>
-                <h5>{{$project->deadline->format('F j Y, \a\t H:i')}}</h5>
+                <h5>{{$project->deadline->format('F j Y, \a\t H:i')}} - GMT 0</h5>
                 <br>
 
                 @if ($project->deadline != null && !$project->deadline->isPast())
