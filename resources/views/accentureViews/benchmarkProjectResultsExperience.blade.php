@@ -141,7 +141,7 @@
                                                         @foreach($vendorScoresExperience as $key=>$vendorScore)
                                                             <tr>
                                                                 <td>{{\App\User::find($key)->name}}</td>
-                                                                <td>{{count(\App\User::find($key)->vendorApplications)}}</td>
+                                                                <td>{{\App\User::find($key)->vendorAppliedProjectsFiltered($practicesIDsToFilter,$subpracticesIDsToFilter,$yearsToFilter,$industriesToFilter,$regionsToFilter)}}</td>
                                                                 <td>{{$vendorScore}}</td>
                                                             </tr>
                                                         @endforeach

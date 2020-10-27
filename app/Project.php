@@ -701,4 +701,48 @@ class Project extends Model
 
         return $query;
     }
+
+    // Encapsulate the filters for graphics from all views from project results
+    public static function benchmarkProjectResultsFilters($query, $practicesID = [], $subpracticesID = [], $years = [], $industries = [], $regions = [])
+    {
+        // Applying user filters to projects
+        if ($practicesID) {
+            $query = $query->where(function ($query) use ($practicesID) {
+                for ($i = 0; $i < count($practicesID); $i++) {
+                    $query = $query->orWhere('practice_id', '=', $practicesID[$i]);
+                }
+            });
+        }
+        /*        if (is_array($subpracticesID)) {
+                    $query = $query->where(function ($query) use ($subpracticesID) {
+                        for ($i = 0; $i < count($subpracticesID); $i++) {
+                            $query = $query->orWhere('sub.subpractice_id', '=', $subpracticesID[$i]);
+                        }
+                    });
+                }*/
+        /*       if ($years) {
+                   $query = $query->where(function ($query) use ($years) {
+                       for ($i = 0; $i < count($years); $i++) {
+                           $query = $query->orWhere('p.created_at', 'like', '%' . $years[$i] . '%');
+                       }
+                   });
+               }
+               if ($industries) {
+                   $query = $query->where(function ($query) use ($industries) {
+                       for ($i = 0; $i < count($industries); $i++) {
+                           $query = $query->orWhere('p.industry', '=', $industries[$i]);
+                       }
+                   });
+               }
+               if ($regions) {
+                   $query = $query->where(function ($query) use ($regions) {
+                       for ($i = 0; $i < count($regions); $i++) {
+                           $query = $query->orWhere('p.regions', 'like', '%' . $regions[$i] . '%');
+                       }
+                   });
+               }*/
+
+        return $query;
+    }
+
 }
