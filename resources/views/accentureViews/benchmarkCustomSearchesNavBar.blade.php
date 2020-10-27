@@ -1,7 +1,7 @@
 <div class="row" id="overview-navbar">
     <div class="col-12">
         <div class="profile-header">
-            <div class="header-links display-5 ">
+            <div class="header-links display-6 ">
                 <ul class="links d-flex flex-row mt-3 mt-md-0">
                     <li class="header-link-item {{$nav2 == 'project' ? 'active' : ''}}">
                         <a class=""
