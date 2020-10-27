@@ -121,7 +121,7 @@ class VaporFileFieldTest extends IntegrationTest
     public function test_delete_strategy_can_be_customized()
     {
         $this->assertFixture(function ($field) {
-            $field->deleteCallback == function () {
+            $field->deleteCallback = function () {
                 return 'deleted!';
             };
         });

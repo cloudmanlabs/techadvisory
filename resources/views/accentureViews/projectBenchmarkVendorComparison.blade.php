@@ -175,7 +175,6 @@
         $selectedFitgap = getFitgapScoresFromVendor($applications, $selectedVendor);
         $selectedFitgap = ponderateScoresByClient($bestFitgapPossible,$selectedFitgap);
     }
-
 @endphp
 
 @php
