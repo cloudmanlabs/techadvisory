@@ -134,18 +134,22 @@
                                                      data-segment="{{$vendor->getVendorResponse('vendorSegment')}}"
                                                      data-practice="{{json_encode($vendor->vendorSolutionsPractices()->pluck('name')->toArray())}}"
                                                      data-subpractice="{{json_encode($vendor->vendorAppliedSubpractices())}}"
-                                                     data-industry="{{$vendor->getVendorResponse('vendorIndustry')}}"
+                                                     data-industry="{{implode(', ', json_decode($vendor->getVendorResponse('vendorIndustry')) ?? [])}}"
                                                      data-regions="{{$vendor->getVendorResponse('vendorRegions') ?? '[]'}}"
                                                 >
                                                     <div class="card-body">
                                                         <div style="float: left; max-width: 40%;">
                                                             <h4>{{$vendor->name}}</h4>
                                                             <p>{{$vendor->name}}
-                                                                - {{$vendor->vendorSolutionsPracticesNames()}}</p>
-                                                            <p>{{$vendor->getVendorResponse('vendorSegment') ?? 'No segment'}}
-                                                                - {{$vendor->getVendorResponse('vendorIndustry') ?? 'No industry'}}
-                                                                -
-                                                                {{implode(', ', json_decode($vendor->getVendorResponse('vendorRegions')) ?? [])}}</p>
+                                                                - {{$vendor->vendorSolutionsPracticesNames()}}
+                                                            </p>
+                                                            <p>
+                                                                Segment: {{$vendor->getVendorResponse('vendorSegment') ?? 'No segment'}}
+                                                            <p>
+                                                            <p>
+                                                                Industry: {{implode(', ', json_decode($vendor->getVendorResponse('vendorIndustry')) ?? [])}}</p>
+                                                            <p>
+                                                                Regions: {{implode(', ', json_decode($vendor->getVendorResponse('vendorRegions')) ?? [])}}</p>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -186,7 +190,7 @@
                 transportType: '{{$vendor->getVendorResponsesFromScope(11)}}',
                 manufacturing: '{{$vendor->getVendorResponsesFromScope(5)}}',
                 regions: '{{$vendor->getVendorResponse('vendorRegions') ?? '[]'}}',
-                industry: "{{$vendor->getVendorResponse('vendorIndustry')}}"
+                industry: "{{$vendor->getVendorResponse('vendorIndustry')}}".replace('&', "&amp;")
             },
             @endforeach
         ]
@@ -341,11 +345,16 @@
                 } else vendorsByRegions = allVendorsResponses.map(vendor => vendor.id);
 
                 if (selectedIndustries) {
+                    selectedIndustries.replace('&','&amp');
+                    console.log(selectedIndustries);
                     vendorsByIndustries = allVendorsResponses.filter(
                         response => response.industry.includes(selectedIndustries)
                     );
+                    console.log(vendorsByIndustries);
+
                     vendorsByIndustries = vendorsByIndustries.map(vendor => vendor.id);
                 } else vendorsByIndustries = allVendorsResponses.map(vendor => vendor.id);
+
 
                 /*                if (textPlanning.length > 0) {
                                     vendorsByPlanningResponse = allVendorsResponses.filter(

@@ -105,8 +105,6 @@ class SelectionCriteriaQuestion extends Resource
 
             BelongsTo::make('Related Vendor Profile Question', 'vendorProfileQuestion', VendorProfileQuestion::class)
                 ->nullable(),
-
-
         ];
 
         // NOTE All of the fields here should be hidden on index and create
@@ -171,24 +169,20 @@ class SelectionCriteriaQuestion extends Resource
         }
 
         // adding linked question field.
-        if ($this->resource->page) {
-            if (!empty($request->resourceId)) {
-                $id = intval($request->resourceId);
+        $this->resource->type ? $id = intval($request->resourceId): $id= 1;
 
-                array_push($other,
-                    Select::make('Linked Question', 'linked_question_id')
-                        ->options(
-                            \App\SelectionCriteriaQuestion::find($id)
-                                ->getPossibleLinkedQuestionsFiltered()
-                        )
-                        ->nullable()
-                        ->hideFromIndex()
-                        ->hideWhenCreating()
-                        ->displayUsingLabels()
-                );
-            }
+            array_push($other,
+                Select::make('Linked Question', 'linked_question_id')
+                    ->options(
+                        \App\SelectionCriteriaQuestion::find($id)
+                            ->getPossibleLinkedQuestionsFiltered()
+                    )
+                    ->nullable()
+                    ->hideFromIndex()
+                    ->hideWhenCreating()
+                    ->displayUsingLabels()
+            );
 
-        }
 
         return array_merge($common, $other);
     }
