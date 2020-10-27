@@ -22,7 +22,7 @@
                                     <br>
                                     <div class="media-body" style="padding: 20px;">
                                         <p class="welcome_text">
-                                            Please choose the SC Capability (Practice) you'd like to see:
+                                            Please chose the SC Capability (Practice) you'd like to see:
                                         </p>
                                         <select id="homePracticeSelect" class="w-100" multiple="multiple">
                                             <option>No SC Capability (Practice)</option>
@@ -34,7 +34,7 @@
 
                                     <div class="media-body" style="padding: 20px;">
                                         <p class="welcome_text">
-                                            Please choose the Clients you'd like to see:
+                                            Please chose the Clients you'd like to see:
                                         </p>
                                         <select id="homeClientSelect" class="w-100" multiple="multiple">
                                             <option>No client</option>
@@ -46,7 +46,7 @@
 
                                     <div class="media-body" style="padding: 20px;">
                                         <p class="welcome_text">
-                                            Please choose the Years you'd like to see:
+                                            Please chose the Years you'd like to see:
                                         </p>
                                         <select id="homeYearSelect" class="w-100" multiple="multiple">
                                             <option value="2017">2017</option>
@@ -61,7 +61,7 @@
 
                                     <div class="media-body" style="padding: 20px;">
                                         <p class="welcome_text">
-                                            Please choose the Vendors you'd like to see:
+                                            Please chose the Vendors you'd like to see:
                                         </p>
                                         <select id="homeVendorSelect" class="w-100" multiple="multiple">
                                             <option>No vendor</option>
@@ -73,7 +73,7 @@
 
                                     <div class="media-body" style="padding: 20px;">
                                         <p class="welcome_text">
-                                            Please choose the Project's name:
+                                            Please chose the Project's name:
                                         </p>
                                         <input id="homeNameInput" class="form-control" type="text">
                                     </div>
