@@ -21,6 +21,22 @@ use PhpParser\Node\Expr\Cast\Int_;
 
 class SelectionCriteriaQuestion extends Resource
 {
+
+    /**
+     * Return the location to redirect the user after creation.
+     *
+     * @param \Laravel\Nova\Http\Requests\NovaRequest $request
+     * @param \App\Nova\Resource $resource
+     * @return string
+     */
+    public static function redirectAfterCreate(NovaRequest $request, $resource)
+    {
+        if ($request->viaResource) {
+            return "/resources/{$request->viaResource}/{$request->viaResourceId}";
+        } else {
+            return "/resources/selection-criteria-questions/{$resource->getRouteKey()}/edit";
+        }
+    }
     public static $group = 'Questions';
 
     /**
