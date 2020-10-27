@@ -190,7 +190,7 @@
                 transportType: '{{$vendor->getVendorResponsesFromScope(11)}}',
                 manufacturing: '{{$vendor->getVendorResponsesFromScope(5)}}',
                 regions: '{{$vendor->getVendorResponse('vendorRegions') ?? '[]'}}',
-                industry: "{{$vendor->getVendorResponse('vendorIndustry')}}".replace('&', "&amp;")
+                industry: "{{json_encode($vendor->getVendorResponse('vendorIndustry'))}}".replace('&amp;', "&")
             },
             @endforeach
         ]
