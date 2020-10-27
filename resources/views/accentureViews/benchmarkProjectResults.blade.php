@@ -139,7 +139,7 @@
                                             <div class="col-5 grid-margin stretch-card">
                                                 <div class="card">
                                                     <div class="card-body text-center">
-                                                        <h5>Total Proyects</h5>
+                                                        <h5>Total Projects</h5>
                                                         <br>
                                                         <h3>{{$totalProjects}}</h3>
                                                     </div>
