@@ -55,8 +55,6 @@
                                         <br>
                                         <br>
                                     </div>
-                                    <br>
-                                    <br>
                                     <label for="years-select">Chose a Year</label>
                                     <select id="years-select" multiple>
                                         @foreach ($years as $year)
