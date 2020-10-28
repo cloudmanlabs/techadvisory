@@ -254,9 +254,9 @@ class User extends Authenticatable
         }
     }
 
-    public static function vendorIndustryCount()
+    public static function vendorIndustryCount($industryToCount)
     {
-
+        $query = User::vendorUsers();
     }
 
     /**
