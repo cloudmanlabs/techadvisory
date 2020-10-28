@@ -573,7 +573,7 @@ class Project extends Model
 
     private static function getProjectCountfromYear($year, $industries = [], $regions = [])
     {
-        $query = Project::select('id', 'industry', 'practice_id', 'regions', 'created_at');
+        $query = Project::select('id', 'currentPhase','industry', 'practice_id', 'regions', 'created_at');
         $query = Project::benchmarkOverviewHistoricalFilters($query, $industries, $regions);
 
         $query = $query->get()
@@ -608,7 +608,7 @@ class Project extends Model
 
     private static function getProjectCountFromYearByPractice($practiceId, $year, $industries = [], $regions = [])
     {
-        $query = Project::select('id', 'industry', 'practice_id', 'regions', 'created_at');
+        $query = Project::select('id', 'currentPhase','industry', 'practice_id', 'regions', 'created_at');
         $query = Project::benchmarkOverviewHistoricalFilters($query, $industries, $regions, $practiceId);
 
         $query = $query->get()
@@ -618,7 +618,6 @@ class Project extends Model
 
         return $query;
     }
-
 
     /**
      * Returns an object collection as
@@ -641,7 +640,7 @@ class Project extends Model
 
     private static function getProjectCountFromIndustry($industry, $regions = [], $years = [])
     {
-        $query = Project::select('id', 'industry', 'regions', 'created_at');
+        $query = Project::select('id', 'currentPhase','industry', 'practice_id', 'regions', 'created_at');
         $query = Project::benchmarkOverviewFilters($query, $regions, $years);
 
         $query = $query->get()->filter(function (Project $project) use ($industry) {
@@ -677,6 +676,8 @@ class Project extends Model
     // Encapsulate the filters for graphics from view: Overview - Historical
     private static function benchmarkOverviewHistoricalFilters($query, $industries = [], $regions = [], $practice = [])
     {
+        $query = $query->where('currentPhase','=','old');
+
         if ($industries) {
             $query = $query->where(function ($query) use ($industries) {
                 for ($i = 0; $i < count($industries); $i++) {
