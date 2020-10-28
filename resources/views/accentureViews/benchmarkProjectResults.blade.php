@@ -181,13 +181,15 @@
                                                         <tr>
                                                             <th scope="col">Vendor name</th>
                                                             <th scope="col">Projects applied</th>
+                                                            <th scope="col">Score</th>
                                                         </tr>
                                                         </thead>
                                                         <tbody>
                                                         @foreach($vendorScores as $key=>$vendorScore)
                                                             <tr>
                                                                 <td>{{\App\User::find($key)->name}}</td>
-                                                                <td>{{count(\App\User::find($key)->vendorApplications)}}</td>
+                                                                <td>{{\App\User::find($key)->vendorAppliedProjectsFiltered($practicesIDsToFilter,$subpracticesIDsToFilter,$yearsToFilter,$industriesToFilter,$regionsToFilter)}}</td>
+                                                                <td>{{$vendorScore}}</td>
                                                             </tr>
                                                         @endforeach
                                                         </tbody>
