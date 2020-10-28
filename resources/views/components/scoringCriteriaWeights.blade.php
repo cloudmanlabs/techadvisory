@@ -173,7 +173,7 @@
 <script src="https://cdn.jsdelivr.net/npm/sortablejs@latest/Sortable.min.js"></script>
 <script>
     // Timeout cause otherwise the steps thingy messes it up
-    setTimeout(() => {
+    setTimeout(function() {
         weightSetUp();
         updateFitGapWeights(false);
         updateImplementationWeights(false);

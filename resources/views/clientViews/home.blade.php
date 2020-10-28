@@ -219,20 +219,20 @@
 
             function updateOpenProjects() {
                 // Get all selected practices. If there are none, get all of them
-                var selectedPractices = $('#homePracticeSelect').select2('data').map((el) => {
+                var selectedPractices = $('#homePracticeSelect').select2('data').map(function (el) {
                     return el.text
                 });
                 if (selectedPractices.length == 0) {
-                    selectedPractices = $('#homePracticeSelect').children().toArray().map((el) => {
+                    selectedPractices = $('#homePracticeSelect').children().toArray().map(function (el) {
                         return el.innerHTML
                     });
                 }
 
-                var selectedYears = $('#homeYearSelect').select2('data').map((el) => {
+                var selectedYears = $('#homeYearSelect').select2('data').map(function (el) {
                     return el.text
                 });
                 if (selectedYears.length == 0) {
-                    selectedYears = $('#homeYearSelect').children().toArray().map((el) => {
+                    selectedYears = $('#homeYearSelect').children().toArray().map(function (el) {
                         return el.innerHTML
                     });
                 }

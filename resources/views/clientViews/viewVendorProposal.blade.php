@@ -208,7 +208,7 @@
                 }
             }).toArray();
 
-        total += cost.map((el) => +el.cost).reduce((a, b) => a + b, 0)
+        total += cost.map(function(el) { return +el.cost}).reduce(function (a, b) { return a + b}, 0)
 
         cost = $('#staffingCostContainer').children()
             .map(function(){
@@ -223,7 +223,7 @@
                 }
             }).toArray();
 
-        total += cost.map((el) => +el.cost).reduce((a, b) => a + b, 0)
+        total += cost.map(function (el) { return +el.cost}).reduce(function(a, b) { return a + b}, 0)
 
         cost = $('#additionalCostContainer').children()
             .map(function(){
@@ -236,9 +236,7 @@
                 }
             }).toArray();
 
-        total += cost.map((el) => +el.cost).reduce((a, b) => a + b, 0)
-
-        console.log(total)
+        total += cost.map(function (el) { return +el.cost}).reduce(function (a, b) { return  a + b}, 0)
 
         $('#overallImplementationCost').html(total);
     }

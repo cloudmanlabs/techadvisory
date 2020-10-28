@@ -39,12 +39,12 @@ $disabled = $disabled ?? false;
                     return $(this).children('.estimate5YearsHoursInput').val()
                 })
                 .toArray()
-                .map(el => +el)
-                .filter(el => el != 0);
+                .map(function(el) { return +el})
+                .filter(function(el) { return el != 0});
             const totalCost = elementsToAdd
-                .reduce((a, b) => a + b, 0);
+                .reduce(function (a, b) {return a + b}, 0);
             $('#totalEstimate5YearsCost').html(totalCost);
-            if(elementsToAdd.length != 0){
+            if(elementsToAdd.length !== 0){
                 $('#averageEstimate5YearsCost').html(totalCost / (elementsToAdd.length));
             }
         }

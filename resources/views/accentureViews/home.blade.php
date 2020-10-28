@@ -308,38 +308,38 @@
 
             function updateOpenProjects() {
                 // Get all selected practices. If there are none, get all of them
-                var selectedPractices = $('#homePracticeSelect').select2('data').map((el) => {
+                var selectedPractices = $('#homePracticeSelect').select2('data').map(function (el) {
                     return el.text
                 });
-                if (selectedPractices.length == 0) {
-                    selectedPractices = $('#homePracticeSelect').children().toArray().map((el) => {
+                if (selectedPractices.length === 0) {
+                    selectedPractices = $('#homePracticeSelect').children().toArray().map(function(el) {
                         return el.innerHTML
                     });
                 }
 
-                var selectedClients = $('#homeClientSelect').select2('data').map((el) => {
+                var selectedClients = $('#homeClientSelect').select2('data').map(function(el) {
                     return el.text
                 });
-                if (selectedClients.length == 0) {
-                    selectedClients = $('#homeClientSelect').children().toArray().map((el) => {
+                if (selectedClients.length === 0) {
+                    selectedClients = $('#homeClientSelect').children().toArray().map(function(el) {
                         return el.innerHTML
                     });
                 }
 
-                var selectedYears = $('#homeYearSelect').select2('data').map((el) => {
+                var selectedYears = $('#homeYearSelect').select2('data').map(function(el) {
                     return el.text
                 });
                 if (selectedYears.length == 0) {
-                    selectedYears = $('#homeYearSelect').children().toArray().map((el) => {
+                    selectedYears = $('#homeYearSelect').children().toArray().map(function(el) {
                         return el.innerHTML
                     });
                 }
 
-                var selectedVendors = $('#homeVendorSelect').select2('data').map((el) => {
+                var selectedVendors = $('#homeVendorSelect').select2('data').map(function(el) {
                     return el.text
                 });
-                if (selectedVendors.length == 0) {
-                    selectedVendors = $('#homeVendorSelect').children().toArray().map((el) => {
+                if (selectedVendors.length === 0) {
+                    selectedVendors = $('#homeVendorSelect').children().toArray().map(function(el) {
                         return el.innerHTML
                     });
                 }
