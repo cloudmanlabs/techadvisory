@@ -76,9 +76,9 @@ $disabled = $disabled ?? false;
     $(document).ready(function() {
         // RACI Matrix section
         $('#addRaciRow').click(function(){
-            const childrenCount = $('#raciContainer').children().toArray().length;
+           var childrenCount = $('#raciContainer').children().toArray().length;
 
-            let newDeliverable = `
+            var newDeliverable = `
             <div>
                 <label for="projectName">Task ${childrenCount + 1}</label>
                 <div style="display: flex; flex-direction: row">
@@ -127,7 +127,7 @@ $disabled = $disabled ?? false;
             })
         }
         function updateRaci(){
-            const raci = $('#raciContainer').children()
+           var raci = $('#raciContainer').children()
             .map(function(){
                 return $(this).children().get(1)
             })

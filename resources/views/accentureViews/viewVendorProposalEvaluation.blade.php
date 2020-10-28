@@ -120,13 +120,13 @@
      *  Returns false if any field is empty
      */
     function checkIfAllEvalsAreFilled(){
-        let array = $('.evalDiv input')
+        var array = $('.evalDiv input')
             .filter('[required]')
             .toArray();
 
 		if(array.length == 0) return true;
 
-        for (let i = 0; i < array.length; i++) {
+        for (var i = 0; i < array.length; i++) {
             if(!$(array[i]).is(':hasValue') || $(array[i]).hasClass('invalid')){
                 console.log(array[i])
                 return false
@@ -190,9 +190,9 @@
 
 
     function updateTotalImplementation(){
-        let total = 0;
+        var total = 0;
 
-        let cost = $('#travelCostContainer').children()
+        var cost = $('#travelCostContainer').children()
             .map(function(){
                 return $(this).children().get(0)
             })

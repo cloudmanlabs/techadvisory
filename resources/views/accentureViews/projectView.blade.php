@@ -155,7 +155,7 @@
 
         function updateShownQuestionsAccordingToPractice() {
             $('.questionDiv').each(function () {
-                let practiceId = $(this).data('practice');
+                var practiceId = $(this).data('practice');
 
                 if (practiceId == currentPracticeId || practiceId == "") {
                     $(this).css('display', 'block')

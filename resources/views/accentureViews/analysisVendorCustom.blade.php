@@ -265,29 +265,29 @@
             function filterVendors() {
 
                 let vendorsByPractice;
-                let vendorsBySubpractice;
-                let vendorsBySegment;
+                var vendorsBySubpractice;
+                var vendorsBySegment;
 
-                let vendorsByTransportFlows;
-                let vendorsByTransportModes;
-                let vendorsByTransportTypes;
+                var vendorsByTransportFlows;
+                var vendorsByTransportModes;
+                var vendorsByTransportTypes;
                 /*
-                                let vendorsByPlanningResponse;
+                                var vendorsByPlanningResponse;
                 */
-                let vendorsByRegions;
-                let vendorsByIndustries;
+                var vendorsByRegions;
+                var vendorsByIndustries;
 
-                const selectedSegments = $('#segmentSelect').val()
-                const selectedPractices = $('#practiceSelect').val()
-                const selectedSubpractices = $('#selectSubpractices').val()
+                var selectedSegments = $('#segmentSelect').val()
+                var selectedPractices = $('#practiceSelect').val()
+                var selectedSubpractices = $('#selectSubpractices').val()
 
-                const selectedTransportFlows = $('#selectTransport1').val()
-                const selectedTransportModes = $('#selectTransport2').val()
-                const selectedTransportTypes = $('#selectTransport3').val()
+                var selectedTransportFlows = $('#selectTransport1').val()
+                var selectedTransportModes = $('#selectTransport2').val()
+                var selectedTransportTypes = $('#selectTransport3').val()
                 //const textPlanning = String($('#PlanningInput1').val()).toLowerCase();
 
-                const selectedRegions = $('#regionSelect').val()
-                const selectedIndustries = $('#industrySelect').val()
+                var selectedRegions = $('#regionSelect').val()
+                var selectedIndustries = $('#industrySelect').val()
 
                 if (selectedSegments) {
                     vendorsBySegment = allVendorsResponses.filter(
@@ -302,8 +302,8 @@
                 if (selectedPractices.length > 0) {
                     vendorsByPractice = [];
                     var vendorsByThisPractice = [];
-                    for (let i = 0; i < selectedPractices.length; i++) {
-                        let thisPractice = selectedPractices[i];
+                    for (var i = 0; i < selectedPractices.length; i++) {
+                        var thisPractice = selectedPractices[i];
                         vendorsByThisPractice = getFilteredByPracticeResultsAsArray(thisPractice);
                         vendorsByPractice = vendorsByPractice.concat(vendorsByThisPractice);
                     }
@@ -362,7 +362,7 @@
 
                 $('#projectContainer').children().each(function () {
 
-                    let vendorToTest = String($(this).data('id'));
+                    var vendorToTest = String($(this).data('id'));
 
                     if (
                         $.inArray(vendorToTest, vendorsBySegment) !== -1

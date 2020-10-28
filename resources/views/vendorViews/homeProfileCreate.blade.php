@@ -123,10 +123,10 @@
      *  Returns false if any field is empty
      */
     function checkIfAllRequiredsAreFilled(){
-        let array = $('input,textarea,select').filter('[required]').toArray();
+        var array = $('input,textarea,select').filter('[required]').toArray();
 		if(array.length == 0) return true;
 
-        for (let i = 0; i < array.length; i++) {
+        for (var i = 0; i < array.length; i++) {
             if(!$(array[i]).is(':hasValue') || $(array[i]).hasClass('invalid')){
                 console.log(array[i])
                 return false
@@ -137,7 +137,7 @@
     }
 
     function checkIfAllRequiredsInThisPageAreFilled(){
-        let array = $('input,textarea,select').filter('[required]:visible').toArray();
+        var array = $('input,textarea,select').filter('[required]:visible').toArray();
         if(array.length === 0) return true;
 
         return array.reduce(function(prev, current) {

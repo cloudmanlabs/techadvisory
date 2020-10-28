@@ -171,7 +171,7 @@
     var currentPracticeId = {{$project->practice->id ?? -1}};
     function updateShownQuestionsAccordingToPractice(){
         $('.questionDiv').each(function () {
-            let practiceId = $(this).data('practice');
+            var practiceId = $(this).data('practice');
 
             if(practiceId == currentPracticeId || practiceId == "") {
                 $(this).css('display', 'block')
@@ -191,7 +191,7 @@
             enablePagination: false,
             // HACK Cause otherwise subwizards don't work
             onStepChanged: function(e, c, p) {
-                for (let i = 0; i < 10; i++) {
+                for (var i = 0; i < 10; i++) {
                     $("#projectViewWizard-p-" + i).css("display", "none");
                 }
 

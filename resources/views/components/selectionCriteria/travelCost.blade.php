@@ -57,9 +57,9 @@
         $(document).ready(function () {
             // RACI Matrix section
             $('#addTravelCostRow').click(function () {
-                const childrenCount = $('#travelCostContainer').children().toArray().length;
+               var childrenCount = $('#travelCostContainer').children().toArray().length;
 
-                let newDeliverable = `
+                var newDeliverable = `
             <div style="margin-top: 0.5rem">
                 <div style="display: flex; flex-direction: row">
                     <input type="text" class="form-control travelTitleInput"
@@ -87,7 +87,7 @@
             })
 
             function updateTotalTravelCost() {
-                const cost = $('#travelCostContainer').children()
+               var cost = $('#travelCostContainer').children()
                     .map(function () {
                         return $(this).children().get(0)
                     })
@@ -98,7 +98,7 @@
                         }
                     }).toArray();
 
-                const totalCost = cost.map(function (el) {
+               var totalCost = cost.map(function (el) {
                     return +el.cost
                 }).reduce(function (a, b) {
                     return a + b
@@ -115,7 +115,7 @@
             }
 
             function updateTravelCost() {
-                const cost = $('#travelCostContainer').children()
+               var cost = $('#travelCostContainer').children()
                     .map(function () {
                         return $(this).children().get(0)
                     })

@@ -102,8 +102,8 @@
 @parent
 <script>
     $(function () {
-        const colors = ["#27003d","#410066","#5a008f", "#7400b8","#8e00e0","#9b00f5","#a50aff","#c35cff","#d285ff","#e9c2ff","#f0d6ff","#f8ebff"];
-        const longColorArray = [
+       var colors = ["#27003d","#410066","#5a008f", "#7400b8","#8e00e0","#9b00f5","#a50aff","#c35cff","#d285ff","#e9c2ff","#f0d6ff","#f8ebff"];
+       var longColorArray = [
             ...colors,
             ...colors.splice(0,colors.length-1).reverse(), // We use the split so we don't repeat a color
             ...colors.splice(1,colors.length)

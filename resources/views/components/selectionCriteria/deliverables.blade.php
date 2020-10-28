@@ -42,9 +42,9 @@ $disabled = $disabled ?? false;
 <script>
     $(document).ready(function() {
         $('#addDeliverable').click(function(){
-            const childrenCount = $('#deliverableContainer').children().toArray().length;
+           var childrenCount = $('#deliverableContainer').children().toArray().length;
 
-            let newDeliverable = `
+            var newDeliverable = `
             <div>
                 <label for="projectName">Deliverable ${childrenCount + 1}</label>
                 <input type="text" class="form-control deliverableTitle"
@@ -73,7 +73,7 @@ $disabled = $disabled ?? false;
             })
         }
         function updateDeliverables(){
-            const deliverables = $('#deliverableContainer').children().map(function(){
+           var deliverables = $('#deliverableContainer').children().map(function(){
                 return {
                     title: $(this).children('.deliverableTitle').val(),
                     deliverable: $(this).children('.deliverableInput').val(),

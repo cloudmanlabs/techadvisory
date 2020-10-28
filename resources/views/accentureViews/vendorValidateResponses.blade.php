@@ -114,12 +114,12 @@
     }
 
     function checkIfAllEvalsAreFilled(){
-        let array = $('.checkboxesDiv input')
+        var array = $('.checkboxesDiv input')
             .toArray();
 
 		if(array.length == 0) return true;
 
-        for (let i = 0; i < array.length; i++) {
+        for (var i = 0; i < array.length; i++) {
             if(!$(array[i]).prop('checked')){
                 console.log(array[i], $(array[i]).prop('checked'))
                 return false

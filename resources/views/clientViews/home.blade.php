@@ -239,9 +239,9 @@
 
                 // Add a display none to the one which don't have this tags
                 $('#openPhaseContainer').children().each(function () {
-                    const practice = $(this).data('practice');
-                    const year = $(this).data('year').toString();
-                    const name = String($(this).data('name')).toLowerCase();
+                   var practice = $(this).data('practice');
+                   var year = $(this).data('year').toString();
+                   var name = String($(this).data('name')).toLowerCase();
 
                     if ($.inArray(practice, selectedPractices) !== -1
                         && $.inArray(year, selectedYears) !== -1
@@ -253,9 +253,9 @@
                     }
                 });
                 $('#preparationPhaseContainer').children().each(function () {
-                    const practice = $(this).data('practice');
-                    const year = $(this).data('year').toString();
-                    const name = String($(this).data('name')).toLowerCase();
+                   var practice = $(this).data('practice');
+                   var year = $(this).data('year').toString();
+                   var name = String($(this).data('name')).toLowerCase();
 
                     if ($.inArray(practice, selectedPractices) !== -1
                         && $.inArray(year, selectedYears) !== -1
@@ -267,9 +267,9 @@
                 });
 
                 $('#oldPhaseContainer').children().each(function () {
-                    const practice = $(this).data('practice');
-                    const year = $(this).data('year').toString();
-                    const name = String($(this).data('name')).toLowerCase();
+                   var practice = $(this).data('practice');
+                   var year = $(this).data('year').toString();
+                   var name = String($(this).data('name')).toLowerCase();
 
                     if ($.inArray(practice, selectedPractices) !== -1
                         && $.inArray(year, selectedYears) !== -1

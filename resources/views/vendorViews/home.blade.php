@@ -291,9 +291,9 @@
 
                 // Filter projects into the cards.
                 $('#invitationPhaseContainer').children().each(function () {
-                    const practice = $(this).data('practice');
-                    const year = $(this).data('year').toString();
-                    const name = String($(this).data('name')).toLowerCase();
+                   var practice = $(this).data('practice');
+                   var year = $(this).data('year').toString();
+                   var name = String($(this).data('name')).toLowerCase();
 
                     if ($.inArray(practice, selectedPractices) !== -1
                         && $.inArray(year, selectedYears) !== -1
@@ -306,9 +306,9 @@
                 });
 
                 $('#startedPhaseContainer').children().each(function () {
-                    const practice = $(this).data('practice');
-                    const year = $(this).data('year').toString();
-                    const name = String($(this).data('name')).toLowerCase();
+                   var practice = $(this).data('practice');
+                   var year = $(this).data('year').toString();
+                   var name = String($(this).data('name')).toLowerCase();
 
                     if ($.inArray(practice, selectedPractices) !== -1
                         && $.inArray(year, selectedYears) !== -1
@@ -320,9 +320,9 @@
                 });
 
                 $('#submittedPhaseContainer').children().each(function () {
-                    const practice = $(this).data('practice');
-                    const year = $(this).data('year').toString();
-                    const name = String($(this).data('name')).toLowerCase();
+                   var practice = $(this).data('practice');
+                   var year = $(this).data('year').toString();
+                   var name = String($(this).data('name')).toLowerCase();
 
                     if ($.inArray(practice, selectedPractices) !== -1
                         && $.inArray(year, selectedYears) !== -1
@@ -334,9 +334,9 @@
                 });
 
                 $('#rejectedPhaseContainer').children().each(function () {
-                    const practice = $(this).data('practice');
-                    const year = $(this).data('year').toString();
-                    const name = String($(this).data('name')).toLowerCase();
+                   var practice = $(this).data('practice');
+                   var year = $(this).data('year').toString();
+                   var name = String($(this).data('name')).toLowerCase();
 
                     if ($.inArray(practice, selectedPractices) !== -1
                         && $.inArray(year, selectedYears) !== -1

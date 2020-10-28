@@ -278,16 +278,16 @@
          *  Returns false if any field is empty
          */
         function checkIfAllRequiredsAreFilled() {
-            let array = $('input,textarea,select')
+            var array = $('input,textarea,select')
                 .filter('[required]')
                 .toArray()
                 .filter(function (el) {
-                    const practiceId = $(el).parent('.questionDiv').data('practice');
+                   var practiceId = $(el).parent('.questionDiv').data('practice');
                     return practiceId == currentPracticeId || practiceId == "";
                 });
             if (array.length == 0) return true;
 
-            for (let i = 0; i < array.length; i++) {
+            for (var i = 0; i < array.length; i++) {
                 console.log(array[i])
                 if (!$(array[i]).is(':hasValue') || $(array[i]).hasClass('invalid')) {
                     console.log(array[i])
@@ -299,7 +299,7 @@
         }
 
         function checkIfAllRequiredsInThisPageAreFilled() {
-            let array = $('input,textarea,select').filter('[required]:visible').toArray();
+            var array = $('input,textarea,select').filter('[required]:visible').toArray();
             if (array.length === 0) return true;
 
             return array.reduce(function(prev, current) {
@@ -309,7 +309,7 @@
 
         function updateSubmitStep3() {
             // If we filled all the fields, remove the disabled from the button.
-            let fieldsAreEmtpy = !checkIfAllRequiredsAreFilled();
+            var fieldsAreEmtpy = !checkIfAllRequiredsAreFilled();
             if (fieldsAreEmtpy || $('#step3Submit').data('submitted') == 1) {
                 $('#step3Submit').attr('disabled', true)
             } else {
@@ -332,7 +332,7 @@
 
         function updateShownQuestionsAccordingToPractice() {
             $('.questionDiv').each(function () {
-                let practiceId = $(this).data('practice');
+                var practiceId = $(this).data('practice');
 
                 if (practiceId == currentPracticeId || practiceId == "") {
                     $(this).css('display', 'block')
@@ -350,7 +350,7 @@
             }
 
             $('#subpracticeSelect').children().each(function () {
-                let practiceId = $(this).data('practiceid');
+                var practiceId = $(this).data('practiceid');
 
                 if (practiceId == currentPracticeId) {
                     $(this).attr('disabled', false);
@@ -408,7 +408,7 @@
 //             },
                 onStepChanged: function (e, c, p) {
                     updateSubmitStep3();
-                    for (let i = 0; i < 10; i++) {
+                    for (var i = 0; i < 10; i++) {
                         $('#wizard_client_newProjectSetUp-p-' + i).css('display', 'none');
                     }
                     $('#wizard_client_newProjectSetUp-p-' + c).css('display', 'block');

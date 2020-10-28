@@ -232,9 +232,9 @@
         });
 
         function updateTotalImplementation() {
-            let total = 0;
+            var total = 0;
 
-            let cost = $('#travelCostContainer').children()
+            var cost = $('#travelCostContainer').children()
                 .map(function () {
                     return $(this).children().get(0)
                 })

@@ -179,27 +179,27 @@
             function updateProjects() {
 
                 // Get all selected practices. If there are none, get all of them
-                const selectedPractices = getSelectedFrom('practiceSelect')
-                const selectedSubpractices = getSelectedFrom('subpracticeSelect')
-                const selectedClients = getSelectedFrom('clientSelect')
-                const selectedYears = getSelectedFrom('yearSelect')
-                const selectedIndustries = getSelectedFrom('industrySelect')
-                const selectedRegions = getSelectedFrom('regionSelect')
-                const selectedPhases = getSelectedFrom('phaseSelect')
-                const searchBox = $('#searchBox').val().toLocaleLowerCase();
+               var selectedPractices = getSelectedFrom('practiceSelect')
+               var selectedSubpractices = getSelectedFrom('subpracticeSelect')
+               var selectedClients = getSelectedFrom('clientSelect')
+               var selectedYears = getSelectedFrom('yearSelect')
+               var selectedIndustries = getSelectedFrom('industrySelect')
+               var selectedRegions = getSelectedFrom('regionSelect')
+               var selectedPhases = getSelectedFrom('phaseSelect')
+               var searchBox = $('#searchBox').val().toLocaleLowerCase();
 
                 console.log(searchBox)
 
                 // Add a display none to the one which don't have this tags
                 $('#projectContainer').children().each(function () {
-                    const practice = $(this).data('practice');
-                    const subpractices = $(this).data('subpractices');
-                    const client = $(this).data('client');
-                    const year = $(this).data('year').toString();
-                    const industry = $(this).data('industry');
-                    const regions = $(this).data('regions');
-                    const phase = $(this).data('phase');
-                    const name = $(this).data('name');
+                   var practice = $(this).data('practice');
+                   var subpractices = $(this).data('subpractices');
+                   var client = $(this).data('client');
+                   var year = $(this).data('year').toString();
+                   var industry = $(this).data('industry');
+                   var regions = $(this).data('regions');
+                   var phase = $(this).data('phase');
+                   var name = $(this).data('name');
 
                     if (
                         $.inArray(practice, selectedPractices) !== -1
@@ -220,7 +220,7 @@
             }
 
             function getSelectedFrom(id){
-                let selectedPractices = $(`#${id}`).select2('data').map(function (el) {
+                varselectedPractices = $(`#${id}`).select2('data').map(function (el) {
                     return el.text
                 });
                 if(selectedPractices.length == 0){

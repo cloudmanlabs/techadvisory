@@ -33,7 +33,7 @@ $disabled = $disabled ?? false;
 <script>
     $(document).ready(function() {
         function updateEstimateTotalCost(){
-            const elementsToAdd =
+           var elementsToAdd =
                 $('#estimate5YearsContainer').children()
                 .map(function(){
                     return $(this).children('.estimate5YearsHoursInput').val()
@@ -41,7 +41,7 @@ $disabled = $disabled ?? false;
                 .toArray()
                 .map(function(el) { return +el})
                 .filter(function(el) { return el != 0});
-            const totalCost = elementsToAdd
+           var totalCost = elementsToAdd
                 .reduce(function (a, b) {return a + b}, 0);
             $('#totalEstimate5YearsCost').html(totalCost);
             if(elementsToAdd.length !== 0){
@@ -55,7 +55,7 @@ $disabled = $disabled ?? false;
             })
         }
         function updateEstimate5Years(){
-            const cost = $('#estimate5YearsContainer').children()
+           var cost = $('#estimate5YearsContainer').children()
                 .map(function(){
                     return $(this).children('.estimate5YearsHoursInput').val()
                 }).toArray();

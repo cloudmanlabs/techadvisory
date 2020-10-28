@@ -57,8 +57,8 @@
 
 <script>
 	function sendEmail{{$vendor->id}}(){
-        const text = document.getElementById("message-text-{{$vendor->id}}").value;
-        const email = document.getElementById("message-email-{{$vendor->id}}").value;
+       var text = document.getElementById("message-text-{{$vendor->id}}").value;
+       var email = document.getElementById("message-email-{{$vendor->id}}").value;
         $.post('/accenture/project/resendInvitation/', {
             vendor_id: {{$vendor->id}},
             project_id: {{$project->id}},

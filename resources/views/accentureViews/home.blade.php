@@ -346,11 +346,11 @@
 
                 // Add a display none to the one which don't have this tags
                 $('#openPhaseContainer').children().each(function () {
-                    const practice = $(this).data('practice');
-                    const client = $(this).data('client');
-                    const year = $(this).data('year').toString();
-                    const vendors = $(this).data('vendors');
-                    const name = String($(this).data('name')).toLowerCase();
+                    var practice = $(this).data('practice');
+                    var client = $(this).data('client');
+                    var year = $(this).data('year').toString();
+                    var vendors = $(this).data('vendors');
+                    var name = String($(this).data('name')).toLowerCase();
 
                     if ($.inArray(practice, selectedPractices) !== -1
                         && $.inArray(client, selectedClients) !== -1
@@ -365,11 +365,11 @@
                 });
 
                 $('#preparationPhaseContainer').children().each(function () {
-                    const practice = $(this).data('practice');
-                    const client = $(this).data('client');
-                    const year = $(this).data('year').toString();
-                    const vendors = $(this).data('vendors');
-                    const name = String($(this).data('name')).toLowerCase();
+                    var practice = $(this).data('practice');
+                    var client = $(this).data('client');
+                    var year = $(this).data('year').toString();
+                    var vendors = $(this).data('vendors');
+                    var name = String($(this).data('name')).toLowerCase();
 
                     if ($.inArray(practice, selectedPractices) !== -1
                         && $.inArray(client, selectedClients) !== -1
@@ -383,11 +383,11 @@
                 });
 
                 $('#oldPhaseContainer').children().each(function () {
-                    const practice = $(this).data('practice');
-                    const client = $(this).data('client');
-                    const year = $(this).data('year').toString();
-                    const vendors = $(this).data('vendors');
-                    const name = String($(this).data('name')).toLowerCase();
+                    var practice = $(this).data('practice');
+                    var client = $(this).data('client');
+                    var year = $(this).data('year').toString();
+                    var vendors = $(this).data('vendors');
+                    var name = String($(this).data('name')).toLowerCase();
 
                     if ($.inArray(practice, selectedPractices) !== -1
                         && $.inArray(client, selectedClients) !== -1

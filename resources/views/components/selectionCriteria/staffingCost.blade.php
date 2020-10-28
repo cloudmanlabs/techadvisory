@@ -73,9 +73,9 @@ $disabled = $disabled ?? false;
     $(document).ready(function() {
         // RACI Matrix section
         $('#addStaffingCostRow').click(function(){
-            const childrenCount = $('#staffingCostContainer').children().toArray().length;
+           var childrenCount = $('#staffingCostContainer').children().toArray().length;
 
-            let newDeliverable = `
+            var newDeliverable = `
             <div style="margin-top: 0.5rem">
                 <div style="display: flex; flex-direction: row">
                     <input type="text" class="form-control staffingCostTitleInput"
@@ -110,7 +110,7 @@ $disabled = $disabled ?? false;
         })
 
         function updateTotalStaffingCost(){
-            const cost = $('#staffingCostContainer').children()
+           var cost = $('#staffingCostContainer').children()
             .map(function(){
                 return $(this).children().get(0)
             })
@@ -123,7 +123,7 @@ $disabled = $disabled ?? false;
                 }
             }).toArray();
 
-            const totalCost = cost.map(function(el) { return +el.cost}).reduce(function(a, b) { return a + b}, 0)
+           var totalCost = cost.map(function(el) { return +el.cost}).reduce(function(a, b) { return a + b}, 0)
             $('#totalStaffingCost').html(totalCost);
 
             updateTotalImplementation()
@@ -134,15 +134,15 @@ $disabled = $disabled ?? false;
             })
         }
         function updateStaffingCost(){
-            const cost = $('#staffingCostContainer').children()
+           var cost = $('#staffingCostContainer').children()
                 .map(function(){
                     return $(this).children().get(0)
                 })
                 .map(function(){
-                    const hours = $(this).children('.staffingCostHoursInput').val();
-                    const rate = $(this).children('.staffingCostRateInput').val();
+                   var hours = $(this).children('.staffingCostHoursInput').val();
+                   var rate = $(this).children('.staffingCostRateInput').val();
 
-                    const cost = hours * rate;
+                   var cost = hours * rate;
                     $(this).children('.staffingCostCostInput').val(cost)
                     return {
                         title: $(this).children('.staffingCostTitleInput').val(),

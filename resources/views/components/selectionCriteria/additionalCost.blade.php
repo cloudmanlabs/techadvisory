@@ -56,9 +56,9 @@
     $(document).ready(function() {
         // RACI Matrix section
         $('#addAdditionalCostRow').click(function(){
-            const childrenCount = $('#additionalCostContainer').children().toArray().length;
+            var childrenCount = $('#additionalCostContainer').children().toArray().length;
 
-            let newDeliverable = `
+            var newDeliverable = `
             <div style="margin-top: 0.5rem">
                 <div style="display: flex; flex-direction: row">
                     <input type="text" class="form-control additionalTitleInput"
@@ -85,7 +85,7 @@
         })
 
         function updateTotalAdditionalCost(){
-            const cost = $('#additionalCostContainer').children()
+            var cost = $('#additionalCostContainer').children()
                 .map(function(){
                     return $(this).children().get(0)
                 })
@@ -96,7 +96,7 @@
                     }
                 }).toArray();
 
-            const totalCost = cost.map(function(el) { return +el.cost}).reduce(function(a, b) { return a + b}, 0)
+            var totalCost = cost.map(function(el) { return +el.cost}).reduce(function(a, b) { return a + b}, 0)
             $('#totalAdditionalCost').html(totalCost);
 
             updateTotalImplementation()
@@ -107,7 +107,7 @@
             })
         }
         function updateAdditionalCost(){
-            const cost = $('#additionalCostContainer').children()
+            var cost = $('#additionalCostContainer').children()
                 .map(function(){
                     return $(this).children().get(0)
                 })

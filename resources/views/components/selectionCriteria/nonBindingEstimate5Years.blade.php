@@ -72,8 +72,8 @@ $disabled = $disabled ?? false;
 <script>
     $(document).ready(function() {
         function updateEstimateTotalCost(){
-            const averageYearlyCostMin = +$('#averageYearlyCostMin').val();
-            const averageYearlyCostMax = +$('#averageYearlyCostMax').val();
+           var averageYearlyCostMin = +$('#averageYearlyCostMin').val();
+           var averageYearlyCostMax = +$('#averageYearlyCostMax').val();
 
             $('#averageEstimate5YearsCost').html((averageYearlyCostMin + averageYearlyCostMax) / 2);
         }
@@ -84,7 +84,7 @@ $disabled = $disabled ?? false;
             })
         }
         function updateEstimate5Years(){
-            const cost = $('#estimate5YearsContainer').children()
+           var cost = $('#estimate5YearsContainer').children()
                 .map(function(){
                     return $(this).children('.estimate5YearsHoursInput').val()
                 }).toArray();

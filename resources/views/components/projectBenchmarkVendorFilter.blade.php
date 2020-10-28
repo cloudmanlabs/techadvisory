@@ -49,7 +49,7 @@ $(document).ready(function (){
 
         // Add a display none to the one which don't have this tags
         $('.filterByVendor').each(function () {
-            const vendor = $(this).data('vendor');
+           var vendor = $(this).data('vendor');
 
             if ($.inArray(vendor, selectedVendors) !== -1) {
                 $(this).css('display', '')

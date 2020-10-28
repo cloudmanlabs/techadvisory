@@ -215,7 +215,7 @@
 
 
     // Apex Radar chart start
-    let radarChart = new ApexCharts(document.querySelector("#apexRadar1"), {
+    var radarChart = new ApexCharts(document.querySelector("#apexRadar1"), {
         chart: {
             height: 600,
             type: "radar",

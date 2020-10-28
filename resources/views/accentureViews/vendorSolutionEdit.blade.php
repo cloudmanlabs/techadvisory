@@ -81,10 +81,10 @@
      *  Returns false if any field is empty
      */
     function checkIfAllRequiredsAreFilled(){
-        let array = $('input,textarea,select').filter('[required]:visible').toArray();
+        var array = $('input,textarea,select').filter('[required]:visible').toArray();
 		if(array.length == 0) return true;
 
-        for (let i = 0; i < array.length; i++) {
+        for (var i = 0; i < array.length; i++) {
             if(!$(array[i]).is(':hasValue') || $(array[i]).hasClass('invalid')){
                 console.log(array[i])
                 return false
@@ -108,7 +108,7 @@
     function updateSubmitButton()
     {
         // If we filled all the fields, remove the disabled from the button.
-        let fieldsAreEmtpy = !checkIfAllRequiredsAreFilled();
+        var fieldsAreEmtpy = !checkIfAllRequiredsAreFilled();
         if(fieldsAreEmtpy){
             $('#saveButton').addClass('disabled')
         } else {
@@ -119,7 +119,7 @@
     var currentPracticeId = {{$solution->practice->id ?? -1}};
     function updateShownQuestionsAccordingToPractice(){
         $('.questionDiv').each(function () {
-            let practiceId = $(this).data('practice');
+            var practiceId = $(this).data('practice');
 
             if(practiceId == currentPracticeId || practiceId == "") {
                 $(this).css('display', 'block')

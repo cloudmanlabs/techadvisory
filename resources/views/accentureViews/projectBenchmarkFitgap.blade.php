@@ -188,7 +188,7 @@ $(function () {
 
         // Add a display none to the one which don't have this tags
         $('.filterByRequirement').each(function () {
-            const requirement = $(this).data('requirement');
+           var requirement = $(this).data('requirement');
 
             if ($.inArray(requirement, selectedRequirements) !== -1) {
                 $(this).css('display', '')
