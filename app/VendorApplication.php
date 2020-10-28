@@ -1001,7 +1001,7 @@ class VendorApplication extends Model
         join('projects as p', 'project_id', '=', 'p.id')
             ->join('users as u', 'vendor_id', '=', 'u.id')
             ->join('project_subpractice as sub', 'vendor_applications.project_id', '=', 'sub.project_id')
-            ->where('u.hasFinishedSetup', true);
+            ->where('vendor_applications.phase', '=', 'evaluated');
 
         // Applying user filters to projects
         $query = VendorApplication::benchmarkProjectResultsFilters($query,
@@ -1027,12 +1027,12 @@ class VendorApplication extends Model
 
             // HERE: Change this to remove null scores (pending to evaluate).
             //if ($nota != null)
-                if (!is_array($scores[$vendorId])) {
-                    $scores[$vendorId] = [$nota];
+            if (!is_array($scores[$vendorId])) {
+                $scores[$vendorId] = [$nota];
 
-                } else {
-                    $scores[$vendorId][] = $nota;
-                }
+            } else {
+                $scores[$vendorId][] = $nota;
+            }
         }
 
 
@@ -1069,10 +1069,10 @@ class VendorApplication extends Model
 
         // Raw data without user filters
         $query = VendorApplication::
-        join('projects as p', 'project_id', '=', 'p.id')
+            where('vendor_applications.phase', '=', 'evaluated')
+            ->join('projects as p', 'project_id', '=', 'p.id')
             ->join('users as u', 'vendor_id', '=', 'u.id')
-            ->join('project_subpractice as sub', 'vendor_applications.project_id', '=', 'sub.project_id')
-            ->where('u.hasFinishedSetup', true);
+            ->join('project_subpractice as sub', 'vendor_applications.project_id', '=', 'sub.project_id');
 
         // Applying user filters to projects
         $query = VendorApplication::benchmarkProjectResultsFilters($query,
