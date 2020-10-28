@@ -254,10 +254,18 @@ class User extends Authenticatable
         }
     }
 
-    public static function vendorIndustryCount($industryToCount)
+    public static function vendorIndustries($industryToCount)
     {
-        $query = User::vendorUsers();
+        $query = User::where('hasFinishedSetup', true)->get();
+
+        $industries = collect();
+
+        foreach ($query as $vendor) {
+            $industries->push($vendor->getIndustryFromVendor());
+        }
+        return $industries;
     }
+
 
     /**
      * Returns the project this vendor has applied to
