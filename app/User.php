@@ -244,9 +244,14 @@ class User extends Authenticatable
      *  in the profile of the vendor. Can be Multiple.
      * @return VendorProfileQuestionResponse
      */
-    public function getIndustryFromvendor()
+    public function getIndustryFromVendor()
     {
-        return $this->vendorProfileQuestions->where('question_id', 3)->first()->response;
+        $INDUSTRY_QUESTION_ID = 3;
+
+        if ($this->isVendor()) {
+            return $this->vendorProfileQuestions->where('question_id', $INDUSTRY_QUESTION_ID)
+                ->first()->response;
+        }
     }
 
     public static function vendorIndustryCount()
