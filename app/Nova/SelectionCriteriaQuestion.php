@@ -169,19 +169,24 @@ class SelectionCriteriaQuestion extends Resource
         }
 
         // adding linked question field.
-        $this->resource->type ? $id = intval($request->resourceId): $id= 1;
+        if ($this->resource->page) {
+            if (!empty($request->resourceId)) {
+                $id = intval($request->resourceId);
 
-            array_push($other,
-                Select::make('Linked Question', 'linked_question_id')
-                    ->options(
-                        \App\SelectionCriteriaQuestion::find($id)
-                            ->getPossibleLinkedQuestionsFiltered()
-                    )
-                    ->nullable()
-                    ->hideFromIndex()
-                    ->hideWhenCreating()
-                    ->displayUsingLabels()
-            );
+                array_push($other,
+                    Select::make('Linked Question', 'linked_question_id')
+                        ->options(
+                            \App\SelectionCriteriaQuestion::find($id)
+                                ->getPossibleLinkedQuestionsFiltered()
+                        )
+                        ->nullable()
+                        ->hideFromIndex()
+                        ->hideWhenCreating()
+                        ->displayUsingLabels()
+                );
+            }
+
+        }
 
 
         return array_merge($common, $other);
