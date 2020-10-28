@@ -1,11 +1,6 @@
 @extends('accentureViews.layouts.benchmark')
 
 @php
-    /*foreach ($industriesToFilter as $industry){
-        $a = in_array($industry,$industriesToFilter);
-        var_dump($industry);
-        var_dump($a);
-    }*/
 @endphp
 @section('content')
 

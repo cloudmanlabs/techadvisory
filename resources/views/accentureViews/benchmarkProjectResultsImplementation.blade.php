@@ -178,7 +178,7 @@
                                                 <div class="card-body">
                                                     <h6>Best {{count($vendorScoresImplementationImplementation)}}
                                                         Vendors By
-                                                        Implementation Score</h6>
+                                                        Implementation <i>Implementation</i> Score</h6>
                                                     <br><br>
                                                     <canvas id="best-implementation-implementation-chart"></canvas>
                                                 </div>
@@ -216,7 +216,7 @@
                                             <div class="card">
                                                 <div class="card-body">
                                                     <h6>Best {{count($vendorScoresImplementationRun)}} Vendors By
-                                                        Implementation Score</h6>
+                                                        Implementation <i>Run</i> Score</h6>
                                                     <br><br>
                                                     <canvas id="best-implementation-run-chart"></canvas>
                                                 </div>

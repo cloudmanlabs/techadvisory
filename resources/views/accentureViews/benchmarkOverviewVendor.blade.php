@@ -35,7 +35,7 @@
                                         <aside id="filters-container" class="col-4">
                                             <h3>Filters</h3>
                                             <br>
-                                            <label>No filters availables for this section</label>
+                                            <label>No filter available for this section</label>
                                         </aside>
                                         <div id="charts-container" class="col-8 border-left">
                                             <div class="row pl-3">
@@ -130,6 +130,7 @@
                     yAxes: [{
                         ticks: {
                             beginAtZero: true,
+                            precision: 0,
                             integer: true,
                             fontSize: 17,
                             step: 1
@@ -137,7 +138,6 @@
                     }],
                     xAxes: [{
                         ticks: {
-                            stacked: true,
                             fontSize: 17,
                         }
                     }]

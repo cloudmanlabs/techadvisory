@@ -240,6 +240,21 @@ class User extends Authenticatable
     }
 
     /**
+     * The Vendor Industry is a value saved in the question 'industry experience' from the question
+     *  in the profile of the vendor. Can be Multiple.
+     * @return VendorProfileQuestionResponse
+     */
+    public function getIndustryFromvendor()
+    {
+        return $this->vendorProfileQuestions->where('question_id', 3)->first()->response;
+    }
+
+    public static function vendorIndustryCount()
+    {
+
+    }
+
+    /**
      * Returns the project this vendor has applied to
      * @param string[]|null $phase
      * @return \Illuminate\Database\Eloquent\Builder
@@ -259,8 +274,7 @@ class User extends Authenticatable
                                                   $years = [], $industries = [], $regions = [])
     {
         $query = Project::select('projects.id', 'industry', 'regions', 'projects.created_at')
-            ->join('project_subpractice as sub', 'projects.id', '=', 'sub.project_id');
-        ;
+            ->join('project_subpractice as sub', 'projects.id', '=', 'sub.project_id');;
 
         // Applying user filters to projects
         if ($practicesID) {
@@ -270,13 +284,13 @@ class User extends Authenticatable
                 }
             });
         }
-/*        if ($subpracticesID) {
-           $query = $query->whereHas('subpractices', function (Builder $query) use($subpracticesID) {
-                for ($i = 0; $i < count($subpracticesID); $i++) {
-                    $query = $query->where('subpractices.id', $subpracticesID[$i]);
-                }
-            });
-        }*/
+        /*        if ($subpracticesID) {
+                   $query = $query->whereHas('subpractices', function (Builder $query) use($subpracticesID) {
+                        for ($i = 0; $i < count($subpracticesID); $i++) {
+                            $query = $query->where('subpractices.id', $subpracticesID[$i]);
+                        }
+                    });
+                }*/
         if (is_array($subpracticesID)) {
             $query = $query->where(function ($query) use ($subpracticesID) {
                 for ($i = 0; $i < count($subpracticesID); $i++) {
