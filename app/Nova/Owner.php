@@ -54,9 +54,9 @@ class Owner extends Resource
 
             Text::make('Name', 'name'),
 
-            HasMany::make('Projects with this owner', 'projects', 'App\Nova\Project'),
+            HasMany::make("Organization's projects", 'projects', 'App\Nova\Project'),
 
-            HasMany::make('Owner with this User', 'users', 'App\Nova\Accenture'),
+            HasMany::make("Organization's users", 'users', 'App\Nova\Accenture'),
 
         ];
     }

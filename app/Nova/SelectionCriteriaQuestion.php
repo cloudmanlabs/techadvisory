@@ -203,8 +203,6 @@ class SelectionCriteriaQuestion extends Resource
             }
 
         }
-
-
         return array_merge($common, $other);
     }
 
