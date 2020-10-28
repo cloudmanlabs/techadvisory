@@ -152,15 +152,10 @@ class BenchmarkController extends Controller
                     ->count(),
             ];
         });
+
         // Chart 2
-        $industries = collect(config('arrays.industryExperience'))->map(function ($industry) {
-            return (object)[
-                'name' => $industry,
-                'count' => User::vendorUsers()->get()->filter(function (User $vendor) use ($industry) {
-                    return $vendor->getVendorResponse('vendorIndustry') == $industry;
-                })->count(),
-            ];
-        });
+        $industries = User::vendorsPerIndustry();
+
         // Chart 3
         $regions = collect(config('arrays.regions'))->map(function ($region) {
             return (object)[

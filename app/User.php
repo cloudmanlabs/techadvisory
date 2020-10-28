@@ -254,18 +254,32 @@ class User extends Authenticatable
         }
     }
 
-    public static function vendorIndustries($industryToCount)
+    public static function vendorsPerIndustry()
+    {
+        $industriesVendorCount = collect(config('arrays.industryExperience'))->map(function ($industry) {
+            return (object)[
+                'name' => $industry,
+                'count' => User::vendorsCountPerThisIndustry($industry),
+            ];
+        });
+        return $industriesVendorCount;
+    }
+
+    // returns the number of vendors from the Industry consulted.
+    private static function vendorsCountPerThisIndustry($industryToCount)
     {
         $query = User::where('hasFinishedSetup', true)->get();
 
         $industries = collect();
 
         foreach ($query as $vendor) {
-            $industries->push($vendor->getIndustryFromVendor());
+            $check = $vendor->getIndustryFromVendor();
+            if (strpos($check, $industryToCount) !== false) {
+                $industries->push($check);
+            }
         }
-        return $industries;
+        return $industries->count();
     }
-
 
     /**
      * Returns the project this vendor has applied to
