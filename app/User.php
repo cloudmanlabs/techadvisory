@@ -258,7 +258,9 @@ class User extends Authenticatable
     public function vendorAppliedProjectsFiltered($practicesID = [], $subpracticesID = [],
                                                   $years = [], $industries = [], $regions = [])
     {
-        $query = Project::select('id', 'industry', 'regions', 'created_at');
+        $query = Project::select('projects.id', 'industry', 'regions', 'projects.created_at')
+            ->join('project_subpractice as sub', 'projects.id', '=', 'sub.project_id');
+        ;
 
         // Applying user filters to projects
         if ($practicesID) {
@@ -268,17 +270,24 @@ class User extends Authenticatable
                 }
             });
         }
-        if ($subpracticesID) {
-            $query = $query->whereHas('subpractices', function (Builder $query) use($subpracticesID) {
+/*        if ($subpracticesID) {
+           $query = $query->whereHas('subpractices', function (Builder $query) use($subpracticesID) {
                 for ($i = 0; $i < count($subpracticesID); $i++) {
                     $query = $query->where('subpractices.id', $subpracticesID[$i]);
+                }
+            });
+        }*/
+        if (is_array($subpracticesID)) {
+            $query = $query->where(function ($query) use ($subpracticesID) {
+                for ($i = 0; $i < count($subpracticesID); $i++) {
+                    $query = $query->orWhere('sub.subpractice_id', '=', $subpracticesID[$i]);
                 }
             });
         }
         if ($years) {
             $query = $query->where(function ($query) use ($years) {
                 for ($i = 0; $i < count($years); $i++) {
-                    $query = $query->orWhere('created_at', 'like', '%' . $years[$i] . '%');
+                    $query = $query->orWhere('projects.created_at', 'like', '%' . $years[$i] . '%');
                 }
             });
         }
