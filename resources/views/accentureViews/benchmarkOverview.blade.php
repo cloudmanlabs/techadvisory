@@ -190,6 +190,7 @@
                     yAxes: [{
                         ticks: {
                             beginAtZero: true,
+                            precision:0,
                             fontSize: 17
                         }
                     }],
@@ -232,6 +233,7 @@
                 yAxes: [{
                     ticks: {
                         beginAtZero: true,
+                        precision: 0,
                         fontSize: 17
                     }
                 }],

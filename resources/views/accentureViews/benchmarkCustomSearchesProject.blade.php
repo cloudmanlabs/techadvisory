@@ -39,7 +39,7 @@
                                     <div id="filterContainer">
                                         <div class="media-body" style="padding: 20px;">
                                             <p class="welcome_text">
-                                                Search:
+                                                Please choose the Project's Name you'd like to see:
                                             </p>
                                             <div class="input-group">
                                                 <input type="text" class="form-control" id="searchBox">

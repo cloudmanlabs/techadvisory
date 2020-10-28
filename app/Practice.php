@@ -26,7 +26,7 @@ class Practice extends Model
 
     public function projectsFilteredToBenchmarkOverview($regions = [], $years = [])
     {
-        $query = $this->hasMany(Project::class)->select('id', 'regions', 'created_at');
+        $query = $this->hasMany(Project::class)->select('id', 'currentPhase', 'regions', 'created_at');
         $query = $this->benchmarkOverviewFilters($query, $regions, $years);
         $query = $query->count();
         return $query;
@@ -35,7 +35,7 @@ class Practice extends Model
     public function applicationsInProjectsWithThisPractice($regions = [], $years = [])
     {
 
-        $query = $this->projects()->select('id', 'regions', 'created_at');
+        $query = $this->projects()->select('id', 'currentPhase','regions', 'created_at');
         $query = $this->benchmarkOverviewFilters($query, $regions, $years);
 
         $query = $query->get()->map(function (Project $project) {
@@ -48,7 +48,7 @@ class Practice extends Model
 
     public function numberOfProjectsByVendor(User $vendor, $regions = [], $years = [])
     {
-        $query = $this->projects()->select('id', 'regions', 'created_at');
+        $query = $this->projects()->select('id', 'currentPhase','regions', 'created_at');
         $query = $this->benchmarkOverviewFilters($query, $regions, $years);
 
         $query = $query->get()->filter(function (Project $project) use ($vendor) {
@@ -61,6 +61,8 @@ class Practice extends Model
     // Encapsulate the filters for graphics from view: Overview - general
     private function benchmarkOverviewFilters($query, $regions = [], $years = [])
     {
+        $query = $query->where('currentPhase','=','old');
+
         if ($regions) {
             $query = $query->where(function ($query) use ($regions) {
                 for ($i = 0; $i < count($regions); $i++) {
