@@ -86,7 +86,7 @@ class User extends Authenticatable
     public function projectsClientFilteredBenchmarkOverview($regions = [], $years = [])
     {
         $query = $this->hasMany(Project::class, 'client_id')
-            ->select('id', 'regions', 'created_at');
+            ->select('id', 'regions', 'created_at', 'currentPhase');
         $query = $this->benchmarkOverviewFilters($query, $regions, $years);
         $query = $query->count();
         return $query;
@@ -95,6 +95,8 @@ class User extends Authenticatable
     // Encapsulate the filters for graphics from view: Overview - general
     private function benchmarkOverviewFilters($query, $regions = [], $years = [])
     {
+        $query = $query->where('currentPhase','=','old');
+
         if ($regions) {
             $query = $query->where(function ($query) use ($regions) {
                 for ($i = 0; $i < count($regions); $i++) {
