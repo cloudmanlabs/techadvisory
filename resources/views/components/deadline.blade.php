@@ -5,7 +5,8 @@
         <div class="card">
             <div class="card-body">
                 <h3>Project deadline</h3>
-                <h5>{{$project->deadline->format('F j Y, \a\t H:i')}} - GMT 0</h5>
+                {{-- So the addHours is an amazing hack because they want it shown in Finnish time --}}
+                <h5>{{$project->deadline->addHours(1)->format('F j Y, \a\t H:i')}} - GMT +2</h5>
                 <br>
 
                 @if ($project->deadline != null && !$project->deadline->isPast())
