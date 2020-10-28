@@ -172,6 +172,7 @@
                     yAxes: [{
                         ticks: {
                             beginAtZero: true,
+                            precision: 0,
                             integer: true,
                             fontSize: 17,
                             step: 1
@@ -214,6 +215,7 @@
                     yAxes: [{
                         ticks: {
                             beginAtZero: true,
+                            precision: 0,
                             integer: true,
                             fontSize: 17,
                             step: 1
