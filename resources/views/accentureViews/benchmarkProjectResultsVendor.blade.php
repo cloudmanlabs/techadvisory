@@ -165,7 +165,9 @@
     @parent
     <script>
 
-        $('#practices-select').select2();
+        $('#practices-select').select2({
+            maximumSelectionLength: 1
+        });
         $('#subpractices-select').select2();
         $('#years-select').select2();
         $('#industries-select').select2();
