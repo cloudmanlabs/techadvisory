@@ -12,17 +12,17 @@ use Illuminate\Support\Facades\Log;
  * @property boolean $invitedToOrals
  * @property boolean $oralsCompleted
  *
- * @property array $fitgapVendorColumns
- * @property array $fitgapVendorColumnsOld
- * @property array $fitgapVendorColumnsOld2
- * @property array $fitgapVendorColumnsOld3
- * @property array $fitgapVendorColumnsOld4
- * @property array $fitgapVendorColumnsOld5
- * @property array $fitgapVendorColumnsOld6
- * @property array $fitgapVendorColumnsOld7
- * @property array $fitgapVendorColumnsOld8
- * @property array $fitgapVendorColumnsOld9
- * @property array $fitgapVendorColumnsOld10
+ * @property array|null $fitgapVendorColumns
+ * @property array|null $fitgapVendorColumnsOld
+ * @property array|null $fitgapVendorColumnsOld2
+ * @property array|null $fitgapVendorColumnsOld3
+ * @property array|null $fitgapVendorColumnsOld4
+ * @property array|null $fitgapVendorColumnsOld5
+ * @property array|null $fitgapVendorColumnsOld6
+ * @property array|null $fitgapVendorColumnsOld7
+ * @property array|null $fitgapVendorColumnsOld8
+ * @property array|null $fitgapVendorColumnsOld9
+ * @property array|null $fitgapVendorColumnsOld10
  *
  * @property array $solutionsUsed
  * @property array $deliverables

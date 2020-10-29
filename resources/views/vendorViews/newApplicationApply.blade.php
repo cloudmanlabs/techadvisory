@@ -22,6 +22,10 @@
                                 <div id="wizard_vendor_go_to_home">
                                     <h2>Fit gap</h2>
                                     <section>
+                                        <p class="welcome_text extra-top-15px" style="color:red">
+                                            In order to complete FitGap Table, please bear in mind that only one user must work on it simultaneously using one
+                                            single browser tab to avoid loss of data because of conflicting inputs when saving.
+                                        </p>
                                         <p class="welcome_text extra-top-15px">
                                             Provide your inputs on how your solution/s will cover the client’s functional, technical and service requirements, among others.
                                         </p>
