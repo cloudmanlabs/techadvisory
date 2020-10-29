@@ -21,6 +21,8 @@ class VendorApplicationObserver
         }
 
         $application->fitgapVendorColumns = $fitgapColumns;
+        $application->fitgapVendorColumnsOld = $fitgapColumns;
+        $application->fitgapVendorColumnsOld2 = $fitgapColumns;
         $application->fitgapVendorScores = $scores;
         $application->save();
 

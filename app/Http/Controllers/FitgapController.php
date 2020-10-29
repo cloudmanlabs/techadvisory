@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Imports\FitgapImport;
 use App\Project;
+use App\SecurityLog;
 use App\User;
 use App\VendorApplication;
 use Illuminate\Http\Request;
@@ -219,6 +220,10 @@ class FitgapController extends Controller
             ];
         }
 
+        SecurityLog::createLog('Vendor edited fitgap in Project with ID ' . $project->id);
+
+        $vendorApplication->fitgapVendorColumnsOld2 = $vendorApplication->fitgapVendorColumnsOld;
+        $vendorApplication->fitgapVendorColumnsOld = $vendorApplication->fitgapVendorColumns;
         $vendorApplication->fitgapVendorColumns = $result;
         $vendorApplication->save();
 

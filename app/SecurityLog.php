@@ -23,6 +23,7 @@ class SecurityLog extends Model
         (new self([
             'user_id' => optional(auth()->user())->id,
             'text' => $text,
+            'credential_id' => session('credential_id')
         ]))->save();
     }
 }
