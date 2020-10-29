@@ -2,6 +2,7 @@
 
 namespace App\Nova;
 
+use App\Nova\Filters\FixedTypeSelectionCriteriaOnProject;
 use App\Nova\Filters\PageTypeSelectionCriteriaOnProject;
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\BelongsTo;
@@ -54,7 +55,7 @@ class SelectionCriteriaQuestionProjectPivot extends Resource
 
         $other = [];
 
-        // Here we assume we are on a form from a Project to Selection criteria Question project Pivot
+        //  Here we assume we are on a form from a Project to Selection criteria Question project Pivot
         if (!empty($request->viaResourceId)) {
             // viaResourceId is a id from project.
             $projectId = intval($request->viaResourceId);
@@ -93,7 +94,8 @@ class SelectionCriteriaQuestionProjectPivot extends Resource
     public function filters(Request $request)
     {
         return [
-            new PageTypeSelectionCriteriaOnProject
+            new PageTypeSelectionCriteriaOnProject,
+            new FixedTypeSelectionCriteriaOnProject
         ];
     }
 
