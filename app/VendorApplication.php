@@ -95,7 +95,7 @@ class VendorApplication extends Model
 
 
 
-    public function vendorFitgapJsonGeneral(array $array) : array {
+    public function vendorFitgapJsonGeneral($array) : array {
         $result = [];
         // Merge the two arrays
         foreach ($this->project->fitgap5Columns as $key => $something) {
