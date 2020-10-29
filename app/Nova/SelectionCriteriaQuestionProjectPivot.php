@@ -2,19 +2,10 @@
 
 namespace App\Nova;
 
+use App\Nova\Filters\PageTypeSelectionCriteriaOnProject;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
 use Laravel\Nova\Fields\BelongsTo;
-use Laravel\Nova\Fields\BelongsToMany;
-use Laravel\Nova\Fields\Boolean;
-use Laravel\Nova\Fields\HasMany;
-use Laravel\Nova\Fields\HasOne;
-use Laravel\Nova\Fields\ID;
-use Laravel\Nova\Fields\Password;
 use Laravel\Nova\Fields\Select;
-use Laravel\Nova\Fields\Text;
-use Laravel\Nova\Http\Requests\NovaRequest;
-use Laravel\Nova\Panel;
 
 class SelectionCriteriaQuestionProjectPivot extends Resource
 {
@@ -101,7 +92,9 @@ class SelectionCriteriaQuestionProjectPivot extends Resource
      */
     public function filters(Request $request)
     {
-        return [];
+        return [
+            new PageTypeSelectionCriteriaOnProject
+        ];
     }
 
     /**
