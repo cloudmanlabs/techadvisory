@@ -168,17 +168,39 @@ class VendorApplication extends Resource
                 ->hideFromIndex(),
 
             (new Panel('Fitgap versions', [
-                Code::make('Current version', 'fitgapVendorColumns')->json()->exceptOnForms()->hideFromIndex(),
-                Code::make('Version - 1', 'fitgapVendorColumnsOld')->json()->exceptOnForms()->hideFromIndex(),
-                Code::make('Version - 2', 'fitgapVendorColumnsOld2')->json()->exceptOnForms()->hideFromIndex(),
-                Code::make('Version - 3', 'fitgapVendorColumnsOld3')->json()->exceptOnForms()->hideFromIndex(),
-                Code::make('Version - 4', 'fitgapVendorColumnsOld4')->json()->exceptOnForms()->hideFromIndex(),
-                Code::make('Version - 5', 'fitgapVendorColumnsOld5')->json()->exceptOnForms()->hideFromIndex(),
-                Code::make('Version - 6', 'fitgapVendorColumnsOld6')->json()->exceptOnForms()->hideFromIndex(),
-                Code::make('Version - 7', 'fitgapVendorColumnsOld7')->json()->exceptOnForms()->hideFromIndex(),
-                Code::make('Version - 8', 'fitgapVendorColumnsOld8')->json()->exceptOnForms()->hideFromIndex(),
-                Code::make('Version - 9', 'fitgapVendorColumnsOld9')->json()->exceptOnForms()->hideFromIndex(),
-                Code::make('Version - 10', 'fitgapVendorColumnsOld10')->json()->exceptOnForms()->hideFromIndex(),
+                Code::make('Current version', function($app) {
+                    return json_encode($app->vendorFitgapJson(), JSON_PRETTY_PRINT);
+                })->json()->exceptOnForms()->hideFromIndex(),
+                Code::make('Version - 1', function($app) {
+                    return json_encode($app->vendorFitgapJsonOld(), JSON_PRETTY_PRINT);
+                })->json()->exceptOnForms()->hideFromIndex(),
+                Code::make('Version - 2', function($app) {
+                    return json_encode($app->vendorFitgapJsonOld2(), JSON_PRETTY_PRINT);
+                })->json()->exceptOnForms()->hideFromIndex(),
+                Code::make('Version - 3', function($app) {
+                    return json_encode($app->vendorFitgapJsonOld3(), JSON_PRETTY_PRINT);
+                })->json()->exceptOnForms()->hideFromIndex(),
+                Code::make('Version - 4', function($app) {
+                    return json_encode($app->vendorFitgapJsonOld4(), JSON_PRETTY_PRINT);
+                })->json()->exceptOnForms()->hideFromIndex(),
+                Code::make('Version - 5', function($app) {
+                    return json_encode($app->vendorFitgapJsonOld5(), JSON_PRETTY_PRINT);
+                })->json()->exceptOnForms()->hideFromIndex(),
+                Code::make('Version - 6', function($app) {
+                    return json_encode($app->vendorFitgapJsonOld6(), JSON_PRETTY_PRINT);
+                })->json()->exceptOnForms()->hideFromIndex(),
+                Code::make('Version - 7', function($app) {
+                    return json_encode($app->vendorFitgapJsonOld7(), JSON_PRETTY_PRINT);
+                })->json()->exceptOnForms()->hideFromIndex(),
+                Code::make('Version - 8', function($app) {
+                    return json_encode($app->vendorFitgapJsonOld8(), JSON_PRETTY_PRINT);
+                })->json()->exceptOnForms()->hideFromIndex(),
+                Code::make('Version - 9', function($app) {
+                    return json_encode($app->vendorFitgapJsonOld9(), JSON_PRETTY_PRINT);
+                })->json()->exceptOnForms()->hideFromIndex(),
+                Code::make('Version - 10', function($app) {
+                    return json_encode($app->vendorFitgapJsonOld10(), JSON_PRETTY_PRINT);
+                })->json()->exceptOnForms()->hideFromIndex(),
             ])),
         ];
     }

@@ -13,6 +13,16 @@ use Illuminate\Support\Facades\Log;
  * @property boolean $oralsCompleted
  *
  * @property array $fitgapVendorColumns
+ * @property array $fitgapVendorColumnsOld
+ * @property array $fitgapVendorColumnsOld2
+ * @property array $fitgapVendorColumnsOld3
+ * @property array $fitgapVendorColumnsOld4
+ * @property array $fitgapVendorColumnsOld5
+ * @property array $fitgapVendorColumnsOld6
+ * @property array $fitgapVendorColumnsOld7
+ * @property array $fitgapVendorColumnsOld8
+ * @property array $fitgapVendorColumnsOld9
+ * @property array $fitgapVendorColumnsOld10
  *
  * @property array $solutionsUsed
  * @property array $deliverables
@@ -78,6 +88,65 @@ class VendorApplication extends Model
     {
         return $this->morphOne(Folder::class, 'folderable')->where('folderable_group', 'experience');
     }
+
+
+
+
+
+
+
+    public function vendorFitgapJsonGeneral(array $array) : array {
+        $result = [];
+        // Merge the two arrays
+        foreach ($this->project->fitgap5Columns as $key => $something) {
+            $result[] = array_merge(
+                $this->project->fitgap5Columns[$key],
+                $array[$key] ?? [
+                    'Vendor Response' => '',
+                    'Comments' => '',
+                ]
+            );
+        }
+
+        return $result;
+    }
+    public function vendorFitgapJson() : array {
+        return $this->vendorFitgapJsonGeneral($this->fitgapVendorColumns);
+    }
+    public function vendorFitgapJsonOld() : array {
+        return $this->vendorFitgapJsonGeneral($this->fitgapVendorColumnsOld);
+    }
+    public function vendorFitgapJsonOld2() : array {
+        return $this->vendorFitgapJsonGeneral($this->fitgapVendorColumnsOld2);
+    }
+    public function vendorFitgapJsonOld3() : array {
+        return $this->vendorFitgapJsonGeneral($this->fitgapVendorColumnsOld3);
+    }
+    public function vendorFitgapJsonOld4() : array {
+        return $this->vendorFitgapJsonGeneral($this->fitgapVendorColumnsOld4);
+    }
+    public function vendorFitgapJsonOld5() : array {
+        return $this->vendorFitgapJsonGeneral($this->fitgapVendorColumnsOld5);
+    }
+    public function vendorFitgapJsonOld6() : array {
+        return $this->vendorFitgapJsonGeneral($this->fitgapVendorColumnsOld6);
+    }
+    public function vendorFitgapJsonOld7() : array {
+        return $this->vendorFitgapJsonGeneral($this->fitgapVendorColumnsOld7);
+    }
+    public function vendorFitgapJsonOld8() : array {
+        return $this->vendorFitgapJsonGeneral($this->fitgapVendorColumnsOld8);
+    }
+    public function vendorFitgapJsonOld9() : array {
+        return $this->vendorFitgapJsonGeneral($this->fitgapVendorColumnsOld9);
+    }
+    public function vendorFitgapJsonOld10() : array {
+        return $this->vendorFitgapJsonGeneral($this->fitgapVendorColumnsOld10);
+    }
+
+
+
+
 
 
 
