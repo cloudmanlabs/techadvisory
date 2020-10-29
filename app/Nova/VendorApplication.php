@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Log;
 use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\BelongsToMany;
 use Laravel\Nova\Fields\Boolean;
+use Laravel\Nova\Fields\Code;
 use Laravel\Nova\Fields\HasMany;
 use Laravel\Nova\Fields\HasOne;
 use Laravel\Nova\Fields\ID;
@@ -155,6 +156,12 @@ class VendorApplication extends Resource
             })
                 ->exceptOnForms()
                 ->hideFromIndex(),
+
+            (new Panel('Fitgap versions', [
+                Code::make('Current version', 'fitgapVendorColumns')->json()->exceptOnForms()->hideFromIndex(),
+                Code::make('Version - 1', 'fitgapVendorColumnsOld')->json()->exceptOnForms()->hideFromIndex(),
+                Code::make('Version - 2', 'fitgapVendorColumnsOld2')->json()->exceptOnForms()->hideFromIndex(),
+            ])),
         ];
     }
 
