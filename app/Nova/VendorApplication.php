@@ -4,6 +4,14 @@ namespace App\Nova;
 
 use App\Nova\Actions\RestoreVersionMinus1;
 use App\Nova\Actions\RestoreVersionMinus2;
+use App\Nova\Actions\RestoreVersionMinus3;
+use App\Nova\Actions\RestoreVersionMinus4;
+use App\Nova\Actions\RestoreVersionMinus5;
+use App\Nova\Actions\RestoreVersionMinus6;
+use App\Nova\Actions\RestoreVersionMinus7;
+use App\Nova\Actions\RestoreVersionMinus8;
+use App\Nova\Actions\RestoreVersionMinus9;
+use App\Nova\Actions\RestoreVersionMinus10;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Laravel\Nova\Fields\BelongsTo;
@@ -163,6 +171,14 @@ class VendorApplication extends Resource
                 Code::make('Current version', 'fitgapVendorColumns')->json()->exceptOnForms()->hideFromIndex(),
                 Code::make('Version - 1', 'fitgapVendorColumnsOld')->json()->exceptOnForms()->hideFromIndex(),
                 Code::make('Version - 2', 'fitgapVendorColumnsOld2')->json()->exceptOnForms()->hideFromIndex(),
+                Code::make('Version - 3', 'fitgapVendorColumnsOld3')->json()->exceptOnForms()->hideFromIndex(),
+                Code::make('Version - 4', 'fitgapVendorColumnsOld4')->json()->exceptOnForms()->hideFromIndex(),
+                Code::make('Version - 5', 'fitgapVendorColumnsOld5')->json()->exceptOnForms()->hideFromIndex(),
+                Code::make('Version - 6', 'fitgapVendorColumnsOld6')->json()->exceptOnForms()->hideFromIndex(),
+                Code::make('Version - 7', 'fitgapVendorColumnsOld7')->json()->exceptOnForms()->hideFromIndex(),
+                Code::make('Version - 8', 'fitgapVendorColumnsOld8')->json()->exceptOnForms()->hideFromIndex(),
+                Code::make('Version - 9', 'fitgapVendorColumnsOld9')->json()->exceptOnForms()->hideFromIndex(),
+                Code::make('Version - 10', 'fitgapVendorColumnsOld10')->json()->exceptOnForms()->hideFromIndex(),
             ])),
         ];
     }
@@ -211,6 +227,14 @@ class VendorApplication extends Resource
         return [
             (new RestoreVersionMinus1),
             (new RestoreVersionMinus2),
+            (new RestoreVersionMinus3),
+            (new RestoreVersionMinus4),
+            (new RestoreVersionMinus5),
+            (new RestoreVersionMinus6),
+            (new RestoreVersionMinus7),
+            (new RestoreVersionMinus8),
+            (new RestoreVersionMinus9),
+            (new RestoreVersionMinus10),
         ];
     }
 }
