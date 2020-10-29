@@ -2,6 +2,8 @@
 
 namespace App\Nova;
 
+use App\Nova\Actions\RestoreVersionMinus1;
+use App\Nova\Actions\RestoreVersionMinus2;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Laravel\Nova\Fields\BelongsTo;
@@ -206,6 +208,9 @@ class VendorApplication extends Resource
      */
     public function actions(Request $request)
     {
-        return [];
+        return [
+            (new RestoreVersionMinus1),
+            (new RestoreVersionMinus2),
+        ];
     }
 }
