@@ -30,7 +30,8 @@ class PageTypeSelectionCriteriaOnProject extends Filter
         return $query
             ->join('selection_criteria_questions', 'selection_criteria_question_project_pivots.question_id',
                 '=', 'selection_criteria_questions.id')
-            ->where('selection_criteria_questions.page', 'LIKE', $value);
+            ->where('selection_criteria_questions.page', 'LIKE', $value)
+            ->where('selection_criteria_questions.fixed', '=', 0);
     }
 
     /**

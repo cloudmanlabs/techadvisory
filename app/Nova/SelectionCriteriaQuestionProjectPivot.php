@@ -2,11 +2,11 @@
 
 namespace App\Nova;
 
-use App\Nova\Filters\FixedTypeSelectionCriteriaOnProject;
 use App\Nova\Filters\PageTypeSelectionCriteriaOnProject;
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\Select;
+use Laravel\Nova\Http\Requests\NovaRequest;
 
 class SelectionCriteriaQuestionProjectPivot extends Resource
 {
@@ -95,7 +95,6 @@ class SelectionCriteriaQuestionProjectPivot extends Resource
     {
         return [
             new PageTypeSelectionCriteriaOnProject,
-            new FixedTypeSelectionCriteriaOnProject
         ];
     }
 
