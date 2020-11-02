@@ -56,10 +56,10 @@ class SecurityLog extends Resource
             DateTime::make('Time', 'created_at'),
 
             Text::make('User name', function($log) {
-                return option($log->user)->name;
+                return optional($log->user)->name;
             }),
             Text::make('User id', function($log) {
-                return option($log->user)->id;
+                return optional($log->user)->id;
             }),
             Text::make('Credential', function($log) {
                 return $log->credential_id;
