@@ -152,6 +152,16 @@
             position: 'bottom-right'
         })
     }
+    function showLongSavedToast()
+    {
+        $.toast({
+            heading: 'Saved!',
+            showHideTransition: 'slide',
+            icon: 'success',
+            hideAfter: 2000,
+            position: 'bottom-right'
+        })
+    }
 
     function updateSubmitButton()
     {

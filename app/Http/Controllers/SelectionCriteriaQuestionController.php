@@ -88,11 +88,11 @@ class SelectionCriteriaQuestionController extends Controller
             'project_id' => $answer->project->id,
             'vendor_id' => $answer->vendor->id
         ])->first();
+
         $existingApplication->save();
 
         return response()->json([
             'status' => 200,
-            'app' => $existingApplication,
         ]);
     }
 }
