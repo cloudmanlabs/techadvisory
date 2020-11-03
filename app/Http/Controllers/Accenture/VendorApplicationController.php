@@ -66,7 +66,6 @@ class VendorApplicationController extends Controller
         ]);
     }
 
-
     public function updateDeliverables(Request $request)
     {
         $request->validate([

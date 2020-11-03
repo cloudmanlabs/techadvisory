@@ -9,7 +9,8 @@ use Illuminate\Support\Facades\Schema;
  * The fields are:
  *  2 overall scores: overall & ranking scores
  *  5 fitgap scores: fitgap, functional, technical, service & others score
- *  1 vendor score
+ *  1 vendor scorebserver
+ *
  *  1 experience score
  *  1 innovation score
  *  3 implementation score: implementation, implementation-implementation & implementation-run score

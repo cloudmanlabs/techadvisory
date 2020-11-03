@@ -1126,7 +1126,9 @@ class ProjectController extends Controller
 
         SecurityLog::createLog('User viewed vendor proposal for vendor with ID ' . $vendor->id . ' in project with ID ' . $project->id);
 
-        return view('accentureViews.viewVendorProposalEvaluation', $this->arrayOfSelectionCriteriaResponsesQuestionsByPractice($project, $vendor, $application));
+        return view('accentureViews.viewVendorProposalEvaluation',
+            $this->arrayOfSelectionCriteriaResponsesQuestionsByPractice($project, $vendor, $application)
+        );
     }
 
     public function filterQuestionsResponsesByPractice($responses)

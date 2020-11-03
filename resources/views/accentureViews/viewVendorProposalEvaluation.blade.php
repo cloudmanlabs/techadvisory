@@ -1,5 +1,11 @@
 @extends('accentureViews.layouts.forms')
 
+@php
+    use App\VendorApplication;
+    $application = VendorApplication::where('vendor_id', $vendor->id)
+                ->where('project_id', $project->id)
+                ->first();
+@endphp
 @section('content')
     <div class="main-wrapper">
         <x-accenture.navbar activeSection="sections" />
