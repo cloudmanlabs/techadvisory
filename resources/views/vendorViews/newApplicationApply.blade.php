@@ -318,6 +318,17 @@
         })
     }
 
+    function showErrorToast()
+    {
+        $.toast({
+            heading: 'Error!',
+            showHideTransition: 'slide',
+            icon: 'error',
+            hideAfter: 1000,
+            position: 'bottom-right'
+        })
+    }
+
     $(document).ready(function() {
         $('.selectionCriteriaQuestion input,.selectionCriteriaQuestion textarea,.selectionCriteriaQuestion select')
             .filter(function(el) {
@@ -325,17 +336,22 @@
             })
             .change(function (e) {
                 var value = $(this).val();
+                var changing = $(this).data('changing');
                 if($.isArray(value) && value.length == 0 && $(this).attr('multiple') !== undefined){
                     value = '[]'
                 }
 
                 $.post('/selectionCriteriaQuestion/changeResponse', {
-                    changing: $(this).data('changing'),
-                    value: value
-                })
-
-                showSavedToast();
-                updateSubmitButton();
+                    changing: changing,
+                    value: value,
+                }).done(function() {
+                    showSavedToast();
+                    updateSubmitButton();
+                    console.log("success", value, changing);
+                }).fail(function() {
+                    console.log("error", value, changing);
+                    showErrorToast();
+                });
             });
 
         $(".js-example-basic-single").select2();
@@ -354,24 +370,23 @@
         });
 
         $('#submitButton').click(function(){
-            $.post('{{route("vendor.application.setSubmitted", ["project" => $project])}}', {
-                success: function () {
+            $.post('{{route("vendor.application.setSubmitted", ["project" => $project])}}')
+                .done(function() {
                     setTimeout(function() {
                         window.location.replace("/vendors/home");
                     }, 300);
-                }
-            })
-
-            $.toast({
-                heading: 'Submitted!',
-                showHideTransition: 'slide',
-                icon: 'success',
-                hideAfter: 1000,
-                position: 'bottom-right'
-            })
-            $('#submitModal').modal('hide')
-
-
+                    $.toast({
+                        heading: 'Submitted!',
+                        showHideTransition: 'slide',
+                        icon: 'success',
+                        hideAfter: 1000,
+                        position: 'bottom-right'
+                    })
+                    $('#submitModal').modal('hide')
+                }).fail(function() {
+                    console.log("error", value, changing);
+                    showErrorToast();
+                });
         });
 
         updateSubmitButton();

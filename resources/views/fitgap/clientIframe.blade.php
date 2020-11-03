@@ -3,20 +3,22 @@
     <link rel="stylesheet" href="{{url('/assets/vendors_techadvisory/jexcel-3.6.1/dist/jexcel.css')}}" type="text/css" />
     <link rel="stylesheet" href="{{url('/assets/vendors_techadvisory/jexcel-3.6.1/dist/jsuites.css')}}" type="text/css" />
     <link rel="stylesheet" href="{{url('/assets/vendors_techadvisory/jexcel-3.6.1/dist/extra.css')}}" type="text/css" />
+    <link rel="stylesheet" href="{{url('assets/css/jquery.toast.min.css')}}">
 
     <script src="{{url('assets/vendors/core/core.js')}}"></script>
     <script src="{{url('/assets/vendors_techadvisory/jexcel-3.6.1/dist/jexcel.js')}}"></script>
     <script src="{{url('/assets/vendors_techadvisory/jexcel-3.6.1/dist/jsuites.js')}}"></script>
+    <script src="{{url('assets/js/jquery.toast.min.js')}}"></script>
 
-		<style>
-			*{
-				font-size: 12px
-			}
+    <style>
+        *{
+            font-size: 12px
+        }
 
-            td {
-        text-align:left !important;
-            }
-		</style>
+        td {
+            text-align:left !important;
+        }
+    </style>
 
     <body style="background-color: white !important; overflow-x: scroll">
         <p><button id='download'>Export document</button></p>
@@ -33,6 +35,27 @@
                 });
             });
 
+            function showSavedToast()
+            {
+                $.toast({
+                    heading: 'Saved!',
+                    showHideTransition: 'slide',
+                    icon: 'success',
+                    hideAfter: 1000,
+                    position: 'bottom-right'
+                })
+            }
+
+            function showErrorToast()
+            {
+                $.toast({
+                    heading: 'Error!',
+                    showHideTransition: 'slide',
+                    icon: 'error',
+                    hideAfter: 1000,
+                    position: 'bottom-right'
+                })
+            }
 
             var mySpreadsheet = jexcel(document.getElementById('spreadsheet'), {
                 url:"{{route('fitgapClientJson', ['project' => $project])}}",
@@ -109,7 +132,11 @@
                     @if(! $disabled)
                         $.post("{{route('fitgapClientJsonUpload', ['project' => $project])}}", {
                             data: mySpreadsheet.getJson()
-                        })
+                        }).done(function() {
+                            showSavedToast();
+                        }).fail(function(jqXHR, textStatus, error) {
+                            showErrorToast();
+                        });
                     @endif
                 }
             });

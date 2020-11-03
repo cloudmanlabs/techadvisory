@@ -3,10 +3,12 @@
     <link rel="stylesheet" href="{{url('/assets/vendors_techadvisory/jexcel-3.6.1/dist/jexcel.css')}}" type="text/css" />
     <link rel="stylesheet" href="{{url('/assets/vendors_techadvisory/jexcel-3.6.1/dist/jsuites.css')}}" type="text/css" />
     <link rel="stylesheet" href="{{url('/assets/vendors_techadvisory/jexcel-3.6.1/dist/extra.css')}}" type="text/css" />
+    <link rel="stylesheet" href="{{url('assets/css/jquery.toast.min.css')}}">
 
     <script src="{{url('assets/vendors/core/core.js')}}"></script>
     <script src="{{url('/assets/vendors_techadvisory/jexcel-3.6.1/dist/jexcel.js')}}"></script>
     <script src="{{url('/assets/vendors_techadvisory/jexcel-3.6.1/dist/jsuites.js')}}"></script>
+    <script src="{{url('assets/js/jquery.toast.min.js')}}"></script>
 
     <style>
         *{
@@ -32,6 +34,27 @@
                 });
             });
 
+            function showSavedToast()
+            {
+                $.toast({
+                    heading: 'Saved!',
+                    showHideTransition: 'slide',
+                    icon: 'success',
+                    hideAfter: 1000,
+                    position: 'bottom-right'
+                })
+            }
+
+            function showErrorToast()
+            {
+                $.toast({
+                    heading: 'Error!',
+                    showHideTransition: 'slide',
+                    icon: 'error',
+                    hideAfter: 1000,
+                    position: 'bottom-right'
+                })
+            }
 
             var mySpreadsheet = jexcel(document.getElementById('spreadsheet'), {
                 url:"{{route('fitgapVendorJson', ['vendor' => $vendor, 'project' => $project])}}",
@@ -99,11 +122,14 @@
                     @if(! $disabled)
                         $.post("{{route('fitgapVendorJsonUpload', ['vendor' => $vendor, 'project' => $project])}}", {
                             data: mySpreadsheet.getJson()
-                        })
+                        }).done(function() {
+                            showSavedToast();
+                        }).fail(function(jqXHR, textStatus, error) {
+                            showErrorToast();
+                        });
                     @endif
                 }
             });
-
 
             document.getElementById('download').onclick = function () {
                 mySpreadsheet.download();
