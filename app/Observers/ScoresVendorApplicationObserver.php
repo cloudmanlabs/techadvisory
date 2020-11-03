@@ -24,10 +24,11 @@ class ScoresVendorApplicationObserver
      */
     public function updated(vendorApplication $vendorApplication)
     {
-/*        $vendorApplication->overall_score = $vendorApplication->totalScore();
+        $vendorApplication->overall_score = $vendorApplication->totalScore();
         $vendorApplication->ranking_score = $vendorApplication->ranking();
 
         $vendorApplication->fitgap_score = $vendorApplication->fitgapScore();
+
         $vendorApplication->fitgap_functional_score = $vendorApplication->fitgapFunctionalScore();
         $vendorApplication->fitgap_technical_score = $vendorApplication->fitgapTechnicalScore();
         $vendorApplication->fitgap_service_score = $vendorApplication->fitgapServiceScore();
@@ -39,9 +40,7 @@ class ScoresVendorApplicationObserver
 
         $vendorApplication->implementation_score = $vendorApplication->implementationScore();
         $vendorApplication->implementation_implementation_score = $vendorApplication->implementationImplementationScore();
-        $vendorApplication->implementation_run_score = $vendorApplication->implementationRunScore();*/
-
-        $vendorApplication->save();
+        $vendorApplication->implementation_run_score = $vendorApplication->implementationRunScore();
     }
 
     /**
