@@ -89,7 +89,6 @@ class SelectionCriteriaQuestionController extends Controller
             'vendor_id' => $answer->vendor->id
         ])->first();
 
-        $existingApplication->fitgap_score = 1.6;
         $existingApplication->save();
 
         return response()->json([
