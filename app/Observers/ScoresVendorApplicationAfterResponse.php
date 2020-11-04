@@ -15,7 +15,7 @@ class ScoresVendorApplicationAfterResponse
      */
     public function created(SelectionCriteriaQuestionResponse $selectionCriteriaQuestionResponse)
     {
-        // If its created, the score its  null, not 0.
+        // If the response is created, the score is null, not 0. Not evaluated yet.
         // The scores from vendor application can't be updated until the response has a score [0-10]
     }
 
