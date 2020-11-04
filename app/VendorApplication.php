@@ -1032,6 +1032,25 @@ class VendorApplication extends Model
 
     // Methods for benchmark & Analytics ******************************************************************
 
+    /**
+     * Returns a collection like:
+     *  id => vendor_id
+     *  score => target score of this vendor
+     *  count => project counts of this vendor
+     * @param $nvendors
+     * @param $targetScore
+     * @param array $practicesID
+     * @param array $subpracticesID
+     * @param array $years
+     * @param array $industries
+     * @param array $regions
+     */
+    public static function calculateBestVendorsProjectResultsFilteredNEW($nvendors, $targetScore,
+                                                                         $practicesID = [], $subpracticesID = [], $years = [], $industries = [], $regions = [])
+    {
+
+    }
+
     public static function calculateBestVendorsProjectResultsFiltered($nVendors,
                                                                       $functionNameForCalculateTheScores,
                                                                       $practicesID = [], $subpracticesID = [],
