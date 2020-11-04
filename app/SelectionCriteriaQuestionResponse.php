@@ -33,6 +33,21 @@ class SelectionCriteriaQuestionResponse extends Model
     }
 
     /**
+     * Returns the vendor Application from the response.
+     * Esto denota un gran fallo en la planificacion de la BD,
+     *  pues si la response guardara la vendor_application_id,
+     *  no necesitaria guardar ni el project_id ni el vendor_id.
+     * @return VendorApplication
+     */
+    public function vendorApplication()
+    {
+        return VendorApplication::where([
+            'project_id' => $this->project->id,
+            'vendor_id' => $this->vendor->id
+        ])->first();
+    }
+
+    /**
      * Returns the responses of the most recent similar open project if exists, with their questions.
      * @param $vendor vendor
      * @param $project current

@@ -610,6 +610,32 @@ class VendorApplication extends Model
         return ($difference / $minCost) * 100;
     }
 
+    /**
+     * Calculate the scores and saves on DB.
+     */
+    public function updateMyScores()
+    {
+        $this->overall_score = $this->totalScore();
+        $this->ranking_score = $this->ranking();
+
+        $this->fitgap_score = $this->fitgapScore();
+
+        $this->fitgap_functional_score = $this->fitgapFunctionalScore();
+        $this->fitgap_technical_score = $this->fitgapTechnicalScore();
+        $this->fitgap_service_score = $this->fitgapServiceScore();
+        $this->fitgap_others_score = $this->fitgapOtherScore();
+
+        $this->vendor_score = $this->vendorScore();
+        $this->experience_score = $this->experienceScore();
+        $this->innovation_score = $this->innovationScore();
+
+        $this->implementation_score = $this->implementationScore();
+        $this->implementation_implementation_score = $this->implementationImplementationScore();
+        $this->implementation_run_score = $this->implementationRunScore();
+
+        $this->save();
+
+    }
 
     public function checkIfAllSelectionCriteriaQuestionsWereAnswered(): bool
     {
