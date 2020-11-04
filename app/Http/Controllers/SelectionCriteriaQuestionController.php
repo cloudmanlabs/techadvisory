@@ -83,13 +83,7 @@ class SelectionCriteriaQuestionController extends Controller
         $answer->score = $request->value;
         $answer->save();
 
-        // update vendor application scores.
-        $existingApplication = VendorApplication::where([
-            'project_id' => $answer->project->id,
-            'vendor_id' => $answer->vendor->id
-        ])->first();
-
-        $existingApplication->save();
+        // The observer update the vendor application scores.
 
         return response()->json([
             'status' => 200,

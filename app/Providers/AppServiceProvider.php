@@ -11,6 +11,7 @@ use App\Observers\ClientProfileQuestionResponseObserver;
 use App\Observers\GeneralInfoQuestionObserver;
 use App\Observers\GeneralInfoQuestionResponseObserver;
 use App\Observers\ProjectObserver;
+use App\Observers\ScoresVendorApplicationAfterResponse;
 use App\Observers\ScoresVendorApplicationObserver;
 use App\Observers\SelectionCriteriaQuestionObserver;
 use App\Observers\SelectionCriteriaQuestionResponseObserver;
@@ -75,7 +76,8 @@ class AppServiceProvider extends ServiceProvider
         GeneralInfoQuestionResponse::observe(GeneralInfoQuestionResponseObserver::class);
         ClientProfileQuestionResponse::observe(ClientProfileQuestionResponseObserver::class);
 
-        VendorApplication::observe(ScoresVendorApplicationObserver::class);
+        //VendorApplication::observe(ScoresVendorApplicationObserver::class);
+        SelectionCriteriaQuestionResponse::observe(ScoresVendorApplicationAfterResponse::class);
 
         Blade::directive('logo', function () {
             return "<?php echo url('/assets/images/techadvisory-logo.png'); ?>";

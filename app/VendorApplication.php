@@ -25,6 +25,23 @@ use Illuminate\Support\Facades\Log;
  * @property int $overallImplementationMax
  * @property int $overallImplementationMin
  *
+ *  * @property double $overall_score
+ * @property double ranking_score
+ *
+ * @property double fitgap_score
+ * @property double fitgap_functional_score
+ * @property double fitgap_technical_score
+ * @property double fitgap_service_score
+ * @property double fitgap_others_score
+ *
+ * @property double vendor_score
+ * @property double experience_score
+ * @property double innovation_score
+ *
+ * @property double implementation_score
+ * @property double implementation_implementation_score
+ * @property double implementation_run_score
+ *
  * @property Project $project
  * @property User $vendor
  */
@@ -48,7 +65,6 @@ class VendorApplication extends Model
         'additionalCost' => 'array',
         'estimate5Years' => 'array',
     ];
-
 
     public function vendor()
     {
