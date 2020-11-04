@@ -1050,6 +1050,14 @@ class VendorApplication extends Model
     public static function calculateBestVendorsProjectResultsFilteredNEW(int $nvendors, string $targetScore,
                                                                          $practicesID = [], $subpracticesID = [], $years = [], $industries = [], $regions = [])
     {
+        // All vendor applications that we need Raw data without user filters
+        $query = VendorApplication::where('vendor_applications.phase', '=', 'evaluated')
+            ->join('projects as p', 'project_id', '=', 'p.id')
+            ->join('users as u', 'vendor_id', '=', 'u.id')
+            ->join('project_subpractice as sub', 'vendor_applications.project_id', '=', 'sub.project_id');
+            //->where('p.currentPhase', '=', 'old');
+
+        $result = collect();
 
     }
 
@@ -1133,10 +1141,11 @@ class VendorApplication extends Model
 
         // Raw data without user filters
         $query = VendorApplication::
-        where('vendor_applications.phase', '=', 'evaluated')
-            ->join('projects as p', 'project_id', '=', 'p.id')
+        join('projects as p', 'project_id', '=', 'p.id')
             ->join('users as u', 'vendor_id', '=', 'u.id')
-            ->join('project_subpractice as sub', 'vendor_applications.project_id', '=', 'sub.project_id');
+            ->join('project_subpractice as sub', 'vendor_applications.project_id', '=', 'sub.project_id')
+            ->where('vendor_applications.phase', '=', 'evaluated')
+            ->where('p.currentPhase', '=', 'old');
 
         // Applying user filters to projects
         $query = VendorApplication::benchmarkProjectResultsFilters($query,
