@@ -15,7 +15,8 @@ class ScoresVendorApplicationAfterResponse
      */
     public function created(SelectionCriteriaQuestionResponse $selectionCriteriaQuestionResponse)
     {
-        //
+        // If its created, the score its  null, not 0.
+        // The scores from vendor application can't be updated until the response has a score [0-10]
     }
 
     /**
@@ -31,37 +32,40 @@ class ScoresVendorApplicationAfterResponse
         $vendorApplication = $response->vendorApplication();
         $vendorApplication->updateMyScores();
     }
-    
+
     /**
      * Handle the selection criteria question response "deleted" event.
      *
-     * @param SelectionCriteriaQuestionResponse $selectionCriteriaQuestionResponse
+     * @param SelectionCriteriaQuestionResponse $response
      * @return void
      */
-    public function deleted(SelectionCriteriaQuestionResponse $selectionCriteriaQuestionResponse)
+    public function deleted(SelectionCriteriaQuestionResponse $response)
     {
-        //
+        $vendorApplication = $response->vendorApplication();
+        $vendorApplication->updateMyScores();
     }
 
     /**
      * Handle the selection criteria question response "restored" event.
      *
-     * @param SelectionCriteriaQuestionResponse $selectionCriteriaQuestionResponse
+     * @param SelectionCriteriaQuestionResponse $response
      * @return void
      */
-    public function restored(SelectionCriteriaQuestionResponse $selectionCriteriaQuestionResponse)
+    public function restored(SelectionCriteriaQuestionResponse $response)
     {
-        //
+        $vendorApplication = $response->vendorApplication();
+        $vendorApplication->updateMyScores();
     }
 
     /**
      * Handle the selection criteria question response "force deleted" event.
      *
-     * @param SelectionCriteriaQuestionResponse $selectionCriteriaQuestionResponse
+     * @param SelectionCriteriaQuestionResponse $response
      * @return void
      */
-    public function forceDeleted(SelectionCriteriaQuestionResponse $selectionCriteriaQuestionResponse)
+    public function forceDeleted(SelectionCriteriaQuestionResponse $response)
     {
-        //
+        $vendorApplication = $response->vendorApplication();
+        $vendorApplication->updateMyScores();
     }
 }
