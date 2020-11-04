@@ -560,8 +560,11 @@ class User extends Authenticatable
             return $application->project != null;
         })->map(function ($application) use ($targetScore) {
             //return $application->{$targetScore};
-            return $application->$targetScore;
+            if ($application->$targetScore != null) {
+                return $application->$targetScore;
+            }
         })->average();
+        $score = doubleval($score);
 
         return $score;
     }

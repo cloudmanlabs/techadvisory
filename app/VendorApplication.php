@@ -1033,11 +1033,6 @@ class VendorApplication extends Model
 
     /**
      * This function its only for the chart views from Benchmark - Project Results.
-     * Returns a collection like:
-     *  id => vendor id
-     *  name => vendor name.
-     *  score => target score of this vendor
-     *  count => project counts of this vendor
      * @param int $nvendors The number of vendors we want data
      * @param String $targetScore Property name from vendor Application
      * @param array $practicesID
@@ -1045,18 +1040,75 @@ class VendorApplication extends Model
      * @param array $years
      * @param array $industries
      * @param array $regions
+     *
+     * @return $scores
+     * Returns a collection like:
+     *  vendor_id => vendor id
+     *  name => vendor name.
+     *  score => target score of this vendor
+     *  count => project counts of this vendor
      */
     public static function calculateBestVendorsProjectResultsFilteredNEW(int $nvendors, string $targetScore,
                                                                          $practicesID = [], $subpracticesID = [], $years = [], $industries = [], $regions = [])
     {
         // All vendor applications that we need Raw data without user filters
-        $query = VendorApplication::where('vendor_applications.phase', '=', 'evaluated')
+        $allVendorApplications = VendorApplication::
+        where('phase', '=', 'evaluated')
+            ->orWhere('phase', '=', 'pendingEvaluation')            // Only bc we need some data. can be removed later.
             ->join('projects as p', 'project_id', '=', 'p.id')
             ->join('users as u', 'vendor_id', '=', 'u.id')
             ->join('project_subpractice as sub', 'vendor_applications.project_id', '=', 'sub.project_id');
-            //->where('p.currentPhase', '=', 'old');
+        //->where('p.currentPhase', '=', 'old');
 
-        $result = collect();
+        // Applying user filters to projects
+        $allVendorApplications = VendorApplication::benchmarkProjectResultsFilters($allVendorApplications,
+            $practicesID, $subpracticesID, $years, $industries, $regions);
+        $allVendorApplications = $allVendorApplications->select('vendor_id')->distinct()->get();
+
+        // Grouping the results.
+        $result = [];
+        foreach ($allVendorApplications as $key => $vendorApplication) {
+            $vendor = $vendorApplication->vendor;
+            if (!empty($vendor)) {
+                $result [$key]['vendor_id'] = $vendor->id;
+                $result [$key]['name'] = $vendor->name;
+                $result [$key]['score'] = $vendor->calculateMyVendorScore($targetScore);
+            }
+        }
+
+        // falta ordenar los 5 mejores
+
+        $result = collect($result);
+
+        return $result;
+
+        /*        $result = (object)[
+                    'name' => ,
+                    'projectCount' => Project::getProjectCountFromIndustry($industry, $regions, $years)];
+            });*/
+        /*        foreach ($allVendorApplications as $vendorApplication) {
+                    $vendor = $vendorApplication->vendor;
+                    if (!empty($vendor)) {
+                        if (!$result['vendor_id']->contains($vendor->id)) {
+                            $result['id'] = intval($vendor->id);
+                            $result['name'] = $vendor->name;
+                            //$result['score'] = $vendor->calculateMyVendorScore($targetScore);
+                        }
+                    }
+                }*/
+        /*        return $allVendorApplications->map(function (User $vendor)
+                use ($targetScore) {
+                    return (object)[
+                        'name' => $vendor->name,
+                        //'projectCount' => Project::getProjectCountFromIndustry($industry, $regions, $years)];
+                    ];
+                });*/
+
+        /*        $result = collect();
+                $allVendorApplications->map(function ($user) {
+                    return $user;
+                });
+                return $allVendorApplications;*/
 
     }
 
