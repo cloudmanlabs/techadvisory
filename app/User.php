@@ -48,6 +48,124 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+    const allTypes = [
+        'accenture' => 'Accenture',
+        'accentureAdmin' => 'Accenture Admin',
+        'vendor' => 'Vendor',
+        'client' => 'Client'
+    ];
+
+    /**
+     * Available Admin types
+     *
+     * @var array
+     */
+    const adminTypes = ['admin'];
+    /**
+     * Available Accenture types
+     *
+     * @var array
+     */
+    const accentureTypes = ['accenture', 'accentureAdmin'];
+    /**
+     * Available Client types
+     *
+     * @var array
+     */
+    const clientTypes = ['client'];
+    /**
+     * Available Vendor types
+     *
+     * @var array
+     */
+    const vendorTypes = ['vendor'];
+
+    /**
+     * Returns true if the user is admin
+     *
+     * @return boolean
+     */
+    public function isAdmin(): bool
+    {
+        return $this->userType == 'admin';
+    }
+
+    /**
+     * Returns true if the user is Accenture
+     *
+     * @return boolean
+     */
+    public function isAccenture(): bool
+    {
+        return $this->userType == 'accenture'
+            || $this->usertype == 'accenture' // It's really fun, cause sometimes with observers and nova the property gets lowercased
+            || $this->userType == 'accentureAdmin'
+            || $this->usertype == 'accentureAdmin';
+    }
+
+    /**
+     * Returns true if the user is Accenture Admin
+     *
+     * @return boolean
+     */
+    public function isAccentureAdmin(): bool
+    {
+        return $this->userType == 'accentureAdmin'
+            || $this->usertype == 'accentureAdmin';
+    }
+
+
+    /**
+     * Returns true if the user is a client
+     *
+     * @return boolean
+     */
+    public function isClient(): bool
+    {
+        return $this->userType == 'client'
+            || $this->usertype == 'client';
+    }
+
+    /**
+     * Returns true if the user is a vendor
+     *
+     * @return boolean
+     */
+    public function isVendor(): bool
+    {
+        return $this->userType == 'vendor'
+            || $this->usertype == 'vendor';
+    }
+
+    /**
+     * Returns all the Accenture users
+     *
+     * @return Builder
+     */
+    public static function accentureUsers(): Builder
+    {
+        return self::whereIn('userType', self::accentureTypes);
+    }
+
+    /**
+     * Returns all the Client Users
+     *
+     * @return Builder
+     */
+    public static function clientUsers(): Builder
+    {
+        return self::whereIn('userType', self::clientTypes);
+    }
+
+    /**
+     * Returns all the Vendor Users
+     *
+     * @return Builder
+     */
+    public static function vendorUsers(): Builder
+    {
+        return self::whereIn('userType', self::vendorTypes);
+    }
 
     /**
      * Get the owner from this user.
@@ -95,7 +213,7 @@ class User extends Authenticatable
     // Encapsulate the filters for graphics from view: Overview - general
     private function benchmarkOverviewFilters($query, $regions = [], $years = [])
     {
-        $query = $query->where('currentPhase','=','old');
+        $query = $query->where('currentPhase', '=', 'old');
 
         if ($regions) {
             $query = $query->where(function ($query) use ($regions) {
@@ -119,6 +237,18 @@ class User extends Authenticatable
     {
         return $this->hasMany(ClientProfileQuestionResponse::class, 'client_id');
     }
+
+    // TODO Implement fixed and fixedQuestionIdentifier for clientProfileQuestions
+    public function getClientResponse(string $label, $default = null)
+    {
+        $response = $this->clientProfileQuestions()->whereHas('originalQuestion', function ($query) use ($label) {
+            $query->where('label', $label);
+        })->first();
+
+        return $response->response ?? $default;
+    }
+
+    // Methods for vendor user ****************************************************************************************
 
     public function vendorSolutions()
     {
@@ -220,16 +350,6 @@ class User extends Authenticatable
         }
 
         return $result;
-    }
-
-    // TODO Implement fixed and fixedQuestionIdentifier for clientProfileQuestions
-    public function getClientResponse(string $label, $default = null)
-    {
-        $response = $this->clientProfileQuestions()->whereHas('originalQuestion', function ($query) use ($label) {
-            $query->where('label', $label);
-        })->first();
-
-        return $response->response ?? $default;
     }
 
     public function getVendorResponse(string $identifier, $default = null)
@@ -419,125 +539,34 @@ class User extends Authenticatable
         }
     }
 
-    const allTypes = [
-        'accenture' => 'Accenture',
-        'accentureAdmin' => 'Accenture Admin',
-        'vendor' => 'Vendor',
-        'client' => 'Client'
-    ];
-
     /**
-     * Available Admin types
-     *
-     * @var array
+     * @param $targetScore String name of the property that references the score you want.
+     *  [
+     *      overall_score, ranking_score,
+     *      fitgap_score, fitgap_functional_score, fitgap_technical_score, fitgap_service_score, fitgap_others_score,
+     *      vendor_score, experience_score, innovation_score,
+     *      implementation_score, implementation_implementation_score, implementation_run_score
+     *  ]
+     * @return Double Score of the vendor
+     * @throws Exception if it is doesnt called from a vendor user.
      */
-    const adminTypes = ['admin'];
-    /**
-     * Available Accenture types
-     *
-     * @var array
-     */
-    const accentureTypes = ['accenture', 'accentureAdmin'];
-    /**
-     * Available Client types
-     *
-     * @var array
-     */
-    const clientTypes = ['client'];
-    /**
-     * Available Vendor types
-     *
-     * @var array
-     */
-    const vendorTypes = ['vendor'];
-
-    /**
-     * Returns true if the user is admin
-     *
-     * @return boolean
-     */
-    public function isAdmin(): bool
+    public function calculateMyVendorScore($targetScore)
     {
-        return $this->userType == 'admin';
+        if (!$this->isVendor()) throw new \Exception('Calling hasAppliedToProject on a non-vendor User');
+
+        $apps = $this->vendorApplications;
+
+        $score = $apps->filter(function (VendorApplication $application) {
+            return $application->project != null;
+        })->map(function ($application) use ($targetScore) {
+            //return $application->{$targetScore};
+            return $application->$targetScore;
+        })->average();
+
+        return $score;
     }
 
-    /**
-     * Returns true if the user is Accenture
-     *
-     * @return boolean
-     */
-    public function isAccenture(): bool
-    {
-        return $this->userType == 'accenture'
-            || $this->usertype == 'accenture' // It's really fun, cause sometimes with observers and nova the property gets lowercased
-            || $this->userType == 'accentureAdmin'
-            || $this->usertype == 'accentureAdmin';
-    }
-
-    /**
-     * Returns true if the user is Accenture Admin
-     *
-     * @return boolean
-     */
-    public function isAccentureAdmin(): bool
-    {
-        return $this->userType == 'accentureAdmin'
-            || $this->usertype == 'accentureAdmin';
-    }
-
-
-    /**
-     * Returns true if the user is a client
-     *
-     * @return boolean
-     */
-    public function isClient(): bool
-    {
-        return $this->userType == 'client'
-            || $this->usertype == 'client';
-    }
-
-    /**
-     * Returns true if the user is a vendor
-     *
-     * @return boolean
-     */
-    public function isVendor(): bool
-    {
-        return $this->userType == 'vendor'
-            || $this->usertype == 'vendor';
-    }
-
-    /**
-     * Returns all the Accenture users
-     *
-     * @return Builder
-     */
-    public static function accentureUsers(): Builder
-    {
-        return self::whereIn('userType', self::accentureTypes);
-    }
-
-    /**
-     * Returns all the Client Users
-     *
-     * @return Builder
-     */
-    public static function clientUsers(): Builder
-    {
-        return self::whereIn('userType', self::clientTypes);
-    }
-
-    /**
-     * Returns all the Vendor Users
-     *
-     * @return Builder
-     */
-    public static function vendorUsers(): Builder
-    {
-        return self::whereIn('userType', self::vendorTypes);
-    }
-
+    // Old methods for calculate score (without being the score stored in databse for Vendor Applications)
     public function averageScore()
     {
         return $this->vendorApplications

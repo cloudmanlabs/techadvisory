@@ -25,7 +25,7 @@ use Illuminate\Support\Facades\Log;
  * @property int $overallImplementationMax
  * @property int $overallImplementationMin
  *
- *  * @property double $overall_score
+ *  * @property double overall_score
  * @property double ranking_score
  *
  * @property double fitgap_score
@@ -619,7 +619,6 @@ class VendorApplication extends Model
         $this->ranking_score = $this->ranking();
 
         $this->fitgap_score = $this->fitgapScore();
-
         $this->fitgap_functional_score = $this->fitgapFunctionalScore();
         $this->fitgap_technical_score = $this->fitgapTechnicalScore();
         $this->fitgap_service_score = $this->fitgapServiceScore();
