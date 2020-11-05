@@ -143,9 +143,9 @@
                                                         <tbody>
                                                         @foreach($vendorScoresFitgap as $key=>$vendorScore)
                                                             <tr>
-                                                                <td>{{\App\User::find($key)->name}}</td>
-                                                                <td>{{\App\User::find($key)->vendorAppliedProjectsFiltered($practicesIDsToFilter,$subpracticesIDsToFilter,$yearsToFilter,$industriesToFilter,$regionsToFilter)}}</td>
-                                                                <td>{{$vendorScore}}</td>
+                                                                <td>{{$vendorScore['name']}}</td>
+                                                                <td>{{$vendorScore['count']}}</td>
+                                                                <td>{{$vendorScore['score']}}</td>
                                                             </tr>
                                                         @endforeach
                                                         </tbody>
@@ -198,9 +198,9 @@
                                                         <tbody>
                                                         @foreach($vendorScoresFitgapFunctional as $key=>$vendorScore)
                                                             <tr>
-                                                                <td>{{\App\User::find($key)->name}}</td>
-                                                                <td>{{\App\User::find($key)->vendorAppliedProjectsFiltered($practicesIDsToFilter,$subpracticesIDsToFilter,$yearsToFilter,$industriesToFilter,$regionsToFilter)}}</td>
-                                                                <td>{{$vendorScore}}</td>
+                                                                <td>{{$vendorScore['name']}}</td>
+                                                                <td>{{$vendorScore['count']}}</td>
+                                                                <td>{{$vendorScore['score']}}</td>
                                                             </tr>
                                                         @endforeach
                                                         </tbody>
@@ -236,9 +236,9 @@
                                                         <tbody>
                                                         @foreach($vendorScoresFitgapTechnical as $key=>$vendorScore)
                                                             <tr>
-                                                                <td>{{\App\User::find($key)->name}}</td>
-                                                                <td>{{\App\User::find($key)->vendorAppliedProjectsFiltered($practicesIDsToFilter,$subpracticesIDsToFilter,$yearsToFilter,$industriesToFilter,$regionsToFilter)}}</td>
-                                                                <td>{{$vendorScore}}</td>
+                                                                <td>{{$vendorScore['name']}}</td>
+                                                                <td>{{$vendorScore['count']}}</td>
+                                                                <td>{{$vendorScore['score']}}</td>
                                                             </tr>
                                                         @endforeach
                                                         </tbody>
@@ -274,9 +274,9 @@
                                                         <tbody>
                                                         @foreach($vendorScoresFitgapService as $key=>$vendorScore)
                                                             <tr>
-                                                                <td>{{\App\User::find($key)->name}}</td>
-                                                                <td>{{\App\User::find($key)->vendorAppliedProjectsFiltered($practicesIDsToFilter,$subpracticesIDsToFilter,$yearsToFilter,$industriesToFilter,$regionsToFilter)}}</td>
-                                                                <td>{{$vendorScore}}</td>
+                                                                <td>{{$vendorScore['name']}}</td>
+                                                                <td>{{$vendorScore['count']}}</td>
+                                                                <td>{{$vendorScore['score']}}</td>
                                                             </tr>
                                                         @endforeach
                                                         </tbody>
@@ -312,9 +312,9 @@
                                                         <tbody>
                                                         @foreach($vendorScoresFitgapOthers as $key=>$vendorScore)
                                                             <tr>
-                                                                <td>{{\App\User::find($key)->name}}</td>
-                                                                <td>{{\App\User::find($key)->vendorAppliedProjectsFiltered($practicesIDsToFilter,$subpracticesIDsToFilter,$yearsToFilter,$industriesToFilter,$regionsToFilter)}}</td>
-                                                                <td>{{$vendorScore}}</td>
+                                                                <td>{{$vendorScore['name']}}</td>
+                                                                <td>{{$vendorScore['count']}}</td>
+                                                                <td>{{$vendorScore['score']}}</td>
                                                             </tr>
                                                         @endforeach
                                                         </tbody>
@@ -403,16 +403,16 @@
                     type: 'bar',
                     data: {
                         labels: [
-                            @foreach($vendorScoresFitgap as $key=>$value)
-                                "{{\App\User::find($key)->name}}",
+                            @foreach($vendorScoresFitgap as $vendorScore)
+                                "{{$vendorScore['name']}}",
                             @endforeach
                         ],
                         datasets: [
                             {
                                 backgroundColor: ["#27003d", "#5a008f", "#8e00e0", "#a50aff", "#d285ff", "#e9c2ff", "#f8ebff"],
                                 data: [
-                                    @foreach($vendorScoresFitgap as $key => $value)
-                                        "{{$value}}",
+                                    @foreach($vendorScoresFitgap as $vendorScore)
+                                        "{{$vendorScore['score']}}",
                                     @endforeach
                                 ]
                             }
@@ -436,16 +436,16 @@
                     type: 'bar',
                     data: {
                         labels: [
-                            @foreach($vendorScoresFitgapFunctional as $key=>$value)
-                                "{{\App\User::find($key)->name}}",
+                            @foreach($vendorScoresFitgapFunctional as $vendorScore)
+                                "{{$vendorScore['name']}}",
                             @endforeach
                         ],
                         datasets: [
                             {
                                 backgroundColor: ["#27003d", "#5a008f", "#8e00e0", "#a50aff", "#d285ff", "#e9c2ff", "#f8ebff"],
                                 data: [
-                                    @foreach($vendorScoresFitgapFunctional as $key => $value)
-                                        "{{$value}}",
+                                    @foreach($vendorScoresFitgapFunctional as $vendorScore)
+                                        "{{$vendorScore['score']}}",
                                     @endforeach
                                 ]
                             }
@@ -469,16 +469,16 @@
                     type: 'bar',
                     data: {
                         labels: [
-                            @foreach($vendorScoresFitgapTechnical as $key=>$value)
-                                "{{\App\User::find($key)->name}}",
+                            @foreach($vendorScoresFitgapTechnical as $vendorScore)
+                                "{{$vendorScore['name']}}",
                             @endforeach
                         ],
                         datasets: [
                             {
                                 backgroundColor: ["#27003d", "#5a008f", "#8e00e0", "#a50aff", "#d285ff", "#e9c2ff", "#f8ebff"],
                                 data: [
-                                    @foreach($vendorScoresFitgapTechnical as $key => $value)
-                                        "{{$value}}",
+                                    @foreach($vendorScoresFitgapTechnical as $vendorScore)
+                                        "{{$vendorScore['score']}}",
                                     @endforeach
                                 ]
                             }
@@ -502,16 +502,16 @@
                     type: 'bar',
                     data: {
                         labels: [
-                            @foreach($vendorScoresFitgapService as $key=>$value)
-                                "{{\App\User::find($key)->name}}",
+                            @foreach($vendorScoresFitgapService as $vendorScore)
+                                "{{$vendorScore['name']}}",
                             @endforeach
                         ],
                         datasets: [
                             {
                                 backgroundColor: ["#27003d", "#5a008f", "#8e00e0", "#a50aff", "#d285ff", "#e9c2ff", "#f8ebff"],
                                 data: [
-                                    @foreach($vendorScoresFitgapService as $key => $value)
-                                        "{{$value}}",
+                                    @foreach($vendorScoresFitgapService as $vendorScore)
+                                        "{{$vendorScore['score']}}",
                                     @endforeach
                                 ]
                             }
@@ -535,16 +535,16 @@
                     type: 'bar',
                     data: {
                         labels: [
-                            @foreach($vendorScoresFitgapOthers as $key=>$value)
-                                "{{\App\User::find($key)->name}}",
+                            @foreach($vendorScoresFitgapOthers as $vendorScore)
+                                "{{$vendorScore['name']}}",
                             @endforeach
                         ],
                         datasets: [
                             {
                                 backgroundColor: ["#27003d", "#5a008f", "#8e00e0", "#a50aff", "#d285ff", "#e9c2ff", "#f8ebff"],
                                 data: [
-                                    @foreach($vendorScoresFitgapOthers as $key => $value)
-                                        "{{$value}}",
+                                    @foreach($vendorScoresFitgapOthers as $vendorScore)
+                                        "{{$vendorScore['score']}}",
                                     @endforeach
                                 ]
                             }

@@ -137,11 +137,11 @@
                                                         </tr>
                                                         </thead>
                                                         <tbody>
-                                                        @foreach($vendorScoresVendor as $key=>$vendorScore)
+                                                        @foreach($vendorScoresVendor as $vendorScore)
                                                             <tr>
-                                                                <td>{{\App\User::find($key)->name}}</td>
-                                                                <td>{{\App\User::find($key)->vendorAppliedProjectsFiltered($practicesIDsToFilter,$subpracticesIDsToFilter,$yearsToFilter,$industriesToFilter,$regionsToFilter)}}</td>
-                                                                <td>{{$vendorScore}}</td>
+                                                                <td>{{$vendorScore['name']}}</td>
+                                                                <td>{{$vendorScore['count']}}</td>
+                                                                <td>{{$vendorScore['score']}}</td>
                                                             </tr>
                                                         @endforeach
                                                         </tbody>
@@ -233,16 +233,16 @@
                 type: 'bar',
                 data: {
                     labels: [
-                        @foreach($vendorScoresVendor as $key=>$vendorScore)
-                            "{{\App\User::find($key)->name}}",
+                        @foreach($vendorScoresVendor as $vendorScore)
+                            "{{$vendorScore['name']}}",
                         @endforeach
                     ],
                     datasets: [
                         {
                             backgroundColor: ["#27003d", "#5a008f", "#8e00e0", "#a50aff", "#d285ff", "#e9c2ff", "#f8ebff"],
                             data: [
-                                @foreach($vendorScoresVendor as $key => $value)
-                                    "{{$value}}",
+                                @foreach($vendorScoresVendor as $key => $vendorScore)
+                                    "{{$vendorScore['score']}}",
                                 @endforeach
                             ]
                         }

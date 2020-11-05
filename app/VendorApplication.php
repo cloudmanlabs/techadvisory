@@ -1193,7 +1193,6 @@ class VendorApplication extends Model
         return $scores;
     }
 
-
     public static function getVendorsFilteredForRankingChart(
         $practicesID = [], $subpracticesID = [],
         $years = [], $industries = [], $regions = [])
