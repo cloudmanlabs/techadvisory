@@ -216,6 +216,11 @@ class BenchmarkController extends Controller
         $vendors = VendorApplication::projectResultsPerformanceOverviewChart($practicesIDsToFilter,
             $subpracticesIDsToFilter, $yearsToFilter, $industriesToFilter, $regionsToFilter);
 
+/*        foreach ($vendors as $vendor){
+            var_dump($vendor);
+        }
+        die();*/
+
         // Data for selects
         $practices = Practice::all();
         $subpractices = [];

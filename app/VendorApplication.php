@@ -1137,7 +1137,7 @@ class VendorApplication extends Model
                 $result [$key]['vendor_id'] = $vendor->id;
                 $result [$key]['name'] = $vendor->name;
                 $result [$key]['overall'] = $vendor->calculateMyVendorScore('overall_score');
-                $result [$key]['ranking'] = 10 - $vendor->calculateMyVendorScore('ranking_score');  // NOTE: We use 10 - val so we get the chart flipped horizontally
+                $result [$key]['ranking'] = round(10 - $vendor->calculateMyVendorScore('ranking_score'),2);  // NOTE: We use 10 - val so we get the chart flipped horizontally
             }
         }
 

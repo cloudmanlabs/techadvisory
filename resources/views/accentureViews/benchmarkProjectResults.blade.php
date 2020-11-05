@@ -361,7 +361,7 @@
                         fontSize: 17
                     },
                     ticks: {
-                        beginAtZero: false,
+                        beginAtZero: true,
                         max: 10,
                         fontSize: 17
                     }
@@ -375,7 +375,8 @@
                         fontSize: 17
                     },
                     ticks: {
-                        beginAtZero: false,
+                        precision: 2,
+                        beginAtZero: true,
                         max: 10,
                         fontSize: 17,
                         callback: function (tick, index, ticks) {
