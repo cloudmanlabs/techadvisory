@@ -210,7 +210,7 @@ class BenchmarkController extends Controller
         // Chart 1
         /*        $vendorScores = VendorApplication::calculateBestVendorsProjectResultsFiltered($howManyVendorsToChart,
                     'totalScore', $practicesIDsToFilter, $subpracticesIDsToFilter, $yearsToFilter, $industriesToFilter, $regionsToFilter);*/
-        $vendorScores = VendorApplication::calculateBestVendorsProjectResultsFilteredNEW($howManyVendorsToChart,
+        $vendorScores = VendorApplication::projectResultsBestVendorsOfScoreChart($howManyVendorsToChart,
             'overall_score', $practicesIDsToFilter, $subpracticesIDsToFilter, $yearsToFilter, $industriesToFilter, $regionsToFilter);
 
         // Chart 2 ( no project filter)

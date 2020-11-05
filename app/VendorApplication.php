@@ -66,6 +66,7 @@ class VendorApplication extends Model
         'estimate5Years' => 'array',
     ];
 
+
     public function vendor()
     {
         return $this->belongsTo(User::class, 'vendor_id');
@@ -1048,9 +1049,15 @@ class VendorApplication extends Model
      *  score => target score of this vendor
      *  count => project counts of this vendor
      */
-    public static function calculateBestVendorsProjectResultsFilteredNEW(int $nvendors, string $targetScore,
+    public static function projectResultsBestVendorsOfScoreChart(int $nvendors, string $targetScore,
                                                                          $practicesID = [], $subpracticesID = [], $years = [], $industries = [], $regions = [])
     {
+        if (!is_integer($nvendors)) {
+            return [];
+        }
+        if (!VendorApplication::isValidScoreType($targetScore)) {
+            return [];
+        }
         // All vendor applications that we need Raw data without user filters
         $allVendorApplications = VendorApplication::
         where('phase', '=', 'evaluated')
@@ -1073,6 +1080,8 @@ class VendorApplication extends Model
                 $result [$key]['vendor_id'] = $vendor->id;
                 $result [$key]['name'] = $vendor->name;
                 $result [$key]['score'] = $vendor->calculateMyVendorScore($targetScore);
+                $result [$key]['count'] = $vendor->vendorAppliedProjectsFiltered($practicesID, $subpracticesID,
+                    $years, $industries, $regions);
             }
         }
 
@@ -1110,6 +1119,34 @@ class VendorApplication extends Model
                 });
                 return $allVendorApplications;*/
 
+    }
+
+    private static function isValidScoreType($score)
+    {
+        $scoreTypes = [
+            'overall_score',
+            'ranking_score',
+
+            'fitgap_score',
+            'fitgap_functional_score',
+            'fitgap_technical_score',
+            'fitgap_service_score',
+            'fitgap_others_score',
+
+            'vendor_score',
+            'experience_score',
+            'innovation_score',
+
+            'implementation_score',
+            'implementation_implementation_score',
+            'implementation_run_score',
+        ];
+
+        if (in_array($score, $scoreTypes)) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     public static function calculateBestVendorsProjectResultsFiltered($nVendors,
