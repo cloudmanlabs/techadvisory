@@ -138,11 +138,11 @@
                                                         </tr>
                                                         </thead>
                                                         <tbody>
-                                                        @foreach($vendorScoresImplementation as $key=>$vendorScore)
+                                                        @foreach($vendorScoresImplementation as $vendorScore)
                                                             <tr>
-                                                                <td>{{\App\User::find($key)->name}}</td>
-                                                                <td>{{\App\User::find($key)->vendorAppliedProjectsFiltered($practicesIDsToFilter,$subpracticesIDsToFilter,$yearsToFilter,$industriesToFilter,$regionsToFilter)}}</td>
-                                                                <td>{{$vendorScore}}</td>
+                                                                <td>{{$vendorScore['name']}}</td>
+                                                                <td>{{$vendorScore['count']}}</td>
+                                                                <td>{{$vendorScore['score']}}</td>
                                                             </tr>
                                                         @endforeach
                                                         </tbody>
@@ -197,11 +197,11 @@
                                                         </tr>
                                                         </thead>
                                                         <tbody>
-                                                        @foreach($vendorScoresImplementationImplementation as $key=>$vendorScore)
+                                                        @foreach($vendorScoresImplementationImplementation as $vendorScore)
                                                             <tr>
-                                                                <td>{{\App\User::find($key)->name}}</td>
-                                                                <td>{{\App\User::find($key)->vendorAppliedProjectsFiltered($practicesIDsToFilter,$subpracticesIDsToFilter,$yearsToFilter,$industriesToFilter,$regionsToFilter)}}</td>
-                                                                <td>{{$vendorScore}}</td>
+                                                                <td>{{$vendorScore['name']}}</td>
+                                                                <td>{{$vendorScore['count']}}</td>
+                                                                <td>{{$vendorScore['score']}}</td>
                                                             </tr>
                                                         @endforeach
                                                         </tbody>
@@ -235,11 +235,11 @@
                                                         </tr>
                                                         </thead>
                                                         <tbody>
-                                                        @foreach($vendorScoresImplementationRun as $key=>$vendorScore)
+                                                        @foreach($vendorScoresImplementationRun as $vendorScore)
                                                             <tr>
-                                                                <td>{{\App\User::find($key)->name}}</td>
-                                                                <td>{{\App\User::find($key)->vendorAppliedProjectsFiltered($practicesIDsToFilter,$subpracticesIDsToFilter,$yearsToFilter,$industriesToFilter,$regionsToFilter)}}</td>
-                                                                <td>{{$vendorScore}}</td>
+                                                                <td>{{$vendorScore['name']}}</td>
+                                                                <td>{{$vendorScore['count']}}</td>
+                                                                <td>{{$vendorScore['score']}}</td>
                                                             </tr>
                                                         @endforeach
                                                         </tbody>
@@ -335,16 +335,16 @@
                 type: 'bar',
                 data: {
                     labels: [
-                        @foreach($vendorScoresImplementation as $key=>$value)
-                            "{{\App\User::find($key)->name}}",
+                        @foreach($vendorScoresImplementation as $vendorScore)
+                            "{{$vendorScore['name']}}",
                         @endforeach
                     ],
                     datasets: [
                         {
                             backgroundColor: ["#27003d", "#5a008f", "#8e00e0", "#a50aff", "#d285ff", "#e9c2ff", "#f8ebff"],
                             data: [
-                                @foreach($vendorScoresImplementation as $key => $value)
-                                    "{{$value}}",
+                                @foreach($vendorScoresImplementation as $vendorScore)
+                                    "{{$vendorScore['score']}}",
                                 @endforeach
                             ]
                         }
@@ -368,16 +368,16 @@
                 type: 'bar',
                 data: {
                     labels: [
-                        @foreach($vendorScoresImplementationImplementation as $key=>$value)
-                            "{{\App\User::find($key)->name}}",
+                        @foreach($vendorScoresImplementationImplementation as $vendorScore)
+                            "{{$vendorScore['name']}}",
                         @endforeach
                     ],
                     datasets: [
                         {
                             backgroundColor: ["#27003d", "#5a008f", "#8e00e0", "#a50aff", "#d285ff", "#e9c2ff", "#f8ebff"],
                             data: [
-                                @foreach($vendorScoresImplementationImplementation as $key => $value)
-                                    "{{$value}}",
+                                @foreach($vendorScoresImplementationImplementation as $vendorScore)
+                                    "{{$vendorScore['score']}}",
                                 @endforeach
                             ]
                         }
@@ -401,16 +401,16 @@
                 type: 'bar',
                 data: {
                     labels: [
-                        @foreach($vendorScoresImplementationRun as $key=>$value)
-                            "{{\App\User::find($key)->name}}",
+                        @foreach($vendorScoresImplementationRun as $vendorScore)
+                            "{{$vendorScore['name']}}",
                         @endforeach
                     ],
                     datasets: [
                         {
                             backgroundColor: ["#27003d", "#5a008f", "#8e00e0", "#a50aff", "#d285ff", "#e9c2ff", "#f8ebff"],
                             data: [
-                                @foreach($vendorScoresImplementationRun as $key => $value)
-                                    "{{$value}}",
+                                @foreach($vendorScoresImplementationRun as $vendorScore)
+                                    "{{$vendorScore['score']}}",
                                 @endforeach
                             ]
                         }

@@ -534,14 +534,14 @@ class BenchmarkController extends Controller
         $howManyVendorsToFirstChart = 10;
         $howManyVendorsToOthersCharts = 5;
 
-        $vendorScoresImplementation = VendorApplication::calculateBestVendorsProjectResultsFiltered($howManyVendorsToFirstChart,
-            'implementationScore', $practicesIDsToFilter, $subpracticesIDsToFilter,
+        $vendorScoresImplementation = VendorApplication::projectResultsBestVendorsOfScoreChart($howManyVendorsToFirstChart,
+            'implementation_score', $practicesIDsToFilter, $subpracticesIDsToFilter,
             $yearsToFilter, $industriesToFilter, $regionsToFilter);
-        $vendorScoresImplementationImplementation = VendorApplication::calculateBestVendorsProjectResultsFiltered($howManyVendorsToOthersCharts,
-            'implementationImplementationScore', $practicesIDsToFilter, $subpracticesIDsToFilter,
+        $vendorScoresImplementationImplementation = VendorApplication::projectResultsBestVendorsOfScoreChart($howManyVendorsToOthersCharts,
+            'implementation_implementation_score', $practicesIDsToFilter, $subpracticesIDsToFilter,
             $yearsToFilter, $industriesToFilter, $regionsToFilter);
-        $vendorScoresImplementationRun = VendorApplication::calculateBestVendorsProjectResultsFiltered($howManyVendorsToOthersCharts,
-            'implementationRunScore', $practicesIDsToFilter, $subpracticesIDsToFilter,
+        $vendorScoresImplementationRun = VendorApplication::projectResultsBestVendorsOfScoreChart($howManyVendorsToOthersCharts,
+            'implementation_run_score', $practicesIDsToFilter, $subpracticesIDsToFilter,
             $yearsToFilter, $industriesToFilter, $regionsToFilter);
 
         // Data for selects
