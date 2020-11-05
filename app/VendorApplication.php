@@ -1034,7 +1034,7 @@ class VendorApplication extends Model
 
     /**
      * This function its only for the chart views from Benchmark - Project Results.
-     * @param int $nvendors The number of vendors we want data
+     * @param int $nVendors The number of vendors we want data
      * @param String $targetScore Property name from vendor Application
      * @param array $practicesID
      * @param array $subpracticesID
@@ -1042,8 +1042,8 @@ class VendorApplication extends Model
      * @param array $industries
      * @param array $regions
      *
-     * @return $scores
-     * Returns a collection like:
+     * @return Array $result
+     * Returns a associative array like:
      *  vendor_id => vendor id
      *  name => vendor name.
      *  score => target score of this vendor
@@ -1204,9 +1204,9 @@ class VendorApplication extends Model
         $query = VendorApplication::
         join('projects as p', 'project_id', '=', 'p.id')
             ->join('users as u', 'vendor_id', '=', 'u.id')
-            ->join('project_subpractice as sub', 'vendor_applications.project_id', '=', 'sub.project_id')
-            ->where('vendor_applications.phase', '=', 'evaluated')
-            ->where('p.currentPhase', '=', 'old');
+            ->join('project_subpractice as sub', 'vendor_applications.project_id', '=', 'sub.project_id');
+/*            ->where('vendor_applications.phase', '=', 'evaluated')
+            ->where('p.currentPhase', '=', 'old');*/
 
         // Applying user filters to projects
         $query = VendorApplication::benchmarkProjectResultsFilters($query,

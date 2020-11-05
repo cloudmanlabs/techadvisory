@@ -321,7 +321,6 @@
             }
         );
 
-
         var vendorPerformance = new Chart($('#vendor-performance-chart'), {
             type: 'bubble',
             data: {
@@ -330,8 +329,8 @@
                         @foreach($vendors as $vendor)
                         @php
                             // NOTE: We use 10 - val so we get the chart flipped horizontally
-                            $ranking = round(10 - $vendor->averageRanking(),2);
-                            $score = round($vendor->averageScore(),2) ?? 0;
+                            $ranking = round(10 - $vendor->calculateMyVendorScore('ranking_score'),2);
+                            $score = $vendor->calculateMyVendorScore('overall_score');
 
                         @endphp
                     {
