@@ -346,8 +346,8 @@
                 r: {{ $ranking + $score * 3 }}
             }
         ],
-            hidden
-        : {{$loop->index > 3 ? 'true' : 'false'}},
+/*            hidden
+        : {{$loop->index > 3 ? 'true' : 'false'}},*/
         },
         @endforeach
         ]
