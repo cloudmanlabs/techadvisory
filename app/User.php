@@ -565,6 +565,7 @@ class User extends Authenticatable
             }
         })->average();
         $score = doubleval($score);
+        $score = number_format($score,2);
 
         return $score;
     }

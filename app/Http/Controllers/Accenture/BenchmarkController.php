@@ -234,7 +234,6 @@ class BenchmarkController extends Controller
             'nav1' => 'projectResults',
             'nav2' => 'overall',
 
-
             'practices' => $practices,
             'subpractices' => $subpractices,
             'years' => $years,
