@@ -1033,7 +1033,7 @@ class VendorApplication extends Model
     // Methods for benchmark & Analytics ******************************************************************
 
     /**
-     * This function its only for the chart views from Benchmark - Project Results.
+     * This function its only for the chart views from Benchmark - Project Results: 'Best Vendors By X score'
      * @param int $nVendors The number of vendors we want data
      * @param String $targetScore Property name from vendor Application
      * @param array $practicesID
@@ -1042,7 +1042,7 @@ class VendorApplication extends Model
      * @param array $industries
      * @param array $regions
      *
-     * @return Array $result
+     * @return array $result
      * Returns a associative array like:
      *  vendor_id => vendor id
      *  name => vendor name.
@@ -1097,6 +1097,21 @@ class VendorApplication extends Model
         return $result;
     }
 
+    /**
+     * This function its only for the chart from Benchmark - Project Results: Performance Overview Chart.
+     * @param array $practicesID
+     * @param array $subpracticesID
+     * @param array $years
+     * @param array $industries
+     * @param array $regions
+     *
+     * @return array $result
+     * Returns a associative array like:
+     *  vendor_id => vendor id
+     *  name => vendor name.
+     *  overall => overall score of this vendor.
+     *  ranking => ranking score of this vendor.
+     */
     public static function projectResultsPerformanceOverviewChart($practicesID = [], $subpracticesID = [],
                                                                   $years = [], $industries = [],
                                                                   $regions = [])
@@ -1104,9 +1119,9 @@ class VendorApplication extends Model
 
         // All vendor applications that we need Raw data without user filters
         $allVendorApplications = VendorApplication::
-/*        where('phase', '=', 'evaluated')
-            ->orWhere('phase', '=', 'pendingEvaluation')    */      // Only bc we need some data. can be removed later.
-            join('projects as p', 'project_id', '=', 'p.id')
+        /*        where('phase', '=', 'evaluated')
+                    ->orWhere('phase', '=', 'pendingEvaluation')    */      // Only bc we need some data. can be removed later.
+        join('projects as p', 'project_id', '=', 'p.id')
             ->join('users as u', 'vendor_id', '=', 'u.id')
             ->join('project_subpractice as sub', 'vendor_applications.project_id', '=', 'sub.project_id');
         //->where('p.currentPhase', '=', 'old');
