@@ -1050,7 +1050,7 @@ class VendorApplication extends Model
      *  count => project counts of this vendor
      */
     public static function projectResultsBestVendorsOfScoreChart(int $nvendors, string $targetScore,
-                                                                         $practicesID = [], $subpracticesID = [], $years = [], $industries = [], $regions = [])
+                                                                 $practicesID = [], $subpracticesID = [], $years = [], $industries = [], $regions = [])
     {
         if (!is_integer($nvendors)) {
             return [];
@@ -1072,7 +1072,7 @@ class VendorApplication extends Model
             $practicesID, $subpracticesID, $years, $industries, $regions);
         $allVendorApplications = $allVendorApplications->select('vendor_id')->distinct()->get();
 
-        // Grouping the results.
+        // Grouping the results to simply iterate on interface.
         $result = [];
         foreach ($allVendorApplications as $key => $vendorApplication) {
             $vendor = $vendorApplication->vendor;
@@ -1085,39 +1085,11 @@ class VendorApplication extends Model
             }
         }
 
-        // falta ordenar los 5 mejores
+        // falta ordenar los 5 mejores: ( y acotar a nvendors)
 
-        $result = collect($result);
+        //$result = collect($result);
 
         return $result;
-
-        /*        $result = (object)[
-                    'name' => ,
-                    'projectCount' => Project::getProjectCountFromIndustry($industry, $regions, $years)];
-            });*/
-        /*        foreach ($allVendorApplications as $vendorApplication) {
-                    $vendor = $vendorApplication->vendor;
-                    if (!empty($vendor)) {
-                        if (!$result['vendor_id']->contains($vendor->id)) {
-                            $result['id'] = intval($vendor->id);
-                            $result['name'] = $vendor->name;
-                            //$result['score'] = $vendor->calculateMyVendorScore($targetScore);
-                        }
-                    }
-                }*/
-        /*        return $allVendorApplications->map(function (User $vendor)
-                use ($targetScore) {
-                    return (object)[
-                        'name' => $vendor->name,
-                        //'projectCount' => Project::getProjectCountFromIndustry($industry, $regions, $years)];
-                    ];
-                });*/
-
-        /*        $result = collect();
-                $allVendorApplications->map(function ($user) {
-                    return $user;
-                });
-                return $allVendorApplications;*/
 
     }
 

@@ -285,24 +285,24 @@ class BenchmarkController extends Controller
         $howManyVendorsToFirstChart = 10;
         $howManyVendorsToTheRestChart = 5;
 
-        $vendorScoresFitgap = VendorApplication::calculateBestVendorsProjectResultsFiltered($howManyVendorsToFirstChart,
-            'fitgapScore', $practicesIDsToFilter, $subpracticesIDsToFilter,
+        $vendorScoresFitgap = VendorApplication::projectResultsBestVendorsOfScoreChart($howManyVendorsToFirstChart,
+            'fitgap_score', $practicesIDsToFilter, $subpracticesIDsToFilter,
             $yearsToFilter, $industriesToFilter, $regionsToFilter);
 
-        $vendorScoresFitgapFunctional = VendorApplication::calculateBestVendorsProjectResultsFiltered($howManyVendorsToTheRestChart,
-            'fitgapFunctionalScore', $practicesIDsToFilter, $subpracticesIDsToFilter,
+        $vendorScoresFitgapFunctional = VendorApplication::projectResultsBestVendorsOfScoreChart($howManyVendorsToTheRestChart,
+            'fitgap_functional_score', $practicesIDsToFilter, $subpracticesIDsToFilter,
             $yearsToFilter, $industriesToFilter, $regionsToFilter);
 
-        $vendorScoresFitgapTechnical = VendorApplication::calculateBestVendorsProjectResultsFiltered($howManyVendorsToTheRestChart,
-            'fitgapTechnicalScore', $practicesIDsToFilter, $subpracticesIDsToFilter,
+        $vendorScoresFitgapTechnical = VendorApplication::projectResultsBestVendorsOfScoreChart($howManyVendorsToTheRestChart,
+            'fitgap_technical_score', $practicesIDsToFilter, $subpracticesIDsToFilter,
             $yearsToFilter, $industriesToFilter, $regionsToFilter);
 
-        $vendorScoresFitgapService = VendorApplication::calculateBestVendorsProjectResultsFiltered($howManyVendorsToTheRestChart,
-            'fitgapServiceScore', $practicesIDsToFilter, $subpracticesIDsToFilter,
+        $vendorScoresFitgapService = VendorApplication::projectResultsBestVendorsOfScoreChart($howManyVendorsToTheRestChart,
+            'fitgap_service_score', $practicesIDsToFilter, $subpracticesIDsToFilter,
             $yearsToFilter, $industriesToFilter, $regionsToFilter);
 
-        $vendorScoresFitgapOthers = VendorApplication::calculateBestVendorsProjectResultsFiltered($howManyVendorsToTheRestChart,
-            'fitgapOtherScore', $practicesIDsToFilter, $subpracticesIDsToFilter,
+        $vendorScoresFitgapOthers = VendorApplication::projectResultsBestVendorsOfScoreChart($howManyVendorsToTheRestChart,
+            'fitgap_others_score', $practicesIDsToFilter, $subpracticesIDsToFilter,
             $yearsToFilter, $industriesToFilter, $regionsToFilter);
 
         // Data for selects
