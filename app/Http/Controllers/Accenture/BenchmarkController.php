@@ -417,8 +417,8 @@ class BenchmarkController extends Controller
 
         // Data for charts.
         $howManyVendorsToChart = 10;
-        $vendorScoresExperience = VendorApplication::calculateBestVendorsProjectResultsFiltered($howManyVendorsToChart,
-            'experienceScore', $practicesIDsToFilter, $subpracticesIDsToFilter,
+        $vendorScoresExperience = VendorApplication::projectResultsBestVendorsOfScoreChart($howManyVendorsToChart,
+            'experience_score', $practicesIDsToFilter, $subpracticesIDsToFilter,
             $yearsToFilter, $industriesToFilter, $regionsToFilter);
 
         // Data for selects
