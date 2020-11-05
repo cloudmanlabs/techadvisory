@@ -1049,10 +1049,10 @@ class VendorApplication extends Model
      *  score => target score of this vendor
      *  count => project counts of this vendor
      */
-    public static function projectResultsBestVendorsOfScoreChart(int $nvendors, string $targetScore,
+    public static function projectResultsBestVendorsOfScoreChart(int $nVendors, string $targetScore,
                                                                  $practicesID = [], $subpracticesID = [], $years = [], $industries = [], $regions = [])
     {
-        if (!is_integer($nvendors)) {
+        if (!is_integer($nVendors)) {
             return [];
         }
         if (!VendorApplication::isValidScoreType($targetScore)) {
@@ -1085,12 +1085,14 @@ class VendorApplication extends Model
             }
         }
 
-        // falta ordenar los 5 mejores: ( y acotar a nvendors)
+        // Sort by score
+        $scoreIndex = array_column($result, 'score');
+        array_multisort($scoreIndex, SORT_DESC, $result);
 
-        //$result = collect($result);
+        // Cut by best nVendors
+        $result = array_slice($result, 0, $nVendors, true);
 
         return $result;
-
     }
 
     private static function isValidScoreType($score)

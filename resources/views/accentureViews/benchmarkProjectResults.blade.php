@@ -1,4 +1,13 @@
 @extends('accentureViews.layouts.benchmark')
+<?php
+
+$score  = array_column($vendorScores, 'score');
+// $edition = array_column($data, 'edition');
+
+// Ordenar los datos con volumen descendiente, edición ascendiente
+// Agregar $datos como el último parámetro, para ordenar por la clave común
+array_multisort($score, SORT_DESC, $vendorScores);
+?>
 <div class="main-wrapper">
     <x-accenture.navbar activeSection="benchmark"/>
     <div class="page-wrapper">
