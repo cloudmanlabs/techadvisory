@@ -328,13 +328,12 @@
                 datasets: [
                         @foreach($vendors as $vendor)
                         @php
-                            // NOTE: We use 10 - val so we get the chart flipped horizontally
-                            $ranking = round(10 - $vendor->calculateMyVendorScore('ranking_score'),2);
-                            $score = $vendor->calculateMyVendorScore('overall_score');
+                            $ranking = $vendor['ranking'];
+                            $score = $vendor['overall'];
 
                         @endphp
                     {
-                        label: ["{{$vendor->name}}"],
+                        label: ["{{$vendor['name']}}"],
                         backgroundColor: ["#27003d", "#410066", "#5a008f",
                             "#7400b8", "#8e00e0", "#9b00f5", "#a50aff", "#c35cff", "#d285ff", "#e9c2ff", "#f0d6ff", "#f8ebff"][{{$loop->index}} % 12],
                 borderColor: ["#27003d", "#410066", "#5a008f",
@@ -363,7 +362,6 @@
                     },
                     ticks: {
                         beginAtZero: false,
-                        min: 1,
                         max: 10,
                         fontSize: 17
                     }
@@ -378,7 +376,6 @@
                     },
                     ticks: {
                         beginAtZero: false,
-                        min: 1,
                         max: 10,
                         fontSize: 17,
                         callback: function (tick, index, ticks) {

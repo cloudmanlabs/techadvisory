@@ -1050,7 +1050,9 @@ class VendorApplication extends Model
      *  count => project counts of this vendor
      */
     public static function projectResultsBestVendorsOfScoreChart(int $nVendors, string $targetScore,
-                                                                 $practicesID = [], $subpracticesID = [], $years = [], $industries = [], $regions = [])
+                                                                 $practicesID = [], $subpracticesID = [],
+                                                                 $years = [], $industries = [],
+                                                                 $regions = [])
     {
         if (!is_integer($nVendors)) {
             return [];
@@ -1061,7 +1063,7 @@ class VendorApplication extends Model
         // All vendor applications that we need Raw data without user filters
         $allVendorApplications = VendorApplication::
         where('phase', '=', 'evaluated')
-            ->orWhere('phase', '=', 'pendingEvaluation')            // Only bc we need some data. can be removed later.
+            ->orWhere('phase', '=', 'pendingEvaluation')          // Only bc we need some data. can be removed later.
             ->join('projects as p', 'project_id', '=', 'p.id')
             ->join('users as u', 'vendor_id', '=', 'u.id')
             ->join('project_subpractice as sub', 'vendor_applications.project_id', '=', 'sub.project_id');
@@ -1095,6 +1097,40 @@ class VendorApplication extends Model
         return $result;
     }
 
+    public static function projectResultsPerformanceOverviewChart($practicesID = [], $subpracticesID = [],
+                                                                  $years = [], $industries = [],
+                                                                  $regions = [])
+    {
+
+        // All vendor applications that we need Raw data without user filters
+        $allVendorApplications = VendorApplication::
+/*        where('phase', '=', 'evaluated')
+            ->orWhere('phase', '=', 'pendingEvaluation')    */      // Only bc we need some data. can be removed later.
+            join('projects as p', 'project_id', '=', 'p.id')
+            ->join('users as u', 'vendor_id', '=', 'u.id')
+            ->join('project_subpractice as sub', 'vendor_applications.project_id', '=', 'sub.project_id');
+        //->where('p.currentPhase', '=', 'old');
+
+        // Applying user filters to projects
+        $allVendorApplications = VendorApplication::benchmarkProjectResultsFilters($allVendorApplications,
+            $practicesID, $subpracticesID, $years, $industries, $regions);
+        $allVendorApplications = $allVendorApplications->select('vendor_id')->distinct()->get();
+
+        // Grouping the results to simply iterate on interface.
+        $result = [];
+        foreach ($allVendorApplications as $key => $vendorApplication) {
+            $vendor = $vendorApplication->vendor;
+            if (!empty($vendor)) {
+                $result [$key]['vendor_id'] = $vendor->id;
+                $result [$key]['name'] = $vendor->name;
+                $result [$key]['overall'] = $vendor->calculateMyVendorScore('overall_score');
+                $result [$key]['ranking'] = 10 - $vendor->calculateMyVendorScore('ranking_score');  // NOTE: We use 10 - val so we get the chart flipped horizontally
+            }
+        }
+
+        return $result;
+    }
+
     private static function isValidScoreType($score)
     {
         $scoreTypes = [
@@ -1121,111 +1157,6 @@ class VendorApplication extends Model
         } else {
             return false;
         }
-    }
-
-    public static function calculateBestVendorsProjectResultsFiltered($nVendors,
-                                                                      $functionNameForCalculateTheScores,
-                                                                      $practicesID = [], $subpracticesID = [],
-                                                                      $years = [], $industries = [], $regions = [])
-    {
-
-        // Raw data without user filters
-        $query = VendorApplication::
-        join('projects as p', 'project_id', '=', 'p.id')
-            ->join('users as u', 'vendor_id', '=', 'u.id')
-            ->join('project_subpractice as sub', 'vendor_applications.project_id', '=', 'sub.project_id')
-            ->where('vendor_applications.phase', '=', 'evaluated')
-            ->where('p.currentPhase', '=', 'old');
-
-        // Applying user filters to projects
-        $query = VendorApplication::benchmarkProjectResultsFilters($query,
-            $practicesID, $subpracticesID, $years, $industries, $regions);
-        $query = $query->get();
-
-        // order the available vendors
-        $scores = [];
-        $vendorsIds = [];
-        foreach ($query as $vendorApplication) {
-            array_push($vendorsIds, $vendorApplication->vendor->id);
-        }
-        $vendorsIds = array_unique($vendorsIds);
-        foreach ($vendorsIds as $vendor) {
-            $scores[$vendor] = 0;
-        }
-
-        // recalculate the scores for all the applications.
-        foreach ($query as $vendorApplication) {
-
-            $vendorId = $vendorApplication->vendor->id;
-            $nota = $vendorApplication->$functionNameForCalculateTheScores();
-
-            // HERE: Change this to remove null scores (pending to evaluate).
-            //if ($nota != null)
-            if (!is_array($scores[$vendorId])) {
-                $scores[$vendorId] = [$nota];
-
-            } else {
-                $scores[$vendorId][] = $nota;
-            }
-        }
-
-
-        // The vendor score is the average of all his vendorApplication scores.
-        foreach ($scores as $key => $vendorScores) {
-
-            if (is_array($vendorScores)) {
-                // for more than one score
-                $n = count($vendorScores);
-                $media = array_sum($vendorScores);
-                $media = $n > 0 ? $media / $n : $media;
-            } else {
-                // for only one score
-                $media = $vendorScores;
-            }
-
-            $scores[$key] = round($media, 2);
-        }
-
-        arsort($scores);
-        if (is_integer($nVendors)) {
-            // Cut by nVendors.
-            $scores = array_slice($scores, 0, $nVendors, true);
-        }
-
-        return $scores;
-    }
-
-    public static function getVendorsFilteredForRankingChart(
-        $practicesID = [], $subpracticesID = [],
-        $years = [], $industries = [], $regions = [])
-    {
-
-        // Raw data without user filters
-        $query = VendorApplication::
-        join('projects as p', 'project_id', '=', 'p.id')
-            ->join('users as u', 'vendor_id', '=', 'u.id')
-            ->join('project_subpractice as sub', 'vendor_applications.project_id', '=', 'sub.project_id');
-/*            ->where('vendor_applications.phase', '=', 'evaluated')
-            ->where('p.currentPhase', '=', 'old');*/
-
-        // Applying user filters to projects
-        $query = VendorApplication::benchmarkProjectResultsFilters($query,
-            $practicesID, $subpracticesID, $years, $industries, $regions);
-
-        $query = $query->get();
-
-        $result = [];
-        foreach ($query as $vendorApplication) {
-            $vendor = $vendorApplication->vendor;
-            if (!empty($vendor)) {
-                if (!in_array($vendor, $result)) {
-                    array_push($result, $vendor);
-
-                }
-            }
-        }
-
-        return $result;
     }
 
     // Encapsulate the filters for graphics from view: Project Results
