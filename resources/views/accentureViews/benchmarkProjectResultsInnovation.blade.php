@@ -140,9 +140,9 @@
                                                         <tbody>
                                                         @foreach($vendorScoresInnovation as $key=>$vendorScore)
                                                             <tr>
-                                                                <td>{{\App\User::find($key)->name}}</td>
-                                                                <td>{{\App\User::find($key)->vendorAppliedProjectsFiltered($practicesIDsToFilter,$subpracticesIDsToFilter,$yearsToFilter,$industriesToFilter,$regionsToFilter)}}</td>
-                                                                <td>{{$vendorScore}}</td>
+                                                                <td>{{$vendorScore['name']}}</td>
+                                                                <td>{{$vendorScore['count']}}</td>
+                                                                <td>{{$vendorScore['score']}}</td>
                                                             </tr>
                                                         @endforeach
                                                         </tbody>
@@ -233,16 +233,16 @@
                 type: 'bar',
                 data: {
                     labels: [
-                        @foreach($vendorScoresInnovation as $key=>$value)
-                            "{{\App\User::find($key)->name}}",
+                        @foreach($vendorScoresInnovation as $vendorScore)
+                            "{{$vendorScore['name']}}",
                         @endforeach
                     ],
                     datasets: [
                         {
                             backgroundColor: ["#27003d", "#5a008f", "#8e00e0", "#a50aff", "#d285ff", "#e9c2ff", "#f8ebff"],
                             data: [
-                                @foreach($vendorScoresInnovation as $key => $value)
-                                    "{{$value}}",
+                                @foreach($vendorScoresInnovation as $vendorScore)
+                                    "{{$vendorScore['score']}}",
                                 @endforeach
                             ]
                         }
