@@ -550,25 +550,58 @@ class User extends Authenticatable
      * @return Double Score of the vendor
      * @throws Exception if it is doesnt called from a vendor user.
      */
-    public function calculateMyVendorScore($targetScore)
+    public function calculateMyVendorScore(string $targetScore)
     {
         if (!$this->isVendor()) throw new \Exception('Calling hasAppliedToProject on a non-vendor User');
+        if (!User::isValidScoreType($targetScore)) {
+            return 0;
+        }
 
         $apps = $this->vendorApplications;
 
         $score = $apps->filter(function (VendorApplication $application) {
             return $application->project != null;
-        })->map(function ($application) use ($targetScore) {
-            //return $application->{$targetScore};
-            if ($application->$targetScore != null) {
-                return $application->$targetScore;
-            }
-        })->average();
+        })
+            ->map(function ($application) use ($targetScore) {
+                if ($application->$targetScore != null) {
+                    return $application->$targetScore;
+                }
+            })->average();
+
         $score = doubleval($score);
-        $score = number_format($score,2);
+        $score = number_format($score, 2);
 
         return $score;
     }
+
+    private static function isValidScoreType($score)
+    {
+        $scoreTypes = [
+            'overall_score',
+            'ranking_score',
+
+            'fitgap_score',
+            'fitgap_functional_score',
+            'fitgap_technical_score',
+            'fitgap_service_score',
+            'fitgap_others_score',
+
+            'vendor_score',
+            'experience_score',
+            'innovation_score',
+
+            'implementation_score',
+            'implementation_implementation_score',
+            'implementation_run_score',
+        ];
+
+        if (in_array($score, $scoreTypes)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
 
     // Old methods for calculate score (without being the score stored in databse for Vendor Applications)
     public function averageScore()

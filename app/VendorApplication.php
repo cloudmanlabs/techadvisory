@@ -1057,9 +1057,7 @@ class VendorApplication extends Model
         if (!is_integer($nVendors)) {
             return [];
         }
-        if (!VendorApplication::isValidScoreType($targetScore)) {
-            return [];
-        }
+
         // All vendor applications that we need Raw data without user filters
         $allVendorApplications = VendorApplication::
         where('phase', '=', 'evaluated')
@@ -1146,33 +1144,6 @@ class VendorApplication extends Model
         return $result;
     }
 
-    private static function isValidScoreType($score)
-    {
-        $scoreTypes = [
-            'overall_score',
-            'ranking_score',
-
-            'fitgap_score',
-            'fitgap_functional_score',
-            'fitgap_technical_score',
-            'fitgap_service_score',
-            'fitgap_others_score',
-
-            'vendor_score',
-            'experience_score',
-            'innovation_score',
-
-            'implementation_score',
-            'implementation_implementation_score',
-            'implementation_run_score',
-        ];
-
-        if (in_array($score, $scoreTypes)) {
-            return true;
-        } else {
-            return false;
-        }
-    }
 
     // Encapsulate the filters for graphics from view: Project Results
     public static function benchmarkProjectResultsFilters($query, $practicesID = [], $subpracticesID = [], $years = [], $industries = [], $regions = [])
