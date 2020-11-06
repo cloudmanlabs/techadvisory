@@ -125,7 +125,9 @@
     @parent
     <script>
 
-        $('#industries-select').select2();
+        $('#industries-select').select2({
+            maximumSelectionLength: 1
+        });
         $('#regions-select').select2();
         $('#practices-select').select2();
 

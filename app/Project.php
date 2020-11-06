@@ -653,12 +653,12 @@ class Project extends Model
     // Encapsulate the filters for graphics from view: Overview - general
     private static function benchmarkOverviewFilters($query, $regions = [], $years = [])
     {
-        $query = $query->where('currentPhase','=','old');
+        //$query = $query->where('currentPhase','=','old');
 
         if ($regions) {
             $query = $query->where(function ($query) use ($regions) {
                 for ($i = 0; $i < count($regions); $i++) {
-                    $query = $query->orWhere('regions', 'like', '%' . $regions[$i] . '%');
+                    $query = $query->where('regions', 'like', '%' . $regions[$i] . '%');
                 }
             });
         }
@@ -689,7 +689,7 @@ class Project extends Model
         if ($regions) {
             $query = $query->where(function ($query) use ($regions) {
                 for ($i = 0; $i < count($regions); $i++) {
-                    $query = $query->orWhere('regions', 'like', '%' . $regions[$i] . '%');
+                    $query = $query->where('regions', 'like', '%' . $regions[$i] . '%');
                 }
             });
         }
