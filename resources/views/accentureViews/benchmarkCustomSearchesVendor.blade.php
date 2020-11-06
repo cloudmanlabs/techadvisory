@@ -203,7 +203,6 @@
             $('#scopesDiv').hide();
             $('#subpracticesContainer').hide();
 
-
             if (selectedPractice) {
 
                 if ($('#practiceSelect').val().length > 1) {

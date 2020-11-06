@@ -6,12 +6,24 @@ use App\Imports\FitgapImport;
 use App\Project;
 use App\User;
 use App\VendorApplication;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Str;
 use Maatwebsite\Excel\Facades\Excel;
 
 class FitgapController extends Controller
 {
+    /**
+     * ONLY USED BY ACCENTURE AND CLIENT
+     * Import the data for the Excel to the project table DB
+     *  Saves the excel columns Requirement Type, Level 1, Level 2, Level 3 and Requirement as an associative array (casted as Text) on $project->fitgap5Columns
+     *  Saves the excel Client and Business Opportunity as an associative array (casted as Text) on $project->fitgapClientColumns
+     *  And a unique id on fitgap5Columns to identify a requisite.
+     * @param Request $request
+     * @param Project $project
+     * @return JsonResponse 200 Imported succesfully.
+     */
     public function import5Columns(Request $request, Project $project)
     {
         $request->validate([
@@ -32,6 +44,7 @@ class FitgapController extends Controller
                 'Level 2' => $row[2] ?? '',
                 'Level 3' => $row[3] ?? '',
                 'Requirement' => $row[4] ?? '',
+                'id' => Str::uuid(),            // An unique id for the requisite.
             ];
 
             $resultClient[] = [
@@ -40,7 +53,7 @@ class FitgapController extends Controller
             ];
         }
 
-        $project->fitgap5Columns = $result5Cols;
+        $project->fitgap5Columns = $result5Cols;    // Basic columns
         $project->fitgapClientColumns = $resultClient;
         $project->hasUploadedFitgap = true;
         $project->save();
