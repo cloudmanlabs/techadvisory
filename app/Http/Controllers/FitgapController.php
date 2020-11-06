@@ -15,11 +15,12 @@ use Maatwebsite\Excel\Facades\Excel;
 class FitgapController extends Controller
 {
     /**
-     * ONLY USED BY ACCENTURE AND CLIENT
+     * IMPORT.
+     * ONLY USED BY ACCENTURE AND CLIENT.
      * Import the data for the Excel to the project table DB
      *  Saves the excel columns Requirement Type, Level 1, Level 2, Level 3 and Requirement as an associative array (casted as Text) on $project->fitgap5Columns
      *  Saves the excel Client and Business Opportunity as an associative array (casted as Text) on $project->fitgapClientColumns
-     *  And a unique id on fitgap5Columns to identify a requisite.
+     *  And a unique id on fitgap5Columns to identify a requisite and link them between Client Responses.
      * @param Request $request
      * @param Project $project
      * @return JsonResponse 200 Imported succesfully.
@@ -37,6 +38,7 @@ class FitgapController extends Controller
         $resultClient = [];
         for ($i = 1; isset($rows[$i][0]) && $rows[$i][0] != null; $i++) {
             $row = $rows[$i];
+            $uniqueId = Str::uuid();
 
             $result5Cols[] = [
                 'Requirement Type' => $row[0], // This one won't be null cause we check it in the for
@@ -44,12 +46,13 @@ class FitgapController extends Controller
                 'Level 2' => $row[2] ?? '',
                 'Level 3' => $row[3] ?? '',
                 'Requirement' => $row[4] ?? '',
-                'id' => Str::uuid(),            // An unique id for the requisite.
+                'link' => $uniqueId,            // An unique id for the requisite.
             ];
 
             $resultClient[] = [
                 'Client' => $row[5] ?? '',
                 'Business Opportunity' => $row[6] ?? '',
+                'link_client' => $uniqueId,
             ];
         }
 
@@ -67,32 +70,54 @@ class FitgapController extends Controller
     }
 
 
+    /**
+     * VIEW / EDIT. NOT SAVE DATA.
+     * ONLY USED BY ACCENTURE AND CLIENT.
+     *  Obtain the project requisites and the client columns.
+     *  Construct an associative array with them, and merge them. readable as JSON after.
+     *
+     * @param Project $project
+     * @return array The complete table to print on interface.
+     */
     public function clientJson(Project $project)
     {
-        $result = [];   // The complete table.
-        foreach ($project->fitgap5Columns as $key => $fitgapRow) {
-
-            $result[$key] = $fitgapRow;
-
-            foreach ($project->fitgapClientColumns as $fitgapClientRow) {
-                // Add vendor Responses only where the column from Accenture exists (It could be deleted)
-                $hasClientData = array_key_exists('Requirement Client Response', $fitgapClientRow);
-                if ($hasClientData) {
-                    // Add the client data with the relation.
-                    if ($fitgapClientRow['Requirement Client Response'] == $fitgapRow['Requirement']) {
-                        $result[$key]['Client'] = $fitgapClientRow['Client'];
-                        $result[$key]['Business Opportunity'] = $fitgapClientRow['Business Opportunity'];
-                    }
-                } else {
-                    // Add the client data without the relation.
-                    $result[$key]['Client'] = $fitgapClientRow['Client'];
-                    $result[$key]['Business Opportunity'] = $fitgapClientRow['Business Opportunity'];
-                }
-
-            }
+        $result = [];
+        // Merge the two arrays
+        foreach ($project->fitgap5Columns as $key => $something) {
+            $result[] = array_merge($project->fitgap5Columns[$key], $project->fitgapClientColumns[$key] ?? [
+                    'Client' => '',
+                    'Business Opportunity' => '',
+                ]);
         }
 
+        $result = $this->cleanTableForAccentureAndClientView($result);
+
         return $result;
+    }
+
+    /**
+     * Only for Accenture and Client
+     * @param $table
+     * @return array The array returned contains only the columns that have to be showed on view.
+     */
+    function cleanTableForAccentureAndClientView($table)
+    {
+        $this->deleteCol($table, 'link');
+        $this->deleteCol($table, 'link_client');
+        return $table;
+    }
+
+    /**
+     * Delete the column key from an array passed as parameter.
+     * @param $array
+     * @param $key
+     * @return bool
+     */
+    function deleteCol(&$array, $key)
+    {
+        return array_walk($array, function (&$v) use ($key) {
+            unset($v[$key]);
+        });
     }
 
     public function vendorJson(Request $request, User $vendor, Project $project)
