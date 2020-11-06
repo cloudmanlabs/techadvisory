@@ -69,6 +69,7 @@ class FitgapController extends Controller
         ]);
     }
 
+    // VIEW DATA ***************************************************************************************
 
     /**
      * VIEW / EDIT. NOT SAVE DATA.
@@ -101,6 +102,55 @@ class FitgapController extends Controller
     }
 
     /**
+     * VIEW / EDIT. NOT SAVE DATA.
+     * ONLY USED BY VENDOR.
+     *  Obtain the project requisites and the client columns from project. Then obtain the vendor Columns from VendorApplication.
+     *  Construct an associative array with them, and merge them. readable as JSON after.
+     * @param User $vendor
+     * @param Project $project
+     * @return array The complete table to print on interface.
+     */
+    public function vendorJson(User $vendor, Project $project)
+    {
+        $vendorApplication = VendorApplication::where([
+            'project_id' => $project->id,
+            'vendor_id' => $vendor->id
+        ])->first();
+
+        if ($vendorApplication == null) {
+            abort(404);
+        }
+
+        $result = [];
+        // Merge the two arrays
+        foreach ($project->fitgap5Columns as $key => $something) {
+            $result[] = array_merge(
+                $project->fitgap5Columns[$key],
+                $vendorApplication->fitgapVendorColumns[$key] ?? [
+                    'Vendor Response' => '',
+                    'Comments' => '',
+                ]
+            );
+        }
+
+        // SOLUTION HERE
+/*        foreach ($project->fitgap5Columns as $key => $firstArray) {
+            foreach ($vendorApplication->fitgapVendorColumns as $secondArray)
+                if ($firstArray['link'] == $secondArray['link_vendor']) {
+                    // Merge only nif they are the same requisite
+                    $result[] = array_merge($project->fitgap5Columns[$key], $vendorApplication->fitgapVendorColumns [$key] ??
+                        [
+                            'Vendor Response' => '',
+                            'Comments' => '',
+                        ]);
+                }
+        }*/
+
+
+        return $result;
+    }
+
+    /**
      * Only for Accenture and Client
      * @param $table array to remove column.
      * @return array The array returned contains only the columns that have to be showed on view.
@@ -125,43 +175,6 @@ class FitgapController extends Controller
         });
     }
 
-    public function vendorJson(Request $request, User $vendor, Project $project)
-    {
-        $vendorApplication = VendorApplication::where([
-            'project_id' => $project->id,
-            'vendor_id' => $vendor->id
-        ])->first();
-
-        if ($vendorApplication == null) {
-            abort(404);
-        }
-
-        $result = [];   // The complete table.
-        foreach ($project->fitgap5Columns as $key => $fitgapRow) {
-
-            $result[$key] = $fitgapRow;
-
-            foreach ($vendorApplication->fitgapVendorColumns as $fitgapVendorRow) {
-                // Add vendor Responses only where the column from Accenture exists (It could be deleted)
-                $hasVendorData = array_key_exists('Requirement Response', $fitgapVendorRow);
-                if ($hasVendorData) {
-
-                    // Add the client data with the relation.
-                    if ($fitgapVendorRow['Requirement Response'] == $fitgapRow['Requirement']) {
-                        $result[$key]['Vendor Response'] = $fitgapVendorRow['Vendor Response'];
-                        $result[$key]['Comments'] = $fitgapVendorRow['Comments'];
-                    }
-                } else {
-
-                    // Add the client data without the relation.
-                    $result[$key]['Vendor Response'] = $fitgapVendorRow['Vendor Response'];
-                    $result[$key]['Comments'] = $fitgapVendorRow['Comments'];
-                }
-            }
-        }
-
-        return $result;
-    }
 
     public function evaluationJson(Request $request, User $vendor, Project $project)
     {
@@ -219,6 +232,8 @@ class FitgapController extends Controller
 
         return $result;
     }
+
+    // MODIFY DATA ****************************************************************************************
 
     public function clientJsonUpload(Request $request, Project $project)
     {
