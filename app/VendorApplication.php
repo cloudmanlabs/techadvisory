@@ -1108,13 +1108,15 @@ class VendorApplication extends Model
         if (is_array($subpracticesID)) {
             $query = $query->where(function ($query) use ($subpracticesID) {
                 for ($i = 0; $i < count($subpracticesID); $i++) {
-                    $query = $query->orWhere('sub.subpractice_id', '=', $subpracticesID[$i]);
+                    // AND
+                    $query = $query->where('sub.subpractice_id', '=', $subpracticesID[$i]);
                 }
             });
         }
         if ($years) {
             $query = $query->where(function ($query) use ($years) {
                 for ($i = 0; $i < count($years); $i++) {
+                    // OR
                     $query = $query->orWhere('p.created_at', 'like', '%' . $years[$i] . '%');
                 }
             });
@@ -1129,7 +1131,8 @@ class VendorApplication extends Model
         if ($regions) {
             $query = $query->where(function ($query) use ($regions) {
                 for ($i = 0; $i < count($regions); $i++) {
-                    $query = $query->orWhere('p.regions', 'like', '%' . $regions[$i] . '%');
+                    // AND
+                    $query = $query->where('p.regions', 'like', '%' . $regions[$i] . '%');
                 }
             });
         }
