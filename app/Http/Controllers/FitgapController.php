@@ -83,21 +83,26 @@ class FitgapController extends Controller
     {
         $result = [];
         // Merge the two arrays
-        foreach ($project->fitgap5Columns as $key => $something) {
-            $result[] = array_merge($project->fitgap5Columns[$key], $project->fitgapClientColumns[$key] ?? [
-                    'Client' => '',
-                    'Business Opportunity' => '',
-                ]);
+        foreach ($project->fitgap5Columns as $key => $firstArray) {
+            foreach ($project->fitgapClientColumns as $secondArray)
+                if ($firstArray['link'] == $secondArray['link_client']) {
+                    // Merge only nif they are the same requisite
+                    $result[] = array_merge($project->fitgap5Columns[$key], $project->fitgapClientColumns[$key] ??
+                        [
+                            'Client' => '',
+                            'Business Opportunity' => '',
+                        ]);
+                }
         }
 
-        $result = $this->cleanTableForAccentureAndClientView($result);
+        $result = $this->cleanTableForAccentureAndClientView($result);  // Remove unnecesary columns for view.
 
         return $result;
     }
 
     /**
      * Only for Accenture and Client
-     * @param $table
+     * @param $table array to remove column.
      * @return array The array returned contains only the columns that have to be showed on view.
      */
     function cleanTableForAccentureAndClientView($table)
