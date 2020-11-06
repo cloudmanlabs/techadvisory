@@ -15,7 +15,7 @@ class HomeController extends Controller
     public function home()
     {
 
-        if (empty(auth()->user()->owner())) {
+/*        if (empty(auth()->user()->owner())) {
             // No region filter
 
             $openProjects = Project::openProjects();
@@ -27,7 +27,10 @@ class HomeController extends Controller
             $openProjects = Project::projectsFromOwner($myOwnerId, 'open');
             $preparationProjects = Project::projectsFromOwner($myOwnerId, 'preparation');
             $oldProjects = Project::projectsFromOwner($myOwnerId, 'old');
-        }
+        }*/
+        $openProjects = Project::openProjects();
+        $preparationProjects = Project::preparationProjects();
+        $oldProjects = Project::oldProjects();
 
         $practices = Practice::all()->pluck('name');
         $clients = User::clientUsers()->pluck('name');
