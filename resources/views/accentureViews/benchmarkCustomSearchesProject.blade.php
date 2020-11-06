@@ -241,7 +241,9 @@
                 });
             }
 
-            $('#practiceSelect').select2();
+            $('#practiceSelect').select2({
+                maximumSelectionLength: 1
+            });
             $('#practiceSelect').on('change', function (e) {
                 updateProjects();
             });
@@ -251,7 +253,9 @@
                 updateProjects();
             });
 
-            $('#clientSelect').select2();
+            $('#clientSelect').select2({
+                maximumSelectionLength: 1
+            });
             $('#clientSelect').on('change', function (e) {
                 updateProjects();
             });
@@ -261,7 +265,9 @@
                 updateProjects();
             });
 
-            $('#industrySelect').select2();
+            $('#industrySelect').select2({
+                maximumSelectionLength: 1
+            });
             $('#industrySelect').on('change', function (e) {
                 updateProjects();
             });
