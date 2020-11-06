@@ -172,7 +172,9 @@
         });
         $('#subpractices-select').select2();
         $('#years-select').select2();
-        $('#industries-select').select2();
+        $('#industries-select').select2({
+            maximumSelectionLength: 1
+        });
         $('#regions-select').select2();
 
         chargeSubpracticesFromPractice();
