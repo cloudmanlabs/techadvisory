@@ -61,8 +61,6 @@ class FitgapController extends Controller
         $project->hasUploadedFitgap = true;
         $project->save();
 
-        Log::debug($project);
-
         return \response()->json([
             'status' => 200,
             'message' => 'Success'
@@ -101,16 +99,7 @@ class FitgapController extends Controller
         return $result;
     }
 
-    /**
-     * VIEW / EDIT. NOT SAVE DATA.
-     * ONLY USED BY VENDOR.
-     *  Obtain the project requisites and the client columns from project. Then obtain the vendor Columns from VendorApplication.
-     *  Construct an associative array with them, and merge them. readable as JSON after.
-     * @param User $vendor
-     * @param Project $project
-     * @return array The complete table to print on interface.
-     */
-    public function vendorJson(User $vendor, Project $project)
+    public function vendorJson(Request $request, User $vendor, Project $project)
     {
         $vendorApplication = VendorApplication::where([
             'project_id' => $project->id,
@@ -133,19 +122,7 @@ class FitgapController extends Controller
             );
         }
 
-        // SOLUTION HERE
-/*        foreach ($project->fitgap5Columns as $key => $firstArray) {
-            foreach ($vendorApplication->fitgapVendorColumns as $secondArray)
-                if ($firstArray['link'] == $secondArray['link_vendor']) {
-                    // Merge only nif they are the same requisite
-                    $result[] = array_merge($project->fitgap5Columns[$key], $vendorApplication->fitgapVendorColumns [$key] ??
-                        [
-                            'Vendor Response' => '',
-                            'Comments' => '',
-                        ]);
-                }
-        }*/
-
+        $result = $this->cleanTableForVendor($result);
 
         return $result;
     }
@@ -156,6 +133,18 @@ class FitgapController extends Controller
      * @return array The array returned contains only the columns that have to be showed on view.
      */
     function cleanTableForAccentureAndClientView($table)
+    {
+        $this->deleteCol($table, 'link');
+        $this->deleteCol($table, 'link_client');
+        return $table;
+    }
+
+    /**
+     * Only for Vendor
+     * @param $table array to remove column.
+     * @return array The array returned contains only the columns that have to be showed on view.
+     */
+    function cleanTableForVendor($table)
     {
         $this->deleteCol($table, 'link');
         $this->deleteCol($table, 'link_client');
@@ -174,7 +163,6 @@ class FitgapController extends Controller
             unset($v[$key]);
         });
     }
-
 
     public function evaluationJson(Request $request, User $vendor, Project $project)
     {
@@ -312,12 +300,12 @@ class FitgapController extends Controller
         // Parse stuff here
         $result = [];
         foreach ($request->data as $key => $row) {
-
-            $result[] = [
-                'Vendor Response' => $row['Vendor Response'],
-                'Comments' => $row['Comments'],
-                'Requirement Response' => $row['Requirement'],
-            ];
+            //var_dump($row);
+            /*            $result[] = [
+                            'Vendor Response' => $row['Vendor Response'],
+                            'Comments' => $row['Comments'],
+                            'Requirement Response' => $row['Requirement'],
+                        ];*/
         }
 
         $vendorApplication->fitgapVendorColumns = $result;
