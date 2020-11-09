@@ -34,7 +34,9 @@
                 <div class="modal-body">
                     <iframe
                         src="{{route('fitgapClientIframe', ['project' => $project, 'disabled' => $disabled, 'isAccenture' => $isAccenture ])}}"
-                        style="width: 100%; min-height: 600px; border: none;"></iframe>
+                        style="width: 100%; min-height: 600px; border: none;">
+
+                    </iframe>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-primary btn-lg btn-icon-text" data-toggle="modal"

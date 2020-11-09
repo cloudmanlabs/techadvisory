@@ -6,25 +6,12 @@ use App\Imports\FitgapImport;
 use App\Project;
 use App\User;
 use App\VendorApplication;
-use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Str;
 use Maatwebsite\Excel\Facades\Excel;
 
 class FitgapController extends Controller
 {
-    /**
-     * IMPORT.
-     * ONLY USED BY ACCENTURE AND CLIENT.
-     * Import the data for the Excel to the project table DB
-     *  Saves the excel columns Requirement Type, Level 1, Level 2, Level 3 and Requirement as an associative array (casted as Text) on $project->fitgap5Columns
-     *  Saves the excel Client and Business Opportunity as an associative array (casted as Text) on $project->fitgapClientColumns
-     *  And a unique id on fitgap5Columns to identify a requisite and link them between Client Responses.
-     * @param Request $request
-     * @param Project $project
-     * @return JsonResponse 200 Imported succesfully.
-     */
     public function import5Columns(Request $request, Project $project)
     {
         $request->validate([
@@ -38,7 +25,6 @@ class FitgapController extends Controller
         $resultClient = [];
         for ($i = 1; isset($rows[$i][0]) && $rows[$i][0] != null; $i++) {
             $row = $rows[$i];
-            $uniqueId = Str::uuid();
 
             $result5Cols[] = [
                 'Requirement Type' => $row[0], // This one won't be null cause we check it in the for
@@ -46,20 +32,19 @@ class FitgapController extends Controller
                 'Level 2' => $row[2] ?? '',
                 'Level 3' => $row[3] ?? '',
                 'Requirement' => $row[4] ?? '',
-                'link' => $uniqueId,            // An unique id for the requisite.
             ];
-
             $resultClient[] = [
                 'Client' => $row[5] ?? '',
                 'Business Opportunity' => $row[6] ?? '',
-                'link_client' => $uniqueId,
             ];
         }
 
-        $project->fitgap5Columns = $result5Cols;    // Basic columns
+        $project->fitgap5Columns = $result5Cols;
         $project->fitgapClientColumns = $resultClient;
         $project->hasUploadedFitgap = true;
         $project->save();
+
+        Log::debug($project);
 
         return \response()->json([
             'status' => 200,
@@ -67,34 +52,16 @@ class FitgapController extends Controller
         ]);
     }
 
-    // VIEW DATA ***************************************************************************************
-
-    /**
-     * VIEW / EDIT. NOT SAVE DATA.
-     * ONLY USED BY ACCENTURE AND CLIENT.
-     *  Obtain the project requisites and the client columns.
-     *  Construct an associative array with them, and merge them. readable as JSON after.
-     *
-     * @param Project $project
-     * @return array The complete table to print on interface.
-     */
     public function clientJson(Project $project)
     {
         $result = [];
         // Merge the two arrays
-        foreach ($project->fitgap5Columns as $key => $firstArray) {
-            foreach ($project->fitgapClientColumns as $secondArray)
-                if ($firstArray['link'] == $secondArray['link_client']) {
-                    // Merge only nif they are the same requisite
-                    $result[] = array_merge($project->fitgap5Columns[$key], $project->fitgapClientColumns[$key] ??
-                        [
-                            'Client' => '',
-                            'Business Opportunity' => '',
-                        ]);
-                }
+        foreach ($project->fitgap5Columns as $key => $something) {
+            $result[] = array_merge($project->fitgap5Columns[$key], $project->fitgapClientColumns[$key] ?? [
+                    'Client' => '',
+                    'Business Opportunity' => '',
+                ]);
         }
-
-        $result = $this->cleanTableForAccentureAndClientView($result);  // Remove unnecesary columns for view.
 
         return $result;
     }
@@ -122,46 +89,7 @@ class FitgapController extends Controller
             );
         }
 
-        $result = $this->cleanTableForVendor($result);
-
         return $result;
-    }
-
-    /**
-     * Only for Accenture and Client
-     * @param $table array to remove column.
-     * @return array The array returned contains only the columns that have to be showed on view.
-     */
-    function cleanTableForAccentureAndClientView($table)
-    {
-        $this->deleteCol($table, 'link');
-        $this->deleteCol($table, 'link_client');
-        return $table;
-    }
-
-    /**
-     * Only for Vendor
-     * @param $table array to remove column.
-     * @return array The array returned contains only the columns that have to be showed on view.
-     */
-    function cleanTableForVendor($table)
-    {
-        $this->deleteCol($table, 'link');
-        $this->deleteCol($table, 'link_client');
-        return $table;
-    }
-
-    /**
-     * Delete the column key from an array passed as parameter.
-     * @param $array
-     * @param $key
-     * @return bool
-     */
-    function deleteCol(&$array, $key)
-    {
-        return array_walk($array, function (&$v) use ($key) {
-            unset($v[$key]);
-        });
     }
 
     public function evaluationJson(Request $request, User $vendor, Project $project)
@@ -176,52 +104,27 @@ class FitgapController extends Controller
         }
 
         $result = [];
-        foreach ($project->fitgap5Columns as $key => $fitgapRow) {
+        // Merge the two arrays
+        foreach ($project->fitgap5Columns as $key => $something) {
+            $row = array_merge(
+                $project->fitgap5Columns[$key],
+                $project->fitgapClientColumns[$key] ?? [
+                    'Client' => '',
+                    'Business Opportunity' => '',
+                ],
+                $vendorApplication->fitgapVendorColumns[$key] ??
+                [
+                    'Vendor Response' => '',
+                    'Comments' => '',
+                ]
+            );
+            //$row['Score'] = $vendorApplication->fitgapVendorScores[$key] ?? 5;
 
-            $result[$key] = $fitgapRow;
-
-            // Client data
-            foreach ($project->fitgapClientColumns as $fitgapClientRow) {
-                // Add vendor Responses only where the column from Accenture exists (It could be deleted)
-                $hasClientData = array_key_exists('Requirement Client Response', $fitgapClientRow);
-                if ($hasClientData) {
-                    // Add the client data with the relation.
-                    if ($fitgapClientRow['Requirement Client Response'] == $fitgapRow['Requirement']) {
-                        $result[$key]['Client'] = $fitgapClientRow['Client'];
-                        $result[$key]['Business Opportunity'] = $fitgapClientRow['Business Opportunity'];
-                    }
-                } else {
-                    // Add the client data without the relation.
-                    $result[$key]['Client'] = $fitgapClientRow['Client'];
-                    $result[$key]['Business Opportunity'] = $fitgapClientRow['Business Opportunity'];
-                }
-            }
-
-            // Vendor data
-            foreach ($vendorApplication->fitgapVendorColumns as $fitgapVendorRow) {
-                // Add vendor Responses only where the column from Accenture exists (It could be deleted)
-                $hasVendorData = array_key_exists('Requirement Response', $fitgapVendorRow);
-                if ($hasVendorData) {
-
-                    // Add the client data with the relation.
-                    if ($fitgapVendorRow['Requirement Response'] == $fitgapRow['Requirement']) {
-                        $result[$key]['Vendor Response'] = $fitgapVendorRow['Vendor Response'];
-                        $result[$key]['Comments'] = $fitgapVendorRow['Comments'];
-                    }
-                } else {
-
-                    // Add the client data without the relation.
-                    $result[$key]['Vendor Response'] = $fitgapVendorRow['Vendor Response'];
-                    $result[$key]['Comments'] = $fitgapVendorRow['Comments'];
-                }
-            }
-
+            $result[] = $row;
         }
 
         return $result;
     }
-
-    // MODIFY DATA ****************************************************************************************
 
     public function clientJsonUpload(Request $request, Project $project)
     {
@@ -248,7 +151,6 @@ class FitgapController extends Controller
             $resultClient[] = [
                 'Client' => $row['Client'],
                 'Business Opportunity' => $row['Business Opportunity'],
-                'Requirement Client Response' => $row['Requirement'],
             ];
 
             // Check if the value has changed. If it has, reset the vendor responses
@@ -300,12 +202,10 @@ class FitgapController extends Controller
         // Parse stuff here
         $result = [];
         foreach ($request->data as $key => $row) {
-            //var_dump($row);
-            /*            $result[] = [
-                            'Vendor Response' => $row['Vendor Response'],
-                            'Comments' => $row['Comments'],
-                            'Requirement Response' => $row['Requirement'],
-                        ];*/
+            $result[] = [
+                'Vendor Response' => $row['Vendor Response'],
+                'Comments' => $row['Comments'],
+            ];
         }
 
         $vendorApplication->fitgapVendorColumns = $result;
