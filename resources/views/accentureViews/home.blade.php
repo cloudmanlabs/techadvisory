@@ -64,7 +64,7 @@
                                             Please chose the Vendors you'd like to see:
                                         </p>
                                         <select id="homeVendorSelect" class="w-100" multiple="multiple">
-                                            <option>No vendor</option>
+                                            <option value="">No vendor</option>
                                             @foreach ($vendors as $vendor)
                                                 <option>{{$vendor}}</option>
                                             @endforeach
@@ -161,7 +161,7 @@
                                     @foreach ($preparationProjects as $project)
                                         <div class="card" style="margin-bottom: 30px;"
                                              data-client="{{$project->client->name ?? 'No client'}}"
-                                             data-vendors="{{json_encode($project->vendorsApplied()->pluck('name')->toArray() ?? '')}}"
+                                             data-vendors="{{$project->vendorsApplied()->count()>0 ? json_encode($project->vendorsApplied()->pluck('name')->toArray()) : '[""]'}}"
                                              data-name="{{$project->name ?? 'No name'}}"
                                              data-practice="{{$project->practice->name ?? 'No SC Capability (Practice)'}}"
                                              data-year="{{$project->created_at->year}}">
@@ -214,7 +214,7 @@
                                     @foreach ($oldProjects as $project)
                                         <div class="card" style="margin-bottom: 30px;"
                                              data-client="{{$project->client->name ?? 'No client'}}"
-                                             data-vendors="{{json_encode($project->vendorsApplied()->pluck('name')->toArray() ?? '')}}"
+                                             data-vendors="{{json_encode($project->vendorsApplied()->pluck('name')->toArray())}}"
                                              data-name="{{$project->name ?? 'No name'}}"
                                              data-practice="{{$project->practice->name ?? 'No SC Capability (Practice)'}}"
                                              data-year="{{$project->created_at->year}}">
@@ -335,14 +335,15 @@
                     });
                 }
 
-                var selectedVendors = $('#homeVendorSelect').select2('data').map((el) => {
-                    return el.text
-                });
-                if (selectedVendors.length == 0) {
-                    selectedVendors = $('#homeVendorSelect').children().toArray().map((el) => {
-                        return el.innerHTML
-                    });
-                }
+                /*                var selectedVendors = $('#homeVendorSelect').select2('data').map((el) => {
+                                    return el.text
+                                });
+                                if (selectedVendors.length == 0) {
+                                    selectedVendors = $('#homeVendorSelect').children().toArray().map((el) => {
+                                        return el.innerHTML
+                                    });
+                                }*/
+                var selectedVendors = $('#homeVendorSelect').val();
 
                 // Add a display none to the one which don't have this tags
                 $('#openPhaseContainer').children().each(function () {
@@ -352,10 +353,12 @@
                     const vendors = $(this).data('vendors');
                     const name = String($(this).data('name')).toLowerCase();
 
+
                     if ($.inArray(practice, selectedPractices) !== -1
                         && $.inArray(client, selectedClients) !== -1
                         && $.inArray(year, selectedYears) !== -1
-                        && _.intersection(vendors, selectedVendors).length > 0
+                        //&& _.intersection(vendors, selectedVendors).length > 0
+                        && (selectedVendors.length > 0 ? _.intersection(vendors, selectedVendors).length > 0 : true)
                         && (!searchInputText || name.includes(searchInputText))) {
 
                         $(this).css('display', 'flex');
@@ -371,10 +374,14 @@
                     const vendors = $(this).data('vendors');
                     const name = String($(this).data('name')).toLowerCase();
 
+                    console.log('vendors: ', vendors)
+                    console.log('selected vendors', selectedVendors)
+
                     if ($.inArray(practice, selectedPractices) !== -1
                         && $.inArray(client, selectedClients) !== -1
                         && $.inArray(year, selectedYears) !== -1
-                        && _.intersection(vendors, selectedVendors).length > 0
+                        //&& _.intersection(vendors, selectedVendors).length > 0
+                        && (selectedVendors.length > 0 ? _.intersection(vendors, selectedVendors).length > 0 : true)
                         && (!searchInputText || name.includes(searchInputText))) {
                         $(this).css('display', 'flex');
                     } else {
@@ -392,7 +399,7 @@
                     if ($.inArray(practice, selectedPractices) !== -1
                         && $.inArray(client, selectedClients) !== -1
                         && $.inArray(year, selectedYears) !== -1
-                        && _.intersection(vendors, selectedVendors).length > 0
+                        && (selectedVendors.length > 0 ? _.intersection(vendors, selectedVendors).length > 0 : true)
                         && (!searchInputText || name.includes(searchInputText))) {
                         $(this).css('display', 'flex');
                     } else {
