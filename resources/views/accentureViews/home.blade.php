@@ -355,7 +355,7 @@
                     if ($.inArray(practice, selectedPractices) !== -1
                         && $.inArray(client, selectedClients) !== -1
                         && $.inArray(year, selectedYears) !== -1
-                        && intersect(vendors, selectedVendors).length !== 0
+                        && _.intersection(vendors, selectedVendors).length > 0
                         && (!searchInputText || name.includes(searchInputText))) {
 
                         $(this).css('display', 'flex');
@@ -374,7 +374,7 @@
                     if ($.inArray(practice, selectedPractices) !== -1
                         && $.inArray(client, selectedClients) !== -1
                         && $.inArray(year, selectedYears) !== -1
-                        && intersect(vendors, selectedVendors).length !== 0
+                        && _.intersection(vendors, selectedVendors).length > 0
                         && (!searchInputText || name.includes(searchInputText))) {
                         $(this).css('display', 'flex');
                     } else {
@@ -392,20 +392,12 @@
                     if ($.inArray(practice, selectedPractices) !== -1
                         && $.inArray(client, selectedClients) !== -1
                         && $.inArray(year, selectedYears) !== -1
-                        && intersect(vendors, selectedVendors).length !== 0
+                        && _.intersection(vendors, selectedVendors).length > 0
                         && (!searchInputText || name.includes(searchInputText))) {
                         $(this).css('display', 'flex');
                     } else {
                         $(this).css('display', 'none');
                     }
-                });
-            }
-
-            function intersect(a, b) {
-                var t;
-                if (b.length > a.length) t = b, b = a, a = t; // indexOf to loop over shorter
-                return a.filter(function (e) {
-                    return b.indexOf(e) > -1;
                 });
             }
 
