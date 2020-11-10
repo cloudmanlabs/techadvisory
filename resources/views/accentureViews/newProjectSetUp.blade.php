@@ -288,7 +288,7 @@
                                                         <button
                                                             class="btn btn-primary"
                                                             id="step4Submit"
-                                                            {{-- !$project->hasUploadedFitgap ? 'disabled' : ''--}}
+                                                            {{-- $project->hasUploadedFitgap ? '' : 'disabled'--}}
                                                             {{ !$project->step3SubmittedAccenture ? 'disabled' : ''}}
                                                         >{{ $project->step4SubmittedAccenture ? 'Submitted' : 'Submit'}}
                                                         </button>
