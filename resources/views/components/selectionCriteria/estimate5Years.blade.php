@@ -18,7 +18,7 @@ $disabled = $disabled ?? false;
                 {{$disabled ? 'disabled' : ''}}
                 min="0"
                 value="{{$cost ?? ''}}"
-                required>
+                >
         </div>
         @endforeach
     </div>

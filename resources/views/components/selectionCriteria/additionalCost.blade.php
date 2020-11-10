@@ -23,13 +23,13 @@
                 <input type="text" class="form-control additionalTitleInput"
                     placeholder="Title"
                     {{$disabled ? 'disabled' : ''}}
-                    value="{{$cost['title'] ?? ''}}" required>
+                    value="{{$cost['title'] ?? ''}}" >
                 <input type="number" class="form-control additionalCostInput"
                     style="margin-left: 1rem"
                     placeholder="Cost"
                     min="0"
                     {{$disabled ? 'disabled' : ''}}
-                    value="{{$cost['cost'] ?? ''}}" required>
+                    value="{{$cost['cost'] ?? ''}}" >
             </div>
         </div>
         @endforeach
@@ -63,12 +63,12 @@
                 <div style="display: flex; flex-direction: row">
                     <input type="text" class="form-control additionalTitleInput"
                         placeholder="Title"
-                        value="" required>
+                        value="" >
                     <input type="number" class="form-control additionalCostInput"
                         style="margin-left: 1rem"
                         placeholder="Cost"
                         min="0"
-                        value="" required>
+                        value="">
                 </div>
             </div>
             `;
