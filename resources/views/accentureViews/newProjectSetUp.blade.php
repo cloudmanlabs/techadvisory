@@ -288,7 +288,7 @@
                                                         <button
                                                             class="btn btn-primary"
                                                             id="step4Submit"
-                                                            {{-- $project->hasUploadedFitgap ? '' : 'disabled'--}}
+                                                            {{!$project->hasUploadedFitgap ? 'disabled' : ''}}
                                                             {{ !$project->step3SubmittedAccenture ? 'disabled' : ''}}
                                                         >{{ $project->step4SubmittedAccenture ? 'Submitted' : 'Submit'}}
                                                         </button>
@@ -856,13 +856,14 @@
                     contentType: false,
 
                     success: function () {
-                        console.log('hello')
                         $("iframe").each(function () {
                             $(this).attr("src", function (index, attr) {
                                 return attr;
                             });
                         })
                         showSavedToast();
+
+                        location.reload();
                     }
                 });
             });

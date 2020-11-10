@@ -676,13 +676,13 @@
                     contentType: false,
 
                     success: function () {
-                        console.log('hello')
                         $("iframe").each(function () {
                             $(this).attr("src", function (index, attr) {
                                 return attr;
                             });
                         })
                         showSavedToast();
+                        location.reload()
                     }
                 });
             });
