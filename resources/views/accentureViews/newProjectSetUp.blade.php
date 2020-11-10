@@ -23,7 +23,8 @@
                             <div class="card-body">
                                 <h3 style="cursor:pointer">Summary +</h3>
                                 <div id="summaryColapse">
-                                    <p class="welcome_text extra-top-15px">Check the project summary and execute rollback
+                                    <p class="welcome_text extra-top-15px">Check the project summary and execute
+                                        rollback
                                         to the previous state. </p>
                                     <br>
                                     <table class="table">
@@ -287,9 +288,8 @@
                                                         <button
                                                             class="btn btn-primary"
                                                             id="step4Submit"
+                                                            {{-- !$project->hasUploadedFitgap ? 'disabled' : ''--}}
                                                             {{ !$project->step3SubmittedAccenture ? 'disabled' : ''}}
-                                                            {{ $project->step4SubmittedAccenture ? 'disabled' : ''}}
-                                                            {{ !$project->hasUploadedFitgap ? 'disabled' : ''}}
                                                         >{{ $project->step4SubmittedAccenture ? 'Submitted' : 'Submit'}}
                                                         </button>
                                                     @endif
