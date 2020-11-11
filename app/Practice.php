@@ -46,6 +46,12 @@ class Practice extends Model
 
     }
 
+    /**
+     * @param array $regions
+     * @param array $years
+     * @return float|int
+     * Shows Number of vendors released from old projects by each practice / total old projects by each practice.
+     */
     public function averageReleasedApplicationsInOldProjectsWithThisPractice($regions = [], $years = [])
     {
 
@@ -73,7 +79,6 @@ class Practice extends Model
 
         return $average;
     }
-
 
     public function numberOfProjectsByVendor(User $vendor, $regions = [], $years = [])
     {
