@@ -40,7 +40,7 @@
     <div style="display: flex; flex-direction: row">
         <input type="number" class="form-control nonBindingInput" placeholder="Percentage"
                data-changing="staffingCostNonBinding"
-               value="{{$vendorApplication->staffingCostNonBinding}}"
+               value="{{$vendorApplication->staffingCostNonBinding}}" required
                {{$disabled ? 'disabled' : ''}} min="0">
         <input style="margin-left: 1rem;" type="text" class="form-control nonBindingInput" placeholder="Comments"
                data-changing="staffingCostNonBindingComments"
@@ -63,7 +63,7 @@
     <div style="display: flex; flex-direction: row">
         <input type="number" class="form-control nonBindingInput" placeholder="Percentage"
                data-changing="travelCostNonBinding"
-               value="{{$vendorApplication->travelCostNonBinding}}"
+               value="{{$vendorApplication->travelCostNonBinding}}" required
                {{$disabled ? 'disabled' : ''}} min="0">
         <input style="margin-left: 1rem;" type="text" class="form-control nonBindingInput" placeholder="Comments"
                data-changing="travelCostNonBindingComments"
@@ -86,7 +86,7 @@
     <div style="display: flex; flex-direction: row">
         <input type="number" class="form-control nonBindingInput" placeholder="Percentage"
                data-changing="additionalCostNonBinding"
-               value="{{$vendorApplication->additionalCostNonBinding}}"
+               value="{{$vendorApplication->additionalCostNonBinding}}" required
                {{$disabled ? 'disabled' : ''}} min="0">
         <input style="margin-left: 1rem;" type="text" class="form-control nonBindingInput" placeholder="Comments"
                data-changing="additionalCostNonBindingComments"
@@ -109,6 +109,7 @@
                 })
 
                 showSavedToast();
+                updateSubmitButton();
             });
 
 

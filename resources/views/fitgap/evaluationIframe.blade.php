@@ -12,6 +12,9 @@
         * {
             font-size: 12px
         }
+        td {
+        text-align:left !important;
+        }
     </style>
 
     <body style="background-color: white !important;">

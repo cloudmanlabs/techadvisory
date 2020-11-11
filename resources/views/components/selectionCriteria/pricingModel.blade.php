@@ -12,7 +12,7 @@ $disabled = $disabled ?? false;
 
 <br>
 
-<div class="form-group questionDiv">
+<div class="form-group questionDiv" data-practice="">
     <label>Pricing Model Response</label>
     <textarea
         {{$disabled ? 'disabled' : ''}}
@@ -26,17 +26,29 @@ $disabled = $disabled ?? false;
 
 <div class="form-group">
     <label>Pricing model Upload</label>
-    <input id="pricingModelUploadInput" class="file-upload-default" name="img[]" type="file">
+    <input id="pricingModelUploadInput" class="file-upload-default" name="img[]" type="file"
+        {{$disabled ? 'disabled' : ''}}
+    >
 
     <div class="input-group col-xs-12">
         <input id="pricingModelUploadNameInput" disabled class="form-control file-upload-info"
             value="{{$vendorApplication->pricingModelUpload ? 'File uploaded' : 'No file selected'}}" type="text">
-        <span class="input-group-append">
-            <button id="pricingModelUploadButtonButton" class="file-upload-browse btn btn-primary" type="button">
-                <span class="input-group-append"
-                    id="pricingModelUploadButton">{{$vendorApplication->pricingModelUpload ? 'Replace file' : 'Select file'}}</span>
-            </button>
-        </span>
+
+        @if (!$disabled)
+            <span class="input-group-append">
+                <button id="pricingModelUploadButtonButton" class="file-upload-browse btn btn-primary" type="button">
+                    <span class="input-group-append"
+                        id="pricingModelUploadButton">{{$vendorApplication->pricingModelUpload ? 'Replace file' : 'Select file'}}</span>
+                </button>
+            </span>
+        @endif
+        @if ($vendorApplication->pricingModelUpload)
+            <span class="input-group-append">
+                <a class="btn btn-primary" href="/storage/{{$vendorApplication->pricingModelUpload}}">
+                    <span class="input-group-append">Download</span>
+                </a>
+            </span>
+        @endif
     </div>
 </div>
 <br>

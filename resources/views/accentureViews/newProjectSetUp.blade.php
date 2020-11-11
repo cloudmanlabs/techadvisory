@@ -163,9 +163,9 @@
                                     <section>
                                         <p class="welcome_text extra-top-15px">
                                             Select the set of questions that must be answered by the client to provide
-                                            vendors
-                                            with required project information to perform the sizing of hteir proposals.
-                                            You can also provide your inputs based on the client information you have.
+                                            vendors with required project information to perform the sizing of their
+                                            proposals. You can also provide your inputs based on the client information
+                                            you have.
                                         </p>
                                         <br>
                                         <x-questionForeachWithActivate :questions="$sizingQuestions"
@@ -275,6 +275,7 @@
                                                     :innovationSustainabilityQuestions="$innovationSustainabilityQuestions"
                                                     :implementationImplementationQuestions="$implementationImplementationQuestions"
                                                     :implementationRunQuestions="$implementationRunQuestions"
+                                                    :project="$project"
                                                 />
 
                                                 <h3>Scoring criteria</h3>
@@ -282,18 +283,15 @@
                                                     <x-scoringCriteriaBricks :isClient="false" :project="$project"/>
                                                     <br>
                                                     <x-scoringCriteriaWeights :isClient="false" :project="$project"/>
-
-                                                    <br><br>
-                                                    @if (!$project->step4SubmittedAccenture)
-                                                        <button
-                                                            class="btn btn-primary"
-                                                            id="step4Submit"
-                                                            {{!$project->hasUploadedFitgap ? 'disabled' : ''}}
-                                                            {{ !$project->step3SubmittedAccenture ? 'disabled' : ''}}
-                                                        >{{ $project->step4SubmittedAccenture ? 'Submitted' : 'Submit'}}
-                                                        </button>
-                                                    @endif
-
+                                                    <br>
+                                                    <br>
+                                                    <button
+                                                        class="btn btn-primary"
+                                                        id="step4Submit"
+                                                        {{ !$project->hasUploadedFitgap ? 'disabled' : ''}}
+                                                        {{ !$project->step3SubmittedAccenture ? 'disabled' : ''}}
+                                                        {{ $project->step4SubmittedAccenture ? 'disabled' : ''}}
+                                                    >{{ $project->step4SubmittedAccenture ? 'Submitted' : 'Submit'}}</button>
                                                     <br><br>
                                                 </div>
                                             </div>
@@ -499,7 +497,7 @@
             });
         }
 
-        function updateShownSubpracticeOptionsAccordingToPractice(removeCurrentSelection = true) {
+        function updateShownSubpracticeOptionsAccordingToPractice(removeCurrentSelection) {
             // Deselect the current subpractice
             if (removeCurrentSelection) {
                 $('#subpracticeSelect').val([]);
@@ -592,7 +590,7 @@
                 var value = $(this).val();
                 $.post('/accenture/newProjectSetUp/changeProjectHasValueTargeting', {
                     project_id: '{{$project->id}}',
-                    value
+                    value: value
                 })
 
                 showSavedToast();
@@ -603,7 +601,7 @@
                 var value = $(this).val();
                 $.post('/accenture/newProjectSetUp/changeProjectHasOrals', {
                     project_id: '{{$project->id}}',
-                    value
+                    value: value
                 })
 
                 showSavedToast();
@@ -614,7 +612,7 @@
                 var value = $(this).val();
                 $.post('/accenture/newProjectSetUp/changeProjectIsBinding', {
                     project_id: '{{$project->id}}',
-                    value
+                    value: value
                 })
 
                 showSavedToast();
@@ -633,7 +631,7 @@
                 updateSubmitStep3();
 
                 updateShownQuestionsAccordingToPractice();
-                updateShownSubpracticeOptionsAccordingToPractice();
+                updateShownSubpracticeOptionsAccordingToPractice(true);
             });
 
             $('#subpracticeSelect').change(function (e) {
@@ -650,7 +648,7 @@
                 var value = $(this).val();
                 $.post('/accenture/newProjectSetUp/changeIndustry', {
                     project_id: '{{$project->id}}',
-                    value
+                    value: value
                 })
 
                 showSavedToast();
@@ -660,7 +658,7 @@
                 var value = $(this).val();
                 $.post('/accenture/newProjectSetUp/changeRegions', {
                     project_id: '{{$project->id}}',
-                    value
+                    value: value
                 })
 
                 showSavedToast();
@@ -670,7 +668,7 @@
                 var value = $(this).val();
                 $.post('/accenture/newProjectSetUp/changeProjectType', {
                     project_id: '{{$project->id}}',
-                    value
+                    value: value
                 })
 
                 showSavedToast();
@@ -680,7 +678,7 @@
                 var value = $(this).val();
                 $.post('/accenture/newProjectSetUp/changeCurrency', {
                     project_id: '{{$project->id}}',
-                    value
+                    value: value
                 })
 
                 showSavedToast();
@@ -690,7 +688,7 @@
                 var value = $(this).val();
                 $.post('/accenture/newProjectSetUp/changeDeadline', {
                     project_id: '{{$project->id}}',
-                    value
+                    value: value
                 })
 
                 showSavedToast();
@@ -700,7 +698,7 @@
                 var value = $(this).val();
                 $.post('/accenture/newProjectSetUp/changeRFPOtherInfo', {
                     project_id: '{{$project->id}}',
-                    value
+                    value: value
                 })
 
                 showSavedToast();

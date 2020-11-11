@@ -225,7 +225,7 @@
         let array = $('input,textarea,select').filter('[required]:visible').toArray();
         if(array.length == 0) return true;
 
-        return array.reduce((prev, current) => {
+        return array.reduce(function(prev, current) {
             return !prev ? false : $(current).is(':hasValue')
         }, true)
     }
@@ -301,8 +301,8 @@
                 var name = $('#clientFirstNameInput').val();
                 $.post('/accenture/clientProfileEdit/createFirstCredential', {
                     client_id: {{$client->id}},
-                    email,
-                    name
+                    email: email,
+                    name: name
                 })
 
                 showSavedToast();

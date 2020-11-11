@@ -170,16 +170,6 @@
 @section('scripts')
     @parent
     <script>
-        /*
-        import Label from "../../../nova/resources/js/components/Form/Label";
-        export default {
-            components: {Label}
-        }
-        */
-
-    </script>
-    <script>
-
         var allVendorsResponses = [
                 @foreach($vendors as $vendor)
             {

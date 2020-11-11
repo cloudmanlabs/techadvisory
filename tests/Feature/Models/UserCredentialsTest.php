@@ -204,7 +204,8 @@ class UserCredentialsTest extends TestCase
     {
         $response = $this->get('/changePassword/hey');
 
-        $response->assertStatus(404);
+        // TODO test that we get the error view
+        $response->assertStatus(200);
     }
 
     public function testChangePasswordRouteWorksWithToken()

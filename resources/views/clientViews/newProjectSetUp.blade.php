@@ -46,7 +46,7 @@
                                 <br>
                                 <div id="wizard_client_newProjectSetUp">
                                     <h2>General Info</h2>
-                                    <section>true
+                                    <section>
                                         <p class="welcome_text extra-top-15px">
                                             Input all relevant information concerning project type, scope and timelines.
                                             Client company name nd contacts will not be shared with vendors.
@@ -175,11 +175,11 @@
                                                 :innovationProductQuestions="$innovationProductQuestions"
                                                 :innovationSustainabilityQuestions="$innovationSustainabilityQuestions"
                                                 :implementationImplementationQuestions="$implementationImplementationQuestions"
-                                                :implementationRunQuestions="$implementationRunQuestions"/>
+                                                :implementationRunQuestions="$implementationRunQuestions"
+                                                :project="$project" />
 
                                             <h3>Scoring criteria</h3>
                                             <div>
-
                                                 <x-scoringCriteriaBricks :isClient="true" :project="$project"/>
                                                 <br>
 
@@ -187,7 +187,6 @@
 
                                                 <br>
                                                 <br>
-
 
                                                 <button
                                                     id="step4SubmitButton"
@@ -302,7 +301,7 @@
             let array = $('input,textarea,select').filter('[required]:visible').toArray();
             if (array.length == 0) return true;
 
-            return array.reduce((prev, current) => {
+            return array.reduce(function(prev, current) {
                 return !prev ? false : $(current).is(':hasValue')
             }, true)
         }
@@ -446,7 +445,7 @@
                 var value = $(this).val();
                 $.post('/client/newProjectSetUp/changeProjectHasValueTargeting', {
                     project_id: '{{$project->id}}',
-                    value
+                    value: value
                 })
 
                 showSavedToast();
@@ -457,7 +456,7 @@
                 var value = $(this).val();
                 $.post('/client/newProjectSetUp/changeProjectHasOrals', {
                     project_id: '{{$project->id}}',
-                    value
+                    value: value
                 })
 
                 showSavedToast();
@@ -468,7 +467,7 @@
                 var value = $(this).val();
                 $.post('/client/newProjectSetUp/changeProjectIsBinding', {
                     project_id: '{{$project->id}}',
-                    value
+                    value: value
                 })
 
                 showSavedToast();
@@ -487,7 +486,7 @@
                 updateSubmitStep3();
 
                 updateShownQuestionsAccordingToPractice();
-                updateShownSubpracticeOptionsAccordingToPractice();
+                updateShownSubpracticeOptionsAccordingToPractice(true);
             });
 
             $('#subpracticeSelect').change(function (e) {
@@ -504,7 +503,7 @@
                 var value = $(this).val();
                 $.post('/client/newProjectSetUp/changeIndustry', {
                     project_id: '{{$project->id}}',
-                    value
+                    value: value
                 })
 
                 showSavedToast();
@@ -514,7 +513,7 @@
                 var value = $(this).val();
                 $.post('/client/newProjectSetUp/changeRegions', {
                     project_id: '{{$project->id}}',
-                    value
+                    value: value
                 })
 
                 showSavedToast();
@@ -524,7 +523,7 @@
                 var value = $(this).val();
                 $.post('/client/newProjectSetUp/changeProjectType', {
                     project_id: '{{$project->id}}',
-                    value
+                    value: value
                 })
 
                 showSavedToast();
@@ -534,7 +533,7 @@
                 var value = $(this).val();
                 $.post('/client/newProjectSetUp/changeCurrency', {
                     project_id: '{{$project->id}}',
-                    value
+                    value: value
                 })
 
                 showSavedToast();
@@ -544,7 +543,7 @@
                 var value = $(this).val();
                 $.post('/client/newProjectSetUp/changeDeadline', {
                     project_id: '{{$project->id}}',
-                    value
+                    value: value
                 })
 
                 showSavedToast();
@@ -554,7 +553,7 @@
                 var value = $(this).val();
                 $.post('/client/newProjectSetUp/changeRFPOtherInfo', {
                     project_id: '{{$project->id}}',
-                    value
+                    value: value
                 })
 
                 showSavedToast();

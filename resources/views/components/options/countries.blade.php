@@ -1,5 +1,6 @@
 @props(['selected'])
 
+<option value="WORLD" {{in_array('WORLD', $selected) ? 'selected' : ''}}>Worldwide</option>
 <option value="AF" {{in_array('AF', $selected) ? 'selected' : ''}}>Afghanistan</option>
 <option value="AL" {{in_array('AL', $selected) ? 'selected' : ''}}>Albania</option>
 <option value="DZ" {{in_array('DZ', $selected) ? 'selected' : ''}}>Algeria</option>

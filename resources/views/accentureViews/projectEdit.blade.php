@@ -146,7 +146,8 @@
                                                 :innovationProductQuestions="$innovationProductQuestions"
                                                 :innovationSustainabilityQuestions="$innovationSustainabilityQuestions"
                                                 :implementationImplementationQuestions="$implementationImplementationQuestions"
-                                                :implementationRunQuestions="$implementationRunQuestions"/>
+                                                :implementationRunQuestions="$implementationRunQuestions"
+                                                :project="$project"/>
 
                                             <h3>Scoring criteria</h3>
                                             <div>
@@ -246,7 +247,7 @@
             let array = $('input,textarea,select').filter('[required]:visible').toArray();
             if (array.length == 0) return true;
 
-            return array.reduce((prev, current) => {
+            return array.reduce(function(prev, current) {
                 return !prev ? false : $(current).is(':hasValue')
             }, true)
         }
@@ -285,7 +286,7 @@
             });
         }
 
-        function updateShownSubpracticeOptionsAccordingToPractice(removeCurrentSelection = true) {
+        function updateShownSubpracticeOptionsAccordingToPractice(removeCurrentSelection) {
             // Deselect the current subpractice
             if (removeCurrentSelection) {
                 $('#subpracticeSelect').val([]);
@@ -400,7 +401,7 @@
                 var value = $(this).val();
                 $.post('/accenture/newProjectSetUp/changeProjectHasOrals', {
                     project_id: '{{$project->id}}',
-                    value
+                    value: value
                 })
 
                 showSavedToast();
@@ -411,7 +412,7 @@
                 var value = $(this).val();
                 $.post('/accenture/newProjectSetUp/changeProjectIsBinding', {
                     project_id: '{{$project->id}}',
-                    value
+                    value: value
                 })
 
                 showSavedToast();
@@ -430,7 +431,7 @@
                 updateSubmitButton();
 
                 updateShownQuestionsAccordingToPractice();
-                updateShownSubpracticeOptionsAccordingToPractice();
+                updateShownSubpracticeOptionsAccordingToPractice(true);
             });
 
             $('#subpracticeSelect').change(function (e) {
@@ -448,7 +449,7 @@
                 var value = $(this).val();
                 $.post('/accenture/newProjectSetUp/changeIndustry', {
                     project_id: '{{$project->id}}',
-                    value
+                    value: value
                 })
 
                 showSavedToast();
@@ -458,7 +459,7 @@
                 var value = $(this).val();
                 $.post('/accenture/newProjectSetUp/changeRegions', {
                     project_id: '{{$project->id}}',
-                    value
+                    value: value
                 })
 
                 showSavedToast();
@@ -468,7 +469,7 @@
                 var value = $(this).val();
                 $.post('/accenture/newProjectSetUp/changeProjectType', {
                     project_id: '{{$project->id}}',
-                    value
+                    value: value
                 })
 
                 showSavedToast();
@@ -478,7 +479,7 @@
                 var value = $(this).val();
                 $.post('/accenture/newProjectSetUp/changeCurrency', {
                     project_id: '{{$project->id}}',
-                    value
+                    value: value
                 })
 
                 showSavedToast();
@@ -488,7 +489,7 @@
                 var value = $(this).val();
                 $.post('/accenture/newProjectSetUp/changeDeadline', {
                     project_id: '{{$project->id}}',
-                    value
+                    value: value
                 })
 
                 showSavedToast();
@@ -498,7 +499,7 @@
                 var value = $(this).val();
                 $.post('/accenture/newProjectSetUp/changeRFPOtherInfo', {
                     project_id: '{{$project->id}}',
-                    value
+                    value: value
                 })
 
                 showSavedToast();

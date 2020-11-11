@@ -102,11 +102,13 @@ $disabled = $disabled ?? false;
 
             setStaffingCostEditListener();
             updateStaffingCost();
+            updateSubmitButton();
         })
 
         $('#removeStaffingCostRow').click(function(){
             $('#staffingCostContainer').children().last().remove()
-            updateStaffingCost()
+            updateStaffingCost();
+            updateSubmitButton();
         })
 
         function updateTotalStaffingCost(){

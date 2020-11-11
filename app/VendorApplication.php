@@ -12,7 +12,17 @@ use Illuminate\Support\Facades\Log;
  * @property boolean $invitedToOrals
  * @property boolean $oralsCompleted
  *
- * @property array $fitgapVendorColumns
+ * @property array|null $fitgapVendorColumns
+ * @property array|null $fitgapVendorColumnsOld
+ * @property array|null $fitgapVendorColumnsOld2
+ * @property array|null $fitgapVendorColumnsOld3
+ * @property array|null $fitgapVendorColumnsOld4
+ * @property array|null $fitgapVendorColumnsOld5
+ * @property array|null $fitgapVendorColumnsOld6
+ * @property array|null $fitgapVendorColumnsOld7
+ * @property array|null $fitgapVendorColumnsOld8
+ * @property array|null $fitgapVendorColumnsOld9
+ * @property array|null $fitgapVendorColumnsOld10
  *
  * @property array $solutionsUsed
  * @property array $deliverables
@@ -38,6 +48,16 @@ class VendorApplication extends Model
         'oralsCompleted' => 'boolean',
 
         'fitgapVendorColumns' => 'array',
+        'fitgapVendorColumnsOld' => 'array',
+        'fitgapVendorColumnsOld2' => 'array',
+        'fitgapVendorColumnsOld3' => 'array',
+        'fitgapVendorColumnsOld4' => 'array',
+        'fitgapVendorColumnsOld5' => 'array',
+        'fitgapVendorColumnsOld6' => 'array',
+        'fitgapVendorColumnsOld7' => 'array',
+        'fitgapVendorColumnsOld8' => 'array',
+        'fitgapVendorColumnsOld9' => 'array',
+        'fitgapVendorColumnsOld10' => 'array',
         'fitgapVendorScores' => 'array',
 
         'solutionsUsed' => 'array',
@@ -68,6 +88,78 @@ class VendorApplication extends Model
     public function experienceFolder()
     {
         return $this->morphOne(Folder::class, 'folderable')->where('folderable_group', 'experience');
+    }
+
+    public function vendorFitgapJsonGeneral($array): array
+    {
+        $result = [];
+        // Merge the two arrays
+        foreach ($this->project->fitgap5Columns as $key => $something) {
+            $result[] = array_merge(
+                $this->project->fitgap5Columns[$key],
+                $array[$key] ?? [
+                    'Vendor Response' => '',
+                    'Comments' => '',
+                ]
+            );
+        }
+
+        return $result;
+    }
+
+    public function vendorFitgapJson(): array
+    {
+        return $this->vendorFitgapJsonGeneral($this->fitgapVendorColumns);
+    }
+
+    public function vendorFitgapJsonOld(): array
+    {
+        return $this->vendorFitgapJsonGeneral($this->fitgapVendorColumnsOld);
+    }
+
+    public function vendorFitgapJsonOld2(): array
+    {
+        return $this->vendorFitgapJsonGeneral($this->fitgapVendorColumnsOld2);
+    }
+
+    public function vendorFitgapJsonOld3(): array
+    {
+        return $this->vendorFitgapJsonGeneral($this->fitgapVendorColumnsOld3);
+    }
+
+    public function vendorFitgapJsonOld4(): array
+    {
+        return $this->vendorFitgapJsonGeneral($this->fitgapVendorColumnsOld4);
+    }
+
+    public function vendorFitgapJsonOld5(): array
+    {
+        return $this->vendorFitgapJsonGeneral($this->fitgapVendorColumnsOld5);
+    }
+
+    public function vendorFitgapJsonOld6(): array
+    {
+        return $this->vendorFitgapJsonGeneral($this->fitgapVendorColumnsOld6);
+    }
+
+    public function vendorFitgapJsonOld7(): array
+    {
+        return $this->vendorFitgapJsonGeneral($this->fitgapVendorColumnsOld7);
+    }
+
+    public function vendorFitgapJsonOld8(): array
+    {
+        return $this->vendorFitgapJsonGeneral($this->fitgapVendorColumnsOld8);
+    }
+
+    public function vendorFitgapJsonOld9(): array
+    {
+        return $this->vendorFitgapJsonGeneral($this->fitgapVendorColumnsOld9);
+    }
+
+    public function vendorFitgapJsonOld10(): array
+    {
+        return $this->vendorFitgapJsonGeneral($this->fitgapVendorColumnsOld10);
     }
 
     public function progress(): int
@@ -157,19 +249,19 @@ class VendorApplication extends Model
     {
         if ($this->project->isBinding) {
             if (
-                $this->staffingCost == null ||
-                $this->travelCost == null ||
-                $this->additionalCost == null ||
-                $this->estimate5Years == null
+                $this->staffingCost === null ||
+                $this->travelCost === null ||
+                $this->additionalCost === null ||
+                $this->estimate5Years === null
             ) {
                 return false;
             }
         } else {
             if (
-                $this->overallImplementationMin == null ||
-                $this->overallImplementationMax == null ||
-                $this->averageYearlyCostMin == null ||
-                $this->averageYearlyCostMax == null
+                $this->overallImplementationMin === null ||
+                $this->overallImplementationMax === null ||
+                $this->averageYearlyCostMin === null ||
+                $this->averageYearlyCostMax === null
             ) {
                 return false;
             }
@@ -427,6 +519,8 @@ class VendorApplication extends Model
 
         $runScore = $this->implementationRunScore();
 
+        Log::debug([$impScore, $runScore]);
+
         return
             (($this->project->implementationImplementationWeight ?? 20) / 100) * $impScore +
             (($this->project->implementationRunWeight ?? 80) / 100) * $runScore;
@@ -435,6 +529,8 @@ class VendorApplication extends Model
     public function implementationImplementationScore()
     {
         $delta = $this->implementationCostDelta();
+
+        Log::debug($delta);
 
         if ($delta == 0) return 10;
         if ($delta <= 5) return 9;
@@ -528,6 +624,8 @@ class VendorApplication extends Model
     {
         $minCost = $this->project->minImplementationCost();
         $cost = $this->implementationCost();
+
+        Log::debug([$minCost, $cost]);
 
         if ($minCost == 0) {
             // If the min and this vendors cost is 0, the delta is 0
@@ -1069,7 +1167,7 @@ class VendorApplication extends Model
 
         // Raw data without user filters
         $query = VendorApplication::
-            where('vendor_applications.phase', '=', 'evaluated')
+        where('vendor_applications.phase', '=', 'evaluated')
             ->join('projects as p', 'project_id', '=', 'p.id')
             ->join('users as u', 'vendor_id', '=', 'u.id')
             ->join('project_subpractice as sub', 'vendor_applications.project_id', '=', 'sub.project_id');

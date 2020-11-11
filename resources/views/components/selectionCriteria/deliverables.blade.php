@@ -14,12 +14,12 @@ $disabled = $disabled ?? false;
             <input type="text" class="form-control deliverableTitle"
                 placeholder="Phase {{$loop->iteration}} title"
                 {{$disabled ? 'disabled' : ''}}
-                value="{{$deliverable['title'] ?? ''}}" required>
+                value="{{$deliverable['title'] ?? ''}}">
             <input type="text" class="form-control deliverableInput"
                 style="margin-top: 1rem"
                 placeholder="Deliverable"
                 {{$disabled ? 'disabled' : ''}}
-                value="{{$deliverable['deliverable'] ?? ''}}" required>
+                value="{{$deliverable['deliverable'] ?? ''}}">
         </div>
         @endforeach
     </div>
@@ -49,10 +49,10 @@ $disabled = $disabled ?? false;
                 <label for="projectName">Deliverable ${childrenCount + 1}</label>
                 <input type="text" class="form-control deliverableTitle"
                     placeholder="Phase ${childrenCount + 1} title"
-                    value="" required>
+                    value="">
                 <input type="text" class="form-control deliverableInput" placeholder="Deliverable"
                     style="margin-top: 1rem"
-                    value="" required>
+                    value="">
             </div>
             `;
 

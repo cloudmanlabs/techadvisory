@@ -48,8 +48,6 @@ class AuthController extends Controller
         // At this point we know the credentials are good
         $user = $credential->user;
 
-
-
         if ($user == null) {
             throw new Exception('You fucked up big time, it shouldn\'t be null here');
         }
@@ -62,7 +60,8 @@ class AuthController extends Controller
         $remember = $request->input('remember') === 'on';
         Auth::login($user, $remember);
 
-        SecurityLog::createLog('User logged in');
+        session(['credential_id' => $credential->id]);
+        SecurityLog::createLog('User logged in from credential ' . $credential->id);
         return redirect('/vendors');
     }
 }

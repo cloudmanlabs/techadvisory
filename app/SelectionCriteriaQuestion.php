@@ -26,6 +26,18 @@ class SelectionCriteriaQuestion extends Question
 {
     public $guarded = [];
 
+    const selectTypesEdit = [
+        'text' => 'Text',
+        'textarea' => 'Text Area',
+        'selectSingle' => 'Select',
+        'selectMultiple' => 'Select multiple',
+        'date' => 'Date',
+        'number' => 'Number',
+        'email' => 'Email',
+        'percentage' => 'Percentage',
+        'file' => 'File',
+    ];
+
     const pagesSelect = [
         'fitgap' => 'Fitgap',
         'vendor_corporate' => 'Vendor - Corporate',

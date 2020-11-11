@@ -38,11 +38,11 @@ $(document).ready(function (){
 
     function filter() {
         // Get all selected practices. If there are none, get all of them
-        var selectedVendors = $('#vendorSelect').select2('data').map((el) => {
+        var selectedVendors = $('#vendorSelect').select2('data').map(function(el) {
             return el.text
         });
         if(selectedVendors.length == 0){
-            selectedVendors = $('#vendorSelect').children().toArray().map((el) => {
+            selectedVendors = $('#vendorSelect').children().toArray().map(function(el) {
                 return el.innerHTML
             });
         }

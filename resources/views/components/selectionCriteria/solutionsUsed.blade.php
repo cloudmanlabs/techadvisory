@@ -4,9 +4,9 @@
 $disabled = $disabled ?? false;
 @endphp
 
-<div class="form-group questionDiv selectionCriteriaQuestion">
+<div class="form-group questionDiv selectionCriteriaQuestion" data-practice="">
     <label>Solutions used*</label>
-    <select id="solutionsUsedSelect" {{$disabled ? 'disabled' : ''}} class="js-example-basic-multiple w-100 form-control" multiple="multiple">
+    <select id="solutionsUsedSelect" {{$disabled ? 'disabled' : ''}} class="js-example-basic-multiple w-100 form-control" multiple="multiple" required>
         <x-options.vendorSolutions :selected="$vendorApplication->solutionsUsed" :vendor="$vendorApplication->vendor" />
     </select>
 </div>
@@ -21,6 +21,9 @@ $disabled = $disabled ?? false;
                 value: $(this).val()
             })
             showSavedToast();
+            if (updateSubmitButton) {
+                updateSubmitButton();
+            }
         })
     });
 </script>

@@ -1,4 +1,4 @@
-$(async function() {
+$(function () {
     "use strict";
 
     $("#wizard").steps({
@@ -6,9 +6,9 @@ $(async function() {
         bodyTag: "section",
         enableAllSteps: true,
         enablePagination: false,
-        onFinishing: function(event, currentIndex) {
+        onFinishing: function (event, currentIndex) {
             window.location.replace("/client/home");
-        }
+        },
     });
 
     // No se usa por tanto no lo cambio
@@ -17,12 +17,12 @@ $(async function() {
         bodyTag: "section",
         transitionEffect: "slideLeft",
         labels: {
-            finish: "Submit general set up"
+            finish: "Submit general set up",
         },
-        onFinishing: function(event, currentIndex) {
+        onFinishing: function (event, currentIndex) {
             window.location.replace("/client/home");
         },
-        onStepChanging: function(e, c, n) {
+        onStepChanging: function (e, c, n) {
             // Change the button name on Sizing info
             if (n == 2) {
                 $("#clientNewProjectSetUpWizard-next").html(
@@ -38,12 +38,12 @@ $(async function() {
 
             return true;
         },
-        onStepChanged: function(e, c, p) {
+        onStepChanged: function (e, c, p) {
             for (let i = 0; i < 10; i++) {
                 $("#clientNewProjectSetUpWizard-p-" + i).css("display", "none");
             }
             $("#clientNewProjectSetUpWizard-p-" + c).css("display", "block");
-        }
+        },
     });
 
     // No se usa y por tanto no lo cambio
@@ -52,14 +52,14 @@ $(async function() {
         bodyTag: "section",
         transitionEffect: "slideLeft",
         labels: {
-            finish: "Submit general set up"
+            finish: "Submit general set up",
         },
-        onFinishing: function(event, currentIndex) {
+        onFinishing: function (event, currentIndex) {
             // TODO Only let the client submit if all the fields are full
 
             window.location.replace("/client/home");
         },
-        onStepChanging: function(e, c, n) {
+        onStepChanging: function (e, c, n) {
             // TODO Check if all the fields are filled
             var canGoToSelection = false;
 
@@ -83,12 +83,12 @@ $(async function() {
 
             return true;
         },
-        onStepChanged: function(e, c, p) {
+        onStepChanged: function (e, c, p) {
             for (let i = 0; i < 10; i++) {
                 $("#clientNewProjectSetUpWizard-p-" + i).css("display", "none");
             }
             $("#clientNewProjectSetUpWizard-p-" + c).css("display", "block");
-        }
+        },
     });
 
     $("#wizard_vendor").steps({
@@ -96,9 +96,9 @@ $(async function() {
         bodyTag: "section",
         enableAllSteps: true,
         enablePagination: false,
-        onFinishing: function(event, currentIndex) {
+        onFinishing: function (event, currentIndex) {
             window.location.replace("/vendors/newSolutionSetUp");
-        }
+        },
     });
 
     $("#wizardVendorAccenture").steps({
@@ -106,9 +106,9 @@ $(async function() {
         bodyTag: "section",
         enableAllSteps: true,
         enablePagination: false,
-        onFinishing: function(event, currentIndex) {
+        onFinishing: function (event, currentIndex) {
             window.location.replace("/accenture/vendorList");
-        }
+        },
     });
 
     $("#wizardVendorProfile").steps({
@@ -119,9 +119,9 @@ $(async function() {
         // labels: {
         //     finish: "Home"
         // },
-        onFinishing: function(event, currentIndex) {
+        onFinishing: function (event, currentIndex) {
             window.location.replace("/vendor/home");
-        }
+        },
     });
 
     $("#wizard_vendor_go_to_home").steps({
@@ -129,18 +129,18 @@ $(async function() {
         bodyTag: "section",
         enableAllSteps: true,
         enablePagination: false,
-        onFinishing: function(event, currentIndex) {
+        onFinishing: function (event, currentIndex) {
             window.location.replace("/vendors/home");
-        }
+        },
     });
 
     // No se usa por tanto no lo cambio
     $("#viewVendorProposalClient").steps({
         headerTag: "h2",
         bodyTag: "section",
-        onFinishing: function(event, currentIndex) {
+        onFinishing: function (event, currentIndex) {
             window.location.replace("/client/project/home");
-        }
+        },
     });
 
     $("#viewVendorProposalEvaluationWizard").steps({
@@ -151,12 +151,12 @@ $(async function() {
         // labels: {
         //     finish: "Submit validation"
         // },
-        onFinishing: function(event, currentIndex) {
+        onFinishing: function (event, currentIndex) {
             // TODO Here check if all thingies have a value
             window.location.replace("/accenture/project/home");
         },
         // HACK Cause otherwise subwizards don't work
-        onStepChanged: function(e, c, p) {
+        onStepChanged: function (e, c, p) {
             for (let i = 0; i < 10; i++) {
                 $("#viewVendorProposalEvaluationWizard-p-" + i).css(
                     "display",
@@ -168,7 +168,7 @@ $(async function() {
                 "display",
                 "block"
             );
-        }
+        },
     });
 
     $("#projectViewWizard").steps({
@@ -179,13 +179,13 @@ $(async function() {
         enableAllSteps: true,
         enablePagination: false,
         // HACK Cause otherwise subwizards don't work
-        onStepChanged: function(e, c, p) {
+        onStepChanged: function (e, c, p) {
             for (let i = 0; i < 10; i++) {
                 $("#projectViewWizard-p-" + i).css("display", "none");
             }
 
             $("#projectViewWizard-p-" + c).css("display", "block");
-        }
+        },
     });
 
     // $("#projectEditWizard").steps({
@@ -223,17 +223,17 @@ $(async function() {
         bodyTag: "section",
         enableAllSteps: true,
         enablePagination: false,
-        onFinishing: function(event, currentIndex) {
+        onFinishing: function (event, currentIndex) {
             window.location.replace("/accenture/home");
         },
         // HACK Cause otherwise subwizards don't work
-        onStepChanged: function(e, c, p) {
+        onStepChanged: function (e, c, p) {
             for (let i = 0; i < 10; i++) {
                 $("#wizard_accenture-p-" + i).css("display", "none");
             }
 
             $("#wizard_accenture-p-" + c).css("display", "block");
-        }
+        },
     });
 
     $("#subwizard").steps({
@@ -243,6 +243,6 @@ $(async function() {
         enableFinishButton: false,
         enableAllSteps: true,
         enablePagination: false,
-        stepsOrientation: "vertical"
+        stepsOrientation: "vertical",
     });
 });

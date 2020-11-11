@@ -9,7 +9,7 @@ $disabled = $disabled ?? false;
 
 <br>
 
-<div class="form-group questionDiv">
+<div class="form-group questionDiv" data-practice="">
     <label>Detailed breakdown response</label>
     <textarea
         {{$disabled ? 'disabled' : ''}}
@@ -22,18 +22,29 @@ $disabled = $disabled ?? false;
 </div>
 
 <div class="form-group">
-    <label>Detailed breakdown Upload*</label>
-    <input id="detailedBreakdownUploadInput" class="file-upload-default" name="img[]" type="file">
+    <label>Detailed breakdown Upload</label>
+    <input id="detailedBreakdownUploadInput" class="file-upload-default" name="img[]" type="file"
+        {{$disabled ? 'disabled' : ''}}
+    >
 
     <div class="input-group col-xs-12">
         <input id="detailedBreakdownUploadNameInput" disabled class="form-control file-upload-info"
             value="{{$vendorApplication->detailedBreakdownUpload ? 'File uploaded' : 'No file selected'}}" type="text">
-        <span class="input-group-append">
-            <button id="detailedBreakdownUploadButtonButton" class="file-upload-browse btn btn-primary" type="button">
-                <span class="input-group-append"
-                    id="detailedBreakdownUploadButton">{{$vendorApplication->detailedBreakdownUpload ? 'Replace file' : 'Select file'}}</span>
-            </button>
-        </span>
+        @if (!$disabled)
+            <span class="input-group-append">
+                <button id="detailedBreakdownUploadButtonButton" class="file-upload-browse btn btn-primary" type="button">
+                    <span class="input-group-append"
+                        id="detailedBreakdownUploadButton">{{$vendorApplication->detailedBreakdownUpload ? 'Replace file' : 'Select file'}}</span>
+                </button>
+            </span>
+        @endif
+        @if ($vendorApplication->detailedBreakdownUpload)
+            <span class="input-group-append">
+                <a class="btn btn-primary" href="/storage/{{$vendorApplication->detailedBreakdownUpload}}">
+                    <span class="input-group-append">Download</span>
+                </a>
+            </span>
+        @endif
     </div>
 </div>
 <br>
