@@ -328,22 +328,26 @@ class VendorApplication extends Model
 
     public function ranking()
     {
-        if ($this->project == null) {
-            return 0;
-        }
+        $score = 0;
+        if (!empty($this->project)) {
+            if ($this->project == null) {
+                $score = 0;
+            }
 
-        $applications = $this->project->vendorApplications->sortByDesc(function ($application) {
-            return $application->totalScore();
-        });
+            $applications = $this->project->vendorApplications->sortByDesc(function ($application) {
+                return $application->totalScore();
+            });
 
-        $rank = 1;
-        foreach ($applications as $key => $app) {
-            if ($app->is($this)) {
-                return $rank;
-            } else {
-                $rank++;
+            $rank = 1;
+            foreach ($applications as $key => $app) {
+                if ($app->is($this)) {
+                    $score = $rank;
+                } else {
+                    $score = $rank++;
+                }
             }
         }
+        return $score;
 
         //throw new Exception('This exception is literally impossible to reach. VendorApplication::ranking');
     }
@@ -384,7 +388,7 @@ class VendorApplication extends Model
     /**
      * Returns average of all fitgap scores
      *
-     * @return void
+     * @return float
      */
     public function fitgapScore()
     {
@@ -433,33 +437,33 @@ class VendorApplication extends Model
 
             $scores = [];
             $maxScores = [];
-            foreach ($fitgap5cols as $key => $value) {
-                if ($value['Requirement Type'] == $type) {
-                    $response = $this->fitgapVendorColumns[$key]['Vendor Response'] ?? '';
-                    $multiplier = $this->getClientMultiplierInRow($key);
+            if (!empty($this->project->fitgap5Columns)) {
+                foreach ($fitgap5cols as $key => $value) {
+                    if ($value['Requirement Type'] == $type) {
+                        $response = $this->fitgapVendorColumns[$key]['Vendor Response'] ?? '';
+                        $multiplier = $this->getClientMultiplierInRow($key);
 
-                    $scores[] = $this->getScoreFromResponse($response) * $multiplier;
-                    $maxScores[] = ($this->project->fitgapWeightFullySupports ?? 3) * $multiplier;
+                        $scores[] = $this->getScoreFromResponse($response) * $multiplier;
+                        $maxScores[] = ($this->project->fitgapWeightFullySupports ?? 3) * $multiplier;
+                    }
                 }
-            }
+                if (count($scores) == 0 || count($maxScores) == 0) {
+                    $score = 0;
+                }
 
-            if (count($scores) == 0 || count($maxScores) == 0) {
-                return 0;
-            }
+                $num = array_sum($scores);
+                $denom = array_sum($maxScores);
 
-            $num = array_sum($scores);
-            $denom = array_sum($maxScores);
-
-            if ($denom == 0) {
-                $score = 0;
-            } else {
-                $score = 10 * ($num / $denom);
+                if ($denom == 0) {
+                    $score = 0;
+                } else {
+                    $score = 10 * ($num / $denom);
+                }
             }
         }
 
         return $score;
     }
-
 
     public function vendorScore()
     {
@@ -590,59 +594,63 @@ class VendorApplication extends Model
 
     public function averageImplementationCost()
     {
-        if ($this->project->isBinding) {
-            return collect([
-                collect($this->staffingCost ?? ['cost' => '0',])
-                    ->map(function ($el) {
-                        return $el['cost'] ?? 0;
-                    })
-                    ->avg(),
-                collect($this->travelCost ?? ['cost' => '0',])
-                    ->map(function ($el) {
-                        return $el['cost'] ?? 0;
-                    })
-                    ->avg(),
-                collect($this->additionalCost ?? ['cost' => '0',])
-                    ->map(function ($el) {
-                        return $el['cost'] ?? 0;
-                    })
-                    ->avg(),
-            ])
-                ->avg();
-        } else {
-            return collect([
-                $this->overallImplementationMin ?? 0,
-                $this->overallImplementationMax ?? 0,
-            ])->average();
+        if (!empty($this->project)) {
+            if ($this->project->isBinding) {
+                return collect([
+                    collect($this->staffingCost ?? ['cost' => '0',])
+                        ->map(function ($el) {
+                            return $el['cost'] ?? 0;
+                        })
+                        ->avg(),
+                    collect($this->travelCost ?? ['cost' => '0',])
+                        ->map(function ($el) {
+                            return $el['cost'] ?? 0;
+                        })
+                        ->avg(),
+                    collect($this->additionalCost ?? ['cost' => '0',])
+                        ->map(function ($el) {
+                            return $el['cost'] ?? 0;
+                        })
+                        ->avg(),
+                ])
+                    ->avg();
+            } else {
+                return collect([
+                    $this->overallImplementationMin ?? 0,
+                    $this->overallImplementationMax ?? 0,
+                ])->average();
+            }
         }
     }
 
     public function implementationCost()
     {
-        if ($this->project->isBinding) {
-            return collect([
-                collect($this->staffingCost ?? ['cost' => '0',])
-                    ->map(function ($el) {
-                        return $el['cost'] ?? 0;
-                    })
-                    ->sum(),
-                collect($this->travelCost ?? ['cost' => '0',])
-                    ->map(function ($el) {
-                        return $el['cost'] ?? 0;
-                    })
-                    ->sum(),
-                collect($this->additionalCost ?? ['cost' => '0',])
-                    ->map(function ($el) {
-                        return $el['cost'] ?? 0;
-                    })
-                    ->sum(),
-            ])
-                ->sum();
-        } else {
-            return collect([
-                $this->overallImplementationMin ?? 0,
-                $this->overallImplementationMax ?? 0,
-            ])->average();
+        if (!empty($this->project)) {
+            if ($this->project->isBinding) {
+                return collect([
+                    collect($this->staffingCost ?? ['cost' => '0',])
+                        ->map(function ($el) {
+                            return $el['cost'] ?? 0;
+                        })
+                        ->sum(),
+                    collect($this->travelCost ?? ['cost' => '0',])
+                        ->map(function ($el) {
+                            return $el['cost'] ?? 0;
+                        })
+                        ->sum(),
+                    collect($this->additionalCost ?? ['cost' => '0',])
+                        ->map(function ($el) {
+                            return $el['cost'] ?? 0;
+                        })
+                        ->sum(),
+                ])
+                    ->sum();
+            } else {
+                return collect([
+                    $this->overallImplementationMin ?? 0,
+                    $this->overallImplementationMax ?? 0,
+                ])->average();
+            }
         }
     }
 
@@ -717,7 +725,6 @@ class VendorApplication extends Model
 
         return ($difference / $minCost) * 100;
     }
-
 
     public function checkIfAllSelectionCriteriaQuestionsWereAnswered(): bool
     {
