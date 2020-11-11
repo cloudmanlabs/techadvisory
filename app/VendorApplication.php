@@ -379,35 +379,35 @@ class VendorApplication extends Model
 
     public function totalScore()
     {
-        if ($this->project == null) {
-            return 0;
+        $score = 0;
+        if (!empty($this->project)) {
+            $weights = collect($this->project->scoringValues ?? [0, 0, 0, 0, 0])
+                ->map(function ($times) {
+                    // We save the number of blocks, not the actual percentage
+                    return $times * 5;
+                });
+
+            $totalWeight = $weights->sum();
+
+            // If they haven't set the weights, just do the average
+            if ($totalWeight == 0) {
+                return collect([
+                    $this->fitgapScore(),
+                    $this->vendorScore(),
+                    $this->experienceScore(),
+                    $this->innovationScore(),
+                    $this->implementationScore(),
+                ])->avg();
+            }
+            $score = $this->fitgapScore() * ($weights[0] / $totalWeight) +
+                $this->vendorScore() * ($weights[1] / $totalWeight) +
+                $this->experienceScore() * ($weights[2] / $totalWeight) +
+                $this->innovationScore() * ($weights[3] / $totalWeight) +
+                $this->implementationScore() * ($weights[4] / $totalWeight);
         }
 
-        $weights = collect($this->project->scoringValues ?? [0, 0, 0, 0, 0])
-            ->map(function ($times) {
-                // We save the number of blocks, not the actual percentage
-                return $times * 5;
-            });
+        return $score;
 
-        $totalWeight = $weights->sum();
-
-        // If they haven't set the weights, just do the average
-        if ($totalWeight == 0) {
-            return collect([
-                $this->fitgapScore(),
-                $this->vendorScore(),
-                $this->experienceScore(),
-                $this->innovationScore(),
-                $this->implementationScore(),
-            ])->avg();
-        }
-
-        return
-            $this->fitgapScore() * ($weights[0] / $totalWeight) +
-            $this->vendorScore() * ($weights[1] / $totalWeight) +
-            $this->experienceScore() * ($weights[2] / $totalWeight) +
-            $this->innovationScore() * ($weights[3] / $totalWeight) +
-            $this->implementationScore() * ($weights[4] / $totalWeight);
     }
 
     /**
@@ -491,55 +491,60 @@ class VendorApplication extends Model
 
     public function innovationScore()
     {
-        $digital = $this->project->selectionCriteriaQuestionsForVendor($this->vendor)->whereHas('originalQuestion', function ($query) {
-                $query
-                    ->where('page', 'innovation_digitalEnablers');
-            })->whereHas('originalQuestion', function ($query) {
-                $query->whereNull('linked_question_id');
-            })->avg('score') ?? 0;
+        $score = 0;
+        if (!empty($this->project)) {
+            $digital = $this->project->selectionCriteriaQuestionsForVendor($this->vendor)->whereHas('originalQuestion', function ($query) {
+                    $query
+                        ->where('page', 'innovation_digitalEnablers');
+                })->whereHas('originalQuestion', function ($query) {
+                    $query->whereNull('linked_question_id');
+                })->avg('score') ?? 0;
 
-        $alliances = $this->project->selectionCriteriaQuestionsForVendor($this->vendor)->whereHas('originalQuestion', function ($query) {
-                $query
-                    ->where('page', 'innovation_alliances');
-            })->whereHas('originalQuestion', function ($query) {
-                $query->whereNull('linked_question_id');
-            })->avg('score') ?? 0;
+            $alliances = $this->project->selectionCriteriaQuestionsForVendor($this->vendor)->whereHas('originalQuestion', function ($query) {
+                    $query
+                        ->where('page', 'innovation_alliances');
+                })->whereHas('originalQuestion', function ($query) {
+                    $query->whereNull('linked_question_id');
+                })->avg('score') ?? 0;
 
-        $product = $this->project->selectionCriteriaQuestionsForVendor($this->vendor)->whereHas('originalQuestion', function ($query) {
-                $query
-                    ->where('page', 'innovation_product');
-            })->whereHas('originalQuestion', function ($query) {
-                $query->whereNull('linked_question_id');
-            })->avg('score') ?? 0;
+            $product = $this->project->selectionCriteriaQuestionsForVendor($this->vendor)->whereHas('originalQuestion', function ($query) {
+                    $query
+                        ->where('page', 'innovation_product');
+                })->whereHas('originalQuestion', function ($query) {
+                    $query->whereNull('linked_question_id');
+                })->avg('score') ?? 0;
 
-        $sustainability = $this->project->selectionCriteriaQuestionsForVendor($this->vendor)->whereHas('originalQuestion', function ($query) {
-                $query
-                    ->where('page', 'innovation_sustainability');
-            })->whereHas('originalQuestion', function ($query) {
-                $query->whereNull('linked_question_id');
-            })->avg('score') ?? 0;
+            $sustainability = $this->project->selectionCriteriaQuestionsForVendor($this->vendor)->whereHas('originalQuestion', function ($query) {
+                    $query
+                        ->where('page', 'innovation_sustainability');
+                })->whereHas('originalQuestion', function ($query) {
+                    $query->whereNull('linked_question_id');
+                })->avg('score') ?? 0;
 
-        return collect([$digital, $alliances, $product, $sustainability])->avg();
+            $score = collect([$digital, $alliances, $product, $sustainability])->avg();
+        }
+
+        return $score;
     }
 
     public function implementationScore()
     {
-        $impScore = $this->implementationImplementationScore();
+        $score = 0;
+        if (!empty($this->project)) {
+            $impScore = $this->implementationImplementationScore();
 
-        $runScore = $this->implementationRunScore();
+            $runScore = $this->implementationRunScore();
 
-        Log::debug([$impScore, $runScore]);
+            $score = (($this->project->implementationImplementationWeight ?? 20) / 100) * $impScore +
+                (($this->project->implementationRunWeight ?? 80) / 100) * $runScore;
+        }
 
-        return
-            (($this->project->implementationImplementationWeight ?? 20) / 100) * $impScore +
-            (($this->project->implementationRunWeight ?? 80) / 100) * $runScore;
+        return $score;
     }
 
     public function implementationImplementationScore()
     {
         $delta = $this->implementationCostDelta();
-
-        Log::debug($delta);
 
         if ($delta == 0) return 10;
         if ($delta <= 5) return 9;
