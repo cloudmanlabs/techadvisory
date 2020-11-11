@@ -451,29 +451,33 @@ class VendorApplication extends Model
 
     public function vendorScore()
     {
-        $corp = $this->project->selectionCriteriaQuestionsForVendor($this->vendor)
-                ->whereHas('originalQuestion', function ($query) {
-                    $query->where('page', 'vendor_corporate');
-                })
-                ->whereHas('originalQuestion', function ($query) {
-                    $query->whereNull('linked_question_id');
-                })->avg('score') ?? 0;
+        $score = 0;
+        if (!empty($this->project)) {
+            $corp = $this->project->selectionCriteriaQuestionsForVendor($this->vendor)
+                    ->whereHas('originalQuestion', function ($query) {
+                        $query->where('page', 'vendor_corporate');
+                    })
+                    ->whereHas('originalQuestion', function ($query) {
+                        $query->whereNull('linked_question_id');
+                    })->avg('score') ?? 0;
 
-        $market = $this->project->selectionCriteriaQuestionsForVendor($this->vendor)
-                ->whereHas('originalQuestion', function ($query) {
-                    $query->where('page', 'vendor_market');
-                })
-                ->whereHas('originalQuestion', function ($query) {
-                    $query->whereNull('linked_question_id');
-                })->avg('score') ?? 0;
+            $market = $this->project->selectionCriteriaQuestionsForVendor($this->vendor)
+                    ->whereHas('originalQuestion', function ($query) {
+                        $query->where('page', 'vendor_market');
+                    })
+                    ->whereHas('originalQuestion', function ($query) {
+                        $query->whereNull('linked_question_id');
+                    })->avg('score') ?? 0;
+            $score = collect([$corp, $market])->avg();
+        }
 
-        return collect([$corp, $market])->avg();
+        return $score;
     }
 
     public function experienceScore()
     {
         $score = 0;
-        if(!empty($this->project)){
+        if (!empty($this->project)) {
             $score = $this->project->selectionCriteriaQuestionsForVendor($this->vendor)->whereHas('originalQuestion', function ($query) {
                     $query->where('page', 'experience');
                 })
