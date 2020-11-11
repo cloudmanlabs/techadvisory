@@ -63,7 +63,7 @@ class SelectionCriteriaQuestion extends Question
      *  METHOD FOR NOVA
      * Each SelectionCriteriaQuestion has a group of SelectionCriteriaQuestion that can be linked to,
      *  depending to their page and practice (SC Capability) chosen before.
-     * @return |null linked Question to select (only for backoffice purposes)
+     * @return array linked Question to select (only for backoffice purposes)
      */
     public function getPossibleLinkedQuestionsFiltered()
     {

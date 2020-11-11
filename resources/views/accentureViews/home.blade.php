@@ -146,7 +146,6 @@
                         </div>
                     </div>
                 </div>
-
                 <div class="row" id="preparation_phase">
                     <div class="col-lg-12 grid-margin stretch-card">
                         <div class="card">
