@@ -326,35 +326,6 @@ class VendorApplication extends Model
         return 1;
     }
 
-    function averageScoreOfType(string $type): float
-    {
-        $fitgap5cols = $this->project->fitgap5Columns;
-
-        $scores = [];
-        $maxScores = [];
-        foreach ($fitgap5cols as $key => $value) {
-            if ($value['Requirement Type'] == $type) {
-                $response = $this->fitgapVendorColumns[$key]['Vendor Response'] ?? '';
-                $multiplier = $this->getClientMultiplierInRow($key);
-
-                $scores[] = $this->getScoreFromResponse($response) * $multiplier;
-                $maxScores[] = ($this->project->fitgapWeightFullySupports ?? 3) * $multiplier;
-            }
-        }
-
-        if (count($scores) == 0 || count($maxScores) == 0) {
-            return 0;
-        }
-
-        $num = array_sum($scores);
-        $denom = array_sum($maxScores);
-
-        if ($denom == 0) return 0;
-
-        return
-            10 * ($num / $denom);
-    }
-
     public function ranking()
     {
         if ($this->project == null) {
@@ -452,6 +423,43 @@ class VendorApplication extends Model
     {
         return $this->averageScoreOfType('Others');
     }
+
+    function averageScoreOfType(string $type): float
+    {
+
+        $score = 0;
+        if (!empty($this->project)) {
+            $fitgap5cols = $this->project->fitgap5Columns;
+
+            $scores = [];
+            $maxScores = [];
+            foreach ($fitgap5cols as $key => $value) {
+                if ($value['Requirement Type'] == $type) {
+                    $response = $this->fitgapVendorColumns[$key]['Vendor Response'] ?? '';
+                    $multiplier = $this->getClientMultiplierInRow($key);
+
+                    $scores[] = $this->getScoreFromResponse($response) * $multiplier;
+                    $maxScores[] = ($this->project->fitgapWeightFullySupports ?? 3) * $multiplier;
+                }
+            }
+
+            if (count($scores) == 0 || count($maxScores) == 0) {
+                return 0;
+            }
+
+            $num = array_sum($scores);
+            $denom = array_sum($maxScores);
+
+            if ($denom == 0) {
+                $score = 0;
+            } else {
+                $score = 10 * ($num / $denom);
+            }
+        }
+
+        return $score;
+    }
+
 
     public function vendorScore()
     {
