@@ -81,22 +81,4 @@ class Practice extends Model
         return $query;
     }
 
-// old methods
-    /*
-public function applicationsInProjectsWithThisPractice()
-{
-    return $this->projects->map(function (Project $project) {
-        return $project->vendorApplications->count();
-    })->sum();
-}
-*/
-
-
-    /*
-        public function numberOfProjectsByVendor(User $vendor)
-        {
-            return $this->projects->filter(function (Project $project) use ($vendor) {
-                return $vendor->hasAppliedToProject($project);
-            })->count();
-        }*/
 }
