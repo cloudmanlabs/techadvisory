@@ -35,7 +35,7 @@ class Practice extends Model
     public function applicationsInProjectsWithThisPractice($regions = [], $years = [])
     {
 
-        $query = $this->projects()->select('id', 'currentPhase','regions', 'created_at');
+        $query = $this->projects()->select('id', 'currentPhase', 'regions', 'created_at');
         $query = $this->benchmarkOverviewFilters($query, $regions, $years);
 
         $query = $query->get()->map(function (Project $project) {
@@ -46,9 +46,38 @@ class Practice extends Model
 
     }
 
+    public function averageReleasedApplicationsInOldProjectsWithThisPractice($regions = [], $years = [])
+    {
+
+        $query = $this->projects()->select('id', 'currentPhase', 'regions', 'created_at');
+        $query = $this->benchmarkOverviewFilters($query, $regions, $years);
+
+        // Total projects
+        $totalOldProjects = $query
+            ->where('currentPhase', '=', 'old')
+            ->count();
+
+        // Number of vendors
+        $applicationsReleasedForOldProjectsWithThisPractice = $query->get()
+            ->map(function (Project $project) {
+                return $project->vendorApplications
+                    ->where('phase', '=', 'evaluated')
+                    ->count();
+            })->sum();
+
+        $average = 0;
+        if ($totalOldProjects > 0) {
+            // Vendors / Total projects.
+            $average = $applicationsReleasedForOldProjectsWithThisPractice / $totalOldProjects;
+        }
+
+        return $average;
+    }
+
+
     public function numberOfProjectsByVendor(User $vendor, $regions = [], $years = [])
     {
-        $query = $this->projects()->select('id', 'currentPhase','regions', 'created_at');
+        $query = $this->projects()->select('id', 'currentPhase', 'regions', 'created_at');
         $query = $this->benchmarkOverviewFilters($query, $regions, $years);
 
         $query = $query->get()->filter(function (Project $project) use ($vendor) {
@@ -61,7 +90,7 @@ class Practice extends Model
     // Encapsulate the filters for graphics from view: Overview - general
     private function benchmarkOverviewFilters($query, $regions = [], $years = [])
     {
-        $query = $query->where('currentPhase','=','old');
+        $query = $query->where('currentPhase', '=', 'old');
 
         if ($regions) {
             $query = $query->where(function ($query) use ($regions) {
