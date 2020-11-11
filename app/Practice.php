@@ -60,7 +60,7 @@ class Practice extends Model
 
         // Total projects
         $totalOldProjects = $query
-            ->where('currentPhase', '=', 'old')
+            //->where('currentPhase', '=', 'old')
             ->count();
 
         // Number of vendors
