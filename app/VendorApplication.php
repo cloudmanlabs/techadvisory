@@ -472,12 +472,17 @@ class VendorApplication extends Model
 
     public function experienceScore()
     {
-        return $this->project->selectionCriteriaQuestionsForVendor($this->vendor)->whereHas('originalQuestion', function ($query) {
-                $query->where('page', 'experience');
-            })
-                ->whereHas('originalQuestion', function ($query) {
-                    $query->whereNull('linked_question_id');
-                })->avg('score') ?? 0;
+        $score = 0;
+        if(!empty($this->project)){
+            $score = $this->project->selectionCriteriaQuestionsForVendor($this->vendor)->whereHas('originalQuestion', function ($query) {
+                    $query->where('page', 'experience');
+                })
+                    ->whereHas('originalQuestion', function ($query) {
+                        $query->whereNull('linked_question_id');
+                    })->avg('score') ?? 0;
+        }
+
+        return $score;
     }
 
     public function innovationScore()
