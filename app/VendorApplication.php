@@ -417,16 +417,20 @@ class VendorApplication extends Model
      */
     public function fitgapScore()
     {
-        $functionalScore = $this->fitgapFunctionalScore();
-        $technicalScore = $this->fitgapTechnicalScore();
-        $serviceScore = $this->fitgapServiceScore();
-        $otherScore = $this->fitgapOtherScore();
+        $score = 0;
+        if (!empty($this->project)) {
+            $functionalScore = $this->fitgapFunctionalScore();
+            $technicalScore = $this->fitgapTechnicalScore();
+            $serviceScore = $this->fitgapServiceScore();
+            $otherScore = $this->fitgapOtherScore();
 
-        return
-            (($this->project->fitgapFunctionalWeight ?? 60) / 100) * $functionalScore +
-            (($this->project->fitgapTechnicalWeight ?? 20) / 100) * $technicalScore +
-            (($this->project->fitgapServiceWeight ?? 10) / 100) * $serviceScore +
-            (($this->project->fitgapOthersWeight ?? 10) / 100) * $otherScore;
+            $score = (($this->project->fitgapFunctionalWeight ?? 60) / 100) * $functionalScore +
+                (($this->project->fitgapTechnicalWeight ?? 20) / 100) * $technicalScore +
+                (($this->project->fitgapServiceWeight ?? 10) / 100) * $serviceScore +
+                (($this->project->fitgapOthersWeight ?? 10) / 100) * $otherScore;
+        }
+
+        return $score;
     }
 
     public function fitgapFunctionalScore()
