@@ -112,7 +112,7 @@
                                             </select>
                                         </div>
 
-                                        <div class="media-body" style="padding: 20px;">
+{{--                                        <div class="media-body" style="padding: 20px;">
                                             <p class="welcome_text">
                                                 Please choose the Phases you'd like to see:
                                             </p>
@@ -121,7 +121,7 @@
                                                 <option value="open">Open</option>
                                                 <option value="old">Old</option>
                                             </select>
-                                        </div>
+                                        </div>--}}
 
                                         <br>
                                         <h3 style="color: #A12BFE">Search Results</h3>
@@ -241,7 +241,9 @@
                 });
             }
 
-            $('#practiceSelect').select2();
+            $('#practiceSelect').select2({
+                maximumSelectionLength: 1
+            });
             $('#practiceSelect').on('change', function (e) {
                 updateProjects();
             });
@@ -251,7 +253,9 @@
                 updateProjects();
             });
 
-            $('#clientSelect').select2();
+            $('#clientSelect').select2({
+                maximumSelectionLength: 1
+            });
             $('#clientSelect').on('change', function (e) {
                 updateProjects();
             });
@@ -261,7 +265,9 @@
                 updateProjects();
             });
 
-            $('#industrySelect').select2();
+            $('#industrySelect').select2({
+                maximumSelectionLength: 1
+            });
             $('#industrySelect').on('change', function (e) {
                 updateProjects();
             });
