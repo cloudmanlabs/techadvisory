@@ -46,8 +46,6 @@ class FitgapController extends Controller
         $project->hasUploadedFitgap = true;
         $project->save();
 
-        Log::debug($project);
-
         return \response()->json([
             'status' => 200,
             'message' => 'Success'

@@ -719,6 +719,8 @@
 
                 $(this).attr('disabled', true);
                 $(this).html('Submitted')
+
+                location.reload();
             });
 
             $('#step4Submit').click(function () {
@@ -736,6 +738,8 @@
 
                 $(this).attr('disabled', true);
                 $(this).html('Submitted')
+
+                location.reload();
 
                 // If the client has already accepted, set it as active
                 if ($('#publishButton').data('clienthasfinished') == '1') {
@@ -755,6 +759,8 @@
                     hideAfter: 1000,
                     position: 'bottom-right'
                 })
+
+                location.reload();
             });
 
 
