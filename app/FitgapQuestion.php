@@ -11,14 +11,14 @@ use Illuminate\Database\Eloquent\Model;
  * @property int $id
  * @property int $position
  *
- * @property string $requirementType
+ * @property string $requirement_type
  * @property string $level_1
  * @property string $level_2
  * @property string $level_3
  * @property string $requirement
  *
  * @property string $client
- * @property string $business_Opportunity
+ * @property string $business_opportunity
  *
  */
 class FitgapQuestion extends Model
@@ -49,6 +49,11 @@ class FitgapQuestion extends Model
         return $this->requirement;
     }
 
+    public function requirementType()
+    {
+        return $this->requirement_type;
+    }
+
     public function level1()
     {
         return $this->level_1;
@@ -71,7 +76,7 @@ class FitgapQuestion extends Model
 
     public function businessOpportunity()
     {
-        return $this->business_Opportunity;
+        return $this->business_opportunity;
     }
 
 }

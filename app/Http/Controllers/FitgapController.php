@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\FitgapQuestion;
 use App\Imports\FitgapImport;
 use App\Project;
 use App\SecurityLog;
@@ -22,27 +23,24 @@ class FitgapController extends Controller
         $collection = Excel::toCollection(new FitgapImport, $request->file('excel'));
         $rows = $collection[0];
 
-        $result5Cols = [];
-        $resultClient = [];
-        for ($i = 1; isset($rows[$i][0]) && $rows[$i][0] != null; $i++) {
-            $row = $rows[$i];
 
-            $result5Cols[] = [
-                'Requirement Type' => $row[0], // This one won't be null cause we check it in the for
-                'Level 1' => $row[1] ?? '',
-                'Level 2' => $row[2] ?? '',
-                'Level 3' => $row[3] ?? '',
-                'Requirement' => $row[4] ?? '',
-            ];
+        foreach ($rows->slice(1) as $key => $row) {
 
-            $resultClient[] = [
-                'Client' => $row[5] ?? '',
-                'Business Opportunity' => $row[6] ?? '',
-            ];
+            $fitgapQuestion = new FitgapQuestion([
+                'position' => $key,
+                'project_id' => $project->id,
+                'requirement_type' => $row[0],
+                'level_1' => $row[1],
+                'level_2' => $row[2],
+                'level_3' => $row[3],
+                'requirement' => $row[4],
+                'client' => $row[5],
+                'business_opportunity' => $row[6],
+            ]);
+
+            $fitgapQuestion->save();
         }
 
-        $project->fitgap5Columns = $result5Cols;
-        $project->fitgapClientColumns = $resultClient;
         $project->hasUploadedFitgap = true;
         $project->save();
 
