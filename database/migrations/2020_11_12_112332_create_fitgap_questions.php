@@ -59,7 +59,7 @@ class CreateFitgapQuestions extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('fitgap_questions');
         Schema::dropIfExists('fitgap_vendor_response');
+        Schema::dropIfExists('fitgap_questions');
     }
 }

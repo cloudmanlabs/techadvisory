@@ -12,12 +12,12 @@ use Illuminate\Database\Eloquent\Model;
  * @property int $position
  *
  * @property string $requirementType
- * @property string $level1
- * @property string $level2
- * @property string $level3
+ * @property string $level_1
+ * @property string $level_2
+ * @property string $level_3
  *
  * @property string $client
- * @property string $businessOpportunity
+ * @property string $business_Opportunity
  *
  */
 class FitgapQuestion extends Model
@@ -41,6 +41,31 @@ class FitgapQuestion extends Model
     public function project()
     {
         return $this->belongsTo(Project::class, 'project_id');
+    }
+
+    public function level1()
+    {
+        return $this->level_1;
+    }
+
+    public function level2()
+    {
+        return $this->level_2;
+    }
+
+    public function level3()
+    {
+        return $this->level_3;
+    }
+
+    public function clientResponse()
+    {
+        return $this->client;
+    }
+
+    public function businessOpportunity()
+    {
+        return $this->business_Opportunity;
     }
 
 }

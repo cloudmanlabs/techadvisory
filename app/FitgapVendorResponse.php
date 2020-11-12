@@ -10,9 +10,12 @@ use phpseclib\System\SSH\Agent\Identity;
  * @package App
  *
  * @property int $id
+ * @property int $fitgapQuestionId
  *
  */
 class FitgapVendorResponse extends Model
 {
     public $guarded = [];
+
+    protected $table = 'fitgap_vendor_responses';
 }
