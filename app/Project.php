@@ -5,6 +5,7 @@ namespace App;
 use Guimcaballero\LaravelFolders\Models\Folder;
 use Illuminate\Database\Eloquent\Model;
 use \Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Collection;
 
 /**
@@ -115,8 +116,7 @@ class Project extends Model
     }
 
     /**
-     * Magia para que funcione el Nova de Owner project.
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @return BelongsTo
      */
     public function owners()
     {
