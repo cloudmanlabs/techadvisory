@@ -23,6 +23,7 @@ class FitgapController extends Controller
         $collection = Excel::toCollection(new FitgapImport, $request->file('excel'));
         $rows = $collection[0];
 
+        FitgapQuestion::deleteByProject($project->id);
 
         foreach ($rows->slice(1) as $key => $row) {
 

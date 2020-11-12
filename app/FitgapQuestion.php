@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use phpDocumentor\Reflection\Types\Integer;
 
 /**
  * Class FitgapVendorResponse
@@ -77,6 +78,12 @@ class FitgapQuestion extends Model
     public function businessOpportunity()
     {
         return $this->business_opportunity;
+    }
+
+    public static function deleteByProject($projectId)
+    {
+        FitgapQuestion::where('project_id','=',$projectId)->delete();
+
     }
 
 }
