@@ -42,6 +42,7 @@ class CreateFitgapQuestions extends Migration
             $table->foreignId('vendor_application_id');
 
             $table->text('response')->nullable();
+            $table->text('comments')->nullable();
             $table->integer('score')->nullable();
 
             $table->foreign('fitgap_question_id')->references('id')->on('fitgap_questions');
