@@ -15,6 +15,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $level_1
  * @property string $level_2
  * @property string $level_3
+ * @property string $requirement
  *
  * @property string $client
  * @property string $business_Opportunity
@@ -43,9 +44,9 @@ class FitgapQuestion extends Model
         return $this->belongsTo(Project::class, 'project_id');
     }
 
-    public function position()
+    public function requirement()
     {
-        return $this->position;
+        return $this->requirement;
     }
 
     public function level1()

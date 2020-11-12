@@ -34,7 +34,7 @@ class CreateFitgapQuestions extends Migration
             $table->foreign('project_id')->references('id')->on('projects');
         });
 
-        Schema::create('fitgap_vendor_response', function (Blueprint $table) {
+        Schema::create('fitgap_vendor_responses', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
 
@@ -60,7 +60,7 @@ class CreateFitgapQuestions extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('fitgap_vendor_response');
+        Schema::dropIfExists('fitgap_vendor_responses');
         Schema::dropIfExists('fitgap_questions');
     }
 }
