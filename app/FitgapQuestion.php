@@ -43,6 +43,11 @@ class FitgapQuestion extends Model
         return $this->belongsTo(Project::class, 'project_id');
     }
 
+    public function position()
+    {
+        return $this->position;
+    }
+
     public function level1()
     {
         return $this->level_1;
