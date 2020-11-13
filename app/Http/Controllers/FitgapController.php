@@ -75,7 +75,7 @@ class FitgapController extends Controller
         });
     }
 
-    public function vendorJson(Request $request, User $vendor, Project $project)
+    public function vendorJson(User $vendor, Project $project)
     {
         $vendorApplication = VendorApplication::where([
             'project_id' => $project->id,
@@ -105,61 +105,9 @@ class FitgapController extends Controller
 
     }
 
-    public function evaluationJson(Request $request, User $vendor, Project $project)
+    public function evaluationJson(User $vendor, Project $project)
     {
-        $vendorApplication = VendorApplication::where([
-            'project_id' => $project->id,
-            'vendor_id' => $vendor->id
-        ])->first();
-
-        if ($vendorApplication == null) {
-            abort(404);
-        }
-
-        $result = [];
-        foreach ($project->fitgap5Columns as $key => $fitgapRow) {
-
-            $result[$key] = $fitgapRow;
-
-            // Client data
-            foreach ($project->fitgapClientColumns as $fitgapClientRow) {
-                // Add vendor Responses only where the column from Accenture exists (It could be deleted)
-                $hasClientData = array_key_exists('Requirement Client Response', $fitgapClientRow);
-                if ($hasClientData) {
-                    // Add the client data with the relation.
-                    if ($fitgapClientRow['Requirement Client Response'] == $fitgapRow['Requirement']) {
-                        $result[$key]['Client'] = $fitgapClientRow['Client'];
-                        $result[$key]['Business Opportunity'] = $fitgapClientRow['Business Opportunity'];
-                    }
-                } else {
-                    // Add the client data without the relation.
-                    $result[$key]['Client'] = $fitgapClientRow['Client'];
-                    $result[$key]['Business Opportunity'] = $fitgapClientRow['Business Opportunity'];
-                }
-            }
-
-            // Vendor data
-            foreach ($vendorApplication->fitgapVendorColumns as $fitgapVendorRow) {
-                // Add vendor Responses only where the column from Accenture exists (It could be deleted)
-                $hasVendorData = array_key_exists('Requirement Response', $fitgapVendorRow);
-                if ($hasVendorData) {
-
-                    // Add the client data with the relation.
-                    if ($fitgapVendorRow['Requirement Response'] == $fitgapRow['Requirement']) {
-                        $result[$key]['Vendor Response'] = $fitgapVendorRow['Vendor Response'];
-                        $result[$key]['Comments'] = $fitgapVendorRow['Comments'];
-                    }
-                } else {
-
-                    // Add the client data without the relation.
-                    $result[$key]['Vendor Response'] = $fitgapVendorRow['Vendor Response'];
-                    $result[$key]['Comments'] = $fitgapVendorRow['Comments'];
-                }
-            }
-
-        }
-
-        return $result;
+        return $this->vendorJson($vendor, $project);
     }
 
     public function clientJsonUpload(Request $request, Project $project)
