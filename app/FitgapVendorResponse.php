@@ -28,6 +28,11 @@ class FitgapVendorResponse extends Model
         return $this->belongsTo(FitgapQuestion::class, 'fitgap_question_id');
     }
 
+    public function getFitgapQuestionId()
+    {
+        return $this->fitgap_question_id;
+    }
+
     public function vendorApplication()
     {
         return $this->belongsTo(VendorApplication::class, 'vendor_application_id');
@@ -51,7 +56,11 @@ class FitgapVendorResponse extends Model
     public static function findByFitgapQuestionFromTheApplication($vendorApplicationId, $questionId)
     {
         return FitgapVendorResponse::where('vendor_application_id', '=', $vendorApplicationId)
-            ->where('fitgap_question_id', '=', $questionId)->get();
+            ->where('fitgap_question_id', '=', $questionId)->first();
 
+    }
+
+    public static function findByVendorApplication($vendorApplicationId){
+        return FitgapVendorResponse::where('vendor_application_id', '=', $vendorApplicationId)->get();
     }
 }

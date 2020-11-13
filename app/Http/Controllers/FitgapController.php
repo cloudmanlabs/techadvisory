@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\FitgapQuestion;
+use App\FitgapVendorResponse;
 use App\Imports\FitgapImport;
 use App\Project;
 use App\SecurityLog;
@@ -86,41 +87,22 @@ class FitgapController extends Controller
         }
 
         $table = [];
-        $myFitgapQuestions = FitgapQuestion::findByProject($project->id);
+        $fitgapQuestions = FitgapQuestion::findByProject($project->id);
+        $fitgapResponses = FitgapVendorResponse::findByVendorApplication($vendorApplication->id);
 
-        foreach ($myFitgapQuestions as $key => $fitgapQuestion) {
-            $table[$key]['Type'] = $fitgapQuestion->requirementType();
-            $table[$key]['Level 1'] = $fitgapQuestion->level1();
-            $table[$key]['Level 2'] = $fitgapQuestion->level2();
-            $table[$key]['Level 3'] = $fitgapQuestion->level3();
-            $table[$key]['Requirement'] = $fitgapQuestion->requirement();
-        }
+        return $fitgapQuestions->map(function ($fitgapQuestion) use ($fitgapResponses) {
+            $fitgapResponseFound = $fitgapResponses->where('fitgap_question_id', $fitgapQuestion->id)->first();
+            return [
+                'Type' => $fitgapQuestion->requirementType(),
+                'Level 1' => $fitgapQuestion->level1(),
+                'Level 2' => $fitgapQuestion->level2(),
+                'Level 3' => $fitgapQuestion->level3(),
+                'Requirement' => $fitgapQuestion->requirement(),
+                'Vendor response' => $fitgapResponseFound ? $fitgapResponseFound->response() : '',
+                'Comments' => $fitgapResponseFound ? $fitgapResponseFound->comments() : '',
+            ];
+        });
 
-/*        $result = [];   // The complete table.
-        foreach ($project->fitgap5Columns as $key => $fitgapRow) {
-
-            $result[$key] = $fitgapRow;
-
-            foreach ($vendorApplication->fitgapVendorColumns as $fitgapVendorRow) {
-                // Add vendor Responses only where the column from Accenture exists (It could be deleted)
-                $hasVendorData = array_key_exists('Requirement Response', $fitgapVendorRow);
-                if ($hasVendorData) {
-
-                    // Add the client data with the relation.
-                    if ($fitgapVendorRow['Requirement Response'] == $fitgapRow['Requirement']) {
-                        $result[$key]['Vendor Response'] = $fitgapVendorRow['Vendor Response'];
-                        $result[$key]['Comments'] = $fitgapVendorRow['Comments'];
-                    }
-                } else {
-
-                    // Add the client data without the relation.
-                    $result[$key]['Vendor Response'] = $fitgapVendorRow['Vendor Response'];
-                    $result[$key]['Comments'] = $fitgapVendorRow['Comments'];
-                }
-            }
-        }*/
-
-        return $table;
     }
 
     public function evaluationJson(Request $request, User $vendor, Project $project)
