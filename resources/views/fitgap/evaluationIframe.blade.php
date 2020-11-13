@@ -127,7 +127,7 @@
                             data: mySpreadsheet.getJson()
                         })*/
                     @endif
-                }
+                },
             });
 
             document.getElementById('download').onclick = function () {
