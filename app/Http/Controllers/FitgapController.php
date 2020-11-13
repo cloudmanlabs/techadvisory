@@ -280,6 +280,41 @@ class FitgapController extends Controller
         ]);
     }
 
+    public function createFitgapQuestionOnTheProject(Project $project, $newRequisite, $newType)
+    {
+        $lastQuestion = FitgapQuestion::findByProject($project->id)->last();
+        $newPosition = 1;
+        if (empty($position)) {
+            $newPosition = $lastQuestion->position + 1;
+        }
+
+        $fitgapQuestion = new FitgapQuestion([
+            'position' => $newPosition,
+            'project_id' => $project->id,
+            'requirement_type' => $newType,
+            /*                'level_1' => $row[1],
+                            'level_2' => $row[2],
+                            'level_3' => $row[3],*/
+            'requirement' => $newRequisite,
+            /*                'client' => $row[5],
+                            'business_opportunity' => $row[6],*/
+        ]);
+        $fitgapQuestion->save();
+
+    }
+
+    public function deleteFitgapQuestionOnTheProject(Project $project, $position)
+    {
+        $question = FitgapQuestion::where('project_id', $project->id)
+            ->where('position', $position);
+        if ($question == null) {
+            abort(404);
+        }
+
+        $question->delete();
+
+    }
+
     public function clientIframe(Request $request, Project $project)
     {
         return view('fitgap.clientIframe', [
