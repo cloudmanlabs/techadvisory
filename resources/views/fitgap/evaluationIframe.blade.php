@@ -36,6 +36,7 @@
             var mySpreadsheet = jexcel(document.getElementById('spreadsheet'), {
                 url:"{{route('fitgapEvaluationJson', ['vendor' => $vendor, 'project' => $project])}}",
                 tableOverflow:false,
+                allowInsertColumn:false,
                 contextMenu: false,
                 columns: [
                     {
