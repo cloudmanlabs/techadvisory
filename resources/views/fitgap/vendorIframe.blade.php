@@ -62,6 +62,10 @@
         tableOverflow: false,
         contextMenu: false,
         allowInsertColumn:false,
+        allowInsertRow:true,
+        allowManualInsertRow:true,
+        allowDeleteRow:true,
+        allowDeleteColumn:true,
         columns: [
             {
                 type: 'text',
@@ -118,6 +122,12 @@
                 @if($disabled)
                 readOnly: true,
                 @endif
+            },
+            {
+                type: 'text',
+                title: 'Actions',
+                width: 200,
+                wordWrap: true,
             },
         ],
         onchange: function (instance, cell, x, y, value) {
