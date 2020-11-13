@@ -248,8 +248,10 @@ class FitgapController extends Controller
         ]);
     }
 
-    public function updateFitgapQuestionClient(Project $project, $position, $clientNewText)
+    public function updateFitgapQuestionClient(Project $project)
     {
+        $position = $_POST["position"];
+        $clientNewText = $_POST["clientNewText"];
         $question = FitgapQuestion::where('project_id', $project->id)
             ->where('position', $position);
         if ($question == null) {
@@ -264,8 +266,11 @@ class FitgapController extends Controller
         ]);
     }
 
-    public function updateFitgapQuestionBusiness(Project $project, $position, $businessNewText)
+    public function updateFitgapQuestionBusiness(Project $project)
     {
+        $position = $_POST["position"];
+        $businessNewText = $_POST["businessNewText"];
+
         $question = FitgapQuestion::where('project_id', $project->id)
             ->where('position', $position);
         if ($question == null) {
