@@ -145,7 +145,6 @@
             if (x === 5) {
                 $.post("{{route('updateFitgapQuestionClient', ['project' => $project])}}", {
                     data: mySpreadsheet.getJson(),
-                    position: y + 1
                 }).done(function () {
                     showSavedToast();
                 }).fail(function (jqXHR, textStatus, error) {

@@ -69,6 +69,14 @@
         columns: [
             {
                 type: 'text',
+                title: 'ID',
+                @if($disabled || !$isAccenture)
+                readOnly: true,
+                @endif
+                width: 100
+            },
+            {
+                type: 'text',
                 title: 'Type',
                 readOnly: true,
                 width: 100

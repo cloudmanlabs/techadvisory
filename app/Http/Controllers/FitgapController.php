@@ -94,6 +94,7 @@ class FitgapController extends Controller
         return $fitgapQuestions->map(function ($fitgapQuestion) use ($fitgapResponses) {
             $fitgapResponseFound = $fitgapResponses->where('fitgap_question_id', $fitgapQuestion->id)->first();
             return [
+                'ID' => $fitgapQuestion->id(),
                 'Type' => $fitgapQuestion->requirementType(),
                 'Level 1' => $fitgapQuestion->level1(),
                 'Level 2' => $fitgapQuestion->level2(),
