@@ -133,18 +133,28 @@
             },
         ],
         onchange: function (instance, cell, x, y, value) {
-
-            if (x === 6) {
-                console.log('es client')
-                console.log(value)
+            @if(! $disabled)
+            if (x === 5) {
+                $.post("{{route('updateFitgapQuestionClient', ['project' => $project])}}", {
+                    data: mySpreadsheet.getJson(),
+                    position: y + 1
+                }).done(function () {
+                    showSavedToast();
+                }).fail(function (jqXHR, textStatus, error) {
+                    showErrorToast();
+                });
+            } else if (x === 6) {
+                $.post("{{route('updateFitgapQuestionBusiness', ['project' => $project])}}", {
+                    data: mySpreadsheet.getJson(),
+                    position: y + 1
+                }).done(function () {
+                    showSavedToast();
+                }).fail(function (jqXHR, textStatus, error) {
+                    showErrorToast();
+                });
             }
-            if (x === 7) {
-                console.log('es business')
-                console.log(value)
-
-            }
-
-        }
+            @endif
+        },
     });
 
 
