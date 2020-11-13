@@ -59,7 +59,7 @@ class FitgapController extends Controller
     public function clientJson(Project $project)
     {
         $table = [];
-        $myFitgapQuestions = $project->fitgapQuestionsOrderByPosition()->get();
+        $myFitgapQuestions = FitgapQuestion::findByProject($project->id)->get();
 
         foreach ($myFitgapQuestions as $key => $fitgapQuestion) {
             $table[$key]['Type'] = $fitgapQuestion->requirementType();

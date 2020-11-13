@@ -83,7 +83,14 @@ class FitgapQuestion extends Model
 
     public static function deleteByProject($projectId)
     {
-        FitgapQuestion::where('project_id','=',$projectId)->delete();
+        FitgapQuestion::where('project_id', '=', $projectId)->delete();
+
+    }
+
+    public static function findByProject($projectId)
+    {
+        return FitgapQuestion::where('project_id', '=', $projectId)
+            ->orderBy('position', 'asc');
 
     }
 
