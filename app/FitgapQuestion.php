@@ -90,7 +90,8 @@ class FitgapQuestion extends Model
     public static function findByProject($projectId)
     {
         return FitgapQuestion::where('project_id', '=', $projectId)
-            ->orderBy('position', 'asc');
+            ->orderBy('position', 'asc')
+            ->get();
 
     }
 
