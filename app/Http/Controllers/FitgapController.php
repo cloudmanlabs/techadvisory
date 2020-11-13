@@ -59,7 +59,6 @@ class FitgapController extends Controller
      */
     public function clientJson(Project $project)
     {
-        $table = [];
         $fitgapQuestions = FitgapQuestion::findByProject($project->id);
 
         return $fitgapQuestions->map(function ($fitgapQuestion) {
