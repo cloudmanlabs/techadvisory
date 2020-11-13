@@ -51,30 +51,25 @@ class FitgapController extends Controller
         ]);
     }
 
-
+    /**
+     * Returns the table to show as Accenture/Client views
+     * @param Project $project
+     * @return array
+     */
     public function clientJson(Project $project)
     {
         $result = [];   // The complete table.
-        foreach ($project->fitgap5Columns as $key => $fitgapRow) {
 
-            $result[$key] = $fitgapRow;
+        $myFitgapQuestions = $project->fitgapQuestionsOrderByPosition()->get();
 
-            foreach ($project->fitgapClientColumns as $fitgapClientRow) {
-                // Add vendor Responses only where the column from Accenture exists (It could be deleted)
-                $hasClientData = array_key_exists('Requirement Client Response', $fitgapClientRow);
-                if ($hasClientData) {
-                    // Add the client data with the relation.
-                    if ($fitgapClientRow['Requirement Client Response'] == $fitgapRow['Requirement']) {
-                        $result[$key]['Client'] = $fitgapClientRow['Client'];
-                        $result[$key]['Business Opportunity'] = $fitgapClientRow['Business Opportunity'];
-                    }
-                } else {
-                    // Add the client data without the relation.
-                    $result[$key]['Client'] = $fitgapClientRow['Client'];
-                    $result[$key]['Business Opportunity'] = $fitgapClientRow['Business Opportunity'];
-                }
-
-            }
+        foreach ($myFitgapQuestions as $key => $fitgapQuestion) {
+            $result[$key]['Type'] = $fitgapQuestion->requirementType();
+            $result[$key]['Level 1'] = $fitgapQuestion->level1();
+            $result[$key]['Level 2'] = $fitgapQuestion->level2();
+            $result[$key]['Level 3'] = $fitgapQuestion->level3();
+            $result[$key]['Requirement'] = $fitgapQuestion->requirement();
+            $result[$key]['Client'] = $fitgapQuestion->client();
+            $result[$key]['Business Opportunity'] = $fitgapQuestion->businessOpportunity();
         }
 
         return $result;
