@@ -70,8 +70,9 @@ class FitgapQuestion extends Model
         return $this->level_3;
     }
 
-    public function clientResponse()
+    public function client()
     {
+        // name changed
         return $this->client;
     }
 
