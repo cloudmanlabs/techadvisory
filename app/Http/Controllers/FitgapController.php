@@ -63,6 +63,7 @@ class FitgapController extends Controller
 
         return $fitgapQuestions->map(function ($fitgapQuestion) {
             return [
+                'ID' => $fitgapQuestion->id(),
                 'Type' => $fitgapQuestion->requirementType(),
                 'Level 1' => $fitgapQuestion->level1(),
                 'Level 2' => $fitgapQuestion->level2(),

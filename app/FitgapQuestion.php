@@ -45,6 +45,12 @@ class FitgapQuestion extends Model
         return $this->belongsTo(Project::class, 'project_id');
     }
 
+    public function id()
+    {
+        return $this->id;
+    }
+
+
     public function requirement()
     {
         return $this->requirement;
