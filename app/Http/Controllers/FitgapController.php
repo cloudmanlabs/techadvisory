@@ -60,19 +60,20 @@ class FitgapController extends Controller
     public function clientJson(Project $project)
     {
         $table = [];
-        $myFitgapQuestions = FitgapQuestion::findByProject($project->id);
+        $fitgapQuestions = FitgapQuestion::findByProject($project->id);
 
-        foreach ($myFitgapQuestions as $key => $fitgapQuestion) {
-            $table[$key]['Type'] = $fitgapQuestion->requirementType();
-            $table[$key]['Level 1'] = $fitgapQuestion->level1();
-            $table[$key]['Level 2'] = $fitgapQuestion->level2();
-            $table[$key]['Level 3'] = $fitgapQuestion->level3();
-            $table[$key]['Requirement'] = $fitgapQuestion->requirement();
-            $table[$key]['Client'] = $fitgapQuestion->client();
-            $table[$key]['Business Opportunity'] = $fitgapQuestion->businessOpportunity();
-        }
+        return $fitgapQuestions->map(function ($fitgapQuestion) {
+            return [
+                'Type' => $fitgapQuestion->requirementType(),
+                'Level 1' => $fitgapQuestion->level1(),
+                'Level 2' => $fitgapQuestion->level2(),
+                'Level 3' => $fitgapQuestion->level3(),
+                'Requirement' => $fitgapQuestion->requirement(),
+                'Client' => $fitgapQuestion->client(),
+                'Business Opportunity' => $fitgapQuestion->businessOpportunity(),
+            ];
 
-        return $table;
+        });
     }
 
     public function vendorJson(Request $request, User $vendor, Project $project)
