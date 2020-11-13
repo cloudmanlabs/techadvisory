@@ -38,6 +38,10 @@
                 tableOverflow:false,
                 allowInsertColumn:false,
                 contextMenu: false,
+                allowInsertRow:true,
+                allowManualInsertRow:true,
+                allowDeleteRow:true,
+                allowDeleteColumn:true,
                 columns: [
                     {
                         type: 'text',

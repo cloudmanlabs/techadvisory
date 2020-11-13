@@ -61,6 +61,10 @@
                 tableOverflow:false,
                 contextMenu: false,
                 allowInsertColumn:false,
+                allowInsertRow:true,
+                allowManualInsertRow:true,
+                allowDeleteRow:true,
+                allowDeleteColumn:true,
                 columns: [
                     {
                         type: 'text',
@@ -126,7 +130,7 @@
                         @if($disabled || !$isAccenture)
                         readOnly: true,
                         @endif
-                    }
+                    },
                 ],
                 onchange: function(instance, cell, x, y, value) {
                     @if(! $disabled)
