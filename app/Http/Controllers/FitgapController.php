@@ -248,6 +248,38 @@ class FitgapController extends Controller
         ]);
     }
 
+    public function updateFitgapQuestionClient(Project $project, $position, $clientNewText)
+    {
+        $question = FitgapQuestion::where('project_id', $project->id)
+            ->where('position', $position);
+        if ($question == null) {
+            abort(404);
+        }
+        $question->client = $clientNewText;
+        $question->save();
+
+        return \response()->json([
+            'status' => 200,
+            'message' => 'Success'
+        ]);
+    }
+
+    public function updateFitgapQuestionBusiness(Project $project, $position, $businessNewText)
+    {
+        $question = FitgapQuestion::where('project_id', $project->id)
+            ->where('position', $position);
+        if ($question == null) {
+            abort(404);
+        }
+        $question->business_opportunity = $businessNewText;
+        $question->save();
+
+        return \response()->json([
+            'status' => 200,
+            'message' => 'Success'
+        ]);
+    }
+
     public function clientIframe(Request $request, Project $project)
     {
         return view('fitgap.clientIframe', [
