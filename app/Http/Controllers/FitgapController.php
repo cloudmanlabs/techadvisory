@@ -85,7 +85,18 @@ class FitgapController extends Controller
             abort(404);
         }
 
-        $result = [];   // The complete table.
+        $table = [];
+        $myFitgapQuestions = FitgapQuestion::findByProject($project->id);
+
+        foreach ($myFitgapQuestions as $key => $fitgapQuestion) {
+            $table[$key]['Type'] = $fitgapQuestion->requirementType();
+            $table[$key]['Level 1'] = $fitgapQuestion->level1();
+            $table[$key]['Level 2'] = $fitgapQuestion->level2();
+            $table[$key]['Level 3'] = $fitgapQuestion->level3();
+            $table[$key]['Requirement'] = $fitgapQuestion->requirement();
+        }
+
+/*        $result = [];   // The complete table.
         foreach ($project->fitgap5Columns as $key => $fitgapRow) {
 
             $result[$key] = $fitgapRow;
@@ -107,9 +118,9 @@ class FitgapController extends Controller
                     $result[$key]['Comments'] = $fitgapVendorRow['Comments'];
                 }
             }
-        }
+        }*/
 
-        return $result;
+        return $table;
     }
 
     public function evaluationJson(Request $request, User $vendor, Project $project)

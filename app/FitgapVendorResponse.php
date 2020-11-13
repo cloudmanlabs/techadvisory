@@ -47,4 +47,11 @@ class FitgapVendorResponse extends Model
     {
         return $this->score;
     }
+
+    public static function findByFitgapQuestionFromTheApplication($vendorApplicationId, $questionId)
+    {
+        return FitgapVendorResponse::where('vendor_application_id', '=', $vendorApplicationId)
+            ->where('fitgap_question_id', '=', $questionId)->get();
+
+    }
 }
