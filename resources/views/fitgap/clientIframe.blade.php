@@ -60,6 +60,7 @@
                 url:"{{route('fitgapClientJson', ['project' => $project])}}",
                 tableOverflow:false,
                 contextMenu: false,
+                allowInsertColumn:false,
                 columns: [
                     {
                         type: 'text',
