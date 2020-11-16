@@ -323,9 +323,9 @@ class FitgapController extends Controller
                 ->where('position', '>', $questionPosition);
 
             // update the positions
-            foreach ($questionsToUpdate as $question) {
-                $question->position = $question->position - 1;
-                $question->save();
+            foreach ($questionsToUpdate as $questionUpdate) {
+                $questionUpdate->position = $questionUpdate->position - 1;
+                $questionUpdate->save();
             }
 
             // delete the responses
