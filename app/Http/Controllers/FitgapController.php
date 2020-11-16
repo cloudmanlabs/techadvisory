@@ -250,16 +250,28 @@ class FitgapController extends Controller
 
     // New methods for update, create and delete Fitgap Questions
 
-    public function updateFitgapQuestionClient()
+    public function updateFitgapQuestion()
     {
         $id = $_POST["data"][0];
-        $clientNewText = $_POST["data"][6];
+        $newRequirement_type = $_POST["data"][1];
+        $newLevel1 = $_POST["data"][2];
+        $newLevel2 = $_POST["data"][3];
+        $newLevel3 = $_POST["data"][4];
+        $newRequirement = $_POST["data"][5];
+        $newClient = $_POST["data"][6];
+        $newBusinessOpportunity = $_POST["data"][7];
 
         $question = FitgapQuestion::find($id);
         if ($question == null) {
             abort(404);
         } else {
-            $question->client = $clientNewText;
+            $question->requirement_type = $newRequirement_type;
+            $question->level_1 = $newLevel1;
+            $question->level_2 = $newLevel2;
+            $question->level_3 = $newLevel3;
+            $question->requirement = $newRequirement;
+            $question->client = $newClient;
+            $question->business_opportunity = $newBusinessOpportunity;
             $question->save();
 
             return \response()->json([
@@ -269,26 +281,7 @@ class FitgapController extends Controller
         }
     }
 
-    public function updateFitgapQuestionBusiness()
-    {
-        $id = $_POST["id"];
-        $businessNewText = $_POST["businessNewText"];
-
-        $question = FitgapQuestion::find($id);
-        if ($question == null) {
-            abort(404);
-        } else {
-            $question->business_opportunity = $businessNewText;
-            $question->save();
-
-            return \response()->json([
-                'status' => 200,
-                'message' => 'Update Success'
-            ]);
-        }
-    }
-
-    public function createFitgapQuestionOnTheProject(Project $project)
+    public function createFitgapQuestion(Project $project)
     {
         if ($project == null) {
             abort(404);
@@ -320,7 +313,7 @@ class FitgapController extends Controller
 
     }
 
-    public function deleteFitgapQuestionOnTheProject()
+    public function deleteFitgapQuestion()
     {
         $id = $_POST['id'];
         $question = FitgapQuestion::find($id);
