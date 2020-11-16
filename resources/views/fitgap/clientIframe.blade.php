@@ -161,7 +161,7 @@
         },
         onbeforedeleterow: function (el, rowNumber, numRows, rowRecords) {
             @if(! $disabled)
-            if (numRows > 1) return  showWarningToast("You can only delete onw row at the same time");
+            if (numRows > 1) return  showWarningToast("You can't delete several rows at the same time");
             $.post("{{route('deleteFitgapQuestion',  ['project' => $project])}}", {
                 data:  mySpreadsheet.getRowData(rowNumber),
             }).done(function () {
