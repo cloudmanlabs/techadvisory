@@ -187,7 +187,7 @@
             @if(! $disabled)
             $.post("{{route('moveFitgapQuestion', ['project' => $project])}}", {
                 data:  mySpreadsheet.getRowData(destiny),
-                position: destiny
+                origin: mySpreadsheet.getRowData(destiny+1) ? mySpreadsheet.getRowData(destiny+1) : mySpreadsheet.getRowData(destiny-1)
             })
                 .done(function () {
                     showSavedToast();

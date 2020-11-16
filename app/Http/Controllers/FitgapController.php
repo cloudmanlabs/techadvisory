@@ -339,28 +339,37 @@ class FitgapController extends Controller
     public function moveFitgapQuestion(Project $project)
     {
         $id = $_POST["data"][0];
-        $newPosition = $_POST["position"];
+        $idOrigin = $_POST["origin"][0];
 
         $question = FitgapQuestion::find($id);
+        $questionOrigin = FitgapQuestion::find($idOrigin);
+
         if ($question == null) {
             abort(404);
         } else {
-            $questionsToUpdate = FitgapQuestion::findByProject($project->id)
-                ->where('position', '>=', $newPosition);
+            $position = $questionOrigin->position;
+            $currentQuestionPosition = $question->position;
+            $isMovingUp = true;
+            if ($position < $currentQuestionPosition) $isMovingUp = false;
 
-            $question->position = $newPosition;
+            $question->position = $position;
             $question->save();
-            $indexPosition = $newPosition;
+
+            $questionsToUpdate = FitgapQuestion::findByProject($project->id)
+                ->where('position', '>=', $isMovingUp ? $position : $currentQuestionPosition);
 
             // update the positions.
-            foreach ($questionsToUpdate as $key => $question) {
+            $indexPosition = $isMovingUp ? $position : $currentQuestionPosition;
+
+            foreach ($questionsToUpdate as $key => $quest) {
+                $quest->position = $indexPosition;
+                $quest->save();
                 $indexPosition = $indexPosition + 1;
-                $question->position = $indexPosition;
-                $question->save();
             }
+
             return \response()->json([
                 'status' => 200,
-                'message' => 'Update Move Success'
+                'message' => 'Update Move Success',
             ]);
         }
     }
@@ -456,5 +465,9 @@ class FitgapController extends Controller
             'vendor' => $vendor,
             'disabled' => $request->disabled ?? false,
         ]);
+    }
+
+    private function reorderQuestions(Project $project) {
+
     }
 }
