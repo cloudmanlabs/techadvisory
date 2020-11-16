@@ -345,18 +345,23 @@ class FitgapController extends Controller
         if ($question == null) {
             abort(404);
         } else {
-            $question->position = $newPosition;
-            $question->save();
-
             $questionsToUpdate = FitgapQuestion::findByProject($project->id)
                 ->where('position', '>=', $newPosition);
 
+            $question->position = $newPosition;
+            $question->save();
+            $indexPosition = $newPosition;
+
             // update the positions.
             foreach ($questionsToUpdate as $key => $question) {
-                $question->position = $newPosition + 1;
-                $newPosition = $newPosition + 1;
+                $indexPosition = $indexPosition + 1;
+                $question->position = $indexPosition;
                 $question->save();
             }
+            return \response()->json([
+                'status' => 200,
+                'message' => 'Update Move Success'
+            ]);
         }
     }
 
