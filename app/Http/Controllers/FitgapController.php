@@ -388,7 +388,6 @@ class FitgapController extends Controller
         $questionId = $_POST["data"][0];
         $vendor = auth()->user();
 
-
         if (($questionId == null) || $project == null || !$vendor->isVendor()) {
             return abort(404);
         } else {

@@ -306,22 +306,28 @@ class VendorApplication extends Model
         return true;
     }
 
-    function getScoreFromResponse(string $response)
+    function getScoreFromResponse($response)
     {
-        if ($response == 'Product fully supports the functionality') return $this->project->fitgapWeightFullySupports ?? 3;
-        if ($response == 'Product partially supports the functionality') return $this->project->fitgapWeightPartiallySupports ?? 2;
-        if ($response == 'Functionality planned for a future release') return $this->project->fitgapWeightPlanned ?? 1;
+        if (!empty($response)) {
+            $responseFromVendor = $response->response();
+            if ($responseFromVendor == 'Product fully supports the functionality') return $this->project->fitgapWeightFullySupports ?? 3;
+            if ($responseFromVendor == 'Product partially supports the functionality') return $this->project->fitgapWeightPartiallySupports ?? 2;
+            if ($responseFromVendor == 'Functionality planned for a future release') return $this->project->fitgapWeightPlanned ?? 1;
 
-        return $this->project->fitgapWeightNotSupported ?? 0;
+            return $this->project->fitgapWeightNotSupported ?? 0;
+
+        }
+
     }
 
-    function getClientMultiplierInRow($row)
+    function getClientMultiplierInRow($id)
     {
-        $response = $this->project->fitgapClientColumns[$row]['Client'] ?? '';
+        //$response = $this->project->fitgapClientColumns[$row]['Client'] ?? '';
+        $responseClient = FitgapQuestion::find($id)->client();
 
-        if ($response == 'Must') return $this->project->fitgapWeightMust ?? 10;
-        if ($response == 'Required') return $this->project->fitgapWeightRequired ?? 5;
-        if ($response == 'Nice to have') return $this->project->fitgapWeightNiceToHave ?? 1;
+        if ($responseClient == 'Must') return $this->project->fitgapWeightMust ?? 10;
+        if ($responseClient == 'Required') return $this->project->fitgapWeightRequired ?? 5;
+        if ($responseClient == 'Nice to have') return $this->project->fitgapWeightNiceToHave ?? 1;
 
         return 1;
     }
@@ -428,20 +434,24 @@ class VendorApplication extends Model
         return $this->averageScoreOfType('Others');
     }
 
+    // Only for Fitgap Types
     function averageScoreOfType(string $type): float
     {
 
         $score = 0;
         if (!empty($this->project)) {
-            $fitgap5cols = $this->project->fitgap5Columns;
+            //$fitgap5cols = $this->project->fitgap5Columns;
+            $fitgap5cols = FitgapQuestion::findByProject($this->project_id);
 
             $scores = [];
             $maxScores = [];
             if (!empty($this->project->fitgap5Columns)) {
                 foreach ($fitgap5cols as $key => $value) {
-                    if ($value['Requirement Type'] == $type) {
-                        $response = $this->fitgapVendorColumns[$key]['Vendor Response'] ?? '';
-                        $multiplier = $this->getClientMultiplierInRow($key);
+                    if ($value->requirementType() == $type) {
+                        //$response = $this->fitgapVendorColumns[$key]['Vendor Response'] ?? '';
+                        $response = FitgapVendorResponse::findByFitgapQuestionFromTheApplication(
+                            $this->id, $value->id);
+                        $multiplier = $this->getClientMultiplierInRow($value->id);
 
                         $scores[] = $this->getScoreFromResponse($response) * $multiplier;
                         $maxScores[] = ($this->project->fitgapWeightFullySupports ?? 3) * $multiplier;
