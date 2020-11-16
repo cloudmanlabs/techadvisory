@@ -336,12 +336,13 @@ class FitgapController extends Controller
         }
     }
 
-    // New methods for update, create and delete Fitgap Responses
+    // New methods for update Fitgap Responses
 
     public function updateFitgapResponse(Project $project)
     {
         $questionId = $_POST["data"][0];
         $vendor = auth()->user();
+
 
         if (($questionId == null) || $project == null || !$vendor->isVendor()) {
             return abort(404);
@@ -354,13 +355,23 @@ class FitgapController extends Controller
             $response = FitgapVendorResponse::findByFitgapQuestionFromTheApplication(
                 $vendorApplication->id, $questionId);
 
-            if ($response == null) {
-                abort(404);
-            } else {
-                $newVendorResponse = $_POST["data"][6];
-                $newComments = $_POST["data"][7];
+            $newVendorResponse = $_POST["data"][6];
+            $newComments = $_POST["data"][7];
 
-                $response->$response = $newVendorResponse;
+            if ($response == null) {
+
+                // There is no answer yet.
+                $response = new FitgapVendorResponse([
+                    'fitgap_question_id' => $questionId,
+                    'vendor_application_id' => $vendorApplication->id,
+                    'response' => $newVendorResponse,
+                    'comments' => $newComments,
+                ]);
+
+            } else {
+
+                // Edit the current response.
+                $response->response = $newVendorResponse;
                 $response->comments = $newComments;
                 $response->save();
 
