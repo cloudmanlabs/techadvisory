@@ -62,10 +62,10 @@
         tableOverflow: false,
         contextMenu: false,
         allowInsertColumn:false,
-        allowInsertRow:true,
-        allowManualInsertRow:true,
-        allowDeleteRow:true,
-        allowDeleteColumn:true,
+        allowInsertRow:false,
+        allowManualInsertRow:false,
+        allowDeleteRow:false,
+        allowDeleteColumn:false,
         columns: [
             {
                 type: 'text',
@@ -138,29 +138,6 @@
             }).done(function () {
                 showSavedToast();
             }).fail(function (jqXHR, textStatus, error) {
-                showErrorToast();
-            });
-            @endif
-        },
-        onbeforedeleterow: function (el, rowNumber, numRows, rowRecords) {
-            @if(! $disabled)
-            if (numRows > 1) return  showWarningToast("You can't delete several rows at the same time");
-            $.post("{{route('deleteFitgapQuestion',  ['project' => $project])}}", {
-                data:  mySpreadsheet.getRowData(rowNumber),
-            }).done(function () {
-                showSavedToast();
-            }).fail(function (jqXHR, textStatus, error) {
-                showErrorToast();
-            });
-            return true;
-            @endif
-        },
-        oninsertrow: function (element, rowNumber, numRows, rowRecords) {
-            @if(! $disabled)
-            $.post("{{route('createFitgapQuestion', ['project' => $project])}}")
-                .done(function (response) {
-                    mySpreadsheet.setValueFromCoords(0, rowNumber + 1, response.data.id, true);
-                }).fail(function (jqXHR, textStatus, error) {
                 showErrorToast();
             });
             @endif
