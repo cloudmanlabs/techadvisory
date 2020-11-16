@@ -319,7 +319,6 @@ class FitgapController extends Controller
             abort(404);
         } else {
             $questionPosition = $question->position;
-            $question->delete();
             $questionsToUpdate = FitgapQuestion::findByProject($project->id)
                 ->where('position', '>', $questionPosition);
 
@@ -328,6 +327,14 @@ class FitgapController extends Controller
                 $question->position = $question->position - 1;
                 $question->save();
             }
+
+            // delete the responses
+            $responsesTodelete = FitgapVendorResponse::findByQuestion($question->id);
+            foreach ($responsesTodelete as $response) {
+                $response->delete();
+            }
+
+            $question->delete();
 
             return \response()->json([
                 'status' => 200,
@@ -339,17 +346,18 @@ class FitgapController extends Controller
     public function moveFitgapQuestion(Project $project)
     {
         $id = $_POST["data"][0];
-        $newPosition = $_POST["position"];
+        $newPosition = $_POST["position"] + 1;
 
-        $question = FitgapQuestion::find($id);
-        if ($question == null) {
+        $targetQuestion = FitgapQuestion::find($id);
+        if ($targetQuestion == null) {
             abort(404);
         } else {
             $questionsToUpdate = FitgapQuestion::findByProject($project->id)
                 ->where('position', '>=', $newPosition);
 
-            $question->position = $newPosition;
-            $question->save();
+            $targetQuestion->position = $newPosition;
+            $targetQuestion->save();
+
             $indexPosition = $newPosition;
 
             // update the positions.

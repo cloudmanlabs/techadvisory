@@ -63,4 +63,8 @@ class FitgapVendorResponse extends Model
     public static function findByVendorApplication($vendorApplicationId){
         return FitgapVendorResponse::where('vendor_application_id', '=', $vendorApplicationId)->get();
     }
+
+    public static function findByQuestion($questionId){
+        return FitgapVendorResponse::where('fitgap_question_id', '=', $questionId)->get();
+    }
 }
