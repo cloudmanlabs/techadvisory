@@ -828,29 +828,29 @@ class VendorApplication extends Model
 
     public function fitgapCollectionExport(): \Illuminate\Support\Collection
     {
-        $fitgap5Columns = $this->project->fitgap5Columns;
-        $fitgapClientColumns = $this->project->fitgapClientColumns;
-        $fitgapVendorColumns = $this->fitgapVendorColumns;
+        $fitgapQuestions = FitgapQuestion::findByProject($this->project_id);
+        $fitgapResponses = FitgapVendorResponse::findByVendorApplication($this->id);
 
-        $result = [];
-        foreach ($fitgap5Columns as $key => $something) {
-            $result[] =
-                array_merge(
-                    $fitgap5Columns[$key],
-                    $fitgapClientColumns[$key] ?? [
-                        'Client' => '',
-                        'Business Opportunity' => '',
-                    ],
-                    $fitgapVendorColumns[$key] ?? [
-                        'Vendor Response' => '',
-                        'Comments' => '',
-                    ]
-                );
-        }
+        $result = $fitgapQuestions->map(function ($fitgapQuestion) use ($fitgapResponses) {
+            $fitgapResponseFound = $fitgapResponses->where('fitgap_question_id', $fitgapQuestion->id)->first();
+            return [
+                'ID' => $fitgapQuestion->id(),
+                'Type' => $fitgapQuestion->requirementType(),
+                'Level 1' => $fitgapQuestion->level1(),
+                'Level 2' => $fitgapQuestion->level2(),
+                'Level 3' => $fitgapQuestion->level3(),
+                'Requirement' => $fitgapQuestion->requirement(),
+                'Client' => $fitgapQuestion->client(),
+                'Business Opportunity' => $fitgapQuestion->businessOpportunity(),
+                'Vendor response' => $fitgapResponseFound ? $fitgapResponseFound->response() : '',
+                'Comments' => $fitgapResponseFound ? $fitgapResponseFound->comments() : '',
+            ];
+        });
 
         $result = collect($result);
 
         $result->prepend([
+            'ID',
             'Requirement Type',
             'Level 1',
             'Level 2',
