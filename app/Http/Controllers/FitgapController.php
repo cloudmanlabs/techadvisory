@@ -110,6 +110,7 @@ class FitgapController extends Controller
         return $this->vendorJson($vendor, $project);
     }
 
+    // Old methods for update
     public function clientJsonUpload(Request $request, Project $project)
     {
         $request->validate([
@@ -248,22 +249,25 @@ class FitgapController extends Controller
         ]);
     }
 
+    // New methods for update, create and delete Fitgap Questions
+
     public function updateFitgapQuestionClient(Project $project)
     {
-        $position = $_POST["position"];
+        $id = $_POST["id"];
         $clientNewText = $_POST["clientNewText"];
-        $question = FitgapQuestion::where('project_id', $project->id)
-            ->where('position', $position);
+
+        $question = FitgapQuestion::find($id);
         if ($question == null) {
             abort(404);
-        }
-        $question->client = $clientNewText;
-        $question->save();
+        } else {
+            $question->client = $clientNewText;
+            $question->save();
 
-        return \response()->json([
-            'status' => 200,
-            'message' => 'Success'
-        ]);
+            return \response()->json([
+                'status' => 200,
+                'message' => 'Success'
+            ]);
+        }
     }
 
     public function updateFitgapQuestionBusiness(Project $project)
