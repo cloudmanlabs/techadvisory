@@ -132,9 +132,8 @@
         ],
         onchange: function (instance, cell, x, y, value) {
             @if(! $disabled)
-            $.post("{{route('updateFitgapQuestion')}}", {
+            $.post("{{route('updateFitgapResponse', ['project' => $project])}}", {
                 data: mySpreadsheet.getRowData(y),
-                position: y
             }).done(function () {
                 showSavedToast();
             }).fail(function (jqXHR, textStatus, error) {
