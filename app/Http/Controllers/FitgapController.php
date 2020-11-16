@@ -288,6 +288,25 @@ class FitgapController extends Controller
         }
     }
 
+    public function updateFitgapQuestionLevel1()
+    {
+        $id = $_POST["id"];
+        $newLevel1 = $_POST["newLevel1"];
+
+        $question = FitgapQuestion::find($id);
+        if ($question == null) {
+            abort(404);
+        } else {
+            $question->level1 = $clientNewText;
+            $question->save();
+
+            return \response()->json([
+                'status' => 200,
+                'message' => 'Update Success'
+            ]);
+        }
+    }
+
     public function createFitgapQuestionOnTheProject(Project $project)
     {
         $newRequisite = $_POST["newRequisite"];
