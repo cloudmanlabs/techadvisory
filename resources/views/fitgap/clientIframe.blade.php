@@ -164,7 +164,7 @@
         },
         oninsertrow: function (instance, cell, x, y, value) {
             @if(! $disabled)
-            $.post("{{route('createFitgapQuestion')}}", {
+            $.post("{{route('fitgapClientJsonUpload', ['project' => $project])}}", {
                 data: mySpreadsheet.getRowData(y),
                 position: y
             }).done(function (response) {
