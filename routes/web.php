@@ -116,7 +116,7 @@ Route::middleware(['auth'])->group(function () {
         ->name('updateFitgapQuestionBusiness');
     Route::get('createFitgapQuestionOnTheProject/{project}', 'FitgapController@createFitgapQuestionOnTheProject')
         ->name('createFitgapQuestionOnTheProject');
-    Route::get('deleteFitgapQuestionOnTheProject/{project}', 'FitgapController@deleteFitgapQuestionOnTheProject')
+    Route::get('deleteFitgapQuestionOnTheProject', 'FitgapController@deleteFitgapQuestionOnTheProject')
         ->name('deleteFitgapQuestionOnTheProject');
 
 

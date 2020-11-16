@@ -15,6 +15,7 @@ use Maatwebsite\Excel\Facades\Excel;
 
 class FitgapController extends Controller
 {
+    // Import method
     public function import5Columns(Request $request, Project $project)
     {
         $request->validate([
@@ -52,11 +53,7 @@ class FitgapController extends Controller
         ]);
     }
 
-    /**
-     * Returns the table to show as Accenture/Client views
-     * @param Project $project
-     * @return array
-     */
+    // Generate table methods.
     public function clientJson(Project $project)
     {
         $fitgapQuestions = FitgapQuestion::findByProject($project->id);
