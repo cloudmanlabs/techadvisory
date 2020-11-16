@@ -336,6 +336,30 @@ class FitgapController extends Controller
         }
     }
 
+    public function moveFitgapQuestion(Project $project)
+    {
+        $id = $_POST["data"][0];
+        $newPosition = $_POST["position"];
+
+        $question = FitgapQuestion::find($id);
+        if ($question == null) {
+            abort(404);
+        } else {
+            $question->position = $newPosition;
+            $question->save();
+
+            $questionsToUpdate = FitgapQuestion::findByProject($project->id)
+                ->where('position', '>=', $newPosition);
+
+            // update the positions.
+            foreach ($questionsToUpdate as $key => $question) {
+                $question->position = $newPosition + 1;
+                $newPosition = $newPosition + 1;
+                $question->save();
+            }
+        }
+    }
+
     // New methods for update Fitgap Responses
 
     public function updateFitgapResponse(Project $project)
