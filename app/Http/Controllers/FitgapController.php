@@ -319,15 +319,22 @@ class FitgapController extends Controller
             abort(404);
         } else {
             $questionPosition = $question->position;
-            $question->delete();
             $questionsToUpdate = FitgapQuestion::findByProject($project->id)
                 ->where('position', '>', $questionPosition);
 
             // update the positions
-            foreach ($questionsToUpdate as $question) {
-                $question->position = $question->position - 1;
-                $question->save();
+            foreach ($questionsToUpdate as $questionUpdate) {
+                $questionUpdate->position = $questionUpdate->position - 1;
+                $questionUpdate->save();
             }
+
+            // delete the responses
+            $responsesTodelete = FitgapVendorResponse::findByQuestion($question->id);
+            foreach ($responsesTodelete as $response) {
+                $response->delete();
+            }
+
+            $question->delete();
 
             return \response()->json([
                 'status' => 200,
@@ -465,9 +472,5 @@ class FitgapController extends Controller
             'vendor' => $vendor,
             'disabled' => $request->disabled ?? false,
         ]);
-    }
-
-    private function reorderQuestions(Project $project) {
-
     }
 }
