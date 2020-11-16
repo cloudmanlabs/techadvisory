@@ -56,6 +56,16 @@
         })
     }
 
+    function showWarningToast(msg) {
+        $.toast({
+            heading: msg,
+            showHideTransition: 'slide',
+            icon: 'error',
+            hideAfter: 3000,
+            position: 'bottom-right'
+        })
+    }
+
     var mySpreadsheet = jexcel(document.getElementById('spreadsheet'), {
         url: "{{route('fitgapClientJson', ['project' => $project])}}",
         tableOverflow: false,
@@ -151,6 +161,7 @@
         },
         onbeforedeleterow: function (el, rowNumber, numRows, rowRecords) {
             @if(! $disabled)
+            if (numRows > 1) return  showWarningToast("SOLO PUEDES BORRAR UNA FILA AL MISMO TIEMPO");
             $.post("{{route('deleteFitgapQuestion',  ['project' => $project])}}", {
                 data:  mySpreadsheet.getRowData(rowNumber),
             }).done(function () {
