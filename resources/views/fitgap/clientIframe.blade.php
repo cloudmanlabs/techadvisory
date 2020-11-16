@@ -162,15 +162,12 @@
             });
             @endif
         },
-        oninsertrow: function (instance, cell, x, y, value) {
+        oninsertrow: function (element, rowNumber, numRows, rowRecords) {
             @if(! $disabled)
-            $.post("{{route('fitgapClientJsonUpload', ['project' => $project])}}", {
-                data: mySpreadsheet.getRowData(y),
-                position: y
-            }).done(function (response) {
-                console.log(response);
-                showSavedToast();
-            }).fail(function (jqXHR, textStatus, error) {
+            $.post("{{route('createFitgapQuestion', ['project' => $project])}}")
+                .done(function (response) {
+                    mySpreadsheet.setValueFromCoords(0, rowNumber + 1, response.data.id, true);
+                }).fail(function (jqXHR, textStatus, error) {
                 showErrorToast();
             });
             @endif
