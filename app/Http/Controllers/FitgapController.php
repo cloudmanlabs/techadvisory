@@ -309,11 +309,9 @@ class FitgapController extends Controller
             ]);
 
         }
-
-
     }
 
-    public function deleteFitgapQuestion()
+    public function deleteFitgapQuestion(Project $project)
     {
         $id = $_POST["data"][0];
 
@@ -321,7 +319,16 @@ class FitgapController extends Controller
         if ($question == null) {
             abort(404);
         } else {
+            $questionPosition = $question->position;
             $question->delete();
+            $questionsToUpdate = FitgapQuestion::findByProject($project->id)
+                ->where('position', '>', $questionPosition);
+
+            // update the positions
+            foreach ($questionsToUpdate as $question) {
+                $question->position = $question->position - 1;
+                $question->save();
+            }
 
             return \response()->json([
                 'status' => 200,
