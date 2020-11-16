@@ -15,6 +15,7 @@ use Maatwebsite\Excel\Facades\Excel;
 
 class FitgapController extends Controller
 {
+    // Import method
     public function import5Columns(Request $request, Project $project)
     {
         $request->validate([
@@ -52,11 +53,7 @@ class FitgapController extends Controller
         ]);
     }
 
-    /**
-     * Returns the table to show as Accenture/Client views
-     * @param Project $project
-     * @return array
-     */
+    // Generate table methods.
     public function clientJson(Project $project)
     {
         $fitgapQuestions = FitgapQuestion::findByProject($project->id);
@@ -112,6 +109,7 @@ class FitgapController extends Controller
         return $this->vendorJson($vendor, $project);
     }
 
+    // Old methods for update
     public function clientJsonUpload(Request $request, Project $project)
     {
         $request->validate([
@@ -250,78 +248,104 @@ class FitgapController extends Controller
         ]);
     }
 
-    public function updateFitgapQuestionClient(Project $project)
+    // New methods for update, create and delete Fitgap Questions
+
+    public function updateFitgapQuestionClient()
     {
-        $position = $_POST["position"];
+        $id = $_POST["id"];
         $clientNewText = $_POST["clientNewText"];
-        $question = FitgapQuestion::where('project_id', $project->id)
-            ->where('position', $position);
+
+        $question = FitgapQuestion::find($id);
         if ($question == null) {
             abort(404);
-        }
-        $question->client = $clientNewText;
-        $question->save();
+        } else {
+            $question->client = $clientNewText;
+            $question->save();
 
-        return \response()->json([
-            'status' => 200,
-            'message' => 'Success'
-        ]);
+            return \response()->json([
+                'status' => 200,
+                'message' => 'Update Success'
+            ]);
+        }
     }
 
-    public function updateFitgapQuestionBusiness(Project $project)
+    public function updateFitgapQuestionBusiness()
     {
-        $position = $_POST["position"];
+        $id = $_POST["id"];
         $businessNewText = $_POST["businessNewText"];
 
-        $question = FitgapQuestion::where('project_id', $project->id)
-            ->where('position', $position);
+        $question = FitgapQuestion::find($id);
         if ($question == null) {
             abort(404);
-        }
-        $question->business_opportunity = $businessNewText;
-        $question->save();
+        } else {
+            $question->business_opportunity = $businessNewText;
+            $question->save();
 
-        return \response()->json([
-            'status' => 200,
-            'message' => 'Success'
-        ]);
+            return \response()->json([
+                'status' => 200,
+                'message' => 'Update Success'
+            ]);
+        }
     }
 
-    public function createFitgapQuestionOnTheProject(Project $project, $newRequisite, $newType)
+    public function createFitgapQuestionOnTheProject(Project $project)
     {
-        $lastQuestion = FitgapQuestion::findByProject($project->id)->last();
-        $newPosition = 1;
-        if (empty($position)) {
+        $newRequisite = $_POST["newRequisite"];
+        $newType = $_POST["newType"];
+        $newLevel1 = $_POST["newLevel1"];
+        $newLevel2 = $_POST["newLevel2"];
+        $newLevel3 = $_POST["newLevel3"];
+
+        if ($project == null) {
+            abort(404);
+        } else {
+            // Add the question at last position.
+            $lastQuestion = FitgapQuestion::findByProject($project->id)->last();
             $newPosition = $lastQuestion->position + 1;
+
+            $fitgapQuestion = new FitgapQuestion([
+                'position' => $newPosition,
+                'project_id' => $project->id,
+                'requirement_type' => $newType,
+                'level_1' => $newLevel1,
+                'level_2' => $newLevel2,
+                'level_3' => $newLevel3,
+                'requirement' => $newRequisite,
+                /*                'client' => $row[5],
+                                'business_opportunity' => $row[6],*/
+            ]);
+            $fitgapQuestion->save();
+
+            return \response()->json([
+                'status' => 200,
+                'message' => 'Create Fitgap Question Success'
+            ]);
+
         }
 
-        $fitgapQuestion = new FitgapQuestion([
-            'position' => $newPosition,
-            'project_id' => $project->id,
-            'requirement_type' => $newType,
-            /*                'level_1' => $row[1],
-                            'level_2' => $row[2],
-                            'level_3' => $row[3],*/
-            'requirement' => $newRequisite,
-            /*                'client' => $row[5],
-                            'business_opportunity' => $row[6],*/
-        ]);
-        $fitgapQuestion->save();
 
     }
 
-    public function deleteFitgapQuestionOnTheProject(Project $project, $position)
+    public function deleteFitgapQuestionOnTheProject()
     {
-        $question = FitgapQuestion::where('project_id', $project->id)
-            ->where('position', $position);
+        $id = $_POST['id'];
+        $question = FitgapQuestion::find($id);
         if ($question == null) {
             abort(404);
+        } else {
+            $question->delete();
+
+            return \response()->json([
+                'status' => 200,
+                'message' => 'Delete Success'
+            ]);
         }
 
-        $question->delete();
 
     }
 
+
+    // Launch View Methods
     public function clientIframe(Request $request, Project $project)
     {
         return view('fitgap.clientIframe', [
