@@ -265,28 +265,28 @@ class FitgapController extends Controller
 
             return \response()->json([
                 'status' => 200,
-                'message' => 'Success'
+                'message' => 'Update Success'
             ]);
         }
     }
 
     public function updateFitgapQuestionBusiness(Project $project)
     {
-        $position = $_POST["position"];
+        $id = $_POST["id"];
         $businessNewText = $_POST["businessNewText"];
 
-        $question = FitgapQuestion::where('project_id', $project->id)
-            ->where('position', $position);
+        $question = FitgapQuestion::find($id);
         if ($question == null) {
             abort(404);
-        }
-        $question->business_opportunity = $businessNewText;
-        $question->save();
+        } else {
+            $question->business_opportunity = $businessNewText;
+            $question->save();
 
-        return \response()->json([
-            'status' => 200,
-            'message' => 'Success'
-        ]);
+            return \response()->json([
+                'status' => 200,
+                'message' => 'Update Success'
+            ]);
+        }
     }
 
     public function createFitgapQuestionOnTheProject(Project $project, $newRequisite, $newType)
