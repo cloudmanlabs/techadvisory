@@ -74,6 +74,7 @@
         allowInsertRow: true,
         allowManualInsertRow: true,
         allowDeleteRow: true,
+        moveRow: true,
         columns: [
             {
                 type: 'text',
@@ -182,6 +183,20 @@
             });
             @endif
         },
+        onmoverow: function(element, origin, destiny) {
+            @if(! $disabled)
+            $.post("{{route('moveFitgapQuestion', ['project' => $project])}}", {
+                data:  mySpreadsheet.getRowData(destiny),
+                position: destiny
+            })
+                .done(function () {
+                    showSavedToast();
+                }).fail(function (jqXHR, textStatus, error) {
+                showErrorToast();
+            });
+            @endif
+        }
+
     });
 
 
