@@ -367,6 +367,7 @@ class FitgapController extends Controller
                     'response' => $newVendorResponse,
                     'comments' => $newComments,
                 ]);
+                $response->save();
 
             } else {
 
