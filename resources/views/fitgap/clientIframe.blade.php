@@ -140,8 +140,7 @@
         ],
         onchange: function (instance, cell, x, y, value) {
             @if(! $disabled)
-                console.log(x);
-            if (x === 6) {
+            if (Number(x) === 6) {
                 $.post("{{route('updateFitgapQuestionClient', ['project' => $project])}}", {
                     data: mySpreadsheet.getJson(),
                 }).done(function () {
@@ -149,7 +148,7 @@
                 }).fail(function (jqXHR, textStatus, error) {
                     showErrorToast();
                 });
-            } else if (x === 7) {
+            } else if (Number(x) === 7) {
                 $.post("{{route('updateFitgapQuestionBusiness', ['project' => $project])}}", {
                     data: mySpreadsheet.getJson(),
                     position: y + 1
