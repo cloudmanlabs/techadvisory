@@ -142,7 +142,7 @@
             @if(! $disabled)
             if (Number(x) === 6) {
                 $.post("{{route('updateFitgapQuestionClient')}}", {
-                    data: mySpreadsheet.getJson(),
+                    data: mySpreadsheet.getRowData(y),
                 }).done(function () {
                     showSavedToast();
                 }).fail(function (jqXHR, textStatus, error) {
@@ -150,7 +150,7 @@
                 });
             } else if (Number(x) === 7) {
                 $.post("{{route('updateFitgapQuestionBusiness')}}", {
-                    data: mySpreadsheet.getJson(),
+                    data: mySpreadsheet.getRowData(y),
                     position: y + 1
                 }).done(function () {
                     showSavedToast();
