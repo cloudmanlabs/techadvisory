@@ -129,24 +129,42 @@
                 readOnly: true,
                 @endif
             },
-            {
-                type: 'text',
-                title: 'Actions',
-                width: 200,
-                wordWrap: true,
-            },
         ],
         onchange: function (instance, cell, x, y, value) {
             @if(! $disabled)
-            $.post("{{route('fitgapVendorJsonUpload', ['vendor' => $vendor, 'project' => $project])}}", {
-                data: mySpreadsheet.getJson()
+            $.post("{{route('updateFitgapQuestion')}}", {
+                data: mySpreadsheet.getRowData(y),
+                position: y
             }).done(function () {
                 showSavedToast();
             }).fail(function (jqXHR, textStatus, error) {
                 showErrorToast();
             });
             @endif
-        }
+        },
+        onbeforedeleterow: function (el, rowNumber, numRows, rowRecords) {
+            @if(! $disabled)
+            if (numRows > 1) return  showWarningToast("You can't delete several rows at the same time");
+            $.post("{{route('deleteFitgapQuestion',  ['project' => $project])}}", {
+                data:  mySpreadsheet.getRowData(rowNumber),
+            }).done(function () {
+                showSavedToast();
+            }).fail(function (jqXHR, textStatus, error) {
+                showErrorToast();
+            });
+            return true;
+            @endif
+        },
+        oninsertrow: function (element, rowNumber, numRows, rowRecords) {
+            @if(! $disabled)
+            $.post("{{route('createFitgapQuestion', ['project' => $project])}}")
+                .done(function (response) {
+                    mySpreadsheet.setValueFromCoords(0, rowNumber + 1, response.data.id, true);
+                }).fail(function (jqXHR, textStatus, error) {
+                showErrorToast();
+            });
+            @endif
+        },
     });
 
     document.getElementById('download').onclick = function () {
