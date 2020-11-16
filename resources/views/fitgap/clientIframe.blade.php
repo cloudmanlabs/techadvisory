@@ -64,7 +64,6 @@
         allowInsertRow: true,
         allowManualInsertRow: true,
         allowDeleteRow: true,
-        allowDeleteColumn: true,
         columns: [
             {
                 type: 'text',
@@ -150,16 +149,16 @@
             });
             @endif
         },
-        ondeleterow: function (instance, cell, x, y, value) {
+        onbeforedeleterow: function (el, rowNumber, numRows, rowRecords) {
             @if(! $disabled)
-            $.post("{{route('deleteFitgapQuestion')}}", {
-                data: mySpreadsheet.getRowData(y),
-                position: y
+            $.post("{{route('deleteFitgapQuestion',  ['project' => $project])}}", {
+                data:  mySpreadsheet.getRowData(rowNumber),
             }).done(function () {
                 showSavedToast();
             }).fail(function (jqXHR, textStatus, error) {
                 showErrorToast();
             });
+            return true;
             @endif
         },
         oninsertrow: function (element, rowNumber, numRows, rowRecords) {
