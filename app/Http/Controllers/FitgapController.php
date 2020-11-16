@@ -290,35 +290,29 @@ class FitgapController extends Controller
 
     public function createFitgapQuestionOnTheProject(Project $project)
     {
-        $newRequisite = $_POST["newRequisite"];
-        $newType = $_POST["newType"];
-        $newLevel1 = $_POST["newLevel1"];
-        $newLevel2 = $_POST["newLevel2"];
-        $newLevel3 = $_POST["newLevel3"];
-
         if ($project == null) {
             abort(404);
         } else {
-            // Add the question at last position.
+            // Add the question at last position of the project..
             $lastQuestion = FitgapQuestion::findByProject($project->id)->last();
             $newPosition = $lastQuestion->position + 1;
 
             $fitgapQuestion = new FitgapQuestion([
                 'position' => $newPosition,
                 'project_id' => $project->id,
-                'requirement_type' => $newType,
-                'level_1' => $newLevel1,
-                'level_2' => $newLevel2,
-                'level_3' => $newLevel3,
-                'requirement' => $newRequisite,
-                /*                'client' => $row[5],
-                                'business_opportunity' => $row[6],*/
+                'requirement_type' => '',
+                'level_1' => '',
+                'level_2' => '',
+                'level_3' => '',
+                'requirement' => '',
+                'client' => '',
+                'business_opportunity' => '',
             ]);
             $fitgapQuestion->save();
 
             return \response()->json([
                 'status' => 200,
-                'message' => 'Create Fitgap Question Success'
+                'data' => $fitgapQuestion
             ]);
 
         }
