@@ -381,6 +381,42 @@ class FitgapController extends Controller
         }
     }
 
+    public function moveFitgapQuestionRefactor(Request $request, Project $project)
+    {
+        // TODO Move to more convenient folder
+        function moveElement(&$array, $from, $to)
+        {
+            $out = array_splice($array, $from, 1);
+            array_splice($array, $to, 0, $out);
+        }
+
+        // POST parameters
+        $fitgapQuestionId = (int)$request->input('fitgap_question_id');
+        $to = (int)$request->input('to');
+
+        $fitgapQuestions = FitgapQuestion::findByProject($project->id)->toArray();
+        $fitgapQuestionToMove = $fitgapQuestions->where('id', $fitgapQuestionId);
+
+        if ($fitgapQuestionToMove == null) {
+            abort(404);
+        }
+
+        $from = (int)$fitgapQuestionToMove->position;
+
+        // Reindexing logic, encapsulate in a proper way
+        moveElement($fitgapQuestions, $from, $to);
+        foreach ($fitgapQuestions as $index => $fitgapQuestion) {
+            $fitgapQuestions->position = $index; // or index + 1
+            $fitgapQuestions->save();
+        }
+        // End reindexing logic
+
+        return \response()->json([
+            'status' => 200,
+            'message' => 'Update Move Success',
+        ]);
+    }
+
     // New methods for update Fitgap Responses
 
     public function updateFitgapResponse(Project $project)
