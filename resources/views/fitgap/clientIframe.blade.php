@@ -69,10 +69,8 @@
             {
                 type: 'text',
                 title: 'ID',
-                @if($disabled || !$isAccenture)
                 readOnly: true,
-                @endif
-                width: 100
+                width: 100,
             },
             {
                 type: 'text',
