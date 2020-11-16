@@ -117,5 +117,8 @@ Route::middleware(['auth'])->group(function () {
     Route::post('deleteFitgapQuestion/{project}', 'FitgapController@deleteFitgapQuestion')
         ->name('deleteFitgapQuestion');
 
+    Route::post('updateFitgapResponse/{project}', 'FitgapController@updateFitgapResponse')
+        ->name('updateFitgapResponse');
+
     Route::get('security/logs/export', 'SecurityLogController@exportAll');
 });

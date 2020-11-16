@@ -249,7 +249,6 @@ class FitgapController extends Controller
     }
 
     // New methods for update, create and delete Fitgap Questions
-
     public function updateFitgapQuestion()
     {
         $id = $_POST["data"][0];
@@ -335,6 +334,43 @@ class FitgapController extends Controller
                 'message' => 'Delete Success'
             ]);
         }
+    }
+
+    // New methods for update, create and delete Fitgap Responses
+
+    public function updateFitgapResponse(Project $project)
+    {
+        $questionId = $_POST["data"][0];
+        $vendor = auth()->user();
+
+        if (($questionId == null) || $project == null || !$vendor->isVendor()) {
+            return abort(404);
+        } else {
+            $vendorApplication = VendorApplication::where([
+                'project_id' => $project->id,
+                'vendor_id' => $vendor->id
+            ])->first();
+
+            $response = FitgapVendorResponse::findByFitgapQuestionFromTheApplication(
+                $vendorApplication->id, $questionId);
+
+            if ($response == null) {
+                abort(404);
+            } else {
+                $newVendorResponse = $_POST["data"][6];
+                $newComments = $_POST["data"][7];
+
+                $response->$response = $newVendorResponse;
+                $response->comments = $newComments;
+                $response->save();
+
+                return \response()->json([
+                    'status' => 200,
+                    'message' => 'Update Success'
+                ]);
+            }
+        }
+
     }
 
     // Launch View Methods
