@@ -315,7 +315,8 @@ class FitgapController extends Controller
 
     public function deleteFitgapQuestion()
     {
-        $id = $_POST['id'];
+        $id = $_POST["data"][0];
+
         $question = FitgapQuestion::find($id);
         if ($question == null) {
             abort(404);
