@@ -140,24 +140,39 @@
         ],
         onchange: function (instance, cell, x, y, value) {
             @if(! $disabled)
-            if (Number(x) === 6) {
-                $.post("{{route('updateFitgapQuestionClient')}}", {
-                    data: mySpreadsheet.getRowData(y),
-                }).done(function () {
-                    showSavedToast();
-                }).fail(function (jqXHR, textStatus, error) {
-                    showErrorToast();
-                });
-            } else if (Number(x) === 7) {
-                $.post("{{route('updateFitgapQuestionBusiness')}}", {
-                    data: mySpreadsheet.getRowData(y),
-                    position: y + 1
-                }).done(function () {
-                    showSavedToast();
-                }).fail(function (jqXHR, textStatus, error) {
-                    showErrorToast();
-                });
-            }
+            $.post("{{route('updateFitgapQuestion')}}", {
+                data: mySpreadsheet.getRowData(y),
+                position: y
+            }).done(function () {
+                showSavedToast();
+            }).fail(function (jqXHR, textStatus, error) {
+                showErrorToast();
+            });
+            @endif
+        },
+        ondeleterow: function (instance, cell, x, y, value) {
+            @if(! $disabled)
+            $.post("{{route('deleteFitgapQuestion')}}", {
+                data: mySpreadsheet.getRowData(y),
+                position: y
+            }).done(function () {
+                showSavedToast();
+            }).fail(function (jqXHR, textStatus, error) {
+                showErrorToast();
+            });
+            @endif
+        },
+        oninsertrow: function (instance, cell, x, y, value) {
+            @if(! $disabled)
+            $.post("{{route('createFitgapQuestion')}}", {
+                data: mySpreadsheet.getRowData(y),
+                position: y
+            }).done(function (response) {
+                console.log(response);
+                showSavedToast();
+            }).fail(function (jqXHR, textStatus, error) {
+                showErrorToast();
+            });
             @endif
         },
     });
