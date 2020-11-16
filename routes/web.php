@@ -110,9 +110,9 @@ Route::middleware(['auth'])->group(function () {
     Route::get('fitgapEvaluationIframe/{vendor}/{project}', 'FitgapController@evaluationIframe')
         ->name('fitgapEvaluationIframe');
 
-    Route::get('updateFitgapQuestionClient/{project}', 'FitgapController@updateFitgapQuestionClient')
+    Route::get('updateFitgapQuestionClient', 'FitgapController@updateFitgapQuestionClient')
         ->name('updateFitgapQuestionClient');
-    Route::get('updateFitgapQuestionBusiness/{project}', 'FitgapController@updateFitgapQuestionBusiness')
+    Route::get('updateFitgapQuestionBusiness}', 'FitgapController@updateFitgapQuestionBusiness')
         ->name('updateFitgapQuestionBusiness');
     Route::get('createFitgapQuestionOnTheProject/{project}', 'FitgapController@createFitgapQuestionOnTheProject')
         ->name('createFitgapQuestionOnTheProject');

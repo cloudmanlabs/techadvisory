@@ -251,7 +251,7 @@ class FitgapController extends Controller
 
     // New methods for update, create and delete Fitgap Questions
 
-    public function updateFitgapQuestionClient(Project $project)
+    public function updateFitgapQuestionClient()
     {
         $id = $_POST["id"];
         $clientNewText = $_POST["clientNewText"];
@@ -270,7 +270,7 @@ class FitgapController extends Controller
         }
     }
 
-    public function updateFitgapQuestionBusiness(Project $project)
+    public function updateFitgapQuestionBusiness()
     {
         $id = $_POST["id"];
         $businessNewText = $_POST["businessNewText"];
