@@ -110,7 +110,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('fitgapEvaluationIframe/{vendor}/{project}', 'FitgapController@evaluationIframe')
         ->name('fitgapEvaluationIframe');
 
-    Route::post('updateFitgapQuestion', 'FitgapController@updateFitgapQuestionClient')
+    Route::post('updateFitgapQuestion', 'FitgapController@updateFitgapQuestion')
         ->name('updateFitgapQuestion');
     Route::post('createFitgapQuestion/{project}', 'FitgapController@createFitgapQuestion')
         ->name('createFitgapQuestion');

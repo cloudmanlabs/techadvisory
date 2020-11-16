@@ -328,10 +328,7 @@ class FitgapController extends Controller
                 'message' => 'Delete Success'
             ]);
         }
-
-
     }
-
 
     // Launch View Methods
     public function clientIframe(Request $request, Project $project)
