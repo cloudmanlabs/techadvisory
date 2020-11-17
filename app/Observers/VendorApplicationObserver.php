@@ -10,7 +10,7 @@ class VendorApplicationObserver
     public function created(VendorApplication $application)
     {
         // We add a row for each one on the fitgap
-        $fitgapColumns = [];
+/*        $fitgapColumns = [];
         $scores = [];
         foreach ($application->project->fitgap5Columns as $key => $row) {
             $fitgapColumns[] = [
@@ -32,7 +32,7 @@ class VendorApplicationObserver
         $application->fitgapVendorColumnsOld9 = $fitgapColumns;
         $application->fitgapVendorColumnsOld10 = $fitgapColumns;
         $application->fitgapVendorScores = $scores;
-        $application->save();
+        $application->save();*/
 
         $application->corporateFolder()->save(Folder::createNewRandomFolder('corporate'));
         $application->experienceFolder()->save(Folder::createNewRandomFolder('experience'));

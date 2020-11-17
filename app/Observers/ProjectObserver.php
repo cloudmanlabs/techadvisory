@@ -27,7 +27,7 @@ class ProjectObserver
             $project->deadline = Carbon::now()->addYear();
         }
 
-        // Default fitgap
+        /*// Default fitgap
         $project->fitgap5Columns = $project->fitgap5Columns ?? [
                 [
                     "Requirement Type" => "Functional",
@@ -113,16 +113,16 @@ class ProjectObserver
                     "Level 3" => "Training",
                     "Requirement" => "Requierement 12",
                 ]
-            ];
+            ];*/
 
-        $clientFitgap = [];
+        /*$clientFitgap = [];
         foreach ($project->fitgap5Columns as $key => $value) {
             $clientFitgap[] = [
                 'Client' => '',
                 'Business Opportunity' => '',
             ];
-        }
-        $project->fitgapClientColumns = $project->fitgapClientColumns ?? $clientFitgap;
+        }*/
+        //$project->fitgapClientColumns = $project->fitgapClientColumns ?? $clientFitgap;
     }
 
     public function created(Project $project)
