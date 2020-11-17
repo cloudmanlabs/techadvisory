@@ -302,7 +302,7 @@ class User extends Authenticatable
                                                   $years = [], $industries = [], $regions = [])
     {
         $query = Project::select('projects.id', 'industry', 'regions', 'projects.created_at')
-            ->join('project_subpractice as sub', 'projects.id', '=', 'sub.project_id');;
+            ->join('project_subpractice as sub', 'projects.id', '=', 'sub.project_id');
 
         // Applying user filters to projects
         if ($practicesID) {
