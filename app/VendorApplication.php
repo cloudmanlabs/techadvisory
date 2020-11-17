@@ -243,8 +243,9 @@ class VendorApplication extends Model
 
     function hasCompletedFitgap()
     {
-        foreach (($this->fitgapVendorColumns ?? []) as $key => $value) {
-            if (!isset($value['Vendor Response']) || $value['Vendor Response'] == null || $value['Vendor Response'] == '') return false;
+        $fitgapResponses = FitgapVendorResponse::findByVendorApplication($this->id);
+        foreach (($fitgapResponses ?? collect([])) as $key => $value) {
+            if (!empty($value->response()) || $value->response() == null || $value->response() == '') return false;
         }
         return true;
     }
