@@ -162,7 +162,7 @@
 
                                         <br>
                                         <br>
-                                        <b>Implementation Cost</b>
+                                        <b>Implementation Cost *</b>
                                         <p>
                                             Provide costs estimations for implementation phase.
                                         </p>

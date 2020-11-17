@@ -123,7 +123,7 @@
 
                                         <br>
                                         <br>
-                                        <b>Implementation Cost</b>
+                                        <b>Implementation Cost *</b>
 
                                         @if ($project->isBinding)
                                             <x-selectionCriteria.staffingCost :vendorApplication="$vendorApplication" :disabled="true" :evaluate="false"/>

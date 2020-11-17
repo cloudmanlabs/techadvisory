@@ -31,7 +31,7 @@
     <label for="projectName">Total Staffing cost (%)</label>
     <div style="display: flex; flex-direction: row; justify-content: space-evenly; width: 100%">
         <div style="width: 50%; padding: 0 0.5rem">
-            <p>Percentage</p>
+            <p>Percentage *</p>
         </div>
         <div style="width: 50%; padding: 0 0.5rem">
             <p>Comments</p>
@@ -54,7 +54,7 @@
     <label for="projectName">Total Travel cost (%)</label>
     <div style="display: flex; flex-direction: row; justify-content: space-evenly; width: 100%">
         <div style="width: 50%; padding: 0 0.5rem">
-            <p>Percentage</p>
+            <p>Percentage *</p>
         </div>
         <div style="width: 50%; padding: 0 0.5rem">
             <p>Comments</p>
@@ -77,7 +77,7 @@
     <label for="projectName">Total Additional Cost (%)</label>
     <div style="display: flex; flex-direction: row; justify-content: space-evenly; width: 100%">
         <div style="width: 50%; padding: 0 0.5rem">
-            <p>Percentage</p>
+            <p>Percentage *</p>
         </div>
         <div style="width: 50%; padding: 0 0.5rem">
             <p>Comments</p>
