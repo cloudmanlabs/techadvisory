@@ -1147,7 +1147,7 @@ class VendorApplication extends Model
         join('projects as p', 'project_id', '=', 'p.id')
             ->join('users as u', 'vendor_id', '=', 'u.id')
             ->join('project_subpractice as sub', 'vendor_applications.project_id', '=', 'sub.project_id')
-            ->where('vendor_applications.phase', '=', 'evaluated');
+            ->where('vendor_applications.phase', '=', 'submitted');
 
         // Applying user filters to projects
         $query = VendorApplication::benchmarkProjectResultsFilters($query,
@@ -1215,7 +1215,7 @@ class VendorApplication extends Model
 
         // Raw data without user filters
         $query = VendorApplication::
-        where('vendor_applications.phase', '=', 'evaluated')
+        where('vendor_applications.phase', '=', 'submitted')
             ->join('projects as p', 'project_id', '=', 'p.id')
             ->join('users as u', 'vendor_id', '=', 'u.id')
             ->join('project_subpractice as sub', 'vendor_applications.project_id', '=', 'sub.project_id');
