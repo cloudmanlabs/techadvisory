@@ -67,7 +67,7 @@ class Practice extends Model
         $applicationsReleasedForOldProjectsWithThisPractice = $query->get()
             ->map(function (Project $project) {
                 return $project->vendorApplications
-                    ->where('phase', '=', 'evaluated')
+                    ->where('phase', '=', 'submitted')
                     ->count();
             })->sum();
 

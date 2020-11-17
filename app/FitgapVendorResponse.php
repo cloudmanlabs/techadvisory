@@ -14,7 +14,6 @@ use phpseclib\System\SSH\Agent\Identity;
  * @property int $vendor_application_id
  * @property string $response
  * @property string $comments
- * @property int $score
  *
  */
 class FitgapVendorResponse extends Model
