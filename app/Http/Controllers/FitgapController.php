@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use _HumbugBoxe251c92b00d9\Nette\Neon\Exception;
 use App\FitgapQuestion;
 use App\FitgapVendorResponse;
 use App\Imports\FitgapImport;
@@ -368,42 +369,41 @@ class FitgapController extends Controller
         }
     }
 
-    public function moveFitgapQuestion(Project $project)
+    public function moveFitgapQuestion(Request $request, Project $project)
     {
-        $id = $_POST["data"][0];
-        $idOrigin = $_POST["origin"][0];
 
-        $question = FitgapQuestion::find($id);
-        $questionOrigin = FitgapQuestion::find($idOrigin);
-
-        if ($question == null) {
-            abort(404);
-        } else {
-            $position = $questionOrigin->position;
-            $currentQuestionPosition = $question->position;
-            $isMovingUp = true;
-            if ($position < $currentQuestionPosition) $isMovingUp = false;
-
-            $question->position = $position;
-            $question->save();
-
-            $questionsToUpdate = FitgapQuestion::findByProject($project->id)
-                ->where('position', '>=', $isMovingUp ? $position : $currentQuestionPosition);
-
-            // update the positions.
-            $indexPosition = $isMovingUp ? $position : $currentQuestionPosition;
-
-            foreach ($questionsToUpdate as $key => $quest) {
-                $quest->position = $indexPosition;
-                $quest->save();
-                $indexPosition = $indexPosition + 1;
-            }
-
-            return \response()->json([
-                'status' => 200,
-                'message' => 'Update Move Success',
-            ]);
+        // TODO Move to more convenient folder
+        function moveElement($array, $from, $to)
+        {
+            $out = array_splice($array, $from, 1);
+            array_splice($array, $to, 0, $out);
+            return $array;
         }
+
+        $fitgapQuestionId = (int)$request->input('fitgap_question_id');
+        $to = (int)$request->input('to');
+
+        $fitgapQuestions = FitgapQuestion::findByProject($project->id)->all();
+        $fitgapQuestionToMove = FitgapQuestion::find($fitgapQuestionId);
+
+        if ($fitgapQuestionToMove == null) {
+            abort(404);
+        }
+
+        $from = (int)$fitgapQuestionToMove->position - 1;
+
+        // Reindexing logic, encapsulate in a proper way
+        $fitgapQuestions = moveElement($fitgapQuestions, $from, $to);
+        foreach ($fitgapQuestions as $index => $fitgapQuestion) {
+            $fitgapQuestion->position = $index + 1;
+            $fitgapQuestion->save();
+        }
+        // End reindexing logic
+        return \response()->json([
+            'status' => 200,
+            'message' => 'Update Move Success',
+            'questions' => $fitgapQuestions
+        ]);
     }
 
     // New methods for update Fitgap Responses

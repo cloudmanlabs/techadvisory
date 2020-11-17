@@ -147,6 +147,16 @@
                 readOnly: true,
                 @endif
             },
+            {
+                type: 'text',
+                title: 'Position',
+                width: 210,
+                wordWrap: true,
+
+                @if($disabled || !$isAccenture)
+                readOnly: true,
+                @endif
+            },
         ],
         onchange: function (instance, cell, x, y, value) {
             @if(! $disabled)
@@ -186,8 +196,8 @@
         onmoverow: function(element, origin, destiny) {
             @if(! $disabled)
             $.post("{{route('moveFitgapQuestion', ['project' => $project])}}", {
-                data:  mySpreadsheet.getRowData(destiny),
-                origin: mySpreadsheet.getRowData(destiny+1) ? mySpreadsheet.getRowData(destiny+1) : mySpreadsheet.getRowData(destiny-1)
+                fitgap_question_id:  mySpreadsheet.getRowData(destiny)[0],
+                to: destiny
             })
                 .done(function () {
                     showSavedToast();
