@@ -85,7 +85,6 @@ class FitgapController extends Controller
             abort(404);
         }
 
-        $table = [];
         $fitgapQuestions = FitgapQuestion::findByProject($project->id);
         $fitgapResponses = FitgapVendorResponse::findByVendorApplication($vendorApplication->id);
 
@@ -107,7 +106,33 @@ class FitgapController extends Controller
 
     public function evaluationJson(User $vendor, Project $project)
     {
-        return $this->vendorJson($vendor, $project);
+        $vendorApplication = VendorApplication::where([
+            'project_id' => $project->id,
+            'vendor_id' => $vendor->id
+        ])->first();
+
+        if ($vendorApplication == null) {
+            abort(404);
+        }
+
+        $fitgapQuestions = FitgapQuestion::findByProject($project->id);
+        $fitgapResponses = FitgapVendorResponse::findByVendorApplication($vendorApplication->id);
+
+        return $fitgapQuestions->map(function ($fitgapQuestion) use ($fitgapResponses) {
+            $fitgapResponseFound = $fitgapResponses->where('fitgap_question_id', $fitgapQuestion->id)->first();
+            return [
+                'ID' => $fitgapQuestion->id(),
+                'Type' => $fitgapQuestion->requirementType(),
+                'Level 1' => $fitgapQuestion->level1(),
+                'Level 2' => $fitgapQuestion->level2(),
+                'Level 3' => $fitgapQuestion->level3(),
+                'Requirement' => $fitgapQuestion->requirement(),
+                'Client' => $fitgapQuestion->client(),
+                'Business Opportunity' => $fitgapQuestion->businessOpportunity(),
+                'Vendor response' => $fitgapResponseFound ? $fitgapResponseFound->response() : '',
+                'Comments' => $fitgapResponseFound ? $fitgapResponseFound->comments() : '',
+            ];
+        });
     }
 
     // Old methods for update
@@ -387,7 +412,6 @@ class FitgapController extends Controller
     {
         $questionId = $_POST["data"][0];
         $vendor = auth()->user();
-
 
         if (($questionId == null) || $project == null || !$vendor->isVendor()) {
             return abort(404);
