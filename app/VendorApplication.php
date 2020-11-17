@@ -90,76 +90,80 @@ class VendorApplication extends Model
         return $this->morphOne(Folder::class, 'folderable')->where('folderable_group', 'experience');
     }
 
-    public function vendorFitgapJsonGeneral($array): array
+    public function vendorFitgapJsonGeneral(): array
     {
-        $result = [];
-        // Merge the two arrays
-        foreach ($this->project->fitgap5Columns as $key => $something) {
-            $result[] = array_merge(
-                $this->project->fitgap5Columns[$key],
-                $array[$key] ?? [
-                    'Vendor Response' => '',
-                    'Comments' => '',
-                ]
-            );
-        }
 
-        return $result;
+        $fitgapQuestions = FitgapQuestion::findByProject($this->project_id);
+        $fitgapResponses = FitgapVendorResponse::findByVendorApplication($this->id);
+
+        return $fitgapQuestions->map(function ($fitgapQuestion) use ($fitgapResponses) {
+            $fitgapResponseFound = $fitgapResponses->where('fitgap_question_id', $fitgapQuestion->id)->first();
+            return [
+                'ID' => $fitgapQuestion->id(),
+                'Type' => $fitgapQuestion->requirementType(),
+                'Level 1' => $fitgapQuestion->level1(),
+                'Level 2' => $fitgapQuestion->level2(),
+                'Level 3' => $fitgapQuestion->level3(),
+                'Requirement' => $fitgapQuestion->requirement(),
+                'Vendor response' => $fitgapResponseFound ? $fitgapResponseFound->response() : '',
+                'Comments' => $fitgapResponseFound ? $fitgapResponseFound->comments() : '',
+            ];
+        });
     }
 
     public function vendorFitgapJson(): array
     {
-        return $this->vendorFitgapJsonGeneral($this->fitgapVendorColumns);
+        return $this->vendorFitgapJsonGeneral();
     }
 
     public function vendorFitgapJsonOld(): array
     {
-        return $this->vendorFitgapJsonGeneral($this->fitgapVendorColumnsOld);
+        return $this->vendorFitgapJsonGeneral();
     }
 
     public function vendorFitgapJsonOld2(): array
     {
-        return $this->vendorFitgapJsonGeneral($this->fitgapVendorColumnsOld2);
+        return $this->vendorFitgapJsonGeneral();
     }
 
     public function vendorFitgapJsonOld3(): array
     {
-        return $this->vendorFitgapJsonGeneral($this->fitgapVendorColumnsOld3);
+        return $this->vendorFitgapJsonGeneral();
     }
 
     public function vendorFitgapJsonOld4(): array
     {
-        return $this->vendorFitgapJsonGeneral($this->fitgapVendorColumnsOld4);
+        return $this->vendorFitgapJsonGeneral();
     }
 
     public function vendorFitgapJsonOld5(): array
     {
-        return $this->vendorFitgapJsonGeneral($this->fitgapVendorColumnsOld5);
+        return $this->vendorFitgapJsonGeneral();
     }
 
     public function vendorFitgapJsonOld6(): array
     {
-        return $this->vendorFitgapJsonGeneral($this->fitgapVendorColumnsOld6);
+        return $this->vendorFitgapJsonGeneral();
     }
 
     public function vendorFitgapJsonOld7(): array
     {
-        return $this->vendorFitgapJsonGeneral($this->fitgapVendorColumnsOld7);
+        return $this->vendorFitgapJsonGeneral();
     }
 
     public function vendorFitgapJsonOld8(): array
     {
-        return $this->vendorFitgapJsonGeneral($this->fitgapVendorColumnsOld8);
+        return $this->vendorFitgapJsonGeneral();
     }
 
     public function vendorFitgapJsonOld9(): array
     {
-        return $this->vendorFitgapJsonGeneral($this->fitgapVendorColumnsOld9);
+        return $this->vendorFitgapJsonGeneral();
     }
 
     public function vendorFitgapJsonOld10(): array
     {
-        return $this->vendorFitgapJsonGeneral($this->fitgapVendorColumnsOld10);
+        return $this->vendorFitgapJsonGeneral();
     }
 
     public function progress(): int
@@ -440,13 +444,12 @@ class VendorApplication extends Model
 
         $score = 0;
         if (!empty($this->project)) {
-            //$fitgap5cols = $this->project->fitgap5Columns;
-            $fitgap5cols = FitgapQuestion::findByProject($this->project_id);
+            $fitgapQuestions = FitgapQuestion::findByProject($this->project_id);
 
             $scores = [];
             $maxScores = [];
-            if (!empty($this->project->fitgap5Columns)) {
-                foreach ($fitgap5cols as $key => $value) {
+            if (!empty($fitgapQuestions)) {
+                foreach ($fitgapQuestions as $key => $value) {
                     if ($value->requirementType() == $type) {
                         //$response = $this->fitgapVendorColumns[$key]['Vendor Response'] ?? '';
                         $response = FitgapVendorResponse::findByFitgapQuestionFromTheApplication(

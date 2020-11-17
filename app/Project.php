@@ -157,9 +157,11 @@ class Project extends Model
      */
     public function hasCompletedBusinessOpportunity()
     {
-        foreach (($this->fitgapClientColumns ?? []) as $key => $value) {
-            if (!isset($value['Business Opportunity']) || $value['Business Opportunity'] == null || $value['Business Opportunity'] == '') return false;
+        $fitgapQuestions = FitgapQuestion::findByProject($this->project_id);
+        foreach (($fitgapQuestions) as $key => $value) {
+            if (!empty($value->businessOpportunity()) || $value->businessOpportunity() == null || $value->businessOpportunity() == '') return false;
         }
+
         return true;
     }
 

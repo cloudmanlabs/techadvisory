@@ -137,7 +137,7 @@ class FitgapController extends Controller
     // Old methods for update
     public function clientJsonUpload(Request $request, Project $project)
     {
-        $request->validate([
+/*        $request->validate([
             'data' => 'required|array'
         ]);
 
@@ -172,7 +172,6 @@ class FitgapController extends Controller
                 || $row['Requirement'] != $project->fitgap5Columns[$key]['Requirement']
             ) {
                 foreach ($project->vendorApplications as $key1 => $application) {
-                    /** @var VendorApplication $application */
                     $fitgapVendorColumns = $application->fitgapVendorColumns;
 
                     $fitgapVendorColumns[$key]['Vendor Response'] = '';
@@ -187,6 +186,7 @@ class FitgapController extends Controller
         $project->fitgapClientColumns = $resultClient;
         $project->fitgap5Columns = $result5Cols;
         $project->save();
+*/
 
         return \response()->json([
             'status' => 200,
@@ -200,7 +200,7 @@ class FitgapController extends Controller
             'data' => 'required|array'
         ]);
 
-        $vendorApplication = VendorApplication::where([
+/*        $vendorApplication = VendorApplication::where([
             'project_id' => $project->id,
             'vendor_id' => $vendor->id
         ])->first();
@@ -233,7 +233,7 @@ class FitgapController extends Controller
         $vendorApplication->fitgapVendorColumnsOld2 = $vendorApplication->fitgapVendorColumnsOld;
         $vendorApplication->fitgapVendorColumnsOld = $vendorApplication->fitgapVendorColumns;
         $vendorApplication->fitgapVendorColumns = $result;
-        $vendorApplication->save();
+        $vendorApplication->save();*/
 
         return \response()->json([
             'status' => 200,
@@ -249,7 +249,7 @@ class FitgapController extends Controller
             'data' => 'required|array'
         ]);
 
-        $vendorApplication = VendorApplication::where([
+/*        $vendorApplication = VendorApplication::where([
             'project_id' => $project->id,
             'vendor_id' => $vendor->id
         ])->first();
@@ -265,7 +265,7 @@ class FitgapController extends Controller
         }
 
         $vendorApplication->fitgapVendorScores = $result;
-        $vendorApplication->save();
+        $vendorApplication->save();*/
 
         return \response()->json([
             'status' => 200,
