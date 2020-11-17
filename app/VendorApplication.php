@@ -325,10 +325,10 @@ class VendorApplication extends Model
 
     }
 
-    function getClientMultiplierInRow($id)
+    function getClientMultiplierInRow($question)
     {
         //$response = $this->project->fitgapClientColumns[$row]['Client'] ?? '';
-        $responseClient = FitgapQuestion::find($id)->client();
+        $responseClient = $question->client() ?? '';
 
         if ($responseClient == 'Must') return $this->project->fitgapWeightMust ?? 10;
         if ($responseClient == 'Required') return $this->project->fitgapWeightRequired ?? 5;
@@ -455,7 +455,7 @@ class VendorApplication extends Model
                         //$response = $this->fitgapVendorColumns[$key]['Vendor Response'] ?? '';
                         $response = FitgapVendorResponse::findByFitgapQuestionFromTheApplication(
                             $this->id, $value->id);
-                        $multiplier = $this->getClientMultiplierInRow($value->id);
+                        $multiplier = $this->getClientMultiplierInRow($value);
 
                         $scores[] = $this->getScoreFromResponse($response) * $multiplier;
                         $maxScores[] = ($this->project->fitgapWeightFullySupports ?? 3) * $multiplier;

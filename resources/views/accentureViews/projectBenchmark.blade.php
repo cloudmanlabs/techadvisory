@@ -112,7 +112,7 @@
                                                 <th class="filterByVendor"
                                                     data-vendor="{{optional($application->vendor)->name ?? ''}}">{{number_format($application->totalScore(), 2)}}</th>
                                             @endforeach
-                                        </tr class="table-dark">
+                                        </tr>
                                         </tbody>
                                     </table>
                                 </div>
