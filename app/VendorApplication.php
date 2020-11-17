@@ -1135,6 +1135,7 @@ class VendorApplication extends Model
 
     // Methods for benchmark & Analytics ******************************************************************
 
+    // deprecathed on refactor scores branch
     public static function calculateBestVendorsProjectResultsFiltered($nVendors,
                                                                       $functionNameForCalculateTheScores,
                                                                       $practicesID = [], $subpracticesID = [],
@@ -1206,7 +1207,7 @@ class VendorApplication extends Model
         return $scores;
     }
 
-
+    // deprecathed on refactor scores branch
     public static function getVendorsFilteredForRankingChart(
         $practicesID = [], $subpracticesID = [],
         $years = [], $industries = [], $regions = [])
