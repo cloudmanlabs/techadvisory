@@ -45,6 +45,12 @@
                 columns: [
                     {
                         type: 'text',
+                        title: 'ID',
+                        readOnly: true,
+                        width: 100,
+                    },
+                    {
+                        type: 'text',
                         title: 'Type',
                         readOnly: true,
                         width: 100

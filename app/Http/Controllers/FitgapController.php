@@ -84,7 +84,6 @@ class FitgapController extends Controller
             abort(404);
         }
 
-        $table = [];
         $fitgapQuestions = FitgapQuestion::findByProject($project->id);
         $fitgapResponses = FitgapVendorResponse::findByVendorApplication($vendorApplication->id);
 
@@ -106,7 +105,33 @@ class FitgapController extends Controller
 
     public function evaluationJson(User $vendor, Project $project)
     {
-        return $this->vendorJson($vendor, $project);
+        $vendorApplication = VendorApplication::where([
+            'project_id' => $project->id,
+            'vendor_id' => $vendor->id
+        ])->first();
+
+        if ($vendorApplication == null) {
+            abort(404);
+        }
+
+        $fitgapQuestions = FitgapQuestion::findByProject($project->id);
+        $fitgapResponses = FitgapVendorResponse::findByVendorApplication($vendorApplication->id);
+
+        return $fitgapQuestions->map(function ($fitgapQuestion) use ($fitgapResponses) {
+            $fitgapResponseFound = $fitgapResponses->where('fitgap_question_id', $fitgapQuestion->id)->first();
+            return [
+                'ID' => $fitgapQuestion->id(),
+                'Type' => $fitgapQuestion->requirementType(),
+                'Level 1' => $fitgapQuestion->level1(),
+                'Level 2' => $fitgapQuestion->level2(),
+                'Level 3' => $fitgapQuestion->level3(),
+                'Requirement' => $fitgapQuestion->requirement(),
+                'Client' => $fitgapQuestion->client(),
+                'Business Opportunity' => $fitgapQuestion->businessOpportunity(),
+                'Vendor response' => $fitgapResponseFound ? $fitgapResponseFound->response() : '',
+                'Comments' => $fitgapResponseFound ? $fitgapResponseFound->comments() : '',
+            ];
+        });
     }
 
     // Old methods for update
@@ -379,42 +404,6 @@ class FitgapController extends Controller
                 'message' => 'Update Move Success',
             ]);
         }
-    }
-
-    public function moveFitgapQuestionRefactor(Request $request, Project $project)
-    {
-        // TODO Move to more convenient folder
-        function moveElement(&$array, $from, $to)
-        {
-            $out = array_splice($array, $from, 1);
-            array_splice($array, $to, 0, $out);
-        }
-
-        // POST parameters
-        $fitgapQuestionId = (int)$request->input('fitgap_question_id');
-        $to = (int)$request->input('to');
-
-        $fitgapQuestions = FitgapQuestion::findByProject($project->id)->toArray();
-        $fitgapQuestionToMove = $fitgapQuestions->where('id', $fitgapQuestionId);
-
-        if ($fitgapQuestionToMove == null) {
-            abort(404);
-        }
-
-        $from = (int)$fitgapQuestionToMove->position;
-
-        // Reindexing logic, encapsulate in a proper way
-        moveElement($fitgapQuestions, $from, $to);
-        foreach ($fitgapQuestions as $index => $fitgapQuestion) {
-            $fitgapQuestions->position = $index; // or index + 1
-            $fitgapQuestions->save();
-        }
-        // End reindexing logic
-
-        return \response()->json([
-            'status' => 200,
-            'message' => 'Update Move Success',
-        ]);
     }
 
     // New methods for update Fitgap Responses
