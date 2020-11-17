@@ -369,7 +369,7 @@ class FitgapController extends Controller
         }
     }
 
-    public function moveFitgapQuestion(Project $project)
+    public function moveFitgapQuestion(Request $request, Project $project)
     {
 
         // TODO Move to more convenient folder
@@ -377,10 +377,11 @@ class FitgapController extends Controller
         {
             $out = array_splice($array, $from, 1);
             array_splice($array, $to, 0, $out);
+            return $array;
         }
 
-        $fitgapQuestionId = $_POST["data"][0];
-        $to = (int)$_POST["position"] + 1;
+        $fitgapQuestionId = (int)$request->input('fitgap_question_id');
+        $to = (int)$request->input('to');
 
         $fitgapQuestions = FitgapQuestion::findByProject($project->id)->all();
         $fitgapQuestionToMove = FitgapQuestion::find($fitgapQuestionId);
@@ -389,16 +390,15 @@ class FitgapController extends Controller
             abort(404);
         }
 
-        $from = (int)$fitgapQuestionToMove->position;
+        $from = (int)$fitgapQuestionToMove->position - 1;
 
         // Reindexing logic, encapsulate in a proper way
-        moveElement($fitgapQuestions, $from, $to);
+        $fitgapQuestions = moveElement($fitgapQuestions, $from, $to);
         foreach ($fitgapQuestions as $index => $fitgapQuestion) {
             $fitgapQuestion->position = $index + 1;
             $fitgapQuestion->save();
         }
         // End reindexing logic
-        $result= FitgapQuestion::findByProject($project->id)->all();
         return \response()->json([
             'status' => 200,
             'message' => 'Update Move Success',

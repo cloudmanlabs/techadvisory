@@ -196,8 +196,8 @@
         onmoverow: function(element, origin, destiny) {
             @if(! $disabled)
             $.post("{{route('moveFitgapQuestion', ['project' => $project])}}", {
-                data:  mySpreadsheet.getRowData(destiny),
-                position: destiny
+                fitgap_question_id:  mySpreadsheet.getRowData(destiny)[0],
+                to: destiny
             })
                 .done(function () {
                     showSavedToast();
