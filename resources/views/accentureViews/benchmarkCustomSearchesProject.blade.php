@@ -53,7 +53,7 @@
                                             </p>
                                             <select id="practiceSelect" class="w-100">
                                                 <option value="null">-- Select a Practice --</option>
-                                            @foreach ($practices as $practice)
+                                                @foreach ($practices as $practice)
                                                     <option>{{$practice}}</option>
                                                 @endforeach
                                                 <option value="No Practice">No Practice</option>
@@ -115,16 +115,16 @@
                                             </select>
                                         </div>
 
-{{--                                        <div class="media-body" style="padding: 20px;">
-                                            <p class="welcome_text">
-                                                Please choose the Phases you'd like to see:
-                                            </p>
-                                            <select id="phaseSelect" class="w-100" multiple="multiple">
-                                                <option value="preparation">Preparation</option>
-                                                <option value="open">Open</option>
-                                                <option value="old">Old</option>
-                                            </select>
-                                        </div>--}}
+                                        {{--                                        <div class="media-body" style="padding: 20px;">
+                                                                                    <p class="welcome_text">
+                                                                                        Please choose the Phases you'd like to see:
+                                                                                    </p>
+                                                                                    <select id="phaseSelect" class="w-100" multiple="multiple">
+                                                                                        <option value="preparation">Preparation</option>
+                                                                                        <option value="open">Open</option>
+                                                                                        <option value="old">Old</option>
+                                                                                    </select>
+                                                                                </div>--}}
 
                                         <br>
                                         <h3 style="color: #A12BFE">Search Results</h3>
@@ -153,7 +153,8 @@
                                                                 - {{$project->practice->name ?? 'No Practice'}}</h6>
                                                             <h6>{{$project->created_at->year}} - {{$project->industry}}
                                                                 - {{implode(', ', $project->regions ?? [])}}</h6>
-                                                            <h6>Subpractices: {{implode(', ', $project->subpractices->pluck('name')->toArray() ?? [])}}</h6>
+                                                            <h6>
+                                                                Subpractices: {{implode(', ', $project->subpractices->pluck('name')->toArray() ?? [])}}</h6>
                                                         </div>
                                                         <div style="float: right; text-align: right; width: 15%;">
                                                             <a class="btn btn-primary btn-lg btn-icon-text"
@@ -184,19 +185,35 @@
     <script>
 
         $('#practiceSelect').change(function () {
-            //chargeSubpracticesFromPractice();
+            chargeSubpracticesFromPractice();
         });
 
-        $(document).ready(function(){
+        function chargeSubpracticesFromPractice() {
+            $('#subpracticeSelect').empty();
+
+            var selectedPractices = $('#practiceSelect').val();
+            $.get("/accenture/benchmark/customSearches/getSubpractices/"
+                + selectedPractices, function (data) {
+
+                var $dropdown = $("#subpracticeSelect");
+                var subpractices = data.subpractices;
+                $.each(subpractices, function () {
+                    var option = $("<option />").val(this).text(this);
+                    $dropdown.append(option);
+                });
+            });
+        }
+
+        $(document).ready(function () {
             function updateProjects() {
                 const selectedPractices = $('#practiceSelect').val();
                 //const selectedSubpractices = getSelectedFrom('subpracticeSelect')
                 const selectedSubpractices = $('#subpracticeSelect').val();
-/*                const selectedClients = getSelectedFrom('clientSelect')
-                const selectedYears = getSelectedFrom('yearSelect')
-                const selectedIndustries = getSelectedFrom('industrySelect')
-                const selectedRegions = getSelectedFrom('regionSelect')
-                const selectedPhases = getSelectedFrom('phaseSelect')*/
+                /*                const selectedClients = getSelectedFrom('clientSelect')
+                                const selectedYears = getSelectedFrom('yearSelect')
+                                const selectedIndustries = getSelectedFrom('industrySelect')
+                                const selectedRegions = getSelectedFrom('regionSelect')
+                                const selectedPhases = getSelectedFrom('phaseSelect')*/
                 const searchBox = $('#searchBox').val().toLocaleLowerCase();
 
                 // Add a display none to the one which don't have this tags
@@ -210,18 +227,13 @@
                     const phase = $(this).data('phase');
                     const name = $(this).data('name');
 
-/*                    console.log('-----------------');
-                    console.log('subpractices de cada proyecto',subpractices);
-                    console.log('la seleccionada',selectedSubpractices);
-                    console.log('intersect',selectedSubpractices.length > 0 ? _.intersection(selectedSubpractices, subpractices) : true)*/
-
-                    console.log('-----------------');
-                    console.log('practices de cada proyecto',practice);
-                    console.log('la seleccionada',selectedPractices);
-                    console.log('if value',selectedPractices=='null' ?  true : practice.includes(selectedPractices) == true)
+                    /*                    console.log('-----------------');
+                                        console.log('subpractices de cada proyecto',subpractices);
+                                        console.log('la seleccionada',selectedSubpractices);
+                                        console.log('intersect',selectedSubpractices.length > 0 ? _.intersection(selectedSubpractices, subpractices) : true)*/
 
                     if (
-                        (selectedPractices=='null' ?  true : practice.includes(selectedPractices) == true)
+                        (selectedPractices == 'null' ? true : practice.includes(selectedPractices) == true)
                         /*&& $.inArray(client, selectedClients) !== -1
                         && $.inArray(year, selectedYears) !== -1
                         && $.inArray(industry, selectedIndustries) !== -1
@@ -239,11 +251,11 @@
             }
 
 
-            function getSelectedFrom(id){
+            function getSelectedFrom(id) {
                 let selectedPractices = $(`#${id}`).select2('data').map((el) => {
                     return el.text
                 });
-                if(selectedPractices.length == 0){
+                if (selectedPractices.length == 0) {
                     selectedPractices = $(`#${id}`).children().toArray().map((el) => {
                         return el.innerHTML
                     });
@@ -259,11 +271,11 @@
                 });
             }
 
-            function filterMultipleAND(arrayToFind,arrayToFilter){
+            function filterMultipleAND(arrayToFind, arrayToFilter) {
 
             }
 
-            function filterMultipleOR(arrayToFind,arrayToFilter){
+            function filterMultipleOR(arrayToFind, arrayToFilter) {
                 return arrayToFind.length > 0 ? _.intersection(arrayToFilter, arrayToFind).length > 0 : true;
 
             }

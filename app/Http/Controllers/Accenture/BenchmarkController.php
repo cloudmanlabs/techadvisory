@@ -580,7 +580,7 @@ class BenchmarkController extends Controller
     {
         // Data for populate the select options.
         $practices = Practice::pluck('name')->toArray();
-        $subpractices = Subpractice::pluck('name')->toArray();
+        $subpractices = [];
         $clients = User::clientUsers()->where('hasFinishedSetup', true)->pluck('name')->toArray();
         $vendors = User::vendorUsers()->where('hasFinishedSetup', true)->pluck('name')->toArray();
         $regions = collect(config('arrays.regions'));
@@ -652,5 +652,19 @@ class BenchmarkController extends Controller
             'message' => 'Success'
         ]);
     }
+    public function getSubpracticesfromPracticeName(string $practiceName)
+    {
+        $practice = Practice::where('name',$practiceName)->first();
+
+        $subpractices = Subpractice::where('practice_id', $practice->id)->pluck('name')->toArray();
+
+
+        return \response()->json([
+            'status' => 200,
+            'subpractices' => $subpractices,
+            'message' => 'Success'
+        ]);
+    }
+
 
 }
