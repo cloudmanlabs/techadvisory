@@ -103,7 +103,7 @@
                                                 @foreach ($regions as $region)
                                                     <option>{{$region}}</option>
                                                 @endforeach
-                                                    <option value="No Region">No Region</option>
+                                                <option value="No Region">No Region</option>
                                             </select>
                                         </div>
 
@@ -145,7 +145,7 @@
                                                     data-name="{{$project->name ?? ''}}"
                                                     data-client="{{$project->client->name ?? 'No Client'}}"
                                                     data-practice="{{$project->practice->name ?? 'No Practice'}}"
-                                                    data-subpractices="{{json_encode($project->subpractices->pluck('name')->toArray()) ?? 'No Subpractice'}}"
+                                                    data-subpractices="{{json_encode($project->subpractices->pluck('name')->toArray()) ?? ['No Subpractice']}}"
                                                     data-year="{{$project->created_at->year}}"
                                                     data-industry="{{$project->industry ?? 'No Industry'}}"
                                                     data-regions="{{json_encode($project->regions ?? ['No Region'])}}"
@@ -163,9 +163,7 @@
                                                                 - {{implode(', ', $project->regions ?? ['No Region'])}}
                                                             </h6>
                                                             <br>
-                                                            <h6>
-                                                                Subpractices: {{implode(', ', $project->subpractices->pluck('name')->toArray() ?? [])}}
-                                                            </h6>
+                                                            <h6>{{ implode(', ', $project->subpractices->pluck('name')->toArray()) ?? []}}</h6>
                                                         </div>
                                                         <div style="float: right; text-align: right; width: 15%;">
                                                             <a class="btn btn-primary btn-lg btn-icon-text"
@@ -212,7 +210,7 @@
                     var option = $("<option />").val(this).text(this);
                     $dropdown.append(option);
                 });
-                $dropdown.append($("<option />").val('No Subpractice').text('No Subpractice'));
+                //$dropdown.append($("<option />").val('No Subpractice').text('No Subpractice'));
             });
         }
 
@@ -224,47 +222,27 @@
                 const selectedYears = $('#yearSelect').val();
                 const selectedIndustries = $('#industrySelect').val();
                 const selectedRegions = $('#regionSelect').val();
-
-                /*
                 const searchBox = $('#searchBox').val().toLocaleLowerCase();
-                */
 
 
                 // Add a display none to the one which don't have this tags
                 $('#projectContainer').children().each(function () {
+                    const name = $(this).data('name');
                     const practice = $(this).data('practice');
                     const subpractices = $(this).data('subpractices');
                     const client = $(this).data('client');
                     const year = $(this).data('year').toString();
                     const industry = $(this).data('industry');
                     const regions = $(this).data('regions');
-                    const name = $(this).data('name');
-
-                    console.log('-----------------');
-                    console.log('X de cada proyecto', regions);
-                    console.log('la seleccionada', selectedRegions);
-                    console.log(
-                        filterMultipleAND(selectedRegions,regions)
-                    )
-
 
                     if (
                         name.toLocaleLowerCase().search(searchBox) > -1
-
                         && (selectedPractices === 'null' ? true : practice.includes(selectedPractices) === true)
-                        //&& (selectedSubpractices.length>0 ? _.every(contains(selectedSubpractices))(subpractices) : true)
+                        && (filterMultipleAND(selectedSubpractices, subpractices))
                         && (selectedClients === 'null' ? true : client.includes(selectedClients) === true)
                         && (selectedYears.length > 0 ? $.inArray(year, selectedYears) !== -1 : true)
                         && (selectedIndustries === 'null' ? true : industry.includes(selectedIndustries) === true)
-                        && (filterMultipleAND(selectedRegions,regions))
-
-                        /*
-                        && $.inArray(industry, selectedIndustries) !== -1
-                        //&& intersect(regions, selectedRegions).length !== 0(selectedSubpractices.length > 0 ? _.intersection(selectedSubpractices, subpractices).length > 0 : true)
-                        //&& intersect(subpractices, selectedSubpractices).length !== 0
-                        */
-
-
+                        && (filterMultipleAND(selectedRegions, regions))
                     ) {
                         $(this).css('display', 'flex')
                     } else {
@@ -273,37 +251,10 @@
                 });
             }
 
-
-            function getSelectedFrom(id) {
-                let selectedPractices = $(`#${id}`).select2('data').map((el) => {
-                    return el.text
-                });
-                if (selectedPractices.length == 0) {
-                    selectedPractices = $(`#${id}`).children().toArray().map((el) => {
-                        return el.innerHTML
-                    });
-                }
-                return selectedPractices;
-            }
-
-            function intersect(a, b) {
-                var t;
-                if (b.length > a.length) t = b, b = a, a = t; // indexOf to loop over shorter
-                return a.filter(function (e) {
-                    return b.indexOf(e) > -1;
-                });
-            }
-
             function filterMultipleAND(arrayOptions, arrayToSearch) {
-                return arrayOptions.length > 0 ? _.intersection(arrayToSearch, arrayOptions).length > 0 : true;
+
+                return arrayOptions.length > 0 ? R.all(R.flip(R.includes)(arrayToSearch))(arrayOptions) : true;
             }
-
-            function filterMultipleOR(arrayCurrent, arraySelected) {
-                return arraySelected.length > 1 ? _.intersection(arrayCurrent, arraySelected).length > 0 : true;
-
-
-            }
-
 
             $('#practiceSelect').on('change', function (e) {
                 updateProjects();

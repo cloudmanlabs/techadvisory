@@ -188,7 +188,7 @@
                 transportFlow: "{{$vendor->getVendorResponsesFromScope(9)}}",
                 transportMode: '{{$vendor->getVendorResponsesFromScope(10)}}',
                 transportType: '{{$vendor->getVendorResponsesFromScope(11)}}',
-                manufacturing: '{{$vendor->getVendorResponsesFromScope(5)}}',
+                manufacturing: '{{json_encode($vendor->getVendorResponsesFromScope(5))}}',
                 regions: '{{$vendor->getVendorResponse('vendorRegions') ?? '[]'}}',
                 industry: "{{json_encode($vendor->getVendorResponse('vendorIndustry'))}}".replace('&amp;', "&")
             },
