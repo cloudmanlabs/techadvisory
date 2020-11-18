@@ -1,4 +1,5 @@
 @extends('accentureViews.layouts.benchmark')
+
 @section('content')
     <div class="main-wrapper">
         <x-accenture.navbar activeSection="benchmark"/>
@@ -50,10 +51,12 @@
                                             <p class="welcome_text">
                                                 Please choose the SC Capability (Practice) you'd like to see:
                                             </p>
-                                            <select id="practiceSelect" class="w-100" multiple="multiple">
-                                                @foreach ($practices as $practice)
+                                            <select id="practiceSelect" class="w-100">
+                                                <option value="null">-- Select a Practice --</option>
+                                            @foreach ($practices as $practice)
                                                     <option>{{$practice}}</option>
                                                 @endforeach
+                                                <option value="No Practice">No Practice</option>
                                             </select>
                                         </div>
 
@@ -136,7 +139,7 @@
 
                                                     data-name="{{$project->name ?? ''}}"
                                                     data-client="{{$project->client->name ?? ''}}"
-                                                    data-practice="{{$project->practice->name ?? ''}}"
+                                                    data-practice="{{$project->practice->name ?? 'No Practice'}}"
                                                     data-subpractices="{{json_encode($project->subpractices->pluck('name')->toArray()) ?? ''}}"
                                                     data-year="{{$project->created_at->year}}"
                                                     data-industry="{{$project->industry}}"
@@ -147,10 +150,10 @@
                                                         <div style="float: left; max-width: 40%;">
                                                             <h4>{{$project->name ?? ''}}</h4>
                                                             <h6>{{$project->client->name ?? ''}}
-                                                                - {{$project->practice->name ?? ''}}</h6>
+                                                                - {{$project->practice->name ?? 'No Practice'}}</h6>
                                                             <h6>{{$project->created_at->year}} - {{$project->industry}}
                                                                 - {{implode(', ', $project->regions ?? [])}}</h6>
-                                                            <h6>{{implode(', ', $project->subpractices->pluck('name')->toArray() ?? [])}}</h6>
+                                                            <h6>Subpractices: {{implode(', ', $project->subpractices->pluck('name')->toArray() ?? [])}}</h6>
                                                         </div>
                                                         <div style="float: right; text-align: right; width: 15%;">
                                                             <a class="btn btn-primary btn-lg btn-icon-text"
@@ -180,16 +183,20 @@
     <script src="{{url('assets/vendors/select2/select2.min.js')}}"></script>
     <script>
 
+        $('#practiceSelect').change(function () {
+            //chargeSubpracticesFromPractice();
+        });
+
         $(document).ready(function(){
             function updateProjects() {
-                // Get all selected practices. If there are none, get all of them
-                const selectedPractices = getSelectedFrom('practiceSelect')
-                const selectedSubpractices = getSelectedFrom('subpracticeSelect')
-                const selectedClients = getSelectedFrom('clientSelect')
+                const selectedPractices = $('#practiceSelect').val();
+                //const selectedSubpractices = getSelectedFrom('subpracticeSelect')
+                const selectedSubpractices = $('#subpracticeSelect').val();
+/*                const selectedClients = getSelectedFrom('clientSelect')
                 const selectedYears = getSelectedFrom('yearSelect')
                 const selectedIndustries = getSelectedFrom('industrySelect')
                 const selectedRegions = getSelectedFrom('regionSelect')
-                const selectedPhases = getSelectedFrom('phaseSelect')
+                const selectedPhases = getSelectedFrom('phaseSelect')*/
                 const searchBox = $('#searchBox').val().toLocaleLowerCase();
 
                 // Add a display none to the one which don't have this tags
@@ -203,14 +210,24 @@
                     const phase = $(this).data('phase');
                     const name = $(this).data('name');
 
+/*                    console.log('-----------------');
+                    console.log('subpractices de cada proyecto',subpractices);
+                    console.log('la seleccionada',selectedSubpractices);
+                    console.log('intersect',selectedSubpractices.length > 0 ? _.intersection(selectedSubpractices, subpractices) : true)*/
+
+                    console.log('-----------------');
+                    console.log('practices de cada proyecto',practice);
+                    console.log('la seleccionada',selectedPractices);
+                    console.log('if value',selectedPractices!=null ? practice.includes(selectedPractices) == true : true)
+
                     if (
-                        $.inArray(practice, selectedPractices) !== -1
-                        && $.inArray(client, selectedClients) !== -1
+                        (selectedPractices!=null ? practice.includes(selectedPractices) == true : false)
+                        /*&& $.inArray(client, selectedClients) !== -1
                         && $.inArray(year, selectedYears) !== -1
                         && $.inArray(industry, selectedIndustries) !== -1
-                        && $.inArray(phase, selectedPhases) !== -1
-                        && intersect(regions, selectedRegions).length !== 0
-                        && intersect(subpractices, selectedSubpractices).length !== 0
+                        && $.inArray(phase, selectedPhases) !== -1*/
+                        //&& intersect(regions, selectedRegions).length !== 0(selectedSubpractices.length > 0 ? _.intersection(selectedSubpractices, subpractices).length > 0 : true)
+                        //&& intersect(subpractices, selectedSubpractices).length !== 0
 
                         && name.toLocaleLowerCase().search(searchBox) > -1
                     ) {
@@ -220,6 +237,7 @@
                     }
                 });
             }
+
 
             function getSelectedFrom(id){
                 let selectedPractices = $(`#${id}`).select2('data').map((el) => {
@@ -241,9 +259,16 @@
                 });
             }
 
-            $('#practiceSelect').select2({
-                maximumSelectionLength: 1
-            });
+            function filterMultipleAND(arrayToFind,arrayToFilter){
+
+            }
+
+            function filterMultipleOR(arrayToFind,arrayToFilter){
+                return arrayToFind.length > 0 ? _.intersection(arrayToFilter, arrayToFind).length > 0 : true;
+
+            }
+
+
             $('#practiceSelect').on('change', function (e) {
                 updateProjects();
             });
