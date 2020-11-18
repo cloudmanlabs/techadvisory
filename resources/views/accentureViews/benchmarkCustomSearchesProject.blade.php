@@ -103,6 +103,7 @@
                                                 @foreach ($regions as $region)
                                                     <option>{{$region}}</option>
                                                 @endforeach
+                                                    <option value="No Region">No Region</option>
                                             </select>
                                         </div>
 
@@ -147,8 +148,7 @@
                                                     data-subpractices="{{json_encode($project->subpractices->pluck('name')->toArray()) ?? 'No Subpractice'}}"
                                                     data-year="{{$project->created_at->year}}"
                                                     data-industry="{{$project->industry ?? 'No Industry'}}"
-                                                    data-regions="{{json_encode($project->regions ?? [])}}"
-                                                    data-phase="{{ucfirst($project->currentPhase)}}"
+                                                    data-regions="{{json_encode($project->regions ?? ['No Region'])}}"
                                                 >
                                                     <div class="card-body">
                                                         <div style="float: left; max-width: 40%;">
@@ -160,7 +160,7 @@
                                                             <br>
                                                             <h6>{{$project->created_at->year}}
                                                                 - {{$project->industry ?? 'No Industry'}}
-                                                                - {{implode(', ', $project->regions ?? [])}}
+                                                                - {{implode(', ', $project->regions ?? ['No Region'])}}
                                                             </h6>
                                                             <br>
                                                             <h6>
@@ -219,14 +219,13 @@
         $(document).ready(function () {
             function updateProjects() {
                 const selectedPractices = $('#practiceSelect').val();
-                //const selectedSubpractices = getSelectedFrom('subpracticeSelect')
                 const selectedSubpractices = $('#subpracticeSelect').val();
                 const selectedClients = $('#clientSelect').val();
                 const selectedYears = $('#yearSelect').val();
                 const selectedIndustries = $('#industrySelect').val();
+                const selectedRegions = $('#regionSelect').val();
 
                 /*
-                                const selectedRegions = getSelectedFrom('regionSelect')
                 const searchBox = $('#searchBox').val().toLocaleLowerCase();
                 */
 
@@ -242,10 +241,10 @@
                     const name = $(this).data('name');
 
                     console.log('-----------------');
-                    console.log('X de cada proyecto', year);
-                    console.log('la seleccionada', selectedYears);
+                    console.log('X de cada proyecto', regions);
+                    console.log('la seleccionada', selectedRegions);
                     console.log(
-                        $.inArray(year, selectedYears) !== -1
+                        filterMultipleAND(selectedRegions,regions)
                     )
 
 
@@ -257,6 +256,7 @@
                         && (selectedClients === 'null' ? true : client.includes(selectedClients) === true)
                         && (selectedYears.length > 0 ? $.inArray(year, selectedYears) !== -1 : true)
                         && (selectedIndustries === 'null' ? true : industry.includes(selectedIndustries) === true)
+                        && (filterMultipleAND(selectedRegions,regions))
 
                         /*
                         && $.inArray(industry, selectedIndustries) !== -1
@@ -294,8 +294,8 @@
                 });
             }
 
-            function filterMultipleAND(arrayCurrent, arraySelected) {
-                return arraySelected.length > 1 ? _.intersection(arrayCurrent, arraySelected).length > 0 : true;
+            function filterMultipleAND(arrayOptions, arrayToSearch) {
+                return arrayOptions.length > 0 ? _.intersection(arrayToSearch, arrayOptions).length > 0 : true;
             }
 
             function filterMultipleOR(arrayCurrent, arraySelected) {
