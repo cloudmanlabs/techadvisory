@@ -216,8 +216,10 @@
                 //const selectedSubpractices = getSelectedFrom('subpracticeSelect')
                 const selectedSubpractices = $('#subpracticeSelect').val();
                 const selectedClients = $('#clientSelect').val();
+                const selectedYears = $('#yearSelect').val();
+
+
                 /*s
-                                const selectedYears = getSelectedFrom('yearSelect')
                                 const selectedIndustries = getSelectedFrom('industrySelect')
                                 const selectedRegions = getSelectedFrom('regionSelect')
                                 const selectedPhases = getSelectedFrom('phaseSelect')*/
@@ -235,16 +237,18 @@
                     const name = $(this).data('name');
 
                     console.log('-----------------');
-                    console.log('X de cada proyecto', client);
-                    console.log('la seleccionada', selectedClients);
+                    console.log('X de cada proyecto', year);
+                    console.log('la seleccionada', selectedYears);
                     console.log(
-                        'intersect',(selectedClients === 'null' ? true : client.includes(selectedClients) === true)
+                        $.inArray(year, selectedYears) !== -1
                     )
+
 
                     if (
                         (selectedPractices === 'null' ? true : practice.includes(selectedPractices) === true)
-                            //&& (selectedSubpractices.length>0 ? _.every(contains(selectedSubpractices))(subpractices) : true)
+                        //&& (selectedSubpractices.length>0 ? _.every(contains(selectedSubpractices))(subpractices) : true)
                         && (selectedClients === 'null' ? true : client.includes(selectedClients) === true)
+                        && (selectedYears.length>0 ? $.inArray(year, selectedYears) !== -1 : true)
 
                         /*
                         && $.inArray(year, selectedYears) !== -1
@@ -283,12 +287,13 @@
                 });
             }
 
-            function filterMultipleAND(arrayToFind, arrayToFilter) {
-
+            function filterMultipleAND(arrayCurrent, arraySelected) {
+                return arraySelected.length > 1 ? _.intersection(arrayCurrent, arraySelected).length > 0 : true;
             }
 
-            function filterMultipleOR(arrayToFind, arrayToFilter) {
-                return arrayToFind.length > 0 ? _.intersection(arrayToFilter, arrayToFind).length > 0 : true;
+            function filterMultipleOR(arrayCurrent, arraySelected) {
+                return arraySelected.length > 1 ? _.intersection(arrayCurrent, arraySelected).length > 0 : true;
+
 
             }
 
