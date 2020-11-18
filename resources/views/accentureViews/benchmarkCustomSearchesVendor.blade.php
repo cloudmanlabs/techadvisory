@@ -248,139 +248,37 @@
 
             $('#subpracticesContainer').hide();
 
-/*            function filterVendors() {
+            function updateProjects() {
+                const selectedPractices = $('#practiceSelect').val();
+                const selectedSubpractices = $('#subpracticeSelect').val();
+                const selectedIndustries = $('#industrySelect').val();
+                const selectedRegions = $('#regionSelect').val();
 
-                let vendorsByPractice;
-                let vendorsBySubpractice;
-                let vendorsBySegment;
-
-                let vendorsByTransportFlows;
-                let vendorsByTransportModes;
-                let vendorsByTransportTypes;
-                /!*
-                                let vendorsByPlanningResponse;
-                *!/
-                let vendorsByRegions;
-                let vendorsByIndustries;
-
-                const selectedSegments = $('#segmentSelect').val()
-                const selectedPractices = $('#practiceSelect').val()
-                const selectedSubpractices = $('#selectSubpractices').val()
-
-                const selectedTransportFlows = $('#selectTransport1').val()
-                const selectedTransportModes = $('#selectTransport2').val()
-                const selectedTransportTypes = $('#selectTransport3').val()
-                //const textPlanning = String($('#PlanningInput1').val()).toLowerCase();
-
-                const selectedRegions = $('#regionSelect').val()
-                const selectedIndustries = $('#industrySelect').val()
-
-                if (selectedSegments) {
-                    vendorsBySegment = allVendorsResponses.filter(
-                        response => response.segment.includes(selectedSegments)
-                    );
-                    vendorsBySegment = vendorsBySegment.map(vendor => vendor.id);
-                } else {
-                    vendorsBySegment = allVendorsResponses.map(vendor => vendor.id);
-                }
-
-                // Multiple filter.
-                if (selectedPractices.length > 0) {
-                    vendorsByPractice = [];
-                    var vendorsByThisPractice = [];
-                    for (let i = 0; i < selectedPractices.length; i++) {
-                        let thisPractice = selectedPractices[i];
-                        vendorsByThisPractice = getFilteredByPracticeResultsAsArray(thisPractice);
-                        vendorsByPractice = vendorsByPractice.concat(vendorsByThisPractice);
-                    }
-
-                    vendorsByPractice = vendorsByPractice.map(vendor => vendor.id);
-                } else vendorsByPractice = allVendorsResponses.map(vendor => vendor.id);
-
-                if (selectedSubpractices) {
-                    vendorsBySubpractice = allVendorsResponses.filter(
-                        response => response.subpractice.includes(selectedSubpractices)
-                    );
-                    vendorsBySubpractice = vendorsBySubpractice.map(vendor => vendor.id);
-                } else vendorsBySubpractice = allVendorsResponses.map(vendor => vendor.id);
-
-                if (selectedTransportFlows) {
-                    vendorsByTransportFlows = allVendorsResponses.filter(
-                        response => response.transportFlow.includes(selectedTransportFlows)
-                    );
-                    vendorsByTransportFlows = vendorsByTransportFlows.map(vendor => vendor.id);
-                } else vendorsByTransportFlows = allVendorsResponses.map(vendor => vendor.id);
-
-                if (selectedTransportModes) {
-                    vendorsByTransportModes = allVendorsResponses.filter(
-                        response => response.transportMode.includes(selectedTransportModes)
-                    );
-                    vendorsByTransportModes = vendorsByTransportModes.map(vendor => vendor.id);
-                } else vendorsByTransportModes = allVendorsResponses.map(vendor => vendor.id);
-
-                if (selectedTransportTypes) {
-                    vendorsByTransportTypes = allVendorsResponses.filter(
-                        response => response.transportType.includes(selectedTransportTypes)
-                    );
-                    vendorsByTransportTypes = vendorsByTransportTypes.map(vendor => vendor.id);
-                } else vendorsByTransportTypes = allVendorsResponses.map(vendor => vendor.id);
-
-                if (selectedRegions) {
-                    vendorsByRegions = allVendorsResponses.filter(
-                        response => response.regions.includes(selectedRegions)
-                    );
-                    vendorsByRegions = vendorsByRegions.map(vendor => vendor.id);
-                } else vendorsByRegions = allVendorsResponses.map(vendor => vendor.id);
-
-                if (selectedIndustries) {
-                    selectedIndustries.replace('&','&amp');
-                    console.log(selectedIndustries);
-                    vendorsByIndustries = allVendorsResponses.filter(
-                        response => response.industry.includes(selectedIndustries)
-                    );
-                    console.log(vendorsByIndustries);
-
-                    vendorsByIndustries = vendorsByIndustries.map(vendor => vendor.id);
-                } else vendorsByIndustries = allVendorsResponses.map(vendor => vendor.id);
-
-
-                /!*                if (textPlanning.length > 0) {
-                                    vendorsByPlanningResponse = allVendorsResponses.filter(
-                                        response => response.planning.includes(textPlanning)
-                                    );
-                                    vendorsByPlanningResponse = vendorsByPlanningResponse.map(vendor => vendor.id);
-                                } else vendorsByPlanningResponse = allVendorsResponses.map(vendor => vendor.id);*!/
-
+                // Add a display none to the one which don't have this tags
                 $('#projectContainer').children().each(function () {
-
-                    let vendorToTest = String($(this).data('id'));
+                    const name = $(this).data('name');
+                    const practice = $(this).data('practice');
+                    const subpractices = $(this).data('subpractices');
+                    const client = $(this).data('client');
+                    const year = $(this).data('year').toString();
+                    const industry = $(this).data('industry');
+                    const regions = $(this).data('regions');
 
                     if (
-                        $.inArray(vendorToTest, vendorsBySegment) !== -1
-                        && $.inArray(vendorToTest, vendorsByPractice) !== -1
-                        && $.inArray(vendorToTest, vendorsBySubpractice) !== -1
-                        && $.inArray(vendorToTest, vendorsByTransportFlows) !== -1
-                        && $.inArray(vendorToTest, vendorsByTransportModes) !== -1
-                        && $.inArray(vendorToTest, vendorsByTransportTypes) !== -1
-                        && $.inArray(vendorToTest, vendorsByRegions) !== -1
-                        && $.inArray(vendorToTest, vendorsByIndustries) !== -1)
-                        /!*
-                                                && $.inArray(vendorToTest, vendorsByPlanningResponse) !== -1)
-                        *!/
-                    {
-
+                        name.toLocaleLowerCase().search(searchBox) > -1
+                        && (selectedPractices === 'null' ? true : practice.includes(selectedPractices) === true)
+                        && (filterMultipleAND(selectedSubpractices, subpractices))
+                        && (selectedClients === 'null' ? true : client.includes(selectedClients) === true)
+                        && (selectedYears.length > 0 ? $.inArray(year, selectedYears) !== -1 : true)
+                        && (selectedIndustries === 'null' ? true : industry.includes(selectedIndustries) === true)
+                        && (filterMultipleAND(selectedRegions, regions))
+                    ) {
                         $(this).css('display', 'flex')
                     } else {
                         $(this).css('display', 'none')
                     }
                 });
-            }*/
-
-/*            function getFilteredByPracticeResultsAsArray(selectedPractice) {
-                return allVendorsResponses.filter(
-                    response => response.practice.includes(selectedPractice)
-                )
-            }*/
+            }
 
             $('#practiceSelect').select2();
             $('#practiceSelect').on('change', function (e) {
