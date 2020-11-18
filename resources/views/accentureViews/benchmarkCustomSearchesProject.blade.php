@@ -110,10 +110,12 @@
                                             <p class="welcome_text">
                                                 Please choose the Industries you'd like to see:
                                             </p>
-                                            <select id="industrySelect" class="w-100" multiple="multiple">
+                                            <select id="industrySelect" class="w-100">
+                                                <option value="null">-- Select a Industry --</option>
                                                 @foreach ($industries as $industry)
                                                     <option>{{$industry}}</option>
                                                 @endforeach
+                                                <option value="No Industry">No Industry</option>
                                             </select>
                                         </div>
 
@@ -144,7 +146,7 @@
                                                     data-practice="{{$project->practice->name ?? 'No Practice'}}"
                                                     data-subpractices="{{json_encode($project->subpractices->pluck('name')->toArray()) ?? 'No Subpractice'}}"
                                                     data-year="{{$project->created_at->year}}"
-                                                    data-industry="{{$project->industry}}"
+                                                    data-industry="{{$project->industry ?? 'No Industry'}}"
                                                     data-regions="{{json_encode($project->regions ?? [])}}"
                                                     data-phase="{{ucfirst($project->currentPhase)}}"
                                                 >
@@ -153,13 +155,17 @@
                                                             <h4>{{$project->name ?? 'No Name'}}</h4>
                                                             <br>
                                                             <h6> {{$project->client->name ?? 'No Client'}}
-                                                                - {{$project->practice->name ?? 'No Practice'}}</h6>
+                                                                - {{$project->practice->name ?? 'No Practice'}}
+                                                            </h6>
                                                             <br>
-                                                            <h6>{{$project->created_at->year}} - {{$project->industry}}
-                                                                - {{implode(', ', $project->regions ?? [])}}</h6>
+                                                            <h6>{{$project->created_at->year}}
+                                                                - {{$project->industry ?? 'No Industry'}}
+                                                                - {{implode(', ', $project->regions ?? [])}}
+                                                            </h6>
                                                             <br>
                                                             <h6>
-                                                                Subpractices: {{implode(', ', $project->subpractices->pluck('name')->toArray() ?? [])}}</h6>
+                                                                Subpractices: {{implode(', ', $project->subpractices->pluck('name')->toArray() ?? [])}}
+                                                            </h6>
                                                         </div>
                                                         <div style="float: right; text-align: right; width: 15%;">
                                                             <a class="btn btn-primary btn-lg btn-icon-text"
@@ -217,13 +223,13 @@
                 const selectedSubpractices = $('#subpracticeSelect').val();
                 const selectedClients = $('#clientSelect').val();
                 const selectedYears = $('#yearSelect').val();
+                const selectedIndustries = $('#industrySelect').val();
 
-
-                /*s
-                                const selectedIndustries = getSelectedFrom('industrySelect')
+                /*
                                 const selectedRegions = getSelectedFrom('regionSelect')
-                                const selectedPhases = getSelectedFrom('phaseSelect')*/
                 const searchBox = $('#searchBox').val().toLocaleLowerCase();
+                */
+
 
                 // Add a display none to the one which don't have this tags
                 $('#projectContainer').children().each(function () {
@@ -233,7 +239,6 @@
                     const year = $(this).data('year').toString();
                     const industry = $(this).data('industry');
                     const regions = $(this).data('regions');
-                    const phase = $(this).data('phase');
                     const name = $(this).data('name');
 
                     console.log('-----------------');
@@ -245,19 +250,21 @@
 
 
                     if (
-                        (selectedPractices === 'null' ? true : practice.includes(selectedPractices) === true)
+                        name.toLocaleLowerCase().search(searchBox) > -1
+
+                        && (selectedPractices === 'null' ? true : practice.includes(selectedPractices) === true)
                         //&& (selectedSubpractices.length>0 ? _.every(contains(selectedSubpractices))(subpractices) : true)
                         && (selectedClients === 'null' ? true : client.includes(selectedClients) === true)
-                        && (selectedYears.length>0 ? $.inArray(year, selectedYears) !== -1 : true)
+                        && (selectedYears.length > 0 ? $.inArray(year, selectedYears) !== -1 : true)
+                        && (selectedIndustries === 'null' ? true : industry.includes(selectedIndustries) === true)
 
                         /*
-                        && $.inArray(year, selectedYears) !== -1
                         && $.inArray(industry, selectedIndustries) !== -1
-                        && $.inArray(phase, selectedPhases) !== -1*/
                         //&& intersect(regions, selectedRegions).length !== 0(selectedSubpractices.length > 0 ? _.intersection(selectedSubpractices, subpractices).length > 0 : true)
                         //&& intersect(subpractices, selectedSubpractices).length !== 0
+                        */
 
-                        && name.toLocaleLowerCase().search(searchBox) > -1
+
                     ) {
                         $(this).css('display', 'flex')
                     } else {
@@ -316,9 +323,6 @@
                 updateProjects();
             });
 
-            $('#industrySelect').select2({
-                maximumSelectionLength: 1
-            });
             $('#industrySelect').on('change', function (e) {
                 updateProjects();
             });
