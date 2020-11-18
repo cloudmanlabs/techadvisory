@@ -218,10 +218,10 @@
                     console.log('-----------------');
                     console.log('practices de cada proyecto',practice);
                     console.log('la seleccionada',selectedPractices);
-                    console.log('if value',selectedPractices!=null ? practice.includes(selectedPractices) == true : true)
+                    console.log('if value',selectedPractices=='null' ?  true : practice.includes(selectedPractices) == true)
 
                     if (
-                        (selectedPractices!=null ? practice.includes(selectedPractices) == true : false)
+                        (selectedPractices=='null' ?  true : practice.includes(selectedPractices) == true)
                         /*&& $.inArray(client, selectedClients) !== -1
                         && $.inArray(year, selectedYears) !== -1
                         && $.inArray(industry, selectedIndustries) !== -1
