@@ -131,11 +131,15 @@
                                             @foreach ($vendors as $vendor)
                                                 <div class="card" id="{{$vendor->id}}" style="margin-bottom: 30px;"
                                                      data-id="{{$vendor->id}}"
-                                                     data-segment="{{$vendor->getVendorResponse('vendorSegment')}}"
-                                                     data-practice="{{json_encode($vendor->vendorSolutionsPractices()->pluck('name')->toArray())}}"
-                                                     data-subpractice="{{json_encode($vendor->vendorAppliedSubpractices())}}"
-                                                     data-industry="{{implode(', ', json_decode($vendor->getVendorResponse('vendorIndustry')) ?? [])}}"
-                                                     data-regions="{{$vendor->getVendorResponse('vendorRegions') ?? '[]'}}"
+                                                     data-segment="{{$vendor->getVendorResponse('vendorSegment') ?? 'No segment'}}"
+                                                     data-practice="{{json_encode($vendor->vendorSolutionsPractices()->pluck('name')->toArray() ?? [])}}"
+                                                     data-subpractice="{{json_encode($vendor->vendorAppliedSubpractices() ?? [])}}"
+                                                     data-transportFlow="{{json_encode($vendor->getVendorResponsesFromScope(9) ?? [])}}"
+                                                     data-transportMode="{{json_encode($vendor->getVendorResponsesFromScope(10) ?? [])}}"
+                                                     data-transportType="{{json_encode($vendor->getVendorResponsesFromScope(11) ?? [])}}"
+                                                     data-manufacturing="{{json_encode($vendor->getVendorResponsesFromScope(5) ?? '')}}"
+                                                     data-industry="{{implode(', ', json_decode($vendor->getVendorResponse('vendorIndustry')) ?? ['No Industry'])}}"
+                                                     data-regions="{{$vendor->getVendorResponse('vendorRegions') ?? '[No Region]'}}"
                                                 >
                                                     <div class="card-body">
                                                         <div style="float: left; max-width: 40%;">
@@ -178,22 +182,6 @@
     </script>
     <script>
 
-        var allVendorsResponses = [
-                @foreach($vendors as $vendor)
-            {
-                id: '{{$vendor->id}}',
-                segment: "{{$vendor->getVendorResponse('vendorSegment')}}",
-                practice: "{{json_encode($vendor->vendorSolutionsPractices()->pluck('name')->toArray())}}",
-                subpractice: "{{json_encode($vendor->vendorAppliedSubpractices())}}",
-                transportFlow: "{{$vendor->getVendorResponsesFromScope(9)}}",
-                transportMode: '{{$vendor->getVendorResponsesFromScope(10)}}',
-                transportType: '{{$vendor->getVendorResponsesFromScope(11)}}',
-                manufacturing: '{{json_encode($vendor->getVendorResponsesFromScope(5))}}',
-                regions: '{{$vendor->getVendorResponse('vendorRegions') ?? '[]'}}',
-                industry: "{{json_encode($vendor->getVendorResponse('vendorIndustry'))}}".replace('&amp;', "&")
-            },
-            @endforeach
-        ]
 
         $('#practiceSelect').change(function () {
 
@@ -260,7 +248,7 @@
 
             $('#subpracticesContainer').hide();
 
-            function filterVendors() {
+/*            function filterVendors() {
 
                 let vendorsByPractice;
                 let vendorsBySubpractice;
@@ -269,9 +257,9 @@
                 let vendorsByTransportFlows;
                 let vendorsByTransportModes;
                 let vendorsByTransportTypes;
-                /*
+                /!*
                                 let vendorsByPlanningResponse;
-                */
+                *!/
                 let vendorsByRegions;
                 let vendorsByIndustries;
 
@@ -356,12 +344,12 @@
                 } else vendorsByIndustries = allVendorsResponses.map(vendor => vendor.id);
 
 
-                /*                if (textPlanning.length > 0) {
+                /!*                if (textPlanning.length > 0) {
                                     vendorsByPlanningResponse = allVendorsResponses.filter(
                                         response => response.planning.includes(textPlanning)
                                     );
                                     vendorsByPlanningResponse = vendorsByPlanningResponse.map(vendor => vendor.id);
-                                } else vendorsByPlanningResponse = allVendorsResponses.map(vendor => vendor.id);*/
+                                } else vendorsByPlanningResponse = allVendorsResponses.map(vendor => vendor.id);*!/
 
                 $('#projectContainer').children().each(function () {
 
@@ -376,9 +364,9 @@
                         && $.inArray(vendorToTest, vendorsByTransportTypes) !== -1
                         && $.inArray(vendorToTest, vendorsByRegions) !== -1
                         && $.inArray(vendorToTest, vendorsByIndustries) !== -1)
-                        /*
+                        /!*
                                                 && $.inArray(vendorToTest, vendorsByPlanningResponse) !== -1)
-                        */
+                        *!/
                     {
 
                         $(this).css('display', 'flex')
@@ -386,48 +374,48 @@
                         $(this).css('display', 'none')
                     }
                 });
-            }
+            }*/
 
-            function getFilteredByPracticeResultsAsArray(selectedPractice) {
+/*            function getFilteredByPracticeResultsAsArray(selectedPractice) {
                 return allVendorsResponses.filter(
                     response => response.practice.includes(selectedPractice)
                 )
-            }
+            }*/
 
             $('#practiceSelect').select2();
             $('#practiceSelect').on('change', function (e) {
-                filterVendors();
+                //filterVendors();
             });
 
             $('#selectSubpractices').on('change', function (e) {
-                filterVendors();
+                //filterVendors();
             });
 
             $('#segmentSelect').on('change', function (e) {
-                filterVendors();
+                //filterVendors();
             });
 
             $('#selectTransport1').on('change', function (e) {
-                filterVendors();
+                //filterVendors();
             });
 
             $('#selectTransport2').on('change', function (e) {
-                filterVendors();
+                //filterVendors();
             });
 
             $('#selectTransport3').on('change', function (e) {
-                filterVendors();
+                //filterVendors();
             });
 
             $('#regionSelect').on('change', function (e) {
-                filterVendors();
+                //filterVendors();
             });
             $('#industrySelect').on('change', function (e) {
-                filterVendors();
+                //filterVendors();
             });
 
             $('#PlanningInput1').keyup(function () {
-                filterVendors();
+                //filterVendors();
             })
 
         });
