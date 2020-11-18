@@ -144,16 +144,6 @@
                 readOnly: true,
                 @endif
             },
-            {
-                type: 'text',
-                title: 'Position',
-                width: 210,
-                wordWrap: true,
-
-                @if($disabled || !$isAccenture)
-                readOnly: true,
-                @endif
-            },
         ],
         onchange: function (instance, cell, x, y, value) {
             @if(! $disabled)
