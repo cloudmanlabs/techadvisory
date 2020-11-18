@@ -656,7 +656,8 @@ class BenchmarkController extends Controller
     {
         $practice = Practice::where('name',$practiceName)->first();
 
-        $subpractices = Subpractice::where('practice_id', $practice->id)->pluck('name')->toArray();
+        $subpractices = [];
+        if(!empty($practice)) $subpractices = Subpractice::where('practice_id', $practice->id)->pluck('name')->toArray();
 
 
         return \response()->json([

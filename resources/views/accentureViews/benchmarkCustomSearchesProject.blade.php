@@ -75,10 +75,12 @@
                                             <p class="welcome_text">
                                                 Please choose the Clients you'd like to see:
                                             </p>
-                                            <select id="clientSelect" class="w-100" multiple="multiple">
+                                            <select id="clientSelect" class="w-100">
+                                                <option value="null">-- Select a Client --</option>
                                                 @foreach ($clients as $client)
                                                     <option>{{$client}}</option>
                                                 @endforeach
+                                                <option value="No Client">No Client</option>
                                             </select>
                                         </div>
 
@@ -138,9 +140,9 @@
                                                     style="margin-bottom: 30px;"
 
                                                     data-name="{{$project->name ?? ''}}"
-                                                    data-client="{{$project->client->name ?? ''}}"
+                                                    data-client="{{$project->client->name ?? 'No Client'}}"
                                                     data-practice="{{$project->practice->name ?? 'No Practice'}}"
-                                                    data-subpractices="{{json_encode($project->subpractices->pluck('name')->toArray()) ?? ''}}"
+                                                    data-subpractices="{{json_encode($project->subpractices->pluck('name')->toArray()) ?? 'No Subpractice'}}"
                                                     data-year="{{$project->created_at->year}}"
                                                     data-industry="{{$project->industry}}"
                                                     data-regions="{{json_encode($project->regions ?? [])}}"
@@ -148,11 +150,14 @@
                                                 >
                                                     <div class="card-body">
                                                         <div style="float: left; max-width: 40%;">
-                                                            <h4>{{$project->name ?? ''}}</h4>
-                                                            <h6>{{$project->client->name ?? ''}}
+                                                            <h4>{{$project->name ?? 'No Name'}}</h4>
+                                                            <br>
+                                                            <h6> {{$project->client->name ?? 'No Client'}}
                                                                 - {{$project->practice->name ?? 'No Practice'}}</h6>
+                                                            <br>
                                                             <h6>{{$project->created_at->year}} - {{$project->industry}}
                                                                 - {{implode(', ', $project->regions ?? [])}}</h6>
+                                                            <br>
                                                             <h6>
                                                                 Subpractices: {{implode(', ', $project->subpractices->pluck('name')->toArray() ?? [])}}</h6>
                                                         </div>
@@ -201,6 +206,7 @@
                     var option = $("<option />").val(this).text(this);
                     $dropdown.append(option);
                 });
+                $dropdown.append($("<option />").val('No Subpractice').text('No Subpractice'));
             });
         }
 
@@ -209,7 +215,8 @@
                 const selectedPractices = $('#practiceSelect').val();
                 //const selectedSubpractices = getSelectedFrom('subpracticeSelect')
                 const selectedSubpractices = $('#subpracticeSelect').val();
-                /*                const selectedClients = getSelectedFrom('clientSelect')
+                const selectedClients = $('#clientSelect').val();
+                /*s
                                 const selectedYears = getSelectedFrom('yearSelect')
                                 const selectedIndustries = getSelectedFrom('industrySelect')
                                 const selectedRegions = getSelectedFrom('regionSelect')
@@ -227,14 +234,19 @@
                     const phase = $(this).data('phase');
                     const name = $(this).data('name');
 
-                    /*                    console.log('-----------------');
-                                        console.log('subpractices de cada proyecto',subpractices);
-                                        console.log('la seleccionada',selectedSubpractices);
-                                        console.log('intersect',selectedSubpractices.length > 0 ? _.intersection(selectedSubpractices, subpractices) : true)*/
+                    console.log('-----------------');
+                    console.log('X de cada proyecto', client);
+                    console.log('la seleccionada', selectedClients);
+                    console.log(
+                        'intersect',(selectedClients === 'null' ? true : client.includes(selectedClients) === true)
+                    )
 
                     if (
-                        (selectedPractices == 'null' ? true : practice.includes(selectedPractices) == true)
-                        /*&& $.inArray(client, selectedClients) !== -1
+                        (selectedPractices === 'null' ? true : practice.includes(selectedPractices) === true)
+                            //&& (selectedSubpractices.length>0 ? _.every(contains(selectedSubpractices))(subpractices) : true)
+                        && (selectedClients === 'null' ? true : client.includes(selectedClients) === true)
+
+                        /*
                         && $.inArray(year, selectedYears) !== -1
                         && $.inArray(industry, selectedIndustries) !== -1
                         && $.inArray(phase, selectedPhases) !== -1*/
@@ -290,9 +302,6 @@
                 updateProjects();
             });
 
-            $('#clientSelect').select2({
-                maximumSelectionLength: 1
-            });
             $('#clientSelect').on('change', function (e) {
                 updateProjects();
             });
