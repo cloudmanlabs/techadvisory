@@ -46,10 +46,11 @@
                                                     Please choose the Vendor Segments you'd like to see:
                                                 </p>
                                                 <select id="segmentSelect" class="w-100">
-                                                    <option selected="true" value="">Choose a option</option>
+                                                    <option selected="true" value="null">Choose a option</option>
                                                     @foreach ($segments as $segment)
                                                         <option>{{$segment}}</option>
                                                     @endforeach
+                                                    <option value="No Segment">No Segment</option>
                                                 </select>
                                             </div>
                                             <div class="media-body" style="padding: 20px; ">
@@ -137,7 +138,7 @@
                                             @foreach ($vendors as $vendor)
                                                 <div class="card" id="{{$vendor->id}}" style="margin-bottom: 30px;"
                                                      data-id="{{$vendor->id}}"
-                                                     data-segment="{{$vendor->getVendorResponse('vendorSegment') ?? 'No segment'}}"
+                                                     data-segment="{{$vendor->getVendorResponse('vendorSegment') ?? 'No Segment'}}"
                                                      data-practice="{{json_encode($vendor->vendorSolutionsPractices()->pluck('name')->toArray() ?? [])}}"
                                                      data-subpractice="{{json_encode($vendor->vendorAppliedSubpractices() ?? [])}}"
                                                      data-transportFlow="{{json_encode($vendor->getVendorResponsesFromScope(9) ?? [])}}"
@@ -255,22 +256,26 @@
 
                 // Add a display none to the one which don't have this tags
                 $('#vendorsContainer').children().each(function () {
-                    const name = $(this).data('name');
+                    const segment = $(this).data('segment');
                     const practice = $(this).data('practice');
                     const subpractices = $(this).data('subpractices');
                     const industry = $(this).data('industry');
                     const regions = $(this).data('regions');
 
-                    /*                    if (
-                                            (selectedPractices === 'null' ? true : practice.includes(selectedPractices) === true)
-                                            && (filterMultipleAND(selectedSubpractices, subpractices))
-                                            && (selectedIndustries === 'null' ? true : industry.includes(selectedIndustries) === true)
-                                            && (filterMultipleAND(selectedRegions, regions))
-                                        ) {
-                                            $(this).css('display', 'flex')
-                                        } else {
-                                            $(this).css('display', 'none')
-                                        }*/
+                    console.log('---------: ')
+                    console.log('X de cada proyecto',segment)
+                    console.log('la seleccionada:',selectedSegment)
+                    console.log('condicion',(selectedSegment === 'null' ? true : segment.includes(selectedSegment) === true))
+                    if (
+                        (selectedSegment === 'null' ? true : segment.includes(selectedSegment) === true)
+/*                        && (filterMultipleAND(selectedSubpractices, subpractices))
+                        && (selectedIndustries === 'null' ? true : industry.includes(selectedIndustries) === true)
+                        && (filterMultipleAND(selectedRegions, regions))*/
+                    ) {
+                        $(this).css('display', 'flex')
+                    } else {
+                        $(this).css('display', 'none')
+                    }
                 });
             }
 
