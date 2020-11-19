@@ -90,7 +90,6 @@
                                                     @foreach ($practices as $practice)
                                                         <option>{{$practice}}</option>
                                                     @endforeach
-                                                    <option value="No Practice">No Practice</option>
                                                 </select>
                                             </div>
                                             <div id="subpracticesContainer" class="media-body" style="padding: 20px;">
@@ -192,7 +191,6 @@
 
             if (selectedPractice && !selectedPractice.includes('Practice')) {
 
-                // More than one selection. No more subfilters permited.
                 $('#TransportScope').hide();
                 $('#PlanningScope').hide();
                 $('#scopesDiv').hide();
@@ -264,14 +262,15 @@
                     const subpractices = $(this).data('subpractices');
 
                     console.log('---------: ')
-                    console.log('X de cada proyecto',industries)
-                    console.log('la seleccionada:',selectedIndustries)
+                    console.log('X de cada proyecto',practice)
+                    console.log('la seleccionada:',selectedPractices)
                     console.log('condicion',
-                        (filterMultipleAND(selectedIndustries, industries)))
+                        (selectedPractices === 'null' ? true : practice.includes(selectedPractices) === true))
                     if (
                         (selectedSegment === 'null' ? true : segment.includes(selectedSegment) === true)
                         && (filterMultipleAND(selectedRegions, regions))
                         && (filterMultipleAND(selectedIndustries, industries))
+                        && (selectedPractices === 'null' ? true : practice.includes(selectedPractices) === true)
                         /*
                         && (filterMultipleAND(selectedRegions, regions))*/
                     ) {
