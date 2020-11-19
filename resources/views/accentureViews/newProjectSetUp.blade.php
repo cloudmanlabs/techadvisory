@@ -708,6 +708,7 @@
                 $.post('/accenture/newProjectSetUp/setStep3Submitted', {
                     project_id: '{{$project->id}}',
                 })
+                location.reload();
 
                 $.toast({
                     heading: 'Submitted!',
