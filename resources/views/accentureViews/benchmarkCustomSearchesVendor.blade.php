@@ -92,9 +92,15 @@
                                                     <option value="No Practice">No Practice</option>
                                                 </select>
                                             </div>
-
+                                            <div id="subpracticesContainer" class="media-body" style="padding: 20px;">
+                                                <p id="subpracticesText" class="welcome_text">Subpractices</p>
+                                                <select id="selectSubpractices" class="w-100">
+                                                    <option selected="true" value="">Choose a option</option>
+                                                </select>
+                                            </div>
                                             <div id="scopesDiv" class="media-body" style="padding: 20px;">
                                                 <p class="welcome_text">Please choose the Scope you'd like to see:</p>
+                                                <br>
                                                 <div id="TransportScope" class="form-group">
                                                     <p id="Transport1" class="welcome_text">Transport Flows</p>
                                                     <select id="selectTransport1" class="w-100">
@@ -120,14 +126,7 @@
                                                 </div>
                                             </div>
 
-                                            <div id="subpracticesContainer" class="media-body" style="padding: 20px;">
-                                                <p id="subpracticesText" class="welcome_text">Subpractices</p>
-                                                <select id="selectSubpractices" class="w-100">
-                                                    <option selected="true" value="">Choose a option</option>
-                                                </select>
-                                            </div>
                                         </div>
-
                                         <br>
                                         <h3 style="color: #A12BFE">Search Results</h3>
                                         <br>
@@ -197,7 +196,6 @@
                 $('#PlanningScope').hide();
                 $('#scopesDiv').hide();
                 $('#subpracticesContainer').hide();
-
 
                 // Scopes from practice (Only for Transport)
                 $.get("/accenture/analysis/vendor/custom/getScopes/"
