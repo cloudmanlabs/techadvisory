@@ -190,14 +190,14 @@
             $('#scopesDiv').hide();
             $('#subpracticesContainer').hide();
 
-
-            if (selectedPractice) {
+            if (selectedPractice && !selectedPractice.includes('Practice')) {
 
                 // More than one selection. No more subfilters permited.
                 $('#TransportScope').hide();
                 $('#PlanningScope').hide();
                 $('#scopesDiv').hide();
                 $('#subpracticesContainer').hide();
+
 
                 // Scopes from practice (Only for Transport)
                 $.get("/accenture/analysis/vendor/custom/getScopes/"
