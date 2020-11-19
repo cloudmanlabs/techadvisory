@@ -563,7 +563,7 @@
                 $.post('/client/newProjectSetUp/setStep3Submitted', {
                     project_id: '{{$project->id}}',
                 })
-                location.reload();
+
 
                 $.toast({
                     heading: 'Submitted!',
@@ -572,6 +572,7 @@
                     hideAfter: 1000,
                     position: 'bottom-right'
                 })
+                location.reload();
 
                 $(this).attr('disabled', true);
                 $(this).html('Submitted')
