@@ -53,9 +53,9 @@
 @section('scripts')
     @parent
     <script>
-        $(document).ready(function() {
+        $(document).ready(function () {
             // RACI Matrix section
-            $('#addAdditionalCostRow').click(function(){
+            $('#addAdditionalCostRow').click(function () {
                 const childrenCount = $('#additionalCostContainer').children().toArray().length;
                 let newDeliverable = `
             <div style="margin-top: 0.5rem">
@@ -75,16 +75,17 @@
                 setAdditionalCostEditListener();
                 updateAdditionalCost();
             })
-            $('#removeAdditionalCostRow').click(function(){
+            $('#removeAdditionalCostRow').click(function () {
                 $('#additionalCostContainer').children().last().remove()
                 updateAdditionalCost()
             })
-            function updateTotalAdditionalCost(){
+
+            function updateTotalAdditionalCost() {
                 const cost = $('#additionalCostContainer').children()
-                    .map(function(){
+                    .map(function () {
                         return $(this).children().get(0)
                     })
-                    .map(function(){
+                    .map(function () {
                         return {
                             title: $(this).children('.additionalTitleInput').val(),
                             cost: $(this).children('.additionalCostInput').val(),
@@ -94,17 +95,19 @@
                 $('#totalAdditionalCost').html(totalCost);
                 updateTotalImplementation()
             }
-            function setAdditionalCostEditListener(){
-                $('.additionalTitleInput, .additionalCostInput').change(function(){
+
+            function setAdditionalCostEditListener() {
+                $('.additionalTitleInput, .additionalCostInput').change(function () {
                     updateAdditionalCost();
                 })
             }
-            function updateAdditionalCost(){
+
+            function updateAdditionalCost() {
                 const cost = $('#additionalCostContainer').children()
-                    .map(function(){
+                    .map(function () {
                         return $(this).children().get(0)
                     })
-                    .map(function(){
+                    .map(function () {
                         return {
                             title: $(this).children('.additionalTitleInput').val(),
                             cost: $(this).children('.additionalCostInput').val(),
@@ -116,13 +119,14 @@
                     value: cost
                 })
                 showSavedToast();
-                if(updateSubmitButton){
+                if (updateSubmitButton) {
                     updateSubmitButton();
                 }
             }
+
             setAdditionalCostEditListener();
             updateTotalAdditionalCost();
-            $('#additionalCostScore').change(function(){
+            $('#additionalCostScore').change(function () {
                 $.post('/vendorApplication/updateImplementationScores', {
                     application_id: {{$vendorApplication->id}},
                     changing: 'additionalCostScore',
@@ -132,3 +136,4 @@
             })
         });
     </script>
+@endsection
