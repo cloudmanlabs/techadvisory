@@ -57,11 +57,11 @@
                                                 <p class="welcome_text">
                                                     Please choose the Regions you'd like to see:
                                                 </p>
-                                                <select id="regionSelect" class="w-100">
-                                                    <option selected="true" value="">Choose a option</option>
+                                                <select id="regionSelect" class="w-100" multiple="multiple">
                                                     @foreach ($regions as $region)
                                                         <option>{{$region}}</option>
                                                     @endforeach
+                                                    <option value="No Region">No Region</option>
                                                 </select>
                                             </div>
 
@@ -245,30 +245,33 @@
 
             function updateVendors() {
                 const selectedSegment = $('#segmentSelect').val();
+                const selectedRegions = $('#regionSelect').val();
+                const selectedIndustries = $('#industrySelect').val();
                 const selectedPractices = $('#practiceSelect').val();
                 const selectedSubpractices = $('#subpracticeSelect').val();
                 const selectedTransportFlow = $('#selectTransport1').val();
                 const selectedTransportMode = $('#selectTransport2').val();
                 const selectedTransportType = $('#selectTransport3').val();
                 const selectedPlaning = $('#selectTransport3').val().toLocaleLowerCase();
-                const selectedRegions = $('#regionSelect').val();
-                const selectedIndustries = $('#industrySelect').val();
 
                 // Add a display none to the one which don't have this tags
                 $('#vendorsContainer').children().each(function () {
                     const segment = $(this).data('segment');
+                    const regions = $(this).data('regions');
+                    const industry = $(this).data('industry');
+
                     const practice = $(this).data('practice');
                     const subpractices = $(this).data('subpractices');
-                    const industry = $(this).data('industry');
-                    const regions = $(this).data('regions');
 
                     console.log('---------: ')
-                    console.log('X de cada proyecto',segment)
-                    console.log('la seleccionada:',selectedSegment)
-                    console.log('condicion',(selectedSegment === 'null' ? true : segment.includes(selectedSegment) === true))
+                    console.log('X de cada proyecto',regions)
+                    console.log('la seleccionada:',selectedRegions)
+                    console.log('condicion',
+                        (filterMultipleAND(selectedRegions, regions)))
                     if (
                         (selectedSegment === 'null' ? true : segment.includes(selectedSegment) === true)
-/*                        && (filterMultipleAND(selectedSubpractices, subpractices))
+                        && (filterMultipleAND(selectedRegions, regions))
+                        /*
                         && (selectedIndustries === 'null' ? true : industry.includes(selectedIndustries) === true)
                         && (filterMultipleAND(selectedRegions, regions))*/
                     ) {
@@ -308,6 +311,7 @@
                 updateVendors()
             });
 
+            $('#regionSelect').select2();
             $('#regionSelect').on('change', function (e) {
                 updateVendors()
             });
