@@ -69,11 +69,11 @@
                                                 <p class="welcome_text">
                                                     Please choose the Industries you'd like to see:
                                                 </p>
-                                                <select id="industrySelect" class="w-100">
-                                                    <option selected="true" value="">Choose a option</option>
+                                                <select id="industriesSelect" class="w-100" multiple="multiple">
                                                     @foreach ($industries as $industry)
                                                         <option>{{$industry}}</option>
                                                     @endforeach
+                                                    <option value="No Industry">No Industry</option>
                                                 </select>
                                             </div>
                                             <br>
@@ -145,7 +145,7 @@
                                                      data-transportMode="{{json_encode($vendor->getVendorResponsesFromScope(10) ?? [])}}"
                                                      data-transportType="{{json_encode($vendor->getVendorResponsesFromScope(11) ?? [])}}"
                                                      data-manufacturing="{{json_encode($vendor->getVendorResponsesFromScope(5) ?? '')}}"
-                                                     data-industry="{{implode(', ', json_decode($vendor->getVendorResponse('vendorIndustry')) ?? ['No Industry'])}}"
+                                                     data-industry="{{implode(', ', json_decode($vendor->getIndustryFromVendor()) ?? ['No Industry'])}}"
                                                      data-regions="{{$vendor->getVendorResponse('vendorRegions') ?? '[No Region]'}}"
                                                 >
                                                     <div class="card-body">
@@ -158,7 +158,7 @@
                                                                 Segment: {{$vendor->getVendorResponse('vendorSegment') ?? 'No segment'}}
                                                             <p>
                                                             <p>
-                                                                Industry: {{implode(', ', json_decode($vendor->getVendorResponse('vendorIndustry')) ?? [])}}</p>
+                                                                Industry: {{ implode(', ', json_decode($vendor->getIndustryFromVendor()) ?? ['No Industry']) }}</p>
                                                             <p>
                                                                 Regions: {{implode(', ', json_decode($vendor->getVendorResponse('vendorRegions')) ?? [])}}</p>
                                                         </div>
@@ -246,7 +246,7 @@
             function updateVendors() {
                 const selectedSegment = $('#segmentSelect').val();
                 const selectedRegions = $('#regionSelect').val();
-                const selectedIndustries = $('#industrySelect').val();
+                const selectedIndustries = $('#industriesSelect').val();
                 const selectedPractices = $('#practiceSelect').val();
                 const selectedSubpractices = $('#subpracticeSelect').val();
                 const selectedTransportFlow = $('#selectTransport1').val();
@@ -258,21 +258,21 @@
                 $('#vendorsContainer').children().each(function () {
                     const segment = $(this).data('segment');
                     const regions = $(this).data('regions');
-                    const industry = $(this).data('industry');
+                    const industries = $(this).data('industry');
 
                     const practice = $(this).data('practice');
                     const subpractices = $(this).data('subpractices');
 
                     console.log('---------: ')
-                    console.log('X de cada proyecto',regions)
-                    console.log('la seleccionada:',selectedRegions)
+                    console.log('X de cada proyecto',industries)
+                    console.log('la seleccionada:',selectedIndustries)
                     console.log('condicion',
-                        (filterMultipleAND(selectedRegions, regions)))
+                        (filterMultipleAND(selectedIndustries, industries)))
                     if (
                         (selectedSegment === 'null' ? true : segment.includes(selectedSegment) === true)
                         && (filterMultipleAND(selectedRegions, regions))
+                        && (filterMultipleAND(selectedIndustries, industries))
                         /*
-                        && (selectedIndustries === 'null' ? true : industry.includes(selectedIndustries) === true)
                         && (filterMultipleAND(selectedRegions, regions))*/
                     ) {
                         $(this).css('display', 'flex')
@@ -315,7 +315,8 @@
             $('#regionSelect').on('change', function (e) {
                 updateVendors()
             });
-            $('#industrySelect').on('change', function (e) {
+            $('#industriesSelect').select2();
+            $('#industriesSelect').on('change', function (e) {
                 updateVendors()
             });
 
