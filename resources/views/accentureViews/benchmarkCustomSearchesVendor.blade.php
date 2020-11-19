@@ -94,8 +94,8 @@
                                             </div>
                                             <div id="subpracticesContainer" class="media-body" style="padding: 20px;">
                                                 <p id="subpracticesText" class="welcome_text">Subpractices</p>
-                                                <select id="selectSubpractices" class="w-100">
-                                                    <option selected="true" value="">Choose a option</option>
+                                                <select id="selectSubpractices" class="w-100" multiple="multiple">
+
                                                 </select>
                                             </div>
                                             <div id="scopesDiv" class="media-body" style="padding: 20px;">
@@ -139,7 +139,7 @@
                                                      data-id="{{$vendor->id}}"
                                                      data-segment="{{$vendor->getVendorResponse('vendorSegment') ?? 'No Segment'}}"
                                                      data-practice="{{json_encode($vendor->vendorSolutionsPractices()->pluck('name')->toArray() ?? [])}}"
-                                                     data-subpractice="{{json_encode($vendor->vendorAppliedSubpractices() ?? [])}}"
+                                                     data-subpractices="{{json_encode($vendor->vendorAppliedSubpractices() ?? [])}}"
                                                      data-transportFlow="{{json_encode($vendor->getVendorResponsesFromScope(9) ?? [])}}"
                                                      data-transportMode="{{json_encode($vendor->getVendorResponsesFromScope(10) ?? [])}}"
                                                      data-transportType="{{json_encode($vendor->getVendorResponsesFromScope(11) ?? [])}}"
@@ -222,7 +222,6 @@
                         $('#selectSubpractices').empty();
 
                         var $dropdown = $("#selectSubpractices");
-                        $dropdown.append($("<option />").val(null).text('Choose an option'));
                         var subpractices = data.subpractices;
                         $.each(subpractices, function () {
                             $dropdown.append($("<option />").val(this.name).text(this.name));
@@ -246,7 +245,7 @@
                 const selectedRegions = $('#regionSelect').val();
                 const selectedIndustries = $('#industriesSelect').val();
                 const selectedPractices = $('#practiceSelect').val();
-                const selectedSubpractices = $('#subpracticeSelect').val();
+                const selectedSubpractices = $('#selectSubpractices').val();
                 const selectedTransportFlow = $('#selectTransport1').val();
                 const selectedTransportMode = $('#selectTransport2').val();
                 const selectedTransportType = $('#selectTransport3').val();
@@ -262,15 +261,17 @@
                     const subpractices = $(this).data('subpractices');
 
                     console.log('---------: ')
-                    console.log('X de cada proyecto',practice)
-                    console.log('la seleccionada:',selectedPractices)
+                    console.log('X de cada proyecto',subpractices)
+                    console.log('la seleccionada:',selectedSubpractices)
                     console.log('condicion',
-                        (selectedPractices === 'null' ? true : practice.includes(selectedPractices) === true))
+                        (filterMultipleAND(selectedSubpractices, subpractices))
+                    )
                     if (
                         (selectedSegment === 'null' ? true : segment.includes(selectedSegment) === true)
                         && (filterMultipleAND(selectedRegions, regions))
                         && (filterMultipleAND(selectedIndustries, industries))
                         && (selectedPractices === 'null' ? true : practice.includes(selectedPractices) === true)
+                        && (filterMultipleAND(selectedSubpractices, subpractices))
                         /*
                         && (filterMultipleAND(selectedRegions, regions))*/
                     ) {
@@ -289,7 +290,7 @@
             $('#practiceSelect').on('change', function (e) {
                 updateVendors()
             });
-
+            $('#selectSubpractices').select2();
             $('#selectSubpractices').on('change', function (e) {
                 updateVendors()
             });
