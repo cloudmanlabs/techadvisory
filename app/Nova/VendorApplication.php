@@ -167,7 +167,7 @@ class VendorApplication extends Resource
                 ->exceptOnForms()
                 ->hideFromIndex(),
 
-            (new Panel('Fitgap versions', [
+/*            (new Panel('Fitgap versions', [
                 Code::make('Current version', function($app) {
                     return json_encode($app->vendorFitgapJson(), JSON_PRETTY_PRINT);
                 })->json()->exceptOnForms()->hideFromIndex(),
@@ -201,7 +201,7 @@ class VendorApplication extends Resource
                 Code::make('Version - 10', function($app) {
                     return json_encode($app->vendorFitgapJsonOld10(), JSON_PRETTY_PRINT);
                 })->json()->exceptOnForms()->hideFromIndex(),
-            ])),
+            ])),*/
         ];
     }
 

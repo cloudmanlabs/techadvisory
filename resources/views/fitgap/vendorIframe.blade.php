@@ -21,8 +21,10 @@
 </style>
 
 <body style="background-color: white !important;">
+<p><button id='download'>Export document</button></p>
 
 <div id="spreadsheet"></div>
+
 
 
 <script>

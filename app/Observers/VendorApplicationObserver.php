@@ -10,7 +10,7 @@ class VendorApplicationObserver
     public function created(VendorApplication $application)
     {
         // We add a row for each one on the fitgap
-/*        $fitgapColumns = [];
+    /*    $fitgapColumns = [];
         $scores = [];
         foreach ($application->project->fitgap5Columns as $key => $row) {
             $fitgapColumns[] = [

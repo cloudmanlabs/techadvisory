@@ -90,82 +90,77 @@ class VendorApplication extends Model
         return $this->morphOne(Folder::class, 'folderable')->where('folderable_group', 'experience');
     }
 
-    public function vendorFitgapJsonGeneral(): array
+    public function vendorFitgapJsonGeneral($array): array
     {
+        $result = [];
+        // Merge the two arrays
+        foreach ($this->project->fitgap5Columns as $key => $something) {
+            $result[] = array_merge(
+                $this->project->fitgap5Columns[$key],
+                $array[$key] ?? [
+                    'Vendor Response' => '',
+                    'Comments' => '',
+                ]
+            );
+        }
 
-        $fitgapQuestions = FitgapQuestion::findByProject($this->project_id);
-        $fitgapResponses = FitgapVendorResponse::findByVendorApplication($this->id);
-
-        return $fitgapQuestions->map(function ($fitgapQuestion) use ($fitgapResponses) {
-            $fitgapResponseFound = $fitgapResponses->where('fitgap_question_id', $fitgapQuestion->id)->first();
-            return [
-                'ID' => $fitgapQuestion->id(),
-                'Type' => $fitgapQuestion->requirementType(),
-                'Level 1' => $fitgapQuestion->level1(),
-                'Level 2' => $fitgapQuestion->level2(),
-                'Level 3' => $fitgapQuestion->level3(),
-                'Requirement' => $fitgapQuestion->requirement(),
-                'Vendor response' => $fitgapResponseFound ? $fitgapResponseFound->response() : '',
-                'Comments' => $fitgapResponseFound ? $fitgapResponseFound->comments() : '',
-            ];
-        });
+        return $result;
     }
 
     public function vendorFitgapJson(): array
     {
-        return $this->vendorFitgapJsonGeneral();
+        return $this->vendorFitgapJsonGeneral($this->fitgapVendorColumns);
     }
 
     public function vendorFitgapJsonOld(): array
     {
-        return $this->vendorFitgapJsonGeneral();
+        return $this->vendorFitgapJsonGeneral($this->fitgapVendorColumnsOld);
     }
 
     public function vendorFitgapJsonOld2(): array
     {
-        return $this->vendorFitgapJsonGeneral();
+        return $this->vendorFitgapJsonGeneral($this->fitgapVendorColumnsOld2);
     }
 
     public function vendorFitgapJsonOld3(): array
     {
-        return $this->vendorFitgapJsonGeneral();
+        return $this->vendorFitgapJsonGeneral($this->fitgapVendorColumnsOld3);
     }
 
     public function vendorFitgapJsonOld4(): array
     {
-        return $this->vendorFitgapJsonGeneral();
+        return $this->vendorFitgapJsonGeneral($this->fitgapVendorColumnsOld4);
     }
 
     public function vendorFitgapJsonOld5(): array
     {
-        return $this->vendorFitgapJsonGeneral();
+        return $this->vendorFitgapJsonGeneral($this->fitgapVendorColumnsOld5);
     }
 
     public function vendorFitgapJsonOld6(): array
     {
-        return $this->vendorFitgapJsonGeneral();
+        return $this->vendorFitgapJsonGeneral($this->fitgapVendorColumnsOld6);
     }
 
     public function vendorFitgapJsonOld7(): array
     {
-        return $this->vendorFitgapJsonGeneral();
+        return $this->vendorFitgapJsonGeneral($this->fitgapVendorColumnsOld7);
     }
 
     public function vendorFitgapJsonOld8(): array
     {
-        return $this->vendorFitgapJsonGeneral();
+        return $this->vendorFitgapJsonGeneral($this->fitgapVendorColumnsOld8);
     }
 
     public function vendorFitgapJsonOld9(): array
     {
-        return $this->vendorFitgapJsonGeneral();
+        return $this->vendorFitgapJsonGeneral($this->fitgapVendorColumnsOld9);
     }
 
     public function vendorFitgapJsonOld10(): array
     {
-        return $this->vendorFitgapJsonGeneral();
+        return $this->vendorFitgapJsonGeneral($this->fitgapVendorColumnsOld10);
     }
-
     public function progress(): int
     {
         $progressSetUp = $this->progressFitgap();
