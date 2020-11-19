@@ -103,22 +103,19 @@
                                                 <br>
                                                 <div id="TransportScope" class="form-group">
                                                     <p id="Transport1" class="welcome_text">Transport Flows</p>
-                                                    <select id="selectTransport1" class="w-100">
-                                                        <option selected="true" value="">Choose a option</option>
+                                                    <select id="selectTransport1" class="w-100" multiple="multiple">
                                                         @foreach ($transportFlows as $transportFlow)
                                                             <option>{{$transportFlow}}</option>
                                                         @endforeach
                                                     </select>
                                                     <p id="Transport2" class="welcome_text">Transport Mode</p>
-                                                    <select id="selectTransport2" class="w-100">
-                                                        <option selected="true" value="">Choose a option</option>
+                                                    <select id="selectTransport2" class="w-100" multiple="multiple">
                                                         @foreach ($transportModes as $transportMode)
                                                             <option>{{$transportMode}}</option>
                                                         @endforeach
                                                     </select>
                                                     <p id="Transport3" class="welcome_text">Transport Type</p>
-                                                    <select id="selectTransport3" class="w-100">
-                                                        <option selected="true" value="">Choose a option</option>
+                                                    <select id="selectTransport3" class="w-100" multiple="multiple">
                                                         @foreach ($transportTypes as $transportType)
                                                             <option>{{$transportType}}</option>
                                                         @endforeach
@@ -140,10 +137,10 @@
                                                      data-segment="{{$vendor->getVendorResponse('vendorSegment') ?? 'No Segment'}}"
                                                      data-practice="{{json_encode($vendor->vendorSolutionsPractices()->pluck('name')->toArray() ?? [])}}"
                                                      data-subpractices="{{json_encode($vendor->vendorAppliedSubpractices() ?? [])}}"
-                                                     data-transportFlow="{{json_encode($vendor->getVendorResponsesFromScope(9) ?? [])}}"
-                                                     data-transportMode="{{json_encode($vendor->getVendorResponsesFromScope(10) ?? [])}}"
-                                                     data-transportType="{{json_encode($vendor->getVendorResponsesFromScope(11) ?? [])}}"
-                                                     data-manufacturing="{{json_encode($vendor->getVendorResponsesFromScope(5) ?? '')}}"
+                                                     data-transportflow="{{implode(', ', json_decode($vendor->getVendorResponsesFromScope(9)) ?? ['No TF'])}}"
+                                                     data-transportmode="{{implode(', ', json_decode($vendor->getVendorResponsesFromScope(10)) ?? ['No TM'])}}"
+                                                     data-transporttype="{{implode(', ', json_decode($vendor->getVendorResponsesFromScope(11)) ?? ['No TT'])}}"
+                                                     {{-- data-manufacturing="{{json_encode($vendor->getVendorResponsesFromScope(5) ?? '')}}"--}}
                                                      data-industry="{{implode(', ', json_decode($vendor->getIndustryFromVendor()) ?? ['No Industry'])}}"
                                                      data-regions="{{$vendor->getVendorResponse('vendorRegions') ?? '[No Region]'}}"
                                                 >
@@ -184,17 +181,17 @@
         $('#practiceSelect').change(function () {
 
             var selectedPractice = $(this).val();
-            $('#TransportScope').hide();
-            $('#PlanningScope').hide();
-            $('#scopesDiv').hide();
-            $('#subpracticesContainer').hide();
+            /*            $('#TransportScope').hide();
+                        $('#PlanningScope').hide();
+                        $('#scopesDiv').hide();
+                        $('#subpracticesContainer').hide();*/
 
             if (selectedPractice && !selectedPractice.includes('Practice')) {
 
-                $('#TransportScope').hide();
-                $('#PlanningScope').hide();
-                $('#scopesDiv').hide();
-                $('#subpracticesContainer').hide();
+                /*                $('#TransportScope').hide();
+                                $('#PlanningScope').hide();
+                                $('#scopesDiv').hide();
+                                $('#subpracticesContainer').hide();*/
 
                 // Scopes from practice (Only for Transport)
                 $.get("/accenture/analysis/vendor/custom/getScopes/"
@@ -217,7 +214,7 @@
                     + selectedPractice, function (data) {
 
                     if (data) {
-                        $('#subpracticesContainer').show();
+                        //$('#subpracticesContainer').show();
 
                         $('#selectSubpractices').empty();
 
@@ -234,10 +231,12 @@
 
         $(document).ready(function () {
 
-            $('#scopesDiv').hide();
-            $('#TransportScope').hide();
-            $('#PlanningScope').hide();
-            $('#subpracticesContainer').hide();
+            /*
+                        $('#scopesDiv').hide();
+                        $('#TransportScope').hide();
+                        $('#PlanningScope').hide();
+                        $('#subpracticesContainer').hide();
+            */
 
 
             function updateVendors() {
@@ -249,7 +248,6 @@
                 const selectedTransportFlow = $('#selectTransport1').val();
                 const selectedTransportMode = $('#selectTransport2').val();
                 const selectedTransportType = $('#selectTransport3').val();
-                const selectedPlaning = $('#selectTransport3').val().toLocaleLowerCase();
 
                 // Add a display none to the one which don't have this tags
                 $('#vendorsContainer').children().each(function () {
@@ -259,21 +257,19 @@
 
                     const practice = $(this).data('practice');
                     const subpractices = $(this).data('subpractices');
+                    const transportFlow = $(this).data('transportflow');
+                    const transportMode = $(this).data('transportmode');
+                    const transportType = $(this).data('transporttype');
 
-                    console.log('---------: ')
-                    console.log('X de cada proyecto',subpractices)
-                    console.log('la seleccionada:',selectedSubpractices)
-                    console.log('condicion',
-                        (filterMultipleAND(selectedSubpractices, subpractices))
-                    )
                     if (
                         (selectedSegment === 'null' ? true : segment.includes(selectedSegment) === true)
                         && (filterMultipleAND(selectedRegions, regions))
                         && (filterMultipleAND(selectedIndustries, industries))
                         && (selectedPractices === 'null' ? true : practice.includes(selectedPractices) === true)
                         && (filterMultipleAND(selectedSubpractices, subpractices))
-                        /*
-                        && (filterMultipleAND(selectedRegions, regions))*/
+                        && (filterMultipleAND(selectedTransportFlow, transportFlow))
+                        && (filterMultipleAND(selectedTransportMode, transportMode))
+                        && (filterMultipleAND(selectedTransportType, transportType))
                     ) {
                         $(this).css('display', 'flex')
                     } else {
@@ -298,15 +294,17 @@
             $('#segmentSelect').on('change', function (e) {
                 updateVendors()
             });
-
+            $('#selectTransport1').select2();
             $('#selectTransport1').on('change', function (e) {
                 updateVendors()
             });
 
+            $('#selectTransport2').select2();
             $('#selectTransport2').on('change', function (e) {
                 updateVendors()
             });
 
+            $('#selectTransport3').select2();
             $('#selectTransport3').on('change', function (e) {
                 updateVendors()
             });
