@@ -26,6 +26,14 @@ class FitgapController extends Controller
         $collection = Excel::toCollection(new FitgapImport, $request->file('excel'));
         $rows = $collection[0];
 
+        // remove empty requirement rows
+        foreach ($rows->slice(1) as $key => $row) {
+            if (empty($row[4])) {
+                unset($rows[$key]);
+            }
+        }
+
+
         FitgapQuestion::deleteByProject($project->id);
 
         foreach ($rows->slice(1) as $key => $row) {
@@ -138,56 +146,56 @@ class FitgapController extends Controller
     // Old methods for update
     public function clientJsonUpload(Request $request, Project $project)
     {
-/*        $request->validate([
-            'data' => 'required|array'
-        ]);
+        /*        $request->validate([
+                    'data' => 'required|array'
+                ]);
 
-        // The data array contains all the columns, cause what is that the jexcel json exporter gives us
-        // We get only the two columns that matter here and save them
+                // The data array contains all the columns, cause what is that the jexcel json exporter gives us
+                // We get only the two columns that matter here and save them
 
-        // Parse stuff here
-        $result5Cols = [];
-        $resultClient = [];
-        foreach ($request->data as $key => $row) {
-            if ($row['Requirement Type'] == null || $row['Requirement Type'] == "") continue;
+                // Parse stuff here
+                $result5Cols = [];
+                $resultClient = [];
+                foreach ($request->data as $key => $row) {
+                    if ($row['Requirement Type'] == null || $row['Requirement Type'] == "") continue;
 
-            $result5Cols[] = [
-                'Requirement Type' => $row['Requirement Type'],
-                'Level 1' => $row['Level 1'],
-                'Level 2' => $row['Level 2'],
-                'Level 3' => $row['Level 3'],
-                'Requirement' => $row['Requirement'],
-            ];
-            $resultClient[] = [
-                'Client' => $row['Client'],
-                'Business Opportunity' => $row['Business Opportunity'],
-                'Requirement Client Response' => $row['Requirement'],
-            ];
+                    $result5Cols[] = [
+                        'Requirement Type' => $row['Requirement Type'],
+                        'Level 1' => $row['Level 1'],
+                        'Level 2' => $row['Level 2'],
+                        'Level 3' => $row['Level 3'],
+                        'Requirement' => $row['Requirement'],
+                    ];
+                    $resultClient[] = [
+                        'Client' => $row['Client'],
+                        'Business Opportunity' => $row['Business Opportunity'],
+                        'Requirement Client Response' => $row['Requirement'],
+                    ];
 
-            // Check if the value has changed. If it has, reset the vendor responses
-            if (
-                $row['Requirement Type'] != $project->fitgap5Columns[$key]['Requirement Type']
-                || $row['Level 1'] != $project->fitgap5Columns[$key]['Level 1']
-                || $row['Level 2'] != $project->fitgap5Columns[$key]['Level 2']
-                || $row['Level 3'] != $project->fitgap5Columns[$key]['Level 3']
-                || $row['Requirement'] != $project->fitgap5Columns[$key]['Requirement']
-            ) {
-                foreach ($project->vendorApplications as $key1 => $application) {
-                    $fitgapVendorColumns = $application->fitgapVendorColumns;
+                    // Check if the value has changed. If it has, reset the vendor responses
+                    if (
+                        $row['Requirement Type'] != $project->fitgap5Columns[$key]['Requirement Type']
+                        || $row['Level 1'] != $project->fitgap5Columns[$key]['Level 1']
+                        || $row['Level 2'] != $project->fitgap5Columns[$key]['Level 2']
+                        || $row['Level 3'] != $project->fitgap5Columns[$key]['Level 3']
+                        || $row['Requirement'] != $project->fitgap5Columns[$key]['Requirement']
+                    ) {
+                        foreach ($project->vendorApplications as $key1 => $application) {
+                            $fitgapVendorColumns = $application->fitgapVendorColumns;
 
-                    $fitgapVendorColumns[$key]['Vendor Response'] = '';
-                    $fitgapVendorColumns[$key]['Comments'] = '';
+                            $fitgapVendorColumns[$key]['Vendor Response'] = '';
+                            $fitgapVendorColumns[$key]['Comments'] = '';
 
-                    $application->fitgapVendorColumns = $fitgapVendorColumns;
-                    $application->save();
+                            $application->fitgapVendorColumns = $fitgapVendorColumns;
+                            $application->save();
+                        }
+                    }
                 }
-            }
-        }
 
-        $project->fitgapClientColumns = $resultClient;
-        $project->fitgap5Columns = $result5Cols;
-        $project->save();
-*/
+                $project->fitgapClientColumns = $resultClient;
+                $project->fitgap5Columns = $result5Cols;
+                $project->save();
+        */
 
         return \response()->json([
             'status' => 200,
@@ -201,40 +209,40 @@ class FitgapController extends Controller
             'data' => 'required|array'
         ]);
 
-/*        $vendorApplication = VendorApplication::where([
-            'project_id' => $project->id,
-            'vendor_id' => $vendor->id
-        ])->first();
+        /*        $vendorApplication = VendorApplication::where([
+                    'project_id' => $project->id,
+                    'vendor_id' => $vendor->id
+                ])->first();
 
-        if ($vendorApplication == null) {
-            abort(404);
-        }
+                if ($vendorApplication == null) {
+                    abort(404);
+                }
 
-        // Parse stuff here
-        $result = [];
-        foreach ($request->data as $key => $row) {
+                // Parse stuff here
+                $result = [];
+                foreach ($request->data as $key => $row) {
 
-            $result[] = [
-                'Vendor Response' => $row['Vendor Response'],
-                'Comments' => $row['Comments'],
-                'Requirement Response' => $row['Requirement'],
-            ];
-        }
+                    $result[] = [
+                        'Vendor Response' => $row['Vendor Response'],
+                        'Comments' => $row['Comments'],
+                        'Requirement Response' => $row['Requirement'],
+                    ];
+                }
 
-        SecurityLog::createLog('Vendor edited fitgap in Project with ID ' . $project->id);
+                SecurityLog::createLog('Vendor edited fitgap in Project with ID ' . $project->id);
 
-        $vendorApplication->fitgapVendorColumnsOld10 = $vendorApplication->fitgapVendorColumnsOld9;
-        $vendorApplication->fitgapVendorColumnsOld9 = $vendorApplication->fitgapVendorColumnsOld8;
-        $vendorApplication->fitgapVendorColumnsOld8 = $vendorApplication->fitgapVendorColumnsOld7;
-        $vendorApplication->fitgapVendorColumnsOld7 = $vendorApplication->fitgapVendorColumnsOld6;
-        $vendorApplication->fitgapVendorColumnsOld6 = $vendorApplication->fitgapVendorColumnsOld5;
-        $vendorApplication->fitgapVendorColumnsOld5 = $vendorApplication->fitgapVendorColumnsOld4;
-        $vendorApplication->fitgapVendorColumnsOld4 = $vendorApplication->fitgapVendorColumnsOld3;
-        $vendorApplication->fitgapVendorColumnsOld3 = $vendorApplication->fitgapVendorColumnsOld2;
-        $vendorApplication->fitgapVendorColumnsOld2 = $vendorApplication->fitgapVendorColumnsOld;
-        $vendorApplication->fitgapVendorColumnsOld = $vendorApplication->fitgapVendorColumns;
-        $vendorApplication->fitgapVendorColumns = $result;
-        $vendorApplication->save();*/
+                $vendorApplication->fitgapVendorColumnsOld10 = $vendorApplication->fitgapVendorColumnsOld9;
+                $vendorApplication->fitgapVendorColumnsOld9 = $vendorApplication->fitgapVendorColumnsOld8;
+                $vendorApplication->fitgapVendorColumnsOld8 = $vendorApplication->fitgapVendorColumnsOld7;
+                $vendorApplication->fitgapVendorColumnsOld7 = $vendorApplication->fitgapVendorColumnsOld6;
+                $vendorApplication->fitgapVendorColumnsOld6 = $vendorApplication->fitgapVendorColumnsOld5;
+                $vendorApplication->fitgapVendorColumnsOld5 = $vendorApplication->fitgapVendorColumnsOld4;
+                $vendorApplication->fitgapVendorColumnsOld4 = $vendorApplication->fitgapVendorColumnsOld3;
+                $vendorApplication->fitgapVendorColumnsOld3 = $vendorApplication->fitgapVendorColumnsOld2;
+                $vendorApplication->fitgapVendorColumnsOld2 = $vendorApplication->fitgapVendorColumnsOld;
+                $vendorApplication->fitgapVendorColumnsOld = $vendorApplication->fitgapVendorColumns;
+                $vendorApplication->fitgapVendorColumns = $result;
+                $vendorApplication->save();*/
 
         return \response()->json([
             'status' => 200,
@@ -250,23 +258,23 @@ class FitgapController extends Controller
             'data' => 'required|array'
         ]);
 
-/*        $vendorApplication = VendorApplication::where([
-            'project_id' => $project->id,
-            'vendor_id' => $vendor->id
-        ])->first();
+        /*        $vendorApplication = VendorApplication::where([
+                    'project_id' => $project->id,
+                    'vendor_id' => $vendor->id
+                ])->first();
 
-        if ($vendorApplication == null) {
-            abort(404);
-        }
+                if ($vendorApplication == null) {
+                    abort(404);
+                }
 
-        // Parse stuff here
-        $result = [];
-        foreach ($request->data as $key => $row) {
-            $result[] = $row['Score'];
-        }
+                // Parse stuff here
+                $result = [];
+                foreach ($request->data as $key => $row) {
+                    $result[] = $row['Score'];
+                }
 
-        $vendorApplication->fitgapVendorScores = $result;
-        $vendorApplication->save();*/
+                $vendorApplication->fitgapVendorScores = $result;
+                $vendorApplication->save();*/
 
         return \response()->json([
             'status' => 200,
