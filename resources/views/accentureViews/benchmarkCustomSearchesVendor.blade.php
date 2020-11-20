@@ -181,40 +181,14 @@
         $('#practiceSelect').change(function () {
 
             var selectedPractice = $(this).val();
-            /*            $('#TransportScope').hide();
-                        $('#PlanningScope').hide();
-                        $('#scopesDiv').hide();
-                        $('#subpracticesContainer').hide();*/
 
             if (selectedPractice && !selectedPractice.includes('Practice')) {
-
-                /*                $('#TransportScope').hide();
-                                $('#PlanningScope').hide();
-                                $('#scopesDiv').hide();
-                                $('#subpracticesContainer').hide();*/
-
-                // Scopes from practice (Only for Transport)
-                $.get("/accenture/analysis/vendor/custom/getScopes/"
-                    + selectedPractice, function (data) {
-
-                    if (selectedPractice.includes('Transport') && Array.isArray(data.scopes)) {
-
-                        var scopes = data.scopes;
-                        var firstScope = scopes[0].type;
-
-                        if (firstScope.includes('selectMultiple')) {
-                            $('#scopesDiv').show();
-                            $('#TransportScope').show();
-                        }
-                    }
-                });
 
                 // subpractices from practice
                 $.get("/accenture/analysis/vendor/custom/getSubpractices/"
                     + selectedPractice, function (data) {
 
                     if (data) {
-                        //$('#subpracticesContainer').show();
 
                         $('#selectSubpractices').empty();
 
@@ -231,14 +205,6 @@
 
         $(document).ready(function () {
 
-            /*
-                        $('#scopesDiv').hide();
-                        $('#TransportScope').hide();
-                        $('#PlanningScope').hide();
-                        $('#subpracticesContainer').hide();
-            */
-
-
             function updateVendors() {
                 const selectedSegment = $('#segmentSelect').val();
                 const selectedRegions = $('#regionSelect').val();
@@ -254,7 +220,6 @@
                     const segment = $(this).data('segment');
                     const regions = $(this).data('regions');
                     const industries = $(this).data('industry');
-
                     const practice = $(this).data('practice');
                     const subpractices = $(this).data('subpractices');
                     const transportFlow = $(this).data('transportflow');
@@ -317,10 +282,6 @@
             $('#industriesSelect').on('change', function (e) {
                 updateVendors()
             });
-
-            $('#PlanningInput1').keyup(function () {
-                updateVendors()
-            })
 
         });
     </script>
