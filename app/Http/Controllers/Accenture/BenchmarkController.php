@@ -618,7 +618,7 @@ class BenchmarkController extends Controller
         $years = collect(range(2017, intval(date('Y'))));
         $transportFlows = collect(config('arrays.transportFlows'));
         $transportModes = collect(config('arrays.transportModes'));
-        $transportTypes = collect(config('arrays.transportFlows'));
+        $transportTypes = collect(config('arrays.transportTypes'));
 
         // Data to show and filter.
         $vendors = User::vendorUsers()->where('hasFinishedSetup', true)->get();
