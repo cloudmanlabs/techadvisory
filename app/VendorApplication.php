@@ -245,6 +245,8 @@ class VendorApplication extends Model
 
             return $this->project->fitgapWeightNotSupported ?? 0;
 
+        } else {
+            return $this->project->fitgapWeightNotSupported ?? 0;
         }
 
     }
