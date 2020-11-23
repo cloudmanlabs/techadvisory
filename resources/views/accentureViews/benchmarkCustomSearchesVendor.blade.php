@@ -181,6 +181,7 @@
         $('#practiceSelect').change(function () {
 
             var selectedPractice = $(this).val();
+            $('#selectSubpractices').empty();
 
             if (selectedPractice && !selectedPractice.includes('Practice')) {
 
@@ -189,9 +190,6 @@
                     + selectedPractice, function (data) {
 
                     if (data) {
-
-                        $('#selectSubpractices').empty();
-
                         var $dropdown = $("#selectSubpractices");
                         var subpractices = data.subpractices;
                         $.each(subpractices, function () {
