@@ -7,35 +7,35 @@ $disabled = $disabled ?? false;
 <h5>Billing Plan</h5>
 <br>
 <div class="form-group">
-    <label for="projectName">Estimate first 5 years billing plan</label>
+    <label for="projectName">Estimate first 5 years billing plan *</label>
 
     <div>
-        <label for="projectName">Average yearly cost</label>
+        <label for="projectName">Average yearly cost *</label>
         <div style="display: flex; flex-direction: row; justify-content: space-evenly; width: 100%">
             <div style="width: 50%; padding: 0 0.5rem">
-                <p>Min</p>
+                <p>Min *</p>
             </div>
             <div style="width: 50%; padding: 0 0.5rem">
-                <p>Max</p>
+                <p>Max *</p>
             </div>
         </div>
         <div style="display: flex; flex-direction: row">
             <input type="number" id="averageYearlyCostMin" class="form-control nonBindingInput" placeholder="Min" data-changing="averageYearlyCostMin"
                 value="{{$vendorApplication->averageYearlyCostMin}}"
-                {{$disabled ? 'disabled' : ''}} min="0">
+                {{$disabled ? 'disabled' : ''}} min="0" required>
             <input style="margin-left: 1rem;" id="averageYearlyCostMax" type="number" class="form-control nonBindingInput" placeholder="Max" data-changing="averageYearlyCostMax"
                 value="{{$vendorApplication->averageYearlyCostMax}}"
-                {{$disabled ? 'disabled' : ''}} min="0">
+                {{$disabled ? 'disabled' : ''}} min="0" required>
         </div>
     </div>
     <div>
-        <label for="projectName">Total run cost</label>
+        <label for="projectName">Total run cost *</label>
         <div style="display: flex; flex-direction: row; justify-content: space-evenly; width: 100%">
             <div style="width: 50%; padding: 0 0.5rem">
-                <p>Min</p>
+                <p>Min *</p>
             </div>
             <div style="width: 50%; padding: 0 0.5rem">
-                <p>Max</p>
+                <p>Max *</p>
             </div>
         </div>
         <div style="display: flex; flex-direction: row">
