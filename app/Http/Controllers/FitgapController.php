@@ -416,10 +416,10 @@ class FitgapController extends Controller
 
     // New methods for update Fitgap Responses
 
-    public function updateFitgapResponse(Project $project)
+    public function updateFitgapResponse(Project $project, User $vendor)
     {
         $questionId = $_POST["data"][0];
-        $vendor = auth()->user();
+        //$vendor = auth()->user();
 
         if (($questionId == null) || $project == null || !$vendor->isVendor()) {
             return abort(404);
