@@ -2,11 +2,22 @@
 
 namespace App\Nova;
 
+use App\Nova\Actions\RestoreVersionMinus1;
+use App\Nova\Actions\RestoreVersionMinus2;
+use App\Nova\Actions\RestoreVersionMinus3;
+use App\Nova\Actions\RestoreVersionMinus4;
+use App\Nova\Actions\RestoreVersionMinus5;
+use App\Nova\Actions\RestoreVersionMinus6;
+use App\Nova\Actions\RestoreVersionMinus7;
+use App\Nova\Actions\RestoreVersionMinus8;
+use App\Nova\Actions\RestoreVersionMinus9;
+use App\Nova\Actions\RestoreVersionMinus10;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\BelongsToMany;
 use Laravel\Nova\Fields\Boolean;
+use Laravel\Nova\Fields\Code;
 use Laravel\Nova\Fields\HasMany;
 use Laravel\Nova\Fields\HasOne;
 use Laravel\Nova\Fields\ID;
@@ -124,6 +135,37 @@ class VendorApplication extends Resource
 
             Boolean::make('Invited to Orals', 'invitedToOrals'),
             Boolean::make('Orals completed', 'oralsCompleted'),
+
+            Number::make('Fitgap Progress', function () {
+                return $this->progressFitgap();
+            })
+                ->exceptOnForms()
+                ->hideFromIndex(),
+            Number::make('Vendor Progress', function () {
+                return $this->progressVendor();
+            })
+                ->exceptOnForms()
+                ->hideFromIndex(),
+            Number::make('Experience Progress', function () {
+                return $this->progressExperience();
+            })
+                ->exceptOnForms()
+                ->hideFromIndex(),
+            Number::make('Innovation Progress', function () {
+                return $this->progressInnovation();
+            })
+                ->exceptOnForms()
+                ->hideFromIndex(),
+            Number::make('Implementation Progress', function () {
+                return $this->progressImplementation();
+            })
+                ->exceptOnForms()
+                ->hideFromIndex(),
+            Number::make('Submit Progress', function () {
+                return $this->progressSubmit();
+            })
+                ->exceptOnForms()
+                ->hideFromIndex(),
         ];
     }
 
@@ -168,6 +210,17 @@ class VendorApplication extends Resource
      */
     public function actions(Request $request)
     {
-        return [];
+        return [
+            (new RestoreVersionMinus1),
+            (new RestoreVersionMinus2),
+            (new RestoreVersionMinus3),
+            (new RestoreVersionMinus4),
+            (new RestoreVersionMinus5),
+            (new RestoreVersionMinus6),
+            (new RestoreVersionMinus7),
+            (new RestoreVersionMinus8),
+            (new RestoreVersionMinus9),
+            (new RestoreVersionMinus10),
+        ];
     }
 }

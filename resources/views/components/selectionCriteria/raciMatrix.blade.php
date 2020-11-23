@@ -5,7 +5,7 @@ $disabled = $disabled ?? false;
 @endphp
 
 <div class="form-group">
-    <label for="projectName">RACI Matrix</label>
+    <label for="projectName">RACI Matrix *</label>
 
     <div style="display: flex; flex-direction: row; justify-content: space-evenly; width: 100%">
         <div style="width: 25%; padding: 0 0.5rem">
@@ -18,7 +18,7 @@ $disabled = $disabled ?? false;
             <p>Vendor</p>
         </div>
         <div style="width: 25%; padding: 0 0.5rem">
-            <p>Accenture</p>
+            <p>Integrator</p>
         </div>
     </div>
     <div id="raciContainer">
@@ -27,7 +27,7 @@ $disabled = $disabled ?? false;
             <label for="projectName">Task {{$loop->iteration}}</label>
             <div style="display: flex; flex-direction: row">
                 <input type="text" class="form-control raciTitleInput" placeholder="Title"
-                    value="{{$row['title'] ?? ''}}" required
+                    value="{{$row['title'] ?? ''}}"
                     {{$disabled ? 'disabled' : ''}}>
                 <select class="form-control raciClientInput" style="margin-left: 1rem" {{$disabled ? 'disabled' : ''}}>
                     <option disabled>Please choose one</option>
@@ -84,7 +84,7 @@ $disabled = $disabled ?? false;
                 <div style="display: flex; flex-direction: row">
                     <input type="text" class="form-control raciTitleInput"
                         placeholder="Title"
-                        value="" required>
+                        value="">
                     <select class="form-control raciClientInput" style="margin-left: 1rem">
                         <option disabled>Please choose one</option>
                         <option value="Responsible">Responsible</option>

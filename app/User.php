@@ -19,7 +19,6 @@ use Laravel\Nova\Fields\Boolean;
  */
 class User extends Authenticatable
 {
-
     use Notifiable;
 
     /**
@@ -423,7 +422,7 @@ class User extends Authenticatable
                                                   $years = [], $industries = [], $regions = [])
     {
         $query = Project::select('projects.id', 'industry', 'regions', 'projects.created_at')
-            ->join('project_subpractice as sub', 'projects.id', '=', 'sub.project_id');;
+            ->join('project_subpractice as sub', 'projects.id', '=', 'sub.project_id');
 
         // Applying user filters to projects
         if ($practicesID) {
@@ -510,7 +509,7 @@ class User extends Authenticatable
         // If there are no questions attached (the vendor wasn't previously in this project), we add the questions
         // If there are some questions attached, it means that when the vendor was previously attached, so we don't want to add them again
         if ($project->selectionCriteriaQuestionsForVendor($this)->count() == 0) {
-            foreach (SelectionCriteriaQuestion::all() as $key2 => $question) {
+            foreach ($project->selectionCriteriaQuestionsOriginals() as $key2 => $question) {
                 $response = new SelectionCriteriaQuestionResponse([
                     'question_id' => $question->id,
                     'project_id' => $project->id,

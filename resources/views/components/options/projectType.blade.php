@@ -5,7 +5,7 @@
 </option>
 
 @foreach (config('arrays.projectTypes') as $item)
-<option value="$item" {{('$item' == $selected) ? 'selected' : ''}}>
+<option value="{{$item}}" {{($item == $selected) ? 'selected' : ''}}>
     {{$item}}
 </option>
 @endforeach

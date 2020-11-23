@@ -5,6 +5,7 @@ namespace App;
 use Guimcaballero\LaravelFolders\Models\Folder;
 use Illuminate\Database\Eloquent\Model;
 use \Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Collection;
 
 /**
@@ -115,8 +116,7 @@ class Project extends Model
     }
 
     /**
-     * Magia para que funcione el Nova de Owner project.
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @return BelongsTo
      */
     public function owners()
     {
@@ -157,9 +157,11 @@ class Project extends Model
      */
     public function hasCompletedBusinessOpportunity()
     {
-        foreach (($this->fitgapClientColumns ?? []) as $key => $value) {
-            if (!isset($value['Business Opportunity']) || $value['Business Opportunity'] == null || $value['Business Opportunity'] == '') return false;
+        $fitgapQuestions = FitgapQuestion::findByProject($this->project_id);
+        foreach (($fitgapQuestions) as $key => $value) {
+            if (!empty($value->businessOpportunity()) || $value->businessOpportunity() == null || $value->businessOpportunity() == '') return false;
         }
+
         return true;
     }
 
@@ -276,6 +278,18 @@ class Project extends Model
         return $this->hasMany(SelectionCriteriaQuestionResponse::class, 'project_id');
     }
 
+    public function fitgapQuestions()
+    {
+        return $this->hasMany(FitgapQuestion::class, 'project_id');
+    }
+
+    public function fitgapQuestionsOrderByPosition()
+    {
+        $fitgapQuestions = $this->hasMany(FitgapQuestion::class, 'project_id');
+        $fitgapQuestions = $fitgapQuestions->orderBy('position', 'asc');
+        return $fitgapQuestions;
+    }
+
     /**
      * METHOD FOR NOVA
      * The questions that are NOT linked to the project yet, in order to select them.
@@ -296,13 +310,6 @@ class Project extends Model
                 }
             }
         }
-
-        // this returns a object with all, but not usefull for Nova.
-        /*        $availableQuestions = collect();
-                foreach ($allQuestionsIDasArray as $question) {
-                    $selectionCriteriaQuestion = SelectionCriteriaQuestion::find($question);
-                    $availableQuestions->push($selectionCriteriaQuestion);
-                }*/
 
         // Only for Nova Structure: [question id] => question label
         $questionsStructureForNova = [];
@@ -429,10 +436,10 @@ class Project extends Model
     /**
      * Returns the minimum Implementation cost of all the vendors in this Project
      *
-     * @return int
+     * @return float
      * @throws \Exception
      */
-    public function minImplementationCost(): int
+    public function minImplementationCost(): float
     {
         return $this->vendorApplications
                 ->filter(function (VendorApplication $application) {
@@ -447,10 +454,10 @@ class Project extends Model
     /**
      * Returns the minimum Run cost of all the vendors in this Project
      *
-     * @return int
+     * @return float
      * @throws \Exception
      */
-    public function minRunCost(): int
+    public function minRunCost(): float
     {
         return $this->vendorApplications
                 ->filter(function (VendorApplication $application) {
@@ -461,7 +468,6 @@ class Project extends Model
                 })
                 ->min() ?? 0;
     }
-
 
     public function publish()
     {
@@ -478,7 +484,6 @@ class Project extends Model
 
         return $this;
     }
-
 
     /**
      * Returns all projects in Open Phase
@@ -573,7 +578,7 @@ class Project extends Model
 
     private static function getProjectCountfromYear($year, $industries = [], $regions = [])
     {
-        $query = Project::select('id', 'currentPhase','industry', 'practice_id', 'regions', 'created_at');
+        $query = Project::select('id', 'currentPhase', 'industry', 'practice_id', 'regions', 'created_at');
         $query = Project::benchmarkOverviewHistoricalFilters($query, $industries, $regions);
 
         $query = $query->get()
@@ -608,7 +613,7 @@ class Project extends Model
 
     private static function getProjectCountFromYearByPractice($practiceId, $year, $industries = [], $regions = [])
     {
-        $query = Project::select('id', 'currentPhase','industry', 'practice_id', 'regions', 'created_at');
+        $query = Project::select('id', 'currentPhase', 'industry', 'practice_id', 'regions', 'created_at');
         $query = Project::benchmarkOverviewHistoricalFilters($query, $industries, $regions, $practiceId);
 
         $query = $query->get()
@@ -640,7 +645,7 @@ class Project extends Model
 
     private static function getProjectCountFromIndustry($industry, $regions = [], $years = [])
     {
-        $query = Project::select('id', 'currentPhase','industry', 'practice_id', 'regions', 'created_at');
+        $query = Project::select('id', 'currentPhase', 'industry', 'practice_id', 'regions', 'created_at');
         $query = Project::benchmarkOverviewFilters($query, $regions, $years);
 
         $query = $query->get()->filter(function (Project $project) use ($industry) {
@@ -653,12 +658,12 @@ class Project extends Model
     // Encapsulate the filters for graphics from view: Overview - general
     private static function benchmarkOverviewFilters($query, $regions = [], $years = [])
     {
-        $query = $query->where('currentPhase','=','old');
+        //$query = $query->where('currentPhase','=','old');
 
         if ($regions) {
             $query = $query->where(function ($query) use ($regions) {
                 for ($i = 0; $i < count($regions); $i++) {
-                    $query = $query->orWhere('regions', 'like', '%' . $regions[$i] . '%');
+                    $query = $query->where('regions', 'like', '%' . $regions[$i] . '%');
                 }
             });
         }
@@ -676,7 +681,7 @@ class Project extends Model
     // Encapsulate the filters for graphics from view: Overview - Historical
     private static function benchmarkOverviewHistoricalFilters($query, $industries = [], $regions = [], $practice = [])
     {
-        $query = $query->where('currentPhase','=','old');
+        $query = $query->where('currentPhase', '=', 'old');
 
         if ($industries) {
             $query = $query->where(function ($query) use ($industries) {
@@ -689,7 +694,7 @@ class Project extends Model
         if ($regions) {
             $query = $query->where(function ($query) use ($regions) {
                 for ($i = 0; $i < count($regions); $i++) {
-                    $query = $query->orWhere('regions', 'like', '%' . $regions[$i] . '%');
+                    $query = $query->where('regions', 'like', '%' . $regions[$i] . '%');
                 }
             });
         }

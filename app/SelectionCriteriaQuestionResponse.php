@@ -49,11 +49,11 @@ class SelectionCriteriaQuestionResponse extends Model
 
     /**
      * Returns the responses of the most recent similar open project if exists, with their questions.
-     * @param $vendor vendor
-     * @param $project current
+     * @param $vendor User
+     * @param $project Project
      * @return mixed. null if project not exists
      */
-    public static function getResponsesFromSimilarProject($vendor, $project)
+    public static function getResponsesFromSimilarProject(User $vendor, Project $project)
     {
         $current_date = date('Y-m-d');
         $date_limit = Carbon::parse($current_date)->addMonths(-12)->format('Y-m-d');    // Date range limit: 1 year ago

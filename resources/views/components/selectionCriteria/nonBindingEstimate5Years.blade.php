@@ -21,10 +21,10 @@ $disabled = $disabled ?? false;
         </div>
         <div style="display: flex; flex-direction: row">
             <input type="number" id="averageYearlyCostMin" class="form-control nonBindingInput" placeholder="Min" data-changing="averageYearlyCostMin"
-                value="{{$vendorApplication->averageYearlyCostMin}}" required
+                value="{{$vendorApplication->averageYearlyCostMin}}"
                 {{$disabled ? 'disabled' : ''}} min="0">
             <input style="margin-left: 1rem;" id="averageYearlyCostMax" type="number" class="form-control nonBindingInput" placeholder="Max" data-changing="averageYearlyCostMax"
-                value="{{$vendorApplication->averageYearlyCostMax}}" required
+                value="{{$vendorApplication->averageYearlyCostMax}}"
                 {{$disabled ? 'disabled' : ''}} min="0">
         </div>
     </div>
@@ -40,10 +40,10 @@ $disabled = $disabled ?? false;
         </div>
         <div style="display: flex; flex-direction: row">
             <input type="number" class="form-control nonBindingInput" placeholder="Min" data-changing="totalRunCostMin"
-                value="{{$vendorApplication->totalRunCostMin}}" required
+                value="{{$vendorApplication->totalRunCostMin}}"
                 {{$disabled ? 'disabled' : ''}} min="0">
             <input style="margin-left: 1rem;" type="number" class="form-control nonBindingInput" placeholder="Max" data-changing="totalRunCostMax"
-                value="{{$vendorApplication->totalRunCostMax}}" required
+                value="{{$vendorApplication->totalRunCostMax}}"
                 {{$disabled ? 'disabled' : ''}} min="0">
         </div>
     </div>
@@ -56,7 +56,6 @@ $disabled = $disabled ?? false;
             <input type="number" class="form-control estimate5YearsHoursInput"
                 placeholder="Percentage out of total run"
                 value="{{$cost ?? ''}}"
-                required
                 min="0"
                 {{$disabled ? 'disabled' : ''}}>
         </div>
@@ -98,6 +97,9 @@ $disabled = $disabled ?? false;
             })
 
             showSavedToast();
+            if(updateSubmitButton){
+                updateSubmitButton();
+            }
         }
 
         setEstimate5YearsEditListener();
@@ -113,7 +115,7 @@ $disabled = $disabled ?? false;
 
             showSavedToast();
             if(updateSubmitButton){
-            updateSubmitButton();
+                updateSubmitButton();
             }
         });
 

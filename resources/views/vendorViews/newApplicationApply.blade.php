@@ -22,6 +22,10 @@
                                 <div id="wizard_vendor_go_to_home">
                                     <h2>Fit gap</h2>
                                     <section>
+                                        <p class="welcome_text extra-top-15px" style="color:red">
+                                            In order to complete FitGap Table, please bear in mind that only one user must work on it simultaneously using one
+                                            single browser tab to avoid loss of data because of conflicting inputs when saving.
+                                        </p>
                                         <p class="welcome_text extra-top-15px">
                                             Provide your inputs on how your solution/s will cover the client’s functional, technical and service requirements, among others.
                                         </p>
@@ -52,7 +56,7 @@
                                         <br>
                                         <x-questionForeach :questions="$vendorCorporateQuestions" :class="'selectionCriteriaQuestion'" :disabled="false" :required="false" />
 
-                                        <x-folderFileUploader :folder="$vendorApplication->corporateFolder" :timeout="1000" />
+                                        {{-- <x-folderFileUploader :folder="$vendorApplication->corporateFolder" :timeout="1000" /> --}}
 
                                         <br><br>
                                         <h4>Market presence</h4>
@@ -77,7 +81,7 @@
                                         <x-questionForeach :questions="$experienceQuestions" :class="'selectionCriteriaQuestion'" :disabled="false"
                                             :required="false" />
 
-                                        <x-folderFileUploader :folder="$vendorApplication->experienceFolder" :timeout="1000" />
+                                        {{-- <x-folderFileUploader :folder="$vendorApplication->experienceFolder" :timeout="1000" /> --}}
                                     </section>
 
                                     <h2>Innovation & Vision</h2>
@@ -117,6 +121,20 @@
 
                                     <h2>Implementation & Commercials</h2>
                                     <section>
+                                        @if ($project->id == 139)
+                                            <p class="welcome_text extra-top-15px" style="color:red">
+                                                This section covered as part of RFP response document. To complete questionnaire please only fill "Solutions used" with
+                                        the solutions you are offering, and implementation & run costs with a "0". Finally, click on Submit to send your
+                                        application.
+                                            </p>
+                                        @endif
+                                        @if ($project->id == 140)
+                                            <p class="welcome_text extra-top-15px" style="color:red">
+                                                This section covered as part of RFP response document. To complete questionnaire please only fill "Solutions used" with
+                                        the solutions you are offering, and implementation & run costs with a "0". Finally, click on Submit to send your
+                                        application.
+                                            </p>
+                                        @endif
                                         <p class="welcome_text extra-top-15px">
                                             Let us know more about the project plan, main deliverables and RACI you proposed. Provide a cost estimation for both implementation and run phases.
                                         </p>
@@ -126,6 +144,7 @@
                                             Use the following section to provide all details regarding the implementation phase.
                                         </p>
                                         <br>
+
                                         <x-questionForeach :questions="$implementationImplementationQuestions" :class="'selectionCriteriaQuestion'"
                                             :disabled="false" :required="false" />
 
@@ -143,7 +162,7 @@
 
                                         <br>
                                         <br>
-                                        <b>Implementation Cost</b>
+                                        <b>Implementation Cost *</b>
                                         <p>
                                             Provide costs estimations for implementation phase.
                                         </p>
@@ -186,6 +205,10 @@
                                         <x-selectionCriteria.detailedBreakdown :vendorApplication="$vendorApplication" :disabled="false" :evaluate="false" />
 
                                         <br><br>
+
+                                        <p class="welcome_text extra-top-15px" style="color:red">
+                                            Submit button will only be activated once all questions with an "*" are replied.
+                                        </p>
 
                                         <button
                                             class="btn btn-primary btn-lg btn-icon-text"
@@ -268,7 +291,7 @@
         let array = $('input,textarea,select').filter('[required]:visible').toArray();
         if(array.length == 0) return true;
 
-        return array.reduce((prev, current) => {
+        return array.reduce(function(prev, current) {
             return !prev ? false : $(current).is(':hasValue')
         }, true)
     }
@@ -294,6 +317,17 @@
         })
     }
 
+    function showErrorToast()
+    {
+        $.toast({
+            heading: 'Error!',
+            showHideTransition: 'slide',
+            icon: 'error',
+            hideAfter: 1000,
+            position: 'bottom-right'
+        })
+    }
+
     $(document).ready(function() {
         $('.selectionCriteriaQuestion input,.selectionCriteriaQuestion textarea,.selectionCriteriaQuestion select')
             .filter(function(el) {
@@ -301,17 +335,22 @@
             })
             .change(function (e) {
                 var value = $(this).val();
+                var changing = $(this).data('changing');
                 if($.isArray(value) && value.length == 0 && $(this).attr('multiple') !== undefined){
                     value = '[]'
                 }
 
                 $.post('/selectionCriteriaQuestion/changeResponse', {
-                    changing: $(this).data('changing'),
-                    value
-                })
-
-                showSavedToast();
-                updateSubmitButton();
+                    changing: changing,
+                    value: value,
+                }).done(function() {
+                    showSavedToast();
+                    updateSubmitButton();
+                    console.log("success", value, changing);
+                }).fail(function() {
+                    console.log("error", value, changing);
+                    showErrorToast();
+                });
             });
 
         $(".js-example-basic-single").select2();
@@ -330,24 +369,23 @@
         });
 
         $('#submitButton').click(function(){
-            $.post('{{route("vendor.application.setSubmitted", ["project" => $project])}}', {
-                success: function () {
-                    setTimeout(() => {
+            $.post('{{route("vendor.application.setSubmitted", ["project" => $project])}}')
+                .done(function() {
+                    setTimeout(function() {
                         window.location.replace("/vendors/home");
                     }, 300);
-                }
-            })
-
-            $.toast({
-                heading: 'Submitted!',
-                showHideTransition: 'slide',
-                icon: 'success',
-                hideAfter: 1000,
-                position: 'bottom-right'
-            })
-            $('#submitModal').modal('hide')
-
-
+                    $.toast({
+                        heading: 'Submitted!',
+                        showHideTransition: 'slide',
+                        icon: 'success',
+                        hideAfter: 1000,
+                        position: 'bottom-right'
+                    })
+                    $('#submitModal').modal('hide')
+                }).fail(function() {
+                    console.log("error", value, changing);
+                    showErrorToast();
+                });
         });
 
         updateSubmitButton();

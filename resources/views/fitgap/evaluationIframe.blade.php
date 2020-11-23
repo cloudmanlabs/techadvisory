@@ -12,12 +12,16 @@
         * {
             font-size: 12px
         }
+        td {
+        text-align:left !important;
+        }
     </style>
 
     <body style="background-color: white !important;">
-        <p><button id='download'>Export document</button></p>
+    <p><button id='download'>Export document</button></p>
 
-        <div id="spreadsheet"></div>
+
+    <div id="spreadsheet"></div>
 
 
         <script>
@@ -33,8 +37,19 @@
             var mySpreadsheet = jexcel(document.getElementById('spreadsheet'), {
                 url:"{{route('fitgapEvaluationJson', ['vendor' => $vendor, 'project' => $project])}}",
                 tableOverflow:false,
+                allowInsertColumn:false,
                 contextMenu: false,
+                allowInsertRow:true,
+                allowManualInsertRow:true,
+                allowDeleteRow:true,
+                allowDeleteColumn:true,
                 columns: [
+                    {
+                        type: 'text',
+                        title: 'ID',
+                        readOnly: true,
+                        width: 100,
+                    },
                     {
                         type: 'text',
                         title: 'Type',
@@ -119,7 +134,7 @@
                             data: mySpreadsheet.getJson()
                         })*/
                     @endif
-                }
+                },
             });
 
             document.getElementById('download').onclick = function () {

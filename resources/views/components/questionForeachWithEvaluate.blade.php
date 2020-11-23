@@ -27,6 +27,7 @@
             </x-accenture.evaluateInputGroup>
         </div>
         @break
+
         @case('textarea')
         <div class="form-group questionDiv {{$class}}"
              data-practice="{{$question->originalQuestion->practice->id ?? ''}}">
@@ -46,6 +47,7 @@
             </x-accenture.evaluateInputGroup>
         </div>
         @break
+
         @case('selectSingle')
         <div class="form-group questionDiv {{$class}}"
              data-practice="{{$question->originalQuestion->practice->id ?? ''}}">
@@ -78,6 +80,7 @@
             @endif
         </div>
         @break
+
         @case('selectMultiple')
         <div class="form-group questionDiv {{$class}}"
              data-practice="{{$question->originalQuestion->practice->id ?? ''}}">
@@ -112,6 +115,7 @@
             @endif
         </div>
         @break
+
         @case('date')
         <div class="questionDiv {{$class}}" data-practice="{{$question->originalQuestion->practice->id ?? ''}}">
             <x-accenture.evaluateInputGroup :required="$required || $question->originalQuestion->required"
@@ -133,6 +137,7 @@
             </x-accenture.evaluateInputGroup>
         </div>
         @break
+
         @case('email')
         <div class="form-group questionDiv {{$class}} emailField"
              data-practice="{{$question->originalQuestion->practice->id ?? ''}}">
@@ -156,6 +161,7 @@
             @endif
         </div>
         @break
+
         @case('percentage')
         <div class="form-group questionDiv {{$class}}"
              data-practice="{{$question->originalQuestion->practice->id ?? ''}}">
@@ -180,11 +186,13 @@
             </x-accenture.evaluateInputGroup>
         </div>
         @break
+
         @case('number')
         <div class="form-group questionDiv {{$class}}"
              data-practice="{{$question->originalQuestion->practice->id ?? ''}}">
             <x-accenture.evaluateInputGroup :required="$required || $question->originalQuestion->required"
-                                            :changing="$question->id" :score="$question->score"
+                                            :changing="$question->id"
+                                            :score="$question->score"
                                             :disabled="$evalDisabled"
                                             :disable-score="$question->originalQuestion->linkedQuestion()->first()">
                 <label>{{$question->originalQuestion->label}}{{$question->originalQuestion->required ? '*' : ''}}</label>
@@ -204,7 +212,19 @@
             @endif
         </div>
         @break
-        @default
 
+        @case('file')
+        <x-accenture.evaluateInputGroup :required="$required || $question->originalQuestion->required"
+                                        :changing="$question->id" :score="$question->score"
+                                        :disabled="$evalDisabled">
+            <div class="form-group questionDiv" data-practice="{{$question->originalQuestion->practice->id ?? ''}}">
+                <x-questionFileUploader :question="$question"
+                                        :fileUploadRoute="$fileUploadRoute ?? '/selectionCriteriaQuestion/uploadFile'"
+                                        :disabled="true"
+                                        :required="$required"/>
+            </div>
+        </x-accenture.evaluateInputGroup>
+        @break
+        @default
     @endswitch
 @endforeach

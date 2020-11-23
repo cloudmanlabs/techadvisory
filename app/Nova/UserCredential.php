@@ -43,7 +43,7 @@ class UserCredential extends Resource
      * @var array
      */
     public static $search = [
-        'email',
+        'email', 'passwordChangeToken'
     ];
 
     /**
@@ -66,6 +66,10 @@ class UserCredential extends Resource
                 ->rules('required', 'email', 'max:254'),
 
             Boolean::make('Hidden', 'hidden')
+                ->canSee(function(){
+                    return auth()->user()->isAdmin();
+                }),
+            Text::make('Token', 'passwordChangeToken')
                 ->canSee(function(){
                     return auth()->user()->isAdmin();
                 }),

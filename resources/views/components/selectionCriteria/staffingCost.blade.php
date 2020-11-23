@@ -5,20 +5,20 @@ $disabled = $disabled ?? false;
 @endphp
 
 <div class="form-group">
-    <label for="projectName">Staffing Cost</label>
+    <label for="projectName">Staffing Cost *</label>
 
     <div style="display: flex; flex-direction: row; justify-content: space-evenly; width: 100%">
         <div style="width: 25%; padding: 0 0.5rem">
-            <p>Title</p>
+            <p>Title *</p>
         </div>
         <div style="width: 25%; padding: 0 0.5rem">
-            <p>Estimated number of hours</p>
+            <p>Estimated number of hours *</p>
         </div>
         <div style="width: 25%; padding: 0 0.5rem">
-            <p>Hourly rate</p>
+            <p>Hourly rate *</p>
         </div>
         <div style="width: 25%; padding: 0 0.5rem">
-            <p>Staffing cost</p>
+            <p>Staffing cost *</p>
         </div>
     </div>
     <div id="staffingCostContainer">
@@ -102,11 +102,13 @@ $disabled = $disabled ?? false;
 
             setStaffingCostEditListener();
             updateStaffingCost();
+            updateSubmitButton();
         })
 
         $('#removeStaffingCostRow').click(function(){
             $('#staffingCostContainer').children().last().remove()
-            updateStaffingCost()
+            updateStaffingCost();
+            updateSubmitButton();
         })
 
         function updateTotalStaffingCost(){

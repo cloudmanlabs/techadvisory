@@ -1,4 +1,5 @@
 @extends('accentureViews.layouts.benchmark')
+
 @section('content')
     <div class="main-wrapper">
         <x-accenture.navbar activeSection="benchmark"/>
@@ -50,10 +51,12 @@
                                             <p class="welcome_text">
                                                 Please choose the SC Capability (Practice) you'd like to see:
                                             </p>
-                                            <select id="practiceSelect" class="w-100" multiple="multiple">
+                                            <select id="practiceSelect" class="w-100">
+                                                <option value="null">-- Select a Practice --</option>
                                                 @foreach ($practices as $practice)
                                                     <option>{{$practice}}</option>
                                                 @endforeach
+                                                <option value="No Practice">No Practice</option>
                                             </select>
                                         </div>
 
@@ -72,10 +75,12 @@
                                             <p class="welcome_text">
                                                 Please choose the Clients you'd like to see:
                                             </p>
-                                            <select id="clientSelect" class="w-100" multiple="multiple">
+                                            <select id="clientSelect" class="w-100">
+                                                <option value="null">-- Select a Client --</option>
                                                 @foreach ($clients as $client)
                                                     <option>{{$client}}</option>
                                                 @endforeach
+                                                <option value="No Client">No Client</option>
                                             </select>
                                         </div>
 
@@ -98,6 +103,7 @@
                                                 @foreach ($regions as $region)
                                                     <option>{{$region}}</option>
                                                 @endforeach
+                                                <option value="No Region">No Region</option>
                                             </select>
                                         </div>
 
@@ -105,23 +111,25 @@
                                             <p class="welcome_text">
                                                 Please choose the Industries you'd like to see:
                                             </p>
-                                            <select id="industrySelect" class="w-100" multiple="multiple">
+                                            <select id="industrySelect" class="w-100">
+                                                <option value="null">-- Select a Industry --</option>
                                                 @foreach ($industries as $industry)
                                                     <option>{{$industry}}</option>
                                                 @endforeach
+                                                <option value="No Industry">No Industry</option>
                                             </select>
                                         </div>
 
-                                        <div class="media-body" style="padding: 20px;">
-                                            <p class="welcome_text">
-                                                Please choose the Phases you'd like to see:
-                                            </p>
-                                            <select id="phaseSelect" class="w-100" multiple="multiple">
-                                                <option value="preparation">Preparation</option>
-                                                <option value="open">Open</option>
-                                                <option value="old">Old</option>
-                                            </select>
-                                        </div>
+                                        {{--                                        <div class="media-body" style="padding: 20px;">
+                                                                                    <p class="welcome_text">
+                                                                                        Please choose the Phases you'd like to see:
+                                                                                    </p>
+                                                                                    <select id="phaseSelect" class="w-100" multiple="multiple">
+                                                                                        <option value="preparation">Preparation</option>
+                                                                                        <option value="open">Open</option>
+                                                                                        <option value="old">Old</option>
+                                                                                    </select>
+                                                                                </div>--}}
 
                                         <br>
                                         <h3 style="color: #A12BFE">Search Results</h3>
@@ -135,22 +143,27 @@
                                                     style="margin-bottom: 30px;"
 
                                                     data-name="{{$project->name ?? ''}}"
-                                                    data-client="{{$project->client->name ?? ''}}"
-                                                    data-practice="{{$project->practice->name ?? ''}}"
-                                                    data-subpractices="{{json_encode($project->subpractices->pluck('name')->toArray()) ?? ''}}"
+                                                    data-client="{{$project->client->name ?? 'No Client'}}"
+                                                    data-practice="{{$project->practice->name ?? 'No Practice'}}"
+                                                    data-subpractices="{{json_encode($project->subpractices->pluck('name')->toArray()) ?? ['No Subpractice']}}"
                                                     data-year="{{$project->created_at->year}}"
-                                                    data-industry="{{$project->industry}}"
-                                                    data-regions="{{json_encode($project->regions ?? [])}}"
-                                                    data-phase="{{ucfirst($project->currentPhase)}}"
+                                                    data-industry="{{$project->industry ?? 'No Industry'}}"
+                                                    data-regions="{{json_encode($project->regions ?? ['No Region'])}}"
                                                 >
                                                     <div class="card-body">
                                                         <div style="float: left; max-width: 40%;">
-                                                            <h4>{{$project->name ?? ''}}</h4>
-                                                            <h6>{{$project->client->name ?? ''}}
-                                                                - {{$project->practice->name ?? ''}}</h6>
-                                                            <h6>{{$project->created_at->year}} - {{$project->industry}}
-                                                                - {{implode(', ', $project->regions ?? [])}}</h6>
-                                                            <h6>{{implode(', ', $project->subpractices->pluck('name')->toArray() ?? [])}}</h6>
+                                                            <h4>{{$project->name ?? 'No Name'}}</h4>
+                                                            <br>
+                                                            <h6> {{$project->client->name ?? 'No Client'}}
+                                                                - {{$project->practice->name ?? 'No Practice'}}
+                                                            </h6>
+                                                            <br>
+                                                            <h6>{{$project->created_at->year}}
+                                                                - {{$project->industry ?? 'No Industry'}}
+                                                                - {{implode(', ', $project->regions ?? ['No Region'])}}
+                                                            </h6>
+                                                            <br>
+                                                            <h6>{{ implode(', ', $project->subpractices->pluck('name')->toArray()) ?? []}}</h6>
                                                         </div>
                                                         <div style="float: right; text-align: right; width: 15%;">
                                                             <a class="btn btn-primary btn-lg btn-icon-text"
@@ -180,39 +193,56 @@
     <script src="{{url('assets/vendors/select2/select2.min.js')}}"></script>
     <script>
 
-        $(document).ready(function(){
+        $('#practiceSelect').change(function () {
+            chargeSubpracticesFromPractice();
+        });
+
+        function chargeSubpracticesFromPractice() {
+            $('#subpracticeSelect').empty();
+
+            var selectedPractices = $('#practiceSelect').val();
+            $.get("/accenture/benchmark/customSearches/getSubpractices/"
+                + selectedPractices, function (data) {
+
+                var $dropdown = $("#subpracticeSelect");
+                var subpractices = data.subpractices;
+                $.each(subpractices, function () {
+                    var option = $("<option />").val(this).text(this);
+                    $dropdown.append(option);
+                });
+                //$dropdown.append($("<option />").val('No Subpractice').text('No Subpractice'));
+            });
+        }
+
+        $(document).ready(function () {
             function updateProjects() {
-                // Get all selected practices. If there are none, get all of them
-                const selectedPractices = getSelectedFrom('practiceSelect')
-                const selectedSubpractices = getSelectedFrom('subpracticeSelect')
-                const selectedClients = getSelectedFrom('clientSelect')
-                const selectedYears = getSelectedFrom('yearSelect')
-                const selectedIndustries = getSelectedFrom('industrySelect')
-                const selectedRegions = getSelectedFrom('regionSelect')
-                const selectedPhases = getSelectedFrom('phaseSelect')
+                const selectedPractices = $('#practiceSelect').val();
+                const selectedSubpractices = $('#subpracticeSelect').val();
+                const selectedClients = $('#clientSelect').val();
+                const selectedYears = $('#yearSelect').val();
+                const selectedIndustries = $('#industrySelect').val();
+                const selectedRegions = $('#regionSelect').val();
                 const searchBox = $('#searchBox').val().toLocaleLowerCase();
+
 
                 // Add a display none to the one which don't have this tags
                 $('#projectContainer').children().each(function () {
+                    const name = $(this).data('name');
                     const practice = $(this).data('practice');
                     const subpractices = $(this).data('subpractices');
                     const client = $(this).data('client');
                     const year = $(this).data('year').toString();
                     const industry = $(this).data('industry');
                     const regions = $(this).data('regions');
-                    const phase = $(this).data('phase');
-                    const name = $(this).data('name');
 
                     if (
-                        $.inArray(practice, selectedPractices) !== -1
-                        && $.inArray(client, selectedClients) !== -1
-                        && $.inArray(year, selectedYears) !== -1
-                        && $.inArray(industry, selectedIndustries) !== -1
-                        && $.inArray(phase, selectedPhases) !== -1
-                        && intersect(regions, selectedRegions).length !== 0
-                        && intersect(subpractices, selectedSubpractices).length !== 0
-
-                        && name.toLocaleLowerCase().search(searchBox) > -1
+                        name.toLocaleLowerCase().search(searchBox) > -1
+                        && (selectedPractices === 'null' ? true : practice.includes(selectedPractices) === true)
+                        && (filterMultipleAND(selectedSubpractices, subpractices))
+                        && (selectedClients === 'null' ? true : client.includes(selectedClients) === true)
+                        && (selectedYears.length > 0 ? $.inArray(year, selectedYears) !== -1 : true)
+                        && (selectedIndustries === 'null' ? true : industry.includes(selectedIndustries) === true)
+                        && (filterMultipleAND(selectedRegions, regions))
                     ) {
                         $(this).css('display', 'flex')
                     } else {
@@ -221,27 +251,11 @@
                 });
             }
 
-            function getSelectedFrom(id){
-                let selectedPractices = $(`#${id}`).select2('data').map((el) => {
-                    return el.text
-                });
-                if(selectedPractices.length == 0){
-                    selectedPractices = $(`#${id}`).children().toArray().map((el) => {
-                        return el.innerHTML
-                    });
-                }
-                return selectedPractices;
+            function filterMultipleAND(arrayOptions, arrayToSearch) {
+
+                return arrayOptions.length > 0 ? R.all(R.flip(R.includes)(arrayToSearch))(arrayOptions) : true;
             }
 
-            function intersect(a, b) {
-                var t;
-                if (b.length > a.length) t = b, b = a, a = t; // indexOf to loop over shorter
-                return a.filter(function (e) {
-                    return b.indexOf(e) > -1;
-                });
-            }
-
-            $('#practiceSelect').select2();
             $('#practiceSelect').on('change', function (e) {
                 updateProjects();
             });
@@ -251,7 +265,6 @@
                 updateProjects();
             });
 
-            $('#clientSelect').select2();
             $('#clientSelect').on('change', function (e) {
                 updateProjects();
             });
@@ -261,7 +274,6 @@
                 updateProjects();
             });
 
-            $('#industrySelect').select2();
             $('#industrySelect').on('change', function (e) {
                 updateProjects();
             });

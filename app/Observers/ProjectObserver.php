@@ -19,7 +19,7 @@ class ProjectObserver
 {
     public function creating(Project $project)
     {
-        if($project->scoringValues == null){
+        if ($project->scoringValues == null) {
             $project->scoringValues = [4, 4, 4, 4, 4];
         }
 
@@ -27,102 +27,102 @@ class ProjectObserver
             $project->deadline = Carbon::now()->addYear();
         }
 
-        // Default fitgap
+        /*// Default fitgap
         $project->fitgap5Columns = $project->fitgap5Columns ?? [
-            [
-                "Requirement Type" => "Functional",
-                "Level 1" => "Transportation",
-                "Level 2" => "Transport planning",
-                "Level 3" => "Optimization",
-                "Requirement" => "Requierement 1",
-            ],
-            [
-                "Requirement Type" => "Functional",
-                "Level 1" => "Transportation",
-                "Level 2" => "Order management",
-                "Level 3" => "Input",
-                "Requirement" => "Requierement 2",
-            ],
-            [
-                "Requirement Type" => "Functional",
-                "Level 1" => "Transportation",
-                "Level 2" => "Tendering & Spot Buying",
-                "Level 3" => "Tendering",
-                "Requirement" => "Requierement 3",
-            ],
-            [
-                "Requirement Type" => "Functional",
-                "Level 1" => "Transportation",
-                "Level 2" => "Executuin & Visbility",
-                "Level 3" => "Real time track & trace",
-                "Requirement" => "Requierement 4",
-            ],
-            [
-                "Requirement Type" => "Technical",
-                "Level 1" => "IT",
-                "Level 2" => "Administration",
-                "Level 3" => "Users",
-                "Requirement" => "Requierement 5",
-            ],
-            [
-                "Requirement Type" => "Technical",
-                "Level 1" => "IT",
-                "Level 2" => "Architecture",
-                "Level 3" => "Servers location",
-                "Requirement" => "Requierement 6",
-            ],
-            [
-                "Requirement Type" => "Technical",
-                "Level 1" => "IT",
-                "Level 2" => "Integration",
-                "Level 3" => "Integration",
-                "Requirement" => "Requierement 7",
-            ],
-            [
-                "Requirement Type" => "Service",
-                "Level 1" => "General",
-                "Level 2" => "Education & Training",
-                "Level 3" => "Resources",
-                "Requirement" => "Requierement 8",
-            ],
-            [
-                "Requirement Type" => "Service",
-                "Level 1" => "General",
-                "Level 2" => "Maintenance Support",
-                "Level 3" => "Application updates",
-                "Requirement" => "Requierement 9",
-            ],
-            [
-                "Requirement Type" => "Service",
-                "Level 1" => "General",
-                "Level 2" => "Education & Training",
-                "Level 3" => "Training",
-                "Requirement" => "Requierement 10",
-            ],
-            [
-                "Requirement Type" => "Others",
-                "Level 1" => "General",
-                "Level 2" => "Other",
-                "Level 3" => "Training",
-                "Requirement" => "Requierement 11",
-            ],
-            [
-                "Requirement Type" => "Others",
-                "Level 1" => "General",
-                "Level 2" => "Other",
-                "Level 3" => "Training",
-                "Requirement" => "Requierement 12",
-            ]
-        ];
+                [
+                    "Requirement Type" => "Functional",
+                    "Level 1" => "Transportation",
+                    "Level 2" => "Transport planning",
+                    "Level 3" => "Optimization",
+                    "Requirement" => "Requierement 1",
+                ],
+                [
+                    "Requirement Type" => "Functional",
+                    "Level 1" => "Transportation",
+                    "Level 2" => "Order management",
+                    "Level 3" => "Input",
+                    "Requirement" => "Requierement 2",
+                ],
+                [
+                    "Requirement Type" => "Functional",
+                    "Level 1" => "Transportation",
+                    "Level 2" => "Tendering & Spot Buying",
+                    "Level 3" => "Tendering",
+                    "Requirement" => "Requierement 3",
+                ],
+                [
+                    "Requirement Type" => "Functional",
+                    "Level 1" => "Transportation",
+                    "Level 2" => "Executuin & Visbility",
+                    "Level 3" => "Real time track & trace",
+                    "Requirement" => "Requierement 4",
+                ],
+                [
+                    "Requirement Type" => "Technical",
+                    "Level 1" => "IT",
+                    "Level 2" => "Administration",
+                    "Level 3" => "Users",
+                    "Requirement" => "Requierement 5",
+                ],
+                [
+                    "Requirement Type" => "Technical",
+                    "Level 1" => "IT",
+                    "Level 2" => "Architecture",
+                    "Level 3" => "Servers location",
+                    "Requirement" => "Requierement 6",
+                ],
+                [
+                    "Requirement Type" => "Technical",
+                    "Level 1" => "IT",
+                    "Level 2" => "Integration",
+                    "Level 3" => "Integration",
+                    "Requirement" => "Requierement 7",
+                ],
+                [
+                    "Requirement Type" => "Service",
+                    "Level 1" => "General",
+                    "Level 2" => "Education & Training",
+                    "Level 3" => "Resources",
+                    "Requirement" => "Requierement 8",
+                ],
+                [
+                    "Requirement Type" => "Service",
+                    "Level 1" => "General",
+                    "Level 2" => "Maintenance Support",
+                    "Level 3" => "Application updates",
+                    "Requirement" => "Requierement 9",
+                ],
+                [
+                    "Requirement Type" => "Service",
+                    "Level 1" => "General",
+                    "Level 2" => "Education & Training",
+                    "Level 3" => "Training",
+                    "Requirement" => "Requierement 10",
+                ],
+                [
+                    "Requirement Type" => "Others",
+                    "Level 1" => "General",
+                    "Level 2" => "Other",
+                    "Level 3" => "Training",
+                    "Requirement" => "Requierement 11",
+                ],
+                [
+                    "Requirement Type" => "Others",
+                    "Level 1" => "General",
+                    "Level 2" => "Other",
+                    "Level 3" => "Training",
+                    "Requirement" => "Requierement 12",
+                ]
+            ];*/
 
-        $clientFitgap = [];
+        /*$clientFitgap = [];
         foreach ($project->fitgap5Columns as $key => $value) {
             $clientFitgap[] = [
                 'Client' => '',
                 'Business Opportunity' => '',
             ];
-        }
-        $project->fitgapClientColumns = $project->fitgapClientColumns ?? $clientFitgap;
+        }*/
+        //$project->fitgapClientColumns = $project->fitgapClientColumns ?? $clientFitgap;
     }
 
     public function created(Project $project)
@@ -163,21 +163,21 @@ class ProjectObserver
 
     public function saving(Project $project)
     {
-        if(! $project->step3SubmittedAccenture){
+        if (!$project->step3SubmittedAccenture) {
             $project->step3SubmittedClient = false;
         }
-        if(! $project->step4SubmittedAccenture){
+        if (!$project->step4SubmittedAccenture) {
             $project->step4SubmittedClient = false;
         }
 
         // If client changed, update general info questions
-        if($project->getOriginal('client_id') != $project->client_id){
+        if ($project->getOriginal('client_id') != $project->client_id) {
             $responses = $project->generalInfoQuestions;
             $client = $project->client;
-            if($client == null) return;
+            if ($client == null) return;
 
             foreach ($responses as $key => $response) {
-                if(
+                if (
                     $response->response != null
                     && $response->response != ""
                     && $response->response != "[]"
@@ -187,12 +187,12 @@ class ProjectObserver
                 /** @var GeneralInfoQuestionResponse $response */
                 $related = $response->originalQuestion->clientProfileQuestion;
 
-                if($related != null){
+                if ($related != null) {
                     /** @var ClientProfileQuestionResponse|null $clientResponse */
                     $clientResponse = ClientProfileQuestionResponse::where('client_id', $client->id)
                         ->where('question_id', $related->id)
                         ->first();
-                    if($clientResponse != null){
+                    if ($clientResponse != null) {
                         $response->response = $clientResponse->response;
                         $response->save();
                     }
@@ -207,4 +207,17 @@ class ProjectObserver
     //         $question->delete();
     //     }
     // }
+    /**
+     * Delete the aplications from the project
+     * @param Project $project
+     */
+    public function deleted(Project $project)
+    {
+        $apps = $project->vendorApplications;
+        if (!empty($apps)) {
+            foreach ($apps as $app) {
+                $app->delete();
+            }
+        }
+    }
 }

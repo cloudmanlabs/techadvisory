@@ -128,6 +128,21 @@
 
 <h3>Implementation & Commercials</h3>
 <div>
+    @if ($project->id == 139)
+    <p class="welcome_text extra-top-15px" style="color:red">
+        This section covered as part of RFP response document. To complete questionnaire please only fill "Solutions used" with
+                                        the solutions you are offering, and implementation & run costs with a "0". Finally, click on Submit to send your
+                                        application.
+    </p>
+    @endif
+    @if ($project->id == 140)
+    <p class="welcome_text extra-top-15px" style="color:red">
+        This section covered as part of RFP response document. To complete questionnaire please only fill "Solutions used" with
+                                        the solutions you are offering, and implementation & run costs with a "0". Finally, click on Submit to send your
+                                        application.
+    </p>
+    @endif
+
     <p class="welcome_text extra-top-15px">
         This section is focused on gathering relevant information about implementation project plan,
         main deliverables and RACI, as well as cost estimation for both implementation and run phases.

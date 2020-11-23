@@ -177,11 +177,11 @@
 $(function () {
     function filterRequirements() {
         // Get all selected practices. If there are none, get all of them
-        var selectedRequirements = $('#requirementSelect').select2('data').map((el) => {
+        var selectedRequirements = $('#requirementSelect').select2('data').map(function(el) {
             return el.text
         });
         if(selectedRequirements.length == 0){
-            selectedRequirements = $('#requirementSelect').children().toArray().map((el) => {
+            selectedRequirements = $('#requirementSelect').children().toArray().map(function(el) {
                 return el.innerHTML
             });
         }

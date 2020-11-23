@@ -164,8 +164,9 @@ class VendorApplication extends Model
 
     function hasCompletedFitgap()
     {
-        foreach (($this->fitgapVendorColumns ?? []) as $key => $value) {
-            if (!isset($value['Vendor Response']) || $value['Vendor Response'] == null || $value['Vendor Response'] == '') return false;
+        $fitgapResponses = FitgapVendorResponse::findByVendorApplication($this->id);
+        foreach (($fitgapResponses ?? collect([])) as $key => $value) {
+            if (!empty($value->response()) || $value->response() == null || $value->response() == '') return false;
         }
         return true;
     }
@@ -174,19 +175,19 @@ class VendorApplication extends Model
     {
         if ($this->project->isBinding) {
             if (
-                $this->staffingCost == null ||
-                $this->travelCost == null ||
-                $this->additionalCost == null ||
-                $this->estimate5Years == null
+                $this->staffingCost === null ||
+                $this->travelCost === null ||
+                $this->additionalCost === null ||
+                $this->estimate5Years === null
             ) {
                 return false;
             }
         } else {
             if (
-                $this->overallImplementationMin == null ||
-                $this->overallImplementationMax == null ||
-                $this->averageYearlyCostMin == null ||
-                $this->averageYearlyCostMax == null
+                $this->overallImplementationMin === null ||
+                $this->overallImplementationMax === null ||
+                $this->averageYearlyCostMin === null ||
+                $this->averageYearlyCostMax === null
             ) {
                 return false;
             }
@@ -231,127 +232,112 @@ class VendorApplication extends Model
         return true;
     }
 
-    function getScoreFromResponse(string $response)
+    function getScoreFromResponse($response)
     {
-        if ($response == 'Product fully supports the functionality') return $this->project->fitgapWeightFullySupports ?? 3;
-        if ($response == 'Product partially supports the functionality') return $this->project->fitgapWeightPartiallySupports ?? 2;
-        if ($response == 'Functionality planned for a future release') return $this->project->fitgapWeightPlanned ?? 1;
+        if (!empty($response)) {
+            $responseFromVendor = $response->response();
+            if ($responseFromVendor == 'Product fully supports the functionality') return $this->project->fitgapWeightFullySupports ?? 3;
+            if ($responseFromVendor == 'Product partially supports the functionality') return $this->project->fitgapWeightPartiallySupports ?? 2;
+            if ($responseFromVendor == 'Functionality planned for a future release') return $this->project->fitgapWeightPlanned ?? 1;
 
-        return $this->project->fitgapWeightNotSupported ?? 0;
+            return $this->project->fitgapWeightNotSupported ?? 0;
+
+        }
+
     }
 
-    function getClientMultiplierInRow($row)
+    function getClientMultiplierInRow($question)
     {
-        $response = $this->project->fitgapClientColumns[$row]['Client'] ?? '';
+        //$response = $this->project->fitgapClientColumns[$row]['Client'] ?? '';
+        $responseClient = $question->client() ?? '';
 
-        if ($response == 'Must') return $this->project->fitgapWeightMust ?? 10;
-        if ($response == 'Required') return $this->project->fitgapWeightRequired ?? 5;
-        if ($response == 'Nice to have') return $this->project->fitgapWeightNiceToHave ?? 1;
+        if ($responseClient == 'Must') return $this->project->fitgapWeightMust ?? 10;
+        if ($responseClient == 'Required') return $this->project->fitgapWeightRequired ?? 5;
+        if ($responseClient == 'Nice to have') return $this->project->fitgapWeightNiceToHave ?? 1;
 
         return 1;
     }
 
-    function averageScoreOfType(string $type): float
-    {
-        $fitgap5cols = $this->project->fitgap5Columns;
-
-        $scores = [];
-        $maxScores = [];
-        foreach ($fitgap5cols as $key => $value) {
-            if ($value['Requirement Type'] == $type) {
-                $response = $this->fitgapVendorColumns[$key]['Vendor Response'] ?? '';
-                $multiplier = $this->getClientMultiplierInRow($key);
-
-                $scores[] = $this->getScoreFromResponse($response) * $multiplier;
-                $maxScores[] = ($this->project->fitgapWeightFullySupports ?? 3) * $multiplier;
-            }
-        }
-
-        if (count($scores) == 0 || count($maxScores) == 0) {
-            return 0;
-        }
-
-        $num = array_sum($scores);
-        $denom = array_sum($maxScores);
-
-        if ($denom == 0) return 0;
-
-        return
-            10 * ($num / $denom);
-    }
-
     public function ranking()
     {
-        if ($this->project == null) {
-            return 0;
-        }
+        $score = 0;
+        if (!empty($this->project)) {
+            if ($this->project == null) {
+                $score = 0;
+            }
 
-        $applications = $this->project->vendorApplications->sortByDesc(function ($application) {
-            return $application->totalScore();
-        });
+            $applications = $this->project->vendorApplications->sortByDesc(function ($application) {
+                return $application->totalScore();
+            });
 
-        $rank = 1;
-        foreach ($applications as $key => $app) {
-            if ($app->is($this)) {
-                return $rank;
-            } else {
-                $rank++;
+            $rank = 1;
+            foreach ($applications as $key => $app) {
+                if ($app->is($this)) {
+                    $score = $rank;
+                } else {
+                    $score = $rank++;
+                }
             }
         }
+        return $score;
 
         //throw new Exception('This exception is literally impossible to reach. VendorApplication::ranking');
     }
 
     public function totalScore()
     {
-        if ($this->project == null) {
-            return 0;
+        $score = 0;
+        if (!empty($this->project)) {
+            $weights = collect($this->project->scoringValues ?? [0, 0, 0, 0, 0])
+                ->map(function ($times) {
+                    // We save the number of blocks, not the actual percentage
+                    return $times * 5;
+                });
+
+            $totalWeight = $weights->sum();
+
+            // If they haven't set the weights, just do the average
+            if ($totalWeight == 0) {
+                return collect([
+                    $this->fitgapScore(),
+                    $this->vendorScore(),
+                    $this->experienceScore(),
+                    $this->innovationScore(),
+                    $this->implementationScore(),
+                ])->avg();
+            }
+            $score = $this->fitgapScore() * ($weights[0] / $totalWeight) +
+                $this->vendorScore() * ($weights[1] / $totalWeight) +
+                $this->experienceScore() * ($weights[2] / $totalWeight) +
+                $this->innovationScore() * ($weights[3] / $totalWeight) +
+                $this->implementationScore() * ($weights[4] / $totalWeight);
         }
 
-        $weights = collect($this->project->scoringValues ?? [0, 0, 0, 0, 0])
-            ->map(function ($times) {
-                // We save the number of blocks, not the actual percentage
-                return $times * 5;
-            });
+        return $score;
 
-        $totalWeight = $weights->sum();
-
-        // If they haven't set the weights, just do the average
-        if ($totalWeight == 0) {
-            return collect([
-                $this->fitgapScore(),
-                $this->vendorScore(),
-                $this->experienceScore(),
-                $this->innovationScore(),
-                $this->implementationScore(),
-            ])->avg();
-        }
-
-        return
-            $this->fitgapScore() * ($weights[0] / $totalWeight) +
-            $this->vendorScore() * ($weights[1] / $totalWeight) +
-            $this->experienceScore() * ($weights[2] / $totalWeight) +
-            $this->innovationScore() * ($weights[3] / $totalWeight) +
-            $this->implementationScore() * ($weights[4] / $totalWeight);
     }
 
     /**
      * Returns average of all fitgap scores
      *
-     * @return void
+     * @return float
      */
     public function fitgapScore()
     {
-        $functionalScore = $this->fitgapFunctionalScore();
-        $technicalScore = $this->fitgapTechnicalScore();
-        $serviceScore = $this->fitgapServiceScore();
-        $otherScore = $this->fitgapOtherScore();
+        $score = 0;
+        if (!empty($this->project)) {
+            $functionalScore = $this->fitgapFunctionalScore();
+            $technicalScore = $this->fitgapTechnicalScore();
+            $serviceScore = $this->fitgapServiceScore();
+            $otherScore = $this->fitgapOtherScore();
 
-        return
-            (($this->project->fitgapFunctionalWeight ?? 60) / 100) * $functionalScore +
-            (($this->project->fitgapTechnicalWeight ?? 20) / 100) * $technicalScore +
-            (($this->project->fitgapServiceWeight ?? 10) / 100) * $serviceScore +
-            (($this->project->fitgapOthersWeight ?? 10) / 100) * $otherScore;
+            $score = (($this->project->fitgapFunctionalWeight ?? 60) / 100) * $functionalScore +
+                (($this->project->fitgapTechnicalWeight ?? 20) / 100) * $technicalScore +
+                (($this->project->fitgapServiceWeight ?? 10) / 100) * $serviceScore +
+                (($this->project->fitgapOthersWeight ?? 10) / 100) * $otherScore;
+        }
+
+        return $score;
     }
 
     public function fitgapFunctionalScore()
@@ -374,79 +360,137 @@ class VendorApplication extends Model
         return $this->averageScoreOfType('Others');
     }
 
+    // Only for Fitgap Types
+    function averageScoreOfType(string $type): float
+    {
+
+        $score = 0;
+        if (!empty($this->project)) {
+            $fitgapQuestions = FitgapQuestion::findByProject($this->project_id);
+
+            $scores = [];
+            $maxScores = [];
+            if (!empty($fitgapQuestions)) {
+                foreach ($fitgapQuestions as $key => $value) {
+                    if ($value->requirementType() == $type) {
+                        //$response = $this->fitgapVendorColumns[$key]['Vendor Response'] ?? '';
+                        $response = FitgapVendorResponse::findByFitgapQuestionFromTheApplication(
+                            $this->id, $value->id);
+                        $multiplier = $this->getClientMultiplierInRow($value);
+
+                        $scores[] = $this->getScoreFromResponse($response) * $multiplier;
+                        $maxScores[] = ($this->project->fitgapWeightFullySupports ?? 3) * $multiplier;
+                    }
+                }
+                if (count($scores) == 0 || count($maxScores) == 0) {
+                    $score = 0;
+                }
+
+                $num = array_sum($scores);
+                $denom = array_sum($maxScores);
+
+                if ($denom == 0) {
+                    $score = 0;
+                } else {
+                    $score = 10 * ($num / $denom);
+                }
+            }
+        }
+
+        return $score;
+    }
+
     public function vendorScore()
     {
-        $corp = $this->project->selectionCriteriaQuestionsForVendor($this->vendor)
-                ->whereHas('originalQuestion', function ($query) {
-                    $query->where('page', 'vendor_corporate');
-                })
-                ->whereHas('originalQuestion', function ($query) {
-                    $query->whereNull('linked_question_id');
-                })->avg('score') ?? 0;
+        $score = 0;
+        if (!empty($this->project)) {
+            $corp = $this->project->selectionCriteriaQuestionsForVendor($this->vendor)
+                    ->whereHas('originalQuestion', function ($query) {
+                        $query->where('page', 'vendor_corporate');
+                    })
+                    ->whereHas('originalQuestion', function ($query) {
+                        $query->whereNull('linked_question_id');
+                    })->avg('score') ?? 0;
 
-        $market = $this->project->selectionCriteriaQuestionsForVendor($this->vendor)
-                ->whereHas('originalQuestion', function ($query) {
-                    $query->where('page', 'vendor_market');
-                })
-                ->whereHas('originalQuestion', function ($query) {
-                    $query->whereNull('linked_question_id');
-                })->avg('score') ?? 0;
+            $market = $this->project->selectionCriteriaQuestionsForVendor($this->vendor)
+                    ->whereHas('originalQuestion', function ($query) {
+                        $query->where('page', 'vendor_market');
+                    })
+                    ->whereHas('originalQuestion', function ($query) {
+                        $query->whereNull('linked_question_id');
+                    })->avg('score') ?? 0;
+            $score = collect([$corp, $market])->avg();
+        }
 
-        return collect([$corp, $market])->avg();
+        return $score;
     }
 
     public function experienceScore()
     {
-        return $this->project->selectionCriteriaQuestionsForVendor($this->vendor)->whereHas('originalQuestion', function ($query) {
-                $query->where('page', 'experience');
-            })
-                ->whereHas('originalQuestion', function ($query) {
-                    $query->whereNull('linked_question_id');
-                })->avg('score') ?? 0;
+        $score = 0;
+        if (!empty($this->project)) {
+            $score = $this->project->selectionCriteriaQuestionsForVendor($this->vendor)->whereHas('originalQuestion', function ($query) {
+                    $query->where('page', 'experience');
+                })
+                    ->whereHas('originalQuestion', function ($query) {
+                        $query->whereNull('linked_question_id');
+                    })->avg('score') ?? 0;
+        }
+
+        return $score;
     }
 
     public function innovationScore()
     {
-        $digital = $this->project->selectionCriteriaQuestionsForVendor($this->vendor)->whereHas('originalQuestion', function ($query) {
-                $query
-                    ->where('page', 'innovation_digitalEnablers');
-            })->whereHas('originalQuestion', function ($query) {
-                $query->whereNull('linked_question_id');
-            })->avg('score') ?? 0;
+        $score = 0;
+        if (!empty($this->project)) {
+            $digital = $this->project->selectionCriteriaQuestionsForVendor($this->vendor)->whereHas('originalQuestion', function ($query) {
+                    $query
+                        ->where('page', 'innovation_digitalEnablers');
+                })->whereHas('originalQuestion', function ($query) {
+                    $query->whereNull('linked_question_id');
+                })->avg('score') ?? 0;
 
-        $alliances = $this->project->selectionCriteriaQuestionsForVendor($this->vendor)->whereHas('originalQuestion', function ($query) {
-                $query
-                    ->where('page', 'innovation_alliances');
-            })->whereHas('originalQuestion', function ($query) {
-                $query->whereNull('linked_question_id');
-            })->avg('score') ?? 0;
+            $alliances = $this->project->selectionCriteriaQuestionsForVendor($this->vendor)->whereHas('originalQuestion', function ($query) {
+                    $query
+                        ->where('page', 'innovation_alliances');
+                })->whereHas('originalQuestion', function ($query) {
+                    $query->whereNull('linked_question_id');
+                })->avg('score') ?? 0;
 
-        $product = $this->project->selectionCriteriaQuestionsForVendor($this->vendor)->whereHas('originalQuestion', function ($query) {
-                $query
-                    ->where('page', 'innovation_product');
-            })->whereHas('originalQuestion', function ($query) {
-                $query->whereNull('linked_question_id');
-            })->avg('score') ?? 0;
+            $product = $this->project->selectionCriteriaQuestionsForVendor($this->vendor)->whereHas('originalQuestion', function ($query) {
+                    $query
+                        ->where('page', 'innovation_product');
+                })->whereHas('originalQuestion', function ($query) {
+                    $query->whereNull('linked_question_id');
+                })->avg('score') ?? 0;
 
-        $sustainability = $this->project->selectionCriteriaQuestionsForVendor($this->vendor)->whereHas('originalQuestion', function ($query) {
-                $query
-                    ->where('page', 'innovation_sustainability');
-            })->whereHas('originalQuestion', function ($query) {
-                $query->whereNull('linked_question_id');
-            })->avg('score') ?? 0;
+            $sustainability = $this->project->selectionCriteriaQuestionsForVendor($this->vendor)->whereHas('originalQuestion', function ($query) {
+                    $query
+                        ->where('page', 'innovation_sustainability');
+                })->whereHas('originalQuestion', function ($query) {
+                    $query->whereNull('linked_question_id');
+                })->avg('score') ?? 0;
 
-        return collect([$digital, $alliances, $product, $sustainability])->avg();
+            $score = collect([$digital, $alliances, $product, $sustainability])->avg();
+        }
+
+        return $score;
     }
 
     public function implementationScore()
     {
-        $impScore = $this->implementationImplementationScore();
+        $score = 0;
+        if (!empty($this->project)) {
+            $impScore = $this->implementationImplementationScore();
 
-        $runScore = $this->implementationRunScore();
+            $runScore = $this->implementationRunScore();
 
-        return
-            (($this->project->implementationImplementationWeight ?? 20) / 100) * $impScore +
-            (($this->project->implementationRunWeight ?? 80) / 100) * $runScore;
+            $score = (($this->project->implementationImplementationWeight ?? 20) / 100) * $impScore +
+                (($this->project->implementationRunWeight ?? 80) / 100) * $runScore;
+        }
+
+        return $score;
     }
 
     public function implementationImplementationScore()
@@ -485,59 +529,63 @@ class VendorApplication extends Model
 
     public function averageImplementationCost()
     {
-        if ($this->project->isBinding) {
-            return collect([
-                collect($this->staffingCost ?? ['cost' => '0',])
-                    ->map(function ($el) {
-                        return $el['cost'] ?? 0;
-                    })
-                    ->avg(),
-                collect($this->travelCost ?? ['cost' => '0',])
-                    ->map(function ($el) {
-                        return $el['cost'] ?? 0;
-                    })
-                    ->avg(),
-                collect($this->additionalCost ?? ['cost' => '0',])
-                    ->map(function ($el) {
-                        return $el['cost'] ?? 0;
-                    })
-                    ->avg(),
-            ])
-                ->avg();
-        } else {
-            return collect([
-                $this->overallImplementationMin ?? 0,
-                $this->overallImplementationMax ?? 0,
-            ])->average();
+        if (!empty($this->project)) {
+            if ($this->project->isBinding) {
+                return collect([
+                    collect($this->staffingCost ?? ['cost' => '0',])
+                        ->map(function ($el) {
+                            return $el['cost'] ?? 0;
+                        })
+                        ->avg(),
+                    collect($this->travelCost ?? ['cost' => '0',])
+                        ->map(function ($el) {
+                            return $el['cost'] ?? 0;
+                        })
+                        ->avg(),
+                    collect($this->additionalCost ?? ['cost' => '0',])
+                        ->map(function ($el) {
+                            return $el['cost'] ?? 0;
+                        })
+                        ->avg(),
+                ])
+                    ->avg();
+            } else {
+                return collect([
+                    $this->overallImplementationMin ?? 0,
+                    $this->overallImplementationMax ?? 0,
+                ])->average();
+            }
         }
     }
 
     public function implementationCost()
     {
-        if ($this->project->isBinding) {
-            return collect([
-                collect($this->staffingCost ?? ['cost' => '0',])
-                    ->map(function ($el) {
-                        return $el['cost'] ?? 0;
-                    })
-                    ->sum(),
-                collect($this->travelCost ?? ['cost' => '0',])
-                    ->map(function ($el) {
-                        return $el['cost'] ?? 0;
-                    })
-                    ->sum(),
-                collect($this->additionalCost ?? ['cost' => '0',])
-                    ->map(function ($el) {
-                        return $el['cost'] ?? 0;
-                    })
-                    ->sum(),
-            ])
-                ->sum();
-        } else {
-            return collect([
-                $this->overallImplementationMin ?? 0,
-                $this->overallImplementationMax ?? 0,
-            ])->average();
+        if (!empty($this->project)) {
+            if ($this->project->isBinding) {
+                return collect([
+                    collect($this->staffingCost ?? ['cost' => '0',])
+                        ->map(function ($el) {
+                            return $el['cost'] ?? 0;
+                        })
+                        ->sum(),
+                    collect($this->travelCost ?? ['cost' => '0',])
+                        ->map(function ($el) {
+                            return $el['cost'] ?? 0;
+                        })
+                        ->sum(),
+                    collect($this->additionalCost ?? ['cost' => '0',])
+                        ->map(function ($el) {
+                            return $el['cost'] ?? 0;
+                        })
+                        ->sum(),
+                ])
+                    ->sum();
+            } else {
+                return collect([
+                    $this->overallImplementationMin ?? 0,
+                    $this->overallImplementationMax ?? 0,
+                ])->average();
+            }
         }
     }
 
@@ -739,29 +787,29 @@ class VendorApplication extends Model
 
     public function fitgapCollectionExport(): \Illuminate\Support\Collection
     {
-        $fitgap5Columns = $this->project->fitgap5Columns;
-        $fitgapClientColumns = $this->project->fitgapClientColumns;
-        $fitgapVendorColumns = $this->fitgapVendorColumns;
+        $fitgapQuestions = FitgapQuestion::findByProject($this->project_id);
+        $fitgapResponses = FitgapVendorResponse::findByVendorApplication($this->id);
 
-        $result = [];
-        foreach ($fitgap5Columns as $key => $something) {
-            $result[] =
-                array_merge(
-                    $fitgap5Columns[$key],
-                    $fitgapClientColumns[$key] ?? [
-                        'Client' => '',
-                        'Business Opportunity' => '',
-                    ],
-                    $fitgapVendorColumns[$key] ?? [
-                        'Vendor Response' => '',
-                        'Comments' => '',
-                    ]
-                );
-        }
+        $result = $fitgapQuestions->map(function ($fitgapQuestion) use ($fitgapResponses) {
+            $fitgapResponseFound = $fitgapResponses->where('fitgap_question_id', $fitgapQuestion->id)->first();
+            return [
+                'ID' => $fitgapQuestion->id(),
+                'Type' => $fitgapQuestion->requirementType(),
+                'Level 1' => $fitgapQuestion->level1(),
+                'Level 2' => $fitgapQuestion->level2(),
+                'Level 3' => $fitgapQuestion->level3(),
+                'Requirement' => $fitgapQuestion->requirement(),
+                'Client' => $fitgapQuestion->client(),
+                'Business Opportunity' => $fitgapQuestion->businessOpportunity(),
+                'Vendor response' => $fitgapResponseFound ? $fitgapResponseFound->response() : '',
+                'Comments' => $fitgapResponseFound ? $fitgapResponseFound->comments() : '',
+            ];
+        });
 
         $result = collect($result);
 
         $result->prepend([
+            'ID',
             'Requirement Type',
             'Level 1',
             'Level 2',
@@ -1060,12 +1108,12 @@ class VendorApplication extends Model
 
         // All vendor applications that we need Raw data without user filters
         $allVendorApplications = VendorApplication::
-        where('phase', '=', 'evaluated')
+        where('phase', '=', 'submitted')
             ->orWhere('phase', '=', 'pendingEvaluation')          // Only bc we need some data. can be removed later.
             ->join('projects as p', 'project_id', '=', 'p.id')
             ->join('users as u', 'vendor_id', '=', 'u.id')
-            ->join('project_subpractice as sub', 'vendor_applications.project_id', '=', 'sub.project_id');
-        //->where('p.currentPhase', '=', 'old');
+            ->join('project_subpractice as sub', 'vendor_applications.project_id', '=', 'sub.project_id')
+            ->where('p.currentPhase', '=', 'old');
 
         // Applying user filters to projects
         $allVendorApplications = VendorApplication::benchmarkProjectResultsFilters($allVendorApplications,
@@ -1117,12 +1165,11 @@ class VendorApplication extends Model
 
         // All vendor applications that we need Raw data without user filters
         $allVendorApplications = VendorApplication::
-        /*        where('phase', '=', 'evaluated')
-                    ->orWhere('phase', '=', 'pendingEvaluation')    */      // Only bc we need some data. can be removed later.
-        join('projects as p', 'project_id', '=', 'p.id')
+        where('phase', '=', 'submitted')
+            ->join('projects as p', 'project_id', '=', 'p.id')
             ->join('users as u', 'vendor_id', '=', 'u.id')
-            ->join('project_subpractice as sub', 'vendor_applications.project_id', '=', 'sub.project_id');
-        //->where('p.currentPhase', '=', 'old');
+            ->join('project_subpractice as sub', 'vendor_applications.project_id', '=', 'sub.project_id')
+            ->where('p.currentPhase', '=', 'old');
 
         // Applying user filters to projects
         $allVendorApplications = VendorApplication::benchmarkProjectResultsFilters($allVendorApplications,
@@ -1137,13 +1184,12 @@ class VendorApplication extends Model
                 $result [$key]['vendor_id'] = $vendor->id;
                 $result [$key]['name'] = $vendor->name;
                 $result [$key]['overall'] = $vendor->calculateMyVendorScore('overall_score');
-                $result [$key]['ranking'] = round(10 - $vendor->calculateMyVendorScore('ranking_score'),2);  // NOTE: We use 10 - val so we get the chart flipped horizontally
+                $result [$key]['ranking'] = round(10 - $vendor->calculateMyVendorScore('ranking_score'), 2);  // NOTE: We use 10 - val so we get the chart flipped horizontally
             }
         }
 
         return $result;
     }
-
 
     // Encapsulate the filters for graphics from view: Project Results
     public static function benchmarkProjectResultsFilters($query, $practicesID = [], $subpracticesID = [], $years = [], $industries = [], $regions = [])
@@ -1159,13 +1205,15 @@ class VendorApplication extends Model
         if (is_array($subpracticesID)) {
             $query = $query->where(function ($query) use ($subpracticesID) {
                 for ($i = 0; $i < count($subpracticesID); $i++) {
-                    $query = $query->orWhere('sub.subpractice_id', '=', $subpracticesID[$i]);
+                    // AND
+                    $query = $query->where('sub.subpractice_id', '=', $subpracticesID[$i]);
                 }
             });
         }
         if ($years) {
             $query = $query->where(function ($query) use ($years) {
                 for ($i = 0; $i < count($years); $i++) {
+                    // OR
                     $query = $query->orWhere('p.created_at', 'like', '%' . $years[$i] . '%');
                 }
             });
@@ -1180,7 +1228,8 @@ class VendorApplication extends Model
         if ($regions) {
             $query = $query->where(function ($query) use ($regions) {
                 for ($i = 0; $i < count($regions); $i++) {
-                    $query = $query->orWhere('p.regions', 'like', '%' . $regions[$i] . '%');
+                    // AND
+                    $query = $query->where('p.regions', 'like', '%' . $regions[$i] . '%');
                 }
             });
         }

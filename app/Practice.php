@@ -35,7 +35,7 @@ class Practice extends Model
     public function applicationsInProjectsWithThisPractice($regions = [], $years = [])
     {
 
-        $query = $this->projects()->select('id', 'currentPhase','regions', 'created_at');
+        $query = $this->projects()->select('id', 'currentPhase', 'regions', 'created_at');
         $query = $this->benchmarkOverviewFilters($query, $regions, $years);
 
         $query = $query->get()->map(function (Project $project) {
@@ -46,9 +46,43 @@ class Practice extends Model
 
     }
 
+    /**
+     * @param array $regions
+     * @param array $years
+     * @return float|int
+     * Shows Number of vendors released from old projects by each practice / total old projects by each practice.
+     */
+    public function averageReleasedApplicationsInOldProjectsWithThisPractice($regions = [], $years = [])
+    {
+
+        $query = $this->projects()->select('id', 'currentPhase', 'regions', 'created_at');
+        $query = $this->benchmarkOverviewFilters($query, $regions, $years);
+
+        // Total projects
+        $totalOldProjects = $query
+            //->where('currentPhase', '=', 'old')
+            ->count();
+
+        // Number of vendors
+        $applicationsReleasedForOldProjectsWithThisPractice = $query->get()
+            ->map(function (Project $project) {
+                return $project->vendorApplications
+                    ->where('phase', '=', 'submitted')
+                    ->count();
+            })->sum();
+
+        $average = 0;
+        if ($totalOldProjects > 0) {
+            // Vendors / Total projects.
+            $average = $applicationsReleasedForOldProjectsWithThisPractice / $totalOldProjects;
+        }
+
+        return $average;
+    }
+
     public function numberOfProjectsByVendor(User $vendor, $regions = [], $years = [])
     {
-        $query = $this->projects()->select('id', 'currentPhase','regions', 'created_at');
+        $query = $this->projects()->select('id', 'currentPhase', 'regions', 'created_at');
         $query = $this->benchmarkOverviewFilters($query, $regions, $years);
 
         $query = $query->get()->filter(function (Project $project) use ($vendor) {
@@ -61,12 +95,12 @@ class Practice extends Model
     // Encapsulate the filters for graphics from view: Overview - general
     private function benchmarkOverviewFilters($query, $regions = [], $years = [])
     {
-        $query = $query->where('currentPhase','=','old');
+        $query = $query->where('currentPhase', '=', 'old');
 
         if ($regions) {
             $query = $query->where(function ($query) use ($regions) {
                 for ($i = 0; $i < count($regions); $i++) {
-                    $query = $query->orWhere('regions', 'like', '%' . $regions[$i] . '%');
+                    $query = $query->where('regions', 'like', '%' . $regions[$i] . '%');
                 }
             });
         }
@@ -81,22 +115,4 @@ class Practice extends Model
         return $query;
     }
 
-// old methods
-    /*
-public function applicationsInProjectsWithThisPractice()
-{
-    return $this->projects->map(function (Project $project) {
-        return $project->vendorApplications->count();
-    })->sum();
-}
-*/
-
-
-    /*
-        public function numberOfProjectsByVendor(User $vendor)
-        {
-            return $this->projects->filter(function (Project $project) use ($vendor) {
-                return $vendor->hasAppliedToProject($project);
-            })->count();
-        }*/
 }

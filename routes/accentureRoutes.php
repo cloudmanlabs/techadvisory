@@ -199,10 +199,12 @@ prefix('accenture')
 
             Route::get('/benchmark/customSearches/', 'BenchmarkController@customSearches')
                 ->name('benchmark.customSearches');
+
             Route::get('/benchmark/customSearches/vendor', 'BenchmarkController@customSearchesVendor')
                 ->name('benchmark.customSearches.vendor');
 
             Route::get('/benchmark/projectResults/getSubpractices/{practice}', 'BenchmarkController@getSubpracticesfromPractice');
+            Route::get('/benchmark/customSearches/getSubpractices/{practice}', 'BenchmarkController@getSubpracticesfromPracticeName');
 
         });
     });

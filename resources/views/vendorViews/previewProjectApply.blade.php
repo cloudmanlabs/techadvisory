@@ -46,7 +46,7 @@
                                             :disabled="true" :required="false" />
 
                                         <br>
-                                        <x-folderFileUploader :folder="$vendorApplication->corporateFolder" label="Upload Additional Information" :timeout="1000" />
+                                        {{-- <x-folderFileUploader :folder="$vendorApplication->corporateFolder" label="Upload Additional Information" :timeout="1000" /> --}}
 
                                         <br><br>
                                         <h4>Market presence</h4>
@@ -61,7 +61,7 @@
                                         <x-questionForeach :questions="$experienceQuestions" :class="'selectionCriteriaQuestion'"
                                             :disabled="true" :required="false" />
 
-                                        <x-folderFileUploader :folder="$vendorApplication->experienceFolder" :timeout="1000"  :disabled="true"/>
+                                        {{-- <x-folderFileUploader :folder="$vendorApplication->experienceFolder" :timeout="1000"  :disabled="true"/> --}}
                                     </section>
 
                                     <h2>Innovation & Vision</h2>
@@ -89,6 +89,21 @@
 
                                     <h2>Implementation & Commercials</h2>
                                     <section>
+                                        @if ($project->id == 139)
+                                        <p class="welcome_text extra-top-15px" style="color:red">
+                                            This section covered as part of RFP response document. To complete questionnaire please only fill "Solutions used" with
+                                        the solutions you are offering, and implementation & run costs with a "0". Finally, click on Submit to send your
+                                        application.
+                                        </p>
+                                        @endif
+                                        @if ($project->id == 140)
+                                        <p class="welcome_text extra-top-15px" style="color:red">
+                                            This section covered as part of RFP response document. To complete questionnaire please only fill "Solutions used" with
+                                        the solutions you are offering, and implementation & run costs with a "0". Finally, click on Submit to send your
+                                        application.
+                                        </p>
+                                        @endif
+
                                         <h4>Implementation</h4>
                                         <br>
                                         <x-questionForeach :questions="$implementationImplementationQuestions" :class="'selectionCriteriaQuestion'"
@@ -108,7 +123,7 @@
 
                                         <br>
                                         <br>
-                                        <b>Implementation Cost</b>
+                                        <b>Implementation Cost *</b>
 
                                         @if ($project->isBinding)
                                             <x-selectionCriteria.staffingCost :vendorApplication="$vendorApplication" :disabled="true" :evaluate="false"/>

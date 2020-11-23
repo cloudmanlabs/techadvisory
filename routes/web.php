@@ -110,6 +110,17 @@ Route::middleware(['auth'])->group(function () {
     Route::get('fitgapEvaluationIframe/{vendor}/{project}', 'FitgapController@evaluationIframe')
         ->name('fitgapEvaluationIframe');
 
+    Route::post('updateFitgapQuestion', 'FitgapController@updateFitgapQuestion')
+        ->name('updateFitgapQuestion');
+    Route::post('createFitgapQuestion/{project}', 'FitgapController@createFitgapQuestion')
+        ->name('createFitgapQuestion');
+    Route::post('deleteFitgapQuestion/{project}', 'FitgapController@deleteFitgapQuestion')
+        ->name('deleteFitgapQuestion');
+    Route::post('moveFitgapQuestion/{project}', 'FitgapController@moveFitgapQuestion')
+        ->name('moveFitgapQuestion');
+
+    Route::post('updateFitgapResponse/{project}/{vendor}', 'FitgapController@updateFitgapResponse')
+        ->name('updateFitgapResponse');
 
     Route::get('security/logs/export', 'SecurityLogController@exportAll');
 });

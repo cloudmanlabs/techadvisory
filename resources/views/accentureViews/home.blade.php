@@ -64,7 +64,7 @@
                                             Please chose the Vendors you'd like to see:
                                         </p>
                                         <select id="homeVendorSelect" class="w-100" multiple="multiple">
-                                            <option>No vendor</option>
+                                            <option value="">No vendor</option>
                                             @foreach ($vendors as $vendor)
                                                 <option>{{$vendor}}</option>
                                             @endforeach
@@ -146,7 +146,6 @@
                         </div>
                     </div>
                 </div>
-
                 <div class="row" id="preparation_phase">
                     <div class="col-lg-12 grid-margin stretch-card">
                         <div class="card">
@@ -161,7 +160,7 @@
                                     @foreach ($preparationProjects as $project)
                                         <div class="card" style="margin-bottom: 30px;"
                                              data-client="{{$project->client->name ?? 'No client'}}"
-                                             data-vendors="{{json_encode($project->vendorsApplied()->pluck('name')->toArray() ?? '')}}"
+                                             data-vendors="{{$project->vendorsApplied()->count()>0 ? json_encode($project->vendorsApplied()->pluck('name')->toArray()) : '[""]'}}"
                                              data-name="{{$project->name ?? 'No name'}}"
                                              data-practice="{{$project->practice->name ?? 'No SC Capability (Practice)'}}"
                                              data-year="{{$project->created_at->year}}">
@@ -214,7 +213,7 @@
                                     @foreach ($oldProjects as $project)
                                         <div class="card" style="margin-bottom: 30px;"
                                              data-client="{{$project->client->name ?? 'No client'}}"
-                                             data-vendors="{{json_encode($project->vendorsApplied()->pluck('name')->toArray() ?? '')}}"
+                                             data-vendors="{{json_encode($project->vendorsApplied()->pluck('name')->toArray())}}"
                                              data-name="{{$project->name ?? 'No name'}}"
                                              data-practice="{{$project->practice->name ?? 'No SC Capability (Practice)'}}"
                                              data-year="{{$project->created_at->year}}">
@@ -308,41 +307,42 @@
 
             function updateOpenProjects() {
                 // Get all selected practices. If there are none, get all of them
-                var selectedPractices = $('#homePracticeSelect').select2('data').map((el) => {
+                var selectedPractices = $('#homePracticeSelect').select2('data').map(function(el) {
                     return el.text
                 });
                 if (selectedPractices.length == 0) {
-                    selectedPractices = $('#homePracticeSelect').children().toArray().map((el) => {
+                    selectedPractices = $('#homePracticeSelect').children().toArray().map(function(el) {
                         return el.innerHTML
                     });
                 }
 
-                var selectedClients = $('#homeClientSelect').select2('data').map((el) => {
+                var selectedClients = $('#homeClientSelect').select2('data').map(function(el) {
                     return el.text
                 });
                 if (selectedClients.length == 0) {
-                    selectedClients = $('#homeClientSelect').children().toArray().map((el) => {
+                    selectedClients = $('#homeClientSelect').children().toArray().map(function(el) {
                         return el.innerHTML
                     });
                 }
 
-                var selectedYears = $('#homeYearSelect').select2('data').map((el) => {
+                var selectedYears = $('#homeYearSelect').select2('data').map(function(el) {
                     return el.text
                 });
                 if (selectedYears.length == 0) {
-                    selectedYears = $('#homeYearSelect').children().toArray().map((el) => {
+                    selectedYears = $('#homeYearSelect').children().toArray().map(function(el) {
                         return el.innerHTML
                     });
                 }
 
-                var selectedVendors = $('#homeVendorSelect').select2('data').map((el) => {
-                    return el.text
-                });
-                if (selectedVendors.length == 0) {
-                    selectedVendors = $('#homeVendorSelect').children().toArray().map((el) => {
-                        return el.innerHTML
-                    });
-                }
+                /*                var selectedVendors = $('#homeVendorSelect').select2('data').map((el) => {
+                                    return el.text
+                                });
+                                if (selectedVendors.length == 0) {
+                                    selectedVendors = $('#homeVendorSelect').children().toArray().map((el) => {
+                                        return el.innerHTML
+                                    });
+                                }*/
+                var selectedVendors = $('#homeVendorSelect').val();
 
                 // Add a display none to the one which don't have this tags
                 $('#openPhaseContainer').children().each(function () {
@@ -352,10 +352,12 @@
                     const vendors = $(this).data('vendors');
                     const name = String($(this).data('name')).toLowerCase();
 
+
                     if ($.inArray(practice, selectedPractices) !== -1
                         && $.inArray(client, selectedClients) !== -1
                         && $.inArray(year, selectedYears) !== -1
-                        && intersect(vendors, selectedVendors).length !== 0
+                        //&& _.intersection(vendors, selectedVendors).length > 0
+                        && (selectedVendors.length > 0 ? _.intersection(vendors, selectedVendors).length > 0 : true)
                         && (!searchInputText || name.includes(searchInputText))) {
 
                         $(this).css('display', 'flex');
@@ -371,10 +373,14 @@
                     const vendors = $(this).data('vendors');
                     const name = String($(this).data('name')).toLowerCase();
 
+                    console.log('vendors: ', vendors)
+                    console.log('selected vendors', selectedVendors)
+
                     if ($.inArray(practice, selectedPractices) !== -1
                         && $.inArray(client, selectedClients) !== -1
                         && $.inArray(year, selectedYears) !== -1
-                        && intersect(vendors, selectedVendors).length !== 0
+                        //&& _.intersection(vendors, selectedVendors).length > 0
+                        && (selectedVendors.length > 0 ? _.intersection(vendors, selectedVendors).length > 0 : true)
                         && (!searchInputText || name.includes(searchInputText))) {
                         $(this).css('display', 'flex');
                     } else {
@@ -392,20 +398,12 @@
                     if ($.inArray(practice, selectedPractices) !== -1
                         && $.inArray(client, selectedClients) !== -1
                         && $.inArray(year, selectedYears) !== -1
-                        && intersect(vendors, selectedVendors).length !== 0
+                        && (selectedVendors.length > 0 ? _.intersection(vendors, selectedVendors).length > 0 : true)
                         && (!searchInputText || name.includes(searchInputText))) {
                         $(this).css('display', 'flex');
                     } else {
                         $(this).css('display', 'none');
                     }
-                });
-            }
-
-            function intersect(a, b) {
-                var t;
-                if (b.length > a.length) t = b, b = a, a = t; // indexOf to loop over shorter
-                return a.filter(function (e) {
-                    return b.indexOf(e) > -1;
                 });
             }
 

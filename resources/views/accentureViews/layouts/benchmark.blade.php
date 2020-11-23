@@ -49,6 +49,8 @@
         <script src="{{url('assets/vendors/chartjs/Chart.min.js')}}"></script>
         <script src="{{url('assets/js/jquery.toast.min.js')}}"></script>
 
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/ramda/0.27.1/ramda.min.js" integrity="sha512-rZHvUXcc1zWKsxm7rJ8lVQuIr1oOmm7cShlvpV0gWf0RvbcJN6x96al/Rp2L2BI4a4ZkT2/YfVe/8YvB2UHzQw==" crossorigin="anonymous"></script>
+
         <script>
             $(function () {
                 $.ajaxSetup({

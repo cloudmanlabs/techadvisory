@@ -28,6 +28,9 @@ class HomeController extends Controller
             $preparationProjects = Project::projectsFromOwner($myOwnerId, 'preparation');
             $oldProjects = Project::projectsFromOwner($myOwnerId, 'old');
         }
+/*        $openProjects = Project::openProjects();
+        $preparationProjects = Project::preparationProjects();
+        $oldProjects = Project::oldProjects();*/
 
         $practices = Practice::all()->pluck('name');
         $clients = User::clientUsers()->pluck('name');
