@@ -123,6 +123,11 @@ class Project extends Model
         return $this->belongsTo(Owner::class, 'owner_id', 'id');
     }
 
+    // Alias for Owner
+    public function organization(){
+        return $this->owner();
+    }
+
     public function conclusionsFolder()
     {
         return $this->morphOne(Folder::class, 'folderable')->where('folderable_group', 'conclusions');

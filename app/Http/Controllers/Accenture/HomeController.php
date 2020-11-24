@@ -15,15 +15,14 @@ class HomeController extends Controller
     public function home()
     {
 
-        if (empty(auth()->user()->owner())) {
+        if (empty(auth()->user()->organization())) {
             // No Organization filter
-
             $openProjects = Project::openProjects();
             $preparationProjects = Project::preparationProjects();
             $oldProjects = Project::oldProjects();
         } else {
             // filter by Organization
-            $organizationID = auth()->user()->owner()->id;
+            $organizationID = auth()->user()->organization()->id;
             $openProjects = Project::organizationProjectsInPhase('open', $organizationID);
             $preparationProjects = Project::organizationProjectsInPhase('preparation', $organizationID);
             $oldProjects = Project::organizationProjectsInPhase('old', $organizationID);

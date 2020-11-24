@@ -65,6 +65,11 @@ class User extends Authenticatable
         return $this->belongsTo(Owner::class, 'owner_id', 'id');
     }
 
+    // Alias for Owner
+    public function organization(){
+        return $this->owner();
+    }
+
     public function credentials()
     {
         return $this->hasMany(UserCredential::class, 'user_id');
