@@ -16,21 +16,18 @@ class HomeController extends Controller
     {
 
         if (empty(auth()->user()->owner())) {
-            // No region filter
+            // No Organization filter
 
             $openProjects = Project::openProjects();
             $preparationProjects = Project::preparationProjects();
             $oldProjects = Project::oldProjects();
         } else {
-            // filter by his region
-            $myOwnerId = auth()->user()->owner()->id;
-            $openProjects = Project::projectsFromOwner($myOwnerId, 'open');
-            $preparationProjects = Project::projectsFromOwner($myOwnerId, 'preparation');
-            $oldProjects = Project::projectsFromOwner($myOwnerId, 'old');
+            // filter by Organization
+            $organizationID = auth()->user()->owner()->id;
+            $openProjects = Project::organizationProjectsInPhase('open', $organizationID);
+            $preparationProjects = Project::organizationProjectsInPhase('preparation', $organizationID);
+            $oldProjects = Project::organizationProjectsInPhase('old', $organizationID);
         }
-/*        $openProjects = Project::openProjects();
-        $preparationProjects = Project::preparationProjects();
-        $oldProjects = Project::oldProjects();*/
 
         $practices = Practice::all()->pluck('name');
         $clients = User::clientUsers()->pluck('name');

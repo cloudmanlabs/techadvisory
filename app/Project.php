@@ -523,13 +523,13 @@ class Project extends Model
     }
 
     /**
-     * @param $owner_id
-     * @param $currentPhase , Project phase. 'old','preparation' or 'open'
+     * @param $currentPhase String Project phase. 'old','preparation' or 'open'
+     * @param $owner_id int
      * @return Collection
      */
-    public static function projectsFromOwner($owner_id, $currentPhase): Collection
+    public static function organizationProjectsInPhase(string $currentPhase, int $owner_id): Collection
     {
-        return self::where('currentPhase', $currentPhase)
+        return Project::where('currentPhase', $currentPhase)
             ->where('owner_id', '=', $owner_id)->get();
     }
 
