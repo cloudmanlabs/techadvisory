@@ -255,8 +255,6 @@
     <script>
         $(document).ready(function () {
 
-            var searchInputText = null;
-
             // Show filter panel
             $('#filterH3').click(function () {
                 if ($('#filterContainer').css('display') === 'none') {
@@ -358,6 +356,7 @@
                 updateProjects();
             });
 
+            var searchInputText = null;
             $("#homeNameInput").keyup(function (event) {
                 searchInputText = event.target.value.toLowerCase();
                 updateProjects();

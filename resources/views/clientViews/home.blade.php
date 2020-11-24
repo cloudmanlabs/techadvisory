@@ -193,7 +193,6 @@
     @parent
     <script>
         $(document).ready(function () {
-            var searchInputText = null;
 
             $('#filterH3').click(function () {
                 if ($('#filterContainer').css('display') === 'none') {
@@ -294,6 +293,7 @@
                 updateOpenProjects();
             });
 
+            var searchInputText = null;
             $("#homeNameInput").keyup(function (event) {
                 searchInputText = event.target.value.toLowerCase();
                 updateOpenProjects();
