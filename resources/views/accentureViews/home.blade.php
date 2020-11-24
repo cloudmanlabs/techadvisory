@@ -334,14 +334,6 @@
                     });
                 }
 
-                /*                var selectedVendors = $('#homeVendorSelect').select2('data').map((el) => {
-                                    return el.text
-                                });
-                                if (selectedVendors.length == 0) {
-                                    selectedVendors = $('#homeVendorSelect').children().toArray().map((el) => {
-                                        return el.innerHTML
-                                    });
-                                }*/
                 var selectedVendors = $('#homeVendorSelect').val();
 
                 // Add a display none to the one which don't have this tags
@@ -356,7 +348,6 @@
                     if ($.inArray(practice, selectedPractices) !== -1
                         && $.inArray(client, selectedClients) !== -1
                         && $.inArray(year, selectedYears) !== -1
-                        //&& _.intersection(vendors, selectedVendors).length > 0
                         && (selectedVendors.length > 0 ? _.intersection(vendors, selectedVendors).length > 0 : true)
                         && (!searchInputText || name.includes(searchInputText))) {
 
@@ -373,13 +364,10 @@
                     const vendors = $(this).data('vendors');
                     const name = String($(this).data('name')).toLowerCase();
 
-                    console.log('vendors: ', vendors)
-                    console.log('selected vendors', selectedVendors)
 
                     if ($.inArray(practice, selectedPractices) !== -1
                         && $.inArray(client, selectedClients) !== -1
                         && $.inArray(year, selectedYears) !== -1
-                        //&& _.intersection(vendors, selectedVendors).length > 0
                         && (selectedVendors.length > 0 ? _.intersection(vendors, selectedVendors).length > 0 : true)
                         && (!searchInputText || name.includes(searchInputText))) {
                         $(this).css('display', 'flex');
