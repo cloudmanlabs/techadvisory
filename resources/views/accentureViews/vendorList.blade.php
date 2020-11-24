@@ -29,7 +29,7 @@
                                         </div>
                                         <div style="float: right; width: 20%; margin-right: 10%;">
                                             <h5>{{$vendor->getVendorResponse('vendorSegment', '-')}}</h5>
-                                            <h5>{{$vendor->getVendorResponse('vendorIndustry', '-')}}</h5>
+                                            <h5>{{ implode(', ', json_decode($vendor->getIndustryFromVendor()) ?? ['No Industry']) }}</h5>
                                             <h5>{{implode(', ', json_decode($vendor->getVendorResponse('vendorRegions', '["-"]')))}}</h5>
                                         </div>
                                         <div style="float: right; width: 10%; margin-right: 10%;">
