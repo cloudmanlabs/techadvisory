@@ -281,7 +281,6 @@
     @parent
     <script>
         $(document).ready(function () {
-            var searchInputText = null;
 
             $('#filterH3').click(function () {
                 if ($('#filterContainer').css('display') === 'none') {
@@ -364,7 +363,6 @@
                     const vendors = $(this).data('vendors');
                     const name = String($(this).data('name')).toLowerCase();
 
-
                     if ($.inArray(practice, selectedPractices) !== -1
                         && $.inArray(client, selectedClients) !== -1
                         && $.inArray(year, selectedYears) !== -1
@@ -415,6 +413,7 @@
                 updateOpenProjects();
             });
 
+            var searchInputText = null;
             $("#homeNameInput").keyup(function (event) {
                 searchInputText = event.target.value.toLowerCase();
                 updateOpenProjects();
