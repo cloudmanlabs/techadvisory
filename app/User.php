@@ -444,7 +444,7 @@ class User extends Authenticatable
 
         $query = $query->whereHas('vendorApplications', function (Builder $query) {
             $query->where('vendor_id', $this->id)
-            ->where('phase','old');
+            ->where('phase','submitted');
         });
 
         return $query->count();
@@ -556,7 +556,7 @@ class User extends Authenticatable
             return 0;
         }
         $query = $this->vendorApplications()
-            ->where('phase','evaluated')
+            ->where('phase','submitted')
             ->join('projects as p', 'vendor_applications.project_id', '=', 'p.id')
             ->join('project_subpractice as sub', 'p.id', '=', 'sub.project_id')
             ->where('p.currentPhase', 'old');
