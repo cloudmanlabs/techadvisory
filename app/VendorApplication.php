@@ -248,7 +248,6 @@ class VendorApplication extends Model
 
     function getClientMultiplierInRow($question)
     {
-        //$response = $this->project->fitgapClientColumns[$row]['Client'] ?? '';
         $responseClient = $question->client() ?? '';
 
         if ($responseClient == 'Must') return $this->project->fitgapWeightMust ?? 10;

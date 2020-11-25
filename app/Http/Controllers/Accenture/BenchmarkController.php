@@ -10,7 +10,6 @@ use App\Project;
 use App\Providers\ChartsProvider;
 use App\Subpractice;
 use App\User;
-use App\VendorApplication;
 use App\VendorSolution;
 use Illuminate\Http\Request;
 
@@ -37,11 +36,11 @@ class BenchmarkController extends Controller
         $vendors = User::vendorUsers()->where('hasFinishedSetup', true)->get();     // Chart 2
         $clients = User::clientUsers()->where('hasFinishedSetup', true)->get();     // Chart 3
         // Note: In the 3 previous cases, the filters are sended to the view in order to filter there, calling the models.
-        $industries = Project::calculateProjectsPerIndustry($regionsToFilter, $yearsToFilter);     // Chart 4
+        $industries = ChartsProvider::calculateProjectsPerIndustry($regionsToFilter, $yearsToFilter);     // Chart 4
 
         // Data for selects.
         $regions = collect(config('arrays.regions'));
-        $years = Project::calculateProjectsPerYears();
+        $years = ChartsProvider::calculateProjectsPerYears();
 
         return View('accentureViews.benchmarkOverview', [
             'nav1' => 'overview',
@@ -82,7 +81,7 @@ class BenchmarkController extends Controller
         $warehousingProjectsByYears = [];
         $sourcingProjectsByYears = [];
 
-        $years = Project::calculateProjectsPerYearsHistoricalFiltered($industriesToFilter, $regionsToFilter);
+        $years = ChartsProvider::calculateProjectsPerYearsHistoricalFiltered($industriesToFilter, $regionsToFilter);
 
         if ($practicesToFilter) {
 
