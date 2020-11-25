@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use App\Project;
+use App\User;
 use App\VendorApplication;
 use Illuminate\Support\Collection;
 use Illuminate\Support\ServiceProvider;
@@ -202,6 +203,33 @@ class ChartsProvider extends ServiceProvider
         return $query;
     }
 
+    public static function vendorsPerIndustry()
+    {
+        $industriesVendorCount = collect(config('arrays.industryExperience'))->map(function ($industry) {
+            return (object)[
+                'name' => $industry,
+                'count' => ChartsProvider::vendorsCountPerThisIndustry($industry),
+            ];
+        });
+        return $industriesVendorCount;
+    }
+
+    // returns the number of vendors from the Industry consulted.
+    private static function vendorsCountPerThisIndustry($industryToCount)
+    {
+        $query = User::where('hasFinishedSetup', true)->get();
+
+        $industries = collect();
+
+        foreach ($query as $vendor) {
+            $check = $vendor->getIndustryFromVendor();
+            if (strpos($check, $industryToCount) !== false) {
+                $industries->push($check);
+            }
+        }
+        return $industries->count();
+    }
+
     /**
      * This function calculates the best vendors by the target score.
      * Supports Project Results filters.
@@ -249,7 +277,8 @@ class ChartsProvider extends ServiceProvider
             if (!empty($vendor)) {
                 $result [$key]['vendor_id'] = $vendor->id;
                 $result [$key]['name'] = $vendor->name;
-                $result [$key]['score'] = $vendor->calculateMyVendorScore($targetScore);
+                $result [$key]['score'] = $vendor->calculateMyVendorScoreFiltered($targetScore,$practicesID,
+                    $subpracticesID, $years, $industries, $regions);
                 $result [$key]['count'] = $vendor->vendorAppliedProjectsFiltered($practicesID, $subpracticesID,
                     $years, $industries, $regions);
             }

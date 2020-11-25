@@ -375,33 +375,6 @@ class User extends Authenticatable
         }
     }
 
-    public static function vendorsPerIndustry()
-    {
-        $industriesVendorCount = collect(config('arrays.industryExperience'))->map(function ($industry) {
-            return (object)[
-                'name' => $industry,
-                'count' => User::vendorsCountPerThisIndustry($industry),
-            ];
-        });
-        return $industriesVendorCount;
-    }
-
-    // returns the number of vendors from the Industry consulted.
-    private static function vendorsCountPerThisIndustry($industryToCount)
-    {
-        $query = User::where('hasFinishedSetup', true)->get();
-
-        $industries = collect();
-
-        foreach ($query as $vendor) {
-            $check = $vendor->getIndustryFromVendor();
-            if (strpos($check, $industryToCount) !== false) {
-                $industries->push($check);
-            }
-        }
-        return $industries->count();
-    }
-
     /**
      * Returns the project this vendor has applied to
      * @param string[]|null $phase
@@ -422,7 +395,8 @@ class User extends Authenticatable
                                                   $years = [], $industries = [], $regions = [])
     {
         $query = Project::select('projects.id', 'industry', 'regions', 'projects.created_at')
-            ->join('project_subpractice as sub', 'projects.id', '=', 'sub.project_id');
+            ->join('project_subpractice as sub', 'projects.id', '=', 'sub.project_id')
+            ->where('projects.currentPhase', 'old');;
 
         // Applying user filters to projects
         if ($practicesID) {
@@ -469,7 +443,8 @@ class User extends Authenticatable
         }
 
         $query = $query->whereHas('vendorApplications', function (Builder $query) {
-            $query->where('vendor_id', $this->id);
+            $query->where('vendor_id', $this->id)
+            ->where('phase','old');
         });
 
         return $query->count();
@@ -566,6 +541,71 @@ class User extends Authenticatable
                     return $application->$targetScore;
                 }
             })->average();
+
+        $score = doubleval($score);
+        $score = number_format($score, 2);
+
+        return $score;
+    }
+
+    public function calculateMyVendorScoreFiltered(string $targetScore, $practicesID = [], $subpracticesID = [],
+                                                   $years = [], $industries = [], $regions = [])
+    {
+        if (!$this->isVendor()) throw new \Exception('Calling hasAppliedToProject on a non-vendor User');
+        if (!User::isValidScoreType($targetScore)) {
+            return 0;
+        }
+        $query = $this->vendorApplications()
+            ->where('phase','evaluated')
+            ->join('projects as p', 'vendor_applications.project_id', '=', 'p.id')
+            ->join('project_subpractice as sub', 'p.id', '=', 'sub.project_id')
+            ->where('p.currentPhase', 'old');
+
+
+        // Applying user filters to projects
+        if ($practicesID) {
+            $query = $query->where(function ($query) use ($practicesID) {
+                for ($i = 0; $i < count($practicesID); $i++) {
+                    $query = $query->orWhere('practice_id', '=', $practicesID[$i]);
+                }
+            });
+        }
+
+        if (is_array($subpracticesID)) {
+            $query = $query->where(function ($query) use ($subpracticesID) {
+                for ($i = 0; $i < count($subpracticesID); $i++) {
+                    $query = $query->orWhere('sub.subpractice_id', '=', $subpracticesID[$i]);
+                }
+            });
+        }
+        if ($years) {
+            $query = $query->where(function ($query) use ($years) {
+                for ($i = 0; $i < count($years); $i++) {
+                    $query = $query->orWhere('p.created_at', 'like', '%' . $years[$i] . '%');
+                }
+            });
+        }
+        if ($industries) {
+            $query = $query->where(function ($query) use ($industries) {
+                for ($i = 0; $i < count($industries); $i++) {
+                    $query = $query->orWhere('industry', '=', $industries[$i]);
+                }
+            });
+        }
+        if ($regions) {
+            $query = $query->where(function ($query) use ($regions) {
+                for ($i = 0; $i < count($regions); $i++) {
+                    $query = $query->orWhere('regions', 'like', '%' . $regions[$i] . '%');
+                }
+            });
+        }
+        $query = $query->get();
+
+        $score = $query->map(function ($application) use ($targetScore) {
+            if ($application->$targetScore != null) {
+                return $application->$targetScore;
+            }
+        })->average();
 
         $score = doubleval($score);
         $score = number_format($score, 2);

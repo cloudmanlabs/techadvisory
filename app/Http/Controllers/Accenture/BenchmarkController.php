@@ -87,23 +87,23 @@ class BenchmarkController extends Controller
 
             // Especific graphic for practices
             if (in_array(1, $practicesToFilter)) {
-                $transportProjectsByYears = Project::calculateProjectsPerYearsHistoricalFilteredByPractice(
+                $transportProjectsByYears = ChartsProvider::calculateProjectsPerYearsHistoricalFilteredByPractice(
                     1, $industriesToFilter, $regionsToFilter);
             }
             if (in_array(2, $practicesToFilter)) {
-                $planningProjectsByYears = Project::calculateProjectsPerYearsHistoricalFilteredByPractice(
+                $planningProjectsByYears = ChartsProvider::calculateProjectsPerYearsHistoricalFilteredByPractice(
                     2, $industriesToFilter, $regionsToFilter);
             }
             if (in_array(3, $practicesToFilter)) {
-                $manufacturingProjectsByYears = Project::calculateProjectsPerYearsHistoricalFilteredByPractice(
+                $manufacturingProjectsByYears = ChartsProvider::calculateProjectsPerYearsHistoricalFilteredByPractice(
                     3, $industriesToFilter, $regionsToFilter);
             }
             if (in_array(4, $practicesToFilter)) {
-                $warehousingProjectsByYears = Project::calculateProjectsPerYearsHistoricalFilteredByPractice(
+                $warehousingProjectsByYears = ChartsProvider::calculateProjectsPerYearsHistoricalFilteredByPractice(
                     4, $industriesToFilter, $regionsToFilter);
             }
             if (in_array(5, $practicesToFilter)) {
-                $sourcingProjectsByYears = Project::calculateProjectsPerYearsHistoricalFilteredByPractice(
+                $sourcingProjectsByYears = ChartsProvider::calculateProjectsPerYearsHistoricalFilteredByPractice(
                     5, $industriesToFilter, $regionsToFilter);
             }
 
@@ -154,7 +154,7 @@ class BenchmarkController extends Controller
         });
 
         // Chart 2
-        $industries = User::vendorsPerIndustry();
+        $industries = ChartsProvider::vendorsPerIndustry();
 
         // Chart 3
         $regions = collect(config('arrays.regions'))->map(function ($region) {
@@ -219,9 +219,11 @@ class BenchmarkController extends Controller
         // Data for selects
         $practices = Practice::all();
         $subpractices = [];
-        $years = Project::calculateProjectsPerYears();
+        $years = ChartsProvider::calculateProjectsPerYears();
         $industries = collect(config('arrays.industryExperience'));
         $regions = collect(config('arrays.regions'));
+
+
 
         // Data for informative panels (counts)
         $totalVendors = User::vendorUsers()->where('hasFinishedSetup', true)->count();
