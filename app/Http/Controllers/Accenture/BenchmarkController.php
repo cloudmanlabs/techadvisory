@@ -7,6 +7,7 @@ namespace App\Http\Controllers\Accenture;
 use App\Http\Controllers\Controller;
 use App\Practice;
 use App\Project;
+use App\Providers\ChartsProvider;
 use App\Subpractice;
 use App\User;
 use App\VendorApplication;
@@ -209,17 +210,12 @@ class BenchmarkController extends Controller
         $howManyVendorsToChart = 10;
 
         // Chart 1
-        $vendorScores = VendorApplication::projectResultsBestVendorsOfScoreChart($howManyVendorsToChart,
+        $vendorScores = ChartsProvider::calculateBestNVendorsByScore($howManyVendorsToChart,
             'overall_score', $practicesIDsToFilter, $subpracticesIDsToFilter, $yearsToFilter, $industriesToFilter, $regionsToFilter);
 
         // Chart 2
-        $vendors = VendorApplication::projectResultsPerformanceOverviewChart($practicesIDsToFilter,
+        $vendors = ChartsProvider::calculateOverallAndRankingScoreForAllVendors($practicesIDsToFilter,
             $subpracticesIDsToFilter, $yearsToFilter, $industriesToFilter, $regionsToFilter);
-
-/*        foreach ($vendors as $vendor){
-            var_dump($vendor);
-        }
-        die();*/
 
         // Data for selects
         $practices = Practice::all();
@@ -288,23 +284,23 @@ class BenchmarkController extends Controller
         $howManyVendorsToFirstChart = 10;
         $howManyVendorsToTheRestChart = 5;
 
-        $vendorScoresFitgap = VendorApplication::projectResultsBestVendorsOfScoreChart($howManyVendorsToFirstChart,
+        $vendorScoresFitgap = ChartsProvider::calculateBestNVendorsByScore($howManyVendorsToFirstChart,
             'fitgap_score', $practicesIDsToFilter, $subpracticesIDsToFilter,
             $yearsToFilter, $industriesToFilter, $regionsToFilter);
 
-        $vendorScoresFitgapFunctional = VendorApplication::projectResultsBestVendorsOfScoreChart($howManyVendorsToTheRestChart,
+        $vendorScoresFitgapFunctional = ChartsProvider::calculateBestNVendorsByScore($howManyVendorsToTheRestChart,
             'fitgap_functional_score', $practicesIDsToFilter, $subpracticesIDsToFilter,
             $yearsToFilter, $industriesToFilter, $regionsToFilter);
 
-        $vendorScoresFitgapTechnical = VendorApplication::projectResultsBestVendorsOfScoreChart($howManyVendorsToTheRestChart,
+        $vendorScoresFitgapTechnical = ChartsProvider::calculateBestNVendorsByScore($howManyVendorsToTheRestChart,
             'fitgap_technical_score', $practicesIDsToFilter, $subpracticesIDsToFilter,
             $yearsToFilter, $industriesToFilter, $regionsToFilter);
 
-        $vendorScoresFitgapService = VendorApplication::projectResultsBestVendorsOfScoreChart($howManyVendorsToTheRestChart,
+        $vendorScoresFitgapService = ChartsProvider::calculateBestNVendorsByScore($howManyVendorsToTheRestChart,
             'fitgap_service_score', $practicesIDsToFilter, $subpracticesIDsToFilter,
             $yearsToFilter, $industriesToFilter, $regionsToFilter);
 
-        $vendorScoresFitgapOthers = VendorApplication::projectResultsBestVendorsOfScoreChart($howManyVendorsToTheRestChart,
+        $vendorScoresFitgapOthers = ChartsProvider::calculateBestNVendorsByScore($howManyVendorsToTheRestChart,
             'fitgap_others_score', $practicesIDsToFilter, $subpracticesIDsToFilter,
             $yearsToFilter, $industriesToFilter, $regionsToFilter);
 
@@ -363,7 +359,7 @@ class BenchmarkController extends Controller
 
         // Data for charts
         $howManyVendorsToChart = 10;
-        $vendorScoresVendor = VendorApplication::projectResultsBestVendorsOfScoreChart($howManyVendorsToChart,
+        $vendorScoresVendor = ChartsProvider::calculateBestNVendorsByScore($howManyVendorsToChart,
             'vendor_score', $practicesIDsToFilter, $subpracticesIDsToFilter,
             $yearsToFilter, $industriesToFilter, $regionsToFilter);
 
@@ -420,7 +416,7 @@ class BenchmarkController extends Controller
 
         // Data for charts.
         $howManyVendorsToChart = 10;
-        $vendorScoresExperience = VendorApplication::projectResultsBestVendorsOfScoreChart($howManyVendorsToChart,
+        $vendorScoresExperience = ChartsProvider::calculateBestNVendorsByScore($howManyVendorsToChart,
             'experience_score', $practicesIDsToFilter, $subpracticesIDsToFilter,
             $yearsToFilter, $industriesToFilter, $regionsToFilter);
 
@@ -478,7 +474,7 @@ class BenchmarkController extends Controller
 
         // Data for charts
         $howManyVendorsToChart = 10;
-        $vendorScoresInnovation = VendorApplication::projectResultsBestVendorsOfScoreChart($howManyVendorsToChart,
+        $vendorScoresInnovation = ChartsProvider::calculateBestNVendorsByScore($howManyVendorsToChart,
             'innovation_score', $practicesIDsToFilter, $subpracticesIDsToFilter,
             $yearsToFilter, $industriesToFilter, $regionsToFilter);
 
@@ -537,13 +533,13 @@ class BenchmarkController extends Controller
         $howManyVendorsToFirstChart = 10;
         $howManyVendorsToOthersCharts = 5;
 
-        $vendorScoresImplementation = VendorApplication::projectResultsBestVendorsOfScoreChart($howManyVendorsToFirstChart,
+        $vendorScoresImplementation = ChartsProvider::calculateBestNVendorsByScore($howManyVendorsToFirstChart,
             'implementation_score', $practicesIDsToFilter, $subpracticesIDsToFilter,
             $yearsToFilter, $industriesToFilter, $regionsToFilter);
-        $vendorScoresImplementationImplementation = VendorApplication::projectResultsBestVendorsOfScoreChart($howManyVendorsToOthersCharts,
+        $vendorScoresImplementationImplementation = ChartsProvider::calculateBestNVendorsByScore($howManyVendorsToOthersCharts,
             'implementation_implementation_score', $practicesIDsToFilter, $subpracticesIDsToFilter,
             $yearsToFilter, $industriesToFilter, $regionsToFilter);
-        $vendorScoresImplementationRun = VendorApplication::projectResultsBestVendorsOfScoreChart($howManyVendorsToOthersCharts,
+        $vendorScoresImplementationRun = ChartsProvider::calculateBestNVendorsByScore($howManyVendorsToOthersCharts,
             'implementation_run_score', $practicesIDsToFilter, $subpracticesIDsToFilter,
             $yearsToFilter, $industriesToFilter, $regionsToFilter);
 
