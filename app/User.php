@@ -394,25 +394,21 @@ class User extends Authenticatable
     public function vendorAppliedProjectsFiltered($practicesID = [], $subpracticesID = [],
                                                   $years = [], $industries = [], $regions = [])
     {
-        $query = Project::select('projects.id', 'industry', 'regions', 'projects.created_at')
-            ->join('project_subpractice as sub', 'projects.id', '=', 'sub.project_id')
-            ->where('projects.currentPhase', 'old');;
+        $query = VendorApplication::where('vendor_id', $this->id)
+            ->where('phase', 'submitted')
+            ->join('projects as p', 'p.id', '=', 'vendor_applications.project_id')
+            ->where('p.currentPhase','=','old')
+            ->join('project_subpractice as sub', 'p.id', '=', 'sub.project_id');
 
         // Applying user filters to projects
         if ($practicesID) {
             $query = $query->where(function ($query) use ($practicesID) {
                 for ($i = 0; $i < count($practicesID); $i++) {
-                    $query = $query->orWhere('practice_id', '=', $practicesID[$i]);
+                    $query = $query->orWhere('p.practice_id', '=', $practicesID[$i]);
                 }
             });
         }
-        /*        if ($subpracticesID) {
-                   $query = $query->whereHas('subpractices', function (Builder $query) use($subpracticesID) {
-                        for ($i = 0; $i < count($subpracticesID); $i++) {
-                            $query = $query->where('subpractices.id', $subpracticesID[$i]);
-                        }
-                    });
-                }*/
+
         if (is_array($subpracticesID)) {
             $query = $query->where(function ($query) use ($subpracticesID) {
                 for ($i = 0; $i < count($subpracticesID); $i++) {
@@ -423,31 +419,54 @@ class User extends Authenticatable
         if ($years) {
             $query = $query->where(function ($query) use ($years) {
                 for ($i = 0; $i < count($years); $i++) {
-                    $query = $query->orWhere('projects.created_at', 'like', '%' . $years[$i] . '%');
+                    $query = $query->orWhere('p.created_at', 'like', '%' . $years[$i] . '%');
                 }
             });
         }
         if ($industries) {
             $query = $query->where(function ($query) use ($industries) {
                 for ($i = 0; $i < count($industries); $i++) {
-                    $query = $query->orWhere('industry', '=', $industries[$i]);
+                    $query = $query->orWhere('p.industry', '=', $industries[$i]);
                 }
             });
         }
         if ($regions) {
             $query = $query->where(function ($query) use ($regions) {
                 for ($i = 0; $i < count($regions); $i++) {
-                    $query = $query->orWhere('regions', 'like', '%' . $regions[$i] . '%');
+                    $query = $query->orWhere('p.regions', 'like', '%' . $regions[$i] . '%');
                 }
             });
         }
 
-        $query = $query->whereHas('vendorApplications', function (Builder $query) {
-            $query->where('vendor_id', $this->id)
-            ->where('phase','submitted');
-        });
+        return $query;
+    }
 
-        return $query->count();
+    public function vendorAppliedProjectsFilteredCount($practicesID = [], $subpracticesID = [],
+                                                       $years = [], $industries = [], $regions = [])
+    {
+        return $this->vendorAppliedProjectsFiltered($practicesID, $subpracticesID,
+            $years, $industries, $regions)->count();
+    }
+
+    public function vendorAppliedProjectsScoreFiltered(string $targetScore, $practicesID = [], $subpracticesID = [],
+                                                       $years = [], $industries = [], $regions = [])
+    {
+        $apps = $this->vendorAppliedProjectsFiltered($practicesID, $subpracticesID,
+            $years, $industries, $regions);
+        $apps = $apps->get();
+        $score = $apps->filter(function (VendorApplication $application) {
+            return $application->project != null;
+        })->map(function ($application) use ($targetScore) {
+            if ($application->$targetScore != null) {
+                return $application->$targetScore;
+            }
+        })->average();
+
+        $score = doubleval($score);
+        $score = number_format($score, 2);
+
+        return $score;
+
     }
 
 
@@ -548,70 +567,70 @@ class User extends Authenticatable
         return $score;
     }
 
-    public function calculateMyVendorScoreFiltered(string $targetScore, $practicesID = [], $subpracticesID = [],
-                                                   $years = [], $industries = [], $regions = [])
-    {
-        if (!$this->isVendor()) throw new \Exception('Calling hasAppliedToProject on a non-vendor User');
-        if (!User::isValidScoreType($targetScore)) {
-            return 0;
-        }
-        $query = $this->vendorApplications()
-            ->where('phase','submitted')
-            ->join('projects as p', 'vendor_applications.project_id', '=', 'p.id')
-            ->join('project_subpractice as sub', 'p.id', '=', 'sub.project_id')
-            ->where('p.currentPhase', 'old');
-
-
-        // Applying user filters to projects
-        if ($practicesID) {
-            $query = $query->where(function ($query) use ($practicesID) {
-                for ($i = 0; $i < count($practicesID); $i++) {
-                    $query = $query->orWhere('practice_id', '=', $practicesID[$i]);
-                }
-            });
-        }
-
-        if (is_array($subpracticesID)) {
-            $query = $query->where(function ($query) use ($subpracticesID) {
-                for ($i = 0; $i < count($subpracticesID); $i++) {
-                    $query = $query->orWhere('sub.subpractice_id', '=', $subpracticesID[$i]);
-                }
-            });
-        }
-        if ($years) {
-            $query = $query->where(function ($query) use ($years) {
-                for ($i = 0; $i < count($years); $i++) {
-                    $query = $query->orWhere('p.created_at', 'like', '%' . $years[$i] . '%');
-                }
-            });
-        }
-        if ($industries) {
-            $query = $query->where(function ($query) use ($industries) {
-                for ($i = 0; $i < count($industries); $i++) {
-                    $query = $query->orWhere('industry', '=', $industries[$i]);
-                }
-            });
-        }
-        if ($regions) {
-            $query = $query->where(function ($query) use ($regions) {
-                for ($i = 0; $i < count($regions); $i++) {
-                    $query = $query->orWhere('regions', 'like', '%' . $regions[$i] . '%');
-                }
-            });
-        }
-        $query = $query->get();
-
-        $score = $query->map(function ($application) use ($targetScore) {
-            if ($application->$targetScore != null) {
-                return $application->$targetScore;
+    /*    public function calculateMyVendorScoreFiltered(string $targetScore, $practicesID = [], $subpracticesID = [],
+                                                       $years = [], $industries = [], $regions = [])
+        {
+            if (!$this->isVendor()) throw new \Exception('Calling hasAppliedToProject on a non-vendor User');
+            if (!User::isValidScoreType($targetScore)) {
+                return 0;
             }
-        })->average();
+            $query = $this->vendorApplications()
+                ->where('phase', 'submitted')
+                ->join('projects as p', 'vendor_applications.project_id', '=', 'p.id')
+                ->join('project_subpractice as sub', 'p.id', '=', 'sub.project_id');
+                //->where('p.currentPhase', 'old');
+            return $query->select('vendor_applications.id');
 
-        $score = doubleval($score);
-        $score = number_format($score, 2);
+            // Applying user filters to projects
+            if ($practicesID) {
+                $query = $query->where(function ($query) use ($practicesID) {
+                    for ($i = 0; $i < count($practicesID); $i++) {
+                        $query = $query->orWhere('p.practice_id', '=', $practicesID[$i]);
+                    }
+                });
+            }
 
-        return $score;
-    }
+            if (is_array($subpracticesID)) {
+                $query = $query->where(function ($query) use ($subpracticesID) {
+                    for ($i = 0; $i < count($subpracticesID); $i++) {
+                        $query = $query->orWhere('sub.subpractice_id', '=', $subpracticesID[$i]);
+                    }
+                });
+            }
+            if ($years) {
+                $query = $query->where(function ($query) use ($years) {
+                    for ($i = 0; $i < count($years); $i++) {
+                        $query = $query->orWhere('p.created_at', 'like', '%' . $years[$i] . '%');
+                    }
+                });
+            }
+            if ($industries) {
+                $query = $query->where(function ($query) use ($industries) {
+                    for ($i = 0; $i < count($industries); $i++) {
+                        $query = $query->orWhere('p.industry', '=', $industries[$i]);
+                    }
+                });
+            }
+            if ($regions) {
+                $query = $query->where(function ($query) use ($regions) {
+                    for ($i = 0; $i < count($regions); $i++) {
+                        $query = $query->orWhere('p.regions', 'like', '%' . $regions[$i] . '%');
+                    }
+                });
+            }
+
+           $score = $query->map(function ($application) use ($targetScore) {
+                if ($application->$targetScore != null) {
+                    return $application->id;
+                }
+            });
+
+
+            $score = doubleval($score);
+            $score = number_format($score, 2);
+
+            return $score;
+        }*/
 
     private static function isValidScoreType($score)
     {

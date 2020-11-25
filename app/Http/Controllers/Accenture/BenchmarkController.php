@@ -307,7 +307,7 @@ class BenchmarkController extends Controller
 
         // Data for selects
         $practices = Practice::all();
-        $years = Project::calculateProjectsPerYears();
+        $years = ChartsProvider::calculateProjectsPerYears();
         $industries = collect(config('arrays.industryExperience'));
         $regions = collect(config('arrays.regions'));
 
@@ -367,7 +367,7 @@ class BenchmarkController extends Controller
         // Data for selects
         $practices = Practice::all();
         $subpractices = [];
-        $years = Project::calculateProjectsPerYears();
+        $years = ChartsProvider::calculateProjectsPerYears();
         $industries = collect(config('arrays.industryExperience'));
         $regions = collect(config('arrays.regions'));
 
@@ -424,7 +424,7 @@ class BenchmarkController extends Controller
         // Data for selects
         $practices = Practice::all();
         $subpractices = [];
-        $years = Project::calculateProjectsPerYears();
+        $years = ChartsProvider::calculateProjectsPerYears();
         $industries = collect(config('arrays.industryExperience'));
         $regions = collect(config('arrays.regions'));
 
@@ -482,7 +482,7 @@ class BenchmarkController extends Controller
         // Data for selects
         $practices = Practice::all();
         $subpractices = [];
-        $years = Project::calculateProjectsPerYears();
+        $years = ChartsProvider::calculateProjectsPerYears();
         $industries = collect(config('arrays.industryExperience'));
         $regions = collect(config('arrays.regions'));
 
@@ -547,7 +547,7 @@ class BenchmarkController extends Controller
         // Data for selects
         $practices = Practice::all();
         $subpractices = [];
-        $years = Project::calculateProjectsPerYears();
+        $years = ChartsProvider::calculateProjectsPerYears();
         $industries = collect(config('arrays.industryExperience'));
         $regions = collect(config('arrays.regions'));
 

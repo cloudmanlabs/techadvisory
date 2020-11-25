@@ -27,7 +27,6 @@ class ScoresVendorApplicationAfterResponse
      */
     public function updated(SelectionCriteriaQuestionResponse $response)
     {
-        // Se podria intentar actualizar todas solo si la score ha cambiado.
 
         $vendorApplication = $response->vendorApplication();
         $vendorApplication->updateMyScores();

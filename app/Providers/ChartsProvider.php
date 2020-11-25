@@ -34,8 +34,6 @@ class ChartsProvider extends ServiceProvider
      * Returns an object collection as
      *  'years' => year (as string),
      *  'projectCount' => Number of projects from this year. Can search by null industry too.
-     * @param array $regions
-     * @param array $years
      * @return Collection
      */
     public static function calculateProjectsPerYears()
@@ -277,10 +275,10 @@ class ChartsProvider extends ServiceProvider
             if (!empty($vendor)) {
                 $result [$key]['vendor_id'] = $vendor->id;
                 $result [$key]['name'] = $vendor->name;
-                $result [$key]['score'] = $vendor->calculateMyVendorScoreFiltered($targetScore,$practicesID,
-                    $subpracticesID, $years, $industries, $regions);
-                $result [$key]['count'] = $vendor->vendorAppliedProjectsFiltered($practicesID, $subpracticesID,
-                    $years, $industries, $regions);
+                $result [$key]['score'] = $vendor->vendorAppliedProjectsScoreFiltered($targetScore,
+                    $practicesID, $subpracticesID, $years, $industries, $regions);
+                $result [$key]['count'] = $vendor->vendorAppliedProjectsFilteredCount(
+                    $practicesID, $subpracticesID, $years, $industries, $regions);
             }
         }
 
