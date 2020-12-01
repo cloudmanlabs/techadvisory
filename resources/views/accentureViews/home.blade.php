@@ -120,11 +120,11 @@
                                                 @if ($project->progress() == 100)
                                                     <div style="text-align: right; width: 15%; margin-right: 2rem">
                                                         <a class="btn btn-primary btn-lg btn-icon-text"
-                                                           href="{{route('accenture.project.markCompleted', ['project' => $project])}}"
-                                                           onclick="event.preventDefault(); document.getElementById('mark-completed-prokject-{{$project->id}}-form').submit();">
+                                                           href="{{ route('accenture.project.markCompleted', ['project' => $project]) }}"
+                                                           onclick="event.preventDefault(); document.getElementById('mark-completed-{{$project->id}}-form').submit();">
                                                             Mark completed
                                                         </a>
-                                                        <form id="mark-completed-prokject-{{$project->id}}-form"
+                                                        <form id="mark-completed-{{$project->id}}-form"
                                                               action="{{ route('accenture.project.markCompleted', ['project' => $project]) }}"
                                                               method="POST"
                                                               style="display: none;">
@@ -132,6 +132,23 @@
                                                         </form>
                                                     </div>
                                                 @endif
+
+                                                @if ($project->currentPhase === 'old')
+                                                    <div style="text-align: right; width: 15%; margin-right: 2rem">
+                                                        <a class="btn btn-primary btn-lg btn-icon-text"
+                                                           href="{{ route('accenture.project.moveToOpen', ['project' => $project]) }}"
+                                                           onclick="event.preventDefault(); document.getElementById('move-to-open-{{$project->id}}-form').submit();">
+                                                            Mark completed
+                                                        </a>
+                                                        <form id="move-to-open-{{$project->id}}-form"
+                                                              action="{{ route('accenture.project.moveToOpen', ['project' => $project]) }}"
+                                                              method="POST"
+                                                              style="display: none;">
+                                                            @csrf
+                                                        </form>
+                                                    </div>
+                                                @endif
+
                                                 <div style="text-align: right;width: 15%;">
                                                     <a class="btn btn-primary btn-lg btn-icon-text"
                                                        href="{{route('accenture.projectHome', ['project' => $project])}}">

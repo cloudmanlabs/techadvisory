@@ -140,6 +140,8 @@ prefix('accenture')
 
             Route::post('project/markCompleted/{project}', 'ProjectController@markCompleted')
                 ->name('project.markCompleted');
+            Route::post('project/moveToOpen/{project}', 'ProjectController@moveToOpen')
+                ->name('project.moveToOpen');
 
             Route::get('/project/vendorProposal/view/{project}/{vendor}', 'ProjectController@vendorProposalView')
                 ->name('viewVendorProposal');

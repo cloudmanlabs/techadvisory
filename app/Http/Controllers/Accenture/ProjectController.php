@@ -443,6 +443,13 @@ class ProjectController extends Controller
         return redirect()->route('accenture.home');
     }
 
+    public function moveToOpen(Project $project)
+    {
+        $project->publish();
+
+        return redirect()->route('accenture.home');
+    }
+
     public function togglePublishProjectAnalytics(Request $request)
     {
         $request->validate(['project_id' => 'required|numeric',]);

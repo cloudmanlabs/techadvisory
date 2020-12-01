@@ -335,7 +335,6 @@ class Project extends Model
     {
         $questions_ids = $this->hasMany(SelectionCriteriaQuestionResponse::class, 'project_id')
             ->where('vendor_id', $vendor->id);
-
     }
 
     // Sorry for this  🙃
