@@ -118,7 +118,7 @@
                                                 <x-projectProgressBar :project="$project"/>
 
                                                 @if ($project->progress() == 100)
-                                                    <div style="text-align: right; width: 15%; margin-right: 2rem">
+                                                    <div style="text-align: right; width: 15%;">
                                                         <a class="btn btn-primary btn-lg btn-icon-text"
                                                            href="{{ route('accenture.project.markCompleted', ['project' => $project]) }}"
                                                            onclick="event.preventDefault(); document.getElementById('mark-completed-{{$project->id}}-form').submit();">
@@ -133,23 +133,7 @@
                                                     </div>
                                                 @endif
 
-                                                @if ($project->currentPhase === 'old')
-                                                    <div style="text-align: right; width: 15%; margin-right: 2rem">
-                                                        <a class="btn btn-primary btn-lg btn-icon-text"
-                                                           href="{{ route('accenture.project.moveToOpen', ['project' => $project]) }}"
-                                                           onclick="event.preventDefault(); document.getElementById('move-to-open-{{$project->id}}-form').submit();">
-                                                            Mark completed
-                                                        </a>
-                                                        <form id="move-to-open-{{$project->id}}-form"
-                                                              action="{{ route('accenture.project.moveToOpen', ['project' => $project]) }}"
-                                                              method="POST"
-                                                              style="display: none;">
-                                                            @csrf
-                                                        </form>
-                                                    </div>
-                                                @endif
-
-                                                <div style="text-align: right;width: 15%;">
+                                                <div style="text-align: right; width: 15%;">
                                                     <a class="btn btn-primary btn-lg btn-icon-text"
                                                        href="{{route('accenture.projectHome', ['project' => $project])}}">
                                                         View <i class="btn-icon-prepend" data-feather="arrow-right"></i>
@@ -241,12 +225,28 @@
                                                         - {{$project->practice->name ?? 'No SC Capability (Practice)'}}
                                                     </h6>
                                                 </div>
-                                                <div style="float: right; text-align: right; width: 17%;">
+
+                                                <div style="float: right;" class="ml-3">
                                                     <a class="btn btn-primary btn-lg btn-icon-text"
                                                        href="{{route('accenture.projectHome', ['project' => $project])}}">View<i
                                                             class="btn-icon-prepend"
                                                             data-feather="arrow-right"></i></a>
                                                 </div>
+
+                                                <div style="float: right;">
+                                                    <a class="btn btn-primary btn-lg btn-icon-text"
+                                                       href="{{ route('accenture.project.moveToOpen', ['project' => $project]) }}"
+                                                       onclick="event.preventDefault(); document.getElementById('move-to-open-{{$project->id}}-form').submit();">
+                                                        Move to open
+                                                    </a>
+                                                    <form id="move-to-open-{{$project->id}}-form"
+                                                          action="{{ route('accenture.project.moveToOpen', ['project' => $project]) }}"
+                                                          method="POST"
+                                                          style="display: none;">
+                                                        @csrf
+                                                    </form>
+                                                </div>
+
                                                 <x-projectProgressBar
                                                     :project="$project"
                                                 />
