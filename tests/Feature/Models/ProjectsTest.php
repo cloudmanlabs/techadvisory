@@ -579,17 +579,13 @@ class ProjectsTest extends TestCase
 
         $request = $this
             ->actingAs($user)
-            ->post('/accenture/newProjectSetUp/publishProjectAnalytics', [
-                'project_id' => $project->id,
-            ]);
+            ->post('/accenture/newProjectSetUp/togglePublishProjectAnalytics', ['project_id' => $project->id]);
 
         $request->assertOk();
 
         $project->refresh();
         $this->assertTrue($project->publishedAnalytics);
     }
-
-
 
     public function testAccentureCanUpdateScoringValues()
     {

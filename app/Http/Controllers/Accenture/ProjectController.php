@@ -443,18 +443,17 @@ class ProjectController extends Controller
         return redirect()->route('accenture.home');
     }
 
-    public function publishProjectAnalytics(Request $request)
+    public function togglePublishProjectAnalytics(Request $request)
     {
-        $request->validate([
-            'project_id' => 'required|numeric',
-        ]);
+        $request->validate(['project_id' => 'required|numeric',]);
 
         $project = Project::find($request->project_id);
+
         if ($project == null) {
             abort(404);
         }
 
-        $project->publishedAnalytics = true;
+        $project->publishedAnalytics = !$project->publishedAnalytics;
         $project->save();
 
         return \response()->json([
