@@ -395,17 +395,18 @@ class VendorApplication extends Model
             $scores = [];
             $maxScores = [];
             if (!empty($fitgapQuestions)) {
-                foreach ($fitgapQuestions as $key => $value) {
-                    if ($value->requirementType() == $type) {
-                        //$response = $this->fitgapVendorColumns[$key]['Vendor Response'] ?? '';
-                        $response = FitgapVendorResponse::findByFitgapQuestionFromTheApplication(
-                            $this->id, $value->id);
-                        $multiplier = $this->getClientMultiplierInRow($value);
-
-                        $scores[] = $this->getScoreFromResponse($response) * $multiplier;
+                foreach ($fitgapQuestions as $fitgapQuestion) {
+                    if ($fitgapQuestion->requirementType() === $type) {
+                        $fitgapQuestionResponse = FitgapVendorResponse::findByFitgapQuestionFromTheApplication(
+                            $this->id,
+                            $fitgapQuestion->id
+                        );
+                        $multiplier = $this->getClientMultiplierInRow($fitgapQuestion);
+                        $scores[] = $this->getScoreFromResponse($fitgapQuestionResponse) * $multiplier;
                         $maxScores[] = ($this->project->fitgapWeightFullySupports ?? 3) * $multiplier;
                     }
                 }
+
                 if (count($scores) == 0 || count($maxScores) == 0) {
                     $score = 0;
                 }
@@ -1178,8 +1179,9 @@ class VendorApplication extends Model
                 return $vendorApplication->vendor->id;
             })
             ->unique()
-            ->reduce(function ($carry,  $id) {
+            ->reduce(function ($carry, $id) {
                 $carry[$id] = 0;
+
                 return $carry;
             }, []);
 
