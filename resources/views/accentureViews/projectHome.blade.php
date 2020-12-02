@@ -242,7 +242,7 @@
                             <div class="card-body">
                                 <h3>Released responses</h3>
                                 <p class="welcome_text extra-top-15px">
-                                    {{nova_get_setting('accenture_projectHome_released') ?? ''}}
+                                    {{ nova_get_setting('accenture_projectHome_released') ?? '' }}
                                 </p>
                                 <br>
                                 <br>
@@ -251,14 +251,14 @@
                                     <x-vendorCard :showProgressBar="false" :vendor="$vendor" :project="$project">
                                         <div style="text-align: right; width: 15%; margin-right: 1rem">
                                             <a class="btn btn-primary btn-lg btn-icon-text"
-                                               href="{{route('accenture.viewVendorProposal', ['project' => $project, 'vendor' => $vendor])}}">View
-                                                response
+                                               href="{{route('accenture.viewVendorProposal', ['project' => $project, 'vendor' => $vendor])}}">
+                                                View response
                                             </a>
                                         </div>
                                         <div style="text-align: right; width: 15%; margin-right: 1rem">
                                             <a class="btn btn-primary btn-lg btn-icon-text" target="_blank"
-                                               href="{{route('accenture.downloadVendorProposal', ['project' => $project, 'vendor' => $vendor])}}">Download
-                                                responses
+                                               href="{{route('accenture.downloadVendorProposal', ['project' => $project, 'vendor' => $vendor])}}">
+                                                Download responses
                                             </a>
                                         </div>
                                         <div style="text-align: right; width: 15%; margin-right: 1rem">

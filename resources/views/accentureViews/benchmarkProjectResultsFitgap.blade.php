@@ -1,8 +1,8 @@
 @extends('accentureViews.layouts.benchmark')
-@php
-    @endphp
+
 <div class="main-wrapper">
     <x-accenture.navbar activeSection="benchmark"/>
+
     <div class="page-wrapper">
         <div class="page-content">
             <div class="row" id="benchmark-title-row">
@@ -17,6 +17,7 @@
                     </div>
                 </div>
             </div>
+
             <div class="profile-page" id="benchmark-nav-container">
                 <div class="row">
                     <div class="col-12 grid-margin">
@@ -38,13 +39,12 @@
                                     <label for="practices-select">Chose a Practice</label>
                                     <select id="practices-select" multiple>
                                         @foreach ($practices as $practice)
-                                            <option
-                                                value="{{$practice->id}}"
+                                            <option value="{{$practice->id}}"
                                             @if($practicesIDsToFilter)
-                                                {{ in_array($practice->id,$practicesIDsToFilter)? 'selected="selected"' : ''}}
-                                                @endif
+                                                {{ in_array($practice->id,$practicesIDsToFilter)? 'selected="selected"' : '' }}
+                                            @endif
                                             >
-                                                {{$practice->name}}
+                                                {{ $practice->name }}
                                             </option>
                                         @endforeach
                                     </select>
@@ -60,11 +60,10 @@
                                     <label for="years-select">Chose a Year</label>
                                     <select id="years-select" multiple>
                                         @foreach ($years as $year)
-                                            <option
-                                                value="{{$year->year}}"
+                                            <option value="{{$year->year}}"
                                             @if($yearsToFilter)
-                                                {{ in_array($year->year,$yearsToFilter)? 'selected="selected"' : ''}}
-                                                @endif
+                                                {{ in_array($year->year,$yearsToFilter)? 'selected="selected"' : '' }}
+                                            @endif
                                             >
                                                 {{$year->year}}
                                             </option>
@@ -75,13 +74,12 @@
                                     <label for="industries-select">Chose a Industry</label>
                                     <select id="industries-select" multiple>
                                         @foreach($industries as $industry)
-                                            <option
-                                                value="{{$industry}}"
+                                            <option value="{{$industry}}"
                                             @if($industriesToFilter)
-                                                {{ in_array($industry,$industriesToFilter)? 'selected="selected"' : ''}}
-                                                @endif
+                                                {{ in_array($industry,$industriesToFilter)? 'selected="selected"' : '' }}
+                                            @endif
                                             >
-                                                {{$industry}}
+                                                {{ $industry }}
                                             </option>
                                         @endforeach
                                     </select>
@@ -90,13 +88,12 @@
                                     <label for="regions-select">Chose a Region</label>
                                     <select id="regions-select" multiple>
                                         @foreach ($regions as $region)
-                                            <option
-                                                value="{{$region}}"
+                                            <option value="{{$region}}"
                                             @if($regionsToFilter)
-                                                {{ in_array($region,$regionsToFilter)? 'selected="selected"' : ''}}
-                                                @endif
+                                                {{ in_array($region,$regionsToFilter)? 'selected="selected"' : '' }}
+                                            @endif
                                             >
-                                                {{$region}}
+                                                {{ $region }}
                                             </option>
                                         @endforeach
                                     </select>
@@ -110,8 +107,7 @@
                                 <div id="charts-container" class="col-8 border-left">
                                     <div class="row pl-3">
                                         <h3>Fitgap Overall Results</h3>
-                                        <p class="welcome_text extra-top-15px">
-                                        </p>
+                                        <p class="welcome_text extra-top-15px"></p>
                                     </div>
                                     <br>
                                     <br>
@@ -141,11 +137,11 @@
                                                         </tr>
                                                         </thead>
                                                         <tbody>
-                                                        @foreach($vendorScoresFitgap as $key=>$vendorScore)
+                                                        @foreach($vendorScoresFitgap as $vendorId => $vendorScore)
                                                             <tr>
-                                                                <td>{{\App\User::find($key)->name}}</td>
-                                                                <td>{{\App\User::find($key)->vendorAppliedProjectsFiltered($practicesIDsToFilter,$subpracticesIDsToFilter,$yearsToFilter,$industriesToFilter,$regionsToFilter)}}</td>
-                                                                <td>{{$vendorScore}}</td>
+                                                                <td>{{ \App\User::find($vendorId)->name }}</td>
+                                                                <td>{{ \App\User::find($vendorId)->vendorAppliedProjectsFiltered($practicesIDsToFilter, $subpracticesIDsToFilter, $yearsToFilter, $industriesToFilter, $regionsToFilter) }}</td>
+                                                                <td>{{ $vendorScore }}</td>
                                                             </tr>
                                                         @endforeach
                                                         </tbody>

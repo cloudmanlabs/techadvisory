@@ -1165,7 +1165,6 @@ class VendorApplication extends Model
         $query = VendorApplication::join('projects as p', 'project_id', '=', 'p.id')
             ->join('users as u', 'vendor_id', '=', 'u.id')
             ->join('project_subpractice as sub', 'vendor_applications.project_id', '=', 'sub.project_id')
-            ->join('users as v', 'vendor_id', '=', 'v.id')
             ->where('p.currentPhase', '=', 'old')
             ->where('vendor_applications.phase', '=', 'submitted');
 
