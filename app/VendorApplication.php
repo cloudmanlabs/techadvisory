@@ -2,7 +2,6 @@
 
 namespace App;
 
-use Exception;
 use Guimcaballero\LaravelFolders\Models\Folder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Log;
@@ -390,21 +389,22 @@ class VendorApplication extends Model
     {
         $score = 0;
         if (!empty($this->project)) {
-            $fitgapQuestions = FitgapQuestion::findByProject($this->project_id);
+            $fitgapQuestions = FitgapQuestion::query()
+                ->where('project_id', '=', $this->project_id)
+                ->where('requirement_type', '=', $type)
+                ->get();
 
             $scores = [];
             $maxScores = [];
             if (!empty($fitgapQuestions)) {
                 foreach ($fitgapQuestions as $fitgapQuestion) {
-                    if ($fitgapQuestion->requirementType() === $type) {
-                        $fitgapQuestionResponse = FitgapVendorResponse::findByFitgapQuestionFromTheApplication(
-                            $this->id,
-                            $fitgapQuestion->id
-                        );
-                        $multiplier = $this->getClientMultiplierInRow($fitgapQuestion);
-                        $scores[] = $this->getScoreFromResponse($fitgapQuestionResponse) * $multiplier;
-                        $maxScores[] = ($this->project->fitgapWeightFullySupports ?? 3) * $multiplier;
-                    }
+                    $fitgapQuestionResponse = FitgapVendorResponse::findByFitgapQuestionFromTheApplication(
+                        $this->id,
+                        $fitgapQuestion->id
+                    );
+                    $multiplier = $this->getClientMultiplierInRow($fitgapQuestion);
+                    $scores[] = $this->getScoreFromResponse($fitgapQuestionResponse) * $multiplier;
+                    $maxScores[] = ($this->project->fitgapWeightFullySupports ?? 3) * $multiplier;
                 }
 
                 if (count($scores) == 0 || count($maxScores) == 0) {
@@ -1162,59 +1162,75 @@ class VendorApplication extends Model
         $industries = [],
         $regions = []
     ) {
-        // Raw data without user filters
-        $query = VendorApplication::join('projects as p', 'project_id', '=', 'p.id')
-            ->join('users as u', 'vendor_id', '=', 'u.id')
-            ->join('project_subpractice as sub', 'vendor_applications.project_id', '=', 'sub.project_id')
-            ->where('p.currentPhase', '=', 'old')
-            ->where('vendor_applications.phase', '=', 'submitted');
-
-        // Applying user filters to projects
-        $query = VendorApplication::benchmarkProjectResultsFilters($query, $practicesID, $subpracticesID, $years,
-            $industries, $regions);
-        $query = $query->get();
-
-        $scores = $query
-            ->map(function ($vendorApplication) {
-                return $vendorApplication->vendor->id;
+        $vendorScores = VendorApplication::query()
+            ->with('project')
+            ->where('vendor_applications.phase', '=', 'submitted')
+            ->whereHas('project', function ($query) {
+                return $query->where('currentPhase', '=', 'old');
             })
-            ->unique()
-            ->reduce(function ($carry, $id) {
-                $carry[$id] = 0;
+            ->when($practicesID, function ($query, $practicesID) {
+                return $query->whereHas('project', function ($query) use ($practicesID) {
+                    return $query->where(function ($query) use ($practicesID) {
+                        foreach ($practicesID as $practiceID) {
+                            $query->orWhere('practice_id', '=', $practiceID);
+                        }
+                    });
+                });
+            })
+            ->when($subpracticesID, function ($query, $subpracticesID) {
+                return $query->whereHas('project.subpractices', function ($query) use ($subpracticesID) {
+                    return $query->where(function ($query) use ($subpracticesID) {
+                        foreach ($subpracticesID as $subPracticeId) {
+                            $query->where('subpractice_id', '=', $subPracticeId);
+                        }
+                    });
+                });
+            })
+            ->when($years, function ($query, $years) {
+                return $query->whereHas('project', function ($query) use ($years) {
+                    return $query->where(function ($query) use ($years) {
+                        foreach ($years as $year) {
+                            $query->orWhere('created_at', 'like', '%'.$year.'%');
+                        }
+                    });
+                });
+            })
+            ->when($industries, function ($query, $industries) {
+                return $query->whereHas('project', function ($query) use ($industries) {
+                    return $query->where(function ($query) use ($industries) {
+                        foreach ($industries as $industry) {
+                            $query->orWhere('industry', '=', $industry);
+                        }
+                    });
+                });
+            })
+            ->when($regions, function ($query, $regions) {
+                return $query->whereHas('project', function ($query) use ($regions) {
+                    return $query->where(function ($query) use ($regions) {
+                        foreach ($regions as $region) {
+                            $query->where('regions', 'like', '%'.$region.'%');
+                        }
+                    });
+                });
+            })
+            ->get()
+            ->reduce(function ($scores, $vendorApplication) use ($functionNameForCalculateTheScores) {
+                $score = $vendorApplication->$functionNameForCalculateTheScores();
+                if (!array_key_exists($vendorApplication->vendor_id, $scores)) {
+                    $scores[$vendorApplication->vendor_id] = [$score];
+                } else {
+                    $scores[$vendorApplication->vendor_id][] = $score;
+                }
 
-                return $carry;
+                return $scores;
             }, []);
 
-        // recalculate the scores for all the applications.
-        foreach ($query as $vendorApplication) {
-            $vendorId = $vendorApplication->vendor->id;
-            $nota = $vendorApplication->$functionNameForCalculateTheScores();
-
-            // HERE: Change this to remove null scores (pending to evaluate).
-            //if ($nota != null)
-            if (!is_array($scores[$vendorId])) {
-                $scores[$vendorId] = [$nota];
-            } else {
-                $scores[$vendorId][] = $nota;
-            }
-        }
-
-        // The vendor score is the average of all his vendorApplication scores.
-        foreach ($scores as $key => $vendorScores) {
-            if (is_array($vendorScores)) {
-                // for more than one score
-                $n = count($vendorScores);
-                $media = array_sum($vendorScores);
-                $media = $n > 0 ? $media / $n : $media;
-            } else {
-                // for only one score
-                $media = $vendorScores;
-            }
-
-            $scores[$key] = round($media, 2);
-        }
+        $scores = array_map(function ($vendorScore) {
+            return round(array_sum($vendorScore) / count($vendorScore), 2);
+        }, $vendorScores);
 
         arsort($scores);
+
         if (is_integer($nVendors)) {
             // Cut by nVendors.
             $scores = array_slice($scores, 0, $nVendors, true);
