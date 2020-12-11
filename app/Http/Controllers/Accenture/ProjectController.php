@@ -183,6 +183,27 @@ class ProjectController extends Controller
         ]);
     }
 
+    public function changeProjectUseCases(Request $request)
+    {
+        $request->validate([
+            'project_id' => 'required|numeric',
+            'value' => 'required|string'
+        ]);
+
+        $project = Project::find($request->project_id);
+        if ($project == null) {
+            abort(404);
+        }
+
+        $project->useCases = $request->value;
+        $project->save();
+
+        return \response()->json([
+            'status' => 200,
+            'message' => 'Success'
+        ]);
+    }
+
     public function changeProjectIsBinding(Request $request)
     {
         $request->validate([

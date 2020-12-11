@@ -59,6 +59,8 @@ use Illuminate\Support\Collection;
  * @property \Carbon\Carbon $deadline
  * @property \Carbon\Carbon $oralsFromDate
  * @property \Carbon\Carbon $oralsToDate
+ *
+ * @property string $useCases
  */
 class Project extends Model
 {

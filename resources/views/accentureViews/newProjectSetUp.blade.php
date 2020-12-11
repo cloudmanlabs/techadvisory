@@ -608,6 +608,18 @@
                 updateSubmitStep3();
             });
 
+            $('#useCasesSelect').change(function (e) {
+                var value = $(this).val();
+                console.log()
+                $.post('/accenture/newProjectSetUp/changeProjectUseCases', {
+                    project_id: '{{$project->id}}',
+                    value: value
+                })
+
+                showSavedToast();
+                updateSubmitStep3();
+            });
+
             $('#bindingOption').change(function (e) {
                 var value = $(this).val();
                 $.post('/accenture/newProjectSetUp/changeProjectIsBinding', {
