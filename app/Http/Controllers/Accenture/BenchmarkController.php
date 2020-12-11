@@ -185,20 +185,23 @@ class BenchmarkController extends Controller
         if ($practicesIDsToFilter) {
             $practicesIDsToFilter = explode(',', $practicesIDsToFilter);
         }
+
         $subpracticesIDsToFilter = $request->input('subpractices');
         if ($subpracticesIDsToFilter) {
-
             $subpracticesIDsToFilter = explode(',', $subpracticesIDsToFilter);
         }
+
         $yearsToFilter = $request->input('years');
         if ($yearsToFilter) {
             $yearsToFilter = explode(',', $yearsToFilter);
         }
+
         $industriesToFilter = $request->input('industries');
         if ($industriesToFilter) {
             $industriesToFilter = explode(',', $industriesToFilter);
 
         }
+
         $regionsToFilter = $request->input('regions');
         if ($regionsToFilter) {
             $regionsToFilter = explode(',', $regionsToFilter);
@@ -211,12 +214,10 @@ class BenchmarkController extends Controller
         $vendorScores = VendorApplication::calculateBestVendorsProjectResultsFiltered($howManyVendorsToChart,
             'totalScore', $practicesIDsToFilter, $subpracticesIDsToFilter,
             $yearsToFilter, $industriesToFilter, $regionsToFilter);
-        //$vendorScores = [];
 
         // Chart 2 ( no project filter)
         $vendors = VendorApplication::getVendorsFilteredForRankingChart($practicesIDsToFilter,
             $subpracticesIDsToFilter, $yearsToFilter, $industriesToFilter, $regionsToFilter);
-        //$vendors = [];
 
         // Data for selects
         $practices = Practice::all();
@@ -260,29 +261,31 @@ class BenchmarkController extends Controller
 
     public function projectResultsFitgap(Request $request)
     {
-        // Receive data.
         $practicesIDsToFilter = $request->input('practices');
         if ($practicesIDsToFilter) {
             $practicesIDsToFilter = explode(',', $practicesIDsToFilter);
         }
+
         $subpracticesIDsToFilter = $request->input('subpractices');
         if ($subpracticesIDsToFilter) {
             $subpracticesIDsToFilter = explode(',', $subpracticesIDsToFilter);
         }
+
         $yearsToFilter = $request->input('years');
         if ($yearsToFilter) {
             $yearsToFilter = explode(',', $yearsToFilter);
         }
+
         $industriesToFilter = $request->input('industries');
         if ($industriesToFilter) {
             $industriesToFilter = explode(',', $industriesToFilter);
         }
+
         $regionsToFilter = $request->input('regions');
         if ($regionsToFilter) {
             $regionsToFilter = explode(',', $regionsToFilter);
         }
 
-        // Data for charts. Applying Filters
         $howManyVendorsToFirstChart = 10;
         $howManyVendorsToTheRestChart = 5;
 

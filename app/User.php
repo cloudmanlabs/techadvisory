@@ -27,7 +27,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password', 'userType'
+        'name', 'email', 'password', 'userType',
     ];
 
     /**
@@ -66,7 +66,8 @@ class User extends Authenticatable
     }
 
     // Alias for Owner
-    public function organization(){
+    public function organization()
+    {
         return $this->owner();
     }
 
@@ -93,6 +94,7 @@ class User extends Authenticatable
             ->select('id', 'regions', 'created_at', 'currentPhase');
         $query = $this->benchmarkOverviewFilters($query, $regions, $years);
         $query = $query->count();
+
         return $query;
     }
 
@@ -104,7 +106,7 @@ class User extends Authenticatable
         if ($regions) {
             $query = $query->where(function ($query) use ($regions) {
                 for ($i = 0; $i < count($regions); $i++) {
-                    $query = $query->orWhere('regions', 'like', '%' . $regions[$i] . '%');
+                    $query = $query->orWhere('regions', 'like', '%'.$regions[$i].'%');
                 }
             });
         }
@@ -112,10 +114,11 @@ class User extends Authenticatable
         if ($years) {
             $query = $query->where(function ($query) use ($years) {
                 for ($i = 0; $i < count($years); $i++) {
-                    $query = $query->orWhere('created_at', 'like', '%' . $years[$i] . '%');
+                    $query = $query->orWhere('created_at', 'like', '%'.$years[$i].'%');
                 }
             });
         }
+
         return $query;
     }
 
@@ -156,7 +159,9 @@ class User extends Authenticatable
     {
         $practices = $this->vendorSolutionsPractices();
 
-        if ($practices->count() == 0) return 'None';
+        if ($practices->count() == 0) {
+            return 'None';
+        }
 
         return implode(', ', $practices->pluck('name')->toArray());
     }
@@ -171,12 +176,10 @@ class User extends Authenticatable
         $subpracticesAppliedIDs = [];
 
         if (!empty($myAppliedProjects)) {
-
             foreach ($myAppliedProjects as $project) {
                 $subpracticesPivotApplied = $project->subpractices()->get();
 
                 if (!empty($subpracticesPivotApplied)) {
-
                     foreach ($subpracticesPivotApplied as $subpractice) {
                         array_push($subpracticesAppliedIDs, $subpractice->pivot->subpractice_id);
                     }
@@ -190,6 +193,7 @@ class User extends Authenticatable
             }
             $subpracticesApplied = collect($subpracticesApplied);
         }
+
         return $subpracticesApplied->pluck('name')->toArray();
     }
 
@@ -201,14 +205,13 @@ class User extends Authenticatable
      *  11: scope_id for transportType
      *  4: scope_id for Planning
      *  5: scope_id for Manufacturing
-     * @param int $scope_id [9,10,11,4,5]
+     * @param  int  $scope_id  [9,10,11,4,5]
      * @return |null
      */
     public function getVendorResponsesFromScope(int $scope_id)
     {
         $result = null;
         if (array_search($scope_id, [4, 5, 9, 10, 11])) {
-
             $SolutionsFromVendor = $this->vendorSolutions()->get();  // vendor_solutions
             foreach ($SolutionsFromVendor as $vs) {
                 $questionsResponses = $vs->questions()
@@ -263,11 +266,12 @@ class User extends Authenticatable
     public static function vendorsPerIndustry()
     {
         $industriesVendorCount = collect(config('arrays.industryExperience'))->map(function ($industry) {
-            return (object)[
+            return (object) [
                 'name' => $industry,
                 'count' => User::vendorsCountPerThisIndustry($industry),
             ];
         });
+
         return $industriesVendorCount;
     }
 
@@ -284,12 +288,13 @@ class User extends Authenticatable
                 $industries->push($check);
             }
         }
+
         return $industries->count();
     }
 
     /**
      * Returns the project this vendor has applied to
-     * @param string[]|null $phase
+     * @param  string[]|null  $phase
      * @return \Illuminate\Database\Eloquent\Builder
      */
     public function vendorAppliedProjects($phase = null): \Illuminate\Database\Eloquent\Builder
@@ -303,59 +308,60 @@ class User extends Authenticatable
         });
     }
 
-    public function vendorAppliedProjectsFiltered($practicesID = [], $subpracticesID = [],
-                                                  $years = [], $industries = [], $regions = [])
-    {
-        $query = Project::select('projects.id', 'industry', 'regions', 'projects.created_at')
-            ->join('project_subpractice as sub', 'projects.id', '=', 'sub.project_id');
+    public function vendorAppliedProjectsFiltered(
+        $practicesID = [],
+        $subpracticesID = [],
+        $years = [],
+        $industries = [],
+        $regions = []
+    ) {
+        $query = Project::leftJoin('project_subpractice as sub', 'projects.id', '=', 'sub.project_id')
+            ->where('currentPhase', '=', 'old')
+            ->whereHas('vendorApplications', function (Builder $query) {
+                $query
+                    ->where('vendor_id', '=', $this->id)
+                    ->where('phase', '=', 'submitted');
+            });;
 
-        // Applying user filters to projects
         if ($practicesID) {
             $query = $query->where(function ($query) use ($practicesID) {
-                for ($i = 0; $i < count($practicesID); $i++) {
-                    $query = $query->orWhere('practice_id', '=', $practicesID[$i]);
-                }
-            });
-        }
-        /*        if ($subpracticesID) {
-                   $query = $query->whereHas('subpractices', function (Builder $query) use($subpracticesID) {
-                        for ($i = 0; $i < count($subpracticesID); $i++) {
-                            $query = $query->where('subpractices.id', $subpracticesID[$i]);
-                        }
-                    });
-                }*/
-        if (is_array($subpracticesID)) {
-            $query = $query->where(function ($query) use ($subpracticesID) {
-                for ($i = 0; $i < count($subpracticesID); $i++) {
-                    $query = $query->orWhere('sub.subpractice_id', '=', $subpracticesID[$i]);
-                }
-            });
-        }
-        if ($years) {
-            $query = $query->where(function ($query) use ($years) {
-                for ($i = 0; $i < count($years); $i++) {
-                    $query = $query->orWhere('projects.created_at', 'like', '%' . $years[$i] . '%');
-                }
-            });
-        }
-        if ($industries) {
-            $query = $query->where(function ($query) use ($industries) {
-                for ($i = 0; $i < count($industries); $i++) {
-                    $query = $query->orWhere('industry', '=', $industries[$i]);
-                }
-            });
-        }
-        if ($regions) {
-            $query = $query->where(function ($query) use ($regions) {
-                for ($i = 0; $i < count($regions); $i++) {
-                    $query = $query->orWhere('regions', 'like', '%' . $regions[$i] . '%');
+                foreach ($practicesID as $practiceID) {
+                    $query->orWhere('practice_id', '=', $practiceID);
                 }
             });
         }
 
-        $query = $query->whereHas('vendorApplications', function (Builder $query) {
-            $query->where('vendor_id', $this->id);
-        });
+        if ($subpracticesID) {
+            $query = $query->where(function ($query) use ($subpracticesID) {
+                foreach ($subpracticesID as $subpracticeID) {
+                    $query->orWhere('sub.subpractice_id', '=', $subpracticeID);
+                }
+            });
+        }
+
+        if ($years) {
+            $query = $query->where(function ($query) use ($years) {
+                foreach ($years as $year) {
+                    $query->orWhere('projects.created_at', 'like', '%'.$year.'%');
+                }
+            });
+        }
+
+        if ($industries) {
+            $query = $query->where(function ($query) use ($industries) {
+                foreach ($industries as $industry) {
+                    $query->orWhere('industry', '=', $industry);
+                }
+            });
+        }
+
+        if ($regions) {
+            $query = $query->where(function ($query) use ($regions) {
+                foreach ($regions as $region) {
+                    $query->orWhere('regions', 'like', '%'.$region.'%');
+                }
+            });
+        }
 
         return $query->count();
     }
@@ -364,7 +370,7 @@ class User extends Authenticatable
     /**
      * Applies to project or returns the existing application
      *
-     * @param Project $project Project to apply to
+     * @param  Project  $project  Project to apply to
      * @return VendorApplication|null
      *
      * @throws Exception
@@ -372,12 +378,16 @@ class User extends Authenticatable
     public function applyToProject(Project $project): ?VendorApplication
     {
         // Only vendors who have finished setup can apply
-        if (!$this->isVendor()) throw new \Exception('Calling applyToProject on a non-vendor User');
-        if (!$this->hasFinishedSetup) throw new \Exception('Trying to apply to project with a user that hasn\'t finished setup');
+        if (!$this->isVendor()) {
+            throw new \Exception('Calling applyToProject on a non-vendor User');
+        }
+        if (!$this->hasFinishedSetup) {
+            throw new \Exception('Trying to apply to project with a user that hasn\'t finished setup');
+        }
 
         $existingApplication = VendorApplication::where([
             'project_id' => $project->id,
-            'vendor_id' => $this->id
+            'vendor_id' => $this->id,
         ])->first();
         if ($existingApplication) {
             return $existingApplication;
@@ -387,7 +397,7 @@ class User extends Authenticatable
             'project_id' => $project->id,
             'vendor_id' => $this->id,
 
-            'phase' => 'invitation'
+            'phase' => 'invitation',
         ]);
         $application->save();
 
@@ -398,7 +408,7 @@ class User extends Authenticatable
                 $response = new SelectionCriteriaQuestionResponse([
                     'question_id' => $question->id,
                     'project_id' => $project->id,
-                    'vendor_id' => $this->id
+                    'vendor_id' => $this->id,
                 ]);
                 $response->save();
             }
@@ -409,12 +419,16 @@ class User extends Authenticatable
 
     public function hasAppliedToProject(Project $project): bool
     {
-        if (!$this->isVendor()) throw new \Exception('Calling hasAppliedToProject on a non-vendor User');
-        if (!$this->hasFinishedSetup) throw new \Exception('Checking if user has applied to project with a user that hasn\'t finished setup');
+        if (!$this->isVendor()) {
+            throw new \Exception('Calling hasAppliedToProject on a non-vendor User');
+        }
+        if (!$this->hasFinishedSetup) {
+            throw new \Exception('Checking if user has applied to project with a user that hasn\'t finished setup');
+        }
 
         $existingApplication = VendorApplication::where([
             'project_id' => $project->id,
-            'vendor_id' => $this->id
+            'vendor_id' => $this->id,
         ])->first();
         if ($existingApplication) {
             return true;
@@ -427,7 +441,7 @@ class User extends Authenticatable
         'accenture' => 'Accenture',
         'accentureAdmin' => 'Accenture Admin',
         'vendor' => 'Vendor',
-        'client' => 'Client'
+        'client' => 'Client',
     ];
 
     /**

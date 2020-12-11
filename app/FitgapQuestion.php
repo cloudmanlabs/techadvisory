@@ -37,7 +37,7 @@ class FitgapQuestion extends Model
 
     protected $optionsBusinessOpportinity = [
         'YES',
-        'NO'
+        'NO',
     ];
 
     public function project()
@@ -49,7 +49,6 @@ class FitgapQuestion extends Model
     {
         return $this->id;
     }
-
 
     public function requirement()
     {
@@ -78,7 +77,6 @@ class FitgapQuestion extends Model
 
     public function client()
     {
-        // name changed
         return $this->client;
     }
 
@@ -90,7 +88,6 @@ class FitgapQuestion extends Model
     public static function deleteByProject($projectId)
     {
         FitgapQuestion::where('project_id', '=', $projectId)->delete();
-
     }
 
     public static function findByProject($projectId)
@@ -98,7 +95,5 @@ class FitgapQuestion extends Model
         return FitgapQuestion::where('project_id', '=', $projectId)
             ->orderBy('position', 'asc')
             ->get();
-
     }
-
 }

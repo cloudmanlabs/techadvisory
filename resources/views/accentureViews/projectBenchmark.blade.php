@@ -176,12 +176,8 @@
                                 </div>
 
                                 <div style="float: left; margin-top: 20px;">
-                                    <button
-                                        class="btn btn-primary btn-lg btn-icon-text"
-                                        id="publishAnalytics"
-                                        {{$project->publishedAnalytics ? 'disabled' : ''}}
-                                    >
-                                        {{$project->publishedAnalytics ? 'Published' : 'Publish Analytics'}}
+                                    <button id="publishAnalytics" class="btn btn-primary btn-lg">
+                                        {{ $project->publishedAnalytics ? 'Reverse publish analytics' : 'Publish Analytics' }}
                                     </button>
                                 </div>
 
@@ -207,23 +203,17 @@
     @parent
 
     <script>
-        $(document).ready(function () {
-            $('#publishAnalytics').click(function () {
-                $.post('/accenture/newProjectSetUp/publishProjectAnalytics', {
-                    project_id: '{{$project->id}}',
-                })
-
-                $(this).html('Published')
-                $(this).attr('disabled', true)
-
-                $.toast({
-                    heading: 'Published!',
-                    showHideTransition: 'slide',
-                    icon: 'success',
-                    hideAfter: 1000,
-                    position: 'bottom-right'
-                })
+        function togglePublishAnalytics() {
+            $.post('/accenture/newProjectSetUp/togglePublishProjectAnalytics', {
+                project_id: '{{$project->id}}',
+            }).then(function () {
+                location.reload();
             });
+        }
+
+        $(document).ready(function () {
+
+            $('#publishAnalytics').click(togglePublishAnalytics);
 
             $("#exportExcelButton").click(function () {
                 let url = "{{route('accenture.exportAnalytics', ['project' => $project])}}";
@@ -236,8 +226,6 @@
                         return $(el).data('vendorId')
                     });
                 }
-
-                console.log(selectedVendors)
 
                 window.open(url + "?vendors=" + JSON.stringify(selectedVendors), '_blank')
             });

@@ -67,7 +67,7 @@ class Project extends Model
     protected $dates = [
         'deadline',
         'oralsFromDate',
-        'oralsToDate'
+        'oralsToDate',
     ];
 
     protected $casts = [
@@ -124,7 +124,8 @@ class Project extends Model
     }
 
     // Alias for Owner
-    public function organization(){
+    public function organization()
+    {
         return $this->owner();
     }
 
@@ -164,7 +165,9 @@ class Project extends Model
     {
         $fitgapQuestions = FitgapQuestion::findByProject($this->project_id);
         foreach (($fitgapQuestions) as $key => $value) {
-            if (!empty($value->businessOpportunity()) || $value->businessOpportunity() == null || $value->businessOpportunity() == '') return false;
+            if (!empty($value->businessOpportunity()) || $value->businessOpportunity() == null || $value->businessOpportunity() == '') {
+                return false;
+            }
         }
 
         return true;
@@ -180,6 +183,7 @@ class Project extends Model
                 return true;
             }
         }
+
         return false;
     }
 
@@ -243,7 +247,7 @@ class Project extends Model
     /**
      * Returns the vendors applied to this project
      *
-     * @param string[]|null $phase
+     * @param  string[]|null  $phase
      * @return \Illuminate\Database\Eloquent\Builder
      */
     public function vendorsApplied($phase = null): \Illuminate\Database\Eloquent\Builder
@@ -268,7 +272,8 @@ class Project extends Model
      */
     public function selectionCriteriaQuestionsOriginals()
     {
-        $questionIds = SelectionCriteriaQuestionProjectPivot::where('project_id', $this->id)->pluck('question_id')->toArray();
+        $questionIds = SelectionCriteriaQuestionProjectPivot::where('project_id', $this->id)
+            ->pluck('question_id')->toArray();
         $uniqueIds = array_values(array_unique($questionIds));
 
         return SelectionCriteriaQuestion::find($uniqueIds);
@@ -292,6 +297,7 @@ class Project extends Model
     {
         $fitgapQuestions = $this->hasMany(FitgapQuestion::class, 'project_id');
         $fitgapQuestions = $fitgapQuestions->orderBy('position', 'asc');
+
         return $fitgapQuestions;
     }
 
@@ -335,7 +341,6 @@ class Project extends Model
     {
         $questions_ids = $this->hasMany(SelectionCriteriaQuestionResponse::class, 'project_id')
             ->where('vendor_id', $vendor->id);
-
     }
 
     // Sorry for this  🙃
@@ -358,13 +363,24 @@ class Project extends Model
     public function progressSetUp()
     {
         $score = 0;
-        if ($this->step3SubmittedAccenture) $score += 5;
-        if ($this->step4SubmittedAccenture) $score += 10;
-        if ($this->step3SubmittedClient) $score += 10;
-        if ($this->step4SubmittedClient) $score += 10;
+        if ($this->step3SubmittedAccenture) {
+            $score += 5;
+        }
+        if ($this->step4SubmittedAccenture) {
+            $score += 10;
+        }
+        if ($this->step3SubmittedClient) {
+            $score += 10;
+        }
+        if ($this->step4SubmittedClient) {
+            $score += 10;
+        }
         if ($this->currentPhase == 'open' || $this->currentPhase == 'old') {
-            if ($this->hasValueTargeting) $score += 5;
-            else $score += 25;
+            if ($this->hasValueTargeting) {
+                $score += 5;
+            } else {
+                $score += 25;
+            }
         }
 
         return $score;
@@ -382,6 +398,7 @@ class Project extends Model
                 $score += 10;
             }
         }
+
         return $score;
     }
 
@@ -427,15 +444,17 @@ class Project extends Model
         if ($this->hasConclusionFiles()) {
             $score += 5;
         }
+
         return $score;
     }
 
     public function getResponsesFromQuestionsOfSimilarProjectOfSameVendor()
     {
-        $responses = $this->select('selection_criteria_question_responses.response', 'projects.id')->join('selection_criteria_question_responses as scqr', 'scqr.project_id', 'projects.id')->get();
+        $responses = $this->select('selection_criteria_question_responses.response', 'projects.id')
+            ->join('selection_criteria_question_responses as scqr', 'scqr.project_id', 'projects.id')
+            ->get();
 
         return $responses;
-
     }
 
     /**
@@ -523,8 +542,9 @@ class Project extends Model
     public static function projectsFromMyRegion($myRegion, $currentPhase): Collection
     {
         $myRegionAsText = config('arrays.regions')[$myRegion];
+
         return self::where('currentPhase', $currentPhase)
-            ->where('regions', 'like', '%' . $myRegionAsText . '%')->get();
+            ->where('regions', 'like', '%'.$myRegionAsText.'%')->get();
     }
 
     /**
@@ -544,14 +564,14 @@ class Project extends Model
      * Returns an object collection as
      *  'years' => year (as string),
      *  'projectCount' => Number of projects from this year. Can search by null industry too.
-     * @param array $regions
-     * @param array $years
+     * @param  array  $regions
+     * @param  array  $years
      * @return Collection
      */
     public static function calculateProjectsPerYears()
     {
         return collect(range(2017, intval(date('Y'))))->map(function ($year) {
-            return (object)[
+            return (object) [
                 'year' => $year,
                 'projectCount' => Project::all()->filter(function ($project) use ($year) {
                     return $project->created_at->year == $year;
@@ -565,18 +585,18 @@ class Project extends Model
      *  'years' => year (as string),
      *  'projectCount' => Number of projects from this year. Can search by null industry too.
      * Supports Historical Filters
-     * @param array $industries
-     * @param array $regions
-     * @param array $practices
+     * @param  array  $industries
+     * @param  array  $regions
+     * @param  array  $practices
      * @return Collection
      */
     public static function calculateProjectsPerYearsHistoricalFiltered($industries = [], $regions = [])
     {
         return collect(range(2017, intval(date('Y'))))
             ->map(function ($year) use ($industries, $regions) {
-                return (object)[
+                return (object) [
                     'year' => $year,
-                    'projectCount' => Project::getProjectCountfromYear($year, $industries, $regions)
+                    'projectCount' => Project::getProjectCountfromYear($year, $industries, $regions),
                 ];
             });
     }
@@ -600,18 +620,21 @@ class Project extends Model
      *  'projectCount' => Number of projects from this year with the practice provided.
      * Supports Historical Filters
      * @param $practiceId
-     * @param array $industries
-     * @param array $regions
+     * @param  array  $industries
+     * @param  array  $regions
      * @return Collection
      */
-    public static function calculateProjectsPerYearsHistoricalFilteredByPractice($practiceId, $industries = [], $regions = [])
-    {
+    public static function calculateProjectsPerYearsHistoricalFilteredByPractice(
+        $practiceId,
+        $industries = [],
+        $regions = []
+    ) {
         return collect(range(2017, intval(date('Y'))))
             ->map(function ($year) use ($practiceId, $industries, $regions) {
-                return (object)[
+                return (object) [
                     'year' => $year,
                     'projectCount' =>
-                        Project::getProjectCountFromYearByPractice($practiceId, $year, $industries, $regions)
+                        Project::getProjectCountFromYearByPractice($practiceId, $year, $industries, $regions),
                 ];
             });
     }
@@ -634,17 +657,18 @@ class Project extends Model
      *  'name' => industry name,
      *  'projectCount' => Number of projects with this industry. Can search by null industry too.
      * Supports possible filters by region and years.
-     * @param array $regions
-     * @param array $years
+     * @param  array  $regions
+     * @param  array  $years
      * @return Collection
      */
     public static function calculateProjectsPerIndustry($regions = [], $years = [])
     {
         return collect(config('arrays.industryExperience'))->map(function ($industry)
         use ($regions, $years) {
-            return (object)[
+            return (object) [
                 'name' => $industry,
-                'projectCount' => Project::getProjectCountFromIndustry($industry, $regions, $years)];
+                'projectCount' => Project::getProjectCountFromIndustry($industry, $regions, $years),
+            ];
         });
     }
 
@@ -668,7 +692,7 @@ class Project extends Model
         if ($regions) {
             $query = $query->where(function ($query) use ($regions) {
                 for ($i = 0; $i < count($regions); $i++) {
-                    $query = $query->where('regions', 'like', '%' . $regions[$i] . '%');
+                    $query = $query->where('regions', 'like', '%'.$regions[$i].'%');
                 }
             });
         }
@@ -676,10 +700,11 @@ class Project extends Model
         if ($years) {
             $query = $query->where(function ($query) use ($years) {
                 for ($i = 0; $i < count($years); $i++) {
-                    $query = $query->orWhere('created_at', 'like', '%' . $years[$i] . '%');
+                    $query = $query->orWhere('created_at', 'like', '%'.$years[$i].'%');
                 }
             });
         }
+
         return $query;
     }
 
@@ -699,7 +724,7 @@ class Project extends Model
         if ($regions) {
             $query = $query->where(function ($query) use ($regions) {
                 for ($i = 0; $i < count($regions); $i++) {
-                    $query = $query->where('regions', 'like', '%' . $regions[$i] . '%');
+                    $query = $query->where('regions', 'like', '%'.$regions[$i].'%');
                 }
             });
         }
@@ -716,8 +741,14 @@ class Project extends Model
     }
 
     // Encapsulate the filters for graphics from all views from project results
-    public static function benchmarkProjectResultsFilters($query, $practicesID = [], $subpracticesID = [], $years = [], $industries = [], $regions = [])
-    {
+    public static function benchmarkProjectResultsFilters(
+        $query,
+        $practicesID = [],
+        $subpracticesID = [],
+        $years = [],
+        $industries = [],
+        $regions = []
+    ) {
         // Applying user filters to projects
         if ($practicesID) {
             $query = $query->where(function ($query) use ($practicesID) {
@@ -733,6 +764,7 @@ class Project extends Model
                         }
                     });
                 }*/
+
         /*       if ($years) {
                    $query = $query->where(function ($query) use ($years) {
                        for ($i = 0; $i < count($years); $i++) {
@@ -757,5 +789,4 @@ class Project extends Model
 
         return $query;
     }
-
 }
