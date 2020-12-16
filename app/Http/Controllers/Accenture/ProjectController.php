@@ -4,16 +4,13 @@ namespace App\Http\Controllers\Accenture;
 
 use App\Exports\AnalyticsExport;
 use App\Exports\VendorResponsesExport;
-use App\GeneralInfoQuestionResponse;
+use App\FitgapQuestion;
 use App\Http\Controllers\Controller;
 use App\Mail\ProjectInvitationEmail;
 use App\Owner;
 use App\Practice;
 use App\Project;
 use App\SecurityLog;
-use App\SelectionCriteriaQuestion;
-use App\SelectionCriteriaQuestionResponse;
-use App\Subpractice;
 use App\User;
 use App\VendorApplication;
 use Carbon\Carbon;
@@ -716,7 +713,7 @@ class ProjectController extends Controller
             return $el->shouldShow;
         });
 
-        $fitgapQuestions = $project->selectionCriteriaQuestionsOriginals()->where('page', 'fitgap');
+        $fitgapQuestions = FitgapQuestion::findByProject($project->id);
 
         $vendorCorporateQuestions = $project->selectionCriteriaQuestionsOriginals()->where('page', 'vendor_corporate');
         $vendorMarketQuestions = $project->selectionCriteriaQuestionsOriginals()->where('page', 'vendor_market');
@@ -765,7 +762,7 @@ class ProjectController extends Controller
             return $el->shouldShow;
         });
 
-        $fitgapQuestions = $project->selectionCriteriaQuestionsOriginals()->where('page', 'fitgap');
+        $fitgapQuestions = FitgapQuestion::findByProject($project->id);
 
         $vendorCorporateQuestions = $project->selectionCriteriaQuestionsOriginals()->where('page', 'vendor_corporate');
         $vendorMarketQuestions = $project->selectionCriteriaQuestionsOriginals()->where('page', 'vendor_market');
