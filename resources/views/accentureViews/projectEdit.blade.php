@@ -86,54 +86,56 @@
                                             <div>
                                                 <h4>4.1. Fit Gap</h4>
                                                 <br>
-                                                <p>
-                                                    {{nova_get_setting('fitgap_description') ?? ''}}
-                                                </p>
-
+                                                <p>{{nova_get_setting('fitgap_description') ?? ''}}</p>
                                                 <br>
 
-                                                <div class="form-group">
-                                                    <label>Upload a new Fitgap</label>
-                                                    <input id="fitgapUpload" class="file-upload-default" name="img"
-                                                           type="file">
+                                                @if($fitgapQuestions->count() == 0)
+                                                    <div class="form-group">
+                                                        <label>Upload a new Fitgap</label>
+                                                        <input id="fitgapUpload" class="file-upload-default" name="img"
+                                                               type="file">
 
-                                                    <div class="input-group col-xs-12">
-                                                        <input id="fileNameInput" disabled
-                                                               class="form-control file-upload-info"
-                                                               value="No file selected" type="text">
-                                                        <span class="input-group-append">
+                                                        <div class="input-group col-xs-12">
+                                                            <input id="fileNameInput" disabled
+                                                                   class="form-control file-upload-info"
+                                                                   value="No file selected" type="text">
+                                                            <span class="input-group-append">
                                                             <button class="file-upload-browse btn btn-primary"
                                                                     type="button">
-                                                                <span class="input-group-append" id="logoUploadButton">Select file</span>
+                                                                <span class="input-group-append" id="logoUploadButton">
+                                                                    Select file
+                                                                </span>
                                                             </button>
                                                         </span>
+                                                        </div>
                                                     </div>
-                                                </div>
-                                                <br>
+                                                    <br>
+                                                @endif
+
                                                 <p style="font-size: 12px">
-                                                    Do not include personal, sensitive data, personal data relating to
+                                                    Do not include personal, sensitive data, personal data relating
+                                                    to
                                                     criminal convictions and offences or financial
                                                     data
                                                     in this free form text field or upload screen shots containing
                                                     personal data, unless you are consenting and assuming
-                                                    responsibility for the processing of this personal data (either your
+                                                    responsibility for the processing of this personal data (either
+                                                    your
                                                     personal data or the personal data of others)
                                                     by
                                                     Accenture.
                                                 </p>
-                                                <br>
-
                                                 <br><br>
                                                 <x-fitgapClientModal :project="$project"/>
 
-                                                <br><br>
-                                                <h4>Questions</h4>
-                                                <br>
-                                                @foreach ($fitgapQuestions as $question)
-                                                    <h6>
-                                                        {{$question->label}}
-                                                    </h6>
-                                                @endforeach
+                                                @if($fitgapQuestions->count() > 0)
+                                                    <br>
+                                                    <h4>Questions</h4>
+                                                    <br>
+                                                    @foreach ($fitgapQuestions as $question)
+                                                        <h6>{{$question->requirement}}</h6>
+                                                    @endforeach
+                                                @endif
                                             </div>
 
                                             <x-selectionCriteriaQuestionsForAccentureAndClient
@@ -247,7 +249,7 @@
             let array = $('input,textarea,select').filter('[required]:visible').toArray();
             if (array.length == 0) return true;
 
-            return array.reduce(function(prev, current) {
+            return array.reduce(function (prev, current) {
                 return !prev ? false : $(current).is(':hasValue')
             }, true)
         }

@@ -62,23 +62,21 @@
                                             <div>
                                                 <h4>4.1. Fit Gap</h4>
                                                 <br>
-                                                <p>
-                                                    {{nova_get_setting('fitgap_description') ?? ''}}
-                                                </p>
+                                                <p>{{nova_get_setting('fitgap_description') ?? ''}}</p>
                                                 <br><br>
-
                                                 <x-fitgapClientModal :project="$project" :disabled="true"/>
 
-                                                <br><br>
-                                                <h4>Questions</h4>
-                                                <br>
-                                                @foreach ($fitgapQuestions as $question)
-                                                    <h6>
-                                                        {{$question->label}}
-                                                    </h6>
-                                                @endforeach
+                                                @if($fitgapQuestions->count() > 0)
+                                                    <br>
+                                                    <h4>Questions</h4>
+                                                    <br>
+                                                    @foreach ($fitgapQuestions as $question)
+                                                        <h6>
+                                                            {{$question->requirement}}
+                                                        </h6>
+                                                    @endforeach
+                                                @endif
                                             </div>
-
 
                                             <x-selectionCriteriaQuestionsForAccentureAndClient
                                                 :vendorCorporateQuestions="$vendorCorporateQuestions"

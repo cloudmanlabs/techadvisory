@@ -95,7 +95,6 @@
                                             <div id="subpracticesContainer" class="media-body" style="padding: 20px;">
                                                 <p id="subpracticesText" class="welcome_text">Subpractices</p>
                                                 <select id="selectSubpractices" class="w-100" multiple="multiple">
-
                                                 </select>
                                             </div>
                                             <div id="scopesDiv" class="media-body" style="padding: 20px;">
@@ -177,44 +176,46 @@
     <script src="{{url('assets/vendors/select2/select2.min.js')}}"></script>
 
     <script>
-
-        $('#practiceSelect').change(function () {
-
-            var selectedPractice = $(this).val();
-            $('#selectSubpractices').empty();
-
-            if (selectedPractice && !selectedPractice.includes('Practice')) {
-
-                // subpractices from practice
-                $.get("/accenture/analysis/vendor/custom/getSubpractices/"
-                    + selectedPractice, function (data) {
-
-                    if (data) {
-                        var $dropdown = $("#selectSubpractices");
-                        var subpractices = data.subpractices;
-                        $.each(subpractices, function () {
-                            $dropdown.append($("<option />").val(this.name).text(this.name));
-                        });
-                    }
-
-                });
-            }
-        });
-
         $(document).ready(function () {
+            const $segmentSelector = $('#segmentSelect');
+            const $regionSelector = $('#regionSelect');
+            const $industrySelector = $('#industriesSelect');
+            const $practiceSelector = $('#practiceSelect');
+            const $subPracticeSelector = $('#selectSubpractices');
+            const $transport1Selector = $('#selectTransport1');
+            const $transport2Selector = $('#selectTransport2');
+            const $transport3Selector = $('#selectTransport3');
+
+            const $vendorsContainer = $('#vendorsContainer');
+
+            $practiceSelector.change(function () {
+                const selectedPractice = $(this).val();
+                $subPracticeSelector.empty();
+                if (selectedPractice && !selectedPractice.includes('Practice')) {
+                    $.get("/accenture/analysis/vendor/custom/getSubpractices/" + selectedPractice, function (data) {
+                        if (data) {
+                            const $dropdown = $subPracticeSelector;
+                            const subpractices = data.subpractices;
+                            $.each(subpractices, function () {
+                                $dropdown.append($("<option />").val(this.name).text(this.name));
+                            });
+                        }
+                    });
+                }
+            });
 
             function updateVendors() {
-                const selectedSegment = $('#segmentSelect').val();
-                const selectedRegions = $('#regionSelect').val();
-                const selectedIndustries = $('#industriesSelect').val();
-                const selectedPractices = $('#practiceSelect').val();
-                const selectedSubpractices = $('#selectSubpractices').val();
-                const selectedTransportFlow = $('#selectTransport1').val();
-                const selectedTransportMode = $('#selectTransport2').val();
-                const selectedTransportType = $('#selectTransport3').val();
+                const selectedSegment = $segmentSelector.val();
+                const selectedRegions = $regionSelector.val();
+                const selectedIndustries = $industrySelector.val();
+                const selectedPractices = $practiceSelector.val();
+                const selectedSubpractices = $subPracticeSelector.val();
+                const selectedTransportFlow = $transport1Selector.val();
+                const selectedTransportMode = $transport2Selector.val();
+                const selectedTransportType = $transport3Selector.val();
 
                 // Add a display none to the one which don't have this tags
-                $('#vendorsContainer').children().each(function () {
+                $vendorsContainer.children().each(function () {
                     const segment = $(this).data('segment');
                     const regions = $(this).data('regions');
                     const industries = $(this).data('industry');
@@ -242,45 +243,17 @@
             }
 
             function filterMultipleAND(arrayOptions, arrayToSearch) {
-
                 return arrayOptions.length > 0 ? R.all(R.flip(R.includes)(arrayToSearch))(arrayOptions) : true;
             }
 
-            $('#practiceSelect').on('change', function (e) {
-                updateVendors()
-            });
-            $('#selectSubpractices').select2();
-            $('#selectSubpractices').on('change', function (e) {
-                updateVendors()
-            });
-
-            $('#segmentSelect').on('change', function (e) {
-                updateVendors()
-            });
-            $('#selectTransport1').select2();
-            $('#selectTransport1').on('change', function (e) {
-                updateVendors()
-            });
-
-            $('#selectTransport2').select2();
-            $('#selectTransport2').on('change', function (e) {
-                updateVendors()
-            });
-
-            $('#selectTransport3').select2();
-            $('#selectTransport3').on('change', function (e) {
-                updateVendors()
-            });
-
-            $('#regionSelect').select2();
-            $('#regionSelect').on('change', function (e) {
-                updateVendors()
-            });
-            $('#industriesSelect').select2();
-            $('#industriesSelect').on('change', function (e) {
-                updateVendors()
-            });
-
+            $segmentSelector.on('change', updateVendors);
+            $regionSelector.select2().on('change', updateVendors);
+            $industrySelector.select2().on('change', updateVendors);
+            $practiceSelector.on('change', updateVendors);
+            $subPracticeSelector.select2().on('change', updateVendors);
+            $transport1Selector.select2().on('change', updateVendors);
+            $transport2Selector.select2().on('change', updateVendors);
+            $transport3Selector.select2().on('change', updateVendors);
         });
     </script>
 @endsection

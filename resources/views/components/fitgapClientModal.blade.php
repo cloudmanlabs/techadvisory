@@ -1,6 +1,4 @@
-{{--
-    Component that contains the modal for the fitgap for clients
-    --}}
+{{-- Component that contains the modal for the fitgap for clients --}}
 
 @props(['project', 'disabled', 'isAccenture'])
 
