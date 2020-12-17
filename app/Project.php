@@ -281,6 +281,11 @@ class Project extends Model
         return SelectionCriteriaQuestion::find($uniqueIds);
     }
 
+    public function useCases()
+    {
+        return $this->hasMany(UseCases::class, 'project_id');
+    }
+
     /**
      * WARNING: THIS FKN METHOD RETURNS THE RESPONSES, NOT THE QUESTIONS...
      * @return \Illuminate\Database\Eloquent\Relations\HasMany

@@ -14,6 +14,7 @@ use App\SecurityLog;
 use App\SelectionCriteriaQuestion;
 use App\SelectionCriteriaQuestionResponse;
 use App\Subpractice;
+use App\UseCases;
 use App\User;
 use App\VendorApplication;
 use Carbon\Carbon;
@@ -36,7 +37,6 @@ class ProjectController extends Controller
     public function newProjectSetUp(Request $request, Project $project)
     {
         $clients = User::clientUsers()->get();
-
         $fitgapQuestions = $project->selectionCriteriaQuestionsOriginals()->where('page', 'fitgap');
 
         $vendorCorporateQuestions = $project->selectionCriteriaQuestionsOriginals()->where('page', 'vendor_corporate');
@@ -75,6 +75,100 @@ class ProjectController extends Controller
             'implementationImplementationQuestions' => $implementationImplementationQuestions,
             'implementationRunQuestions' => $implementationRunQuestions,
             'allOwners' => $allOwners,
+        ]);
+    }
+
+    public function useCasesSetUp(Request $request, Project $project)
+    {
+        $clients = User::clientUsers()->get();
+        $accentureUsers = User::accentureUsers()->get();
+
+//        $clientsToSave = $request->input('clientUsers');
+//        if ($clientsToSave) {
+//            $clientsToSave = explode(',', $clientsToSave);
+//        } else {
+//            $clientsToSave = array();
+//        }
+//
+//        $accentureToSave = $request->input('accentureUsers');
+//        if ($accentureToSave) {
+//            $accentureToSave = explode(',', $accentureToSave);
+//        } else {
+//            $accentureToSave = array();
+//        }
+
+        $practices = Practice::all();
+        $transportFlows = collect(config('arrays.transportFlows'));
+        $transportModes = collect(config('arrays.transportModes'));
+        $transportTypes = collect(config('arrays.transportTypes'));
+
+//        $useCases = UseCases::findByProject($project->id);
+        $useCases = $project->useCases()->get();
+
+        SecurityLog::createLog('User accessed project Use Cases setup with ID ' . $project->id);
+
+        $view = [
+            'project' => $project,
+
+            'clients' => $clients,
+//            'clientsToSave' => $clientsToSave,
+
+            'accentureUsers' => $accentureUsers,
+//            'accentureToSave' => $accentureToSave,
+
+            'practices' => $practices,
+            'transportFlows' => $transportFlows,
+            'transportModes' => $transportModes,
+            'transportTypes' => $transportTypes,
+            'useCases' => $useCases
+        ];
+
+        $useCaseNumber = $request->input('useCase');
+        if($useCaseNumber) {
+            $useCase = UseCases::find($useCaseNumber);
+            $view['currentUseCase'] = $useCase;
+        }
+
+        return view('accentureViews.useCasesSetUp', $view);
+    }
+
+    public function createCaseUse(Request $request)
+    {
+        $request->validate([
+            'id' => 'nullable|exists:use_cases,id|numeric',
+            'project_id' => 'required|exists:projects,id|numeric',
+            'name' => 'required|string',
+            'description' => 'required|string',
+            'expected_results' => 'nullable|string',
+            'practice_id' => 'required|exists:practices,id|numeric',
+            'transportFlow' => 'required|string',
+            'transportMode' => 'required|string',
+            'transportType' => 'required|string',
+            'accentureUsers.*' => 'required|exists:users,id|numeric',
+            'clientUsers.*' => 'required|exists:users,id|numeric'
+        ]);
+
+        if($request->id) {
+            $useCase = UseCases::find($request->id);
+        } else {
+        $useCase = new UseCases();
+        }
+
+        $useCase->project_id = $request->project_id;
+        $useCase->name = $request->name;
+        $useCase->description = $request->description;
+        $useCase->expected_results = $request->expected_results;
+        $useCase->practice_id = $request->practice_id;
+        $useCase->transportFlow = $request->transportFlow;
+        $useCase->transportMode = $request->transportMode;
+        $useCase->transportType = $request->transportType;
+        $useCase->accentureUsers = $request->accentureUsers;
+        $useCase->clientUsers = $request->clientUsers;
+        $useCase->save();
+
+        return \response()->json([
+            'status' => 200,
+            'message' => 'Success'
         ]);
     }
 
@@ -738,6 +832,7 @@ class ProjectController extends Controller
         });
 
         $fitgapQuestions = $project->selectionCriteriaQuestionsOriginals()->where('page', 'fitgap');
+        $useCases = $project->useCases()->where('page', 'usecase');
 
         $vendorCorporateQuestions = $project->selectionCriteriaQuestionsOriginals()->where('page', 'vendor_corporate');
         $vendorMarketQuestions = $project->selectionCriteriaQuestionsOriginals()->where('page', 'vendor_market');
@@ -764,6 +859,7 @@ class ProjectController extends Controller
             'sizingQuestions' => $sizingQuestions,
 
             'fitgapQuestions' => $fitgapQuestions,
+            'useCases' => $useCases,
             'vendorCorporateQuestions' => $vendorCorporateQuestions,
             'vendorMarketQuestions' => $vendorMarketQuestions,
             'experienceQuestions' => $experienceQuestions,
@@ -787,6 +883,7 @@ class ProjectController extends Controller
         });
 
         $fitgapQuestions = $project->selectionCriteriaQuestionsOriginals()->where('page', 'fitgap');
+        $useCases = $project->useCases()->where('page', 'usecase');
 
         $vendorCorporateQuestions = $project->selectionCriteriaQuestionsOriginals()->where('page', 'vendor_corporate');
         $vendorMarketQuestions = $project->selectionCriteriaQuestionsOriginals()->where('page', 'vendor_market');
@@ -813,6 +910,7 @@ class ProjectController extends Controller
             'sizingQuestions' => $sizingQuestions,
 
             'fitgapQuestions' => $fitgapQuestions,
+            'useCases' => $useCases,
             'vendorCorporateQuestions' => $vendorCorporateQuestions,
             'vendorMarketQuestions' => $vendorMarketQuestions,
             'experienceQuestions' => $experienceQuestions,
