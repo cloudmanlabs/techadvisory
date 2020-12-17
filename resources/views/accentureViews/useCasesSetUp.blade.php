@@ -14,7 +14,7 @@
             <div class="page-content">
                 <x-video :src="nova_get_setting('video_newProject_file')"
                          :text="nova_get_setting('video_newProject_text')"/>
-                <x-accenture.setUpNavbar section="useCasesSetUp" :project="$project"/>
+                <x-accenture.setUpNavbar section="useCasesSetUp" :project="$project" :isClient="false"/>
 
                 <div class="row">
                     <div class="col-md-12 grid-margin stretch-card">

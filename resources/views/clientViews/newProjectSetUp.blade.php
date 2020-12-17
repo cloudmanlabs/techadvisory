@@ -8,8 +8,7 @@
 
                 <x-video :src="nova_get_setting('video_newProject_file')"
                          :text="nova_get_setting('video_newProject_text')"/>
-
-                <br><br>
+                <x-accenture.setUpNavbar section="newProjectSetUp" :project="$project" :isClient="true"/>
 
                 <div class="row">
                     <div class="col-12 col-xl-12 stretch-card">
@@ -272,6 +271,12 @@
         jQuery.expr[':'].hasValue = function (el, index, match) {
             return el.value != "";
         };
+
+        if ("{{ $project->useCases }}" === "no") {
+            $('#setUpNavbar').hide();
+        } else {
+            $('#setUpNavbar').show();
+        }
 
         /**
          *  Returns false if any field is empty

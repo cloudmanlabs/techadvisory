@@ -14,7 +14,7 @@
             <div class="page-content">
                 <x-video :src="nova_get_setting('video_newProject_file')"
                          :text="nova_get_setting('video_newProject_text')"/>
-                <x-accenture.setUpNavbar section="newProjectSetUp" :project="$project"/>
+                <x-accenture.setUpNavbar section="newProjectSetUp" :project="$project" :isClient="false"/>
 
                 <!-- Summary Pannel -->
                 <div id="summary" class="row">

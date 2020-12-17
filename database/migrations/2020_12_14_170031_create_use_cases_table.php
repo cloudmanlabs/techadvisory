@@ -25,6 +25,9 @@ class CreateUseCasesTable extends Migration
             $table->string('transportFlow')->nullable(false);
             $table->string('transportMode')->nullable(false);
             $table->string('transportType')->nullable(false);
+            $table->string('processL1')->nullable();
+            $table->string('processL2')->nullable();
+            $table->string('processL3')->nullable();
 
             $table->foreign('project_id')
                 ->references('id')->on('projects')

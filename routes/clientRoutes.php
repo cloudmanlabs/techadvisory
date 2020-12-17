@@ -50,6 +50,10 @@ Route::prefix('client')
                 Route::middleware(['checkClientOwnsProject'])->group(function () {
                     Route::get('newProjectSetUp/{project}', 'ProjectController@newProjectSetUp')
                         ->name('newProjectSetUp');
+                    Route::get('newProjectSetUp/{project}/useCasesSetUp', 'ProjectController@useCasesSetUp')
+                        ->name('useCasesSetUp');
+
+                    Route::post('/newProjectSetUp/saveCaseUse', 'ProjectController@createCaseUse');
                     Route::post('/newProjectSetUp/changeProjectName', 'ProjectController@changeProjectName');
                     Route::post('/newProjectSetUp/changeProjectHasValueTargeting', 'ProjectController@changeProjectHasValueTargeting');
                     Route::post('/newProjectSetUp/changeProjectHasOrals', 'ProjectController@changeProjectHasOrals');
