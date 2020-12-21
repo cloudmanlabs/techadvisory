@@ -315,7 +315,8 @@ class User extends Authenticatable
         $industries = [],
         $regions = []
     ) {
-        $query = Project::leftJoin('project_subpractice as sub', 'projects.id', '=', 'sub.project_id')
+        $query = Project::distinct('projects.id')
+            ->leftJoin('project_subpractice as sub', 'projects.id', '=', 'sub.project_id')
             ->where('currentPhase', '=', 'old')
             ->whereHas('vendorApplications', function (Builder $query) {
                 $query
