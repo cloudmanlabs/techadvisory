@@ -122,8 +122,8 @@
         {{$disabled ? 'disabled' : ''}}
     >
         <option disabled="">Please select an option</option>
-        <option value="yes_prep" @if($project->useCases === "yes_prep") selected @endif>Yes, prep.</option>
-        <option value="yes_open" @if($project->useCases === "yes_open") selected @endif>Yes open</option>
+        <option value="yes_prep" @if($project->useCases === "yes_prep") selected @endif>Yes, Preparation Phase</option>
+        <option value="yes_open" @if($project->useCases === "yes_open") selected @endif>Yes, Open Phase</option>
         <option value="no" @if($project->useCases === "no") selected @endif>No</option>
     </select>
 </div>
