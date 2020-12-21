@@ -178,10 +178,151 @@
 
                                     <h2>General Scoring Criteria</h2>
                                     <section>
+                                        <div class="col-6" style="margin: 0 auto;">
+                                            <div class="form-area">
+                                                <div class="row">
+                                                    <div class="col-6">
+                                                        <label for="useCaseRFP">RFP</label>
+                                                    </div>
+                                                    <div class="col-3">
+                                                        <div class="input-group">
+                                                            <input type="number" max="100" accuracy="2" min="0"
+                                                                   style="text-align:left;" class="form-control"
+                                                                   id="useCaseRFP" placeholder="40"
+                                                                   required>
+                                                            <div class="input-group-append simulateInputBox">
+                                                                <span class="input-group-text simulateInput">%</span>
+                                                            </div>
+                                                        </div>
+                                                        <br>
+                                                    </div>
+                                                    @foreach ($useCases as $useCase)
+                                                        <div class="col-6">
+                                                            <label for="scoringCriteria{{$useCase->id}}">{{$useCase->name}}</label>
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <div class="input-group">
+                                                                <input type="number" max="100" accuracy="2" min="0"
+                                                                       style="text-align:left;" class="form-control"
+                                                                       id="scoringCriteria{{$useCase->id}}"
+                                                                       placeholder="{{60 / count($useCases)}}" required>
+                                                                <div class="input-group-append simulateInputBox">
+                                                                    <span class="input-group-text simulateInput">%</span>
+                                                                </div>
+                                                            </div>
+                                                            <br>
+                                                        </div>
+                                                    @endforeach
+                                                </div>
+                                            </div>
+                                            <br>
+                                            <div class="form-area">
+                                                <div class="row">
+                                                    <div class="col-6">
+                                                        <label for="useCaseSolutionFit">Solution Fit</label>
+                                                        <br>
+                                                    </div>
+                                                    <div class="col-3">
+                                                        <div class="input-group">
+                                                            <input type="number" max="100" accuracy="2" min="0"
+                                                                   style="text-align:left;" class="form-control"
+                                                                   id="useCaseSolutionFit" placeholder="20"
+                                                                   required>
+                                                            <div class="input-group-append simulateInputBox">
+                                                                <span class="input-group-text simulateInput">%</span>
+                                                            </div>
+                                                        </div>
+                                                        <br>
+                                                    </div>
+                                                    <div class="col-6">
+                                                        <label for="useCaseUsability">Usability</label>
+                                                        <br>
+                                                    </div>
+                                                    <div class="col-3">
+                                                        <div class="input-group">
+                                                            <input type="number" max="100" accuracy="2" min="0"
+                                                                   style="text-align:left;" class="form-control"
+                                                                   id="useCaseUsability" placeholder="40"
+                                                                   required>
+                                                            <div class="input-group-append simulateInputBox">
+                                                                <span class="input-group-text simulateInput">%</span>
+                                                            </div>
+                                                        </div>
+                                                        <br>
+                                                    </div>
+                                                    <div class="col-6">
+                                                        <label for="useCasePerformance">Performance</label>
+                                                        <br>
+                                                    </div>
+                                                    <div class="col-3">
+                                                        <div class="input-group">
+                                                            <input type="number" max="100" accuracy="2" min="0"
+                                                                   style="text-align:left;" class="form-control"
+                                                                   id="useCasePerformance" placeholder="10"
+                                                                   required>
+                                                            <div class="input-group-append simulateInputBox">
+                                                                <span class="input-group-text simulateInput">%</span>
+                                                            </div>
+                                                        </div>
+                                                        <br>
+                                                    </div>
+                                                    <div class="col-6">
+                                                        <label for="useCaseLookFeel">Look and Feel</label>
+                                                        <br>
+                                                    </div>
+                                                    <div class="col-3">
+                                                        <div class="input-group">
+                                                            <input type="number" max="100" accuracy="2" min="0"
+                                                                   style="text-align:left;" class="form-control"
+                                                                   id="useCaseLookFeel" placeholder="15"
+                                                                   required>
+                                                            <div class="input-group-append simulateInputBox">
+                                                                <span class="input-group-text simulateInput">%</span>
+                                                            </div>
+                                                        </div>
+                                                        <br>
+                                                    </div>
+                                                    <div class="col-6">
+                                                        <label for="useCaseOthers">Others</label>
+                                                        <br>
+                                                    </div>
+                                                    <div class="col-3">
+                                                        <div class="input-group">
+                                                            <input type="number" max="100" accuracy="2" min="0"
+                                                                   style="text-align:left;" class="form-control"
+                                                                   id="useCaseOthers" placeholder="15"
+                                                                   required>
+                                                            <div class="input-group-append simulateInputBox">
+                                                                <span class="input-group-text simulateInput">%</span>
+                                                            </div>
+                                                        </div>
+                                                        <br>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <br>
+                                            <button id="saveScoringCriteria" class="btn btn-primary btn-right">
+                                                Save
+                                            </button>
+                                        </div>
                                     </section>
 
                                     <h2>Invited Vendors</h2>
                                     <section>
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <label for="invitedVendors">Select vendors to be invited to this project</label>
+                                            </div>
+                                            <div class="col-12">
+                                                <select id="invitedVendors" multiple required>
+                                                    @foreach ($appliedVendors as $appliedVendor)
+                                                        <option value="{{ $appliedVendor->id }}">
+                                                            {{ $appliedVendor->name }}
+                                                        </option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                        </div>
                                     </section>
                                 </div>
                             </div>
@@ -199,6 +340,33 @@
     @parent
 
     <style>
+        .select2 {
+            min-width: 100%;
+        }
+
+        .input-group input {
+            border-right: none!important;
+            padding-right: 0!important;
+            padding-left: 0.5rem!important;
+        }
+
+        .simulateInputBox {
+            display: block;
+            border-top: 1px solid #ccc;
+            border-right: 1px solid #ccc;
+            border-bottom: 1px solid #ccc;
+            border-left: none;
+            border-top-right-radius: 2px;
+            border-bottom-right-radius: 2px;
+            background-color: white;
+
+        }
+
+        .simulateInput {
+            background-color: white;
+            border: none!important;
+        }
+
         .btn-right {
             float: right;
         }
@@ -282,6 +450,16 @@
             color: inherit;
         }
 
+        .valuePadding {
+            border: 1px inset #ccc;
+        }
+
+        .valuePadding input {
+            border: none;
+            padding:0px;
+            outline: none;
+        }
+
     </style>
     <link rel="stylesheet" href="{{url('/assets/css/techadvisory/vendorValidateResponses.css')}}">
 @endsection
@@ -300,11 +478,59 @@
             return el.value != "";
         };
 
-        function checkIfAllRequiredsAreFilled() {
-            let array = $('input,textarea,select')
-                .filter('[required]')
-                .toArray();
-            if (array.length == 0) return true;
+        function checkIfSumOfSectionsIs100() {
+            var upperForm = (
+                @foreach($useCases as $useCase)
+                parseFloat($('#scoringCriteria{{$useCase->id}}').val()) +
+                @endforeach
+                parseFloat($('#useCaseRFP').val())
+            );
+
+            var lowerForm = (
+                parseFloat($('#useCaseSolutionFit').val()) +
+                parseFloat($('#useCaseUsability').val()) +
+                parseFloat($('#useCasePerformance').val()) +
+                parseFloat($('#useCaseLookFeel').val()) +
+                parseFloat($('#useCaseOthers').val())
+            );
+
+            return (upperForm === 100.00) && (lowerForm === 100.00);
+        }
+
+        function checkIfAllRequiredsInUseCaseScoringCriteriaAreFilled() {
+            var array = [
+                @foreach($useCases as $useCase)
+                $('#scoringCriteria{{$useCase->id}}'),
+                @endforeach
+                $('#useCaseRFP'),
+                $('#useCaseSolutionFit'),
+                $('#useCaseUsability'),
+                $('#useCasePerformance'),
+                $('#useCaseLookFeel'),
+                $('#useCaseOthers')
+            ];
+
+            for (let i = 0; i < array.length; i++) {
+                if (!$(array[i]).is(':hasValue') || $(array[i]).hasClass('invalid')) {
+                    console.log(array[i])
+                    return false
+                }
+            }
+
+            return true
+        }
+
+        function checkIfAllRequiredsInUseCaseCreationAreFilled() {
+            var array = [
+                $('#useCaseName'),
+                $('#useCaseDescription'),
+                $('#practiceSelect'),
+                $('#transportFlowSelect'),
+                $('#transportModeSelect'),
+                $('#transportTypeSelect'),
+                $('#accentureUsers'),
+                $('#clientUsers')
+            ];
 
             for (let i = 0; i < array.length; i++) {
                 if (!$(array[i]).is(':hasValue') || $(array[i]).hasClass('invalid')) {
@@ -336,6 +562,16 @@
             })
         }
 
+        function showInvalidScoringCriteriaToast() {
+            $.toast({
+                heading: 'Fill all fields and sum of each section must be 100!',
+                showHideTransition: 'slide',
+                icon: 'error',
+                hideAfter: 3000,
+                position: 'bottom-right'
+            })
+        }
+
         $(document).ready(function () {
             $("#wizard_accenture_useCasesSetUp").steps({
                 headerTag: "h2",
@@ -350,7 +586,6 @@
                     window.location.replace("/accenture/home");
                 },
                 onStepChanged: function (e, c, p) {
-                    updateSubmitStep3();
                     for (let i = 0; i < 10; i++) {
                         $('#wizard_accenture_useCasesSetUp-p-' + i).css('display', 'none')
                     }
@@ -360,9 +595,19 @@
 
             $('#accentureUsers').select2();
             $('#clientUsers').select2();
+            $('#invitedVendors').select2();
+
+            $('#invitedVendors').change(function () {
+                $.post('/accenture/newProjectSetUp/updateInvitedVendors', {
+                    project_id: '{{$project->id}}',
+                    vendorList: encodeURIComponent($(this).val())
+                })
+
+                showSavedToast();
+            });
 
             $('#saveUseCaseButton').click(function () {
-                if (!checkIfAllRequiredsAreFilled()) {
+                if (!checkIfAllRequiredsInUseCaseCreationAreFilled()) {
                     return showInvalidFormToast();
                 }
 
@@ -383,9 +628,41 @@
                 };
 
                 $.post('/accenture/newProjectSetUp/saveCaseUse', body)
+                    .then(function (data) {
+                        location.replace("{{route('accenture.useCasesSetUp', ['project' => $project])}}" + "?useCase=" + data.useCaseId);
+                    });
 
                 showSavedToast();
-                location.reload();
+            });
+
+            $('#saveScoringCriteria').click(function () {
+                if (!checkIfAllRequiredsInUseCaseScoringCriteriaAreFilled() || !checkIfSumOfSectionsIs100()) {
+                    return showInvalidScoringCriteriaToast();
+                }
+
+
+                @foreach($useCases as $useCase)
+                var useCaseBody{{$useCase->id}} = {
+                    useCaseId: {{$useCase->id}},
+                    scoringCriteria: parseFloat($('#scoringCriteria{{$useCase->id}}').val())
+                };
+
+                $.post('/accenture/newProjectSetUp/saveUseCaseScoringCriteria', useCaseBody{{$useCase->id}})
+                @endforeach
+
+                var body = {
+                    project_id: parseInt({{$project->id}}, 10),
+                    rfp: parseFloat($('#useCaseRFP').val()),
+                    solutionFit: parseFloat($('#useCaseSolutionFit').val()),
+                    usability: parseFloat($('#useCaseUsability').val()),
+                    performance: parseFloat($('#useCasePerformance').val()),
+                    lookFeel: parseFloat($('#useCaseLookFeel').val()),
+                    others: parseFloat($('#useCaseOthers').val())
+                };
+
+                $.post('/accenture/newProjectSetUp/saveProjectScoringCriteria', body)
+
+                showSavedToast();
             });
 
             $(".js-example-basic-single").select2();
@@ -403,6 +680,24 @@
             $('#accentureUsers').select2().trigger('change')
             $('#clientUsers').val(decodeURIComponent("{{$currentUseCase->clientUsers}}").split(","))
             $('#clientUsers').select2().trigger('change')
+            @endif
+            @if($project ?? null)
+            @foreach($useCases as $useCase)
+            $('#scoringCriteria{{$useCase->id}}').val(parseFloat({{$useCase->scoring_criteria}}))
+            @endforeach
+            $('#useCaseRFP').val(parseFloat({{$project->use_case_rfp}}))
+            $('#useCaseSolutionFit').val(parseFloat({{$project->use_case_solution_fit}}))
+            $('#useCaseUsability').val(parseFloat({{$project->use_case_usability}}))
+            $('#useCasePerformance').val(parseFloat({{$project->use_case_performance}}))
+            $('#useCaseLookFeel').val(parseFloat({{$project->use_case_look_feel}}))
+            $('#useCaseOthers').val(parseFloat({{$project->use_case_others}}))
+            $('#invitedVendors').val(decodeURIComponent("{{$project->use_case_invited_vendors}}").split(","))
+            $('#invitedVendors').select2().trigger('change')
+            @endif
+            @if($appliedVendors)
+            @foreach($appliedVendors as $appliedVendor)
+            console.log('{{$appliedVendor->id}}' + ' : ' + '{{$appliedVendor->name}}');
+            @endforeach
             @endif
         });
     </script>

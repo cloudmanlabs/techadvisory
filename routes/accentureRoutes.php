@@ -34,6 +34,9 @@ prefix('accenture')
                 ->name('useCasesSetUp');
 
             // This started as just a couple fields,  but has been growing over time. I'd refactor it to be a single route or something, but it's a bit late now
+            Route::post('/newProjectSetUp/updateInvitedVendors', 'ProjectController@updateInvitedVendors');
+            Route::post('/newProjectSetUp/saveProjectScoringCriteria', 'ProjectController@saveProjectScoringCriteria');
+            Route::post('/newProjectSetUp/saveUseCaseScoringCriteria', 'ProjectController@saveUseCaseScoringCriteria');
             Route::post('/newProjectSetUp/saveCaseUse', 'ProjectController@createCaseUse');
             Route::post('/newProjectSetUp/changeProjectName', 'ProjectController@changeProjectName');
             Route::post('/newProjectSetUp/changeProjectOwner', 'ProjectController@changeProjectOwner');

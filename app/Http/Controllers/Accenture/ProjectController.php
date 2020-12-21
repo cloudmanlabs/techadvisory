@@ -82,20 +82,7 @@ class ProjectController extends Controller
     {
         $clients = User::clientUsers()->get();
         $accentureUsers = User::accentureUsers()->get();
-
-//        $clientsToSave = $request->input('clientUsers');
-//        if ($clientsToSave) {
-//            $clientsToSave = explode(',', $clientsToSave);
-//        } else {
-//            $clientsToSave = array();
-//        }
-//
-//        $accentureToSave = $request->input('accentureUsers');
-//        if ($accentureToSave) {
-//            $accentureToSave = explode(',', $accentureToSave);
-//        } else {
-//            $accentureToSave = array();
-//        }
+        $appliedVendors = $project->vendorsApplied()->get();
 
         $practices = Practice::all();
         $transportFlows = collect(config('arrays.transportFlows'));
@@ -111,10 +98,10 @@ class ProjectController extends Controller
             'project' => $project,
 
             'clients' => $clients,
-//            'clientsToSave' => $clientsToSave,
 
             'accentureUsers' => $accentureUsers,
-//            'accentureToSave' => $accentureToSave,
+
+            'appliedVendors' => $appliedVendors,
 
             'practices' => $practices,
             'transportFlows' => $transportFlows,
@@ -150,6 +137,9 @@ class ProjectController extends Controller
 
         if($request->id) {
             $useCase = UseCases::find($request->id);
+            if ($useCase == null) {
+                abort(404);
+            }
         } else {
         $useCase = new UseCases();
         }
@@ -165,6 +155,80 @@ class ProjectController extends Controller
         $useCase->accentureUsers = $request->accentureUsers;
         $useCase->clientUsers = $request->clientUsers;
         $useCase->save();
+
+        return \response()->json([
+            'status' => 200,
+            'message' => 'Success',
+            'useCaseId' => $useCase->id
+        ]);
+    }
+
+    public function saveProjectScoringCriteria(Request $request)
+    {
+        $request->validate([
+            'project_id' => 'required|exists:projects,id|numeric',
+            'rfp' => 'required|numeric',
+            'solutionFit' => 'required|numeric',
+            'usability' => 'required|numeric',
+            'performance' => 'required|numeric',
+            'lookFeel' => 'required|numeric',
+            'others' => 'required|numeric'
+        ]);
+
+        $project = Project::find($request->project_id);
+        if ($project == null) {
+            abort(404);
+        }
+
+        $project->use_case_rfp = $request->rfp;
+        $project->use_case_solution_fit = $request->solutionFit;
+        $project->use_case_usability = $request->usability;
+        $project->use_case_performance = $request->performance;
+        $project->use_case_look_feel = $request->lookFeel;
+        $project->use_case_others = $request->others;
+        $project->save();
+
+        return \response()->json([
+            'status' => 200,
+            'message' => 'Success'
+        ]);
+    }
+
+    public function saveUseCaseScoringCriteria(Request $request)
+    {
+        $request->validate([
+            'useCaseId' => 'required|exists:use_cases,id|numeric',
+            'scoringCriteria' => 'required|numeric'
+        ]);
+
+        $useCase = UseCases::find($request->useCaseId);
+        if ($useCase == null) {
+            abort(404);
+        }
+
+        $useCase->scoring_criteria = (float) $request->scoringCriteria;
+        $useCase->save();
+
+        return \response()->json([
+            'status' => 200,
+            'message' => 'Success'
+        ]);
+    }
+
+    public function updateInvitedVendors(Request $request)
+    {
+        $request->validate([
+            'project_id' => 'required|numeric',
+            'vendorList.*' => 'required|exists:users,id|numeric'
+        ]);
+
+        $project = Project::find($request->project_id);
+        if ($project == null) {
+            abort(404);
+        }
+
+        $project->use_case_invited_vendors = $request->vendorList;
+        $project->save();
 
         return \response()->json([
             'status' => 200,
