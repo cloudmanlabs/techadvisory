@@ -80,7 +80,9 @@ class ProjectController extends Controller
 
     public function useCasesSetUp(Request $request, Project $project)
     {
-        $clients = User::clientUsers()->get();
+        $client = $project->client;
+        $clients = $client->credentials()->get();
+
         $accentureUsers = User::accentureUsers()->get();
         $appliedVendors = $project->vendorsApplied()->get();
 
