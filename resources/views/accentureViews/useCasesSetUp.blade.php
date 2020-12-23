@@ -58,7 +58,7 @@
                                                     <div class="form-group">
                                                         <div class="row">
                                                             <div class="col-3">
-                                                                <label for="useCaseName">Name</label>
+                                                                <label for="useCaseName">Name*</label>
                                                             </div>
                                                             <div class="col-6">
                                                                 <input type="text" class="form-control"
@@ -71,7 +71,7 @@
                                                         <br>
                                                         <div class="row">
                                                             <div class="col-3">
-                                                                <label for="useCaseDescription">Description</label>
+                                                                <label for="useCaseDescription">Description*</label>
                                                             </div>
                                                             <div class="col-6">
                                                                 <textarea
@@ -79,6 +79,7 @@
                                                                     id="useCaseDescription"
                                                                     placeholder="Add description"
                                                                     rows="5"
+                                                                    required
                                                                     ></textarea>
                                                             </div>
                                                         </div>
@@ -99,7 +100,7 @@
                                                         <br>
                                                         <div class="row">
                                                             <div class="col-3">
-                                                                <label for="practiceSelect">Practice</label>
+                                                                <label for="practiceSelect">Practice*</label>
                                                             </div>
                                                             <div class="col-6">
                                                                 <select id="practiceSelect" required>
@@ -113,25 +114,25 @@
                                                         <br>
                                                         <div class="row">
                                                             <div class="col-3">
-                                                                <label for="transportFlowSelect">Questions</label>
+                                                                <label for="transportFlowSelect">Questions*</label>
                                                             </div>
                                                             <div class="col-6">
                                                                 <select id="transportFlowSelect" required>
-                                                                    <option value="">-- Select Transport Flow --</option>
+                                                                    <option value="">-- Select Transport Flow* --</option>
                                                                     @foreach ($transportFlows as $transportFlow)
                                                                         <option value="{{$transportFlow}}">{{$transportFlow}}</option>
                                                                     @endforeach
                                                                 </select>
                                                                 <br>
                                                                 <select id="transportModeSelect" required>
-                                                                    <option value="">-- Select Transport Mode --</option>
+                                                                    <option value="">-- Select Transport Mode* --</option>
                                                                     @foreach ($transportModes as $transportMode)
                                                                         <option value="{{$transportMode}}">{{$transportMode}}</option>
                                                                     @endforeach
                                                                 </select>
                                                                 <br>
                                                                 <select id="transportTypeSelect" required>
-                                                                    <option value="">-- Select Transport Type --</option>
+                                                                    <option value="">-- Select Transport Type* --</option>
                                                                     @foreach ($transportTypes as $transportType)
                                                                         <option value="{{$transportType}}">{{$transportType}}</option>
                                                                     @endforeach
@@ -147,7 +148,7 @@
                                                     <br>
                                                     <div class="row">
                                                         <div class="col-6">
-                                                            <label for="accentureUsers">Accenture</label>
+                                                            <label for="accentureUsers">Accenture*</label>
                                                             <select id="accentureUsers" multiple required>
                                                                 @foreach ($accentureUsers as $accentureUser)
                                                                     <option value="{{ $accentureUser->id }}">
@@ -157,7 +158,7 @@
                                                             </select>
                                                         </div>
                                                         <div class="col-6">
-                                                            <label for="clientUsers">Clients</label>
+                                                            <label for="clientUsers">Clients*</label>
                                                             <select id="clientUsers" multiple required>
                                                                 @foreach ($clients as $client)
                                                                     <option value="{{ $client->id }}">
@@ -182,7 +183,7 @@
                                             <div class="form-area">
                                                 <div class="row">
                                                     <div class="col-6">
-                                                        <label for="useCaseRFP">RFP</label>
+                                                        <label for="useCaseRFP">RFP*</label>
                                                     </div>
                                                     <div class="col-3">
                                                         <div class="input-group">
@@ -196,30 +197,39 @@
                                                         </div>
                                                         <br>
                                                     </div>
-                                                    @foreach ($useCases as $useCase)
-                                                        <div class="col-6">
-                                                            <label for="scoringCriteria{{$useCase->id}}">{{$useCase->name}}</label>
-                                                        </div>
-                                                        <div class="col-3">
-                                                            <div class="input-group">
-                                                                <input type="number" max="100" accuracy="2" min="0"
-                                                                       style="text-align:left;" class="form-control"
-                                                                       id="scoringCriteria{{$useCase->id}}"
-                                                                       placeholder="{{60 / count($useCases)}}" required>
-                                                                <div class="input-group-append simulateInputBox">
-                                                                    <span class="input-group-text simulateInput">%</span>
+                                                    <div class="col-9">
+                                                        <div class="row">
+                                                            @foreach ($useCases as $useCase)
+                                                                <div class="col-8">
+                                                                    <label for="scoringCriteria{{$useCase->id}}">{{$useCase->name}}*</label>
                                                                 </div>
-                                                            </div>
-                                                            <br>
+                                                                <div class="col-4">
+                                                                    <div class="input-group">
+                                                                        <input type="number" max="100" accuracy="2" min="0"
+                                                                               style="text-align:left;" class="form-control"
+                                                                               id="scoringCriteria{{$useCase->id}}"
+                                                                               placeholder="{{60 / count($useCases)}}" required>
+                                                                        <div class="input-group-append simulateInputBox">
+                                                                            <span class="input-group-text simulateInput">%</span>
+                                                                        </div>
+                                                                    </div>
+                                                                    <br>
+                                                                </div>
+                                                            @endforeach
                                                         </div>
-                                                    @endforeach
+                                                    </div>
+                                                    <div class="col-3">
+                                                        <div class="brd-left">
+                                                            <p class="text-center">60%</p>
+                                                        </div>
+                                                    </div>
                                                 </div>
                                             </div>
                                             <br>
                                             <div class="form-area">
                                                 <div class="row">
                                                     <div class="col-6">
-                                                        <label for="useCaseSolutionFit">Solution Fit</label>
+                                                        <label for="useCaseSolutionFit">Solution Fit*</label>
                                                         <br>
                                                     </div>
                                                     <div class="col-3">
@@ -235,7 +245,7 @@
                                                         <br>
                                                     </div>
                                                     <div class="col-6">
-                                                        <label for="useCaseUsability">Usability</label>
+                                                        <label for="useCaseUsability">Usability*</label>
                                                         <br>
                                                     </div>
                                                     <div class="col-3">
@@ -251,7 +261,7 @@
                                                         <br>
                                                     </div>
                                                     <div class="col-6">
-                                                        <label for="useCasePerformance">Performance</label>
+                                                        <label for="useCasePerformance">Performance*</label>
                                                         <br>
                                                     </div>
                                                     <div class="col-3">
@@ -267,7 +277,7 @@
                                                         <br>
                                                     </div>
                                                     <div class="col-6">
-                                                        <label for="useCaseLookFeel">Look and Feel</label>
+                                                        <label for="useCaseLookFeel">Look and Feel*</label>
                                                         <br>
                                                     </div>
                                                     <div class="col-3">
@@ -283,7 +293,7 @@
                                                         <br>
                                                     </div>
                                                     <div class="col-6">
-                                                        <label for="useCaseOthers">Others</label>
+                                                        <label for="useCaseOthers">Others*</label>
                                                         <br>
                                                     </div>
                                                     <div class="col-3">
@@ -312,9 +322,16 @@
                                         <div class="row">
                                             <div class="col-12">
                                                 <label for="invitedVendors">Select vendors to be invited to this project</label>
+                                                @if ($project->currentPhase === 'open')
+                                                <span>*</span>
+                                                @endif
                                             </div>
                                             <div class="col-12">
-                                                <select id="invitedVendors" multiple required>
+                                                <select id="invitedVendors" multiple required
+                                                        @if ($project->currentPhase !== 'open')
+                                                        disabled
+                                                        @endif
+                                                >
                                                     @foreach ($appliedVendors as $appliedVendor)
                                                         <option value="{{ $appliedVendor->id }}">
                                                             {{ $appliedVendor->name }}
@@ -322,6 +339,13 @@
                                                     @endforeach
                                                 </select>
                                             </div>
+                                            @if ($project->currentPhase === 'open')
+                                            <div class="col-12">
+                                                <br>
+                                                <button class="btn btn-primary" id="publishButton">PUBLISH</button>
+                                                <br>
+                                            </div>
+                                            @endif
                                         </div>
                                     </section>
                                 </div>
@@ -340,6 +364,19 @@
     @parent
 
     <style>
+        .text-center {
+            text-align: center !important;
+            width: 100%;
+        }
+
+        .brd-left {
+            border-left: 1px solid #727272;
+            height: 93%;
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
         .select2 {
             min-width: 100%;
         }
@@ -521,6 +558,15 @@
         }
 
         function checkIfAllRequiredsInUseCaseCreationAreFilled() {
+            if (!$('#invitedVendors').is(':hasValue') || $('#invitedVendors').hasClass('invalid')) {
+                console.log($('#invitedVendors'))
+                return false
+            }
+
+            return true
+        }
+
+        function checkIfInvitedVendorsIsFilled() {
             var array = [
                 $('#useCaseName'),
                 $('#useCaseDescription'),
@@ -552,6 +598,16 @@
             })
         }
 
+        function showPublishedToast() {
+            $.toast({
+                heading: 'Published!',
+                showHideTransition: 'slide',
+                icon: 'success',
+                hideAfter: 1000,
+                position: 'bottom-right'
+            })
+        }
+
         function showInvalidFormToast() {
             $.toast({
                 heading: 'Fill all required fields!',
@@ -568,6 +624,16 @@
                 showHideTransition: 'slide',
                 icon: 'error',
                 hideAfter: 3000,
+                position: 'bottom-right'
+            })
+        }
+
+        function showUnpublishedToast() {
+            $.toast({
+                heading: 'Fill all mandatory fields of the three sections before PUBLISH!',
+                showHideTransition: 'slide',
+                icon: 'error',
+                hideAfter: 10000,
                 position: 'bottom-right'
             })
         }
@@ -664,6 +730,26 @@
 
                 showSavedToast();
             });
+
+            @if ($project->currentPhase === 'open')
+            $('#publishButton').click(function () {
+                if (
+                    !checkIfAllRequiredsInUseCaseCreationAreFilled() ||
+                    !checkIfAllRequiredsInUseCaseScoringCriteriaAreFilled() ||
+                    !checkIfSumOfSectionsIs100() ||
+                    !checkIfAllRequiredsInUseCaseCreationAreFilled()
+                ) {
+                    return showUnpublishedToast();
+                }
+
+                $.post('/accenture/newProjectSetUp/publishProject', {
+                    project_id: '{{$project->id}}',
+                })
+
+                showPublishedToast();
+                location.reload();
+            });
+            @endif
 
             $(".js-example-basic-single").select2();
             $(".js-example-basic-multiple").select2();
