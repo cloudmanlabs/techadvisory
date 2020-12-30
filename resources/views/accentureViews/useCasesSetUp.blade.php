@@ -580,6 +580,26 @@
             })
         }
 
+        function showSavedQuestionToast(questionName) {
+            $.toast({
+                heading: 'Saved question: ' + questionName,
+                showHideTransition: 'slide',
+                icon: 'success',
+                hideAfter: 1000,
+                position: 'bottom-right'
+            })
+        }
+
+        function showErrorSavingQuestionToast(questionName) {
+            $.toast({
+                heading: 'Error saving question: ' + questionName,
+                showHideTransition: 'slide',
+                icon: 'error',
+                hideAfter: 10000,
+                position: 'bottom-right'
+            })
+        }
+
         function showPublishedToast() {
             $.toast({
                 heading: 'Published!',
@@ -731,14 +751,14 @@
                                 value: encodeURIComponent(value),
                                 useCase: data.useCaseId,
                             }).done(function() {
-                                showSavedToast();
+                                showSavedQuestionToast(value);
                                 console.log("success", value, changing);
                             }).fail(function() {
                                 console.log("error", value, changing);
-                                showErrorToast();
+                                showErrorSavingQuestionToast(value);
                             });
                         }
-                        //location.replace("{{route('accenture.useCasesSetUp', ['project' => $project])}}" + "?useCase=" + data.useCaseId);
+                        location.replace("{{route('accenture.useCasesSetUp', ['project' => $project])}}" + "?useCase=" + data.useCaseId);
                     });
 
                 showSavedToast();
