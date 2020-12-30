@@ -46,7 +46,8 @@
                             <a class="pt-1px d-none d-md-block" href="{{route('accenture.projectView', ['project' => $project])}}">View/Edit project</a>
                         </li>
                         @endif
-                        @if ($project->currentPhase != 'preparation' && $project->useCases !== 'no')
+{{--                            @if ($project->currentPhase != 'preparation' && $project->useCases !== 'no')--}}
+                        @if (false)
                         <li class="header-link-item ml-3 pl-3 border-left d-flex align-items-center {{$section == 'useCasesSetUp' ? 'active' : ''}}">
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
                                  fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"

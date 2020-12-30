@@ -111,8 +111,6 @@ class ProjectController extends Controller
             'useCaseTemplates' => $useCaseTemplates
         ];
 
-        //[{"id":5,"use_case_id":9,"use_case_questions_id":1,"response":"test1"},{"id":6,"use_case_id":9,"use_case_questions_id":2,"response":"test1test1test1test1test1test1test1test1test1test1test1test1test1test1test1test1test1test1test1test1test1test1test1test1test1test1test1test1test1test1test1test1test1test1test1test1test1test1test1test1test1test1test1test1test1test1test1test1test1test1test1test1test1test1test1test1test1test1test1test1test1test1test1test1test1test1test1test1test1test1test1test1test1test1test1test1test1"},{"id":7,"use_case_id":9,"use_case_questions_id":3,"response":"DZ"}]
-
         $useCaseNumber = $request->input('useCase');
         if($useCaseNumber) {
             $useCase = UseCase::find($useCaseNumber);
