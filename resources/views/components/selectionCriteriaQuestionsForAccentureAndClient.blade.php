@@ -16,7 +16,7 @@
     <h4>Corporate information</h4>
     <p class="welcome_text extra-top-15px">
         Below is the questionnaire designed to know more about the vendor company.
-    </p>
+    </p>5
     <br>
     @foreach ($vendorCorporateQuestions as $question)
         @if($question->practice_id == $project->practice_id || empty($question->practice_id))

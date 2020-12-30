@@ -283,7 +283,7 @@ class Project extends Model
 
     public function useCases()
     {
-        return $this->hasMany(UseCases::class, 'project_id');
+        return $this->hasMany(UseCase::class, 'project_id');
     }
 
     /**

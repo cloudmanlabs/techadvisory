@@ -10,7 +10,7 @@ use App\Http\Controllers\Controller;
 use App\Practice;
 use App\SecurityLog;
 use App\User;
-use App\UseCases;
+use App\UseCase;
 use App\VendorApplication;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Log;
@@ -103,10 +103,10 @@ class ProjectController extends Controller
 
         $useCaseNumber = $request->input('useCase');
         if($useCaseNumber) {
-            $useCase = UseCases::find($useCaseNumber);
+            $useCase = UseCase::find($useCaseNumber);
             $view['currentUseCase'] = $useCase;
         } else {
-            $useCase = UseCases::findByProject($project->id);
+            $useCase = UseCase::findByProject($project->id);
             $view['currentUseCase'] = $useCase[0];
         }
 
@@ -116,7 +116,7 @@ class ProjectController extends Controller
     public function createCaseUse(Request $request)
     {
         $request->validate([
-            'id' => 'nullable|exists:use_cases,id|numeric',
+            'id' => 'nullable|exists:use_case,id|numeric',
             'project_id' => 'required|exists:projects,id|numeric',
             'name' => 'required|string',
             'description' => 'required|string',
@@ -126,7 +126,7 @@ class ProjectController extends Controller
             'processL3' => 'required|string'
         ]);
 
-        $useCase = UseCases::find($request->id);
+        $useCase = UseCase::find($request->id);
 
         $useCase->project_id = $request->project_id;
         $useCase->name = $request->name;

@@ -14,7 +14,9 @@ use App\SecurityLog;
 use App\SelectionCriteriaQuestion;
 use App\SelectionCriteriaQuestionResponse;
 use App\Subpractice;
-use App\UseCases;
+use App\UseCase;
+use App\UseCaseQuestionResponse;
+use App\UseCaseTemplate;
 use App\User;
 use App\VendorApplication;
 use Carbon\Carbon;
@@ -87,12 +89,11 @@ class ProjectController extends Controller
         $appliedVendors = $project->vendorsApplied()->get();
 
         $practices = Practice::all();
-        $transportFlows = collect(config('arrays.transportFlows'));
-        $transportModes = collect(config('arrays.transportModes'));
-        $transportTypes = collect(config('arrays.transportTypes'));
 
 //        $useCases = UseCases::findByProject($project->id);
         $useCases = $project->useCases()->get();
+
+        $useCaseTemplates = UseCaseTemplate::all();
 
         SecurityLog::createLog('User accessed project Use Cases setup with ID ' . $project->id);
 
@@ -106,16 +107,27 @@ class ProjectController extends Controller
             'appliedVendors' => $appliedVendors,
 
             'practices' => $practices,
-            'transportFlows' => $transportFlows,
-            'transportModes' => $transportModes,
-            'transportTypes' => $transportTypes,
-            'useCases' => $useCases
+            'useCases' => $useCases,
+            'useCaseTemplates' => $useCaseTemplates
         ];
+
+        //[{"id":5,"use_case_id":9,"use_case_questions_id":1,"response":"test1"},{"id":6,"use_case_id":9,"use_case_questions_id":2,"response":"test1test1test1test1test1test1test1test1test1test1test1test1test1test1test1test1test1test1test1test1test1test1test1test1test1test1test1test1test1test1test1test1test1test1test1test1test1test1test1test1test1test1test1test1test1test1test1test1test1test1test1test1test1test1test1test1test1test1test1test1test1test1test1test1test1test1test1test1test1test1test1test1test1test1test1test1test1"},{"id":7,"use_case_id":9,"use_case_questions_id":3,"response":"DZ"}]
 
         $useCaseNumber = $request->input('useCase');
         if($useCaseNumber) {
-            $useCase = UseCases::find($useCaseNumber);
+            $useCase = UseCase::find($useCaseNumber);
             $view['currentUseCase'] = $useCase;
+            $view['useCaseResponses'] = UseCaseQuestionResponse::getResponsesFromUseCase($useCase);
+            $useCaseTemplate = UseCaseTemplate::find($useCase->template_id);
+            $view['selectedUseCaseTemplate'] = $useCaseTemplate;
+            $view['selectedUseCaseTemplateQuestions'] = $useCaseTemplate->useCaseQuestionsOriginals();
+        }
+
+        $useCaseTemplateId = $request->input('useCaseTemplate');
+        if($useCaseTemplateId) {
+            $useCaseTemplate = UseCaseTemplate::find($useCaseTemplateId);
+            $view['selectedUseCaseTemplate'] = $useCaseTemplate;
+            $view['selectedUseCaseTemplateQuestions'] = $useCaseTemplate->useCaseQuestionsOriginals();
         }
 
         return view('accentureViews.useCasesSetUp', $view);
@@ -124,36 +136,30 @@ class ProjectController extends Controller
     public function createCaseUse(Request $request)
     {
         $request->validate([
-            'id' => 'nullable|exists:use_cases,id|numeric',
+            'id' => 'nullable|exists:use_case,id|numeric',
             'project_id' => 'required|exists:projects,id|numeric',
+            'template_id' => 'required|exists:use_case_templates,id|numeric',
             'name' => 'required|string',
             'description' => 'required|string',
-            'expected_results' => 'nullable|string',
             'practice_id' => 'required|exists:practices,id|numeric',
-            'transportFlow' => 'required|string',
-            'transportMode' => 'required|string',
-            'transportType' => 'required|string',
             'accentureUsers.*' => 'required|exists:users,id|numeric',
             'clientUsers.*' => 'required|exists:users,id|numeric'
         ]);
 
         if($request->id) {
-            $useCase = UseCases::find($request->id);
+            $useCase = UseCase::find($request->id);
             if ($useCase == null) {
                 abort(404);
             }
         } else {
-        $useCase = new UseCases();
+        $useCase = new UseCase();
         }
 
         $useCase->project_id = $request->project_id;
+        $useCase->template_id = $request->template_id;
         $useCase->name = $request->name;
         $useCase->description = $request->description;
-        $useCase->expected_results = $request->expected_results;
         $useCase->practice_id = $request->practice_id;
-        $useCase->transportFlow = $request->transportFlow;
-        $useCase->transportMode = $request->transportMode;
-        $useCase->transportType = $request->transportType;
         $useCase->accentureUsers = $request->accentureUsers;
         $useCase->clientUsers = $request->clientUsers;
         $useCase->save();
@@ -199,11 +205,11 @@ class ProjectController extends Controller
     public function saveUseCaseScoringCriteria(Request $request)
     {
         $request->validate([
-            'useCaseId' => 'required|exists:use_cases,id|numeric',
+            'useCaseId' => 'required|exists:use_case,id|numeric',
             'scoringCriteria' => 'required|numeric'
         ]);
 
-        $useCase = UseCases::find($request->useCaseId);
+        $useCase = UseCase::find($request->useCaseId);
         if ($useCase == null) {
             abort(404);
         }

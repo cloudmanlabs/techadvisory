@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use phpDocumentor\Reflection\Types\Integer;
 
 /**
- * Class useCases
+ * Class useCase
  * @package App
  *
  * @property int $id
@@ -21,15 +21,20 @@ use phpDocumentor\Reflection\Types\Integer;
  * @property string $phase
  *
  */
-class UseCases extends Model
+class UseCase extends Model
 {
     public $guarded = [];
 
-    protected $table = 'use_cases';
+    protected $table = 'use_case';
 
     public function project()
     {
         return $this->belongsTo(Project::class, 'project_id');
+    }
+
+    public function template()
+    {
+        return $this->belongsTo(UseCaseTemplate::class, 'template_id');
     }
 
     public function id()
@@ -52,38 +57,18 @@ class UseCases extends Model
 //        return $this->expected_results;
 //    }
 //
-//    public function question1()
-//    {
-//        return $this->question1;
-//    }
-//
-//    public function question2()
-//    {
-//        return $this->question2;
-//    }
-//
-//    public function question3()
-//    {
-//        return $this->question3;
-//    }
-//
-//    public function phase()
-//    {
-//        return $this->phase;
-//    }
-
 //    public static function deleteByProject($projectId)
 //    {
-//        UseCases::where('project_id', '=', $projectId)->delete();
+//        UseCase::where('project_id', '=', $projectId)->delete();
 //    }
 //
     public static function findByProject($projectId)
     {
-        return UseCases::where('project_id', '=', $projectId)->get();
+        return UseCase::where('project_id', '=', $projectId)->get();
     }
 
     public static function findById($userCaseId)
     {
-        return UseCases::where('id', '=', $userCaseId);
+        return UseCase::where('id', '=', $userCaseId);
     }
 }
