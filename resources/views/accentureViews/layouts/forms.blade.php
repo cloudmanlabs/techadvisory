@@ -45,7 +45,7 @@
         <script src="{{url('assets/js/template.js')}}"></script>
         <script src="{{url('assets/vendors/dropzone/dropzone.min.js')}}"></script>
         <script src="{{url('assets/js/wizard.js')}}"></script>
-        {{-- <script src="{{url('assets/js/select2.js')}}"></script> --}}
+{{--         <script src="{{url('assets/js/select2.js')}}"></script>--}}
         <script src="{{url('assets/js/datepicker.js')}}"></script>
         <script src="{{url('assets/js/dropzone.js')}}"></script>
         <script src="{{url('assets/js/jquery.toast.min.js')}}"></script>

@@ -30,13 +30,20 @@ prefix('accenture')
                 ->name('createProject');
             Route::get('newProjectSetUp/{project}', 'ProjectController@newProjectSetUp')
                 ->name('newProjectSetUp');
+            Route::get('newProjectSetUp/{project}/useCasesSetUp', 'ProjectController@useCasesSetUp')
+                ->name('useCasesSetUp');
 
             // This started as just a couple fields,  but has been growing over time. I'd refactor it to be a single route or something, but it's a bit late now
+            Route::post('/newProjectSetUp/updateInvitedVendors', 'ProjectController@updateInvitedVendors');
+            Route::post('/newProjectSetUp/saveProjectScoringCriteria', 'ProjectController@saveProjectScoringCriteria');
+            Route::post('/newProjectSetUp/saveUseCaseScoringCriteria', 'ProjectController@saveUseCaseScoringCriteria');
+            Route::post('/newProjectSetUp/saveCaseUse', 'ProjectController@createCaseUse');
             Route::post('/newProjectSetUp/changeProjectName', 'ProjectController@changeProjectName');
             Route::post('/newProjectSetUp/changeProjectOwner', 'ProjectController@changeProjectOwner');
             Route::post('/newProjectSetUp/changeProjectClient', 'ProjectController@changeProjectClient');
             Route::post('/newProjectSetUp/changeProjectHasValueTargeting', 'ProjectController@changeProjectHasValueTargeting');
             Route::post('/newProjectSetUp/changeProjectHasOrals', 'ProjectController@changeProjectHasOrals');
+            Route::post('/newProjectSetUp/changeProjectUseCases', 'ProjectController@changeProjectUseCases');
             Route::post('/newProjectSetUp/changeProjectIsBinding', 'ProjectController@changeProjectIsBinding');
             Route::post('/newProjectSetUp/changePractice', 'ProjectController@changePractice');
             Route::post('/newProjectSetUp/changeSubpractice', 'ProjectController@changeSubpractice');

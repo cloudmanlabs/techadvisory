@@ -14,7 +14,7 @@
             <div class="page-content">
                 <x-video :src="nova_get_setting('video_newProject_file')"
                          :text="nova_get_setting('video_newProject_text')"/>
-                <br><br>
+                <x-accenture.setUpNavbar section="newProjectSetUp" :project="$project" :isClient="false"/>
 
                 <!-- Summary Pannel -->
                 <div id="summary" class="row">
@@ -414,6 +414,12 @@
             return el.value != "";
         };
 
+        if ("{{ $project->useCases }}" === "no") {
+            $('#setUpNavbar').hide();
+        } else {
+            $('#setUpNavbar').show();
+        }
+
         // Hide Summary Panel.
         $('#summaryColapse').hide()
         $('#summary').click(function () {
@@ -600,6 +606,22 @@
             $('#oralsSelect').change(function (e) {
                 var value = $(this).val();
                 $.post('/accenture/newProjectSetUp/changeProjectHasOrals', {
+                    project_id: '{{$project->id}}',
+                    value: value
+                })
+
+                showSavedToast();
+                updateSubmitStep3();
+            });
+
+            $('#useCasesSelect').change(function (e) {
+                var value = $(this).val();
+                if (value === 'no') {
+                    $('#setUpNavbar').hide();
+                } else {
+                    $('#setUpNavbar').show();
+                }
+                $.post('/accenture/newProjectSetUp/changeProjectUseCases', {
                     project_id: '{{$project->id}}',
                     value: value
                 })

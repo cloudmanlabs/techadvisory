@@ -11,6 +11,12 @@ use App\Owner;
 use App\Practice;
 use App\Project;
 use App\SecurityLog;
+use App\SelectionCriteriaQuestion;
+use App\SelectionCriteriaQuestionResponse;
+use App\Subpractice;
+use App\UseCase;
+use App\UseCaseQuestionResponse;
+use App\UseCaseTemplate;
 use App\User;
 use App\VendorApplication;
 use Carbon\Carbon;
@@ -33,7 +39,6 @@ class ProjectController extends Controller
     public function newProjectSetUp(Request $request, Project $project)
     {
         $clients = User::clientUsers()->get();
-
         $fitgapQuestions = $project->selectionCriteriaQuestionsOriginals()->where('page', 'fitgap');
 
         $vendorCorporateQuestions = $project->selectionCriteriaQuestionsOriginals()->where('page', 'vendor_corporate');
@@ -72,6 +77,168 @@ class ProjectController extends Controller
             'implementationImplementationQuestions' => $implementationImplementationQuestions,
             'implementationRunQuestions' => $implementationRunQuestions,
             'allOwners' => $allOwners,
+        ]);
+    }
+
+    public function useCasesSetUp(Request $request, Project $project)
+    {
+        $client = $project->client;
+        $clients = $client->credentials()->get();
+
+        $accentureUsers = User::accentureUsers()->get();
+        $appliedVendors = $project->vendorsApplied()->get();
+
+        $practices = Practice::all();
+
+//        $useCases = UseCases::findByProject($project->id);
+        $useCases = $project->useCases()->get();
+
+        $useCaseTemplates = UseCaseTemplate::all();
+
+        SecurityLog::createLog('User accessed project Use Cases setup with ID ' . $project->id);
+
+        $view = [
+            'project' => $project,
+
+            'clients' => $clients,
+
+            'accentureUsers' => $accentureUsers,
+
+            'appliedVendors' => $appliedVendors,
+
+            'practices' => $practices,
+            'useCases' => $useCases,
+            'useCaseTemplates' => $useCaseTemplates
+        ];
+
+        $useCaseNumber = $request->input('useCase');
+        if($useCaseNumber) {
+            $useCase = UseCase::find($useCaseNumber);
+            $view['currentUseCase'] = $useCase;
+            $view['useCaseResponses'] = UseCaseQuestionResponse::getResponsesFromUseCase($useCase);
+            $useCaseTemplate = UseCaseTemplate::find($useCase->template_id);
+            $view['selectedUseCaseTemplate'] = $useCaseTemplate;
+            $view['selectedUseCaseTemplateQuestions'] = $useCaseTemplate->useCaseQuestionsOriginals();
+        }
+
+        $useCaseTemplateId = $request->input('useCaseTemplate');
+        if($useCaseTemplateId) {
+            $useCaseTemplate = UseCaseTemplate::find($useCaseTemplateId);
+            $view['selectedUseCaseTemplate'] = $useCaseTemplate;
+            $view['selectedUseCaseTemplateQuestions'] = $useCaseTemplate->useCaseQuestionsOriginals();
+        }
+
+        return view('accentureViews.useCasesSetUp', $view);
+    }
+
+    public function createCaseUse(Request $request)
+    {
+        $request->validate([
+            'id' => 'nullable|exists:use_case,id|numeric',
+            'project_id' => 'required|exists:projects,id|numeric',
+            'template_id' => 'required|exists:use_case_templates,id|numeric',
+            'name' => 'required|string',
+            'description' => 'required|string',
+            'practice_id' => 'required|exists:practices,id|numeric',
+            'accentureUsers.*' => 'required|exists:users,id|numeric',
+            'clientUsers.*' => 'required|exists:users,id|numeric'
+        ]);
+
+        if($request->id) {
+            $useCase = UseCase::find($request->id);
+            if ($useCase == null) {
+                abort(404);
+            }
+        } else {
+        $useCase = new UseCase();
+        }
+
+        $useCase->project_id = $request->project_id;
+        $useCase->template_id = $request->template_id;
+        $useCase->name = $request->name;
+        $useCase->description = $request->description;
+        $useCase->practice_id = $request->practice_id;
+        $useCase->accentureUsers = $request->accentureUsers;
+        $useCase->clientUsers = $request->clientUsers;
+        $useCase->save();
+
+        return \response()->json([
+            'status' => 200,
+            'message' => 'Success',
+            'useCaseId' => $useCase->id
+        ]);
+    }
+
+    public function saveProjectScoringCriteria(Request $request)
+    {
+        $request->validate([
+            'project_id' => 'required|exists:projects,id|numeric',
+            'rfp' => 'required|numeric',
+            'solutionFit' => 'required|numeric',
+            'usability' => 'required|numeric',
+            'performance' => 'required|numeric',
+            'lookFeel' => 'required|numeric',
+            'others' => 'required|numeric'
+        ]);
+
+        $project = Project::find($request->project_id);
+        if ($project == null) {
+            abort(404);
+        }
+
+        $project->use_case_rfp = $request->rfp;
+        $project->use_case_solution_fit = $request->solutionFit;
+        $project->use_case_usability = $request->usability;
+        $project->use_case_performance = $request->performance;
+        $project->use_case_look_feel = $request->lookFeel;
+        $project->use_case_others = $request->others;
+        $project->save();
+
+        return \response()->json([
+            'status' => 200,
+            'message' => 'Success'
+        ]);
+    }
+
+    public function saveUseCaseScoringCriteria(Request $request)
+    {
+        $request->validate([
+            'useCaseId' => 'required|exists:use_case,id|numeric',
+            'scoringCriteria' => 'required|numeric'
+        ]);
+
+        $useCase = UseCase::find($request->useCaseId);
+        if ($useCase == null) {
+            abort(404);
+        }
+
+        $useCase->scoring_criteria = (float) $request->scoringCriteria;
+        $useCase->save();
+
+        return \response()->json([
+            'status' => 200,
+            'message' => 'Success'
+        ]);
+    }
+
+    public function updateInvitedVendors(Request $request)
+    {
+        $request->validate([
+            'project_id' => 'required|numeric',
+            'vendorList.*' => 'required|exists:users,id|numeric'
+        ]);
+
+        $project = Project::find($request->project_id);
+        if ($project == null) {
+            abort(404);
+        }
+
+        $project->use_case_invited_vendors = $request->vendorList;
+        $project->save();
+
+        return \response()->json([
+            'status' => 200,
+            'message' => 'Success'
         ]);
     }
 
@@ -172,6 +339,27 @@ class ProjectController extends Controller
         }
 
         $project->hasOrals = $request->value === 'yes';
+        $project->save();
+
+        return \response()->json([
+            'status' => 200,
+            'message' => 'Success'
+        ]);
+    }
+
+    public function changeProjectUseCases(Request $request)
+    {
+        $request->validate([
+            'project_id' => 'required|numeric',
+            'value' => 'required|string'
+        ]);
+
+        $project = Project::find($request->project_id);
+        if ($project == null) {
+            abort(404);
+        }
+
+        $project->useCases = $request->value;
         $project->save();
 
         return \response()->json([
@@ -714,6 +902,8 @@ class ProjectController extends Controller
         });
 
         $fitgapQuestions = FitgapQuestion::findByProject($project->id);
+        $useCases = $project->useCases()->where('page', 'usecase');
+
 
         $vendorCorporateQuestions = $project->selectionCriteriaQuestionsOriginals()->where('page', 'vendor_corporate');
         $vendorMarketQuestions = $project->selectionCriteriaQuestionsOriginals()->where('page', 'vendor_market');
@@ -740,6 +930,7 @@ class ProjectController extends Controller
             'sizingQuestions' => $sizingQuestions,
 
             'fitgapQuestions' => $fitgapQuestions,
+            'useCases' => $useCases,
             'vendorCorporateQuestions' => $vendorCorporateQuestions,
             'vendorMarketQuestions' => $vendorMarketQuestions,
             'experienceQuestions' => $experienceQuestions,
@@ -762,7 +953,8 @@ class ProjectController extends Controller
             return $el->shouldShow;
         });
 
-        $fitgapQuestions = FitgapQuestion::findByProject($project->id);
+        $fitgapQuestions = $fitgapQuestions = FitgapQuestion::findByProject($project->id);
+        $useCases = $project->useCases()->where('page', 'usecase');
 
         $vendorCorporateQuestions = $project->selectionCriteriaQuestionsOriginals()->where('page', 'vendor_corporate');
         $vendorMarketQuestions = $project->selectionCriteriaQuestionsOriginals()->where('page', 'vendor_market');
@@ -789,6 +981,7 @@ class ProjectController extends Controller
             'sizingQuestions' => $sizingQuestions,
 
             'fitgapQuestions' => $fitgapQuestions,
+            'useCases' => $useCases,
             'vendorCorporateQuestions' => $vendorCorporateQuestions,
             'vendorMarketQuestions' => $vendorMarketQuestions,
             'experienceQuestions' => $experienceQuestions,
