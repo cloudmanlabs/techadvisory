@@ -59,6 +59,8 @@ use Illuminate\Support\Collection;
  * @property \Carbon\Carbon $deadline
  * @property \Carbon\Carbon $oralsFromDate
  * @property \Carbon\Carbon $oralsToDate
+ *
+ * @property string $useCases
  */
 class Project extends Model
 {
@@ -277,6 +279,11 @@ class Project extends Model
         $uniqueIds = array_values(array_unique($questionIds));
 
         return SelectionCriteriaQuestion::find($uniqueIds);
+    }
+
+    public function useCases()
+    {
+        return $this->hasMany(UseCase::class, 'project_id');
     }
 
     /**

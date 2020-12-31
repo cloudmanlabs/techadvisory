@@ -26,7 +26,11 @@ use App\Nova\{GeneralInfoQuestion,
     SelectionCriteriaQuestionProjectPivot,
     SelectionCriteriaQuestionResponse,
     UserCredential,
-    VendorApplication};
+    VendorApplication,
+    UseCaseQuestion,
+    UseCaseTemplate,
+    UseCaseQuestionUseCaseTemplatePivot
+};
 
 use App\Nova\Metrics\NumberOfAccentureUsers;
 use App\Nova\Metrics\NumberOfClients;
@@ -260,6 +264,10 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
 
             VendorSolutionQuestion::class,
             VendorSolutionQuestionResponse::class,
+
+            UseCaseQuestion::class,
+            UseCaseTemplate::class,
+            UseCaseQuestionUseCaseTemplatePivot::class,
 
             SecurityLog::class,
         );

@@ -10,6 +10,7 @@ use App\Http\Controllers\Controller;
 use App\Practice;
 use App\SecurityLog;
 use App\User;
+use App\UseCase;
 use App\VendorApplication;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Log;
@@ -86,6 +87,59 @@ class ProjectController extends Controller
             'innovationSustainabilityQuestions' => $innovationSustainabilityQuestions,
             'implementationImplementationQuestions' => $implementationImplementationQuestions,
             'implementationRunQuestions' => $implementationRunQuestions,
+        ]);
+    }
+
+    public function useCasesSetUp(Request $request, Project $project)
+    {
+        $useCases = $project->useCases()->get();
+
+        SecurityLog::createLog('User accessed project Use Cases setup with ID ' . $project->id);
+
+        $view = [
+            'project' => $project,
+            'useCases' => $useCases
+        ];
+
+        $useCaseNumber = $request->input('useCase');
+        if($useCaseNumber) {
+            $useCase = UseCase::find($useCaseNumber);
+            $view['currentUseCase'] = $useCase;
+        } else {
+            $useCase = UseCase::findByProject($project->id);
+            $view['currentUseCase'] = $useCase[0];
+        }
+
+        return view('clientViews.useCasesSetUp', $view);
+    }
+
+    public function createCaseUse(Request $request)
+    {
+        $request->validate([
+            'id' => 'nullable|exists:use_case,id|numeric',
+            'project_id' => 'required|exists:projects,id|numeric',
+            'name' => 'required|string',
+            'description' => 'required|string',
+            'expected_results' => 'nullable|string',
+            'processL1' => 'required|string',
+            'processL2' => 'required|string',
+            'processL3' => 'required|string'
+        ]);
+
+        $useCase = UseCase::find($request->id);
+
+        $useCase->project_id = $request->project_id;
+        $useCase->name = $request->name;
+        $useCase->description = $request->description;
+        $useCase->expected_results = $request->expected_results;
+        $useCase->processL1 = $request->processL1;
+        $useCase->processL2 = $request->processL2;
+        $useCase->processL3 = $request->processL3;
+        $useCase->save();
+
+        return \response()->json([
+            'status' => 200,
+            'message' => 'Success'
         ]);
     }
 
