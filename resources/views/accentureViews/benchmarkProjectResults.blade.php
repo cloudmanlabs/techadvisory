@@ -223,22 +223,16 @@
     @parent
     <script>
 
-        $('#practices-select').select2({
-            maximumSelectionLength: 1
-        });
+        $('#practices-select').select2({maximumSelectionLength: 1});
         $('#subpractices-select').select2();
         $('#years-select').select2();
-        $('#industries-select').select2({
-            maximumSelectionLength: 1
-        });
+        $('#industries-select').select2({maximumSelectionLength: 1});
         $('#regions-select').select2();
 
         $('#subpractices-container').hide();
 
         chargeSubpracticesFromPractice();
-        $('#practices-select').change(function () {
-            chargeSubpracticesFromPractice();
-        });
+        $('#practices-select').change(chargeSubpracticesFromPractice);
 
         function chargeSubpracticesFromPractice() {
             $('#subpractices-container').hide();
@@ -322,6 +316,20 @@
             }
         );
 
+        const colors = [
+            "#27003d",
+            "#410066",
+            "#5a008f",
+            "#7400b8",
+            "#8e00e0",
+            "#9b00f5",
+            "#a50aff",
+            "#c35cff",
+            "#d285ff",
+            "#e9c2ff",
+            "#f0d6ff",
+            "#f8ebff"
+        ];
 
         var vendorPerformance = new Chart($('#vendor-performance-chart'), {
             type: 'bubble',
@@ -337,22 +345,18 @@
                         @endphp
                     {
                         label: ["{{$vendor->name}}"],
-                        backgroundColor: ["#27003d", "#410066", "#5a008f",
-                            "#7400b8", "#8e00e0", "#9b00f5", "#a50aff", "#c35cff", "#d285ff", "#e9c2ff", "#f0d6ff", "#f8ebff"][{{$loop->index}} % 12],
-                borderColor: ["#27003d", "#410066", "#5a008f",
-                    "#7400b8", "#8e00e0", "#9b00f5", "#a50aff", "#c35cff", "#d285ff", "#e9c2ff", "#f0d6ff", "#f8ebff"][{{$loop->index}} % 12
-        ],
-        data: [
-            {
-                x: {{$ranking}},
-                y: {{$score}},
-                r: {{ $ranking + $score * 3 }}
-            }
-        ],
-            hidden
-        : {{$loop->index > 3 ? 'true' : 'false'}},
-        },
-        @endforeach
+                        backgroundColor: colors[{{$loop->index}} % 12],
+                        borderColor: colors[{{$loop->index}} % 12],
+                        data: [
+                            {
+                                x: {{ $ranking }},
+                                y: {{ $score }},
+                                r: {{ $ranking + $score * 3 }}
+                            }
+                        ],
+                        hidden: {{ $loop->index > 3 ? 'true' : 'false' }},
+                    },
+                @endforeach
         ]
         },
         options: {
