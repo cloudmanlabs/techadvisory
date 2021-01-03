@@ -1,4 +1,9 @@
 @extends('accentureViews.layouts.forms')
+
+@php
+    $useCaseTemplates = $useCaseTemplates ?? array();
+@endphp
+
 @section('head')
     @parent
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css"
@@ -725,7 +730,9 @@
                     id: {{$currentUseCase->id}},
                     @endif
                     project_id: {{$project->id}},
+                    @if($selectedUseCaseTemplate ?? null)
                     template_id: {{$selectedUseCaseTemplate->id}},
+                    @endif
                     name: $('#useCaseName').val(),
                     description: $('#useCaseDescription').val(),
                     practice_id: parseInt($('#practiceSelect').val(), 10),
