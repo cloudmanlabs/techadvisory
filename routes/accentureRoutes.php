@@ -123,6 +123,8 @@ prefix('accenture')
                 ->name('projectOrals');
             Route::get('project/conclusions/{project}', 'ProjectController@conclusions')
                 ->name('projectConclusions');
+            Route::get('project/useCases/{project}', 'ProjectController@useCasesSetUp')
+                ->name('projectUseCasesSetUp');
 
             Route::get('project/benchmark/{project}', 'ProjectController@benchmark')
                 ->name('projectBenchmark');

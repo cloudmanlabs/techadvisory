@@ -15,6 +15,7 @@ use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Panel;
+use Laravel\Nova\Fields\Textarea;
 
 class UseCaseQuestion extends Resource
 {
