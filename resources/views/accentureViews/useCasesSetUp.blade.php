@@ -23,7 +23,7 @@
                 <x-accenture.setUpNavbar section="useCasesSetUp" :project="$project" :isClient="false"/>
                 @endif
                 @if ($project->currentPhase === 'open')
-                <x-accenture.projectNavbar section="projectHome" :project="$project"/>
+                <x-accenture.projectNavbar section="useCasesSetUp" :project="$project"/>
                 <br>
                 @endif
                 <div class="row">
