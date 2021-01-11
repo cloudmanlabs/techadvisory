@@ -95,7 +95,7 @@ class ProjectController extends Controller
 
         $useCaseTemplates = UseCaseTemplate::all();
 
-        SecurityLog::createLog('User accessed project Use Cases setup with ID ' . $project->id);
+        SecurityLog::createLog('Accenture user accessed project Use Cases setup with ID ' . $project->id);
 
         $view = [
             'project' => $project,
