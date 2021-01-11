@@ -53,6 +53,9 @@ Route::prefix('client')
                     Route::get('newProjectSetUp/{project}/useCasesSetUp', 'ProjectController@useCasesSetUp')
                         ->name('useCasesSetUp');
 
+                    Route::post('/newProjectSetUp/updateInvitedVendors', 'ProjectController@updateInvitedVendors');
+                    Route::post('/newProjectSetUp/saveProjectScoringCriteria', 'ProjectController@saveProjectScoringCriteria');
+                    Route::post('/newProjectSetUp/saveUseCaseScoringCriteria', 'ProjectController@saveUseCaseScoringCriteria');
                     Route::post('/newProjectSetUp/saveCaseUse', 'ProjectController@createCaseUse');
                     Route::post('/newProjectSetUp/changeProjectName', 'ProjectController@changeProjectName');
                     Route::post('/newProjectSetUp/changeProjectHasValueTargeting', 'ProjectController@changeProjectHasValueTargeting');
@@ -81,6 +84,8 @@ Route::prefix('client')
                         ->name('projectOrals');
                     Route::get('project/conclusions/{project}', 'ProjectController@conclusions')
                         ->name('projectConclusions');
+                    Route::get('project/useCases/{project}', 'ProjectController@useCasesSetUp')
+                        ->name('projectUseCasesSetUp');
 
                     Route::get('project/benchmark/{project}', 'ProjectController@benchmark')
                         ->name('projectBenchmark');

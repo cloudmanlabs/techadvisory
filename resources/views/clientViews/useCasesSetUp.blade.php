@@ -1,4 +1,9 @@
-@extends('accentureViews.layouts.forms')
+@extends('clientViews.layouts.forms')
+
+@php
+    $useCaseTemplates = $useCaseTemplates ?? array();
+@endphp
+
 @section('head')
     @parent
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css"
@@ -12,9 +17,15 @@
 
         <div class="page-wrapper">
             <div class="page-content">
-                <x-video :src="nova_get_setting('video_newProject_file')"
-                         :text="nova_get_setting('video_newProject_text')"/>
-                <x-accenture.setUpNavbar section="useCasesSetUp" :project="$project" :isClient="true"/>
+                @if($project->currentPhase === 'preparation')
+                    <x-video :src="nova_get_setting('video_newProject_file')"
+                             :text="nova_get_setting('video_newProject_text')"/>
+                    <x-accenture.setUpNavbar section="useCasesSetUp" :project="$project" :isClient="false"/>
+                @endif
+                @if ($project->currentPhase === 'open')
+                    <x-client.projectNavbar section="useCasesSetUp" :project="$project"/>
+                    <br>
+                @endif
 
                 <div class="row">
                     <div class="col-md-12 grid-margin stretch-card">
@@ -22,34 +33,49 @@
                             <div class="card-body">
                                 <h3>Project Set up</h3>
                                 <br>
-                                @if(!$currentUseCase)
-                                    <p>
-                                        Use cases should be created before clients can do something here.
-                                    </p>
-                                @else
-                                    <div id="wizard_accenture_useCasesSetUp">
-                                        <h2>Use Cases</h2>
-                                        <section>
-                                            <div class="row">
-                                                <aside class="col-2">
-                                                    <div id="subwizard_here">
-                                                        <ul role="tablist">
-                                                            @foreach ($useCases as $useCase)
-                                                                <li
-                                                                    @if(($currentUseCase ?? null) && $currentUseCase->id == $useCase->id)
-                                                                    class="active"
-                                                                    @else
-                                                                    class="use_cases"
-                                                                    @endif
-                                                                >
-                                                                    <a href="{{route('client.useCasesSetUp', ['project' => $project, 'useCase' => $useCase->id])}}">
-                                                                        {{$useCase->name}}
-                                                                    </a>
-                                                                </li>
-                                                            @endforeach
-                                                        </ul>
-                                                    </div>
-                                                </aside>
+                                <div id="wizard_accenture_useCasesSetUp">
+                                    <h2>Use Cases</h2>
+                                    <section>
+                                        <div class="row">
+                                            <aside class="col-2">
+                                                <div id="subwizard_here">
+                                                    <ul role="tablist">
+                                                        @foreach ($useCases as $useCase)
+                                                            <li
+                                                                @if(($currentUseCase ?? null) && $currentUseCase->id == $useCase->id)
+                                                                class="active"
+                                                                @else
+                                                                class="use_cases"
+                                                                @endif
+                                                            >
+                                                                <a href="{{route('client.useCasesSetUp', ['project' => $project, 'useCase' => $useCase->id])}}">
+                                                                    {{$useCase->name}}
+                                                                </a>
+                                                            </li>
+                                                        @endforeach
+                                                    </ul>
+                                                </div>
+                                                <br>
+                                                <div id="subwizard_here">
+                                                    <ul role="tablist">
+                                                        <li>
+                                                            <select id="templateSelect">
+                                                                <option value="-1">-- Templates --</option>
+                                                                @foreach ($useCaseTemplates as $useCaseTemplate)
+                                                                    <option value="{{$useCaseTemplate->id}}">{{$useCaseTemplate->name}}</option>
+                                                                @endforeach
+                                                            </select>
+                                                        </li>
+                                                        <li>
+                                                            {{--                                                            {{route('accenture.useCasesSetUp', ['project' => $project])}}--}}
+                                                            <a id="newUseCase" href="#">
+                                                                + new use case
+                                                            </a>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                            </aside>
+                                            @if(($currentUseCase ?? null) || ($selectedUseCaseTemplate ?? null))
                                                 <div class="col-8 border-left flex-col">
                                                     <h3>Use case</h3>
                                                     <div class="form-area">
@@ -58,7 +84,7 @@
                                                         <div class="form-group">
                                                             <div class="row">
                                                                 <div class="col-3">
-                                                                    <label for="useCaseName">Name</label>
+                                                                    <label for="useCaseName">Name*</label>
                                                                 </div>
                                                                 <div class="col-6">
                                                                     <input type="text" class="form-control"
@@ -71,7 +97,7 @@
                                                             <br>
                                                             <div class="row">
                                                                 <div class="col-3">
-                                                                    <label for="useCaseDescription">Description</label>
+                                                                    <label for="useCaseDescription">Description*</label>
                                                                 </div>
                                                                 <div class="col-6">
                                                                 <textarea
@@ -79,63 +105,61 @@
                                                                     id="useCaseDescription"
                                                                     placeholder="Add description"
                                                                     rows="5"
+                                                                    required
                                                                 ></textarea>
                                                                 </div>
                                                             </div>
                                                             <br>
                                                             <div class="row">
                                                                 <div class="col-3">
-                                                                    <label for="useCaseExpectedResults">Expected results</label>
+                                                                    <label for="practiceSelect">Practice*</label>
                                                                 </div>
                                                                 <div class="col-6">
-                                                                <textarea
-                                                                    class="form-control"
-                                                                    id="useCaseExpectedResults"
-                                                                    placeholder="Add expected results"
-                                                                    rows="5"
-                                                                ></textarea>
+                                                                    <select id="practiceSelect" required>
+                                                                        <option value="">-- Select a Practice --</option>
+                                                                        @foreach ($practices as $practice)
+                                                                            <option value="{{$practice->id}}">{{$practice->name}}</option>
+                                                                        @endforeach
+                                                                    </select>
                                                                 </div>
                                                             </div>
                                                             <br>
-                                                            <div class="row">
-                                                                <div class="col-3">
-                                                                    <label for="processL1">Process L1</label>
-                                                                </div>
-                                                                <div class="col-6">
-                                                                    <input type="text" class="form-control"
-                                                                           id="processL1"
-                                                                           data-changing="processL1"
-                                                                           placeholder="Use case Process L1"
-                                                                           required>
-                                                                </div>
-                                                            </div>
                                                             <br>
-                                                            <div class="row">
-                                                                <div class="col-3">
-                                                                    <label for="processL2">Process L2</label>
-                                                                </div>
-                                                                <div class="col-6">
-                                                                    <input type="text" class="form-control"
-                                                                           id="processL2"
-                                                                           data-changing="processL2"
-                                                                           placeholder="Use case Process L2"
-                                                                           required>
-                                                                </div>
-                                                            </div>
+                                                            {{--                                                        @foreach ($selectedUseCaseTemplateQuestions as $question)--}}
+                                                            {{--                                                            <h6 style="margin-bottom: 1rem">--}}
+                                                            {{--                                                                {{$question->label}}--}}
+                                                            {{--                                                            </h6>--}}
+                                                            {{--                                                        @endforeach--}}
+                                                            <x-useCaseQuestionForeach :questions="$selectedUseCaseTemplateQuestions" :class="'useCaseQuestion'"
+                                                                                      :disabled="false" :required="false" />
+
                                                             <br>
-                                                            <div class="row">
-                                                                <div class="col-3">
-                                                                    <label for="processL3">Process L3</label>
-                                                                </div>
-                                                                <div class="col-6">
-                                                                    <input type="text" class="form-control"
-                                                                           id="processL3"
-                                                                           data-changing="processL3"
-                                                                           placeholder="Use case Process L3"
-                                                                           required>
-                                                                </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-area">
+                                                        <h4>Users</h4>
+                                                        <br>
+                                                        <div class="row">
+                                                            <div class="col-6">
+                                                                <label for="accentureUsers">Accenture*</label>
+                                                                <select id="accentureUsers" multiple required>
+                                                                    @foreach ($accentureUsers as $accentureUser)
+                                                                        <option value="{{ $accentureUser->id }}">
+                                                                            {{ $accentureUser->name }}
+                                                                        </option>
+                                                                    @endforeach
+                                                                </select>
                                                             </div>
-                                                            <br>
+                                                            <div class="col-6">
+                                                                <label for="clientUsers">Clients*</label>
+                                                                <select id="clientUsers" multiple required>
+                                                                    @foreach ($clients as $client)
+                                                                        <option value="{{ $client->id }}">
+                                                                            {{ $client->name }}
+                                                                        </option>
+                                                                    @endforeach
+                                                                </select>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                     <br>
@@ -143,18 +167,184 @@
                                                         Save
                                                     </button>
                                                 </div>
+                                            @endif
+                                        </div>
+                                    </section>
+
+                                    <h2>General Scoring Criteria</h2>
+                                    <section>
+                                        @if(count($useCases ?? array()) > 0)
+                                            <div class="col-6" style="margin: 0 auto;">
+                                                <div class="form-area">
+                                                    <div class="row">
+                                                        <div class="col-6">
+                                                            <label for="useCaseRFP">RFP*</label>
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <div class="input-group">
+                                                                <input type="number" max="100" accuracy="2" min="0"
+                                                                       style="text-align:left;" class="form-control"
+                                                                       id="useCaseRFP" placeholder="40"
+                                                                       required>
+                                                                <div class="input-group-append simulateInputBox">
+                                                                    <span class="input-group-text simulateInput">%</span>
+                                                                </div>
+                                                            </div>
+                                                            <br>
+                                                        </div>
+                                                        <div class="col-9">
+                                                            <div class="row">
+                                                                @foreach ($useCases as $useCase)
+                                                                    <div class="col-8">
+                                                                        <label for="scoringCriteria{{$useCase->id}}">{{$useCase->name}}*</label>
+                                                                    </div>
+                                                                    <div class="col-4">
+                                                                        <div class="input-group">
+                                                                            <input type="number" max="100" accuracy="2" min="0"
+                                                                                   style="text-align:left;" class="form-control"
+                                                                                   id="scoringCriteria{{$useCase->id}}"
+                                                                                   placeholder="{{60 / count($useCases)}}" required>
+                                                                            <div class="input-group-append simulateInputBox">
+                                                                                <span class="input-group-text simulateInput">%</span>
+                                                                            </div>
+                                                                        </div>
+                                                                        <br>
+                                                                    </div>
+                                                                @endforeach
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <div class="brd-left">
+                                                                <p class="text-center">60%</p>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <br>
+                                                <div class="form-area">
+                                                    <div class="row">
+                                                        <div class="col-6">
+                                                            <label for="useCaseSolutionFit">Solution Fit*</label>
+                                                            <br>
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <div class="input-group">
+                                                                <input type="number" max="100" accuracy="2" min="0"
+                                                                       style="text-align:left;" class="form-control"
+                                                                       id="useCaseSolutionFit" placeholder="20"
+                                                                       required>
+                                                                <div class="input-group-append simulateInputBox">
+                                                                    <span class="input-group-text simulateInput">%</span>
+                                                                </div>
+                                                            </div>
+                                                            <br>
+                                                        </div>
+                                                        <div class="col-6">
+                                                            <label for="useCaseUsability">Usability*</label>
+                                                            <br>
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <div class="input-group">
+                                                                <input type="number" max="100" accuracy="2" min="0"
+                                                                       style="text-align:left;" class="form-control"
+                                                                       id="useCaseUsability" placeholder="40"
+                                                                       required>
+                                                                <div class="input-group-append simulateInputBox">
+                                                                    <span class="input-group-text simulateInput">%</span>
+                                                                </div>
+                                                            </div>
+                                                            <br>
+                                                        </div>
+                                                        <div class="col-6">
+                                                            <label for="useCasePerformance">Performance*</label>
+                                                            <br>
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <div class="input-group">
+                                                                <input type="number" max="100" accuracy="2" min="0"
+                                                                       style="text-align:left;" class="form-control"
+                                                                       id="useCasePerformance" placeholder="10"
+                                                                       required>
+                                                                <div class="input-group-append simulateInputBox">
+                                                                    <span class="input-group-text simulateInput">%</span>
+                                                                </div>
+                                                            </div>
+                                                            <br>
+                                                        </div>
+                                                        <div class="col-6">
+                                                            <label for="useCaseLookFeel">Look and Feel*</label>
+                                                            <br>
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <div class="input-group">
+                                                                <input type="number" max="100" accuracy="2" min="0"
+                                                                       style="text-align:left;" class="form-control"
+                                                                       id="useCaseLookFeel" placeholder="15"
+                                                                       required>
+                                                                <div class="input-group-append simulateInputBox">
+                                                                    <span class="input-group-text simulateInput">%</span>
+                                                                </div>
+                                                            </div>
+                                                            <br>
+                                                        </div>
+                                                        <div class="col-6">
+                                                            <label for="useCaseOthers">Others*</label>
+                                                            <br>
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <div class="input-group">
+                                                                <input type="number" max="100" accuracy="2" min="0"
+                                                                       style="text-align:left;" class="form-control"
+                                                                       id="useCaseOthers" placeholder="15"
+                                                                       required>
+                                                                <div class="input-group-append simulateInputBox">
+                                                                    <span class="input-group-text simulateInput">%</span>
+                                                                </div>
+                                                            </div>
+                                                            <br>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <br>
+                                                <button id="saveScoringCriteria" class="btn btn-primary btn-right">
+                                                    Save
+                                                </button>
                                             </div>
-                                        </section>
+                                        @endif
+                                    </section>
 
-                                        <h2>General Scoring Criteria</h2>
-                                        <section>
-                                        </section>
-
-                                        <h2>Invited Vendors</h2>
-                                        <section>
-                                        </section>
-                                    </div>
-                                @endif
+                                    <h2>Invited Vendors</h2>
+                                    <section>
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <label for="invitedVendors">Select vendors to be invited to this project</label>
+                                                @if ($project->currentPhase === 'open')
+                                                    <span>*</span>
+                                                @endif
+                                            </div>
+                                            <div class="col-12">
+                                                <select id="invitedVendors" multiple required
+                                                        @if ($project->currentPhase !== 'open')
+                                                        disabled
+                                                    @endif
+                                                >
+                                                    @foreach ($appliedVendors as $appliedVendor)
+                                                        <option value="{{ $appliedVendor->id }}">
+                                                            {{ $appliedVendor->name }}
+                                                        </option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                            @if ($project->currentPhase === 'open')
+                                                <div class="col-12">
+                                                    <br>
+                                                    <button class="btn btn-primary" id="publishButton">PUBLISH</button>
+                                                    <br>
+                                                </div>
+                                            @endif
+                                        </div>
+                                    </section>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -170,6 +360,46 @@
     @parent
 
     <style>
+        .text-center {
+            text-align: center !important;
+            width: 100%;
+        }
+
+        .brd-left {
+            border-left: 1px solid #727272;
+            height: 93%;
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .select2 {
+            min-width: 100%;
+        }
+
+        .input-group input {
+            border-right: none!important;
+            padding-right: 0!important;
+            padding-left: 0.5rem!important;
+        }
+
+        .simulateInputBox {
+            display: block;
+            border-top: 1px solid #ccc;
+            border-right: 1px solid #ccc;
+            border-bottom: 1px solid #ccc;
+            border-left: none;
+            border-top-right-radius: 2px;
+            border-bottom-right-radius: 2px;
+            background-color: white;
+
+        }
+
+        .simulateInput {
+            background-color: white;
+            border: none!important;
+        }
+
         .btn-right {
             float: right;
         }
@@ -253,10 +483,19 @@
             color: inherit;
         }
 
+        .valuePadding {
+            border: 1px inset #ccc;
+        }
+
+        .valuePadding input {
+            border: none;
+            padding:0px;
+            outline: none;
+        }
+
     </style>
     <link rel="stylesheet" href="{{url('/assets/css/techadvisory/vendorValidateResponses.css')}}">
 @endsection
-
 
 @section('scripts')
     @parent
@@ -271,11 +510,65 @@
             return el.value != "";
         };
 
-        function checkIfAllRequiredsAreFilled() {
-            let array = $('input,textarea,select')
-                .filter('[required]')
-                .toArray();
-            if (array.length == 0) return true;
+        function checkIfSumOfSectionsIs100() {
+            var upperForm = (
+                @foreach($useCases as $useCase)
+                parseFloat($('#scoringCriteria{{$useCase->id}}').val()) +
+                @endforeach
+                parseFloat($('#useCaseRFP').val())
+            );
+
+            var lowerForm = (
+                parseFloat($('#useCaseSolutionFit').val()) +
+                parseFloat($('#useCaseUsability').val()) +
+                parseFloat($('#useCasePerformance').val()) +
+                parseFloat($('#useCaseLookFeel').val()) +
+                parseFloat($('#useCaseOthers').val())
+            );
+
+            return (upperForm === 100.00) && (lowerForm === 100.00);
+        }
+
+        function checkIfAllRequiredsInUseCaseScoringCriteriaAreFilled() {
+            var array = [
+                @foreach($useCases as $useCase)
+                $('#scoringCriteria{{$useCase->id}}'),
+                @endforeach
+                $('#useCaseRFP'),
+                $('#useCaseSolutionFit'),
+                $('#useCaseUsability'),
+                $('#useCasePerformance'),
+                $('#useCaseLookFeel'),
+                $('#useCaseOthers')
+            ];
+
+            for (let i = 0; i < array.length; i++) {
+                if (!$(array[i]).is(':hasValue') || $(array[i]).hasClass('invalid')) {
+                    console.log(array[i])
+                    return false
+                }
+            }
+
+            return true
+        }
+
+        function checkIfInvitedVendorsIsFilled() {
+            if (!$('#invitedVendors').is(':hasValue') || $('#invitedVendors').hasClass('invalid')) {
+                console.log($('#invitedVendors'))
+                return false
+            }
+
+            return true
+        }
+
+        function checkIfAllRequiredsInUseCaseCreationAreFilled() {
+            var array = [
+                $('#useCaseName'),
+                $('#useCaseDescription'),
+                $('#practiceSelect'),
+                $('#accentureUsers'),
+                $('#clientUsers')
+            ];
 
             for (let i = 0; i < array.length; i++) {
                 if (!$(array[i]).is(':hasValue') || $(array[i]).hasClass('invalid')) {
@@ -297,6 +590,36 @@
             })
         }
 
+        function showSavedQuestionToast(questionName) {
+            $.toast({
+                heading: 'Saved question: ' + questionName,
+                showHideTransition: 'slide',
+                icon: 'success',
+                hideAfter: 1000,
+                position: 'bottom-right'
+            })
+        }
+
+        function showErrorSavingQuestionToast(questionName) {
+            $.toast({
+                heading: 'Error saving question: ' + questionName,
+                showHideTransition: 'slide',
+                icon: 'error',
+                hideAfter: 10000,
+                position: 'bottom-right'
+            })
+        }
+
+        function showPublishedToast() {
+            $.toast({
+                heading: 'Published!',
+                showHideTransition: 'slide',
+                icon: 'success',
+                hideAfter: 1000,
+                position: 'bottom-right'
+            })
+        }
+
         function showInvalidFormToast() {
             $.toast({
                 heading: 'Fill all required fields!',
@@ -307,7 +630,60 @@
             })
         }
 
+        function showInvalidTemplateToast() {
+            $.toast({
+                heading: 'Template must be selected!',
+                showHideTransition: 'slide',
+                icon: 'error',
+                hideAfter: 3000,
+                position: 'bottom-right'
+            })
+        }
+
+        function showInvalidScoringCriteriaToast() {
+            $.toast({
+                heading: 'Fill all fields and sum of each section must be 100!',
+                showHideTransition: 'slide',
+                icon: 'error',
+                hideAfter: 3000,
+                position: 'bottom-right'
+            })
+        }
+
+        function showUnpublishedToast() {
+            $.toast({
+                heading: 'Fill all mandatory fields of the three sections before PUBLISH!',
+                showHideTransition: 'slide',
+                icon: 'error',
+                hideAfter: 10000,
+                position: 'bottom-right'
+            })
+        }
+
         $(document).ready(function () {
+            // $('.useCaseQuestion input,.useCaseQuestion textarea,.useCaseQuestion select')
+            //     .filter(function(el) {
+            //         return $( this ).data('changing') !== undefined
+            //     })
+            //     .change(function (e) {
+            //         var value = $(this).val();
+            //         var changing = $(this).data('changing');
+            //         if($.isArray(value) && value.length == 0 && $(this).attr('multiple') !== undefined){
+            //             value = '[]'
+            //         }
+            //
+            //         $.post('/useCaseQuestion/changeResponse', {
+            //             changing: changing,
+            //             value: value,
+            //         }).done(function() {
+            //             showSavedToast();
+            //             console.log("success", value, changing);
+            //         }).fail(function() {
+            //             console.log("error", value, changing);
+            //             showErrorToast();
+            //         });
+            //     });
+
             $("#wizard_accenture_useCasesSetUp").steps({
                 headerTag: "h2",
                 bodyTag: "section",
@@ -321,7 +697,6 @@
                     window.location.replace("/accenture/home");
                 },
                 onStepChanged: function (e, c, p) {
-                    updateSubmitStep3();
                     for (let i = 0; i < 10; i++) {
                         $('#wizard_accenture_useCasesSetUp-p-' + i).css('display', 'none')
                     }
@@ -329,8 +704,29 @@
                 }
             });
 
+            $('#accentureUsers').select2();
+            $('#clientUsers').select2();
+            $('#invitedVendors').select2();
+
+            $('#invitedVendors').change(function () {
+                $.post('/client/newProjectSetUp/updateInvitedVendors', {
+                    project_id: '{{$project->id}}',
+                    vendorList: encodeURIComponent($(this).val())
+                })
+
+                showSavedToast();
+            });
+
+            $('#newUseCase').click(function () {
+                if ($('#templateSelect').val() === "-1") {
+                    return showInvalidTemplateToast();
+                }
+
+                location.replace("{{route('client.useCasesSetUp', ['project' => $project])}}" + "?useCaseTemplate=" + $('#templateSelect').val());
+            });
+
             $('#saveUseCaseButton').click(function () {
-                if (!checkIfAllRequiredsAreFilled()) {
+                if (!checkIfAllRequiredsInUseCaseCreationAreFilled()) {
                     return showInvalidFormToast();
                 }
 
@@ -339,29 +735,156 @@
                     id: {{$currentUseCase->id}},
                     @endif
                     project_id: {{$project->id}},
+                    @if($selectedUseCaseTemplate ?? null)
+                    template_id: {{$selectedUseCaseTemplate->id}},
+                    @endif
                     name: $('#useCaseName').val(),
                     description: $('#useCaseDescription').val(),
-                    expected_results: $('#useCaseExpectedResults').val(),
-                    processL1: $('#processL1').val(),
-                    processL2: $('#processL2').val(),
-                    processL3: $('#processL3').val(),
+                    practice_id: parseInt($('#practiceSelect').val(), 10),
+                    accentureUsers: encodeURIComponent($('#accentureUsers').val()),
+                    clientUsers: encodeURIComponent($('#clientUsers').val())
                 };
 
                 $.post('/client/newProjectSetUp/saveCaseUse', body)
+                    .then(function (data) {
+                        var array = $('.useCaseQuestion input,.useCaseQuestion textarea,.useCaseQuestion select')
+                            .filter(function(el) {
+                                return $( this ).data('changing') !== undefined
+                            });
+                        for (let i = 0; i < array.length; i++) {
+                            var value = $(array[i]).val();
+                            var changing = $(array[i]).data('changing');
+                            if($.isArray(value) && value.length == 0 && $(array[i]).attr('multiple') !== undefined){
+                                value = '[]'
+                            }
+
+                            $.post('/useCaseQuestionResponse/upsertResponse', {
+                                changing: changing,
+                                value: encodeURIComponent(value),
+                                useCase: data.useCaseId,
+                            }).done(function() {
+                                showSavedQuestionToast(value);
+                                console.log("success", value, changing);
+                            }).fail(function() {
+                                console.log("error", value, changing);
+                                showErrorSavingQuestionToast(value);
+                            });
+                        }
+                        location.replace("{{route('client.useCasesSetUp', ['project' => $project])}}" + "?useCase=" + data.useCaseId);
+                    });
 
                 showSavedToast();
             });
 
+            $('#saveScoringCriteria').click(function () {
+                if (!checkIfAllRequiredsInUseCaseScoringCriteriaAreFilled() || !checkIfSumOfSectionsIs100()) {
+                    return showInvalidScoringCriteriaToast();
+                }
+
+
+                @foreach($useCases as $useCase)
+                var useCaseBody{{$useCase->id}} = {
+                    useCaseId: {{$useCase->id}},
+                    scoringCriteria: parseFloat($('#scoringCriteria{{$useCase->id}}').val())
+                };
+
+                $.post('/client/newProjectSetUp/saveUseCaseScoringCriteria', useCaseBody{{$useCase->id}})
+                @endforeach
+
+                var body = {
+                    project_id: parseInt({{$project->id}}, 10),
+                    rfp: parseFloat($('#useCaseRFP').val()),
+                    solutionFit: parseFloat($('#useCaseSolutionFit').val()),
+                    usability: parseFloat($('#useCaseUsability').val()),
+                    performance: parseFloat($('#useCasePerformance').val()),
+                    lookFeel: parseFloat($('#useCaseLookFeel').val()),
+                    others: parseFloat($('#useCaseOthers').val())
+                };
+
+                $.post('/client/newProjectSetUp/saveProjectScoringCriteria', body)
+
+                showSavedToast();
+            });
+
+            @if ($project->currentPhase === 'open')
+            $('#publishButton').click(function () {
+                if (
+                    !checkIfAllRequiredsInUseCaseCreationAreFilled() ||
+                    !checkIfAllRequiredsInUseCaseScoringCriteriaAreFilled() ||
+                    !checkIfSumOfSectionsIs100() ||
+                    !checkIfInvitedVendorsIsFilled()
+                ) {
+                    return showUnpublishedToast();
+                }
+
+                $.post('/client/newProjectSetUp/publishProject', {
+                    project_id: '{{$project->id}}',
+                })
+
+                showPublishedToast();
+                location.reload();
+            });
+            @endif
+
             $(".js-example-basic-single").select2();
             $(".js-example-basic-multiple").select2();
 
+            @if($selectedUseCaseTemplate ?? null)
+            $('#useCaseName').val("{{$selectedUseCaseTemplate->name}}")
+            $('#useCaseDescription').val("{{$selectedUseCaseTemplate->description}}")
+            $('#practiceSelect').val("{{$selectedUseCaseTemplate->practice_id}}")
+            @endif
             @if($currentUseCase ?? null)
             $('#useCaseName').val("{{$currentUseCase->name}}")
             $('#useCaseDescription').val("{{$currentUseCase->description}}")
-            $('#useCaseExpectedResults').val("{{$currentUseCase->expected_results}}")
-            $('#processL1').val("{{$currentUseCase->processL1}}")
-            $('#processL2').val("{{$currentUseCase->processL2}}")
-            $('#processL3').val("{{$currentUseCase->processL3}}")
+            $('#practiceSelect').val("{{$currentUseCase->practice_id}}")
+            $('#accentureUsers').val(decodeURIComponent("{{$currentUseCase->accentureUsers}}").split(","))
+            $('#accentureUsers').select2().trigger('change')
+            $('#clientUsers').val(decodeURIComponent("{{$currentUseCase->clientUsers}}").split(","))
+            $('#clientUsers').select2().trigger('change')
+            @foreach($useCaseResponses as $useCaseResponse)
+                switch (document.getElementById('useCaseQuestion{{$useCaseResponse->use_case_questions_id}}').tagName.toLowerCase()) {
+                case 'input':
+                    switch ($('#useCaseQuestion{{$useCaseResponse->use_case_questions_id}}').attr('type').toLowerCase()) {
+                        case 'text':
+                            $('#useCaseQuestion{{$useCaseResponse->use_case_questions_id}}').val(decodeURIComponent("{{$useCaseResponse->response}}"))
+                            break;
+                        case 'number':
+                            $('#useCaseQuestion{{$useCaseResponse->use_case_questions_id}}').val(parseInt('{{$useCaseResponse->response}}', 10))
+                            break;
+                    }
+                    break;
+                case 'select':
+                    if($('#useCaseQuestion{{$useCaseResponse->use_case_questions_id}}').hasClass('js-example-basic-multiple')) {
+                        $('#useCaseQuestion{{$useCaseResponse->use_case_questions_id}}').val(decodeURIComponent("{{$useCaseResponse->response}}").split(","))
+                        $('#useCaseQuestion{{$useCaseResponse->use_case_questions_id}}').select2().trigger('change')
+                    } else {
+                        $('#useCaseQuestion{{$useCaseResponse->use_case_questions_id}}').val('{{$useCaseResponse->response}}')
+                    }
+                    break;
+                case 'textarea':
+                    $('#useCaseQuestion{{$useCaseResponse->use_case_questions_id}}').val(decodeURIComponent("{{$useCaseResponse->response}}"))
+                    break;
+            }
+            @endforeach
+            @endif
+            @if($project ?? null)
+            @foreach($useCases as $useCase)
+            $('#scoringCriteria{{$useCase->id}}').val(parseFloat({{$useCase->scoring_criteria}}))
+            @endforeach
+            $('#useCaseRFP').val(parseFloat({{$project->use_case_rfp}}))
+            $('#useCaseSolutionFit').val(parseFloat({{$project->use_case_solution_fit}}))
+            $('#useCaseUsability').val(parseFloat({{$project->use_case_usability}}))
+            $('#useCasePerformance').val(parseFloat({{$project->use_case_performance}}))
+            $('#useCaseLookFeel').val(parseFloat({{$project->use_case_look_feel}}))
+            $('#useCaseOthers').val(parseFloat({{$project->use_case_others}}))
+            $('#invitedVendors').val(decodeURIComponent("{{$project->use_case_invited_vendors}}").split(","))
+            $('#invitedVendors').select2().trigger('change')
+            @endif
+            @if($appliedVendors)
+            @foreach($appliedVendors as $appliedVendor)
+            console.log('{{$appliedVendor->id}}' + ' : ' + '{{$appliedVendor->name}}');
+            @endforeach
             @endif
         });
     </script>
