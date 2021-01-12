@@ -29,6 +29,7 @@ class AddDeleteCascadeToTemplateIdInUseCaseTable extends Migration
     public function down()
     {
         Schema::table('use_case', function (Blueprint $table) {
+            $table->dropForeign(['template_id']);
             $table->foreign('template_id')->references('id')->on('use_case_templates')->change();
         });
     }

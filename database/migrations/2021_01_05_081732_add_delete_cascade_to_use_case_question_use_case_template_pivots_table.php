@@ -34,6 +34,7 @@ class AddDeleteCascadeToUseCaseQuestionUseCaseTemplatePivotsTable extends Migrat
     public function down()
     {
         Schema::table('use_case_question_use_case_template_pivots', function (Blueprint $table) {
+            $table->dropForeign('uct_id');
             $table->foreign('use_case_templates_id', 'uct_id')->references('id')->on('use_case_templates')->change();
 //            $table->foreign('template_id')->references('id')->on('use_case_templates')->change();
         });
