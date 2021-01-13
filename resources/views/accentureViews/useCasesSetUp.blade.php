@@ -127,17 +127,17 @@
                                                             <div class="col-3">
                                                                 <label for="practiceSelect">Practice*</label>
                                                             </div>
-                                                            @if($project->currentPhase === 'old')
-                                                                <p>Practice of the use case.</p>
-                                                            @else
-                                                            @endif
                                                             <div class="col-6">
-                                                                <select id="practiceSelect" required>
-                                                                    <option value="">-- Select a Practice --</option>
-                                                                    @foreach ($practices as $practice)
-                                                                        <option value="{{$practice->id}}">{{$practice->name}}</option>
-                                                                    @endforeach
-                                                                </select>
+                                                                @if($project->currentPhase === 'old')
+                                                                    <p>Practice of the use case.</p>
+                                                                @else
+                                                                    <select id="practiceSelect" required>
+                                                                        <option value="">-- Select a Practice --</option>
+                                                                        @foreach ($practices as $practice)
+                                                                            <option value="{{$practice->id}}">{{$practice->name}}</option>
+                                                                        @endforeach
+                                                                    </select>
+                                                                @endif
                                                             </div>
                                                         </div>
                                                         <br>
@@ -193,9 +193,10 @@
                                         </div>
                                     </section>
 
+                                    @if($project->currentPhase !== 'old')
                                     <h2>General Scoring Criteria</h2>
                                     <section>
-                                        @if(count($useCases ?? array()) > 0)
+                                        @if(count($useCases ?? array()) > 0 )
                                             <div class="col-6" style="margin: 0 auto;">
                                             <div class="form-area">
                                                 <div class="row">
@@ -366,6 +367,7 @@
                                             @endif
                                         </div>
                                     </section>
+                                    @endif
                                 </div>
                             </div>
                         </div>
