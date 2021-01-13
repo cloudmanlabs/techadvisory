@@ -7,6 +7,7 @@
 @php
     $skipQuestionsInVendor = $skipQuestionsInVendor ?? false;
 
+    //$questions = $questions ?? array();
     $questions = $questions->filter(function($question) use ($skipQuestionsInVendor){
         if(!$skipQuestionsInVendor) return true;
 
@@ -17,7 +18,7 @@
 @foreach ($questions as $question)
     @switch($question->type)
         @case('text')
-            <div class="form-group questionDiv {{$class}}" data-practice="{{$question->practice->id ?? ''}}">
+            <div class="form-group questionDiv {{$class}} practice{{$question->practice->id ?? ''}}" data-practice="{{$question->practice->id ?? ''}}">
                 <label>{{$question->label}}{{$question->required || $required  ? '*' : ''}}</label>
                 <input
                     {{$required ? 'required' : ''}}
@@ -32,7 +33,7 @@
             </div>
             @break
         @case('textarea')
-            <div class="form-group questionDiv {{$class}}" data-practice="{{$question->practice->id ?? ''}}">
+            <div class="form-group questionDiv {{$class}} practice{{$question->practice->id ?? ''}}" data-practice="{{$question->practice->id ?? ''}}">
                 <label>{{$question->label}}{{$question->required || $required ? '*' : ''}}</label>
                 <textarea
                     {{$required ? 'required' : ''}}
@@ -41,12 +42,13 @@
                     class="form-control"
                     data-changing="{{$question->id}}"
                     {{$question->required ? 'required' : ''}}
+                    placeholder="{{$question->placeholder}}"
                     id="useCaseQuestion{{$question->id}}"
                 >{{$question->response}}</textarea>
             </div>
             @break
         @case('selectSingle')
-            <div class="form-group questionDiv {{$class}}" data-practice="{{$question->practice->id ?? ''}}">
+            <div class="form-group questionDiv {{$class}} practice{{$question->practice->id ?? ''}}" data-practice="{{$question->practice->id ?? ''}}">
                 <label>{{$question->label}}{{$question->required || $required ? '*' : ''}}</label>
                 <select
                     {{$required ? 'required' : ''}}
@@ -69,7 +71,7 @@
             </div>
             @break
         @case('selectMultiple')
-            <div class="form-group questionDiv {{$class}}" data-practice="{{$question->practice->id ?? ''}}">
+            <div class="form-group questionDiv {{$class}} practice{{$question->practice->id ?? ''}}" data-practice="{{$question->practice->id ?? ''}}">
                 <label>{{$question->label}}{{$question->required || $required ? '*' : ''}}</label>
                 <select
                     {{$required ? 'required' : ''}}
@@ -95,7 +97,7 @@
             </div>
             @break
         @case('date')
-            <div class="questionDiv {{$class}}" data-practice="{{$question->practice->id ?? ''}}">
+            <div class="questionDiv {{$class}} practice{{$question->practice->id ?? ''}}" data-practice="{{$question->practice->id ?? ''}}">
                 <label>{{$question->label}}{{$question->required || $required ? '*' : ''}}</label>
                 <div class="input-group date datepicker" data-initialValue="{{$question->response}}">
                     <input
@@ -112,7 +114,7 @@
             </div>
             @break
         @case('number')
-            <div class="form-group questionDiv {{$class}}" data-practice="{{$question->practice->id ?? ''}}">
+            <div class="form-group questionDiv {{$class}} practice{{$question->practice->id ?? ''}}" data-practice="{{$question->practice->id ?? ''}}">
                 <label>{{$question->label}}{{$question->required || $required? '*' : ''}}</label>
                 <input
                     {{$required ? 'required' : ''}}
@@ -129,7 +131,7 @@
             </div>
             @break
         @case('email')
-            <div class="form-group questionDiv {{$class}} emailField" data-practice="{{$question->practice->id ?? ''}}">
+            <div class="form-group questionDiv {{$class}} emailField practice{{$question->practice->id ?? ''}}" data-practice="{{$question->practice->id ?? ''}}">
                 <label>{{$question->label}}{{$question->required || $required? '*' : ''}}</label>
                 <input
                     {{$required ? 'required' : ''}}
@@ -145,7 +147,7 @@
             </div>
             @break
         @case('percentage')
-            <div class="form-group questionDiv {{$class}}" data-practice="{{$question->practice->id ?? ''}}">
+            <div class="form-group questionDiv {{$class}} practice{{$question->practice->id ?? ''}}" data-practice="{{$question->practice->id ?? ''}}">
                 <label>{{$question->label}}{{$question->required || $required? '*' : ''}} (%)</label>
                 <input
                     {{$required ? 'required' : ''}}
@@ -163,7 +165,7 @@
             </div>
             @break
         @case('file')
-            <div class="form-group questionDiv" data-practice="{{$question->practice->id ?? ''}}">
+            <div class="form-group questionDiv practice{{$question->practice->id ?? ''}}" data-practice="{{$question->practice->id ?? ''}}">
                 <x-useCaseQuestionFileUploader
                     :question="$question"
                     {{-- TODO Set the correct file uplaod route everywhere and remove this default --}}
@@ -171,16 +173,16 @@
                     :disabled="$disabled"
                     :required="$required"
                 />
+                @if (!$disabled)
+                    <p style="font-size: 12px">
+                        Do not include personal, sensitive data, personal data relating to criminal convictions and offences or financial data
+                        in this free form text field or upload screen shots containing personal data, unless you are consenting and assuming
+                        responsibility for the processing of this personal data (either your personal data or the personal data of others) by
+                        Accenture.
+                    </p>
+                    <br>
+                @endif
             </div>
-            @if (!$disabled)
-                <p style="font-size: 12px">
-                    Do not include personal, sensitive data, personal data relating to criminal convictions and offences or financial data
-                    in this free form text field or upload screen shots containing personal data, unless you are consenting and assuming
-                    responsibility for the processing of this personal data (either your personal data or the personal data of others) by
-                    Accenture.
-                </p>
-                <br>
-            @endif
             @break
         @default
 

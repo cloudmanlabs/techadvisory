@@ -13,11 +13,16 @@ namespace App;
  * @property string $presetOption
  * @property string $options
  *
- * @property \Illuminate\Support\Collection $responses
+ * @property \Illuminate\Support\Collection $useCaseResponses
+ * @property \Illuminate\Support\Collection $useCaseTemplateResponses
+ * @property Practice|null $practice
  */
 class UseCaseQuestion extends Question
 {
-    public $guarded = [];
+    public function practice()
+    {
+        return $this->belongsTo(Practice::class);
+    }
 
     const selectTypesEdit = [
         'text' => 'Text',
@@ -35,4 +40,14 @@ class UseCaseQuestion extends Question
 //    {
 //        return $this->hasMany(useCaseQuestionResponse::class, 'use_case_questions_id');
 //    }
+
+    public function useCaseResponses()
+    {
+        return $this->hasMany(useCaseQuestionResponse::class, 'use_case_questions_id');
+    }
+
+    public function useCaseTemplateResponses()
+    {
+        return $this->hasMany(useCaseTemplateQuestionResponse::class, 'use_case_questions_id');
+    }
 }

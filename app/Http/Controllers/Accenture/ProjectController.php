@@ -15,8 +15,10 @@ use App\SelectionCriteriaQuestion;
 use App\SelectionCriteriaQuestionResponse;
 use App\Subpractice;
 use App\UseCase;
+use App\UseCaseQuestion;
 use App\UseCaseQuestionResponse;
 use App\UseCaseTemplate;
+use App\UseCaseTemplateQuestionResponse;
 use App\User;
 use App\VendorApplication;
 use Carbon\Carbon;
@@ -95,6 +97,8 @@ class ProjectController extends Controller
 
         $useCaseTemplates = UseCaseTemplate::all();
 
+        $useCaseQuestions = UseCaseQuestion::all();
+
         SecurityLog::createLog('Accenture user accessed project Use Cases setup with ID ' . $project->id);
 
         $view = [
@@ -108,7 +112,8 @@ class ProjectController extends Controller
 
             'practices' => $practices,
             'useCases' => $useCases,
-            'useCaseTemplates' => $useCaseTemplates
+            'useCaseTemplates' => $useCaseTemplates,
+            'useCaseQuestions' => $useCaseQuestions
         ];
 
         $useCaseNumber = $request->input('useCase');
@@ -116,16 +121,13 @@ class ProjectController extends Controller
             $useCase = UseCase::find($useCaseNumber);
             $view['currentUseCase'] = $useCase;
             $view['useCaseResponses'] = UseCaseQuestionResponse::getResponsesFromUseCase($useCase);
-            $useCaseTemplate = UseCaseTemplate::find($useCase->template_id);
-            $view['selectedUseCaseTemplate'] = $useCaseTemplate;
-            $view['selectedUseCaseTemplateQuestions'] = $useCaseTemplate->useCaseQuestionsOriginals();
         }
 
         $useCaseTemplateId = $request->input('useCaseTemplate');
         if($useCaseTemplateId) {
             $useCaseTemplate = UseCaseTemplate::find($useCaseTemplateId);
             $view['selectedUseCaseTemplate'] = $useCaseTemplate;
-            $view['selectedUseCaseTemplateQuestions'] = $useCaseTemplate->useCaseQuestionsOriginals();
+            $view['useCaseTemplateResponses'] = UseCaseTemplateQuestionResponse::getResponsesFromUseCaseTemplate($useCaseTemplate);
         }
 
         return view('accentureViews.useCasesSetUp', $view);
@@ -136,7 +138,6 @@ class ProjectController extends Controller
         $request->validate([
             'id' => 'nullable|exists:use_case,id|numeric',
             'project_id' => 'required|exists:projects,id|numeric',
-            'template_id' => 'required|exists:use_case_templates,id|numeric',
             'name' => 'required|string',
             'description' => 'required|string',
             'practice_id' => 'required|exists:practices,id|numeric',
@@ -154,7 +155,6 @@ class ProjectController extends Controller
         }
 
         $useCase->project_id = $request->project_id;
-        $useCase->template_id = $request->template_id;
         $useCase->name = $request->name;
         $useCase->description = $request->description;
         $useCase->practice_id = $request->practice_id;

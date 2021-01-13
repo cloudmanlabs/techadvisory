@@ -21,6 +21,8 @@ use App\Observers\VendorProfileQuestionObserver;
 use App\Observers\VendorProfileQuestionResponseObserver;
 use App\Observers\VendorSolutionObserver;
 use App\Observers\VendorSolutionQuestionObserver;
+use App\Observers\UseCaseTemplateObserver;
+use App\Observers\UseCaseQuestionObserver;
 use App\Project;
 use App\SelectionCriteriaQuestion;
 use App\SelectionCriteriaQuestionResponse;
@@ -32,6 +34,8 @@ use App\VendorProfileQuestion;
 use App\VendorProfileQuestionResponse;
 use App\VendorSolution;
 use App\VendorSolutionQuestion;
+use App\UseCaseTemplate;
+use App\UseCaseQuestion;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\ServiceProvider;
@@ -73,6 +77,9 @@ class AppServiceProvider extends ServiceProvider
 
         GeneralInfoQuestionResponse::observe(GeneralInfoQuestionResponseObserver::class);
         ClientProfileQuestionResponse::observe(ClientProfileQuestionResponseObserver::class);
+
+        UseCaseTemplate::observe(UseCaseTemplateObserver::class);
+        UseCaseQuestion::observe(UseCaseQuestionObserver::class);
 
         Blade::directive('logo', function () {
             return "<?php echo url('/assets/images/techadvisory-logo.png'); ?>";
