@@ -31,7 +31,7 @@
                                                                 class="use_cases"
                                                                 @endif
                                                                 >
-                                                                <a href="{{route('accenture.useCasesSetUp', ['project' => $project, 'useCase' => $useCase->id])}}">
+                                                                <a href="{{route('vendor.applicationUseCasesSetUp', ['project' => $project, 'useCase' => $useCase->id])}}">
                                                                     {{$useCase->name}}
                                                                 </a>
                                                             </li>

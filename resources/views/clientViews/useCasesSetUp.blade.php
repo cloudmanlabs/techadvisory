@@ -815,6 +815,7 @@
         }
 
         $(document).ready(function () {
+            @if($project->useCasesPhase !== 'evaluation')
             $("#wizard_accenture_useCasesSetUp").steps({
                 headerTag: "h2",
                 bodyTag: "section",
@@ -1054,22 +1055,7 @@
                     break;
             }
             @endforeach
-            @foreach($selectedVendors as $selectedVendor)
-            $('#vendor{{$selectedVendor->id}}closed').click(function() {
-                $('#vendor{{$selectedVendor->id}}closed').hide();
-                $('#vendor{{$selectedVendor->id}}opened').show();
-                $('#vendorBody{{$selectedVendor->id}}').show();
-            });
-            $('#vendor{{$selectedVendor->id}}opened').click(function() {
-                $('#vendor{{$selectedVendor->id}}closed').show();
-                $('#vendor{{$selectedVendor->id}}opened').hide();
-                $('#vendorBody{{$selectedVendor->id}}').hide();
-            });
-            $('#vendor{{$selectedVendor->id}}opened').hide();
-            $('#vendorBody{{$selectedVendor->id}}').hide();
-            @endforeach
             @endif
-            disableQuestionsByPractice();
             @if($project ?? null)
             @foreach($useCases as $useCase)
             $('#scoringCriteria{{$useCase->id}}').val(parseFloat({{$useCase->scoring_criteria}}))
@@ -1088,6 +1074,23 @@
             console.log('{{$appliedVendor->id}}' + ' : ' + '{{$appliedVendor->name}}');
             @endforeach
             @endif
+            @endif
+            disableQuestionsByPractice();
+            @foreach($selectedVendors as $selectedVendor)
+            $('#vendor{{$selectedVendor->id}}closed').click(function() {
+                $('#vendor{{$selectedVendor->id}}closed').hide();
+                $('#vendor{{$selectedVendor->id}}opened').show();
+                $('#vendorBody{{$selectedVendor->id}}').show();
+            });
+            $('#vendor{{$selectedVendor->id}}opened').click(function() {
+                $('#vendor{{$selectedVendor->id}}closed').show();
+                $('#vendor{{$selectedVendor->id}}opened').hide();
+                $('#vendorBody{{$selectedVendor->id}}').hide();
+            });
+            $('#vendor{{$selectedVendor->id}}closed').show();
+            $('#vendor{{$selectedVendor->id}}opened').hide();
+            $('#vendorBody{{$selectedVendor->id}}').hide();
+            @endforeach
         });
     </script>
 @endsection

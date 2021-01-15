@@ -692,7 +692,7 @@
         }
 
         function disableQuestionsByPractice() {
-            @if($project->useCasesPhase === 'evaluation')
+            @if($project->useCasesPhase !== 'evaluation')
             var practiceToShow = 'practice' + '{{$currentUseCase->practice_id}}';
             @else
             var practiceToShow = 'practice' + $('#practiceSelect').val();
