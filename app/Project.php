@@ -508,6 +508,14 @@ class Project extends Model
         return $this;
     }
 
+    public function setInEvaluationPhase()
+    {
+        $this->useCasesPhase = 'evaluation';
+        $this->save();
+
+        return $this;
+    }
+
     public function markCompleted()
     {
         $this->currentPhase = 'old';

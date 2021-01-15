@@ -621,6 +621,25 @@ class ProjectController extends Controller
         ]);
     }
 
+    public function publishUseCases(Request $request)
+    {
+        $request->validate([
+            'project_id' => 'required|numeric',
+        ]);
+
+        $project = Project::find($request->project_id);
+        if ($project == null) {
+            abort(404);
+        }
+
+        $project->setInEvaluationPhase();
+
+        return \response()->json([
+            'status' => 200,
+            'message' => 'Success'
+        ]);
+    }
+
     public function markCompleted(Request $request, Project $project)
     {
         $project->markCompleted();

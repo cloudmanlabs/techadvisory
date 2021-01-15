@@ -60,6 +60,7 @@ prefix('accenture')
             Route::post('/ProjectController/setStep4Rollback', 'ProjectController@setStep4Rollback');
             Route::post('/newProjectSetUp/setStep4Submitted', 'ProjectController@setStep4Submitted');
             Route::post('/newProjectSetUp/publishProject', 'ProjectController@publishProject');
+            Route::post('/newProjectSetUp/publishUseCases', 'ProjectController@publishUseCases');
             Route::post('/newProjectSetUp/togglePublishProjectAnalytics', 'ProjectController@togglePublishProjectAnalytics');
             Route::post('/newProjectSetUp/updateVendors', 'ProjectController@updateVendors');
             Route::post('/newProjectSetUp/updateScoringValues', 'ProjectController@updateScoringValues');

@@ -33,7 +33,7 @@
                             <div class="card-body">
                                 <h3>Project Set up</h3>
                                 <br>
-                                @if($project->currentPhase === 'old')
+                                @if($project->useCasesPhase === 'evaluation')
                                     <div>
                                 @else
                                     <div id="wizard_accenture_useCasesSetUp">
@@ -59,7 +59,7 @@
                                                         @endforeach
                                                     </ul>
                                                 </div>
-                                                @if($project->currentPhase !== 'old')
+                                                @if($project->useCasesPhase !== 'evaluation')
                                                     <br>
                                                     <div id="subwizard_here">
                                                         <ul role="tablist">
@@ -88,61 +88,77 @@
                                                     <br>
                                                     <div class="form-group">
                                                         <div class="row">
+                                                        @if($project->useCasesPhase === 'evaluation')
+                                                            <div class="col-12">
+                                                                <label for="useCaseName">Name</label>
+                                                            </div>
+                                                            <div class="col-12">
+                                                                <h6>Name of the use case.</h6>
+                                                            </div>
+                                                        @else
                                                             <div class="col-3">
                                                                 <label for="useCaseName">Name*</label>
                                                             </div>
                                                             <div class="col-6">
-                                                                @if($project->currentPhase === 'old')
-                                                                    <p>Name of the use case.</p>
-                                                                @else
-                                                                    <input type="text" class="form-control"
-                                                                           id="useCaseName"
-                                                                           data-changing="name"
-                                                                           placeholder="Use case name"
-                                                                           required>
-                                                                @endif
+                                                                <input type="text" class="form-control"
+                                                                       id="useCaseName"
+                                                                       data-changing="name"
+                                                                       placeholder="Use case name"
+                                                                       required>
                                                             </div>
+                                                        @endif
                                                         </div>
                                                         <br>
                                                         <div class="row">
+                                                        @if($project->useCasesPhase === 'evaluation')
+                                                            <div class="col-12">
+                                                                <label for="useCaseDescription">Description</label>
+                                                            </div>
+                                                            <div class="col-12">
+                                                                <h6>Description of this use case.</h6>
+                                                            </div>
+                                                        @else
                                                             <div class="col-3">
                                                                 <label for="useCaseDescription">Description*</label>
                                                             </div>
                                                             <div class="col-6">
-                                                                @if($project->currentPhase === 'old')
-                                                                    <p>Description of this use case.</p>
-                                                                @else
-                                                                    <textarea
-                                                                        class="form-control"
-                                                                        id="useCaseDescription"
-                                                                        placeholder="Add description"
-                                                                        rows="5"
-                                                                        required
-                                                                    ></textarea>
-                                                                @endif
+                                                                <textarea
+                                                                    class="form-control"
+                                                                    id="useCaseDescription"
+                                                                    placeholder="Add description"
+                                                                    rows="5"
+                                                                    required
+                                                                ></textarea>
                                                             </div>
+                                                        @endif
+
                                                         </div>
                                                         <br>
                                                         <div class="row">
-                                                            <div class="col-3">
-                                                                <label for="practiceSelect">Practice*</label>
-                                                            </div>
-                                                            <div class="col-6">
-                                                                @if($project->currentPhase === 'old')
+                                                            @if($project->useCasesPhase === 'evaluation')
+                                                                <div class="col-12">
+                                                                    <label for="practiceSelect">Practice</label>
+                                                                </div>
+                                                                <div class="col-12">
                                                                     <p>Practice of the use case.</p>
-                                                                @else
+                                                                </div>
+                                                            @else
+                                                                <div class="col-3">
+                                                                    <label for="practiceSelect">Practice*</label>
+                                                                </div>
+                                                                <div class="col-6">
                                                                     <select id="practiceSelect" required>
                                                                         <option value="">-- Select a Practice --</option>
                                                                         @foreach ($practices as $practice)
                                                                             <option value="{{$practice->id}}">{{$practice->name}}</option>
                                                                         @endforeach
                                                                     </select>
-                                                                @endif
-                                                            </div>
+                                                                </div>
+                                                            @endif
                                                         </div>
                                                         <br>
                                                         <br>
-                                                        @if($project->currentPhase === 'old')
+                                                        @if($project->useCasesPhase === 'evaluation')
                                                             <label for="practiceSelect">Questions</label>
                                                             @foreach ($useCaseQuestions as $question)
                                                                 <h6 style="margin-bottom: 1rem">
@@ -157,7 +173,7 @@
                                                         <br>
                                                     </div>
                                                 </div>
-                                                @if($project->currentPhase !== 'old')
+                                                @if($project->useCasesPhase !== 'evaluation')
                                                     <div class="form-area">
                                                         <h4>Users</h4>
                                                         <br>
@@ -193,7 +209,7 @@
                                         </div>
                                     </section>
 
-                                    @if($project->currentPhase !== 'old')
+                                    @if($project->useCasesPhase !== 'evaluation')
                                     <h2>General Scoring Criteria</h2>
                                     <section>
                                         @if(count($useCases ?? array()) > 0 )
@@ -822,7 +838,7 @@
                     return showUnpublishedToast();
                 }
 
-                $.post('/accenture/newProjectSetUp/publishProject', {
+                $.post('/accenture/newProjectSetUp/publishUseCases', {
                     project_id: '{{$project->id}}',
                 })
 

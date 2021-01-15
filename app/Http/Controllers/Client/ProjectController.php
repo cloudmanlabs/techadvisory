@@ -9,6 +9,7 @@ use App\UseCaseQuestion;
 use App\UseCaseQuestionResponse;
 use App\UseCaseTemplate;
 use App\UseCaseTemplateQuestionResponse;
+use App\VendorUseCasesEvaluation;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Practice;
@@ -111,6 +112,12 @@ class ProjectController extends Controller
 
         $useCaseQuestions = UseCaseQuestion::all();
 
+        $accessingClientCredentialsId = session('credential_id');
+        $canEvaluateVendors = false;
+
+        $selectedVendors = array();
+        $projectVendorEvaluations = array();
+
         SecurityLog::createLog('client user accessed project Use Cases setup with ID ' . $project->id);
 
         $view = [
@@ -125,7 +132,9 @@ class ProjectController extends Controller
             'practices' => $practices,
             'useCases' => $useCases,
             'useCaseTemplates' => $useCaseTemplates,
-            'useCaseQuestions' => $useCaseQuestions
+            'useCaseQuestions' => $useCaseQuestions,
+
+            'client_id' => $accessingClientCredentialsId
         ];
 
         $useCaseNumber = $request->input('useCase');
@@ -133,7 +142,30 @@ class ProjectController extends Controller
             $useCase = UseCase::find($useCaseNumber);
             $view['currentUseCase'] = $useCase;
             $view['useCaseResponses'] = UseCaseQuestionResponse::getResponsesFromUseCase($useCase);
+            $selectedClients = explode(',', urldecode($useCase->clientUsers));
+            $canEvaluateVendors = (array_search($accessingClientCredentialsId, $selectedClients) !== false) && $request->user()->isClient();
+            $invitedVendors = explode(',', urldecode($project->use_case_invited_vendors));
+            $selectedVendors = $project->vendorsApplied()->whereIn('id', $invitedVendors)->get();
+//            foreach ($invitedVendors as $invitedVendor) {
+//                $selectedVendors[] = $project->vendorsApplied()->where('id', $invitedVendor);
+//            }
+
+        } elseif ($project->useCasesPhase === 'evaluation') {
+            $useCase = UseCase::all()->first();
+            $view['currentUseCase'] = $useCase;
+            $selectedClients = explode(',', urldecode($useCase->clientUsers));
+            $canEvaluateVendors = (array_search($accessingClientCredentialsId, $selectedClients) !== false) && $request->user()->isClient();
+            $invitedVendors = explode(',', urldecode($project->use_case_invited_vendors));
+            $selectedVendors = $project->vendorsApplied()->whereIn('id', $invitedVendors)->get();
+            error_log(json_encode($selectedVendors));
+//            foreach ($invitedVendors as $invitedVendor) {
+//                $selectedVendors[] = $project->vendorsApplied()->whereIn('id', $invitedVendor);
+//            }
         }
+
+        $view['canEvaluateVendors'] = $canEvaluateVendors;
+        $view['selectedVendors'] = $selectedVendors;
+        $view['projectVendorEvaluations'] = $projectVendorEvaluations;
 
         $useCaseTemplateId = $request->input('useCaseTemplate');
         if($useCaseTemplateId) {
@@ -226,6 +258,41 @@ class ProjectController extends Controller
 
         $useCase->scoring_criteria = (float) $request->scoringCriteria;
         $useCase->save();
+
+        return \response()->json([
+            'status' => 200,
+            'message' => 'Success'
+        ]);
+    }
+
+    public function saveVendorEvaluation(Request $request)
+    {
+        $request->validate([
+            'useCaseId' => 'required|exists:use_case,id|numeric',
+            'clientId' => 'required|exists:user_credentials,id|numeric',
+            'vendorId' => 'required|exists:users,id|numeric',
+            'solutionFit' => 'numeric',
+            'usability' => 'numeric',
+            'performance' => 'numeric',
+            'lookFeel' => 'numeric',
+            'others' => 'numeric'
+        ]);
+
+        $vendorEvaluation = VendorUseCasesEvaluation::findByIds($request->useCaseId, $request->clientId, $request->vendorId);
+        if ($vendorEvaluation == null) {
+            $vendorEvaluation = new VendorUseCasesEvaluation();
+            $vendorEvaluation->use_case_id = $request->useCaseId;
+            $vendorEvaluation->client_id = $request->clientId;
+            $vendorEvaluation->vendor_id = $request->vendorId;
+        }
+
+
+        $vendorEvaluation->solution_fit = $request->solutionFit != -1 ? $request->solutionFit : null;
+        $vendorEvaluation->usability = $request->usability != -1 ? $request->usability : null;
+        $vendorEvaluation->performance = $request->performance != -1 ? $request->performance : null;
+        $vendorEvaluation->look_feel = $request->lookFeel != -1 ? $request->lookFeel : null;
+        $vendorEvaluation->others = $request->others != -1 ? $request->others : null;
+        $vendorEvaluation->save();
 
         return \response()->json([
             'status' => 200,
@@ -585,6 +652,25 @@ class ProjectController extends Controller
 
         $project->step4SubmittedClient = false;
         $project->save();
+
+        return \response()->json([
+            'status' => 200,
+            'message' => 'Success'
+        ]);
+    }
+
+    public function publishUseCases(Request $request)
+    {
+        $request->validate([
+            'project_id' => 'required|numeric',
+        ]);
+
+        $project = Project::find($request->project_id);
+        if ($project == null) {
+            abort(404);
+        }
+
+        $project->setInEvaluationPhase();
 
         return \response()->json([
             'status' => 200,

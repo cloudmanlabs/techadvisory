@@ -56,6 +56,7 @@ Route::prefix('client')
                     Route::post('/newProjectSetUp/updateInvitedVendors', 'ProjectController@updateInvitedVendors');
                     Route::post('/newProjectSetUp/saveProjectScoringCriteria', 'ProjectController@saveProjectScoringCriteria');
                     Route::post('/newProjectSetUp/saveUseCaseScoringCriteria', 'ProjectController@saveUseCaseScoringCriteria');
+                    Route::post('/newProjectSetUp/saveVendorEvaluation', 'ProjectController@saveVendorEvaluation');
                     Route::post('/newProjectSetUp/saveCaseUse', 'ProjectController@createCaseUse');
                     Route::post('/newProjectSetUp/changeProjectName', 'ProjectController@changeProjectName');
                     Route::post('/newProjectSetUp/changeProjectHasValueTargeting', 'ProjectController@changeProjectHasValueTargeting');
@@ -71,6 +72,7 @@ Route::prefix('client')
                     Route::post('/newProjectSetUp/changeRFPOtherInfo', 'ProjectController@changeRFPOtherInfo');
                     Route::post('/newProjectSetUp/setStep3Submitted', 'ProjectController@setStep3Submitted');
                     Route::post('/newProjectSetUp/setStep4Submitted', 'ProjectController@setStep4Submitted');
+                    Route::post('/newProjectSetUp/publishUseCases', 'ProjectController@publishUseCases');
                     Route::post('/newProjectSetUp/updateScoringValues', 'ProjectController@updateScoringValues');
                     Route::post('/newProjectSetUp/changeWeights', 'ProjectController@changeWeights');
 

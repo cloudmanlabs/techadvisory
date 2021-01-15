@@ -2,7 +2,7 @@
 
 @php
     $useCaseTemplates = $useCaseTemplates ?? array();
-    $useCaseTemplates = $useCaseTemplates ?? array();
+    $useCaseResponses = $useCaseResponses ?? array();
 @endphp
 
 @section('head')
@@ -34,7 +34,7 @@
                                 <div class="card-body">
                                     <h3>Project Set up</h3>
                                     <br>
-                                    @if($project->currentPhase === 'old')
+                                    @if($project->useCasesPhase === 'evaluation')
                                         <div>
                                     @else
                                         <div id="wizard_accenture_useCasesSetUp">
@@ -60,7 +60,7 @@
                                                         @endforeach
                                                     </ul>
                                                 </div>
-                                                    @if($project->currentPhase !== 'old')
+                                                    @if($project->useCasesPhase !== 'evaluation')
                                                         <br>
                                                         <div id="subwizard_here">
                                                             <ul role="tablist">
@@ -89,30 +89,40 @@
                                                         <br>
                                                         <div class="form-group">
                                                             <div class="row">
-                                                                <div class="col-3">
-                                                                    <label for="useCaseName">Name*</label>
-                                                                </div>
-                                                                <div class="col-6">
-                                                                    @if($project->currentPhase === 'old')
-                                                                        <p>Name of the use case.</p>
+                                                                    @if($project->useCasesPhase === 'evaluation')
+                                                                    <div class="col-12">
+                                                                        <label for="useCaseName">Name</label>
+                                                                    </div>
+                                                                    <div class="col-12">
+                                                                        <h6>Name of the use case.</h6>
+                                                                    </div>
                                                                     @else
+                                                                    <div class="col-3">
+                                                                        <label for="useCaseName">Name*</label>
+                                                                    </div>
+                                                                    <div class="col-6">
                                                                         <input type="text" class="form-control"
                                                                                id="useCaseName"
                                                                                data-changing="name"
                                                                                placeholder="Use case name"
                                                                                required>
+                                                                    </div>
                                                                     @endif
-                                                                </div>
                                                             </div>
                                                             <br>
                                                             <div class="row">
-                                                                <div class="col-3">
-                                                                    <label for="useCaseDescription">Description*</label>
-                                                                </div>
-                                                                <div class="col-6">
-                                                                    @if($project->currentPhase === 'old')
-                                                                        <p>Description of this use case.</p>
+                                                                    @if($project->useCasesPhase === 'evaluation')
+                                                                    <div class="col-12">
+                                                                        <label for="useCaseDescription">Description</label>
+                                                                    </div>
+                                                                    <div class="col-12">
+                                                                        <h6>Description of this use case.</h6>
+                                                                    </div>
                                                                     @else
+                                                                    <div class="col-3">
+                                                                        <label for="useCaseDescription">Description*</label>
+                                                                    </div>
+                                                                    <div class="col-6">
                                                                         <textarea
                                                                             class="form-control"
                                                                             id="useCaseDescription"
@@ -120,30 +130,35 @@
                                                                             rows="5"
                                                                             required
                                                                         ></textarea>
+                                                                    </div>
                                                                     @endif
-                                                                </div>
                                                             </div>
                                                             <br>
                                                             <div class="row">
-                                                                <div class="col-3">
-                                                                    <label for="practiceSelect">Practice*</label>
-                                                                </div>
-                                                                <div class="col-6">
-                                                                    @if($project->currentPhase === 'old')
-                                                                        <p>Practice of the use case.</p>
+                                                                    @if($project->useCasesPhase === 'evaluation')
+                                                                    <div class="col-12">
+                                                                        <label for="practiceSelect">Practice</label>
+                                                                    </div>
+                                                                    <div class="col-12">
+                                                                        <h6>Practice of the use case.</h6>
+                                                                    </div>
                                                                     @else
+                                                                    <div class="col-3">
+                                                                        <label for="practiceSelect">Practice*</label>
+                                                                    </div>
+                                                                    <div class="col-6">
                                                                         <select id="practiceSelect" required>
                                                                             <option value="">-- Select a Practice --</option>
                                                                             @foreach ($practices as $practice)
                                                                                 <option value="{{$practice->id}}">{{$practice->name}}</option>
                                                                             @endforeach
                                                                         </select>
+                                                                    </div>
                                                                     @endif
-                                                                </div>
                                                             </div>
                                                             <br>
                                                             <br>
-                                                            @if($project->currentPhase === 'old')
+                                                            @if($project->useCasesPhase === 'evaluation')
                                                                 <label for="practiceSelect">Questions</label>
                                                                 @foreach ($useCaseQuestions as $question)
                                                                     <h6 style="margin-bottom: 1rem">
@@ -158,7 +173,7 @@
                                                             <br>
                                                         </div>
                                                     </div>
-                                                    @if($project->currentPhase !== 'old')
+                                                    @if($project->useCasesPhase !== 'evaluation')
                                                         <div class="form-area">
                                                         <h4>Users</h4>
                                                         <br>
@@ -189,12 +204,95 @@
                                                         <button id="saveUseCaseButton" class="btn btn-primary btn-right">
                                                             Save
                                                         </button>
+                                                    @else
+                                                        <br>
+                                                        <table >
+                                                            @foreach($selectedVendors as $selectedVendor)
+                                                                @php
+                                                                $evaluation = \App\VendorUseCasesEvaluation::findByIds($currentUseCase->id, $client_id, $selectedVendor->id);
+                                                                @endphp
+                                                                <tr>
+                                                                    <td>
+                                                                        <div class="row">
+                                                                            <div class="col-10">
+                                                                                <h6>
+                                                                                    {{$selectedVendor->name}}
+                                                                                </h6>
+                                                                            </div>
+                                                                            <div class="col-2">
+                                                                                <i class="fa fa-chevron-up" id="vendor{{$selectedVendor->id}}closed" style="float: right" aria-hidden="true"></i>
+                                                                                <i class="fa fa-chevron-down" id="vendor{{$selectedVendor->id}}opened" style="float: right" aria-hidden="true"></i>
+                                                                            </div>
+
+                                                                            <div id="vendorBody{{$selectedVendor->id}}" style="padding-top: 15px;padding-left: 25px;padding-right: 25px;">
+                                                                                <div class="row">
+                                                                                    <div class="col-6">
+                                                                                        <label for="vendor{{$selectedVendor->id}}SolutionFit">Solution Fit</label>
+                                                                                        <br>
+                                                                                    </div>
+                                                                                    <div class="col-6">
+                                                                                        <select id="vendor{{$selectedVendor->id}}SolutionFit">
+                                                                                            <x-options.vendorEvaluation :selected="$evaluation ? [$evaluation->solution_fit] : []"/>
+                                                                                        </select>
+                                                                                        <br>
+                                                                                    </div>
+                                                                                    <div class="col-6">
+                                                                                        <label for="vendor{{$selectedVendor->id}}Usability">Usability</label>
+                                                                                        <br>
+                                                                                    </div>
+                                                                                    <div class="col-6">
+                                                                                        <select id="vendor{{$selectedVendor->id}}Usability">
+                                                                                            <x-options.vendorEvaluation :selected="$evaluation ? [$evaluation->usability] : []"/>
+                                                                                        </select>
+                                                                                        <br>
+                                                                                    </div>
+                                                                                    <div class="col-6">
+                                                                                        <label for="vendor{{$selectedVendor->id}}Performance">Performance</label>
+                                                                                        <br>
+                                                                                    </div>
+                                                                                    <div class="col-6">
+                                                                                        <select id="vendor{{$selectedVendor->id}}Performance">
+                                                                                            <x-options.vendorEvaluation :selected="$evaluation ? [$evaluation->performance] : []"/>
+                                                                                        </select>
+                                                                                        <br>
+                                                                                    </div>
+                                                                                    <div class="col-6">
+                                                                                        <label for="vendor{{$selectedVendor->id}}LookFeel">Look and Feel</label>
+                                                                                        <br>
+                                                                                    </div>
+                                                                                    <div class="col-6">
+                                                                                        <select id="vendor{{$selectedVendor->id}}LookFeel">
+                                                                                            <x-options.vendorEvaluation :selected="$evaluation ? [$evaluation->look_feel] : []"/>
+                                                                                        </select>
+                                                                                        <br>
+                                                                                    </div>
+                                                                                    <div class="col-6">
+                                                                                        <label for="vendor{{$selectedVendor->id}}Others">Others</label>
+                                                                                        <br>
+                                                                                    </div>
+                                                                                    <div class="col-6">
+                                                                                        <select id="vendor{{$selectedVendor->id}}Others">
+                                                                                            <x-options.vendorEvaluation :selected="$evaluation ? [$evaluation->others] : []"/>
+                                                                                        </select>
+                                                                                        <br>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </td>
+                                                                </tr>
+                                                            @endforeach
+                                                        </table>
+                                                        <br>
+                                                        <button id="saveVendorsEvaluationButton" class="btn btn-primary btn-right">
+                                                            Save
+                                                        </button>
                                                     @endif
                                                 </div>
                                             </div>
                                     </section>
 
-                                    @if($project->currentPhase !== 'old')
+                                    @if($project->useCasesPhase !== 'evaluation')
                                     <h2>General Scoring Criteria</h2>
                                     <section>
                                         @if(count($useCases ?? array()) > 0)
@@ -347,11 +445,7 @@
                                                 @endif
                                             </div>
                                             <div class="col-12">
-                                                <select id="invitedVendors" multiple required
-                                                        @if ($project->currentPhase !== 'open')
-                                                        disabled
-                                                    @endif
-                                                >
+                                                <select id="invitedVendors" multiple required disabled>
                                                     @foreach ($appliedVendors as $appliedVendor)
                                                         <option value="{{ $appliedVendor->id }}">
                                                             {{ $appliedVendor->name }}
@@ -385,6 +479,15 @@
     @parent
 
     <style>
+        table {
+            width: 100%;
+        }
+
+        table, th, td {
+            border: 1px solid black;
+            padding: 8px;
+        }
+
         .text-center {
             text-align: center !important;
             width: 100%;
@@ -615,6 +718,16 @@
             })
         }
 
+        function showSavedEvaluationToast(vendorName) {
+            $.toast({
+                heading: 'Evaluations for vendor ' + vendorName + ' saved!',
+                showHideTransition: 'slide',
+                icon: 'success',
+                hideAfter: 1000,
+                position: 'bottom-right'
+            })
+        }
+
         function showSavedQuestionToast(questionName) {
             $.toast({
                 heading: 'Saved question: ' + questionName,
@@ -658,6 +771,16 @@
         function showInvalidScoringCriteriaToast() {
             $.toast({
                 heading: 'Fill all fields and sum of each section must be 100!',
+                showHideTransition: 'slide',
+                icon: 'error',
+                hideAfter: 3000,
+                position: 'bottom-right'
+            })
+        }
+
+        function showInvalidVendorValidationToast(vendorName) {
+            $.toast({
+                heading: 'Vendor ' + vendorName + " can't be saved without any evaluation!",
                 showHideTransition: 'slide',
                 icon: 'error',
                 hideAfter: 3000,
@@ -808,7 +931,37 @@
 
                 $.post('/client/newProjectSetUp/saveProjectScoringCriteria', body)
 
+
                 showSavedToast();
+            });
+
+            $('#saveVendorsEvaluationButton').click(function () {
+                @foreach($selectedVendors as $selectedVendor)
+                var solutionFit = parseInt($('#vendor{{$selectedVendor->id}}SolutionFit').val(), 10);
+                var usability = parseInt($('#vendor{{$selectedVendor->id}}Usability').val(), 10);
+                var performance = parseInt($('#vendor{{$selectedVendor->id}}Performance').val(), 10);
+                var lookFeel = parseInt($('#vendor{{$selectedVendor->id}}LookFeel').val(), 10);
+                var others = parseInt($('#vendor{{$selectedVendor->id}}Others').val(), 10);
+                if ((solutionFit + usability + performance + lookFeel + others) === -5) {
+                    return showInvalidVendorValidationToast('{{$selectedVendor->name}}');
+                }
+
+                var vendorEvaluation{{$selectedVendor->id}}Body = {
+                    vendorId: {{$selectedVendor->id}},
+                    useCaseId: {{$currentUseCase ? $currentUseCase->id : null}},
+                    clientId: {{$client_id}},
+                    solutionFit: solutionFit,
+                    usability: usability,
+                    performance: performance,
+                    lookFeel: lookFeel,
+                    others: others
+                };
+
+                $.post('/client/newProjectSetUp/saveVendorEvaluation', vendorEvaluation{{$selectedVendor->id}}Body)
+                    .then(function (data) {
+                        showSavedEvaluationToast('{{$selectedVendor->name}}');
+                    });
+                @endforeach
             });
 
             @if ($project->currentPhase === 'open')
@@ -822,7 +975,7 @@
                     return showUnpublishedToast();
                 }
 
-                $.post('/client/newProjectSetUp/publishProject', {
+                $.post('/client/newProjectSetUp/publishUseCases', {
                     project_id: '{{$project->id}}',
                 })
 
@@ -896,6 +1049,20 @@
                     $('#useCaseQuestion{{$useCaseResponse->use_case_questions_id}}').val(decodeURIComponent("{{$useCaseResponse->response}}"))
                     break;
             }
+            @endforeach
+            @foreach($selectedVendors as $selectedVendor)
+            $('#vendor{{$selectedVendor->id}}closed').click(function() {
+                $('#vendor{{$selectedVendor->id}}closed').hide();
+                $('#vendor{{$selectedVendor->id}}opened').show();
+                $('#vendorBody{{$selectedVendor->id}}').show();
+            });
+            $('#vendor{{$selectedVendor->id}}opened').click(function() {
+                $('#vendor{{$selectedVendor->id}}closed').show();
+                $('#vendor{{$selectedVendor->id}}opened').hide();
+                $('#vendorBody{{$selectedVendor->id}}').hide();
+            });
+            $('#vendor{{$selectedVendor->id}}opened').hide();
+            $('#vendorBody{{$selectedVendor->id}}').hide();
             @endforeach
             @endif
             disableQuestionsByPractice();
