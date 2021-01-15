@@ -65,7 +65,6 @@ class AuthController extends Controller
 
         session(['credential_id' => $credential->id]);
         SecurityLog::createLog('User logged in from credential ' . $credential->id);
-        error_log('User logged in from credential ' . $credential->id);
         return redirect('/client');
     }
 }

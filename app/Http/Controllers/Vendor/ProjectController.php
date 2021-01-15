@@ -3,7 +3,13 @@
 namespace App\Http\Controllers\Vendor;
 
 use App\Nova\Vendor;
+use App\Practice;
 use App\SelectionCriteriaQuestionResponse;
+use App\UseCase;
+use App\UseCaseQuestion;
+use App\UseCaseQuestionResponse;
+use App\UseCaseTemplate;
+use App\UseCaseTemplateQuestionResponse;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Project;
@@ -203,6 +209,54 @@ class ProjectController extends Controller
             'generalInfoQuestions' => $project->generalInfoQuestions,
             'sizingQuestions' => $sizingQuestions,
         ]);
+    }
+
+    public function useCasesSetUp(Request $request, Project $project)
+    {
+        $client = $project->client;
+        $clients = $client->credentials()->get();
+
+        $accentureUsers = User::accentureUsers()->get();
+        $appliedVendors = $project->vendorsApplied()->get();
+
+        $practices = Practice::all();
+
+//        $useCases = UseCases::findByProject($project->id);
+        $useCases = $project->useCases()->get();
+
+        $useCaseTemplates = UseCaseTemplate::all();
+
+        $useCaseQuestions = UseCaseQuestion::all();
+
+        SecurityLog::createLog('Accenture user accessed project Use Cases setup with ID ' . $project->id);
+
+        $view = [
+            'project' => $project,
+
+            'clients' => $clients,
+
+            'accentureUsers' => $accentureUsers,
+
+            'appliedVendors' => $appliedVendors,
+
+            'practices' => $practices,
+            'useCases' => $useCases,
+            'useCaseTemplates' => $useCaseTemplates,
+            'useCaseQuestions' => $useCaseQuestions
+        ];
+
+        $useCaseNumber = $request->input('useCase');
+        if($useCaseNumber) {
+            $useCase = UseCase::find($useCaseNumber);
+            $view['currentUseCase'] = $useCase;
+            $view['useCaseResponses'] = UseCaseQuestionResponse::getResponsesFromUseCase($useCase);
+        } elseif ($project->useCasesPhase === 'evaluation') {
+            $useCase = UseCase::all()->first();
+            $view['currentUseCase'] = $useCase;
+            $view['useCaseResponses'] = UseCaseQuestionResponse::getResponsesFromUseCase($useCase);
+        }
+
+        return view('vendorViews.useCasesSetUp', $view);
     }
 
 

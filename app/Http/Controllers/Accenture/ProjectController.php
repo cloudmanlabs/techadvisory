@@ -121,6 +121,10 @@ class ProjectController extends Controller
             $useCase = UseCase::find($useCaseNumber);
             $view['currentUseCase'] = $useCase;
             $view['useCaseResponses'] = UseCaseQuestionResponse::getResponsesFromUseCase($useCase);
+        } elseif ($project->useCasesPhase === 'evaluation') {
+            $useCase = UseCase::all()->first();
+            $view['currentUseCase'] = $useCase;
+            $view['useCaseResponses'] = UseCaseQuestionResponse::getResponsesFromUseCase($useCase);
         }
 
         $useCaseTemplateId = $request->input('useCaseTemplate');

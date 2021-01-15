@@ -44,9 +44,9 @@
                                             <aside class="col-2">
                                                 <div id="subwizard_here">
                                                     <ul role="tablist">
-                                                        @foreach ($useCases as $useCase)
+                                                        @foreach ($useCases as $key=>$useCase)
                                                             <li
-                                                                @if(($currentUseCase ?? null) && $currentUseCase->id == $useCase->id)
+                                                                @if((($currentUseCase ?? null) && $currentUseCase->id === $useCase->id) || ($project->useCasesPhase === 'evaluation' && $key === 0 && $currentUseCase->id === 1))
                                                                 class="active"
                                                                 @else
                                                                 class="use_cases"
@@ -140,7 +140,7 @@
                                                                     <label for="practiceSelect">Practice</label>
                                                                 </div>
                                                                 <div class="col-12">
-                                                                    <p>Practice of the use case.</p>
+                                                                    <h6>Practice of the use case.</h6>
                                                                 </div>
                                                             @else
                                                                 <div class="col-3">
@@ -159,9 +159,9 @@
                                                         <br>
                                                         <br>
                                                         @if($project->useCasesPhase === 'evaluation')
-                                                            <label for="practiceSelect">Questions</label>
+                                                            <label>Questions</label>
                                                             @foreach ($useCaseQuestions as $question)
-                                                                <h6 style="margin-bottom: 1rem">
+                                                                <h6 class="questionDiv practice{{$question->practice->id ?? ''}}" style="margin-bottom: 1rem">
                                                                     {{$question->label}}
                                                                 </h6>
                                                             @endforeach
@@ -692,7 +692,11 @@
         }
 
         function disableQuestionsByPractice() {
+            @if($project->useCasesPhase === 'evaluation')
+            var practiceToShow = 'practice' + '{{$currentUseCase->practice_id}}';
+            @else
             var practiceToShow = 'practice' + $('#practiceSelect').val();
+            @endif
             var array = $('.questionDiv');
             for (let i = 0; i < array.length; i++) {
                 if($(array[i]).hasClass(practiceToShow)){
@@ -704,6 +708,7 @@
         }
 
         $(document).ready(function () {
+            @if($project->useCasesPhase != 'evaluation')
             $("#wizard_accenture_useCasesSetUp").steps({
                 headerTag: "h2",
                 bodyTag: "section",
@@ -850,7 +855,7 @@
             $(".js-example-basic-single").select2();
             $(".js-example-basic-multiple").select2();
 
-            @if($selectedUseCaseTemplate ?? null)
+            @if($selectedUseCaseTemplate ?? null && $project->useCasesPhase != 'evaluation')
             $('#useCaseName').val("{{$selectedUseCaseTemplate->name}}")
             $('#useCaseDescription').val("{{$selectedUseCaseTemplate->description}}")
             $('#practiceSelect').val("{{$selectedUseCaseTemplate->practice_id}}")
@@ -889,7 +894,7 @@
             $('#clientUsers').val(decodeURIComponent("{{$currentUseCase->clientUsers}}").split(","))
             $('#clientUsers').select2().trigger('change')
             @foreach($useCaseResponses as $useCaseResponse)
-            switch (document.getElementById('useCaseQuestion{{$useCaseResponse->use_case_questions_id}}').tagName.toLowerCase()) {
+                switch (document.getElementById('useCaseQuestion{{$useCaseResponse->use_case_questions_id}}').tagName.toLowerCase()) {
                 case 'input':
                     switch ($('#useCaseQuestion{{$useCaseResponse->use_case_questions_id}}').attr('type').toLowerCase()) {
                         case 'text':
@@ -914,7 +919,6 @@
             }
             @endforeach
             @endif
-            disableQuestionsByPractice();
             @if($project ?? null)
             @foreach($useCases as $useCase)
             $('#scoringCriteria{{$useCase->id}}').val(parseFloat({{$useCase->scoring_criteria}}))
@@ -933,6 +937,8 @@
             console.log('{{$appliedVendor->id}}' + ' : ' + '{{$appliedVendor->name}}');
             @endforeach
             @endif
+            @endif
+            disableQuestionsByPractice();
         });
     </script>
 @endsection

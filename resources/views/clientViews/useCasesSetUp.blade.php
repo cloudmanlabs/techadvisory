@@ -45,9 +45,9 @@
                                                 <aside class="col-2">
                                                     <div id="subwizard_here">
                                                         <ul role="tablist">
-                                                            @foreach ($useCases as $useCase)
+                                                            @foreach ($useCases as $key=>$useCase)
                                                                 <li
-                                                                    @if(($currentUseCase ?? null) && $currentUseCase->id == $useCase->id)
+                                                                    @if((($currentUseCase ?? null) && $currentUseCase->id === $useCase->id) || ($project->useCasesPhase === 'evaluation' && $key === 0 && $currentUseCase->id === 1))
                                                                     class="active"
                                                                     @else
                                                                     class="use_cases"
@@ -159,9 +159,9 @@
                                                             <br>
                                                             <br>
                                                             @if($project->useCasesPhase === 'evaluation')
-                                                                <label for="practiceSelect">Questions</label>
+                                                                <label>Questions</label>
                                                                 @foreach ($useCaseQuestions as $question)
-                                                                    <h6 style="margin-bottom: 1rem">
+                                                                    <h6 class="questionDiv practice{{$question->practice->id ?? ''}}" style="margin-bottom: 1rem">
                                                                         {{$question->label}}
                                                                     </h6>
                                                                 @endforeach
@@ -799,7 +799,11 @@
         }
 
         function disableQuestionsByPractice() {
+            @if($project->useCasesPhase === 'evaluation')
+            var practiceToShow = 'practice' + '{{$currentUseCase->practice_id}}';
+            @else
             var practiceToShow = 'practice' + $('#practiceSelect').val();
+            @endif
             var array = $('.questionDiv');
             for (let i = 0; i < array.length; i++) {
                 if($(array[i]).hasClass(practiceToShow)){

@@ -50,9 +50,11 @@ Route::prefix('vendors')
                     ->name('previewProject');
                 Route::get('previewProjectApply/{project}', 'ProjectController@previewProjectApply')
                     ->name('previewProjectApply');
-
                 Route::get('newApplication/{project}', 'ProjectController@newApplication')
                     ->name('newApplication');
+                Route::get('newApplication/useCases/{project}', 'ProjectController@useCasesSetUp')
+                    ->name('applicationUseCasesSetUp');
+
                 Route::get('newApplication/apply/{project}', 'ProjectController@newApplicationApply')
                     ->name('newApplication.apply');
                 Route::get('newApplication/orals/{project}', 'ProjectController@projectOrals')
