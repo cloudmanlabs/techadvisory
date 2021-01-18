@@ -373,6 +373,10 @@
                                                         </option>
                                                     @endforeach
                                                 </select>
+                                                @if ($project->currentPhase === 'preparation')
+                                                    <br>
+                                                    <p style="color: darkred;">Decide vendors to participate on the use cases when the project is in open phase.</p>
+                                                @endif
                                             </div>
                                             @if ($project->currentPhase === 'open')
                                             <div class="col-12">
@@ -692,7 +696,7 @@
         }
 
         function disableQuestionsByPractice() {
-            @if($project->useCasesPhase !== 'evaluation')
+            @if($project->useCasesPhase === 'evaluation')
             var practiceToShow = 'practice' + '{{$currentUseCase->practice_id}}';
             @else
             var practiceToShow = 'practice' + $('#practiceSelect').val();

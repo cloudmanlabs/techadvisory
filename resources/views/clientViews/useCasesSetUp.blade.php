@@ -18,15 +18,15 @@
 
         <div class="page-wrapper">
             <div class="page-content">
-                @if($project->currentPhase === 'preparation')
-                    <x-video :src="nova_get_setting('video_newProject_file')"
-                             :text="nova_get_setting('video_newProject_text')"/>
-                    <x-accenture.setUpNavbar section="useCasesSetUp" :project="$project" :isClient="false"/>
-                @endif
-                @if ($project->currentPhase === 'open')
+{{--                @if($project->currentPhase === 'preparation')--}}
+{{--                    <x-video :src="nova_get_setting('video_newProject_file')"--}}
+{{--                             :text="nova_get_setting('video_newProject_text')"/>--}}
+{{--                    <x-accenture.setUpNavbar section="useCasesSetUp" :project="$project" :isClient="false"/>--}}
+{{--                @endif--}}
+{{--                @if ($project->currentPhase === 'open')--}}
                     <x-client.projectNavbar section="useCasesSetUp" :project="$project"/>
                     <br>
-                @endif
+{{--                @endif--}}
 
                     <div class="row">
                         <div class="col-md-12 grid-margin stretch-card">
@@ -456,7 +456,7 @@
                                             @if ($project->currentPhase === 'open')
                                                 <div class="col-12">
                                                     <br>
-                                                    <button class="btn btn-primary" id="publishButton">PUBLISH</button>
+                                                    <button class="btn btn-primary" id="publishButton" disabled>PUBLISH</button>
                                                     <br>
                                                 </div>
                                             @endif
