@@ -21,10 +21,10 @@ class UseCaseTemplate extends Model
 {
     public $guarded = [];
 
-    public function practice()
-    {
-        return $this->belongsTo(Practice::class);
-    }
+//    public function practice()
+//    {
+//        return $this->belongsTo(Practice::class);
+//    }
 
     public function useCaseQuestions()
     {

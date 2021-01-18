@@ -81,9 +81,6 @@ class Project extends Resource
                 ])
                 ->displayUsingLabels()
                 ->hideWhenCreating()
-//                ->hideWhenUpdating(function(){
-//                    return $this->useCasesPhase == 'setup';
-//                })
                 ->sortable(),
 
             BelongsTo::make('Organization','owners',Owner::class)->nullable(),

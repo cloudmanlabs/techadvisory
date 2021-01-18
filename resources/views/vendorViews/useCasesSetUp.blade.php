@@ -63,16 +63,6 @@
                                                             </div>
                                                         </div>
                                                         <br>
-                                                        <div class="row">
-                                                                <div class="col-12">
-                                                                    <label for="practiceSelect">Practice</label>
-                                                                </div>
-                                                                <div class="col-12">
-                                                                    <h6>Practice of the use case.</h6>
-                                                                </div>
-                                                        </div>
-                                                        <br>
-                                                        <br>
                                                         <label>Questions</label>
                                                         @foreach ($useCaseQuestions as $question)
                                                             <h6 class="questionDiv practice{{$question->practice->id ?? ''}}" style="margin-bottom: 1rem">
@@ -212,7 +202,7 @@
         };
 
         function disableQuestionsByPractice() {
-            var practiceToShow = 'practice' + '{{$currentUseCase->practice_id}}';
+            var practiceToShow = 'practice' + '{{$project->practice_id}}';
             var array = $('.questionDiv');
             for (let i = 0; i < array.length; i++) {
                 if($(array[i]).hasClass(practiceToShow)){

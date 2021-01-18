@@ -18,15 +18,8 @@
 
         <div class="page-wrapper">
             <div class="page-content">
-{{--                @if($project->currentPhase === 'preparation')--}}
-{{--                    <x-video :src="nova_get_setting('video_newProject_file')"--}}
-{{--                             :text="nova_get_setting('video_newProject_text')"/>--}}
-{{--                    <x-accenture.setUpNavbar section="useCasesSetUp" :project="$project" :isClient="false"/>--}}
-{{--                @endif--}}
-{{--                @if ($project->currentPhase === 'open')--}}
                     <x-client.projectNavbar section="useCasesSetUp" :project="$project"/>
                     <br>
-{{--                @endif--}}
 
                     <div class="row">
                         <div class="col-md-12 grid-margin stretch-card">
@@ -133,30 +126,6 @@
                                                                     </div>
                                                                     @endif
                                                             </div>
-                                                            <br>
-                                                            <div class="row">
-                                                                    @if($project->useCasesPhase === 'evaluation')
-                                                                    <div class="col-12">
-                                                                        <label for="practiceSelect">Practice</label>
-                                                                    </div>
-                                                                    <div class="col-12">
-                                                                        <h6>Practice of the use case.</h6>
-                                                                    </div>
-                                                                    @else
-                                                                    <div class="col-3">
-                                                                        <label for="practiceSelect">Practice*</label>
-                                                                    </div>
-                                                                    <div class="col-6">
-                                                                        <select id="practiceSelect" required>
-                                                                            <option value="">-- Select a Practice --</option>
-                                                                            @foreach ($practices as $practice)
-                                                                                <option value="{{$practice->id}}">{{$practice->name}}</option>
-                                                                            @endforeach
-                                                                        </select>
-                                                                    </div>
-                                                                    @endif
-                                                            </div>
-                                                            <br>
                                                             <br>
                                                             @if($project->useCasesPhase === 'evaluation')
                                                                 <label>Questions</label>
@@ -693,7 +662,6 @@
             var array = [
                 $('#useCaseName'),
                 $('#useCaseDescription'),
-                $('#practiceSelect'),
                 $('#accentureUsers'),
                 $('#clientUsers')
             ];
@@ -799,11 +767,7 @@
         }
 
         function disableQuestionsByPractice() {
-            @if($project->useCasesPhase === 'evaluation')
-            var practiceToShow = 'practice' + '{{$currentUseCase->practice_id}}';
-            @else
-            var practiceToShow = 'practice' + $('#practiceSelect').val();
-            @endif
+            var practiceToShow = 'practice' + '{{$project->practice_id}}';
             var array = $('.questionDiv');
             for (let i = 0; i < array.length; i++) {
                 if($(array[i]).hasClass(practiceToShow)){
@@ -840,10 +804,6 @@
             $('#clientUsers').select2();
             $('#invitedVendors').select2();
 
-            $(document).on('change','#practiceSelect',function(){
-                disableQuestionsByPractice();
-            });
-
             $('#invitedVendors').change(function () {
                 $.post('/client/newProjectSetUp/updateInvitedVendors', {
                     project_id: '{{$project->id}}',
@@ -873,7 +833,6 @@
                     project_id: {{$project->id}},
                     name: $('#useCaseName').val(),
                     description: $('#useCaseDescription').val(),
-                    practice_id: parseInt($('#practiceSelect').val(), 10),
                     accentureUsers: encodeURIComponent($('#accentureUsers').val()),
                     clientUsers: encodeURIComponent($('#clientUsers').val())
                 };
@@ -995,7 +954,6 @@
             @if($selectedUseCaseTemplate ?? null)
             $('#useCaseName').val("{{$selectedUseCaseTemplate->name}}")
             $('#useCaseDescription').val("{{$selectedUseCaseTemplate->description}}")
-            $('#practiceSelect').val("{{$selectedUseCaseTemplate->practice_id}}")
             @foreach($useCaseTemplateResponses as $useCaseTemplateResponse)
                 switch (document.getElementById('useCaseQuestion{{$useCaseTemplateResponse->use_case_questions_id}}').tagName.toLowerCase()) {
                 case 'input':
@@ -1025,7 +983,6 @@
             @if($currentUseCase ?? null)
             $('#useCaseName').val("{{$currentUseCase->name}}")
             $('#useCaseDescription').val("{{$currentUseCase->description}}")
-            $('#practiceSelect').val("{{$currentUseCase->practice_id}}")
             $('#accentureUsers').val(decodeURIComponent("{{$currentUseCase->accentureUsers}}").split(","))
             $('#accentureUsers').select2().trigger('change')
             $('#clientUsers').val(decodeURIComponent("{{$currentUseCase->clientUsers}}").split(","))

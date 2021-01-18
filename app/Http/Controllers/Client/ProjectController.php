@@ -103,8 +103,6 @@ class ProjectController extends Controller
         $accentureUsers = User::accentureUsers()->get();
         $appliedVendors = $project->vendorsApplied()->get();
 
-        $practices = Practice::all();
-
 //        $useCases = UseCases::findByProject($project->id);
         $useCases = $project->useCases()->get();
 
@@ -129,7 +127,6 @@ class ProjectController extends Controller
 
             'appliedVendors' => $appliedVendors,
 
-            'practices' => $practices,
             'useCases' => $useCases,
             'useCaseTemplates' => $useCaseTemplates,
             'useCaseQuestions' => $useCaseQuestions,
@@ -178,7 +175,6 @@ class ProjectController extends Controller
             'project_id' => 'required|exists:projects,id|numeric',
             'name' => 'required|string',
             'description' => 'required|string',
-            'practice_id' => 'required|exists:practices,id|numeric',
             'accentureUsers.*' => 'required|exists:users,id|numeric',
             'clientUsers.*' => 'required|exists:users,id|numeric'
         ]);
@@ -195,7 +191,6 @@ class ProjectController extends Controller
         $useCase->project_id = $request->project_id;
         $useCase->name = $request->name;
         $useCase->description = $request->description;
-        $useCase->practice_id = $request->practice_id;
         $useCase->accentureUsers = $request->accentureUsers;
         $useCase->clientUsers = $request->clientUsers;
         $useCase->save();

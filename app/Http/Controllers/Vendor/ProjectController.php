@@ -219,8 +219,6 @@ class ProjectController extends Controller
         $accentureUsers = User::accentureUsers()->get();
         $appliedVendors = $project->vendorsApplied()->get();
 
-        $practices = Practice::all();
-
 //        $useCases = UseCases::findByProject($project->id);
         $useCases = $project->useCases()->get();
 
@@ -239,7 +237,6 @@ class ProjectController extends Controller
 
             'appliedVendors' => $appliedVendors,
 
-            'practices' => $practices,
             'useCases' => $useCases,
             'useCaseTemplates' => $useCaseTemplates,
             'useCaseQuestions' => $useCaseQuestions
