@@ -42,7 +42,7 @@
                                             <div class="col-8 border-left flex-col">
                                                 <h3>Use case</h3>
                                                 <div class="form-area">
-                                                    <h4>General Info</h4>
+                                                    <h4>Use Case Category</h4>
                                                     <br>
                                                     <div class="form-group">
                                                         <div class="row">

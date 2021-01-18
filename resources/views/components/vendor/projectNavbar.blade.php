@@ -2,7 +2,7 @@
     Subnavbar for the Project views
     --}}
 
-@props(['section', 'subsection', 'project'])
+@props(['section', 'subsection', 'project', 'isInvited'])
 
 
 @php
@@ -40,7 +40,7 @@ $showApply = $vendorApplication->phase == 'applicating';
                                     href="{{route('vendor.newApplication', ['project' => $project])}}"
                                 >Project information</a>
                             </li>
-                            @if ($project->useCases !== 'no' && $project->useCasesPhase === 'evaluation')
+                            @if ($project->useCases !== 'no' && $project->useCasesPhase === 'evaluation' && $isInvited)
                                 <li class="header-link-item ml-3 pl-3 border-left d-flex align-items-center {{$section == 'useCasesSetUp' ? 'active' : ''}}">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
                                          fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"

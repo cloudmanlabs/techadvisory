@@ -146,9 +146,6 @@ class ProjectController extends Controller
             $canEvaluateVendors = (array_search($accessingClientCredentialsId, $selectedClients) !== false) && $request->user()->isClient();
             $invitedVendors = explode(',', urldecode($project->use_case_invited_vendors));
             $selectedVendors = $project->vendorsApplied()->whereIn('id', $invitedVendors)->get();
-//            foreach ($invitedVendors as $invitedVendor) {
-//                $selectedVendors[] = $project->vendorsApplied()->where('id', $invitedVendor);
-//            }
 
         } elseif ($project->useCasesPhase === 'evaluation') {
             $useCase = UseCase::all()->first();
@@ -158,9 +155,6 @@ class ProjectController extends Controller
             $invitedVendors = explode(',', urldecode($project->use_case_invited_vendors));
             $selectedVendors = $project->vendorsApplied()->whereIn('id', $invitedVendors)->get();
             error_log(json_encode($selectedVendors));
-//            foreach ($invitedVendors as $invitedVendor) {
-//                $selectedVendors[] = $project->vendorsApplied()->whereIn('id', $invitedVendor);
-//            }
         }
 
         $view['canEvaluateVendors'] = $canEvaluateVendors;
