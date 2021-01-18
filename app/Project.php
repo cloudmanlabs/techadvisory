@@ -61,6 +61,7 @@ use Illuminate\Support\Collection;
  * @property \Carbon\Carbon $oralsToDate
  *
  * @property string $useCases
+ * @property string $useCasesPhase
  */
 class Project extends Model
 {
