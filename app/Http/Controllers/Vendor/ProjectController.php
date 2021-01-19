@@ -26,7 +26,7 @@ class ProjectController extends Controller
 
         $clients = User::clientUsers()->get();
 
-        SecurityLog::createLog('User accessed project with ID ' . $project->id);
+        SecurityLog::createLog('User accessed project with ID ' . $project->id  . ' and name ' . $project->name);
 
         return view('vendorViews.previewProject', [
             'project' => $project,
@@ -118,7 +118,7 @@ class ProjectController extends Controller
         });
 
 
-        SecurityLog::createLog('User accessed project with ID ' . $project->id);
+        SecurityLog::createLog('User accessed project with ID ' . $project->id  . ' and name ' . $project->name);
 
         return view('vendorViews.previewProjectApply', [
             'project' => $project,
@@ -194,7 +194,7 @@ class ProjectController extends Controller
             return $el->shouldShow;
         });
 
-        SecurityLog::createLog('User accessed project with ID ' . $project->id);
+        SecurityLog::createLog('User accessed project with ID ' . $project->id  . ' and name ' . $project->name);
 
         return view('vendorViews.newApplication', [
             'project' => $project,
@@ -300,7 +300,7 @@ class ProjectController extends Controller
         $this->replaceResponses($innovationProductQuestions, $selectionCriteriaQuestionsResponsesFromSimilarProject);
         $this->replaceResponses($innovationSustainabilityQuestions, $selectionCriteriaQuestionsResponsesFromSimilarProject);
 
-        SecurityLog::createLog('User accessed project with ID ' . $project->id);
+        SecurityLog::createLog('User accessed project with ID ' . $project->id  . ' and name ' . $project->name);
 
         return view('vendorViews.newApplicationApply', [
             'project' => $project,
@@ -336,7 +336,7 @@ class ProjectController extends Controller
             abort(404);
         }
 
-        SecurityLog::createLog('User accessed project with ID ' . $project->id);
+        SecurityLog::createLog('User accessed project with ID ' . $project->id  . ' and name ' . $project->name);
 
         return view('vendorViews.newApplicationOrals', [
             'project' => $project,
@@ -428,7 +428,7 @@ class ProjectController extends Controller
             return $question->originalQuestion->page == 'implementation_run';
         });
 
-        SecurityLog::createLog('User accessed project with ID ' . $project->id);
+        SecurityLog::createLog('User accessed project with ID ' . $project->id  . ' and name ' . $project->name);
 
         return view('vendorViews.submittedApplication', [
             'project' => $project,
