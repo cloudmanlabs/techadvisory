@@ -19,7 +19,7 @@ class SecurityLogExport implements FromCollection, WithStrictNullComparison
                     'User ID' => optional($log->user)->id,
                     'User Name' => optional($log->user)->name,
                     'Credential Id' => $log->credential_id,
-                    'Time' => $log->created_at->addHours(2)->format('Y-m-d H:i:s'),
+                    'Time' => $log->created_at->addHours(1)->format('Y-m-d H:i:s'),
                     'Text' => $log->text
                 ];
             });

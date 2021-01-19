@@ -30,7 +30,7 @@ class ProjectController extends Controller
         $submittedVendors = $project->vendorsApplied(['submitted'])->get();
         $disqualifiedVendors = $project->vendorsApplied(['disqualified'])->get();
 
-        SecurityLog::createLog('User accessed project with ID ' . $project->id);
+        SecurityLog::createLog('User accessed project with ID ' . $project->id  . ' and name ' . $project->name);
 
         return view('clientViews.projectHome', [
             'project' => $project,
@@ -70,7 +70,7 @@ class ProjectController extends Controller
         $implementationImplementationQuestions = $project->selectionCriteriaQuestionsOriginals()->where('page', 'implementation_implementation');
         $implementationRunQuestions = $project->selectionCriteriaQuestionsOriginals()->where('page', 'implementation_run');
 
-        SecurityLog::createLog('User accessed project with ID ' . $project->id);
+        SecurityLog::createLog('User accessed project with ID ' . $project->id  . ' and name ' . $project->name);
 
         return view('clientViews.newProjectSetUp', [
             'project' => $project,
@@ -106,6 +106,7 @@ class ProjectController extends Controller
 //        $useCases = UseCases::findByProject($project->id);
         $useCases = $project->useCases()->get();
 
+
         $useCaseTemplates = UseCaseTemplate::all();
 
         $useCaseQuestions = UseCaseQuestion::all();
@@ -116,7 +117,7 @@ class ProjectController extends Controller
         $selectedVendors = array();
         $projectVendorEvaluations = array();
 
-        SecurityLog::createLog('client user accessed project Use Cases setup with ID ' . $project->id);
+        SecurityLog::createLog('User accessed project Use Cases setup with ID ' . $project->id  . ' and name ' . $project->name);
 
         $view = [
             'project' => $project,
@@ -757,7 +758,7 @@ class ProjectController extends Controller
         $implementationImplementationQuestions = $project->selectionCriteriaQuestionsOriginals()->where('page', 'implementation_implementation');
         $implementationRunQuestions = $project->selectionCriteriaQuestionsOriginals()->where('page', 'implementation_run');
 
-        SecurityLog::createLog('User accessed project with ID ' . $project->id);
+        SecurityLog::createLog('User accessed project with ID ' . $project->id  . ' and name ' . $project->name);
 
         return view('clientViews.projectView', [
             'project' => $project,
@@ -785,7 +786,7 @@ class ProjectController extends Controller
             abort(404);
         }
 
-        SecurityLog::createLog('User accessed project with ID ' . $project->id);
+        SecurityLog::createLog('User accessed project with ID ' . $project->id  . ' and name ' . $project->name);
 
         return view('clientViews.projectValueTargeting', [
             'project' => $project
@@ -798,7 +799,7 @@ class ProjectController extends Controller
             abort(404);
         }
 
-        SecurityLog::createLog('User accessed project with ID ' . $project->id);
+        SecurityLog::createLog('User accessed project with ID ' . $project->id  . ' and name ' . $project->name);
 
         return view('clientViews.projectOrals', [
             'project' => $project,
@@ -808,7 +809,7 @@ class ProjectController extends Controller
 
     public function conclusions(Project $project)
     {
-        SecurityLog::createLog('User accessed project with ID ' . $project->id);
+        SecurityLog::createLog('User accessed project with ID ' . $project->id  . ' and name ' . $project->name);
 
         return view('clientViews.projectConclusions', [
             'project' => $project
@@ -817,7 +818,7 @@ class ProjectController extends Controller
 
     public function benchmark(Project $project)
     {
-        SecurityLog::createLog('User accessed project benchmarks of project with ID ' . $project->id);
+        SecurityLog::createLog('User accessed project benchmarks of project with ID ' . $project->id  . ' and name ' . $project->name);
 
         return view('clientViews.projectBenchmark', [
             'project' => $project,
@@ -834,7 +835,7 @@ class ProjectController extends Controller
 
     public function benchmarkFitgap(Project $project)
     {
-        SecurityLog::createLog('User accessed project benchmarks of project with ID ' . $project->id);
+        SecurityLog::createLog('User accessed project benchmarks of project with ID ' . $project->id  . ' and name ' . $project->name);
 
         return view('clientViews.projectBenchmarkFitgap', [
             'project' => $project,
@@ -847,7 +848,7 @@ class ProjectController extends Controller
 
     public function benchmarkVendor(Project $project)
     {
-        SecurityLog::createLog('User accessed project benchmarks of project with ID ' . $project->id);
+        SecurityLog::createLog('User accessed project benchmarks of project with ID ' . $project->id  . ' and name ' . $project->name);
 
         return view('clientViews.projectBenchmarkVendor', [
             'project' => $project,
@@ -860,7 +861,7 @@ class ProjectController extends Controller
 
     public function benchmarkExperience(Project $project)
     {
-        SecurityLog::createLog('User accessed project benchmarks of project with ID ' . $project->id);
+        SecurityLog::createLog('User accessed project benchmarks of project with ID ' . $project->id  . ' and name ' . $project->name);
 
         return view('clientViews.projectBenchmarkExperience', [
             'project' => $project,
@@ -873,7 +874,7 @@ class ProjectController extends Controller
 
     public function benchmarkInnovation(Project $project)
     {
-        SecurityLog::createLog('User accessed project benchmarks of project with ID ' . $project->id);
+        SecurityLog::createLog('User accessed project benchmarks of project with ID ' . $project->id  . ' and name ' . $project->name);
 
         return view('clientViews.projectBenchmarkInnovation', [
             'project' => $project,
@@ -886,7 +887,7 @@ class ProjectController extends Controller
 
     public function benchmarkImplementation(Project $project)
     {
-        SecurityLog::createLog('User accessed project benchmarks of project with ID ' . $project->id);
+        SecurityLog::createLog('User accessed project benchmarks of project with ID ' . $project->id  . ' and name ' . $project->name);
 
         return view('clientViews.projectBenchmarkImplementation', [
             'project' => $project,
@@ -1001,7 +1002,7 @@ class ProjectController extends Controller
             return $question->originalQuestion->page == 'implementation_run';
         });
 
-        SecurityLog::createLog('User viewed vendor proposal for vendor with ID ' . $vendor->id . ' in project with ID ' . $project->id);
+        SecurityLog::createLog('User viewed vendor proposal for vendor with ID ' . $vendor->id . ' in project with ID ' . $project->id  . ' and name ' . $project->name);
 
         return view('clientViews.viewVendorProposal', [
             'project' => $project,
@@ -1032,7 +1033,7 @@ class ProjectController extends Controller
 
         $export = new VendorResponsesExport($application);
 
-        SecurityLog::createLog('User downloaded vendor proposal for vendor with ID ' . $vendor->id . ' in project with ID ' . $project->id);
+        SecurityLog::createLog('User downloaded vendor proposal for vendor with ID ' . $vendor->id . ' in project with ID ' . $project->id  . ' and name ' . $project->name);
 
         return Excel::download($export, 'responses.xlsx');
     }
@@ -1050,7 +1051,7 @@ class ProjectController extends Controller
 
         $export = new AnalyticsExport($project, json_decode($request->vendors) ?? $allVendors);
 
-        SecurityLog::createLog('User exported analytics for project with ID ' . $project->id);
+        SecurityLog::createLog('User exported analytics for project with ID ' . $project->id  . ' and name ' . $project->name);
 
         return Excel::download($export, 'responses.xlsx');
     }
