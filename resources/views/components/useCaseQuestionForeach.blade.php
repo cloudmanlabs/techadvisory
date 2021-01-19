@@ -174,18 +174,18 @@
             @break
         @case('file')
 
-        <div class="card-body">
-            <div style="float: left;">
-                <h3>Project conclusions</h3>
-            </div>
+{{--        <div class="card-body">--}}
+{{--            <div style="float: left;">--}}
+{{--                <h3>Project conclusions</h3>--}}
+{{--            </div>--}}
 
-            <br><br>
+{{--            <br><br>--}}
 
-            <p class="welcome_text extra-top-15px">
-                {{nova_get_setting('accenture_projectConclusions_title') ?? ''}}
-            </p>
-            <br>
-            <br>
+{{--            <p class="welcome_text extra-top-15px">--}}
+{{--                {{nova_get_setting('accenture_projectConclusions_title') ?? ''}}--}}
+{{--            </p>--}}
+{{--            <br>--}}
+{{--            <br>--}}
 
 {{--            <x-folderFilePreview :folder="$project->conclusionsFolder" />--}}
 
@@ -194,7 +194,7 @@
 {{--                    <x-folderFileUploader :folder="$project->conclusionsFolder" :disabled="$project->currentPhase == 'old'" :timeout="1000"/>--}}
 {{--                </div>--}}
 {{--            </div>--}}
-        </div>
+{{--        </div>--}}
             <div class="form-group questionDiv practice{{$question->practice->id ?? ''}}" data-practice="{{$question->practice->id ?? ''}}">
                 <x-useCaseQuestionFileUploader
                     :question="$question"
