@@ -29,6 +29,7 @@ class AddDeleteCascadeToUseCaseQuestionResponsesTable extends Migration
     public function down()
     {
         Schema::table('use_case_question_responses', function (Blueprint $table) {
+            $table->dropForeign(['use_case_id']);
             $table->foreign('use_case_id')->references('id')->on('use_case')->change();
         });
     }

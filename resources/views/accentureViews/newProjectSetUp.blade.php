@@ -414,7 +414,7 @@
             return el.value != "";
         };
 
-        if ("{{ $project->useCases }}" === "no") {
+        if ('{{ $project->useCases }}' === 'no' || '{{ $project->useCases }}' === 'yes_open') {
             $('#setUpNavbar').hide();
         } else {
             $('#setUpNavbar').show();
@@ -616,9 +616,9 @@
 
             $('#useCasesSelect').change(function (e) {
                 var value = $(this).val();
-                if (value === 'no') {
+                if (value === 'no' || value === 'yes_open') {
                     $('#setUpNavbar').hide();
-                } else {
+                } else if (value === 'yes_prep') {
                     $('#setUpNavbar').show();
                 }
                 $.post('/accenture/newProjectSetUp/changeProjectUseCases', {

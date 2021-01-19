@@ -9,6 +9,9 @@ use App\Nova\{GeneralInfoQuestion,
     ClientProfileQuestion,
     ClientProfileQuestionResponse,
     Owner,
+    UseCase,
+    UseCaseQuestionResponse,
+    UseCaseTemplateQuestionResponse,
     VendorProfileQuestion,
     VendorProfileQuestionResponse,
     Practice,
@@ -28,9 +31,7 @@ use App\Nova\{GeneralInfoQuestion,
     UserCredential,
     VendorApplication,
     UseCaseQuestion,
-    UseCaseTemplate,
-    UseCaseQuestionUseCaseTemplatePivot
-};
+    UseCaseTemplate};
 
 use App\Nova\Metrics\NumberOfAccentureUsers;
 use App\Nova\Metrics\NumberOfClients;
@@ -267,7 +268,9 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
 
             UseCaseQuestion::class,
             UseCaseTemplate::class,
-            UseCaseQuestionUseCaseTemplatePivot::class,
+            UseCaseTemplateQuestionResponse::class,
+            //UseCase::class,
+            //UseCaseQuestionResponse::class,
 
             SecurityLog::class,
         );

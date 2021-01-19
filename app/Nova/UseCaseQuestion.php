@@ -19,21 +19,6 @@ use Laravel\Nova\Fields\Textarea;
 
 class UseCaseQuestion extends Resource
 {
-    /**
-     * Return the location to redirect the user after creation.
-     *
-     * @param \Laravel\Nova\Http\Requests\NovaRequest $request
-     * @param \App\Nova\Resource $resource
-     * @return string
-     */
-    public static function redirectAfterCreate(NovaRequest $request, $resource)
-    {
-        if ($request->viaResource) {
-            return "/resources/{$request->viaResource}/{$request->viaResourceId}";
-        } else {
-            return "/resources/use-case-question/{$resource->getRouteKey()}/edit";
-        }
-    }
     public static $group = 'Questions';
     /**
      * The model the resource corresponds to.
@@ -55,7 +40,6 @@ class UseCaseQuestion extends Resource
      * @var array
      */
     public static $search = [
-        'id',
         'label',
     ];
 
@@ -91,6 +75,10 @@ class UseCaseQuestion extends Resource
                 ->help('In order to include options for Select and Select Multiple, please click on edit'),
 
             Boolean::make('Required', 'required'),
+
+            BelongsTo::make('SC Capability (Practice)', 'practice', \App\Nova\Practice::class)
+                ->nullable()
+                ->help('Select a Practice if you want this Question to only show on projects with that Practice'),
         ];
 
         // NOTE All of the fields here should be hidden on index and create

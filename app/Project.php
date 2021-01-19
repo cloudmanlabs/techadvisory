@@ -61,6 +61,7 @@ use Illuminate\Support\Collection;
  * @property \Carbon\Carbon $oralsToDate
  *
  * @property string $useCases
+ * @property string $useCasesPhase
  */
 class Project extends Model
 {
@@ -503,6 +504,14 @@ class Project extends Model
     public function publish()
     {
         $this->currentPhase = 'open';
+        $this->save();
+
+        return $this;
+    }
+
+    public function setInEvaluationPhase()
+    {
+        $this->useCasesPhase = 'evaluation';
         $this->save();
 
         return $this;
