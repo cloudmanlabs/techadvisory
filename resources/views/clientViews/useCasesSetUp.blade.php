@@ -173,6 +173,7 @@
                                                         <button id="saveUseCaseButton" class="btn btn-primary btn-right">
                                                             Save
                                                         </button>
+                                                        <p id="errorSaveUseCase" style="color: darkred;">Fill all required fields!</p>
                                                     @else
                                                         <br>
                                                         <table >
@@ -256,6 +257,7 @@
                                                         <button id="saveVendorsEvaluationButton" class="btn btn-primary btn-right">
                                                             Save
                                                         </button>
+                                                        <p id="errorSaveVendorsEvaluation" style="color: darkred;">Vendors without evaluations can't be saved!</p>
                                                     @endif
                                                 </div>
                                             </div>
@@ -400,6 +402,7 @@
                                                 <button id="saveScoringCriteria" class="btn btn-primary btn-right">
                                                     Save
                                                 </button>
+                                                <p id="errorScoringCriteria" style="color: darkred;">Fill all fields and sum of each section must be 100!</p>
                                             </div>
                                         @endif
                                     </section>
@@ -426,6 +429,7 @@
                                                 <div class="col-12">
                                                     <br>
                                                     <button class="btn btn-primary" id="publishButton" disabled>PUBLISH</button>
+                                                    <p id="errorPublish" style="color: darkred;">Fill all mandatory fields of the three sections before PUBLISH!</p>
                                                     <br>
                                                 </div>
                                             @endif
@@ -706,62 +710,12 @@
             })
         }
 
-        function showErrorSavingQuestionToast(questionName) {
-            $.toast({
-                heading: 'Error saving question: ' + questionName,
-                showHideTransition: 'slide',
-                icon: 'error',
-                hideAfter: 10000,
-                position: 'bottom-right'
-            })
-        }
-
         function showPublishedToast() {
             $.toast({
                 heading: 'Published!',
                 showHideTransition: 'slide',
                 icon: 'success',
                 hideAfter: 1000,
-                position: 'bottom-right'
-            })
-        }
-
-        function showInvalidFormToast() {
-            $.toast({
-                heading: 'Fill all required fields!',
-                showHideTransition: 'slide',
-                icon: 'error',
-                hideAfter: 3000,
-                position: 'bottom-right'
-            })
-        }
-
-        function showInvalidScoringCriteriaToast() {
-            $.toast({
-                heading: 'Fill all fields and sum of each section must be 100!',
-                showHideTransition: 'slide',
-                icon: 'error',
-                hideAfter: 3000,
-                position: 'bottom-right'
-            })
-        }
-
-        function showInvalidVendorValidationToast(vendorName) {
-            $.toast({
-                heading: 'Vendor ' + vendorName + " can't be saved without any evaluation!",
-                showHideTransition: 'slide',
-                icon: 'error',
-                hideAfter: 3000,
-                position: 'bottom-right'
-            })
-        }
-
-        function showUnpublishedToast() {
-            $.toast({
-                heading: 'Fill all mandatory fields of the three sections before PUBLISH!',
-                showHideTransition: 'slide',
-                icon: 'error',
-                hideAfter: 10000,
                 position: 'bottom-right'
             })
         }
@@ -823,7 +777,7 @@
 
             $('#saveUseCaseButton').click(function () {
                 if (!checkIfAllRequiredsInUseCaseCreationAreFilled()) {
-                    return showInvalidFormToast();
+                    return $('#errorSaveUseCase').show();
                 }
 
                 var body = {
@@ -859,7 +813,7 @@
                                 console.log("success", value, changing);
                             }).fail(function() {
                                 console.log("error", value, changing);
-                                showErrorSavingQuestionToast(value);
+                                $('#errorrQuestion' + changing).show();
                             });
                         }
                         location.replace("{{route('client.useCasesSetUp', ['project' => $project])}}" + "?useCase=" + data.useCaseId);
@@ -870,7 +824,7 @@
 
             $('#saveScoringCriteria').click(function () {
                 if (!checkIfAllRequiredsInUseCaseScoringCriteriaAreFilled() || !checkIfSumOfSectionsIs100()) {
-                    return showInvalidScoringCriteriaToast();
+                    return $('#errorScoringCriteria').show();
                 }
 
 
@@ -907,7 +861,7 @@
                 var lookFeel = parseInt($('#vendor{{$selectedVendor->id}}LookFeel').val(), 10);
                 var others = parseInt($('#vendor{{$selectedVendor->id}}Others').val(), 10);
                 if ((solutionFit + usability + performance + lookFeel + others) === -5) {
-                    return showInvalidVendorValidationToast('{{$selectedVendor->name}}');
+                    return $('#errorSaveVendorsEvaluation').show();
                 }
 
                 var vendorEvaluation{{$selectedVendor->id}}Body = {
@@ -936,15 +890,16 @@
                     !checkIfSumOfSectionsIs100() ||
                     !checkIfInvitedVendorsIsFilled()
                 ) {
-                    return showUnpublishedToast();
+                    return $('#errorPublish').show();
                 }
 
                 $.post('/client/newProjectSetUp/publishUseCases', {
                     project_id: '{{$project->id}}',
                 })
-
-                showPublishedToast();
-                location.reload();
+                    .then(function () {
+                        showPublishedToast();
+                        location.reload();
+                    });
             });
             @endif
 
@@ -1031,6 +986,13 @@
             console.log('{{$appliedVendor->id}}' + ' : ' + '{{$appliedVendor->name}}');
             @endforeach
             @endif
+            @foreach ($useCaseQuestions as $question)
+            $('#errorrQuestion' + '{{$question->id}}').hide();
+            @endforeach
+            $('#errorPublish').hide();
+            $('#errorScoringCriteria').hide();
+            $('#errorSaveUseCase').hide();
+            $('#errorSaveVendorsEvaluation').hide();
             @endif
             disableQuestionsByPractice();
             @foreach($selectedVendors as $selectedVendor)

@@ -59,7 +59,9 @@ Route::post('enterEmail', 'CredentialController@enterEmailPost')
 
 
 Route::middleware(['auth'])->group(function () {
+
     Route::post('/useCaseQuestionResponse/upsertResponse', 'UseCaseQuestionResponseController@upsertResponse');
+    Route::post('/useCaseQuestionResponse/uploadFile', 'UseCaseQuestionResponseController@uploadFile');
     Route::post('/generalInfoQuestion/changeResponse', 'GeneralInfoQuestionController@changeResponse');
     Route::post('/sizingQuestion/changeResponse', 'SizingQuestionController@changeResponse');
     Route::post('/sizingQuestion/setShouldShow', 'SizingQuestionController@setShouldShow');

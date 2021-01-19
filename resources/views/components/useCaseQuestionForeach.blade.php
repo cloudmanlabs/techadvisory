@@ -30,6 +30,7 @@
                     value="{{$question->response}}"
                     placeholder="{{$question->placeholder}}"
                     id="useCaseQuestion{{$question->id}}">
+                <p id="errorrQuestion{{$question->id}}" style="color: darkred;">Error saving the response of this question.</p>
             </div>
             @break
         @case('textarea')
@@ -45,6 +46,7 @@
                     placeholder="{{$question->placeholder}}"
                     id="useCaseQuestion{{$question->id}}"
                 >{{$question->response}}</textarea>
+                <p id="errorrQuestion{{$question->id}}" style="color: darkred;">Error saving the response of this question.</p>
             </div>
             @break
         @case('selectSingle')
@@ -68,6 +70,7 @@
                         @endforeach
                     @endif
                 </select>
+                <p id="errorrQuestion{{$question->id}}" style="color: darkred;">Error saving the response of this question.</p>
             </div>
             @break
         @case('selectMultiple')
@@ -94,6 +97,7 @@
                         @endforeach
                     @endif
                 </select>
+                <p id="errorrQuestion{{$question->id}}" style="color: darkred;">Error saving the response of this question.</p>
             </div>
             @break
         @case('date')
@@ -111,6 +115,7 @@
                     id="useCaseQuestion{{$question->id}}">
                     <span class="input-group-addon"><i data-feather="calendar"></i></span>
                 </div>
+                <p id="errorrQuestion{{$question->id}}" style="color: darkred;">Error saving the response of this question.</p>
             </div>
             @break
         @case('number')
@@ -128,6 +133,7 @@
                     value="{{$question->response}}"
                     placeholder="{{$question->placeholder}}"
                     id="useCaseQuestion{{$question->id}}">
+                <p id="errorrQuestion{{$question->id}}" style="color: darkred;">Error saving the response of this question.</p>
             </div>
             @break
         @case('email')
@@ -144,6 +150,7 @@
                     value="{{$question->response}}"
                     placeholder="{{$question->placeholder}}"
                     id="useCaseQuestion{{$question->id}}">
+                <p id="errorrQuestion{{$question->id}}" style="color: darkred;">Error saving the response of this question.</p>
             </div>
             @break
         @case('percentage')
@@ -162,17 +169,41 @@
                     value="{{$question->response}}"
                     placeholder="{{$question->placeholder}}"
                     id="useCaseQuestion{{$question->id}}">
+                <p id="errorrQuestion{{$question->id}}" style="color: darkred;">Error saving the response of this question.</p>
             </div>
             @break
         @case('file')
+
+        <div class="card-body">
+            <div style="float: left;">
+                <h3>Project conclusions</h3>
+            </div>
+
+            <br><br>
+
+            <p class="welcome_text extra-top-15px">
+                {{nova_get_setting('accenture_projectConclusions_title') ?? ''}}
+            </p>
+            <br>
+            <br>
+
+{{--            <x-folderFilePreview :folder="$project->conclusionsFolder" />--}}
+
+{{--            <div class="row">--}}
+{{--                <div class="col-12 col-md-12 col-xl-12">--}}
+{{--                    <x-folderFileUploader :folder="$project->conclusionsFolder" :disabled="$project->currentPhase == 'old'" :timeout="1000"/>--}}
+{{--                </div>--}}
+{{--            </div>--}}
+        </div>
             <div class="form-group questionDiv practice{{$question->practice->id ?? ''}}" data-practice="{{$question->practice->id ?? ''}}">
                 <x-useCaseQuestionFileUploader
                     :question="$question"
                     {{-- TODO Set the correct file uplaod route everywhere and remove this default --}}
-                    :fileUploadRoute="$fileUploadRoute ?? '/useCaseQuestion/uploadFile'"
+                    :fileUploadRoute="$fileUploadRoute ?? '/useCaseQuestionResponse/uploadFile'"
                     :disabled="$disabled"
                     :required="$required"
                 />
+                <p id="errorrQuestion{{$question->id}}" style="color: darkred;">Error saving the response of this question.</p>
                 @if (!$disabled)
                     <p style="font-size: 12px">
                         Do not include personal, sensitive data, personal data relating to criminal convictions and offences or financial data
