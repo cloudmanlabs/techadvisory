@@ -181,6 +181,7 @@
                                                     <button id="saveUseCaseButton" class="btn btn-primary btn-right">
                                                         Save
                                                     </button>
+                                                    <p id="errorSaveUseCase" style="color: darkred;">Fill all required fields!</p>
                                                 @endif
                                             </div>
                                         </div>
@@ -325,6 +326,7 @@
                                             <button id="saveScoringCriteria" class="btn btn-primary btn-right">
                                                 Save
                                             </button>
+                                            <p id="errorScoringCriteria" style="color: darkred;">Fill all fields and sum of each section must be 100!</p>
                                         </div>
                                         @endif
                                     </section>
@@ -359,6 +361,7 @@
                                             <div class="col-12">
                                                 <br>
                                                 <button class="btn btn-primary" id="publishButton">PUBLISH</button>
+                                                <p id="errorPublish" style="color: darkred;">Fill all mandatory fields of the three sections before PUBLISH!</p>
                                                 <br>
                                             </div>
                                             @endif
@@ -621,52 +624,12 @@
             })
         }
 
-        function showErrorSavingQuestionToast(questionName) {
-            $.toast({
-                heading: 'Error saving question: ' + questionName,
-                showHideTransition: 'slide',
-                icon: 'error',
-                hideAfter: 10000,
-                position: 'bottom-right'
-            })
-        }
-
         function showPublishedToast() {
             $.toast({
                 heading: 'Published!',
                 showHideTransition: 'slide',
                 icon: 'success',
                 hideAfter: 1000,
-                position: 'bottom-right'
-            })
-        }
-
-        function showInvalidFormToast() {
-            $.toast({
-                heading: 'Fill all required fields!',
-                showHideTransition: 'slide',
-                icon: 'error',
-                hideAfter: 3000,
-                position: 'bottom-right'
-            })
-        }
-
-        function showInvalidScoringCriteriaToast() {
-            $.toast({
-                heading: 'Fill all fields and sum of each section must be 100!',
-                showHideTransition: 'slide',
-                icon: 'error',
-                hideAfter: 3000,
-                position: 'bottom-right'
-            })
-        }
-
-        function showUnpublishedToast() {
-            $.toast({
-                heading: 'Fill all mandatory fields of the three sections before PUBLISH!',
-                showHideTransition: 'slide',
-                icon: 'error',
-                hideAfter: 10000,
                 position: 'bottom-right'
             })
         }
@@ -728,7 +691,7 @@
 
             $('#saveUseCaseButton').click(function () {
                 if (!checkIfAllRequiredsInUseCaseCreationAreFilled()) {
-                    return showInvalidFormToast();
+                    return $('#errorSaveUseCase').show();
                 }
 
                 var body = {
@@ -764,7 +727,7 @@
                                 console.log("success", value, changing);
                             }).fail(function() {
                                 console.log("error", value, changing);
-                                showErrorSavingQuestionToast(value);
+                                $('#errorrQuestion' + changing).show();
                             });
                         }
                         location.replace("{{route('accenture.useCasesSetUp', ['project' => $project])}}" + "?useCase=" + data.useCaseId);
@@ -775,7 +738,7 @@
 
             $('#saveScoringCriteria').click(function () {
                 if (!checkIfAllRequiredsInUseCaseScoringCriteriaAreFilled() || !checkIfSumOfSectionsIs100()) {
-                    return showInvalidScoringCriteriaToast();
+                    return $('#errorScoringCriteria').show();
                 }
 
 
@@ -811,15 +774,16 @@
                     !checkIfSumOfSectionsIs100() ||
                     !checkIfInvitedVendorsIsFilled()
                 ) {
-                    return showUnpublishedToast();
+                    return $('#errorPublish').show();
                 }
 
                 $.post('/accenture/newProjectSetUp/publishUseCases', {
                     project_id: '{{$project->id}}',
                 })
-
-                showPublishedToast();
-                location.reload();
+                    .then(function () {
+                        showPublishedToast();
+                        location.reload();
+                    });
             });
             @endif
 
@@ -906,6 +870,12 @@
             console.log('{{$appliedVendor->id}}' + ' : ' + '{{$appliedVendor->name}}');
             @endforeach
             @endif
+            @foreach ($useCaseQuestions as $question)
+            $('#errorrQuestion' + '{{$question->id}}').hide();
+            @endforeach
+            $('#errorPublish').hide();
+            $('#errorScoringCriteria').hide();
+            $('#errorSaveUseCase').hide();
             @endif
             disableQuestionsByPractice();
         });
