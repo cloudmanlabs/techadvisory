@@ -2,6 +2,7 @@
 
 namespace App\Nova;
 
+use App\UseCaseTemplate;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Laravel\Nova\Fields\BelongsTo;
@@ -10,27 +11,30 @@ use Laravel\Nova\Fields\Boolean;
 use Laravel\Nova\Fields\HasMany;
 use Laravel\Nova\Fields\HasOne;
 use Laravel\Nova\Fields\ID;
+use Laravel\Nova\Fields\Number;
 use Laravel\Nova\Fields\Password;
 use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Panel;
 
-class UseCaseTemplate extends Resource
+class UseCaseTemplateQuestionResponse extends Resource
 {
+    public static $displayInNavigation = false;
+
     /**
      * The model the resource corresponds to.
      *
      * @var string
      */
-    public static $model = 'App\UseCaseTemplate';
+    public static $model = 'App\UseCaseTemplateQuestionResponse';
 
     /**
      * The single value that should be used to represent the resource when being displayed.
      *
      * @var string
      */
-    public static $title = 'name';
+    public static $title = 'response';
 
     /**
      * The columns that should be searched.
@@ -38,9 +42,7 @@ class UseCaseTemplate extends Resource
      * @var array
      */
     public static $search = [
-        'id',
-        'name',
-        'description'
+        'id', 'response',
     ];
 
     /**
@@ -51,22 +53,32 @@ class UseCaseTemplate extends Resource
      */
     public function fields(Request $request)
     {
+        $response = 'Question: ' . optional($this->originalQuestion)->label;
+
         return [
-            ID::make()->sortable(),
+            // ID::make()->sortable(),
+            BelongsTo::make('Use Case Template', 'useCaseTemplate', 'App\Nova\UseCaseTemplate'),
+            BelongsTo::make('Question', 'originalQuestion', 'App\Nova\UseCaseQuestion')
+                ->hideWhenUpdating(),
 
-            Text::make('Name', 'name')
-                ->rules('required')
-                ->required(),
+            Text::make('Practice', function(){
+                return optional(optional($this->originalQuestion)->practice)->name;
+            }),
 
-            Text::make('Description', 'description')
-                ->rules('required')
-                ->required(),
-
-//            BelongsTo::make('SC Capability (Practice)', 'practice', 'App\Nova\Practice')
-//                ->sortable(),
-
-            HasMany::make('Use Case Questions', 'useCaseQuestions', 'App\Nova\UseCaseTemplateQuestionResponse'),
+            Text::make('Response', 'response')
+                ->help($response)
+                ->hideWhenCreating(),
         ];
+    }
+
+    public static function relatableUseCaseQuestions(NovaRequest $request, $query)
+    {
+        if ($request->viaResource) {
+            $selectedAgendaItems = UseCaseTemplate::find($request->viaResourceId)->useCaseQuestions()->pluck('use_case_questions_id');
+            return $query->whereNotIn('id', $selectedAgendaItems);
+        } else {
+            return $query;
+        }
     }
 
     /**

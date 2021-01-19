@@ -2,6 +2,7 @@
 
 @php
     $useCaseTemplates = $useCaseTemplates ?? array();
+    $useCaseTemplates = $useCaseTemplates ?? array();
 @endphp
 
 @section('head')
@@ -15,6 +16,7 @@
     <div class="main-wrapper">
         <x-accenture.navbar activeSection="sections"/>
 
+        <div class="page-wrapper">
         <div class="page-wrapper">
             <div class="page-content">
                 @if($project->currentPhase === 'preparation')
@@ -32,16 +34,20 @@
                             <div class="card-body">
                                 <h3>Project Set up</h3>
                                 <br>
-                                <div id="wizard_accenture_useCasesSetUp">
+                                @if($project->useCasesPhase === 'evaluation')
+                                    <div>
+                                @else
+                                    <div id="wizard_accenture_useCasesSetUp">
+                                @endif
                                     <h2>Use Cases</h2>
                                     <section>
                                         <div class="row">
                                             <aside class="col-2">
                                                 <div id="subwizard_here">
                                                     <ul role="tablist">
-                                                        @foreach ($useCases as $useCase)
+                                                        @foreach ($useCases as $key=>$useCase)
                                                             <li
-                                                                @if(($currentUseCase ?? null) && $currentUseCase->id == $useCase->id)
+                                                                @if((($currentUseCase ?? null) && $currentUseCase->id === $useCase->id) || ($project->useCasesPhase === 'evaluation' && $key === 0 && $currentUseCase->id === 1))
                                                                 class="active"
                                                                 @else
                                                                 class="use_cases"
@@ -54,34 +60,43 @@
                                                         @endforeach
                                                     </ul>
                                                 </div>
-                                                <br>
-                                                <div id="subwizard_here">
-                                                    <ul role="tablist">
-                                                        <li>
-                                                            <select id="templateSelect">
-                                                                <option value="-1">-- Templates --</option>
-                                                                @foreach ($useCaseTemplates as $useCaseTemplate)
-                                                                    <option value="{{$useCaseTemplate->id}}">{{$useCaseTemplate->name}}</option>
-                                                                @endforeach
-                                                            </select>
-                                                        </li>
-                                                        <li>
-{{--                                                            {{route('accenture.useCasesSetUp', ['project' => $project])}}--}}
-                                                            <a id="newUseCase" href="#">
-                                                                + new use case
-                                                            </a>
-                                                        </li>
-                                                    </ul>
-                                                </div>
+                                                @if($project->useCasesPhase !== 'evaluation')
+                                                    <br>
+                                                    <div id="subwizard_here">
+                                                        <ul role="tablist">
+                                                            <li>
+                                                                <select id="templateSelect">
+                                                                    <option value="-1">-- Templates --</option>
+                                                                    @foreach ($useCaseTemplates as $useCaseTemplate)
+                                                                        <option value="{{$useCaseTemplate->id}}">{{$useCaseTemplate->name}}</option>
+                                                                    @endforeach
+                                                                </select>
+                                                            </li>
+                                                            <li>
+                                                                {{--                                                            {{route('accenture.useCasesSetUp', ['project' => $project])}}--}}
+                                                                <a id="newUseCase" href="#">
+                                                                    + new use case
+                                                                </a>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                                @endif
                                             </aside>
-                                            @if(($currentUseCase ?? null) || ($selectedUseCaseTemplate ?? null))
-                                                <div class="col-8 border-left flex-col">
+                                            <div class="col-8 border-left flex-col">
                                                 <h3>Use case</h3>
                                                 <div class="form-area">
-                                                    <h4>General Info</h4>
+                                                    <h4>Use Case Category</h4>
                                                     <br>
                                                     <div class="form-group">
                                                         <div class="row">
+                                                        @if($project->useCasesPhase === 'evaluation')
+                                                            <div class="col-12">
+                                                                <label for="useCaseName">Name</label>
+                                                            </div>
+                                                            <div class="col-12">
+                                                                <h6>Name of the use case.</h6>
+                                                            </div>
+                                                        @else
                                                             <div class="col-3">
                                                                 <label for="useCaseName">Name*</label>
                                                             </div>
@@ -92,9 +107,18 @@
                                                                        placeholder="Use case name"
                                                                        required>
                                                             </div>
+                                                        @endif
                                                         </div>
                                                         <br>
                                                         <div class="row">
+                                                        @if($project->useCasesPhase === 'evaluation')
+                                                            <div class="col-12">
+                                                                <label for="useCaseDescription">Description</label>
+                                                            </div>
+                                                            <div class="col-12">
+                                                                <h6>Description of this use case.</h6>
+                                                            </div>
+                                                        @else
                                                             <div class="col-3">
                                                                 <label for="useCaseDescription">Description*</label>
                                                             </div>
@@ -105,74 +129,67 @@
                                                                     placeholder="Add description"
                                                                     rows="5"
                                                                     required
-                                                                    ></textarea>
+                                                                ></textarea>
                                                             </div>
+                                                        @endif
+
                                                         </div>
                                                         <br>
+                                                        @if($project->useCasesPhase === 'evaluation')
+                                                            <label>Questions</label>
+                                                            @foreach ($useCaseQuestions as $question)
+                                                                <h6 class="questionDiv practice{{$question->practice->id ?? ''}}" style="margin-bottom: 1rem">
+                                                                    {{$question->label}}
+                                                                </h6>
+                                                            @endforeach
+                                                        @else
+                                                            <x-useCaseQuestionForeach :questions="$useCaseQuestions" :class="'useCaseQuestion'"
+                                                                                      :disabled="false" :required="false" />
+                                                        @endif
+
+                                                        <br>
+                                                    </div>
+                                                </div>
+                                                @if($project->useCasesPhase !== 'evaluation')
+                                                    <div class="form-area">
+                                                        <h4>Users</h4>
+                                                        <br>
                                                         <div class="row">
-                                                            <div class="col-3">
-                                                                <label for="practiceSelect">Practice*</label>
+                                                            <div class="col-6">
+                                                                <label for="accentureUsers">Accenture*</label>
+                                                                <select id="accentureUsers" multiple required>
+                                                                    @foreach ($accentureUsers as $accentureUser)
+                                                                        <option value="{{ $accentureUser->id }}">
+                                                                            {{ $accentureUser->name }}
+                                                                        </option>
+                                                                    @endforeach
+                                                                </select>
                                                             </div>
                                                             <div class="col-6">
-                                                                <select id="practiceSelect" required>
-                                                                    <option value="">-- Select a Practice --</option>
-                                                                    @foreach ($practices as $practice)
-                                                                        <option value="{{$practice->id}}">{{$practice->name}}</option>
+                                                                <label for="clientUsers">Clients*</label>
+                                                                <select id="clientUsers" multiple required>
+                                                                    @foreach ($clients as $client)
+                                                                        <option value="{{ $client->id }}">
+                                                                            {{ $client->name }}
+                                                                        </option>
                                                                     @endforeach
                                                                 </select>
                                                             </div>
                                                         </div>
-                                                        <br>
-                                                        <br>
-{{--                                                        @foreach ($selectedUseCaseTemplateQuestions as $question)--}}
-{{--                                                            <h6 style="margin-bottom: 1rem">--}}
-{{--                                                                {{$question->label}}--}}
-{{--                                                            </h6>--}}
-{{--                                                        @endforeach--}}
-                                                        <x-useCaseQuestionForeach :questions="$selectedUseCaseTemplateQuestions" :class="'useCaseQuestion'"
-                                                                           :disabled="false" :required="false" />
-
-                                                        <br>
                                                     </div>
-                                                </div>
-                                                <div class="form-area">
-                                                    <h4>Users</h4>
                                                     <br>
-                                                    <div class="row">
-                                                        <div class="col-6">
-                                                            <label for="accentureUsers">Accenture*</label>
-                                                            <select id="accentureUsers" multiple required>
-                                                                @foreach ($accentureUsers as $accentureUser)
-                                                                    <option value="{{ $accentureUser->id }}">
-                                                                        {{ $accentureUser->name }}
-                                                                    </option>
-                                                                @endforeach
-                                                            </select>
-                                                        </div>
-                                                        <div class="col-6">
-                                                            <label for="clientUsers">Clients*</label>
-                                                            <select id="clientUsers" multiple required>
-                                                                @foreach ($clients as $client)
-                                                                    <option value="{{ $client->id }}">
-                                                                        {{ $client->name }}
-                                                                    </option>
-                                                                @endforeach
-                                                            </select>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <br>
-                                                <button id="saveUseCaseButton" class="btn btn-primary btn-right">
-                                                    Save
-                                                </button>
+                                                    <button id="saveUseCaseButton" class="btn btn-primary btn-right">
+                                                        Save
+                                                    </button>
+                                                @endif
                                             </div>
-                                            @endif
                                         </div>
                                     </section>
 
+                                    @if($project->useCasesPhase !== 'evaluation')
                                     <h2>General Scoring Criteria</h2>
                                     <section>
-                                        @if(count($useCases ?? array()) > 0)
+                                        @if(count($useCases ?? array()) > 0 )
                                             <div class="col-6" style="margin: 0 auto;">
                                             <div class="form-area">
                                                 <div class="row">
@@ -333,6 +350,10 @@
                                                         </option>
                                                     @endforeach
                                                 </select>
+                                                @if ($project->currentPhase === 'preparation')
+                                                    <br>
+                                                    <p style="color: darkred;">Decide vendors to participate on the use cases when the project is in open phase.</p>
+                                                @endif
                                             </div>
                                             @if ($project->currentPhase === 'open')
                                             <div class="col-12">
@@ -343,6 +364,7 @@
                                             @endif
                                         </div>
                                     </section>
+                                    @endif
                                 </div>
                             </div>
                         </div>
@@ -565,7 +587,6 @@
             var array = [
                 $('#useCaseName'),
                 $('#useCaseDescription'),
-                $('#practiceSelect'),
                 $('#accentureUsers'),
                 $('#clientUsers')
             ];
@@ -630,16 +651,6 @@
             })
         }
 
-        function showInvalidTemplateToast() {
-            $.toast({
-                heading: 'Template must be selected!',
-                showHideTransition: 'slide',
-                icon: 'error',
-                hideAfter: 3000,
-                position: 'bottom-right'
-            })
-        }
-
         function showInvalidScoringCriteriaToast() {
             $.toast({
                 heading: 'Fill all fields and sum of each section must be 100!',
@@ -660,30 +671,20 @@
             })
         }
 
-        $(document).ready(function () {
-            // $('.useCaseQuestion input,.useCaseQuestion textarea,.useCaseQuestion select')
-            //     .filter(function(el) {
-            //         return $( this ).data('changing') !== undefined
-            //     })
-            //     .change(function (e) {
-            //         var value = $(this).val();
-            //         var changing = $(this).data('changing');
-            //         if($.isArray(value) && value.length == 0 && $(this).attr('multiple') !== undefined){
-            //             value = '[]'
-            //         }
-            //
-            //         $.post('/useCaseQuestion/changeResponse', {
-            //             changing: changing,
-            //             value: value,
-            //         }).done(function() {
-            //             showSavedToast();
-            //             console.log("success", value, changing);
-            //         }).fail(function() {
-            //             console.log("error", value, changing);
-            //             showErrorToast();
-            //         });
-            //     });
+        function disableQuestionsByPractice() {
+            var practiceToShow = 'practice' + '{{$project->practice_id}}';
+            var array = $('.questionDiv');
+            for (let i = 0; i < array.length; i++) {
+                if($(array[i]).hasClass(practiceToShow)){
+                    $(array[i]).show();
+                } else {
+                    $(array[i]).hide();
+                }
+            }
+        }
 
+        $(document).ready(function () {
+            @if($project->useCasesPhase != 'evaluation')
             $("#wizard_accenture_useCasesSetUp").steps({
                 headerTag: "h2",
                 bodyTag: "section",
@@ -719,10 +720,10 @@
 
             $('#newUseCase').click(function () {
                 if ($('#templateSelect').val() === "-1") {
-                    return showInvalidTemplateToast();
+                    return location.replace("{{route('accenture.useCasesSetUp', ['project' => $project])}}");
                 }
 
-                location.replace("{{route('accenture.useCasesSetUp', ['project' => $project])}}" + "?useCaseTemplate=" + $('#templateSelect').val());
+                return location.replace("{{route('accenture.useCasesSetUp', ['project' => $project])}}" + "?useCaseTemplate=" + $('#templateSelect').val());
             });
 
             $('#saveUseCaseButton').click(function () {
@@ -735,12 +736,8 @@
                     id: {{$currentUseCase->id}},
                     @endif
                     project_id: {{$project->id}},
-                    @if($selectedUseCaseTemplate ?? null)
-                    template_id: {{$selectedUseCaseTemplate->id}},
-                    @endif
                     name: $('#useCaseName').val(),
                     description: $('#useCaseDescription').val(),
-                    practice_id: parseInt($('#practiceSelect').val(), 10),
                     accentureUsers: encodeURIComponent($('#accentureUsers').val()),
                     clientUsers: encodeURIComponent($('#clientUsers').val())
                 };
@@ -817,7 +814,7 @@
                     return showUnpublishedToast();
                 }
 
-                $.post('/accenture/newProjectSetUp/publishProject', {
+                $.post('/accenture/newProjectSetUp/publishUseCases', {
                     project_id: '{{$project->id}}',
                 })
 
@@ -829,25 +826,48 @@
             $(".js-example-basic-single").select2();
             $(".js-example-basic-multiple").select2();
 
-            @if($selectedUseCaseTemplate ?? null)
+            @if($selectedUseCaseTemplate ?? null && $project->useCasesPhase != 'evaluation')
             $('#useCaseName').val("{{$selectedUseCaseTemplate->name}}")
             $('#useCaseDescription').val("{{$selectedUseCaseTemplate->description}}")
-            $('#practiceSelect').val("{{$selectedUseCaseTemplate->practice_id}}")
+            @foreach($useCaseTemplateResponses as $useCaseTemplateResponse)
+                switch (document.getElementById('useCaseQuestion{{$useCaseTemplateResponse->use_case_questions_id}}').tagName.toLowerCase()) {
+                case 'input':
+                    switch ($('#useCaseQuestion{{$useCaseTemplateResponse->use_case_questions_id}}').attr('type').toLowerCase()) {
+                        case 'text':
+                            $('#useCaseQuestion{{$useCaseTemplateResponse->use_case_questions_id}}').val(decodeURIComponent("{{$useCaseTemplateResponse->response}}"))
+                            break;
+                        case 'number':
+                            $('#useCaseQuestion{{$useCaseTemplateResponse->use_case_questions_id}}').val(parseInt('{{$useCaseTemplateResponse->response}}', 10))
+                            break;
+                    }
+                    break;
+                case 'select':
+                    if($('#useCaseQuestion{{$useCaseTemplateResponse->use_case_questions_id}}').hasClass('js-example-basic-multiple')) {
+                        $('#useCaseQuestion{{$useCaseTemplateResponse->use_case_questions_id}}').val(decodeURIComponent("{{$useCaseTemplateResponse->response}}").split(","))
+                        $('#useCaseQuestion{{$useCaseTemplateResponse->use_case_questions_id}}').select2().trigger('change')
+                    } else {
+                        $('#useCaseQuestion{{$useCaseTemplateResponse->use_case_questions_id}}').val('{{$useCaseTemplateResponse->response}}')
+                    }
+                    break;
+                case 'textarea':
+                    $('#useCaseQuestion{{$useCaseTemplateResponse->use_case_questions_id}}').val(decodeURIComponent("{{$useCaseTemplateResponse->response}}"))
+                    break;
+            }
+            @endforeach
             @endif
             @if($currentUseCase ?? null)
             $('#useCaseName').val("{{$currentUseCase->name}}")
             $('#useCaseDescription').val("{{$currentUseCase->description}}")
-            $('#practiceSelect').val("{{$currentUseCase->practice_id}}")
             $('#accentureUsers').val(decodeURIComponent("{{$currentUseCase->accentureUsers}}").split(","))
             $('#accentureUsers').select2().trigger('change')
             $('#clientUsers').val(decodeURIComponent("{{$currentUseCase->clientUsers}}").split(","))
             $('#clientUsers').select2().trigger('change')
             @foreach($useCaseResponses as $useCaseResponse)
-            switch (document.getElementById('useCaseQuestion{{$useCaseResponse->use_case_questions_id}}').tagName.toLowerCase()) {
+                switch (document.getElementById('useCaseQuestion{{$useCaseResponse->use_case_questions_id}}').tagName.toLowerCase()) {
                 case 'input':
                     switch ($('#useCaseQuestion{{$useCaseResponse->use_case_questions_id}}').attr('type').toLowerCase()) {
                         case 'text':
-                            $('#useCaseQuestion{{$useCaseResponse->use_case_questions_id}}').val('{{$useCaseResponse->response}}')
+                            $('#useCaseQuestion{{$useCaseResponse->use_case_questions_id}}').val(decodeURIComponent("{{$useCaseResponse->response}}"))
                             break;
                         case 'number':
                             $('#useCaseQuestion{{$useCaseResponse->use_case_questions_id}}').val(parseInt('{{$useCaseResponse->response}}', 10))
@@ -863,7 +883,7 @@
                     }
                     break;
                 case 'textarea':
-                    $('#useCaseQuestion{{$useCaseResponse->use_case_questions_id}}').val('{{$useCaseResponse->response}}')
+                    $('#useCaseQuestion{{$useCaseResponse->use_case_questions_id}}').val(decodeURIComponent("{{$useCaseResponse->response}}"))
                     break;
             }
             @endforeach
@@ -886,6 +906,8 @@
             console.log('{{$appliedVendor->id}}' + ' : ' + '{{$appliedVendor->name}}');
             @endforeach
             @endif
+            @endif
+            disableQuestionsByPractice();
         });
     </script>
 @endsection

@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Collection;
 use phpDocumentor\Reflection\Types\Integer;
 
 /**
@@ -13,12 +14,11 @@ use phpDocumentor\Reflection\Types\Integer;
  *
  * @property string $name
  * @property string $description
- * @property string $expected_results
  * @property string $practice
- * @property string $question1
- * @property string $question2
- * @property string $question3
- * @property string $phase
+ *
+ * @property Collection $useCaseQuestions
+ *
+ * @property string $project
  *
  */
 class UseCase extends Model
@@ -32,9 +32,9 @@ class UseCase extends Model
         return $this->belongsTo(Project::class, 'project_id');
     }
 
-    public function template()
+    public function useCaseQuestions()
     {
-        return $this->belongsTo(UseCaseTemplate::class, 'template_id');
+        return $this->hasMany(UseCaseQuestionResponse::class, 'use_case_id');
     }
 
     public function id()
@@ -47,15 +47,10 @@ class UseCase extends Model
         return $this->name;
     }
 
-//    public function description()
-//    {
-//        return $this->description;
-//    }
-//
-//    public function expectedResults()
-//    {
-//        return $this->expected_results;
-//    }
+    public function description()
+    {
+        return $this->description;
+    }
 //
 //    public static function deleteByProject($projectId)
 //    {

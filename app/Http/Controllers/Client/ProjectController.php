@@ -5,6 +5,11 @@ namespace App\Http\Controllers\Client;
 use App\Exports\AnalyticsExport;
 use App\Exports\VendorResponsesExport;
 use App\Project;
+use App\UseCaseQuestion;
+use App\UseCaseQuestionResponse;
+use App\UseCaseTemplate;
+use App\UseCaseTemplateQuestionResponse;
+use App\VendorUseCasesEvaluation;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Practice;
@@ -92,22 +97,73 @@ class ProjectController extends Controller
 
     public function useCasesSetUp(Request $request, Project $project)
     {
+        $client = $project->client;
+        $clients = $client->credentials()->get();
+
+        $accentureUsers = User::accentureUsers()->get();
+        $appliedVendors = $project->vendorsApplied()->get();
+
+//        $useCases = UseCases::findByProject($project->id);
         $useCases = $project->useCases()->get();
+
+
+        $useCaseTemplates = UseCaseTemplate::all();
+
+        $useCaseQuestions = UseCaseQuestion::all();
+
+        $accessingClientCredentialsId = session('credential_id');
+        $canEvaluateVendors = false;
+
+        $selectedVendors = array();
+        $projectVendorEvaluations = array();
 
         SecurityLog::createLog('User accessed project Use Cases setup with ID ' . $project->id  . ' and name ' . $project->name);
 
         $view = [
             'project' => $project,
-            'useCases' => $useCases
+
+            'clients' => $clients,
+
+            'accentureUsers' => $accentureUsers,
+
+            'appliedVendors' => $appliedVendors,
+
+            'useCases' => $useCases,
+            'useCaseTemplates' => $useCaseTemplates,
+            'useCaseQuestions' => $useCaseQuestions,
+
+            'client_id' => $accessingClientCredentialsId
         ];
 
         $useCaseNumber = $request->input('useCase');
         if($useCaseNumber) {
             $useCase = UseCase::find($useCaseNumber);
             $view['currentUseCase'] = $useCase;
-        } else {
-            $useCase = UseCase::findByProject($project->id);
-            $view['currentUseCase'] = $useCase[0];
+            $view['useCaseResponses'] = UseCaseQuestionResponse::getResponsesFromUseCase($useCase);
+            $selectedClients = explode(',', urldecode($useCase->clientUsers));
+            $canEvaluateVendors = (array_search($accessingClientCredentialsId, $selectedClients) !== false) && $request->user()->isClient();
+            $invitedVendors = explode(',', urldecode($project->use_case_invited_vendors));
+            $selectedVendors = $project->vendorsApplied()->whereIn('id', $invitedVendors)->get();
+
+        } elseif ($project->useCasesPhase === 'evaluation') {
+            $useCase = UseCase::all()->first();
+            $view['currentUseCase'] = $useCase;
+            $selectedClients = explode(',', urldecode($useCase->clientUsers));
+            $canEvaluateVendors = (array_search($accessingClientCredentialsId, $selectedClients) !== false) && $request->user()->isClient();
+            $invitedVendors = explode(',', urldecode($project->use_case_invited_vendors));
+            $selectedVendors = $project->vendorsApplied()->whereIn('id', $invitedVendors)->get();
+            error_log(json_encode($selectedVendors));
+        }
+
+        $view['canEvaluateVendors'] = $canEvaluateVendors;
+        $view['selectedVendors'] = $selectedVendors;
+        $view['projectVendorEvaluations'] = $projectVendorEvaluations;
+
+        $useCaseTemplateId = $request->input('useCaseTemplate');
+        if($useCaseTemplateId) {
+            $useCaseTemplate = UseCaseTemplate::find($useCaseTemplateId);
+            $view['selectedUseCaseTemplate'] = $useCaseTemplate;
+            $view['useCaseTemplateResponses'] = UseCaseTemplateQuestionResponse::getResponsesFromUseCaseTemplate($useCaseTemplate);
         }
 
         return view('clientViews.useCasesSetUp', $view);
@@ -120,22 +176,134 @@ class ProjectController extends Controller
             'project_id' => 'required|exists:projects,id|numeric',
             'name' => 'required|string',
             'description' => 'required|string',
-            'expected_results' => 'nullable|string',
-            'processL1' => 'required|string',
-            'processL2' => 'required|string',
-            'processL3' => 'required|string'
+            'accentureUsers.*' => 'required|exists:users,id|numeric',
+            'clientUsers.*' => 'required|exists:users,id|numeric'
         ]);
 
-        $useCase = UseCase::find($request->id);
+        if($request->id) {
+            $useCase = UseCase::find($request->id);
+            if ($useCase == null) {
+                abort(404);
+            }
+        } else {
+            $useCase = new UseCase();
+        }
 
         $useCase->project_id = $request->project_id;
         $useCase->name = $request->name;
         $useCase->description = $request->description;
-        $useCase->expected_results = $request->expected_results;
-        $useCase->processL1 = $request->processL1;
-        $useCase->processL2 = $request->processL2;
-        $useCase->processL3 = $request->processL3;
+        $useCase->accentureUsers = $request->accentureUsers;
+        $useCase->clientUsers = $request->clientUsers;
         $useCase->save();
+
+        return \response()->json([
+            'status' => 200,
+            'message' => 'Success',
+            'useCaseId' => $useCase->id
+        ]);
+    }
+
+    public function saveProjectScoringCriteria(Request $request)
+    {
+        $request->validate([
+            'project_id' => 'required|exists:projects,id|numeric',
+            'rfp' => 'required|numeric',
+            'solutionFit' => 'required|numeric',
+            'usability' => 'required|numeric',
+            'performance' => 'required|numeric',
+            'lookFeel' => 'required|numeric',
+            'others' => 'required|numeric'
+        ]);
+
+        $project = Project::find($request->project_id);
+        if ($project == null) {
+            abort(404);
+        }
+
+        $project->use_case_rfp = $request->rfp;
+        $project->use_case_solution_fit = $request->solutionFit;
+        $project->use_case_usability = $request->usability;
+        $project->use_case_performance = $request->performance;
+        $project->use_case_look_feel = $request->lookFeel;
+        $project->use_case_others = $request->others;
+        $project->save();
+
+        return \response()->json([
+            'status' => 200,
+            'message' => 'Success'
+        ]);
+    }
+
+    public function saveUseCaseScoringCriteria(Request $request)
+    {
+        $request->validate([
+            'useCaseId' => 'required|exists:use_case,id|numeric',
+            'scoringCriteria' => 'required|numeric'
+        ]);
+
+        $useCase = UseCase::find($request->useCaseId);
+        if ($useCase == null) {
+            abort(404);
+        }
+
+        $useCase->scoring_criteria = (float) $request->scoringCriteria;
+        $useCase->save();
+
+        return \response()->json([
+            'status' => 200,
+            'message' => 'Success'
+        ]);
+    }
+
+    public function saveVendorEvaluation(Request $request)
+    {
+        $request->validate([
+            'useCaseId' => 'required|exists:use_case,id|numeric',
+            'clientId' => 'required|exists:user_credentials,id|numeric',
+            'vendorId' => 'required|exists:users,id|numeric',
+            'solutionFit' => 'numeric',
+            'usability' => 'numeric',
+            'performance' => 'numeric',
+            'lookFeel' => 'numeric',
+            'others' => 'numeric'
+        ]);
+
+        $vendorEvaluation = VendorUseCasesEvaluation::findByIds($request->useCaseId, $request->clientId, $request->vendorId);
+        if ($vendorEvaluation == null) {
+            $vendorEvaluation = new VendorUseCasesEvaluation();
+            $vendorEvaluation->use_case_id = $request->useCaseId;
+            $vendorEvaluation->client_id = $request->clientId;
+            $vendorEvaluation->vendor_id = $request->vendorId;
+        }
+
+
+        $vendorEvaluation->solution_fit = $request->solutionFit != -1 ? $request->solutionFit : null;
+        $vendorEvaluation->usability = $request->usability != -1 ? $request->usability : null;
+        $vendorEvaluation->performance = $request->performance != -1 ? $request->performance : null;
+        $vendorEvaluation->look_feel = $request->lookFeel != -1 ? $request->lookFeel : null;
+        $vendorEvaluation->others = $request->others != -1 ? $request->others : null;
+        $vendorEvaluation->save();
+
+        return \response()->json([
+            'status' => 200,
+            'message' => 'Success'
+        ]);
+    }
+
+    public function updateInvitedVendors(Request $request)
+    {
+        $request->validate([
+            'project_id' => 'required|numeric',
+            'vendorList.*' => 'required|exists:users,id|numeric'
+        ]);
+
+        $project = Project::find($request->project_id);
+        if ($project == null) {
+            abort(404);
+        }
+
+        $project->use_case_invited_vendors = $request->vendorList;
+        $project->save();
 
         return \response()->json([
             'status' => 200,
@@ -474,6 +642,25 @@ class ProjectController extends Controller
 
         $project->step4SubmittedClient = false;
         $project->save();
+
+        return \response()->json([
+            'status' => 200,
+            'message' => 'Success'
+        ]);
+    }
+
+    public function publishUseCases(Request $request)
+    {
+        $request->validate([
+            'project_id' => 'required|numeric',
+        ]);
+
+        $project = Project::find($request->project_id);
+        if ($project == null) {
+            abort(404);
+        }
+
+        $project->setInEvaluationPhase();
 
         return \response()->json([
             'status' => 200,

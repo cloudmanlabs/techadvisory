@@ -43,7 +43,7 @@ class Project extends Resource
      * @var array
      */
     public static $search = [
-        'id', 'name', 'currentPhase'
+        'id', 'name', 'currentPhase', 'useCasesPhase'
     ];
 
     /**
@@ -72,6 +72,15 @@ class Project extends Resource
                 ->hideWhenUpdating(function(){
                     return $this->currentPhase == 'preparation';
                 })
+                ->sortable(),
+
+            Select::make('Current Use Cases phase', 'useCasesPhase')
+                ->options([
+                    'setup' => 'Set Up',
+                    'evaluation' => 'Evaluation'
+                ])
+                ->displayUsingLabels()
+                ->hideWhenCreating()
                 ->sortable(),
 
             BelongsTo::make('Organization','owners',Owner::class)->nullable(),

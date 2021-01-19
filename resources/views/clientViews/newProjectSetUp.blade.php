@@ -8,7 +8,7 @@
 
                 <x-video :src="nova_get_setting('video_newProject_file')"
                          :text="nova_get_setting('video_newProject_text')"/>
-                <x-accenture.setUpNavbar section="newProjectSetUp" :project="$project" :isClient="true"/>
+                <x-client.setUpNavbar section="newProjectSetUp" :project="$project" :isClient="true"/>
 
                 <div class="row">
                     <div class="col-12 col-xl-12 stretch-card">

@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddDeleteCascadeToTemplateIdInUseCaseTable extends Migration
+class RemovePracticeFromUseCaseTable extends Migration
 {
     /**
      * Run the migrations.
@@ -14,10 +14,8 @@ class AddDeleteCascadeToTemplateIdInUseCaseTable extends Migration
     public function up()
     {
         Schema::table('use_case', function (Blueprint $table) {
-            $table->dropForeign(['template_id']);
-            $table->foreign('template_id')
-                ->references('id')->on('use_case_templates')
-                ->onDelete('cascade')->change();
+            $table->dropForeign(['practice_id']);
+            $table->dropColumn('practice_id');
         });
     }
 
@@ -29,8 +27,9 @@ class AddDeleteCascadeToTemplateIdInUseCaseTable extends Migration
     public function down()
     {
         Schema::table('use_case', function (Blueprint $table) {
-            $table->dropForeign(['template_id']);
-            $table->foreign('template_id')->references('id')->on('use_case_templates')->change();
+            $table->foreignId('practice_id')->nullable();
+            $table->foreign('practice_id')
+                ->references('id')->on('practices');
         });
     }
 }
