@@ -49,7 +49,7 @@ $showApply = $vendorApplication->phase == 'applicating';
                                         <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
                                         <polyline points="22 4 12 14.01 9 11.01"></polyline>
                                     </svg>
-                                    <a class="pt-1px d-none d-md-block" href="{{route('vendor.applicationUseCasesSetUp', ['project' => $project])}}">Use Cases Set Up</a>
+                                    <a class="pt-1px d-none d-md-block" href="{{route('vendor.applicationUseCasesSetUp', ['project' => $project])}}">{{$project->useCasesPhase === 'evaluation' ? 'Use Cases' : 'Use Cases Set Up'}}</a>
                                 </li>
                             @endif
                             <li class="header-link-item ml-3 pl-3 border-left d-flex align-items-center {{$section == 'apply' ? 'active' : ''}}">
