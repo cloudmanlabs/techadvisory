@@ -144,10 +144,6 @@
                                                                 </h6>
                                                             @endforeach
                                                         @else
-                                                            @foreach ($useCaseQuestions as $question)
-                                                                <p>{{$question->label}} : {{$question->response ?? ''}}</p>
-                                                            @endforeach
-
                                                             <x-useCaseQuestionForeach :questions="$useCaseQuestions" :class="'useCaseQuestion'"
                                                                                       :disabled="false" :required="false"
                                                                                       :useCaseId="$useCaseId"
@@ -699,6 +695,8 @@
             $('#saveUseCaseButton').click(function () {
                 if (!checkIfAllRequiredsInUseCaseCreationAreFilled()) {
                     return $('#errorSaveUseCase').show();
+                } else {
+                    $('#errorSaveUseCase').hide();
                 }
 
                 var body = {
@@ -732,6 +730,7 @@
                             }).done(function() {
                                 showSavedQuestionToast(value);
                                 console.log("success", value, changing);
+                                $('#errorrQuestion' + changing).hide();
                             }).fail(function() {
                                 console.log("error", value, changing);
                                 $('#errorrQuestion' + changing).show();
@@ -746,6 +745,8 @@
             $('#saveScoringCriteria').click(function () {
                 if (!checkIfAllRequiredsInUseCaseScoringCriteriaAreFilled() || !checkIfSumOfSectionsIs100()) {
                     return $('#errorScoringCriteria').show();
+                } else {
+                    $('#errorScoringCriteria').hide();
                 }
 
 
@@ -782,6 +783,8 @@
                     !checkIfInvitedVendorsIsFilled()
                 ) {
                     return $('#errorPublish').show();
+                } else {
+                    $('#errorPublish').hide();
                 }
 
                 $.post('/accenture/newProjectSetUp/publishUseCases', {

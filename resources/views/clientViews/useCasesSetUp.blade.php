@@ -736,6 +736,36 @@
         }
 
         $(document).ready(function () {
+            $('#saveVendorsEvaluationButton').click(function () {
+                @foreach($selectedVendors as $selectedVendor)
+                var solutionFit = parseInt($('#vendor{{$selectedVendor->id}}SolutionFit').val(), 10);
+                var usability = parseInt($('#vendor{{$selectedVendor->id}}Usability').val(), 10);
+                var performance = parseInt($('#vendor{{$selectedVendor->id}}Performance').val(), 10);
+                var lookFeel = parseInt($('#vendor{{$selectedVendor->id}}LookFeel').val(), 10);
+                var others = parseInt($('#vendor{{$selectedVendor->id}}Others').val(), 10);
+                if ((solutionFit + usability + performance + lookFeel + others) === -5) {
+                    $('#errorSaveVendorsEvaluation').show();
+                } else {
+                    $('#errorSaveVendorsEvaluation').hide();
+                    var vendorEvaluation{{$selectedVendor->id}}Body = {
+                        vendorId: {{$selectedVendor->id}},
+                        useCaseId: {{$currentUseCase ? $currentUseCase->id : null}},
+                        clientId: {{$client_id}},
+                        solutionFit: solutionFit,
+                        usability: usability,
+                        performance: performance,
+                        lookFeel: lookFeel,
+                        others: others
+                    };
+
+                    $.post('/client/newProjectSetUp/saveVendorEvaluation', vendorEvaluation{{$selectedVendor->id}}Body)
+                        .then(function (data) {
+                            showSavedEvaluationToast('{{$selectedVendor->name}}');
+                        });
+                }
+                @endforeach
+            });
+
             @if($project->useCasesPhase !== 'evaluation')
             $("#wizard_accenture_useCasesSetUp").steps({
                 headerTag: "h2",
@@ -781,6 +811,8 @@
             $('#saveUseCaseButton').click(function () {
                 if (!checkIfAllRequiredsInUseCaseCreationAreFilled()) {
                     return $('#errorSaveUseCase').show();
+                } else {
+                    $('#errorSaveUseCase').hide();
                 }
 
                 var body = {
@@ -814,6 +846,7 @@
                             }).done(function() {
                                 showSavedQuestionToast(value);
                                 console.log("success", value, changing);
+                                $('#errorrQuestion' + changing).hide();
                             }).fail(function() {
                                 console.log("error", value, changing);
                                 $('#errorrQuestion' + changing).show();
@@ -828,6 +861,8 @@
             $('#saveScoringCriteria').click(function () {
                 if (!checkIfAllRequiredsInUseCaseScoringCriteriaAreFilled() || !checkIfSumOfSectionsIs100()) {
                     return $('#errorScoringCriteria').show();
+                } else {
+                    $('#errorScoringCriteria').hide();
                 }
 
 
@@ -856,35 +891,6 @@
                 showSavedToast();
             });
 
-            $('#saveVendorsEvaluationButton').click(function () {
-                @foreach($selectedVendors as $selectedVendor)
-                var solutionFit = parseInt($('#vendor{{$selectedVendor->id}}SolutionFit').val(), 10);
-                var usability = parseInt($('#vendor{{$selectedVendor->id}}Usability').val(), 10);
-                var performance = parseInt($('#vendor{{$selectedVendor->id}}Performance').val(), 10);
-                var lookFeel = parseInt($('#vendor{{$selectedVendor->id}}LookFeel').val(), 10);
-                var others = parseInt($('#vendor{{$selectedVendor->id}}Others').val(), 10);
-                if ((solutionFit + usability + performance + lookFeel + others) === -5) {
-                    return $('#errorSaveVendorsEvaluation').show();
-                }
-
-                var vendorEvaluation{{$selectedVendor->id}}Body = {
-                    vendorId: {{$selectedVendor->id}},
-                    useCaseId: {{$currentUseCase ? $currentUseCase->id : null}},
-                    clientId: {{$client_id}},
-                    solutionFit: solutionFit,
-                    usability: usability,
-                    performance: performance,
-                    lookFeel: lookFeel,
-                    others: others
-                };
-
-                $.post('/client/newProjectSetUp/saveVendorEvaluation', vendorEvaluation{{$selectedVendor->id}}Body)
-                    .then(function (data) {
-                        showSavedEvaluationToast('{{$selectedVendor->name}}');
-                    });
-                @endforeach
-            });
-
             @if ($project->currentPhase === 'open')
             $('#publishButton').click(function () {
                 if (
@@ -894,6 +900,8 @@
                     !checkIfInvitedVendorsIsFilled()
                 ) {
                     return $('#errorPublish').show();
+                } else {
+                    $('#errorPublish').hide();
                 }
 
                 $.post('/client/newProjectSetUp/publishUseCases', {
@@ -1001,6 +1009,7 @@
             $('#errorPublish').hide();
             $('#errorScoringCriteria').hide();
             $('#errorSaveUseCase').hide();
+            @else
             $('#errorSaveVendorsEvaluation').hide();
             @endif
             disableQuestionsByPractice();

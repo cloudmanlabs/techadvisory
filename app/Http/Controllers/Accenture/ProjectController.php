@@ -102,7 +102,11 @@ class ProjectController extends Controller
         $client = $project->client;
         $clients = $client->credentials()->get();
 
-        $accentureUsers = User::accentureUsers()->get();
+        $projectOwner = $project->owner_id;
+        $accentureUsers = User::accentureUsers()->get()->filter(function($vendor) use ($projectOwner) {
+            return $vendor->owner_id == $projectOwner || $vendor->owner_id == 0 || $vendor->owner_id == null;
+        });
+
         $appliedVendors = $project->vendorsApplied()->get();
 
 //        $useCases = UseCases::findByProject($project->id);
