@@ -3,6 +3,7 @@
 @php
     $useCaseTemplates = $useCaseTemplates ?? array();
     $useCaseTemplates = $useCaseTemplates ?? array();
+    $useCaseId = ($currentUseCase ?? null) ?$currentUseCase->id : null;
 @endphp
 
 @section('head')
@@ -143,8 +144,14 @@
                                                                 </h6>
                                                             @endforeach
                                                         @else
+                                                            @foreach ($useCaseQuestions as $question)
+                                                                <p>{{$question->label}} : {{$question->response ?? ''}}</p>
+                                                            @endforeach
+
                                                             <x-useCaseQuestionForeach :questions="$useCaseQuestions" :class="'useCaseQuestion'"
-                                                                                      :disabled="false" :required="false" />
+                                                                                      :disabled="false" :required="false"
+                                                                                      :useCaseId="$useCaseId"
+                                                            />
                                                         @endif
 
                                                         <br>
@@ -794,29 +801,32 @@
             $('#useCaseName').val("{{$selectedUseCaseTemplate->name}}")
             $('#useCaseDescription').val("{{$selectedUseCaseTemplate->description}}")
             @foreach($useCaseTemplateResponses as $useCaseTemplateResponse)
-                switch (document.getElementById('useCaseQuestion{{$useCaseTemplateResponse->use_case_questions_id}}').tagName.toLowerCase()) {
-                case 'input':
-                    switch ($('#useCaseQuestion{{$useCaseTemplateResponse->use_case_questions_id}}').attr('type').toLowerCase()) {
-                        case 'text':
+                var element{{$useCaseTemplateResponse->use_case_questions_id}} = document.getElementById('useCaseQuestion{{$useCaseTemplateResponse->use_case_questions_id}}');
+                if (element{{$useCaseTemplateResponse->use_case_questions_id}}) {
+                    switch (element{{$useCaseTemplateResponse->use_case_questions_id}}.tagName.toLowerCase()) {
+                        case 'input':
+                            switch ($('#useCaseQuestion{{$useCaseTemplateResponse->use_case_questions_id}}').attr('type').toLowerCase()) {
+                                case 'text':
+                                    $('#useCaseQuestion{{$useCaseTemplateResponse->use_case_questions_id}}').val(decodeURIComponent("{{$useCaseTemplateResponse->response}}"))
+                                    break;
+                                case 'number':
+                                    $('#useCaseQuestion{{$useCaseTemplateResponse->use_case_questions_id}}').val(parseInt('{{$useCaseTemplateResponse->response}}', 10))
+                                    break;
+                            }
+                            break;
+                        case 'select':
+                            if($('#useCaseQuestion{{$useCaseTemplateResponse->use_case_questions_id}}').hasClass('js-example-basic-multiple')) {
+                                $('#useCaseQuestion{{$useCaseTemplateResponse->use_case_questions_id}}').val(decodeURIComponent("{{$useCaseTemplateResponse->response}}").split(","))
+                                $('#useCaseQuestion{{$useCaseTemplateResponse->use_case_questions_id}}').select2().trigger('change')
+                            } else {
+                                $('#useCaseQuestion{{$useCaseTemplateResponse->use_case_questions_id}}').val('{{$useCaseTemplateResponse->response}}')
+                            }
+                            break;
+                        case 'textarea':
                             $('#useCaseQuestion{{$useCaseTemplateResponse->use_case_questions_id}}').val(decodeURIComponent("{{$useCaseTemplateResponse->response}}"))
                             break;
-                        case 'number':
-                            $('#useCaseQuestion{{$useCaseTemplateResponse->use_case_questions_id}}').val(parseInt('{{$useCaseTemplateResponse->response}}', 10))
-                            break;
                     }
-                    break;
-                case 'select':
-                    if($('#useCaseQuestion{{$useCaseTemplateResponse->use_case_questions_id}}').hasClass('js-example-basic-multiple')) {
-                        $('#useCaseQuestion{{$useCaseTemplateResponse->use_case_questions_id}}').val(decodeURIComponent("{{$useCaseTemplateResponse->response}}").split(","))
-                        $('#useCaseQuestion{{$useCaseTemplateResponse->use_case_questions_id}}').select2().trigger('change')
-                    } else {
-                        $('#useCaseQuestion{{$useCaseTemplateResponse->use_case_questions_id}}').val('{{$useCaseTemplateResponse->response}}')
-                    }
-                    break;
-                case 'textarea':
-                    $('#useCaseQuestion{{$useCaseTemplateResponse->use_case_questions_id}}').val(decodeURIComponent("{{$useCaseTemplateResponse->response}}"))
-                    break;
-            }
+                }
             @endforeach
             @endif
             @if($currentUseCase ?? null)
@@ -827,7 +837,9 @@
             $('#clientUsers').val(decodeURIComponent("{{$currentUseCase->clientUsers}}").split(","))
             $('#clientUsers').select2().trigger('change')
             @foreach($useCaseResponses as $useCaseResponse)
-                switch (document.getElementById('useCaseQuestion{{$useCaseResponse->use_case_questions_id}}').tagName.toLowerCase()) {
+            var element{{$useCaseResponse->use_case_questions_id}} = document.getElementById('useCaseQuestion{{$useCaseResponse->use_case_questions_id}}');
+            if (element{{$useCaseResponse->use_case_questions_id}})
+                switch (element{{$useCaseResponse->use_case_questions_id}}.tagName.toLowerCase()) {
                 case 'input':
                     switch ($('#useCaseQuestion{{$useCaseResponse->use_case_questions_id}}').attr('type').toLowerCase()) {
                         case 'text':

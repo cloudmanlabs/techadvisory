@@ -95,6 +95,21 @@ class ProjectController extends Controller
         ]);
     }
 
+    private function getQuestionsWithTypeFielFilled($questions, $responses)
+    {
+        foreach($questions as $questionKey => $questionValue) {
+            if ($questionValue->type === 'file') {
+                foreach ($responses as $responseKey => $responseValue) {
+                    if ($responseValue->use_case_questions_id === $questionValue->id) {
+                        $questions[$questionKey]['response'] = $responseValue->response;
+                    }
+                }
+            }
+        }
+
+        return $questions;
+    }
+
     public function useCasesSetUp(Request $request, Project $project)
     {
         $client = $project->client;
@@ -129,7 +144,6 @@ class ProjectController extends Controller
 
             'useCases' => $useCases,
             'useCaseTemplates' => $useCaseTemplates,
-            'useCaseQuestions' => $useCaseQuestions,
 
             'client_id' => $accessingClientCredentialsId
         ];
@@ -138,11 +152,13 @@ class ProjectController extends Controller
         if($useCaseNumber) {
             $useCase = UseCase::find($useCaseNumber);
             $view['currentUseCase'] = $useCase;
-            $view['useCaseResponses'] = UseCaseQuestionResponse::getResponsesFromUseCase($useCase);
+            $useCaseResponses = UseCaseQuestionResponse::getResponsesFromUseCase($useCase);
+            $view['useCaseResponses'] = $useCaseResponses;
             $selectedClients = explode(',', urldecode($useCase->clientUsers));
             $canEvaluateVendors = (array_search($accessingClientCredentialsId, $selectedClients) !== false) && $request->user()->isClient();
             $invitedVendors = explode(',', urldecode($project->use_case_invited_vendors));
             $selectedVendors = $project->vendorsApplied()->whereIn('id', $invitedVendors)->get();
+            $useCaseQuestions = $this->getQuestionsWithTypeFielFilled($useCaseQuestions, $useCaseResponses);
 
         } elseif ($project->useCasesPhase === 'evaluation') {
             $useCase = UseCase::all()->first();
@@ -162,8 +178,12 @@ class ProjectController extends Controller
         if($useCaseTemplateId) {
             $useCaseTemplate = UseCaseTemplate::find($useCaseTemplateId);
             $view['selectedUseCaseTemplate'] = $useCaseTemplate;
-            $view['useCaseTemplateResponses'] = UseCaseTemplateQuestionResponse::getResponsesFromUseCaseTemplate($useCaseTemplate);
+            $useCaseTemplateResponses = UseCaseTemplateQuestionResponse::getResponsesFromUseCaseTemplate($useCaseTemplate);
+            $view['useCaseTemplateResponses'] = $useCaseTemplateResponses;
+            $useCaseQuestions = $this->getQuestionsWithTypeFielFilled($useCaseQuestions, $useCaseTemplateResponses);
         }
+
+        $view['useCaseQuestions'] = $useCaseQuestions;
 
         return view('clientViews.useCasesSetUp', $view);
     }

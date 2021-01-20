@@ -82,6 +82,21 @@ class ProjectController extends Controller
         ]);
     }
 
+    private function getQuestionsWithTypeFielFilled($questions, $responses)
+    {
+        foreach($questions as $questionKey => $questionValue) {
+            if ($questionValue->type === 'file') {
+                foreach ($responses as $responseKey => $responseValue) {
+                    if ($responseValue->use_case_questions_id === $questionValue->id) {
+                        $questions[$questionKey]['response'] = $responseValue->response;
+                    }
+                }
+            }
+        }
+
+        return $questions;
+    }
+
     public function useCasesSetUp(Request $request, Project $project)
     {
         $client = $project->client;
@@ -110,26 +125,34 @@ class ProjectController extends Controller
 
             'useCases' => $useCases,
             'useCaseTemplates' => $useCaseTemplates,
-            'useCaseQuestions' => $useCaseQuestions
         ];
 
         $useCaseNumber = $request->input('useCase');
         if($useCaseNumber) {
             $useCase = UseCase::find($useCaseNumber);
             $view['currentUseCase'] = $useCase;
-            $view['useCaseResponses'] = UseCaseQuestionResponse::getResponsesFromUseCase($useCase);
+            $useCaseResponses = UseCaseQuestionResponse::getResponsesFromUseCase($useCase);
+            $view['useCaseResponses'] = $useCaseResponses;
+            $useCaseQuestions = $this->getQuestionsWithTypeFielFilled($useCaseQuestions, $useCaseResponses);
+
         } elseif ($project->useCasesPhase === 'evaluation') {
             $useCase = UseCase::all()->first();
             $view['currentUseCase'] = $useCase;
-            $view['useCaseResponses'] = UseCaseQuestionResponse::getResponsesFromUseCase($useCase);
+            $useCaseResponses = UseCaseQuestionResponse::getResponsesFromUseCase($useCase);
+            $view['useCaseResponses'] = $useCaseResponses;
+            $useCaseQuestions = $this->getQuestionsWithTypeFielFilled($useCaseQuestions, $useCaseResponses);
         }
 
         $useCaseTemplateId = $request->input('useCaseTemplate');
         if($useCaseTemplateId) {
             $useCaseTemplate = UseCaseTemplate::find($useCaseTemplateId);
             $view['selectedUseCaseTemplate'] = $useCaseTemplate;
-            $view['useCaseTemplateResponses'] = UseCaseTemplateQuestionResponse::getResponsesFromUseCaseTemplate($useCaseTemplate);
+            $useCaseTemplateResponses = UseCaseTemplateQuestionResponse::getResponsesFromUseCaseTemplate($useCaseTemplate);
+            $view['useCaseTemplateResponses'] = $useCaseTemplateResponses;
+            $useCaseQuestions = $this->getQuestionsWithTypeFielFilled($useCaseQuestions, $useCaseTemplateResponses);
         }
+
+        $view['useCaseQuestions'] = $useCaseQuestions;
 
         return view('accentureViews.useCasesSetUp', $view);
     }
