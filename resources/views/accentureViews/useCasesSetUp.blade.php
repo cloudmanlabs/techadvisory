@@ -33,7 +33,11 @@
                     <div class="col-md-12 grid-margin stretch-card">
                         <div class="card">
                             <div class="card-body">
-                                <h3>Project Set up</h3>
+                                @if($project->useCasesPhase === 'evaluation')
+                                    <h3>Use Cases Evaluation</h3>
+                                @else
+                                    <h3>Use Cases Set up</h3>
+                                @endif
                                 <br>
                                 @if($project->useCasesPhase === 'evaluation')
                                     <div>
