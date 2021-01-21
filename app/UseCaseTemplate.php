@@ -35,19 +35,4 @@ class UseCaseTemplate extends Model
     {
         return $this->hasMany(UseCaseTemplateQuestionResponse::class, 'use_case_templates_id');
     }
-
-//    public function id()
-//    {
-//        return $this->id;
-//    }
-//
-//    public function name()
-//    {
-//        return $this->name;
-//    }
-//
-//    public function description()
-//    {
-//        return $this->description;
-//    }
 }
