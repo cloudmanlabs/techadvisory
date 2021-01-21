@@ -21,6 +21,7 @@ use App\UseCaseTemplate;
 use App\UseCaseTemplateQuestionResponse;
 use App\User;
 use App\VendorApplication;
+use App\VendorUseCasesEvaluation;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
@@ -82,7 +83,7 @@ class ProjectController extends Controller
         ]);
     }
 
-    private function getQuestionsWithTypeFielFilled($questions, $responses)
+    private function getQuestionsWithTypeFieldFilled($questions, $responses)
     {
         foreach($questions as $questionKey => $questionValue) {
             if ($questionValue->type === 'file') {
@@ -116,6 +117,11 @@ class ProjectController extends Controller
 
         $useCaseQuestions = UseCaseQuestion::all();
 
+        $accessingAccentureUserId = $request->user()->id;
+        $canEvaluateVendors = false;
+
+        $selectedVendors = array();
+
         SecurityLog::createLog('Accenture user accessed project Use Cases setup with ID ' . $project->id);
 
         $view = [
@@ -129,6 +135,8 @@ class ProjectController extends Controller
 
             'useCases' => $useCases,
             'useCaseTemplates' => $useCaseTemplates,
+
+            'user_id' => $accessingAccentureUserId
         ];
 
         $useCaseNumber = $request->input('useCase');
@@ -137,15 +145,26 @@ class ProjectController extends Controller
             $view['currentUseCase'] = $useCase;
             $useCaseResponses = UseCaseQuestionResponse::getResponsesFromUseCase($useCase);
             $view['useCaseResponses'] = $useCaseResponses;
-            $useCaseQuestions = $this->getQuestionsWithTypeFielFilled($useCaseQuestions, $useCaseResponses);
+            $selectedUsers = explode(',', urldecode($useCase->accentureUsers));
+            $canEvaluateVendors = (array_search($accessingAccentureUserId, $selectedUsers) !== false) && $request->user()->isAccenture();
+            $invitedVendors = explode(',', urldecode($project->use_case_invited_vendors));
+            $selectedVendors = $project->vendorsApplied()->whereIn('id', $invitedVendors)->get();
+            $useCaseQuestions = $this->getQuestionsWithTypeFieldFilled($useCaseQuestions, $useCaseResponses);
 
         } elseif ($project->useCasesPhase === 'evaluation') {
-            $useCase = UseCase::all()->first();
+            $useCase = UseCase::findByProject($project->id)->first();
             $view['currentUseCase'] = $useCase;
-            $useCaseResponses = UseCaseQuestionResponse::getResponsesFromUseCase($useCase);
-            $view['useCaseResponses'] = $useCaseResponses;
-            $useCaseQuestions = $this->getQuestionsWithTypeFielFilled($useCaseQuestions, $useCaseResponses);
+//            $useCaseResponses = UseCaseQuestionResponse::getResponsesFromUseCase($useCase);
+//            $view['useCaseResponses'] = $useCaseResponses;
+//            $useCaseQuestions = $this->getQuestionsWithTypeFieldFilled($useCaseQuestions, $useCaseResponses);
+            $selectedUsers = explode(',', urldecode($useCase->accentureUsers));
+            $canEvaluateVendors = (array_search($accessingAccentureUserId, $selectedUsers) !== false) && $request->user()->isAccenture();
+            $invitedVendors = explode(',', urldecode($project->use_case_invited_vendors));
+            $selectedVendors = $project->vendorsApplied()->whereIn('id', $invitedVendors)->get();
         }
+
+        $view['canEvaluateVendors'] = $canEvaluateVendors;
+        $view['selectedVendors'] = $selectedVendors;
 
         $useCaseTemplateId = $request->input('useCaseTemplate');
         if($useCaseTemplateId) {
@@ -153,7 +172,7 @@ class ProjectController extends Controller
             $view['selectedUseCaseTemplate'] = $useCaseTemplate;
             $useCaseTemplateResponses = UseCaseTemplateQuestionResponse::getResponsesFromUseCaseTemplate($useCaseTemplate);
             $view['useCaseTemplateResponses'] = $useCaseTemplateResponses;
-            $useCaseQuestions = $this->getQuestionsWithTypeFielFilled($useCaseQuestions, $useCaseTemplateResponses);
+            $useCaseQuestions = $this->getQuestionsWithTypeFieldFilled($useCaseQuestions, $useCaseTemplateResponses);
         }
 
         $view['useCaseQuestions'] = $useCaseQuestions;
@@ -240,6 +259,44 @@ class ProjectController extends Controller
 
         $useCase->scoring_criteria = (float) $request->scoringCriteria;
         $useCase->save();
+
+        return \response()->json([
+            'status' => 200,
+            'message' => 'Success'
+        ]);
+    }
+
+    public function saveVendorEvaluation(Request $request)
+    {
+        $request->validate([
+            'useCaseId' => 'required|exists:use_case,id|numeric',
+            'userCredential' => 'required|numeric',
+            'vendorId' => 'required|exists:users,id|numeric',
+            'solutionFit' => 'numeric',
+            'usability' => 'numeric',
+            'performance' => 'numeric',
+            'lookFeel' => 'numeric',
+            'others' => 'numeric',
+            'comments' => 'nullable|string'
+        ]);
+
+        $vendorEvaluation = VendorUseCasesEvaluation::findByIdsAndType($request->useCaseId, $request->userCredential, $request->vendorId, 'accenture');
+        if ($vendorEvaluation == null) {
+            $vendorEvaluation = new VendorUseCasesEvaluation();
+            $vendorEvaluation->use_case_id = $request->useCaseId;
+            $vendorEvaluation->user_credential = $request->userCredential;
+            $vendorEvaluation->vendor_id = $request->vendorId;
+        }
+
+
+        $vendorEvaluation->solution_fit = $request->solutionFit != -1 ? $request->solutionFit : null;
+        $vendorEvaluation->usability = $request->usability != -1 ? $request->usability : null;
+        $vendorEvaluation->performance = $request->performance != -1 ? $request->performance : null;
+        $vendorEvaluation->look_feel = $request->lookFeel != -1 ? $request->lookFeel : null;
+        $vendorEvaluation->others = $request->others != -1 ? $request->others : null;
+        $vendorEvaluation->comments = $request->comments;
+        $vendorEvaluation->evaluation_type = 'accenture';
+        $vendorEvaluation->save();
 
         return \response()->json([
             'status' => 200,

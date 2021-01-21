@@ -95,7 +95,7 @@ class ProjectController extends Controller
         ]);
     }
 
-    private function getQuestionsWithTypeFielFilled($questions, $responses)
+    private function getQuestionsWithTypeFieldFilled($questions, $responses)
     {
         foreach($questions as $questionKey => $questionValue) {
             if ($questionValue->type === 'file') {
@@ -133,7 +133,6 @@ class ProjectController extends Controller
         $canEvaluateVendors = false;
 
         $selectedVendors = array();
-        $projectVendorEvaluations = array();
 
         SecurityLog::createLog('client user accessed project Use Cases setup with ID ' . $project->id);
 
@@ -162,21 +161,19 @@ class ProjectController extends Controller
             $canEvaluateVendors = (array_search($accessingClientCredentialsId, $selectedClients) !== false) && $request->user()->isClient();
             $invitedVendors = explode(',', urldecode($project->use_case_invited_vendors));
             $selectedVendors = $project->vendorsApplied()->whereIn('id', $invitedVendors)->get();
-            $useCaseQuestions = $this->getQuestionsWithTypeFielFilled($useCaseQuestions, $useCaseResponses);
+            $useCaseQuestions = $this->getQuestionsWithTypeFieldFilled($useCaseQuestions, $useCaseResponses);
 
         } elseif ($project->useCasesPhase === 'evaluation') {
-            $useCase = UseCase::all()->first();
+            $useCase = UseCase::findByProject($project->id)->first();
             $view['currentUseCase'] = $useCase;
             $selectedClients = explode(',', urldecode($useCase->clientUsers));
             $canEvaluateVendors = (array_search($accessingClientCredentialsId, $selectedClients) !== false) && $request->user()->isClient();
             $invitedVendors = explode(',', urldecode($project->use_case_invited_vendors));
             $selectedVendors = $project->vendorsApplied()->whereIn('id', $invitedVendors)->get();
-            error_log(json_encode($selectedVendors));
         }
 
         $view['canEvaluateVendors'] = $canEvaluateVendors;
         $view['selectedVendors'] = $selectedVendors;
-        $view['projectVendorEvaluations'] = $projectVendorEvaluations;
 
         $useCaseTemplateId = $request->input('useCaseTemplate');
         if($useCaseTemplateId) {
@@ -184,7 +181,7 @@ class ProjectController extends Controller
             $view['selectedUseCaseTemplate'] = $useCaseTemplate;
             $useCaseTemplateResponses = UseCaseTemplateQuestionResponse::getResponsesFromUseCaseTemplate($useCaseTemplate);
             $view['useCaseTemplateResponses'] = $useCaseTemplateResponses;
-            $useCaseQuestions = $this->getQuestionsWithTypeFielFilled($useCaseQuestions, $useCaseTemplateResponses);
+            $useCaseQuestions = $this->getQuestionsWithTypeFieldFilled($useCaseQuestions, $useCaseTemplateResponses);
         }
 
         $view['useCaseQuestions'] = $useCaseQuestions;
@@ -282,20 +279,21 @@ class ProjectController extends Controller
     {
         $request->validate([
             'useCaseId' => 'required|exists:use_case,id|numeric',
-            'clientId' => 'required|exists:user_credentials,id|numeric',
+            'userCredential' => 'required|numeric',
             'vendorId' => 'required|exists:users,id|numeric',
             'solutionFit' => 'numeric',
             'usability' => 'numeric',
             'performance' => 'numeric',
             'lookFeel' => 'numeric',
-            'others' => 'numeric'
+            'others' => 'numeric',
+            'comments' => 'nullable|string'
         ]);
 
-        $vendorEvaluation = VendorUseCasesEvaluation::findByIds($request->useCaseId, $request->clientId, $request->vendorId);
+        $vendorEvaluation = VendorUseCasesEvaluation::findByIdsAndType($request->useCaseId, $request->userCredential, $request->vendorId, 'client');
         if ($vendorEvaluation == null) {
             $vendorEvaluation = new VendorUseCasesEvaluation();
             $vendorEvaluation->use_case_id = $request->useCaseId;
-            $vendorEvaluation->client_id = $request->clientId;
+            $vendorEvaluation->user_credential = $request->userCredential;
             $vendorEvaluation->vendor_id = $request->vendorId;
         }
 
@@ -305,6 +303,8 @@ class ProjectController extends Controller
         $vendorEvaluation->performance = $request->performance != -1 ? $request->performance : null;
         $vendorEvaluation->look_feel = $request->lookFeel != -1 ? $request->lookFeel : null;
         $vendorEvaluation->others = $request->others != -1 ? $request->others : null;
+        $vendorEvaluation->comments = $request->comments;
+        $vendorEvaluation->evaluation_type = 'client';
         $vendorEvaluation->save();
 
         return \response()->json([

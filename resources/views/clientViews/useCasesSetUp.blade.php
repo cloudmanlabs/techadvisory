@@ -186,7 +186,7 @@
                                                         <table >
                                                             @foreach($selectedVendors as $selectedVendor)
                                                                 @php
-                                                                $evaluation = \App\VendorUseCasesEvaluation::findByIds($currentUseCase->id, $client_id, $selectedVendor->id);
+                                                                $evaluation = \App\VendorUseCasesEvaluation::findByIdsAndType($currentUseCase->id, $client_id, $selectedVendor->id, 'client');
                                                                 @endphp
                                                                 <tr>
                                                                     <td>
@@ -200,7 +200,6 @@
                                                                                 <i class="fa fa-chevron-up" id="vendor{{$selectedVendor->id}}closed" style="float: right" aria-hidden="true"></i>
                                                                                 <i class="fa fa-chevron-down" id="vendor{{$selectedVendor->id}}opened" style="float: right" aria-hidden="true"></i>
                                                                             </div>
-
                                                                             <div id="vendorBody{{$selectedVendor->id}}" style="padding-top: 15px;padding-left: 25px;padding-right: 25px;">
                                                                                 <div class="row">
                                                                                     <div class="col-6">
@@ -253,6 +252,19 @@
                                                                                         </select>
                                                                                         <br>
                                                                                     </div>
+                                                                                    <div class="col-6">
+                                                                                        <label for="vendor{{$selectedVendor->id}}Comments">Comments</label>
+                                                                                        <br>
+                                                                                    </div>
+                                                                                    <div class="col-6">
+                                                                                        <textarea
+                                                                                            class="form-control"
+                                                                                            id="vendor{{$selectedVendor->id}}Comments"
+                                                                                            placeholder="Add your comments..."
+                                                                                            rows="5"
+                                                                                        >{{$evaluation->comments ?? null}}</textarea>
+                                                                                        <br>
+                                                                                    </div>
                                                                                 </div>
                                                                             </div>
                                                                         </div>
@@ -264,7 +276,12 @@
                                                         <button id="saveVendorsEvaluationButton" class="btn btn-primary btn-right">
                                                             Save
                                                         </button>
-                                                        <p id="errorSaveVendorsEvaluation" style="color: darkred;">Vendors without evaluations can't be saved!</p>
+                                                        @foreach($selectedVendors as $selectedVendor)
+                                                            @php
+                                                                $evaluation = \App\VendorUseCasesEvaluation::findByIdsAndType($currentUseCase->id, $client_id, $selectedVendor->id, 'client');
+                                                            @endphp
+                                                        <p id="errorSaveVendorsEvaluation{{$selectedVendor->id}}" style="color: darkred;">Vendor {{$selectedVendor->name}} without evaluations can't be saved!</p>
+                                                        @endforeach
                                                     @endif
                                                 </div>
                                             </div>
@@ -742,24 +759,26 @@
         $(document).ready(function () {
             $('#saveVendorsEvaluationButton').click(function () {
                 @foreach($selectedVendors as $selectedVendor)
-                var solutionFit = parseInt($('#vendor{{$selectedVendor->id}}SolutionFit').val(), 10);
-                var usability = parseInt($('#vendor{{$selectedVendor->id}}Usability').val(), 10);
-                var performance = parseInt($('#vendor{{$selectedVendor->id}}Performance').val(), 10);
-                var lookFeel = parseInt($('#vendor{{$selectedVendor->id}}LookFeel').val(), 10);
-                var others = parseInt($('#vendor{{$selectedVendor->id}}Others').val(), 10);
-                if ((solutionFit + usability + performance + lookFeel + others) === -5) {
-                    $('#errorSaveVendorsEvaluation').show();
+                var solutionFit{{$selectedVendor->id}} = parseInt($('#vendor{{$selectedVendor->id}}SolutionFit').val(), 10);
+                var usability{{$selectedVendor->id}} = parseInt($('#vendor{{$selectedVendor->id}}Usability').val(), 10);
+                var performance{{$selectedVendor->id}} = parseInt($('#vendor{{$selectedVendor->id}}Performance').val(), 10);
+                var lookFeel{{$selectedVendor->id}} = parseInt($('#vendor{{$selectedVendor->id}}LookFeel').val(), 10);
+                var others{{$selectedVendor->id}} = parseInt($('#vendor{{$selectedVendor->id}}Others').val(), 10);
+                var comments{{$selectedVendor->id}} = $('#vendor{{$selectedVendor->id}}Comments').val();
+                if ((solutionFit{{$selectedVendor->id}} + usability{{$selectedVendor->id}} + performance{{$selectedVendor->id}} + lookFeel{{$selectedVendor->id}} + others{{$selectedVendor->id}}) === -5) {
+                    $('#errorSaveVendorsEvaluation{{$selectedVendor->id}}').show();
                 } else {
-                    $('#errorSaveVendorsEvaluation').hide();
+                    $('#errorSaveVendorsEvaluation{{$selectedVendor->id}}').hide();
                     var vendorEvaluation{{$selectedVendor->id}}Body = {
                         vendorId: {{$selectedVendor->id}},
                         useCaseId: {{$currentUseCase ? $currentUseCase->id : null}},
-                        clientId: {{$client_id}},
-                        solutionFit: solutionFit,
-                        usability: usability,
-                        performance: performance,
-                        lookFeel: lookFeel,
-                        others: others
+                        userCredential: {{$client_id}},
+                        solutionFit: solutionFit{{$selectedVendor->id}},
+                        usability: usability{{$selectedVendor->id}},
+                        performance: performance{{$selectedVendor->id}},
+                        lookFeel: lookFeel{{$selectedVendor->id}},
+                        others: others{{$selectedVendor->id}},
+                        comments: comments{{$selectedVendor->id}},
                     };
 
                     $.post('/client/newProjectSetUp/saveVendorEvaluation', vendorEvaluation{{$selectedVendor->id}}Body)
@@ -1014,10 +1033,8 @@
             $('#errorScoringCriteria').hide();
             $('#errorSaveUseCase').hide();
             @else
-            $('#errorSaveVendorsEvaluation').hide();
-            @endif
-            disableQuestionsByPractice();
             @foreach($selectedVendors as $selectedVendor)
+            $('#errorSaveVendorsEvaluation{{$selectedVendor->id}}').hide();
             $('#vendor{{$selectedVendor->id}}closed').click(function() {
                 $('#vendor{{$selectedVendor->id}}closed').hide();
                 $('#vendor{{$selectedVendor->id}}opened').show();
@@ -1032,6 +1049,8 @@
             $('#vendor{{$selectedVendor->id}}opened').hide();
             $('#vendorBody{{$selectedVendor->id}}').hide();
             @endforeach
+            @endif
+            disableQuestionsByPractice();
         });
     </script>
 @endsection

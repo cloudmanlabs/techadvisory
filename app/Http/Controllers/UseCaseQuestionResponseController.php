@@ -57,11 +57,6 @@ class UseCaseQuestionResponseController extends Controller
             $answer->use_case_id = $request->useCase;
         }
 
-
-        error_log(json_encode($request->changing));
-        error_log(json_encode($request->useCase));
-        error_log(json_encode($answer));
-
         $path = Storage::disk('public')->putFile('questionFiles', $request->value);
 
         $answer->response = $path;
