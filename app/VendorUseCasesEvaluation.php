@@ -19,17 +19,10 @@ class VendorUseCasesEvaluation extends Model
 
     public static function findByIdsAndType($useCaseId, $userCredential, $vendorId, $evaluationType)
     {
-        error_log('$useCaseId: '.$useCaseId);
-        error_log('$userCredential: '.$userCredential);
-        error_log('$vendorId: '.$vendorId);
-        error_log('$evaluationType: '.$evaluationType);
-        $evaluation = VendorUseCasesEvaluation::where('use_case_id', '=', $useCaseId)
+        return VendorUseCasesEvaluation::where('use_case_id', '=', $useCaseId)
             ->where('user_credential', '=', $userCredential)
             ->where('vendor_id', '=', $vendorId)
             ->where('evaluation_type', '=', $evaluationType)
             ->first();
-
-        error_log($evaluation);
-        return $evaluation;
     }
 }

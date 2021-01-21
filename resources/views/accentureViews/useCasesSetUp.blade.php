@@ -195,7 +195,6 @@
                                                         @foreach($selectedVendors as $selectedVendor)
                                                             @php
                                                                 $evaluation = \App\VendorUseCasesEvaluation::findByIdsAndType($currentUseCase->id, $user_id, $selectedVendor->id, 'accenture');
-                                                                error_log($evaluation);
                                                             @endphp
                                                             <tr>
                                                                 <td>
