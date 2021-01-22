@@ -35,7 +35,7 @@ class ProjectController extends Controller
         $project = new Project();
         $project->save();
 
-        SecurityLog::createLog('User created project with ID ' . $project->id);
+        SecurityLog::createLog('User created project with ID ' . $project->id . ' and name ' . $project->name);
         return redirect()->route('accenture.newProjectSetUp', ['project' => $project, 'firstTime' => true]);
     }
 
@@ -59,7 +59,7 @@ class ProjectController extends Controller
 
         $allOwners = Owner::get();
 
-        SecurityLog::createLog('User accessed project with ID ' . $project->id);
+        SecurityLog::createLog('User accessed project with ID ' . $project->id . ' and name ' . $project->name);
 
         return view('accentureViews.newProjectSetUp', [
             'firstTime' => $request->firstTime ?? false,
@@ -119,13 +119,11 @@ class ProjectController extends Controller
         });
 
         $useCaseQuestions = UseCaseQuestion::all();
-
         $accessingAccentureUserId = $request->user()->id;
         $canEvaluateVendors = false;
 
         $selectedVendors = array();
-
-        SecurityLog::createLog('Accenture user accessed project Use Cases setup with ID ' . $project->id);
+        SecurityLog::createLog('User accessed project Use Cases setup with ID ' . $project->id  . ' and name ' . $project->name);
 
         $view = [
             'project' => $project,
@@ -942,7 +940,7 @@ class ProjectController extends Controller
         $disqualifiedVendors = $project->vendorsApplied(['disqualified'])->get();
         $rejectedVendors = $project->vendorsApplied(['rejected'])->get();
 
-        SecurityLog::createLog('User accessed project with ID ' . $project->id);
+        SecurityLog::createLog('User accessed project with ID ' . $project->id  . ' and name ' . $project->name);
 
         return view('accentureViews.projectHome', [
             'project' => $project,
@@ -1025,7 +1023,7 @@ class ProjectController extends Controller
 
         $allOwners = Owner::get();
 
-        SecurityLog::createLog('User accessed project with ID ' . $project->id);
+        SecurityLog::createLog('User accessed project with ID ' . $project->id  . ' and name ' . $project->name);
 
         return view('accentureViews.projectView', [
             'project' => $project,
@@ -1076,7 +1074,7 @@ class ProjectController extends Controller
 
         $allOwners = Owner::get();
 
-        SecurityLog::createLog('User accessed project with ID ' . $project->id);
+        SecurityLog::createLog('User accessed project with ID ' . $project->id  . ' and name ' . $project->name);
 
         return view('accentureViews.projectEdit', [
             'project' => $project,
@@ -1107,7 +1105,7 @@ class ProjectController extends Controller
             abort(404);
         }
 
-        SecurityLog::createLog('User accessed project with ID ' . $project->id);
+        SecurityLog::createLog('User accessed project with ID ' . $project->id  . ' and name ' . $project->name);
 
         return view('accentureViews.projectValueTargeting', [
             'project' => $project
@@ -1120,7 +1118,7 @@ class ProjectController extends Controller
             abort(404);
         }
 
-        SecurityLog::createLog('User accessed project with ID ' . $project->id);
+        SecurityLog::createLog('User accessed project with ID ' . $project->id  . ' and name ' . $project->name);
 
         return view('accentureViews.projectOrals', [
             'project' => $project,
@@ -1130,7 +1128,7 @@ class ProjectController extends Controller
 
     public function conclusions(Project $project)
     {
-        SecurityLog::createLog('User accessed project with ID ' . $project->id);
+        SecurityLog::createLog('User accessed project with ID ' . $project->id  . ' and name ' . $project->name);
 
         return view('accentureViews.projectConclusions', [
             'project' => $project
@@ -1139,7 +1137,7 @@ class ProjectController extends Controller
 
     public function benchmark(Project $project)
     {
-        SecurityLog::createLog('User accessed project benchmarks of project with ID ' . $project->id);
+        SecurityLog::createLog('User accessed project benchmarks of project with ID ' . $project->id  . ' and name ' . $project->name);
 
         return view('accentureViews.projectBenchmark', [
             'project' => $project,
@@ -1156,7 +1154,7 @@ class ProjectController extends Controller
 
     public function benchmarkFitgap(Project $project)
     {
-        SecurityLog::createLog('User accessed project benchmarks of project with ID ' . $project->id);
+        SecurityLog::createLog('User accessed project benchmarks of project with ID ' . $project->id  . ' and name ' . $project->name);
 
         return view('accentureViews.projectBenchmarkFitgap', [
             'project' => $project,
@@ -1169,7 +1167,7 @@ class ProjectController extends Controller
 
     public function benchmarkVendor(Project $project)
     {
-        SecurityLog::createLog('User accessed project benchmarks of project with ID ' . $project->id);
+        SecurityLog::createLog('User accessed project benchmarks of project with ID ' . $project->id  . ' and name ' . $project->name);
 
         return view('accentureViews.projectBenchmarkVendor', [
             'project' => $project,
@@ -1182,7 +1180,7 @@ class ProjectController extends Controller
 
     public function benchmarkExperience(Project $project)
     {
-        SecurityLog::createLog('User accessed project benchmarks of project with ID ' . $project->id);
+        SecurityLog::createLog('User accessed project benchmarks of project with ID ' . $project->id  . ' and name ' . $project->name);
 
         return view('accentureViews.projectBenchmarkExperience', [
             'project' => $project,
@@ -1210,7 +1208,7 @@ class ProjectController extends Controller
 
     public function benchmarkImplementation(Project $project)
     {
-        SecurityLog::createLog('User accessed project benchmarks of project with ID ' . $project->id);
+        SecurityLog::createLog('User accessed project benchmarks of project with ID ' . $project->id  . ' and name ' . $project->name);
 
         return view('accentureViews.projectBenchmarkImplementation', [
             'project' => $project,
@@ -1397,7 +1395,7 @@ class ProjectController extends Controller
             abort(404);
         }
 
-        SecurityLog::createLog('User viewed vendor proposal for vendor with ID ' . $vendor->id . ' in project with ID ' . $project->id);
+        SecurityLog::createLog('User viewed vendor proposal for vendor with ID ' . $vendor->id . ' in project with ID ' . $project->id  . ' and name ' . $project->name);
 
         return view('accentureViews.viewVendorProposal', $this->arrayOfSelectionCriteriaResponsesQuestionsByPractice($project, $vendor, $application));
     }
@@ -1411,7 +1409,7 @@ class ProjectController extends Controller
             abort(404);
         }
 
-        SecurityLog::createLog('User viewed vendor proposal for vendor with ID ' . $vendor->id . ' in project with ID ' . $project->id);
+        SecurityLog::createLog('User viewed vendor proposal for vendor with ID ' . $vendor->id . ' in project with ID ' . $project->id  . ' and name ' . $project->name);
 
         return view('accentureViews.editVendorProposal', $this->arrayOfSelectionCriteriaResponsesQuestionsByPractice($project, $vendor, $application));
     }
@@ -1425,7 +1423,7 @@ class ProjectController extends Controller
             abort(404);
         }
 
-        SecurityLog::createLog('User viewed vendor proposal for vendor with ID ' . $vendor->id . ' in project with ID ' . $project->id);
+        SecurityLog::createLog('User viewed vendor proposal for vendor with ID ' . $vendor->id . ' in project with ID ' . $project->id  . ' and name ' . $project->name);
 
         return view('accentureViews.viewVendorProposalEvaluation', $this->arrayOfSelectionCriteriaResponsesQuestionsByPractice($project, $vendor, $application));
     }
@@ -1475,7 +1473,7 @@ class ProjectController extends Controller
 
         $export = new VendorResponsesExport($application);
 
-        SecurityLog::createLog('User downloaded vendor proposal for vendor with ID ' . $vendor->id . ' in project with ID ' . $project->id);
+        SecurityLog::createLog('User downloaded vendor proposal for vendor with ID ' . $vendor->id . ' in project with ID ' . $project->id  . ' and name ' . $project->name);
 
         return Excel::download($export, 'responses.xlsx');
     }
@@ -1492,7 +1490,7 @@ class ProjectController extends Controller
 
         $export = new AnalyticsExport($project, json_decode($request->vendors) ?? $allVendors);
 
-        SecurityLog::createLog('User exported analytics for project with ID ' . $project->id);
+        SecurityLog::createLog('User exported analytics for project with ID ' . $project->id  . ' and name ' . $project->name);
 
         return Excel::download($export, 'responses.xlsx');
     }
