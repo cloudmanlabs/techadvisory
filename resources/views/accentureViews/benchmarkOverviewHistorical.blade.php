@@ -69,21 +69,6 @@
                                             </select>
                                             <br>
                                             <br>
-                                            <label for="practices-select">Chose a Practice</label>
-                                            <select id="practices-select" multiple>
-                                                @foreach ($practices as $practice)
-                                                    <option
-                                                        value="{{$practice->id}}"
-                                                    @if($practicesToFilter)
-                                                        {{ in_array($practice->id,$practicesToFilter)? 'selected="selected"' : ''}}
-                                                        @endif
-                                                    >
-                                                        {{$practice->name}}
-                                                    </option>
-                                                @endforeach
-                                            </select>
-                                            <br>
-                                            <br>
                                             <button id="filter-btn" class="btn btn-primary btn-lg btn-icon-text">
                                                 Click to Filter
                                             </button>
@@ -134,10 +119,9 @@
         $('#filter-btn').click(function () {
             var industries = encodeURIComponent($('#industries-select').val());
             var regions = encodeURIComponent($('#regions-select').val());
-            var practices = encodeURIComponent($('#practices-select').val());
 
             var currentUrl = '/accenture/benchmark/overview/historical';
-            var url = currentUrl + '?' + 'regions=' + regions + '&industries=' + industries + '&practices=' + practices;
+            var url = currentUrl + '?' + 'regions=' + regions + '&industries=' + industries;
             location.replace(url);
         });
 
@@ -158,7 +142,7 @@
                             @endforeach
                         ],
                         label: "Total",
-                        borderColor: "#27003d",
+                        borderColor: "#af0878",
                         backgroundColor: "rgba(0,0,0,0)",
                         fill: false
                     },
@@ -171,7 +155,7 @@
                             @endforeach
                         ],
                         label: "Transport",
-                        borderColor: "#460D72",
+                        borderColor: "#812dc2",
                         backgroundColor: "rgba(0,0,0,0)",
                         fill: false
                     },
@@ -185,7 +169,7 @@
                             @endforeach
                         ],
                         label: "Planning",
-                        borderColor: "#A12BFE",
+                        borderColor: "#d0a4f3",
                         backgroundColor: "rgba(0,0,0,0)",
                         fill: false
                     },
@@ -213,7 +197,7 @@
                             @endforeach
                         ],
                         label: "Warehousing",
-                        borderColor: "#5A5A5A",
+                        borderColor: "#069baf",
                         backgroundColor: "rgba(0,0,0,0)",
                         fill: false
                     },
