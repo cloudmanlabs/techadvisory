@@ -2,7 +2,7 @@
     Shows all the $questions, each with it's corresponding type
     --}}
 
-@props(['questions', 'class', 'disabled', 'required', 'fileUploadRoute', 'skipQuestionsInVendor'])
+@props(['questions', 'class', 'disabled', 'required', 'fileUploadRoute', 'skipQuestionsInVendor', 'useCaseId'])
 
 @php
     $skipQuestionsInVendor = $skipQuestionsInVendor ?? false;
@@ -173,28 +173,6 @@
             </div>
             @break
         @case('file')
-
-{{--        <div class="card-body">--}}
-{{--            <div style="float: left;">--}}
-{{--                <h3>Project conclusions</h3>--}}
-{{--            </div>--}}
-
-{{--            <br><br>--}}
-
-{{--            <p class="welcome_text extra-top-15px">--}}
-{{--                {{nova_get_setting('accenture_projectConclusions_title') ?? ''}}--}}
-{{--            </p>--}}
-{{--            <br>--}}
-{{--            <br>--}}
-
-{{--            <x-folderFilePreview :folder="$project->conclusionsFolder" />--}}
-
-{{--            <div class="row">--}}
-{{--                <div class="col-12 col-md-12 col-xl-12">--}}
-{{--                    <x-folderFileUploader :folder="$project->conclusionsFolder" :disabled="$project->currentPhase == 'old'" :timeout="1000"/>--}}
-{{--                </div>--}}
-{{--            </div>--}}
-{{--        </div>--}}
             <div class="form-group questionDiv practice{{$question->practice->id ?? ''}}" data-practice="{{$question->practice->id ?? ''}}">
                 <x-useCaseQuestionFileUploader
                     :question="$question"
@@ -202,6 +180,7 @@
                     :fileUploadRoute="$fileUploadRoute ?? '/useCaseQuestionResponse/uploadFile'"
                     :disabled="$disabled"
                     :required="$required"
+                    :useCaseId="$useCaseId"
                 />
                 <p id="errorrQuestion{{$question->id}}" style="color: darkred;">Error saving the response of this question.</p>
                 @if (!$disabled)

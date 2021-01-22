@@ -21,28 +21,18 @@ class UseCaseTemplate extends Model
 {
     public $guarded = [];
 
-//    public function practice()
-//    {
-//        return $this->belongsTo(Practice::class);
-//    }
+    public function practice()
+    {
+        return $this->belongsTo(Practice::class);
+    }
+
+    public function subpractice()
+    {
+        return $this->belongsTo(Subpractice::class);
+    }
 
     public function useCaseQuestions()
     {
         return $this->hasMany(UseCaseTemplateQuestionResponse::class, 'use_case_templates_id');
     }
-
-//    public function id()
-//    {
-//        return $this->id;
-//    }
-//
-//    public function name()
-//    {
-//        return $this->name;
-//    }
-//
-//    public function description()
-//    {
-//        return $this->description;
-//    }
 }

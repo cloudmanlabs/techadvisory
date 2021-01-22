@@ -62,8 +62,10 @@ class UseCaseTemplate extends Resource
                 ->rules('required')
                 ->required(),
 
-//            BelongsTo::make('SC Capability (Practice)', 'practice', 'App\Nova\Practice')
-//                ->sortable(),
+            BelongsTo::make('SC Capability (Practice)', 'practice', 'App\Nova\Practice')
+                ->sortable(),
+
+            BelongsTo::make('Subpractices', 'subpractice', 'App\Nova\Subpractice'),
 
             HasMany::make('Use Case Questions', 'useCaseQuestions', 'App\Nova\UseCaseTemplateQuestionResponse'),
         ];

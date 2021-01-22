@@ -17,11 +17,12 @@ class VendorUseCasesEvaluation extends Model
 {
     protected $table = 'vendor_use_cases_evaluation';
 
-    public static function findByIds($useCaseId, $clientId, $vendorId)
+    public static function findByIdsAndType($useCaseId, $userCredential, $vendorId, $evaluationType)
     {
         return VendorUseCasesEvaluation::where('use_case_id', '=', $useCaseId)
-            ->where('client_id', '=', $clientId)
+            ->where('user_credential', '=', $userCredential)
             ->where('vendor_id', '=', $vendorId)
+            ->where('evaluation_type', '=', $evaluationType)
             ->first();
     }
 }

@@ -213,32 +213,17 @@ class ProjectController extends Controller
 
     public function useCasesSetUp(Request $request, Project $project)
     {
-        $client = $project->client;
-        $clients = $client->credentials()->get();
-
-        $accentureUsers = User::accentureUsers()->get();
-        $appliedVendors = $project->vendorsApplied()->get();
-
 //        $useCases = UseCases::findByProject($project->id);
         $useCases = $project->useCases()->get();
 
-        $useCaseTemplates = UseCaseTemplate::all();
-
         $useCaseQuestions = UseCaseQuestion::all();
 
-        SecurityLog::createLog('Accenture user accessed project Use Cases setup with ID ' . $project->id);
+        SecurityLog::createLog('Vendor user accessed project Use Cases setup with ID ' . $project->id);
 
         $view = [
             'project' => $project,
 
-            'clients' => $clients,
-
-            'accentureUsers' => $accentureUsers,
-
-            'appliedVendors' => $appliedVendors,
-
             'useCases' => $useCases,
-            'useCaseTemplates' => $useCaseTemplates,
             'useCaseQuestions' => $useCaseQuestions
         ];
 
@@ -246,11 +231,9 @@ class ProjectController extends Controller
         if($useCaseNumber) {
             $useCase = UseCase::find($useCaseNumber);
             $view['currentUseCase'] = $useCase;
-            $view['useCaseResponses'] = UseCaseQuestionResponse::getResponsesFromUseCase($useCase);
         } elseif ($project->useCasesPhase === 'evaluation') {
             $useCase = UseCase::all()->first();
             $view['currentUseCase'] = $useCase;
-            $view['useCaseResponses'] = UseCaseQuestionResponse::getResponsesFromUseCase($useCase);
         }
 
         return view('vendorViews.useCasesSetUp', $view);
