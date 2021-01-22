@@ -24,7 +24,7 @@
                                 <polyline points="22 4 12 14.01 9 11.01"></polyline>
                             </svg>
                             <a class="pt-1px d-none d-md-block" href="{{route('accenture.useCasesSetUp', ['project' => $project])}}">
-                                Use Cases Set Up
+                                {{$project->useCasesPhase === 'evaluation' ? 'Use Cases' : 'Use Cases Set Up'}}
                             </a>
                         </li>
                     </ul>

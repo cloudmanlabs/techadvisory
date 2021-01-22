@@ -2,7 +2,7 @@
     Special component to upload files to a question
     --}}
 
-@props(['question', 'fileUploadRoute', 'disabled', 'required'])
+@props(['question', 'fileUploadRoute', 'disabled', 'required', 'useCaseId'])
 
 @php
     $randId = random_int(100, 9000);
@@ -26,7 +26,7 @@
             class="form-control file-upload-info"
             value="{{$question->response ? 'File selected' : 'No file selected'}}"
             type="text">
-        @if (!$disabled)
+        @if (!$disabled && ($useCaseId ?? null))
             <span class="input-group-append">
                 <button class="btn btn-primary" id="button-{{$identifier}}" type="button">
                     <span
@@ -68,6 +68,9 @@
 
             var formData = new FormData();
             formData.append('changing', '{{$question->id}}');
+            @if($useCaseId ?? null)
+            formData.append('useCase', '{{$useCaseId}}');
+            @endif
             formData.append('value', $(this).get(0).files[0]);
             $.ajax({
                 url : "{{$fileUploadRoute}}",

@@ -222,6 +222,12 @@
             return el.value != "";
         };
 
+        if ('{{ $project->useCases }}' === 'no') {
+            $('#useCaseMenuOption').attr('style','display:none !important');//.css('display', 'none!important');
+        } else {
+            $('#useCaseMenuOption').attr('style','display:inherit !important');//.css('display', 'inherit!important');
+        }
+
         /**
          *  Returns false if any field is empty
          */
@@ -408,6 +414,22 @@
 
                 showSavedToast();
                 updateSubmitButton();
+            });
+
+            $('#useCasesSelect').change(function (e) {
+                var value = $(this).val();
+                if (value === 'no') {
+                    $('#useCaseMenuOption').attr('style','display:none !important');//.css('display', 'none!important');
+                } else  {
+                    $('#useCaseMenuOption').attr('style','display:inherit !important');//.css('display', 'inherit!important');
+                }
+                $.post('/accenture/newProjectSetUp/changeProjectUseCases', {
+                    project_id: '{{$project->id}}',
+                    value: value
+                })
+
+                showSavedToast();
+                updateSubmitStep3();
             });
 
             $('#bindingOption').change(function (e) {
