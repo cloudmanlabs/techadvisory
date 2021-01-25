@@ -360,6 +360,11 @@
                 ]
             },
             options: {
+                layout: {
+                    padding: {
+                        bottom: 120
+                    }
+                },
                 legend: {display: false},
                 scales: {
                     yAxes: [{
@@ -373,6 +378,7 @@
                         ticks: {
                             stacked: true,
                             fontSize: 17,
+                            minRotation: 90
                         }
                     }]
                 }

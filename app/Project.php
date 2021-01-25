@@ -691,6 +691,11 @@ class Project extends Model
     private static function getProjectCountFromIndustry($industry, $regions = [], $years = [])
     {
         $query = Project::select('id', 'currentPhase', 'industry', 'practice_id', 'regions', 'created_at');
+        $query = $query->where('currentPhase','=','old');
+        $query = $query->whereHas('vendorApplications', function (Builder $query) {
+            $query->where('phase', 'submitted');
+        });
+        $query = $query->orderBy('industry', 'DESC');
         $query = Project::benchmarkOverviewFilters($query, $regions, $years);
 
         $query = $query->get()->filter(function (Project $project) use ($industry) {
