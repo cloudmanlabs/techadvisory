@@ -695,7 +695,6 @@ class Project extends Model
         $query = $query->whereHas('vendorApplications', function (Builder $query) {
             $query->where('phase', 'submitted');
         });
-        $query = $query->orderBy('industry', 'DESC');
         $query = Project::benchmarkOverviewFilters($query, $regions, $years);
 
         $query = $query->get()->filter(function (Project $project) use ($industry) {

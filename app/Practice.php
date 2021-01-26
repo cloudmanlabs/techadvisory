@@ -2,6 +2,7 @@
 
 namespace App;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 
 /**
@@ -82,7 +83,11 @@ class Practice extends Model
 
     public function numberOfProjectsByVendor(User $vendor, $regions = [], $years = [])
     {
-        $query = $this->projects()->select('id', 'currentPhase', 'regions', 'created_at');
+        $query = $this->projects()->select('id', 'currentPhase', 'regions', 'created_at')
+            ->whereHas('vendorApplications', function (Builder $query) {
+                $query->where('phase', 'submitted');
+            });
+
         $query = $this->benchmarkOverviewFilters($query, $regions, $years);
 
         $query = $query->get()->filter(function (Project $project) use ($vendor) {
