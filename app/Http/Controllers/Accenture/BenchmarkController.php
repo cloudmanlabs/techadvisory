@@ -33,12 +33,11 @@ class BenchmarkController extends Controller
 
         // Data for graphics. Applying filters.
         $practices = Practice::all();                                                              // Chart 1
-        $vendors = User::vendorUsers()
-            ->where('hasFinishedSetup', true)->get()
+        $vendors = User::vendorUsers()->get()
             ->filter(function (User $vendor) use ($practices) {
                 $count = 0;
                 foreach ($practices as $practice) {
-                    $count += $practice->numberOfProjectsByVendor($vendor, array(), array());
+                    $count += $practice->numberOfProjectsAnsweredByVendor($vendor, array(), array());
                 }
                 return $count > 0;
             });     // Chart 2
