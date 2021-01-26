@@ -91,7 +91,10 @@ class User extends Authenticatable
     public function projectsClientFilteredBenchmarkOverview($regions = [], $years = [])
     {
         $query = $this->hasMany(Project::class, 'client_id')
-            ->select('id', 'regions', 'created_at', 'currentPhase');
+            ->select('id', 'regions', 'created_at', 'currentPhase')
+            ->whereHas('vendorApplications', function (Builder $query) {
+                $query->where('phase', 'submitted');
+            });
         $query = $this->benchmarkOverviewFilters($query, $regions, $years);
         $query = $query->count();
 

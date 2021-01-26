@@ -34,7 +34,10 @@ class BenchmarkController extends Controller
         // Data for graphics. Applying filters.
         $practices = Practice::all();                                                              // Chart 1
         $vendors = User::vendorUsers()->where('hasFinishedSetup', true)->get();     // Chart 2
-        $clients = User::clientUsers()->where('hasFinishedSetup', true)->get();     // Chart 3
+        $clients = User::clientUsers()->get()
+            ->filter(function (User $client) {
+                return $client->projectsClientFilteredBenchmarkOverview(array(), array()) > 0;
+            });     // Chart 3
         // Note: In the 3 previous cases, the filters are sended to the view in order to filter there, calling the models.
         $industries = Project::calculateProjectsPerIndustry($regionsToFilter, $yearsToFilter);     // Chart 4
 
