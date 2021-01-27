@@ -89,7 +89,7 @@
                                             <div class="col-8 border-left flex-col">
                                                 <h3>Use case</h3>
                                                 <div class="form-area">
-                                                    <h4>Use Case Category</h4>
+                                                    <h4>Use case Content</h4>
                                                     <br>
                                                     <div class="form-group">
                                                         <div class="row">
