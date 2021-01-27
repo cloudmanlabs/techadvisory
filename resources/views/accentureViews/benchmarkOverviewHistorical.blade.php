@@ -142,7 +142,7 @@
                             @endforeach
                         ],
                         label: "Total",
-                        borderColor: "#af0878",
+                        borderColor: "{{config('colors.grey')}}",
                         backgroundColor: "rgba(0,0,0,0)",
                         fill: false
                     },
@@ -155,7 +155,7 @@
                             @endforeach
                         ],
                         label: "Transport",
-                        borderColor: "#812dc2",
+                        borderColor: "{{config('colors.greenBlue')}}",
                         backgroundColor: "rgba(0,0,0,0)",
                         fill: false
                     },
@@ -169,7 +169,7 @@
                             @endforeach
                         ],
                         label: "Planning",
-                        borderColor: "#d0a4f3",
+                        borderColor: "{{config('colors.blue')}}",
                         backgroundColor: "rgba(0,0,0,0)",
                         fill: false
                     },
@@ -183,7 +183,7 @@
                             @endforeach
                         ],
                         label: "Manufacturing",
-                        borderColor: "#234DFF",
+                        borderColor: "{{config('colors.purple')}}",
                         backgroundColor: "rgba(0,0,0,0)",
                         fill: false
                     },
@@ -197,7 +197,7 @@
                             @endforeach
                         ],
                         label: "Warehousing",
-                        borderColor: "#069baf",
+                        borderColor: "{{config('colors.black')}}",
                         backgroundColor: "rgba(0,0,0,0)",
                         fill: false
                     },
@@ -211,7 +211,7 @@
                             @endforeach
                         ],
                         label: "Sourcing",
-                        borderColor: "#111",
+                        borderColor: "{{config('colors.rose')}}",
                         backgroundColor: "rgba(0,0,0,0)",
                         fill: false
                     },

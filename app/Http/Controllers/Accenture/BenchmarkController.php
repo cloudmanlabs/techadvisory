@@ -11,6 +11,7 @@ use App\Subpractice;
 use App\User;
 use App\VendorApplication;
 use App\VendorSolution;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 
 class BenchmarkController extends Controller
@@ -37,13 +38,13 @@ class BenchmarkController extends Controller
             ->filter(function (User $vendor) use ($practices) {
                 $count = 0;
                 foreach ($practices as $practice) {
-                    $count += $practice->numberOfProjectsAnsweredByVendor($vendor, array(), array());
+                    $count += $practice->numberOfProjectsAnsweredByVendor($vendor);
                 }
                 return $count > 0;
             });     // Chart 2
         $clients = User::clientUsers()->get()
             ->filter(function (User $client) {
-                return $client->projectsClientFilteredBenchmarkOverview(array(), array()) > 0;
+                return $client->projectsClientFilteredBenchmarkOverview() > 0;
             });     // Chart 3
         // Note: In the 3 previous cases, the filters are sended to the view in order to filter there, calling the models.
         $industries = Project::calculateProjectsPerIndustry($regionsToFilter, $yearsToFilter);     // Chart 4
@@ -208,10 +209,38 @@ class BenchmarkController extends Controller
         $regions = collect(config('arrays.regions'));
 
         // Data for informative panels (counts)
-        $totalVendors = User::vendorUsers()->where('hasFinishedSetup', true)->count();
-        $totalClients = User::clientUsers()->where('hasFinishedSetup', true)->count();
-        $totalProjects = Project::all('id')->count();
-        $totalSolutions = VendorSolution::all('id')->count();
+        $totalVendors = User::vendorUsers()->get()
+            ->filter(function (User $vendor) use ($practices) {
+                $count = 0;
+                foreach ($practices as $practice) {
+                    $count += $practice->numberOfProjectsAnsweredByVendor($vendor);
+                }
+                return $count > 0;
+            })->count();
+
+        $totalClients = User::clientUsers()->get()
+            ->filter(function (User $client) {
+                return $client->projectsClientFilteredBenchmarkOverview() > 0;
+            })->count();
+
+        $totalProjects = Project::where('currentPhase', '=', 'old')
+            ->whereHas('vendorApplications', function (Builder $query) {
+                $query->where('phase', 'submitted');
+            })
+            ->count();
+        $vendors = User::vendorUsers()->get()
+            ->filter(function (User $vendor) use ($practices) {
+                $count = 0;
+                foreach ($practices as $practice) {
+                    $count += $practice->numberOfProjectsAnsweredByVendor($vendor);
+                }
+                return $count > 0;
+            });
+
+        $totalSolutions = 0;
+        foreach ($vendors as $vendor) {
+            $totalSolutions += $vendor->vendorSolutions->count();
+        }
 
         return View('accentureViews.benchmarkProjectResults', [
             'nav1' => 'projectResults',
