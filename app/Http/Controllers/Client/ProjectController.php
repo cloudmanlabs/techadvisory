@@ -169,6 +169,9 @@ class ProjectController extends Controller
         } elseif ($project->useCasesPhase === 'evaluation') {
             $useCase = UseCase::findByProject($project->id)->first();
             $view['currentUseCase'] = $useCase;
+            $useCaseResponses = UseCaseQuestionResponse::getResponsesFromUseCase($useCase);
+            $view['useCaseResponses'] = $useCaseResponses;
+            $useCaseQuestions = $this->getQuestionsWithTypeFieldFilled($useCaseQuestions, $useCaseResponses);
             $selectedClients = explode(',', urldecode($useCase->clientUsers));
             $canEvaluateVendors = (array_search($accessingClientCredentialsId, $selectedClients) !== false) && $request->user()->isClient();
             $invitedVendors = explode(',', urldecode($project->use_case_invited_vendors));

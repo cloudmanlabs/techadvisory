@@ -40,14 +40,14 @@
                                 @endif
                                 <br>
                                 @if($project->useCasesPhase === 'evaluation')
-                                    <div>
+                                <div>
                                 @else
-                                    <div id="wizard_accenture_useCasesSetUp">
-                                @endif
+                                <div id="wizard_accenture_useCasesSetUp">
                                     <h2>Use Cases</h2>
+                                @endif
                                     <section>
                                         <div class="row">
-                                            <aside class="col-2">
+                                            <aside class="col-3">
                                                 <div id="subwizard_here">
                                                     <ul role="tablist">
                                                         @foreach ($useCases as $key=>$useCase)
@@ -86,43 +86,35 @@
                                                     </div>
                                                 @endif
                                             </aside>
-                                            <div class="col-8 border-left flex-col">
-                                                <h3>Use case</h3>
-                                                <div class="form-area">
+                                            <div class="col-9 border-left flex-col">
+                                                <div class="form-area
+                                                    @if($project->useCasesPhase === 'evaluation')
+                                                    area-evaluation
+                                                    @endif
+                                                ">
+
                                                     <h4>Use case Content</h4>
                                                     <br>
                                                     <div class="form-group">
                                                         <div class="row">
-                                                        @if($project->useCasesPhase === 'evaluation')
-                                                            <div class="col-12">
-                                                                <label for="useCaseName">Name</label>
-                                                            </div>
-                                                            <div class="col-12">
-                                                                <h6>Name of the use case.</h6>
-                                                            </div>
-                                                        @else
                                                             <div class="col-3">
                                                                 <label for="useCaseName">Name*</label>
                                                             </div>
                                                             <div class="col-6">
-                                                                <input type="text" class="form-control"
-                                                                       id="useCaseName"
-                                                                       data-changing="name"
-                                                                       placeholder="Use case name"
-                                                                       required>
+                                                                <input
+                                                                    type="text" class="form-control"
+                                                                    id="useCaseName"
+                                                                    data-changing="name"
+                                                                    placeholder="Use case name"
+                                                                    required
+                                                                    @if($project->useCasesPhase === 'evaluation')
+                                                                    disabled
+                                                                    @endif
+                                                                >
                                                             </div>
-                                                        @endif
                                                         </div>
                                                         <br>
                                                         <div class="row">
-                                                        @if($project->useCasesPhase === 'evaluation')
-                                                            <div class="col-12">
-                                                                <label for="useCaseDescription">Description</label>
-                                                            </div>
-                                                            <div class="col-12">
-                                                                <h6>Description of this use case.</h6>
-                                                            </div>
-                                                        @else
                                                             <div class="col-3">
                                                                 <label for="useCaseDescription">Description*</label>
                                                             </div>
@@ -133,30 +125,18 @@
                                                                     placeholder="Add description"
                                                                     rows="5"
                                                                     required
+                                                                    @if($project->useCasesPhase === 'evaluation')
+                                                                    disabled
+                                                                    @endif
                                                                 ></textarea>
                                                             </div>
-                                                        @endif
-
                                                         </div>
                                                         <br>
-                                                        @if($project->useCasesPhase === 'evaluation')
-                                                            <label>Questions</label>
-                                                            @foreach ($useCaseQuestions as $question)
-                                                                <h6 class="questionDiv practice{{$question->practice->id ?? ''}}" style="margin-bottom: 1rem">
-                                                                    {{$question->label}}
-                                                                </h6>
-                                                            @endforeach
-                                                        @else
-                                                            <x-useCaseQuestionForeach :questions="$useCaseQuestions" :class="'useCaseQuestion'"
-                                                                                      :disabled="false" :required="false"
-                                                                                      :useCaseId="$useCaseId"
-                                                            />
-                                                        @endif
-
                                                         <br>
                                                     </div>
                                                 </div>
                                                 @if($project->useCasesPhase !== 'evaluation')
+                                                    <br>
                                                     <div class="form-area">
                                                         <h4>Users</h4>
                                                         <br>
@@ -571,7 +551,11 @@
             background-color: #eee;
             border-radius: 5px;
             padding: 20px;
-            margin-top: 25px;
+            /*margin-top: 25px;*/
+        }
+
+        .area-evaluation {
+            background-color: #f2f4f8;;
         }
 
         #summary i {
@@ -831,15 +815,6 @@
             $('#clientUsers').select2();
             $('#invitedVendors').select2();
 
-            $('#invitedVendors').change(function () {
-                $.post('/accenture/newProjectSetUp/updateInvitedVendors', {
-                    project_id: '{{$project->id}}',
-                    vendorList: encodeURIComponent($(this).val())
-                })
-
-                showSavedToast();
-            });
-
             $('#newUseCase').click(function () {
                 if ($('#templateSelect').val() === "-1") {
                     return location.replace("{{route('accenture.useCasesSetUp', ['project' => $project])}}");
@@ -988,41 +963,6 @@
                 }
             @endforeach
             @endif
-            @if($currentUseCase ?? null)
-            $('#useCaseName').val("{{$currentUseCase->name}}")
-            $('#useCaseDescription').val("{{$currentUseCase->description}}")
-            $('#accentureUsers').val(decodeURIComponent("{{$currentUseCase->accentureUsers}}").split(","))
-            $('#accentureUsers').select2().trigger('change')
-            $('#clientUsers').val(decodeURIComponent("{{$currentUseCase->clientUsers}}").split(","))
-            $('#clientUsers').select2().trigger('change')
-            @foreach($useCaseResponses as $useCaseResponse)
-            var element{{$useCaseResponse->use_case_questions_id}} = document.getElementById('useCaseQuestion{{$useCaseResponse->use_case_questions_id}}');
-            if (element{{$useCaseResponse->use_case_questions_id}})
-                switch (element{{$useCaseResponse->use_case_questions_id}}.tagName.toLowerCase()) {
-                case 'input':
-                    switch ($('#useCaseQuestion{{$useCaseResponse->use_case_questions_id}}').attr('type').toLowerCase()) {
-                        case 'text':
-                            $('#useCaseQuestion{{$useCaseResponse->use_case_questions_id}}').val(decodeURIComponent("{{$useCaseResponse->response}}"))
-                            break;
-                        case 'number':
-                            $('#useCaseQuestion{{$useCaseResponse->use_case_questions_id}}').val(parseInt('{{$useCaseResponse->response}}', 10))
-                            break;
-                    }
-                    break;
-                case 'select':
-                    if($('#useCaseQuestion{{$useCaseResponse->use_case_questions_id}}').hasClass('js-example-basic-multiple')) {
-                        $('#useCaseQuestion{{$useCaseResponse->use_case_questions_id}}').val(decodeURIComponent("{{$useCaseResponse->response}}").split(","))
-                        $('#useCaseQuestion{{$useCaseResponse->use_case_questions_id}}').select2().trigger('change')
-                    } else {
-                        $('#useCaseQuestion{{$useCaseResponse->use_case_questions_id}}').val('{{$useCaseResponse->response}}')
-                    }
-                    break;
-                case 'textarea':
-                    $('#useCaseQuestion{{$useCaseResponse->use_case_questions_id}}').val(decodeURIComponent("{{$useCaseResponse->response}}"))
-                    break;
-            }
-            @endforeach
-            @endif
             @if($project ?? null)
             @foreach($useCases as $useCase)
             $('#scoringCriteria{{$useCase->id}}').val(parseFloat({{$useCase->scoring_criteria}}))
@@ -1036,17 +976,19 @@
             $('#invitedVendors').val(decodeURIComponent("{{$project->use_case_invited_vendors}}").split(","))
             $('#invitedVendors').select2().trigger('change')
             @endif
+            $('#invitedVendors').change(function () {
+                $.post('/accenture/newProjectSetUp/updateInvitedVendors', {
+                    project_id: '{{$project->id}}',
+                    vendorList: encodeURIComponent($(this).val())
+                })
+
+                showSavedToast();
+            });
             @if($appliedVendors)
             @foreach($appliedVendors as $appliedVendor)
             console.log('{{$appliedVendor->id}}' + ' : ' + '{{$appliedVendor->name}}');
             @endforeach
             @endif
-            @foreach ($useCaseQuestions as $question)
-            $('#errorrQuestion' + '{{$question->id}}').hide();
-            @endforeach
-            $('#errorPublish').hide();
-            $('#errorScoringCriteria').hide();
-            $('#errorSaveUseCase').hide();
             @else
             @foreach($selectedVendors as $selectedVendor)
             $('#errorSaveVendorsEvaluation{{$selectedVendor->id}}').hide();
@@ -1065,6 +1007,48 @@
             $('#vendorBody{{$selectedVendor->id}}').hide();
             @endforeach
             @endif
+            @if($currentUseCase ?? null)
+            $('#useCaseName').val("{{$currentUseCase->name}}")
+            $('#useCaseDescription').val("{{$currentUseCase->description}}")
+            $('#accentureUsers').val(decodeURIComponent("{{$currentUseCase->accentureUsers}}").split(","))
+            $('#accentureUsers').select2().trigger('change')
+            $('#clientUsers').val(decodeURIComponent("{{$currentUseCase->clientUsers}}").split(","))
+            $('#clientUsers').select2().trigger('change')
+            @foreach($useCaseResponses as $useCaseResponse)
+            var element{{$useCaseResponse->use_case_questions_id}} = document.getElementById('useCaseQuestion{{$useCaseResponse->use_case_questions_id}}');
+            if (element{{$useCaseResponse->use_case_questions_id}}){
+                switch (element{{$useCaseResponse->use_case_questions_id}}.tagName.toLowerCase()) {
+                    case 'input':
+                        switch ($('#useCaseQuestion{{$useCaseResponse->use_case_questions_id}}').attr('type').toLowerCase()) {
+                            case 'text':
+                                $('#useCaseQuestion{{$useCaseResponse->use_case_questions_id}}').val(decodeURIComponent("{{$useCaseResponse->response}}"))
+                                break;
+                            case 'number':
+                                $('#useCaseQuestion{{$useCaseResponse->use_case_questions_id}}').val(parseInt('{{$useCaseResponse->response}}', 10))
+                                break;
+                        }
+                        break;
+                    case 'select':
+                        if($('#useCaseQuestion{{$useCaseResponse->use_case_questions_id}}').hasClass('js-example-basic-multiple')) {
+                            $('#useCaseQuestion{{$useCaseResponse->use_case_questions_id}}').val(decodeURIComponent("{{$useCaseResponse->response}}").split(","))
+                            $('#useCaseQuestion{{$useCaseResponse->use_case_questions_id}}').select2().trigger('change')
+                        } else {
+                            $('#useCaseQuestion{{$useCaseResponse->use_case_questions_id}}').val('{{$useCaseResponse->response}}')
+                        }
+                        break;
+                    case 'textarea':
+                        $('#useCaseQuestion{{$useCaseResponse->use_case_questions_id}}').val(decodeURIComponent("{{$useCaseResponse->response}}"))
+                        break;
+                }
+            }
+            @endforeach
+            @endif
+            @foreach ($useCaseQuestions as $question)
+            $('#errorrQuestion' + '{{$question->id}}').hide();
+            @endforeach
+            $('#errorPublish').hide();
+            $('#errorScoringCriteria').hide();
+            $('#errorSaveUseCase').hide();
             disableQuestionsByPractice();
         });
     </script>

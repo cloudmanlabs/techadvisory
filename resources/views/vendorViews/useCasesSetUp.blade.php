@@ -1,5 +1,9 @@
 @extends('vendorViews.layouts.forms')
 
+@php
+    $useCaseId = ($currentUseCase ?? null) ?$currentUseCase->id : null;
+@endphp
+
 @section('content')
     <div class="main-wrapper">
         <x-vendor.navbar activeSection="projects"/>
@@ -21,10 +25,9 @@
                                 @endif
                                 <br>
                                 <div>
-                                    <h2>Use Cases</h2>
                                     <section>
                                         <div class="row">
-                                            <aside class="col-2">
+                                            <aside class="col-3">
                                                 <div id="subwizard_here">
                                                     <ul role="tablist">
                                                         @foreach ($useCases as $key=>$useCase)
@@ -43,36 +46,51 @@
                                                     </ul>
                                                 </div>
                                             </aside>
-                                            <div class="col-8 border-left flex-col">
-                                                <h3>Use case</h3>
-                                                <div class="form-area">
+                                            <div class="col-9 border-left flex-col">
+                                                <div class="form-area
+                                                    @if($project->useCasesPhase === 'evaluation')
+                                                    area-evaluation
+                                                    @endif
+                                                    ">
                                                     <h4>Use case Content</h4>
                                                     <br>
                                                     <div class="form-group">
                                                         <div class="row">
-                                                            <div class="col-12">
-                                                                <label for="useCaseName">Name</label>
+                                                            <div class="col-3">
+                                                                <label for="useCaseName">Name*</label>
                                                             </div>
-                                                            <div class="col-12">
-                                                                <h6>Name of the use case.</h6>
+                                                            <div class="col-6">
+                                                                <input
+                                                                    type="text" class="form-control"
+                                                                    id="useCaseName"
+                                                                    data-changing="name"
+                                                                    placeholder="Use case name"
+                                                                    required
+                                                                    disabled>
                                                             </div>
                                                         </div>
                                                         <br>
                                                         <div class="row">
-                                                            <div class="col-12">
-                                                                <label for="useCaseDescription">Description</label>
+                                                            <div class="col-3">
+                                                                <label for="useCaseDescription">Description*</label>
                                                             </div>
-                                                            <div class="col-12">
-                                                                <h6>Description of this use case.</h6>
+                                                            <div class="col-6">
+                                                                <textarea
+                                                                    class="form-control"
+                                                                    id="useCaseDescription"
+                                                                    placeholder="Add description"
+                                                                    rows="5"
+                                                                    required
+                                                                    disabled>
+                                                                </textarea>
                                                             </div>
                                                         </div>
                                                         <br>
-                                                        <label>Questions</label>
-                                                        @foreach ($useCaseQuestions as $question)
-                                                            <h6 class="questionDiv practice{{$question->practice->id ?? ''}}" style="margin-bottom: 1rem">
-                                                                {{$question->label}}
-                                                            </h6>
-                                                        @endforeach
+                                                        <x-useCaseQuestionForeach
+                                                            :questions="$useCaseQuestions" :class="'useCaseQuestion'"
+                                                            :disabled="true" :required="false"
+                                                            :useCaseId="$useCaseId"
+                                                        />
                                                         <br>
                                                     </div>
                                                 </div>
@@ -128,7 +146,11 @@
             background-color: #eee;
             border-radius: 5px;
             padding: 20px;
-            margin-top: 25px;
+            /*margin-top: 25px;*/
+        }
+
+        .area-evaluation {
+            background-color: #f2f4f8;;
         }
 
         #summary i {
@@ -218,7 +240,46 @@
         }
 
         $(document).ready(function () {
+
+            $(".js-example-basic-single").select2();
+            $(".js-example-basic-multiple").select2();
+
             disableQuestionsByPractice();
+            @if($currentUseCase ?? null)
+            $('#useCaseName').val("{{$currentUseCase->name}}")
+            $('#useCaseDescription').val("{{$currentUseCase->description}}")
+            @foreach($useCaseResponses as $useCaseResponse)
+            var element{{$useCaseResponse->use_case_questions_id}} = document.getElementById('useCaseQuestion{{$useCaseResponse->use_case_questions_id}}');
+            if (element{{$useCaseResponse->use_case_questions_id}}){
+                switch (element{{$useCaseResponse->use_case_questions_id}}.tagName.toLowerCase()) {
+                    case 'input':
+                        switch ($('#useCaseQuestion{{$useCaseResponse->use_case_questions_id}}').attr('type').toLowerCase()) {
+                            case 'text':
+                                $('#useCaseQuestion{{$useCaseResponse->use_case_questions_id}}').val(decodeURIComponent("{{$useCaseResponse->response}}"))
+                                break;
+                            case 'number':
+                                $('#useCaseQuestion{{$useCaseResponse->use_case_questions_id}}').val(parseInt('{{$useCaseResponse->response}}', 10))
+                                break;
+                        }
+                        break;
+                    case 'select':
+                        if($('#useCaseQuestion{{$useCaseResponse->use_case_questions_id}}').hasClass('js-example-basic-multiple')) {
+                            $('#useCaseQuestion{{$useCaseResponse->use_case_questions_id}}').val(decodeURIComponent("{{$useCaseResponse->response}}").split(","))
+                            $('#useCaseQuestion{{$useCaseResponse->use_case_questions_id}}').select2().trigger('change')
+                        } else {
+                            $('#useCaseQuestion{{$useCaseResponse->use_case_questions_id}}').val('{{$useCaseResponse->response}}')
+                        }
+                        break;
+                    case 'textarea':
+                        $('#useCaseQuestion{{$useCaseResponse->use_case_questions_id}}').val(decodeURIComponent("{{$useCaseResponse->response}}"))
+                        break;
+                }
+            }
+            @endforeach
+            @endif
+            @foreach ($useCaseQuestions as $question)
+            $('#errorrQuestion' + '{{$question->id}}').hide();
+            @endforeach
         });
     </script>
 @endsection
