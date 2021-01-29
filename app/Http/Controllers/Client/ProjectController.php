@@ -110,6 +110,32 @@ class ProjectController extends Controller
         return $questions;
     }
 
+    private function createBaseUseCase($projectId, $useCaseTemplateId)
+    {
+        $useCase = new UseCase();
+        if (!$useCaseTemplateId) {
+            $useCase->project_id = $projectId;
+            $useCase->save();
+        } else {
+            $useCaseTemplate = UseCaseTemplate::find($useCaseTemplateId);
+            $useCase->name = $useCaseTemplate->name;
+            $useCase->description = $useCaseTemplate->description;
+            $useCase->project_id = $projectId;
+            $useCase->save();
+
+            $useCaseTemplateResponses = UseCaseTemplateQuestionResponse::getResponsesFromUseCaseTemplate($useCaseTemplate);
+            foreach ($useCaseTemplateResponses as $useCaseTemplateResponse) {
+                $answer = new UseCaseQuestionResponse();
+                $answer->use_case_questions_id = $useCaseTemplateResponse->use_case_questions_id;
+                $answer->use_case_id = $useCase->id;
+                $answer->response = $useCaseTemplateResponse->response;
+                $answer->save();
+            }
+        }
+
+        return UseCase::find($useCase->id) ;
+    }
+
     public function useCasesSetUp(Request $request, Project $project)
     {
         $client = $project->client;
@@ -131,12 +157,10 @@ class ProjectController extends Controller
         });
 
         $useCaseQuestions = UseCaseQuestion::all();
-
         $accessingClientCredentialsId = session('credential_id');
         $canEvaluateVendors = false;
 
         $selectedVendors = array();
-
         SecurityLog::createLog('User accessed project Use Cases setup with ID ' . $project->id  . ' and name ' . $project->name);
 
         $view = [
@@ -148,85 +172,53 @@ class ProjectController extends Controller
 
             'appliedVendors' => $appliedVendors,
 
-            'useCases' => $useCases,
             'useCaseTemplates' => $useCaseTemplates,
 
             'client_id' => $accessingClientCredentialsId
         ];
 
-        $useCaseNumber = $request->input('useCase');
-        if($useCaseNumber) {
-            $useCase = UseCase::find($useCaseNumber);
-            $view['currentUseCase'] = $useCase;
-            $useCaseResponses = UseCaseQuestionResponse::getResponsesFromUseCase($useCase);
-            $view['useCaseResponses'] = $useCaseResponses;
-            $selectedClients = explode(',', urldecode($useCase->clientUsers));
-            $canEvaluateVendors = (array_search($accessingClientCredentialsId, $selectedClients) !== false) && $request->user()->isClient();
-            $invitedVendors = explode(',', urldecode($project->use_case_invited_vendors));
-            $selectedVendors = $project->vendorsApplied()->whereIn('id', $invitedVendors)->get();
-            $useCaseQuestions = $this->getQuestionsWithTypeFieldFilled($useCaseQuestions, $useCaseResponses);
-
-        } elseif ($project->useCasesPhase === 'evaluation') {
-            $useCase = UseCase::findByProject($project->id)->first();
+        if ($request->input('createUseCase')) {
+            $useCaseTemplateId = $request->input('useCaseTemplate');
+            $useCase = $this->createBaseUseCase($project->id, $useCaseTemplateId);
             $view['currentUseCase'] = $useCase;
             $useCaseResponses = UseCaseQuestionResponse::getResponsesFromUseCase($useCase);
             $view['useCaseResponses'] = $useCaseResponses;
             $useCaseQuestions = $this->getQuestionsWithTypeFieldFilled($useCaseQuestions, $useCaseResponses);
-            $selectedClients = explode(',', urldecode($useCase->clientUsers));
-            $canEvaluateVendors = (array_search($accessingClientCredentialsId, $selectedClients) !== false) && $request->user()->isClient();
-            $invitedVendors = explode(',', urldecode($project->use_case_invited_vendors));
-            $selectedVendors = $project->vendorsApplied()->whereIn('id', $invitedVendors)->get();
+            $useCases = $project->useCases()->get();
+        } else {
+            $useCaseNumber = $request->input('useCase');
+            error_log($useCaseNumber);
+            $useCase = $useCaseNumber ? UseCase::find($useCaseNumber) : UseCase::findByProject($project->id)->first();
+            if($useCase) {
+                if($useCaseNumber) {
+                    $view['currentUseCase'] = $useCase;
+                    $useCaseResponses = UseCaseQuestionResponse::getResponsesFromUseCase($useCase);
+                    error_log(json_encode($useCaseResponses));
+                    $view['useCaseResponses'] = $useCaseResponses;
+                    $useCaseQuestions = $this->getQuestionsWithTypeFieldFilled($useCaseQuestions, $useCaseResponses);
+                    error_log(json_encode($useCaseQuestions));
+                } else {
+                    $view['currentUseCase'] = $useCase;
+                    $useCaseResponses = UseCaseQuestionResponse::getResponsesFromUseCase($useCase);
+                    $view['useCaseResponses'] = $useCaseResponses;
+                    $useCaseQuestions = $this->getQuestionsWithTypeFieldFilled($useCaseQuestions, $useCaseResponses);
+                }
+
+                if ($project->useCasesPhase === 'evaluation') {
+                    $selectedClients = explode(',', urldecode($useCase->clientUsers));
+                    $canEvaluateVendors = (array_search($accessingClientCredentialsId, $selectedClients) !== false) && $request->user()->isClient();
+                    $invitedVendors = explode(',', urldecode($project->use_case_invited_vendors));
+                    $selectedVendors = $project->vendorsApplied()->whereIn('id', $invitedVendors)->get();
+                    $view['canEvaluateVendors'] = $canEvaluateVendors;
+                    $view['selectedVendors'] = $selectedVendors;
+                }
+            }
         }
 
-        $view['canEvaluateVendors'] = $canEvaluateVendors;
-        $view['selectedVendors'] = $selectedVendors;
-
-        $useCaseTemplateId = $request->input('useCaseTemplate');
-        if($useCaseTemplateId) {
-            $useCaseTemplate = UseCaseTemplate::find($useCaseTemplateId);
-            $view['selectedUseCaseTemplate'] = $useCaseTemplate;
-            $useCaseTemplateResponses = UseCaseTemplateQuestionResponse::getResponsesFromUseCaseTemplate($useCaseTemplate);
-            $view['useCaseTemplateResponses'] = $useCaseTemplateResponses;
-            $useCaseQuestions = $this->getQuestionsWithTypeFieldFilled($useCaseQuestions, $useCaseTemplateResponses);
-        }
-
+        $view['useCases'] = $useCases;
         $view['useCaseQuestions'] = $useCaseQuestions;
 
         return view('clientViews.useCasesSetUp', $view);
-    }
-
-    public function createCaseUse(Request $request)
-    {
-        $request->validate([
-            'id' => 'nullable|exists:use_case,id|numeric',
-            'project_id' => 'required|exists:projects,id|numeric',
-            'name' => 'required|string',
-            'description' => 'required|string',
-            'accentureUsers.*' => 'required|exists:users,id|numeric',
-            'clientUsers.*' => 'required|exists:users,id|numeric'
-        ]);
-
-        if($request->id) {
-            $useCase = UseCase::find($request->id);
-            if ($useCase == null) {
-                abort(404);
-            }
-        } else {
-            $useCase = new UseCase();
-        }
-
-        $useCase->project_id = $request->project_id;
-        $useCase->name = $request->name;
-        $useCase->description = $request->description;
-        $useCase->accentureUsers = $request->accentureUsers;
-        $useCase->clientUsers = $request->clientUsers;
-        $useCase->save();
-
-        return \response()->json([
-            'status' => 200,
-            'message' => 'Success',
-            'useCaseId' => $useCase->id
-        ]);
     }
 
     public function saveProjectScoringCriteria(Request $request)
@@ -312,6 +304,90 @@ class ProjectController extends Controller
         $vendorEvaluation->comments = $request->comments;
         $vendorEvaluation->evaluation_type = 'client';
         $vendorEvaluation->save();
+
+        return \response()->json([
+            'status' => 200,
+            'message' => 'Success'
+        ]);
+    }
+
+    public function upsertUseCaseAccentureUsers(Request $request)
+    {
+        $request->validate([
+            'useCaseId' => 'required|exists:use_case,id|numeric',
+            'userList.*' => 'required|exists:users,id|numeric'
+        ]);
+
+        $useCase = UseCase::find($request->useCaseId);
+        if ($useCase == null) {
+            abort(404);
+        }
+
+        $useCase->accentureUsers = $request->userList;
+        $useCase->save();
+
+        return \response()->json([
+            'status' => 200,
+            'message' => 'Success'
+        ]);
+    }
+
+    public function upsertUseCaseClientUsers(Request $request)
+    {
+        $request->validate([
+            'useCaseId' => 'required|exists:use_case,id|numeric',
+            'clientList.*' => 'required|exists:users,id|numeric'
+        ]);
+
+        $useCase = UseCase::find($request->useCaseId);
+        if ($useCase == null) {
+            abort(404);
+        }
+
+        $useCase->clientUsers = $request->clientList;
+        $useCase->save();
+
+        return \response()->json([
+            'status' => 200,
+            'message' => 'Success'
+        ]);
+    }
+
+    public function upsertUseCaseName(Request $request)
+    {
+        $request->validate([
+            'useCaseId' => 'required|exists:use_case,id|numeric',
+            'newName' => 'required|string'
+        ]);
+
+        $useCase = UseCase::find($request->useCaseId);
+        if ($useCase == null) {
+            abort(404);
+        }
+
+        $useCase->name = $request->newName;
+        $useCase->save();
+
+        return \response()->json([
+            'status' => 200,
+            'message' => 'Success'
+        ]);
+    }
+
+    public function upsertUseCaseDescription(Request $request)
+    {
+        $request->validate([
+            'useCaseId' => 'required|exists:use_case,id|numeric',
+            'newDescription' => 'required|string'
+        ]);
+
+        $useCase = UseCase::find($request->useCaseId);
+        if ($useCase == null) {
+            abort(404);
+        }
+
+        $useCase->description = $request->newDescription;
+        $useCase->save();
 
         return \response()->json([
             'status' => 200,

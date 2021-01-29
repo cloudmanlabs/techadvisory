@@ -51,8 +51,8 @@
                                                                     class="use_cases"
                                                                     @endif
                                                                 >
-                                                                <a href="{{route('client.useCasesSetUp', ['project' => $project, 'useCase' => $useCase->id])}}">
-                                                                    {{$useCase->name}}
+                                                                <a id="useCaseSelection{{$useCase->id}}" href="{{route('client.useCasesSetUp', ['project' => $project, 'useCase' => $useCase->id])}}">
+                                                                    {{$useCase->name ?? '** UNNAMED **'}}
                                                                 </a>
                                                             </li>
                                                         @endforeach
@@ -71,7 +71,6 @@
                                                                     </select>
                                                                 </li>
                                                                 <li>
-                                                                    {{--                                                            {{route('accenture.useCasesSetUp', ['project' => $project])}}--}}
                                                                     <a id="newUseCase" href="#">
                                                                         + new use case
                                                                     </a>
@@ -80,36 +79,37 @@
                                                         </div>
                                                     @endif
                                             </aside>
-                                                <div class="col-9 border-left flex-col">
-                                                    <div class="form-area
+                                            @if($currentUseCase ?? null)
+                                                    <div class="col-9 border-left flex-col">
+                                                        <div class="form-area
                                                         @if($project->useCasesPhase === 'evaluation')
                                                             area-evaluation
                                                         @endif
-                                                    ">
-                                                        <h4>Use case Content</h4>
-                                                        <br>
-                                                        <div class="form-group">
-                                                            <div class="row">
-                                                                <div class="col-3">
-                                                                    <label for="useCaseName">Name*</label>
-                                                                </div>
-                                                                <div class="col-6">
-                                                                    <input type="text" class="form-control"
-                                                                           id="useCaseName"
-                                                                           data-changing="name"
-                                                                           placeholder="Use case name"
-                                                                           @if($project->useCasesPhase === 'evaluation')
-                                                                           disabled
-                                                                           @endif
-                                                                           required>
-                                                                </div>
-                                                            </div>
+                                                            ">
+                                                            <h4>Use case Content</h4>
                                                             <br>
-                                                            <div class="row">
-                                                                <div class="col-3">
-                                                                    <label for="useCaseDescription">Description*</label>
+                                                            <div class="form-group">
+                                                                <div class="row">
+                                                                    <div class="col-3">
+                                                                        <label for="useCaseName">Name*</label>
+                                                                    </div>
+                                                                    <div class="col-6">
+                                                                        <input type="text" class="form-control"
+                                                                               id="useCaseName"
+                                                                               data-changing="name"
+                                                                               placeholder="Use case name"
+                                                                               @if($project->useCasesPhase === 'evaluation')
+                                                                               disabled
+                                                                               @endif
+                                                                               required>
+                                                                    </div>
                                                                 </div>
-                                                                <div class="col-6">
+                                                                <br>
+                                                                <div class="row">
+                                                                    <div class="col-3">
+                                                                        <label for="useCaseDescription">Description*</label>
+                                                                    </div>
+                                                                    <div class="col-6">
                                                                     <textarea
                                                                         class="form-control"
                                                                         id="useCaseDescription"
@@ -120,152 +120,148 @@
                                                                         @endif
                                                                         required>
                                                                     </textarea>
+                                                                    </div>
                                                                 </div>
-                                                            </div>
-                                                            <br>
+                                                                <br>
                                                                 <x-useCaseQuestionForeach :questions="$useCaseQuestions" :class="'useCaseQuestion'"
                                                                                           :disabled="$project->useCasesPhase === 'evaluation'" :required="false"
                                                                                           :useCaseId="$useCaseId"
                                                                 />
+                                                                <br>
+                                                            </div>
+                                                        </div>
+                                                        @if($project->useCasesPhase !== 'evaluation')
                                                             <br>
-                                                        </div>
-                                                    </div>
-                                                    @if($project->useCasesPhase !== 'evaluation')
-                                                        <br>
-                                                        <div class="form-area">
-                                                        <h4>Users</h4>
-                                                        <br>
-                                                        <div class="row">
-                                                            <div class="col-6">
-                                                                <label for="accentureUsers">Accenture*</label>
-                                                                <select id="accentureUsers" multiple required>
-                                                                    @foreach ($accentureUsers as $accentureUser)
-                                                                        <option value="{{ $accentureUser->id }}">
-                                                                            {{ $accentureUser->name }}
-                                                                        </option>
-                                                                    @endforeach
-                                                                </select>
+                                                            <div class="form-area">
+                                                                <h4>Users</h4>
+                                                                <br>
+                                                                <div class="row">
+                                                                    <div class="col-6">
+                                                                        <label for="accentureUsers">Accenture*</label>
+                                                                        <select id="accentureUsers" multiple required>
+                                                                            @foreach ($accentureUsers as $accentureUser)
+                                                                                <option value="{{ $accentureUser->id }}">
+                                                                                    {{ $accentureUser->name }}
+                                                                                </option>
+                                                                            @endforeach
+                                                                        </select>
+                                                                    </div>
+                                                                    <div class="col-6">
+                                                                        <label for="clientUsers">Clients*</label>
+                                                                        <select id="clientUsers" multiple required>
+                                                                            @foreach ($clients as $client)
+                                                                                <option value="{{ $client->id }}">
+                                                                                    {{ $client->name }}
+                                                                                </option>
+                                                                            @endforeach
+                                                                        </select>
+                                                                    </div>
+                                                                </div>
                                                             </div>
-                                                            <div class="col-6">
-                                                                <label for="clientUsers">Clients*</label>
-                                                                <select id="clientUsers" multiple required>
-                                                                    @foreach ($clients as $client)
-                                                                        <option value="{{ $client->id }}">
-                                                                            {{ $client->name }}
-                                                                        </option>
-                                                                    @endforeach
-                                                                </select>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                        <br>
-                                                        <button id="saveUseCaseButton" class="btn btn-primary btn-right">
-                                                            Save
-                                                        </button>
-                                                        <p id="errorSaveUseCase" style="color: darkred;">Fill all required fields!</p>
-                                                    @else
-                                                        <br>
-                                                        <table >
-                                                            @foreach($selectedVendors as $selectedVendor)
-                                                                @php
-                                                                $evaluation = \App\VendorUseCasesEvaluation::findByIdsAndType($currentUseCase->id, $client_id, $selectedVendor->id, 'client');
-                                                                @endphp
-                                                                <tr>
-                                                                    <td>
-                                                                        <div class="row">
-                                                                            <div class="col-10">
-                                                                                <h6>
-                                                                                    {{$selectedVendor->name}}
-                                                                                </h6>
-                                                                            </div>
-                                                                            <div class="col-2">
-                                                                                <i class="fa fa-chevron-up" id="vendor{{$selectedVendor->id}}closed" style="float: right" aria-hidden="true"></i>
-                                                                                <i class="fa fa-chevron-down" id="vendor{{$selectedVendor->id}}opened" style="float: right" aria-hidden="true"></i>
-                                                                            </div>
-                                                                            <div id="vendorBody{{$selectedVendor->id}}" style="padding-top: 15px;padding-left: 25px;padding-right: 25px;">
-                                                                                <div class="row">
-                                                                                    <div class="col-6">
-                                                                                        <label for="vendor{{$selectedVendor->id}}SolutionFit">Solution Fit</label>
-                                                                                        <br>
-                                                                                    </div>
-                                                                                    <div class="col-6">
-                                                                                        <select id="vendor{{$selectedVendor->id}}SolutionFit">
-                                                                                            <x-options.vendorEvaluation :selected="$evaluation ? [$evaluation->solution_fit] : []"/>
-                                                                                        </select>
-                                                                                        <br>
-                                                                                    </div>
-                                                                                    <div class="col-6">
-                                                                                        <label for="vendor{{$selectedVendor->id}}Usability">Usability</label>
-                                                                                        <br>
-                                                                                    </div>
-                                                                                    <div class="col-6">
-                                                                                        <select id="vendor{{$selectedVendor->id}}Usability">
-                                                                                            <x-options.vendorEvaluation :selected="$evaluation ? [$evaluation->usability] : []"/>
-                                                                                        </select>
-                                                                                        <br>
-                                                                                    </div>
-                                                                                    <div class="col-6">
-                                                                                        <label for="vendor{{$selectedVendor->id}}Performance">Performance</label>
-                                                                                        <br>
-                                                                                    </div>
-                                                                                    <div class="col-6">
-                                                                                        <select id="vendor{{$selectedVendor->id}}Performance">
-                                                                                            <x-options.vendorEvaluation :selected="$evaluation ? [$evaluation->performance] : []"/>
-                                                                                        </select>
-                                                                                        <br>
-                                                                                    </div>
-                                                                                    <div class="col-6">
-                                                                                        <label for="vendor{{$selectedVendor->id}}LookFeel">Look and Feel</label>
-                                                                                        <br>
-                                                                                    </div>
-                                                                                    <div class="col-6">
-                                                                                        <select id="vendor{{$selectedVendor->id}}LookFeel">
-                                                                                            <x-options.vendorEvaluation :selected="$evaluation ? [$evaluation->look_feel] : []"/>
-                                                                                        </select>
-                                                                                        <br>
-                                                                                    </div>
-                                                                                    <div class="col-6">
-                                                                                        <label for="vendor{{$selectedVendor->id}}Others">Others</label>
-                                                                                        <br>
-                                                                                    </div>
-                                                                                    <div class="col-6">
-                                                                                        <select id="vendor{{$selectedVendor->id}}Others">
-                                                                                            <x-options.vendorEvaluation :selected="$evaluation ? [$evaluation->others] : []"/>
-                                                                                        </select>
-                                                                                        <br>
-                                                                                    </div>
-                                                                                    <div class="col-6">
-                                                                                        <label for="vendor{{$selectedVendor->id}}Comments">Comments</label>
-                                                                                        <br>
-                                                                                    </div>
-                                                                                    <div class="col-6">
+                                                        @else
+                                                            <br>
+                                                            <table >
+                                                                @foreach($selectedVendors as $selectedVendor)
+                                                                    @php
+                                                                        $evaluation = \App\VendorUseCasesEvaluation::findByIdsAndType($currentUseCase->id, $client_id, $selectedVendor->id, 'client');
+                                                                    @endphp
+                                                                    <tr>
+                                                                        <td>
+                                                                            <div class="row">
+                                                                                <div class="col-10">
+                                                                                    <h6>
+                                                                                        {{$selectedVendor->name}}
+                                                                                    </h6>
+                                                                                </div>
+                                                                                <div class="col-2">
+                                                                                    <i class="fa fa-chevron-up" id="vendor{{$selectedVendor->id}}closed" style="float: right" aria-hidden="true"></i>
+                                                                                    <i class="fa fa-chevron-down" id="vendor{{$selectedVendor->id}}opened" style="float: right" aria-hidden="true"></i>
+                                                                                </div>
+                                                                                <div id="vendorBody{{$selectedVendor->id}}" style="padding-top: 15px;padding-left: 25px;padding-right: 25px;">
+                                                                                    <div class="row">
+                                                                                        <div class="col-6">
+                                                                                            <label for="vendor{{$selectedVendor->id}}SolutionFit">Solution Fit</label>
+                                                                                            <br>
+                                                                                        </div>
+                                                                                        <div class="col-6">
+                                                                                            <select id="vendor{{$selectedVendor->id}}SolutionFit">
+                                                                                                <x-options.vendorEvaluation :selected="$evaluation ? [$evaluation->solution_fit] : []"/>
+                                                                                            </select>
+                                                                                            <br>
+                                                                                        </div>
+                                                                                        <div class="col-6">
+                                                                                            <label for="vendor{{$selectedVendor->id}}Usability">Usability</label>
+                                                                                            <br>
+                                                                                        </div>
+                                                                                        <div class="col-6">
+                                                                                            <select id="vendor{{$selectedVendor->id}}Usability">
+                                                                                                <x-options.vendorEvaluation :selected="$evaluation ? [$evaluation->usability] : []"/>
+                                                                                            </select>
+                                                                                            <br>
+                                                                                        </div>
+                                                                                        <div class="col-6">
+                                                                                            <label for="vendor{{$selectedVendor->id}}Performance">Performance</label>
+                                                                                            <br>
+                                                                                        </div>
+                                                                                        <div class="col-6">
+                                                                                            <select id="vendor{{$selectedVendor->id}}Performance">
+                                                                                                <x-options.vendorEvaluation :selected="$evaluation ? [$evaluation->performance] : []"/>
+                                                                                            </select>
+                                                                                            <br>
+                                                                                        </div>
+                                                                                        <div class="col-6">
+                                                                                            <label for="vendor{{$selectedVendor->id}}LookFeel">Look and Feel</label>
+                                                                                            <br>
+                                                                                        </div>
+                                                                                        <div class="col-6">
+                                                                                            <select id="vendor{{$selectedVendor->id}}LookFeel">
+                                                                                                <x-options.vendorEvaluation :selected="$evaluation ? [$evaluation->look_feel] : []"/>
+                                                                                            </select>
+                                                                                            <br>
+                                                                                        </div>
+                                                                                        <div class="col-6">
+                                                                                            <label for="vendor{{$selectedVendor->id}}Others">Others</label>
+                                                                                            <br>
+                                                                                        </div>
+                                                                                        <div class="col-6">
+                                                                                            <select id="vendor{{$selectedVendor->id}}Others">
+                                                                                                <x-options.vendorEvaluation :selected="$evaluation ? [$evaluation->others] : []"/>
+                                                                                            </select>
+                                                                                            <br>
+                                                                                        </div>
+                                                                                        <div class="col-6">
+                                                                                            <label for="vendor{{$selectedVendor->id}}Comments">Comments</label>
+                                                                                            <br>
+                                                                                        </div>
+                                                                                        <div class="col-6">
                                                                                         <textarea
                                                                                             class="form-control"
                                                                                             id="vendor{{$selectedVendor->id}}Comments"
                                                                                             placeholder="Add your comments..."
                                                                                             rows="5"
                                                                                         >{{$evaluation->comments ?? null}}</textarea>
-                                                                                        <br>
+                                                                                            <br>
+                                                                                        </div>
                                                                                     </div>
                                                                                 </div>
                                                                             </div>
-                                                                        </div>
-                                                                    </td>
-                                                                </tr>
+                                                                        </td>
+                                                                    </tr>
+                                                                @endforeach
+                                                            </table>
+                                                            <br>
+                                                            <button id="saveVendorsEvaluationButton" class="btn btn-primary btn-right">
+                                                                Save
+                                                            </button>
+                                                            @foreach($selectedVendors as $selectedVendor)
+                                                                @php
+                                                                    $evaluation = \App\VendorUseCasesEvaluation::findByIdsAndType($currentUseCase->id, $client_id, $selectedVendor->id, 'client');
+                                                                @endphp
+                                                                <p id="errorSaveVendorsEvaluation{{$selectedVendor->id}}" style="color: darkred;">Vendor {{$selectedVendor->name}} without evaluations can't be saved!</p>
                                                             @endforeach
-                                                        </table>
-                                                        <br>
-                                                        <button id="saveVendorsEvaluationButton" class="btn btn-primary btn-right">
-                                                            Save
-                                                        </button>
-                                                        @foreach($selectedVendors as $selectedVendor)
-                                                            @php
-                                                                $evaluation = \App\VendorUseCasesEvaluation::findByIdsAndType($currentUseCase->id, $client_id, $selectedVendor->id, 'client');
-                                                            @endphp
-                                                        <p id="errorSaveVendorsEvaluation{{$selectedVendor->id}}" style="color: darkred;">Vendor {{$selectedVendor->name}} without evaluations can't be saved!</p>
-                                                        @endforeach
-                                                    @endif
-                                                </div>
+                                                        @endif
+                                                    </div>
+                                            @endif
                                             </div>
                                     </section>
 
@@ -743,6 +739,127 @@
         }
 
         $(document).ready(function () {
+            $(".js-example-basic-single").select2();
+            $(".js-example-basic-multiple").select2();
+
+            @if($project->useCasesPhase !== 'evaluation')
+            $("#wizard_accenture_useCasesSetUp").steps({
+                headerTag: "h2",
+                bodyTag: "section",
+                forceMoveForward: false,
+                showFinishButtonAlways: false,
+                enableFinishButton: false,
+                enablePagination: false,
+                enableAllSteps: true,
+                onFinishing: function (event, currentIndex) {
+                    // TODO Only let the client submit if all the fields are full
+                    window.location.replace("/client/home");
+                },
+                onStepChanged: function (e, c, p) {
+                    for (let i = 0; i < 10; i++) {
+                        $('#wizard_accenture_useCasesSetUp-p-' + i).css('display', 'none')
+                    }
+                    $('#wizard_accenture_useCasesSetUp-p-' + c).css('display', 'block')
+                }
+            });
+
+            $('#accentureUsers').select2();
+            $('#clientUsers').select2();
+            $('#invitedVendors').select2();
+
+            $('#newUseCase').click(function () {
+                if ($('#templateSelect').val() === "-1") {
+                    return location.replace("{{route('client.useCasesSetUp', ['project' => $project])}}" + "?createUseCase=1");
+                }
+
+                return location.replace("{{route('client.useCasesSetUp', ['project' => $project])}}" + "?createUseCase=1" + "&useCaseTemplate=" + $('#templateSelect').val());
+            });
+
+            $('#saveScoringCriteria').click(function () {
+                if (!checkIfAllRequiredsInUseCaseScoringCriteriaAreFilled() || !checkIfSumOfSectionsIs100()) {
+                    return $('#errorScoringCriteria').show();
+                } else {
+                    $('#errorScoringCriteria').hide();
+                }
+
+
+                @foreach($useCases as $useCase)
+                var useCaseBody{{$useCase->id}} = {
+                    useCaseId: {{$useCase->id}},
+                    scoringCriteria: parseFloat($('#scoringCriteria{{$useCase->id}}').val())
+                };
+
+                $.post('/client/newProjectSetUp/saveUseCaseScoringCriteria', useCaseBody{{$useCase->id}})
+                @endforeach
+
+                var body = {
+                    project_id: parseInt({{$project->id}}, 10),
+                    rfp: parseFloat($('#useCaseRFP').val()),
+                    solutionFit: parseFloat($('#useCaseSolutionFit').val()),
+                    usability: parseFloat($('#useCaseUsability').val()),
+                    performance: parseFloat($('#useCasePerformance').val()),
+                    lookFeel: parseFloat($('#useCaseLookFeel').val()),
+                    others: parseFloat($('#useCaseOthers').val())
+                };
+
+                $.post('/client/newProjectSetUp/saveProjectScoringCriteria', body)
+                    .then(function () {
+                        showSavedToast();
+                    });
+            });
+
+            @if ($project->currentPhase === 'open')
+            $('#publishButton').click(function () {
+                if (
+                    !checkIfAllRequiredsInUseCaseCreationAreFilled() ||
+                    !checkIfAllRequiredsInUseCaseScoringCriteriaAreFilled() ||
+                    !checkIfSumOfSectionsIs100() ||
+                    !checkIfInvitedVendorsIsFilled()
+                ) {
+                    return $('#errorPublish').show();
+                } else {
+                    $('#errorPublish').hide();
+                }
+
+                $.post('/client/newProjectSetUp/publishUseCases', {
+                    project_id: '{{$project->id}}',
+                })
+                    .then(function () {
+                        showPublishedToast();
+                        location.reload();
+                    });
+            });
+            @endif
+
+            @if($project ?? null)
+            @foreach($useCases as $useCase)
+            $('#scoringCriteria{{$useCase->id}}').val(parseFloat({{$useCase->scoring_criteria}}))
+            @endforeach
+            $('#useCaseRFP').val(parseFloat({{$project->use_case_rfp}}))
+            $('#useCaseSolutionFit').val(parseFloat({{$project->use_case_solution_fit}}))
+            $('#useCaseUsability').val(parseFloat({{$project->use_case_usability}}))
+            $('#useCasePerformance').val(parseFloat({{$project->use_case_performance}}))
+            $('#useCaseLookFeel').val(parseFloat({{$project->use_case_look_feel}}))
+            $('#useCaseOthers').val(parseFloat({{$project->use_case_others}}))
+            $('#invitedVendors').val(decodeURIComponent("{{$project->use_case_invited_vendors}}").split(","))
+            $('#invitedVendors').select2().trigger('change')
+            @endif
+
+            $('#invitedVendors').change(function () {
+                $.post('/client/newProjectSetUp/updateInvitedVendors', {
+                    project_id: '{{$project->id}}',
+                    vendorList: encodeURIComponent($(this).val())
+                })
+
+                showSavedToast();
+            });
+
+            @if($appliedVendors)
+            @foreach($appliedVendors as $appliedVendor)
+            console.log('{{$appliedVendor->id}}' + ' : ' + '{{$appliedVendor->name}}');
+            @endforeach
+            @endif
+            @else
             $('#saveVendorsEvaluationButton').click(function () {
                 @foreach($selectedVendors as $selectedVendor)
                 var solutionFit{{$selectedVendor->id}} = parseInt($('#vendor{{$selectedVendor->id}}SolutionFit').val(), 10);
@@ -774,208 +891,6 @@
                 }
                 @endforeach
             });
-
-            @if($project->useCasesPhase !== 'evaluation')
-            $("#wizard_accenture_useCasesSetUp").steps({
-                headerTag: "h2",
-                bodyTag: "section",
-                forceMoveForward: false,
-                showFinishButtonAlways: false,
-                enableFinishButton: false,
-                enablePagination: false,
-                enableAllSteps: true,
-                onFinishing: function (event, currentIndex) {
-                    // TODO Only let the client submit if all the fields are full
-                    window.location.replace("/accenture/home");
-                },
-                onStepChanged: function (e, c, p) {
-                    for (let i = 0; i < 10; i++) {
-                        $('#wizard_accenture_useCasesSetUp-p-' + i).css('display', 'none')
-                    }
-                    $('#wizard_accenture_useCasesSetUp-p-' + c).css('display', 'block')
-                }
-            });
-
-            $('#accentureUsers').select2();
-            $('#clientUsers').select2();
-            $('#invitedVendors').select2();
-
-            $('#newUseCase').click(function () {
-                if ($('#templateSelect').val() === "-1") {
-                    return location.replace("{{route('client.useCasesSetUp', ['project' => $project])}}");
-                }
-
-                return location.replace("{{route('client.useCasesSetUp', ['project' => $project])}}" + "?useCaseTemplate=" + $('#templateSelect').val());
-            });
-
-            $('#saveUseCaseButton').click(function () {
-                if (!checkIfAllRequiredsInUseCaseCreationAreFilled()) {
-                    return $('#errorSaveUseCase').show();
-                } else {
-                    $('#errorSaveUseCase').hide();
-                }
-
-                var body = {
-                    @if($currentUseCase ?? null)
-                    id: {{$currentUseCase->id}},
-                    @endif
-                    project_id: {{$project->id}},
-                    name: $('#useCaseName').val(),
-                    description: $('#useCaseDescription').val(),
-                    accentureUsers: encodeURIComponent($('#accentureUsers').val()),
-                    clientUsers: encodeURIComponent($('#clientUsers').val())
-                };
-
-                $.post('/client/newProjectSetUp/saveCaseUse', body)
-                    .then(function (data) {
-                        var array = $('.useCaseQuestion input,.useCaseQuestion textarea,.useCaseQuestion select')
-                            .filter(function(el) {
-                                return $( this ).data('changing') !== undefined
-                            });
-                        for (let i = 0; i < array.length; i++) {
-                            var value = $(array[i]).val();
-                            var changing = $(array[i]).data('changing');
-                            if($.isArray(value) && value.length == 0 && $(array[i]).attr('multiple') !== undefined){
-                                value = '[]'
-                            }
-
-                            $.post('/useCaseQuestionResponse/upsertResponse', {
-                                changing: changing,
-                                value: encodeURIComponent(value),
-                                useCase: data.useCaseId,
-                            }).done(function() {
-                                showSavedQuestionToast(value);
-                                console.log("success", value, changing);
-                                $('#errorrQuestion' + changing).hide();
-                            }).fail(function() {
-                                console.log("error", value, changing);
-                                $('#errorrQuestion' + changing).show();
-                            });
-                        }
-                        location.replace("{{route('client.useCasesSetUp', ['project' => $project])}}" + "?useCase=" + data.useCaseId);
-                    });
-
-                showSavedToast();
-            });
-
-            $('#saveScoringCriteria').click(function () {
-                if (!checkIfAllRequiredsInUseCaseScoringCriteriaAreFilled() || !checkIfSumOfSectionsIs100()) {
-                    return $('#errorScoringCriteria').show();
-                } else {
-                    $('#errorScoringCriteria').hide();
-                }
-
-
-                @foreach($useCases as $useCase)
-                var useCaseBody{{$useCase->id}} = {
-                    useCaseId: {{$useCase->id}},
-                    scoringCriteria: parseFloat($('#scoringCriteria{{$useCase->id}}').val())
-                };
-
-                $.post('/client/newProjectSetUp/saveUseCaseScoringCriteria', useCaseBody{{$useCase->id}})
-                @endforeach
-
-                var body = {
-                    project_id: parseInt({{$project->id}}, 10),
-                    rfp: parseFloat($('#useCaseRFP').val()),
-                    solutionFit: parseFloat($('#useCaseSolutionFit').val()),
-                    usability: parseFloat($('#useCaseUsability').val()),
-                    performance: parseFloat($('#useCasePerformance').val()),
-                    lookFeel: parseFloat($('#useCaseLookFeel').val()),
-                    others: parseFloat($('#useCaseOthers').val())
-                };
-
-                $.post('/client/newProjectSetUp/saveProjectScoringCriteria', body)
-
-
-                showSavedToast();
-            });
-
-            @if ($project->currentPhase === 'open')
-            $('#publishButton').click(function () {
-                if (
-                    !checkIfAllRequiredsInUseCaseCreationAreFilled() ||
-                    !checkIfAllRequiredsInUseCaseScoringCriteriaAreFilled() ||
-                    !checkIfSumOfSectionsIs100() ||
-                    !checkIfInvitedVendorsIsFilled()
-                ) {
-                    return $('#errorPublish').show();
-                } else {
-                    $('#errorPublish').hide();
-                }
-
-                $.post('/client/newProjectSetUp/publishUseCases', {
-                    project_id: '{{$project->id}}',
-                })
-                    .then(function () {
-                        showPublishedToast();
-                        location.reload();
-                    });
-            });
-            @endif
-
-            $(".js-example-basic-single").select2();
-            $(".js-example-basic-multiple").select2();
-
-            @if($selectedUseCaseTemplate ?? null)
-            $('#useCaseName').val("{{$selectedUseCaseTemplate->name}}")
-            $('#useCaseDescription').val("{{$selectedUseCaseTemplate->description}}")
-            @foreach($useCaseTemplateResponses as $useCaseTemplateResponse)
-            var element{{$useCaseTemplateResponse->use_case_questions_id}} = document.getElementById('useCaseQuestion{{$useCaseTemplateResponse->use_case_questions_id}}');
-            if (element{{$useCaseTemplateResponse->use_case_questions_id}}) {
-                switch (element{{$useCaseTemplateResponse->use_case_questions_id}}.tagName.toLowerCase()) {
-                    case 'input':
-                        switch ($('#useCaseQuestion{{$useCaseTemplateResponse->use_case_questions_id}}').attr('type').toLowerCase()) {
-                            case 'text':
-                                $('#useCaseQuestion{{$useCaseTemplateResponse->use_case_questions_id}}').val(decodeURIComponent("{{$useCaseTemplateResponse->response}}"))
-                                break;
-                            case 'number':
-                                $('#useCaseQuestion{{$useCaseTemplateResponse->use_case_questions_id}}').val(parseInt('{{$useCaseTemplateResponse->response}}', 10))
-                                break;
-                        }
-                        break;
-                    case 'select':
-                        if($('#useCaseQuestion{{$useCaseTemplateResponse->use_case_questions_id}}').hasClass('js-example-basic-multiple')) {
-                            $('#useCaseQuestion{{$useCaseTemplateResponse->use_case_questions_id}}').val(decodeURIComponent("{{$useCaseTemplateResponse->response}}").split(","))
-                            $('#useCaseQuestion{{$useCaseTemplateResponse->use_case_questions_id}}').select2().trigger('change')
-                        } else {
-                            $('#useCaseQuestion{{$useCaseTemplateResponse->use_case_questions_id}}').val('{{$useCaseTemplateResponse->response}}')
-                        }
-                        break;
-                    case 'textarea':
-                        $('#useCaseQuestion{{$useCaseTemplateResponse->use_case_questions_id}}').val(decodeURIComponent("{{$useCaseTemplateResponse->response}}"))
-                        break;
-                }
-            }
-            @endforeach
-            @endif
-            @if($project ?? null)
-            @foreach($useCases as $useCase)
-            $('#scoringCriteria{{$useCase->id}}').val(parseFloat({{$useCase->scoring_criteria}}))
-            @endforeach
-            $('#useCaseRFP').val(parseFloat({{$project->use_case_rfp}}))
-            $('#useCaseSolutionFit').val(parseFloat({{$project->use_case_solution_fit}}))
-            $('#useCaseUsability').val(parseFloat({{$project->use_case_usability}}))
-            $('#useCasePerformance').val(parseFloat({{$project->use_case_performance}}))
-            $('#useCaseLookFeel').val(parseFloat({{$project->use_case_look_feel}}))
-            $('#useCaseOthers').val(parseFloat({{$project->use_case_others}}))
-            $('#invitedVendors').val(decodeURIComponent("{{$project->use_case_invited_vendors}}").split(","))
-            $('#invitedVendors').select2().trigger('change')
-            @endif
-            $('#invitedVendors').change(function () {
-                $.post('/client/newProjectSetUp/updateInvitedVendors', {
-                    project_id: '{{$project->id}}',
-                    vendorList: encodeURIComponent($(this).val())
-                })
-
-                showSavedToast();
-            });
-            @if($appliedVendors)
-            @foreach($appliedVendors as $appliedVendor)
-            console.log('{{$appliedVendor->id}}' + ' : ' + '{{$appliedVendor->name}}');
-            @endforeach
-            @endif
-            @else
             @foreach($selectedVendors as $selectedVendor)
             $('#errorSaveVendorsEvaluation{{$selectedVendor->id}}').hide();
             $('#vendor{{$selectedVendor->id}}closed').click(function() {
@@ -1001,6 +916,7 @@
             $('#clientUsers').val(decodeURIComponent("{{$currentUseCase->clientUsers}}").split(","))
             $('#clientUsers').select2().trigger('change')
             @foreach($useCaseResponses as $useCaseResponse)
+            console.log({{json_encode($useCaseResponse)}});
             var element{{$useCaseResponse->use_case_questions_id}} = document.getElementById('useCaseQuestion{{$useCaseResponse->use_case_questions_id}}');
             if (element{{$useCaseResponse->use_case_questions_id}}) {
                 switch (element{{$useCaseResponse->use_case_questions_id}}.tagName.toLowerCase()) {
@@ -1028,13 +944,80 @@
                 }
             }
             @endforeach
+
+            $('#accentureUsers').change(function () {
+                $.post('/client/newProjectSetUp/upsertUseCaseAccentureUsers', {
+                    useCaseId: {{$currentUseCase->id}},
+                    userList: encodeURIComponent($('#accentureUsers').val())
+                }).then(function () {
+                    showSavedToast();
+                });
+            });
+
+            $('#clientUsers').change(function () {
+                $.post('/client/newProjectSetUp/upsertUseCaseClientUsers', {
+                    useCaseId: {{$currentUseCase->id}},
+                    clientList: encodeURIComponent($('#clientUsers').val())
+                }).then(function () {
+                    showSavedToast();
+                });
+            });
+
+            $('#useCaseName').change(function (e) {
+                var value = $(this).val();
+                $.post('/client/newProjectSetUp/upsertUseCaseName', {
+                    useCaseId: {{$currentUseCase->id}},
+                    newName: value
+                }).then(function () {
+                    $('#useCaseSelection{{$currentUseCase->id}}').text(value);
+                    var element = $('#useCaseSelection{{$currentUseCase->id}}');
+                    showSavedToast();
+                });
+            });
+
+            $('#useCaseDescription').change(function (e) {
+                var value = $(this).val();
+                $.post('/client/newProjectSetUp/upsertUseCaseDescription', {
+                    useCaseId: {{$currentUseCase->id}},
+                    newDescription: value
+                }).then(function () {
+                    showSavedToast();
+                });
+            });
+
+            setTimeout(function(){
+                $('.useCaseQuestion input,.useCaseQuestion textarea,.useCaseQuestion select')
+                    .filter(function (el) {
+                        return $( this ).data('changing') !== undefined
+                    })
+                    .change(function (e) {
+                        var value = $( this ).val();
+                        var changing = $( this ).data('changing');
+                        if ($.isArray(value) && value.length == 0 && $(this).attr('multiple') !== undefined) {
+                            value = '[]'
+                        }
+
+                        $.post('/useCaseQuestionResponse/upsertResponse', {
+                            changing: changing,
+                            value: encodeURIComponent(value),
+                            useCase: {{$currentUseCase->id}},
+                        }).done(function() {
+                            showSavedQuestionToast(value);
+                            console.log("success", value, changing);
+                            $('#errorrQuestion' + changing).hide();
+                        }).fail(function() {
+                            console.log("error", value, changing);
+                            $('#errorrQuestion' + changing).show();
+                        });
+                    });
+            }, 1000);
+
             @endif
             @foreach ($useCaseQuestions as $question)
             $('#errorrQuestion' + '{{$question->id}}').hide();
             @endforeach
             $('#errorPublish').hide();
             $('#errorScoringCriteria').hide();
-            $('#errorSaveUseCase').hide();
             disableQuestionsByPractice();
         });
     </script>

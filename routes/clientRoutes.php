@@ -53,6 +53,10 @@ Route::prefix('client')
                     Route::get('newProjectSetUp/{project}/useCasesSetUp', 'ProjectController@useCasesSetUp')
                         ->name('useCasesSetUp');
 
+                    Route::post('/newProjectSetUp/upsertUseCaseAccentureUsers', 'ProjectController@upsertUseCaseAccentureUsers');
+                    Route::post('/newProjectSetUp/upsertUseCaseClientUsers', 'ProjectController@upsertUseCaseClientUsers');
+                    Route::post('/newProjectSetUp/upsertUseCaseName', 'ProjectController@upsertUseCaseName');
+                    Route::post('/newProjectSetUp/upsertUseCaseDescription', 'ProjectController@upsertUseCaseDescription');
                     Route::post('/newProjectSetUp/updateInvitedVendors', 'ProjectController@updateInvitedVendors');
                     Route::post('/newProjectSetUp/saveProjectScoringCriteria', 'ProjectController@saveProjectScoringCriteria');
                     Route::post('/newProjectSetUp/saveUseCaseScoringCriteria', 'ProjectController@saveUseCaseScoringCriteria');
