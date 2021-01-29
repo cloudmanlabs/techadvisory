@@ -187,16 +187,13 @@ class ProjectController extends Controller
             $useCases = $project->useCases()->get();
         } else {
             $useCaseNumber = $request->input('useCase');
-            error_log($useCaseNumber);
             $useCase = $useCaseNumber ? UseCase::find($useCaseNumber) : UseCase::findByProject($project->id)->first();
             if($useCase) {
                 if($useCaseNumber) {
                     $view['currentUseCase'] = $useCase;
                     $useCaseResponses = UseCaseQuestionResponse::getResponsesFromUseCase($useCase);
-                    error_log(json_encode($useCaseResponses));
                     $view['useCaseResponses'] = $useCaseResponses;
                     $useCaseQuestions = $this->getQuestionsWithTypeFieldFilled($useCaseQuestions, $useCaseResponses);
-                    error_log(json_encode($useCaseQuestions));
                 } else {
                     $view['currentUseCase'] = $useCase;
                     $useCaseResponses = UseCaseQuestionResponse::getResponsesFromUseCase($useCase);
