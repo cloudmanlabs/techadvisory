@@ -38,6 +38,12 @@ prefix('accenture')
             Route::post('/newProjectSetUp/upsertUseCaseClientUsers', 'ProjectController@upsertUseCaseClientUsers');
             Route::post('/newProjectSetUp/upsertUseCaseName', 'ProjectController@upsertUseCaseName');
             Route::post('/newProjectSetUp/upsertUseCaseDescription', 'ProjectController@upsertUseCaseDescription');
+            Route::post('/newProjectSetUp/upsertEvaluationSolutionFit', 'ProjectController@upsertEvaluationSolutionFit');
+            Route::post('/newProjectSetUp/upsertEvaluationUsability', 'ProjectController@upsertEvaluationUsability');
+            Route::post('/newProjectSetUp/upsertEvaluationPerformance', 'ProjectController@upsertEvaluationPerformance');
+            Route::post('/newProjectSetUp/upsertEvaluationLookFeel', 'ProjectController@upsertEvaluationLookFeel');
+            Route::post('/newProjectSetUp/upsertEvaluationOthers', 'ProjectController@upsertEvaluationOthers');
+            Route::post('/newProjectSetUp/upsertEvaluationComments', 'ProjectController@upsertEvaluationComments');
             Route::post('/newProjectSetUp/updateInvitedVendors', 'ProjectController@updateInvitedVendors');
             Route::post('/newProjectSetUp/saveProjectScoringCriteria', 'ProjectController@saveProjectScoringCriteria');
             Route::post('/newProjectSetUp/saveUseCaseScoringCriteria', 'ProjectController@saveUseCaseScoringCriteria');

@@ -136,14 +136,31 @@ class ProjectController extends Controller
         return UseCase::find($useCase->id) ;
     }
 
+    private function createVendorEvaluationsIfNeeded($accessingClientCredentialsId, $useCases, $selectedVendors)
+    {
+        foreach ($useCases as $useCase) {
+            foreach ($selectedVendors as $selectedVendor) {
+                $vendorEvaluation = VendorUseCasesEvaluation::findByIdsAndType($useCase->id, $accessingClientCredentialsId, $selectedVendor->id, 'client');
+                if ($vendorEvaluation == null) {
+                    $vendorEvaluation = new VendorUseCasesEvaluation();
+                    $vendorEvaluation->use_case_id = $useCase->id;
+                    $vendorEvaluation->user_credential = $accessingClientCredentialsId;
+                    $vendorEvaluation->vendor_id = $selectedVendor->id;
+                    $vendorEvaluation->evaluation_type = 'client';
+                    $vendorEvaluation->save();
+                }
+            }
+        }
+    }
+
     public function useCasesSetUp(Request $request, Project $project)
     {
         $client = $project->client;
         $clients = $client->credentials()->get();
 
         $projectOwner = $project->owner_id;
-        $accentureUsers = User::accentureUsers()->get()->filter(function($vendor) use ($projectOwner) {
-            return $vendor->owner_id == $projectOwner || $vendor->owner_id == 0 || $vendor->owner_id == null;
+        $accentureUsers = User::accentureUsers()->get()->filter(function($user) use ($projectOwner) {
+            return $user->owner_id == $projectOwner || $user->owner_id == 0 || $user->owner_id == null;
         });
 
         $appliedVendors = $project->vendorsApplied()->get();
@@ -208,6 +225,9 @@ class ProjectController extends Controller
                     $selectedVendors = $project->vendorsApplied()->whereIn('id', $invitedVendors)->get();
                     $view['canEvaluateVendors'] = $canEvaluateVendors;
                     $view['selectedVendors'] = $selectedVendors;
+                    if ($canEvaluateVendors) {
+                        $this->createVendorEvaluationsIfNeeded($accessingClientCredentialsId, $useCases, $selectedVendors);
+                    }
                 }
             }
         }
@@ -270,36 +290,136 @@ class ProjectController extends Controller
         ]);
     }
 
-    public function saveVendorEvaluation(Request $request)
+    public function upsertEvaluationSolutionFit(Request $request)
     {
         $request->validate([
             'useCaseId' => 'required|exists:use_case,id|numeric',
-            'userCredential' => 'required|numeric',
+            'userCredential' => 'required|exists:user_credentials,id|numeric',
             'vendorId' => 'required|exists:users,id|numeric',
-            'solutionFit' => 'numeric',
-            'usability' => 'numeric',
-            'performance' => 'numeric',
-            'lookFeel' => 'numeric',
-            'others' => 'numeric',
-            'comments' => 'nullable|string'
+            'value' => 'required|string'
         ]);
 
         $vendorEvaluation = VendorUseCasesEvaluation::findByIdsAndType($request->useCaseId, $request->userCredential, $request->vendorId, 'client');
         if ($vendorEvaluation == null) {
-            $vendorEvaluation = new VendorUseCasesEvaluation();
-            $vendorEvaluation->use_case_id = $request->useCaseId;
-            $vendorEvaluation->user_credential = $request->userCredential;
-            $vendorEvaluation->vendor_id = $request->vendorId;
+            abort(404);
         }
 
+        $vendorEvaluation->solution_fit = $request->value != -1 ? $request->value : null;
+        $vendorEvaluation->save();
 
-        $vendorEvaluation->solution_fit = $request->solutionFit != -1 ? $request->solutionFit : null;
-        $vendorEvaluation->usability = $request->usability != -1 ? $request->usability : null;
-        $vendorEvaluation->performance = $request->performance != -1 ? $request->performance : null;
-        $vendorEvaluation->look_feel = $request->lookFeel != -1 ? $request->lookFeel : null;
-        $vendorEvaluation->others = $request->others != -1 ? $request->others : null;
-        $vendorEvaluation->comments = $request->comments;
-        $vendorEvaluation->evaluation_type = 'client';
+        return \response()->json([
+            'status' => 200,
+            'message' => 'Success'
+        ]);
+    }
+
+    public function upsertEvaluationUsability(Request $request)
+    {
+        $request->validate([
+            'useCaseId' => 'required|exists:use_case,id|numeric',
+            'userCredential' => 'required|exists:user_credentials,id|numeric',
+            'vendorId' => 'required|exists:users,id|numeric',
+            'value' => 'required|string'
+        ]);
+
+        $vendorEvaluation = VendorUseCasesEvaluation::findByIdsAndType($request->useCaseId, $request->userCredential, $request->vendorId, 'client');
+        if ($vendorEvaluation == null) {
+            abort(404);
+        }
+
+        $vendorEvaluation->usability = $request->value != -1 ? $request->value : null;
+        $vendorEvaluation->save();
+
+        return \response()->json([
+            'status' => 200,
+            'message' => 'Success'
+        ]);
+    }
+
+    public function upsertEvaluationPerformance(Request $request)
+    {
+        $request->validate([
+            'useCaseId' => 'required|exists:use_case,id|numeric',
+            'userCredential' => 'required|exists:user_credentials,id|numeric',
+            'vendorId' => 'required|exists:users,id|numeric',
+            'value' => 'required|string'
+        ]);
+
+        $vendorEvaluation = VendorUseCasesEvaluation::findByIdsAndType($request->useCaseId, $request->userCredential, $request->vendorId, 'client');
+        if ($vendorEvaluation == null) {
+            abort(404);
+        }
+
+        $vendorEvaluation->performance = $request->value != -1 ? $request->value : null;
+        $vendorEvaluation->save();
+
+        return \response()->json([
+            'status' => 200,
+            'message' => 'Success'
+        ]);
+    }
+
+    public function upsertEvaluationLookFeel(Request $request)
+    {
+        $request->validate([
+            'useCaseId' => 'required|exists:use_case,id|numeric',
+            'userCredential' => 'required|exists:user_credentials,id|numeric',
+            'vendorId' => 'required|exists:users,id|numeric',
+            'value' => 'required|string'
+        ]);
+
+        $vendorEvaluation = VendorUseCasesEvaluation::findByIdsAndType($request->useCaseId, $request->userCredential, $request->vendorId, 'client');
+        if ($vendorEvaluation == null) {
+            abort(404);
+        }
+
+        $vendorEvaluation->look_feel = $request->value != -1 ? $request->value : null;
+        $vendorEvaluation->save();
+
+        return \response()->json([
+            'status' => 200,
+            'message' => 'Success'
+        ]);
+    }
+
+    public function upsertEvaluationOthers(Request $request)
+    {
+        $request->validate([
+            'useCaseId' => 'required|exists:use_case,id|numeric',
+            'userCredential' => 'required|exists:user_credentials,id|numeric',
+            'vendorId' => 'required|exists:users,id|numeric',
+            'value' => 'required|string'
+        ]);
+
+        $vendorEvaluation = VendorUseCasesEvaluation::findByIdsAndType($request->useCaseId, $request->userCredential, $request->vendorId, 'client');
+        if ($vendorEvaluation == null) {
+            abort(404);
+        }
+
+        $vendorEvaluation->others = $request->value != -1 ? $request->value : null;
+        $vendorEvaluation->save();
+
+        return \response()->json([
+            'status' => 200,
+            'message' => 'Success'
+        ]);
+    }
+
+    public function upsertEvaluationComments(Request $request)
+    {
+        $request->validate([
+            'useCaseId' => 'required|exists:use_case,id|numeric',
+            'userCredential' => 'required|exists:user_credentials,id|numeric',
+            'vendorId' => 'required|exists:users,id|numeric',
+            'value' => 'nullable|string'
+        ]);
+
+        $vendorEvaluation = VendorUseCasesEvaluation::findByIdsAndType($request->useCaseId, $request->userCredential, $request->vendorId, 'client');
+        if ($vendorEvaluation == null) {
+            abort(404);
+        }
+
+        $vendorEvaluation->comments = $request->value;
         $vendorEvaluation->save();
 
         return \response()->json([

@@ -256,16 +256,6 @@
                                                                 </tr>
                                                             @endforeach
                                                         </table>
-                                                        <br>
-                                                        <button id="saveVendorsEvaluationButton" class="btn btn-primary btn-right">
-                                                            Save
-                                                        </button>
-                                                        @foreach($selectedVendors as $selectedVendor)
-                                                            @php
-                                                                $evaluation = \App\VendorUseCasesEvaluation::findByIdsAndType($currentUseCase->id, $user_id, $selectedVendor->id, 'accenture');
-                                                            @endphp
-                                                            <p id="errorSaveVendorsEvaluation{{$selectedVendor->id}}" style="color: darkred;">Vendor {{$selectedVendor->name}} without evaluations can't be saved!</p>
-                                                        @endforeach
                                                     @endif
                                                 </div>
                                             </div>
@@ -876,39 +866,71 @@
             @endforeach
             @endif
             @else
-            $('#saveVendorsEvaluationButton').click(function () {
-                @foreach($selectedVendors as $selectedVendor)
-                var solutionFit{{$selectedVendor->id}} = parseInt($('#vendor{{$selectedVendor->id}}SolutionFit').val(), 10);
-                var usability{{$selectedVendor->id}} = parseInt($('#vendor{{$selectedVendor->id}}Usability').val(), 10);
-                var performance{{$selectedVendor->id}} = parseInt($('#vendor{{$selectedVendor->id}}Performance').val(), 10);
-                var lookFeel{{$selectedVendor->id}} = parseInt($('#vendor{{$selectedVendor->id}}LookFeel').val(), 10);
-                var others{{$selectedVendor->id}} = parseInt($('#vendor{{$selectedVendor->id}}Others').val(), 10);
-                var comments{{$selectedVendor->id}} = $('#vendor{{$selectedVendor->id}}Comments').val();
-                if ((solutionFit{{$selectedVendor->id}} + usability{{$selectedVendor->id}} + performance{{$selectedVendor->id}} + lookFeel{{$selectedVendor->id}} + others{{$selectedVendor->id}}) === -5) {
-                    $('#errorSaveVendorsEvaluation{{$selectedVendor->id}}').show();
-                } else {
-                    $('#errorSaveVendorsEvaluation{{$selectedVendor->id}}').hide();
-                    var vendorEvaluation{{$selectedVendor->id}}Body = {
-                        vendorId: {{$selectedVendor->id}},
-                        useCaseId: {{$currentUseCase ? $currentUseCase->id : null}},
-                        userCredential: {{$user_id}},
-                        solutionFit: solutionFit{{$selectedVendor->id}},
-                        usability: usability{{$selectedVendor->id}},
-                        performance: performance{{$selectedVendor->id}},
-                        lookFeel: lookFeel{{$selectedVendor->id}},
-                        others: others{{$selectedVendor->id}},
-                        comments: comments{{$selectedVendor->id}},
-                    };
-
-                    $.post('/accenture/newProjectSetUp/saveVendorEvaluation', vendorEvaluation{{$selectedVendor->id}}Body)
-                        .then(function (data) {
-                            showSavedEvaluationToast('{{$selectedVendor->name}}');
-                        });
-                }
-                @endforeach
-            });
             @foreach($selectedVendors as $selectedVendor)
-            $('#errorSaveVendorsEvaluation{{$selectedVendor->id}}').hide();
+
+            $('#vendor{{$selectedVendor->id}}SolutionFit').change(function() {
+                $.post('/accenture/newProjectSetUp/upsertEvaluationSolutionFit', {
+                    useCaseId: {{$currentUseCase->id}},
+                    userCredential: {{$user_id}},
+                    vendorId: {{$selectedVendor->id}},
+                    value: $('#vendor{{$selectedVendor->id}}SolutionFit').val()
+                }).then(function () {
+                    showSavedToast();
+                });
+            });
+            $('#vendor{{$selectedVendor->id}}Usability').change(function() {
+
+                $.post('/accenture/newProjectSetUp/upsertEvaluationUsability', {
+                    useCaseId: {{$currentUseCase->id}},
+                    userCredential: {{$user_id}},
+                    vendorId: {{$selectedVendor->id}},
+                    value: $('#vendor{{$selectedVendor->id}}Usability').val()
+                }).then(function () {
+                    showSavedToast();
+                });
+
+            });
+            $('#vendor{{$selectedVendor->id}}Performance').change(function() {
+                $.post('/accenture/newProjectSetUp/upsertEvaluationPerformance', {
+                    useCaseId: {{$currentUseCase->id}},
+                    userCredential: {{$user_id}},
+                    vendorId: {{$selectedVendor->id}},
+                    value: $('#vendor{{$selectedVendor->id}}Performance').val()
+                }).then(function () {
+                    showSavedToast();
+                });
+            });
+            $('#vendor{{$selectedVendor->id}}LookFeel').change(function() {
+                $.post('/accenture/newProjectSetUp/upsertEvaluationLookFeel', {
+                    useCaseId: {{$currentUseCase->id}},
+                    userCredential: {{$user_id}},
+                    vendorId: {{$selectedVendor->id}},
+                    value: $('#vendor{{$selectedVendor->id}}LookFeel').val()
+                }).then(function () {
+                    showSavedToast();
+                });
+            });
+            $('#vendor{{$selectedVendor->id}}Others').change(function() {
+                $.post('/accenture/newProjectSetUp/upsertEvaluationOthers', {
+                    useCaseId: {{$currentUseCase->id}},
+                    userCredential: {{$user_id}},
+                    vendorId: {{$selectedVendor->id}},
+                    value: $('#vendor{{$selectedVendor->id}}Others').val()
+                }).then(function () {
+                    showSavedToast();
+                });
+            });
+            $('#vendor{{$selectedVendor->id}}Comments').change(function() {
+                $.post('/accenture/newProjectSetUp/upsertEvaluationComments', {
+                    useCaseId: {{$currentUseCase->id}},
+                    userCredential: {{$user_id}},
+                    vendorId: {{$selectedVendor->id}},
+                    value: $('#vendor{{$selectedVendor->id}}Comments').val()
+                }).then(function () {
+                    showSavedToast();
+                });
+            });
+
             $('#vendor{{$selectedVendor->id}}closed').click(function() {
                 $('#vendor{{$selectedVendor->id}}closed').hide();
                 $('#vendor{{$selectedVendor->id}}opened').show();
