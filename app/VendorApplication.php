@@ -113,7 +113,10 @@ class VendorApplication extends Model
         $score = 0;
 
         if ($this->hasCompletedFitgap()) {
+            error_log('+30');
             $score += 30;
+        } else {
+            error_log('+0');
         }
 
         return $score;
@@ -175,8 +178,12 @@ class VendorApplication extends Model
     function hasCompletedFitgap()
     {
         $fitgapResponses = FitgapVendorResponse::findByVendorApplication($this->id);
+        if (!$fitgapResponses->count()) {
+            return false;
+        }
+
         foreach (($fitgapResponses ?? collect([])) as $key => $value) {
-            if (!empty($value->response()) || $value->response() == null || $value->response() == '') {
+            if (empty($value->response()) || $value->response() == null || $value->response() == '') {
                 return false;
             }
         }

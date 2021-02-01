@@ -98,14 +98,57 @@ class ProjectController extends Controller
         return $questions;
     }
 
+    private function createBaseUseCase($projectId, $useCaseTemplateId)
+    {
+        $useCase = new UseCase();
+        if (!$useCaseTemplateId) {
+            $useCase->project_id = $projectId;
+            $useCase->save();
+        } else {
+            $useCaseTemplate = UseCaseTemplate::find($useCaseTemplateId);
+            $useCase->name = $useCaseTemplate->name;
+            $useCase->description = $useCaseTemplate->description;
+            $useCase->project_id = $projectId;
+            $useCase->save();
+
+            $useCaseTemplateResponses = UseCaseTemplateQuestionResponse::getResponsesFromUseCaseTemplate($useCaseTemplate);
+            foreach ($useCaseTemplateResponses as $useCaseTemplateResponse) {
+                $answer = new UseCaseQuestionResponse();
+                $answer->use_case_questions_id = $useCaseTemplateResponse->use_case_questions_id;
+                $answer->use_case_id = $useCase->id;
+                $answer->response = $useCaseTemplateResponse->response;
+                $answer->save();
+            }
+        }
+
+        return UseCase::find($useCase->id);
+    }
+
+    private function createVendorEvaluationsIfNeeded($accessingAccentureUserId, $useCases, $selectedVendors)
+    {
+        foreach ($useCases as $useCase) {
+            foreach ($selectedVendors as $selectedVendor) {
+                $vendorEvaluation = VendorUseCasesEvaluation::findByIdsAndType($useCase->id, $accessingAccentureUserId, $selectedVendor->id, 'accenture');
+                if ($vendorEvaluation == null) {
+                    $vendorEvaluation = new VendorUseCasesEvaluation();
+                    $vendorEvaluation->use_case_id = $useCase->id;
+                    $vendorEvaluation->user_credential = $accessingAccentureUserId;
+                    $vendorEvaluation->vendor_id = $selectedVendor->id;
+                    $vendorEvaluation->evaluation_type = 'accenture';
+                    $vendorEvaluation->save();
+                }
+            }
+        }
+    }
+
     public function useCasesSetUp(Request $request, Project $project)
     {
         $client = $project->client;
         $clients = $client->credentials()->get();
 
         $projectOwner = $project->owner_id;
-        $accentureUsers = User::accentureUsers()->get()->filter(function($vendor) use ($projectOwner) {
-            return $vendor->owner_id == $projectOwner || $vendor->owner_id == 0 || $vendor->owner_id == null;
+        $accentureUsers = User::accentureUsers()->get()->filter(function($user) use ($projectOwner) {
+            return $user->owner_id == $projectOwner || $user->owner_id == 0 || $user->owner_id == null;
         });
 
         $appliedVendors = $project->vendorsApplied()->get();
@@ -134,85 +177,53 @@ class ProjectController extends Controller
 
             'appliedVendors' => $appliedVendors,
 
-            'useCases' => $useCases,
             'useCaseTemplates' => $useCaseTemplates,
 
             'user_id' => $accessingAccentureUserId
         ];
 
-        $useCaseNumber = $request->input('useCase');
-        if($useCaseNumber) {
-            $useCase = UseCase::find($useCaseNumber);
+        if ($request->input('createUseCase')) {
+            $useCaseTemplateId = $request->input('useCaseTemplate');
+            $useCase = $this->createBaseUseCase($project->id, $useCaseTemplateId);
             $view['currentUseCase'] = $useCase;
             $useCaseResponses = UseCaseQuestionResponse::getResponsesFromUseCase($useCase);
             $view['useCaseResponses'] = $useCaseResponses;
-            $selectedUsers = explode(',', urldecode($useCase->accentureUsers));
-            $canEvaluateVendors = (array_search($accessingAccentureUserId, $selectedUsers) !== false) && $request->user()->isAccenture();
-            $invitedVendors = explode(',', urldecode($project->use_case_invited_vendors));
-            $selectedVendors = $project->vendorsApplied()->whereIn('id', $invitedVendors)->get();
             $useCaseQuestions = $this->getQuestionsWithTypeFieldFilled($useCaseQuestions, $useCaseResponses);
+            $useCases = $project->useCases()->get();
+        } else {
+            $useCaseNumber = $request->input('useCase');
+            $useCase = $useCaseNumber ? UseCase::find($useCaseNumber) : UseCase::findByProject($project->id)->first();
+            if($useCase) {
+                if($useCaseNumber) {
+                    $view['currentUseCase'] = $useCase;
+                    $useCaseResponses = UseCaseQuestionResponse::getResponsesFromUseCase($useCase);
+                    $view['useCaseResponses'] = $useCaseResponses;
+                    $useCaseQuestions = $this->getQuestionsWithTypeFieldFilled($useCaseQuestions, $useCaseResponses);
+                } else {
+                    $view['currentUseCase'] = $useCase;
+                    $useCaseResponses = UseCaseQuestionResponse::getResponsesFromUseCase($useCase);
+                    $view['useCaseResponses'] = $useCaseResponses;
+                    $useCaseQuestions = $this->getQuestionsWithTypeFieldFilled($useCaseQuestions, $useCaseResponses);
+                }
 
-        } elseif ($project->useCasesPhase === 'evaluation') {
-            $useCase = UseCase::findByProject($project->id)->first();
-            $view['currentUseCase'] = $useCase;
-//            $useCaseResponses = UseCaseQuestionResponse::getResponsesFromUseCase($useCase);
-//            $view['useCaseResponses'] = $useCaseResponses;
-//            $useCaseQuestions = $this->getQuestionsWithTypeFieldFilled($useCaseQuestions, $useCaseResponses);
-            $selectedUsers = explode(',', urldecode($useCase->accentureUsers));
-            $canEvaluateVendors = (array_search($accessingAccentureUserId, $selectedUsers) !== false) && $request->user()->isAccenture();
-            $invitedVendors = explode(',', urldecode($project->use_case_invited_vendors));
-            $selectedVendors = $project->vendorsApplied()->whereIn('id', $invitedVendors)->get();
+                if ($project->useCasesPhase === 'evaluation') {
+                    $selectedUsers = explode(',', urldecode($useCase->accentureUsers));
+                    $canEvaluateVendors = (array_search($accessingAccentureUserId, $selectedUsers) !== false) && $request->user()->isAccenture();
+                    $invitedVendors = explode(',', urldecode($project->use_case_invited_vendors));
+                    $selectedVendors = $project->vendorsApplied()->whereIn('id', $invitedVendors)->get();
+                    $view['canEvaluateVendors'] = $canEvaluateVendors;
+                    $view['selectedVendors'] = $selectedVendors;
+                    if ($canEvaluateVendors) {
+                        $this->createVendorEvaluationsIfNeeded($accessingAccentureUserId, $useCases, $selectedVendors);
+                    }
+                }
+            }
         }
 
-        $view['canEvaluateVendors'] = $canEvaluateVendors;
-        $view['selectedVendors'] = $selectedVendors;
-
-        $useCaseTemplateId = $request->input('useCaseTemplate');
-        if($useCaseTemplateId) {
-            $useCaseTemplate = UseCaseTemplate::find($useCaseTemplateId);
-            $view['selectedUseCaseTemplate'] = $useCaseTemplate;
-            $useCaseTemplateResponses = UseCaseTemplateQuestionResponse::getResponsesFromUseCaseTemplate($useCaseTemplate);
-            $view['useCaseTemplateResponses'] = $useCaseTemplateResponses;
-            $useCaseQuestions = $this->getQuestionsWithTypeFieldFilled($useCaseQuestions, $useCaseTemplateResponses);
-        }
-
+        $view['useCases'] = $useCases;
         $view['useCaseQuestions'] = $useCaseQuestions;
 
         return view('accentureViews.useCasesSetUp', $view);
-    }
-
-    public function createCaseUse(Request $request)
-    {
-        $request->validate([
-            'id' => 'nullable|exists:use_case,id|numeric',
-            'project_id' => 'required|exists:projects,id|numeric',
-            'name' => 'required|string',
-            'description' => 'required|string',
-            'accentureUsers.*' => 'required|exists:users,id|numeric',
-            'clientUsers.*' => 'required|exists:users,id|numeric'
-        ]);
-
-        if($request->id) {
-            $useCase = UseCase::find($request->id);
-            if ($useCase == null) {
-                abort(404);
-            }
-        } else {
-        $useCase = new UseCase();
-        }
-
-        $useCase->project_id = $request->project_id;
-        $useCase->name = $request->name;
-        $useCase->description = $request->description;
-        $useCase->accentureUsers = $request->accentureUsers;
-        $useCase->clientUsers = $request->clientUsers;
-        $useCase->save();
-
-        return \response()->json([
-            'status' => 200,
-            'message' => 'Success',
-            'useCaseId' => $useCase->id
-        ]);
     }
 
     public function saveProjectScoringCriteria(Request $request)
@@ -267,37 +278,221 @@ class ProjectController extends Controller
         ]);
     }
 
-    public function saveVendorEvaluation(Request $request)
+    public function upsertEvaluationSolutionFit(Request $request)
     {
         $request->validate([
             'useCaseId' => 'required|exists:use_case,id|numeric',
-            'userCredential' => 'required|numeric',
+            'userCredential' => 'required|exists:users,id|numeric',
             'vendorId' => 'required|exists:users,id|numeric',
-            'solutionFit' => 'numeric',
-            'usability' => 'numeric',
-            'performance' => 'numeric',
-            'lookFeel' => 'numeric',
-            'others' => 'numeric',
-            'comments' => 'nullable|string'
+            'value' => 'required|string'
         ]);
 
         $vendorEvaluation = VendorUseCasesEvaluation::findByIdsAndType($request->useCaseId, $request->userCredential, $request->vendorId, 'accenture');
         if ($vendorEvaluation == null) {
-            $vendorEvaluation = new VendorUseCasesEvaluation();
-            $vendorEvaluation->use_case_id = $request->useCaseId;
-            $vendorEvaluation->user_credential = $request->userCredential;
-            $vendorEvaluation->vendor_id = $request->vendorId;
+            abort(404);
         }
 
-
-        $vendorEvaluation->solution_fit = $request->solutionFit != -1 ? $request->solutionFit : null;
-        $vendorEvaluation->usability = $request->usability != -1 ? $request->usability : null;
-        $vendorEvaluation->performance = $request->performance != -1 ? $request->performance : null;
-        $vendorEvaluation->look_feel = $request->lookFeel != -1 ? $request->lookFeel : null;
-        $vendorEvaluation->others = $request->others != -1 ? $request->others : null;
-        $vendorEvaluation->comments = $request->comments;
-        $vendorEvaluation->evaluation_type = 'accenture';
+        $vendorEvaluation->solution_fit = $request->value != -1 ? $request->value : null;
         $vendorEvaluation->save();
+
+        return \response()->json([
+            'status' => 200,
+            'message' => 'Success'
+        ]);
+    }
+
+    public function upsertEvaluationUsability(Request $request)
+    {
+        $request->validate([
+            'useCaseId' => 'required|exists:use_case,id|numeric',
+            'userCredential' => 'required|exists:users,id|numeric',
+            'vendorId' => 'required|exists:users,id|numeric',
+            'value' => 'required|string'
+        ]);
+
+        $vendorEvaluation = VendorUseCasesEvaluation::findByIdsAndType($request->useCaseId, $request->userCredential, $request->vendorId, 'accenture');
+        if ($vendorEvaluation == null) {
+            abort(404);
+        }
+
+        $vendorEvaluation->usability = $request->value != -1 ? $request->value : null;
+        $vendorEvaluation->save();
+
+        return \response()->json([
+            'status' => 200,
+            'message' => 'Success'
+        ]);
+    }
+
+    public function upsertEvaluationPerformance(Request $request)
+    {
+        $request->validate([
+            'useCaseId' => 'required|exists:use_case,id|numeric',
+            'userCredential' => 'required|exists:users,id|numeric',
+            'vendorId' => 'required|exists:users,id|numeric',
+            'value' => 'required|string'
+        ]);
+
+        $vendorEvaluation = VendorUseCasesEvaluation::findByIdsAndType($request->useCaseId, $request->userCredential, $request->vendorId, 'accenture');
+        if ($vendorEvaluation == null) {
+            abort(404);
+        }
+
+        $vendorEvaluation->performance = $request->value != -1 ? $request->value : null;
+        $vendorEvaluation->save();
+
+        return \response()->json([
+            'status' => 200,
+            'message' => 'Success'
+        ]);
+    }
+
+    public function upsertEvaluationLookFeel(Request $request)
+    {
+        $request->validate([
+            'useCaseId' => 'required|exists:use_case,id|numeric',
+            'userCredential' => 'required|exists:users,id|numeric',
+            'vendorId' => 'required|exists:users,id|numeric',
+            'value' => 'required|string'
+        ]);
+
+        $vendorEvaluation = VendorUseCasesEvaluation::findByIdsAndType($request->useCaseId, $request->userCredential, $request->vendorId, 'accenture');
+        if ($vendorEvaluation == null) {
+            abort(404);
+        }
+
+        $vendorEvaluation->look_feel = $request->value != -1 ? $request->value : null;
+        $vendorEvaluation->save();
+
+        return \response()->json([
+            'status' => 200,
+            'message' => 'Success'
+        ]);
+    }
+
+    public function upsertEvaluationOthers(Request $request)
+    {
+        $request->validate([
+            'useCaseId' => 'required|exists:use_case,id|numeric',
+            'userCredential' => 'required|exists:users,id|numeric',
+            'vendorId' => 'required|exists:users,id|numeric',
+            'value' => 'required|string'
+        ]);
+
+        $vendorEvaluation = VendorUseCasesEvaluation::findByIdsAndType($request->useCaseId, $request->userCredential, $request->vendorId, 'accenture');
+        if ($vendorEvaluation == null) {
+            abort(404);
+        }
+
+        $vendorEvaluation->others = $request->value != -1 ? $request->value : null;
+        $vendorEvaluation->save();
+
+        return \response()->json([
+            'status' => 200,
+            'message' => 'Success'
+        ]);
+    }
+
+    public function upsertEvaluationComments(Request $request)
+    {
+        $request->validate([
+            'useCaseId' => 'required|exists:use_case,id|numeric',
+            'userCredential' => 'required|exists:users,id|numeric',
+            'vendorId' => 'required|exists:users,id|numeric',
+            'value' => 'nullable|string'
+        ]);
+
+        $vendorEvaluation = VendorUseCasesEvaluation::findByIdsAndType($request->useCaseId, $request->userCredential, $request->vendorId, 'accenture');
+        if ($vendorEvaluation == null) {
+            abort(404);
+        }
+
+        $vendorEvaluation->comments = $request->value;
+        $vendorEvaluation->save();
+
+        return \response()->json([
+            'status' => 200,
+            'message' => 'Success'
+        ]);
+    }
+
+    public function upsertUseCaseAccentureUsers(Request $request)
+    {
+        $request->validate([
+            'useCaseId' => 'required|exists:use_case,id|numeric',
+            'userList.*' => 'required|exists:users,id|numeric'
+        ]);
+
+        $useCase = UseCase::find($request->useCaseId);
+        if ($useCase == null) {
+            abort(404);
+        }
+
+        $useCase->accentureUsers = $request->userList;
+        $useCase->save();
+
+        return \response()->json([
+            'status' => 200,
+            'message' => 'Success'
+        ]);
+    }
+
+    public function upsertUseCaseClientUsers(Request $request)
+    {
+        $request->validate([
+            'useCaseId' => 'required|exists:use_case,id|numeric',
+            'clientList.*' => 'required|exists:users,id|numeric'
+        ]);
+
+        $useCase = UseCase::find($request->useCaseId);
+        if ($useCase == null) {
+            abort(404);
+        }
+
+        $useCase->clientUsers = $request->clientList;
+        $useCase->save();
+
+        return \response()->json([
+            'status' => 200,
+            'message' => 'Success'
+        ]);
+    }
+
+    public function upsertUseCaseName(Request $request)
+    {
+        $request->validate([
+            'useCaseId' => 'required|exists:use_case,id|numeric',
+            'newName' => 'required|string'
+        ]);
+
+        $useCase = UseCase::find($request->useCaseId);
+        if ($useCase == null) {
+            abort(404);
+        }
+
+        $useCase->name = $request->newName;
+        $useCase->save();
+
+        return \response()->json([
+            'status' => 200,
+            'message' => 'Success'
+        ]);
+    }
+
+    public function upsertUseCaseDescription(Request $request)
+    {
+        $request->validate([
+            'useCaseId' => 'required|exists:use_case,id|numeric',
+            'newDescription' => 'required|string'
+        ]);
+
+        $useCase = UseCase::find($request->useCaseId);
+        if ($useCase == null) {
+            abort(404);
+        }
+
+        $useCase->description = $request->newDescription;
+        $useCase->save();
 
         return \response()->json([
             'status' => 200,
