@@ -165,7 +165,7 @@
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                    @else
+                                                    @elseif($canEvaluateVendors)
                                                         <br>
                                                         <table >
                                                             @foreach($selectedVendors as $selectedVendor)
