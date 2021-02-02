@@ -729,8 +729,8 @@
         }
 
         $(document).ready(function () {
-            $(".js-example-basic-single").select2();
-            $(".js-example-basic-multiple").select2();
+            // $(".js-example-basic-single").select2();
+            // $(".js-example-basic-multiple").select2();
 
             @if($project->useCasesPhase !== 'evaluation')
             $("#wizard_accenture_useCasesSetUp").steps({

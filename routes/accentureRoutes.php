@@ -137,6 +137,8 @@ prefix('accenture')
                 ->name('projectConclusions');
             Route::get('project/useCases/{project}', 'ProjectController@useCasesSetUp')
                 ->name('projectUseCasesSetUp');
+            Route::get('project/useCasesRollback/{project}', 'ProjectController@useCasesSetUpRollback')
+                ->name('evaluationRollback');
 
             Route::get('project/benchmark/{project}', 'ProjectController@benchmark')
                 ->name('projectBenchmark');

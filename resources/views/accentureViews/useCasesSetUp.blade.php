@@ -33,7 +33,11 @@
                         <div class="card">
                             <div class="card-body">
                                 @if($project->useCasesPhase === 'evaluation')
-                                    <h3>Use Cases Evaluation</h3>
+                                    <div style="display: flex; justify-content: space-between">
+                                        <h3>Use Cases Evaluation</h3>
+                                        <a class="btn btn-primary btn-lg btn-icon-text"
+                                           href="{{route('accenture.evaluationRollback', ['project' => $project])}}">Rollaback to SetUp</a>
+                                    </div>
                                 @else
                                     <h3>Use Cases Set up</h3>
                                 @endif
@@ -745,8 +749,8 @@
         }
 
         $(document).ready(function () {
-            $(".js-example-basic-single").select2();
-            $(".js-example-basic-multiple").select2();
+            // $(".js-example-basic-single").select2();
+            // $(".js-example-basic-multiple").select2();
 
             @if($project->useCasesPhase != 'evaluation')
             $("#wizard_accenture_useCasesSetUp").steps({

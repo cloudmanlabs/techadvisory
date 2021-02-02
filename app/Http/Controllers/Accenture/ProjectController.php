@@ -83,6 +83,15 @@ class ProjectController extends Controller
         ]);
     }
 
+    public function useCasesSetUpRollback(Request $request, Project $project)
+    {
+        $project->useCasesPhase = 'setup';
+        $project->save();
+
+        SecurityLog::createLog('User with ID '. $request->user()->id .' rolled back evaluation of use cases of project ' . $project->id . ' with name: ' . $project->name);
+        return redirect()->route('accenture.projectUseCasesSetUp', ['project' => $project]);
+    }
+
     private function getQuestionsWithTypeFieldFilled($questions, $responses)
     {
         foreach($questions as $questionKey => $questionValue) {
