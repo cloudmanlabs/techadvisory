@@ -195,7 +195,11 @@
                                                                                         <br>
                                                                                     </div>
                                                                                     <div class="col-6">
-                                                                                        <select id="vendor{{$selectedVendor->id}}SolutionFit">
+                                                                                        <select id="vendor{{$selectedVendor->id}}SolutionFit"
+                                                                                                @if($evaluation->submitted === 'yes')
+                                                                                                disabled
+                                                                                                @endif
+                                                                                        >
                                                                                             <x-options.vendorEvaluation :selected="$evaluation ? [$evaluation->solution_fit] : []"/>
                                                                                         </select>
                                                                                         <br>
@@ -205,7 +209,11 @@
                                                                                         <br>
                                                                                     </div>
                                                                                     <div class="col-6">
-                                                                                        <select id="vendor{{$selectedVendor->id}}Usability">
+                                                                                        <select id="vendor{{$selectedVendor->id}}Usability"
+                                                                                                @if($evaluation->submitted === 'yes')
+                                                                                                disabled
+                                                                                                @endif
+                                                                                        >
                                                                                             <x-options.vendorEvaluation :selected="$evaluation ? [$evaluation->usability] : []"/>
                                                                                         </select>
                                                                                         <br>
@@ -215,7 +223,11 @@
                                                                                         <br>
                                                                                     </div>
                                                                                     <div class="col-6">
-                                                                                        <select id="vendor{{$selectedVendor->id}}Performance">
+                                                                                        <select id="vendor{{$selectedVendor->id}}Performance"
+                                                                                                @if($evaluation->submitted === 'yes')
+                                                                                                disabled
+                                                                                                @endif
+                                                                                        >
                                                                                             <x-options.vendorEvaluation :selected="$evaluation ? [$evaluation->performance] : []"/>
                                                                                         </select>
                                                                                         <br>
@@ -225,7 +237,11 @@
                                                                                         <br>
                                                                                     </div>
                                                                                     <div class="col-6">
-                                                                                        <select id="vendor{{$selectedVendor->id}}LookFeel">
+                                                                                        <select id="vendor{{$selectedVendor->id}}LookFeel"
+                                                                                                @if($evaluation->submitted === 'yes')
+                                                                                                disabled
+                                                                                                @endif
+                                                                                        >
                                                                                             <x-options.vendorEvaluation :selected="$evaluation ? [$evaluation->look_feel] : []"/>
                                                                                         </select>
                                                                                         <br>
@@ -235,7 +251,11 @@
                                                                                         <br>
                                                                                     </div>
                                                                                     <div class="col-6">
-                                                                                        <select id="vendor{{$selectedVendor->id}}Others">
+                                                                                        <select id="vendor{{$selectedVendor->id}}Others"
+                                                                                                @if($evaluation->submitted === 'yes')
+                                                                                                disabled
+                                                                                                @endif
+                                                                                        >
                                                                                             <x-options.vendorEvaluation :selected="$evaluation ? [$evaluation->others] : []"/>
                                                                                         </select>
                                                                                         <br>
@@ -250,6 +270,9 @@
                                                                                             id="vendor{{$selectedVendor->id}}Comments"
                                                                                             placeholder="Add your comments..."
                                                                                             rows="5"
+                                                                                            @if($evaluation->submitted === 'yes')
+                                                                                            disabled
+                                                                                            @endif
                                                                                         >{{$evaluation->comments ?? null}}</textarea>
                                                                                         <br>
                                                                                     </div>
@@ -260,6 +283,14 @@
                                                                 </tr>
                                                             @endforeach
                                                         </table>
+                                                        <br>
+                                                        @if($evaluationsSubmitted === 'no')
+                                                        <button id="submitEvaluationsButton" class="btn btn-primary btn-right">
+                                                            Submit
+                                                        </button>
+                                                        @else
+                                                            <p class="btn-right" style="color: green">Evaluations Submitted!</p>
+                                                        @endif
                                                     @endif
                                                 </div>
                                             </div>
@@ -706,9 +737,9 @@
             })
         }
 
-        function showSavedEvaluationToast(vendorName) {
+        function showSubmitEvaluationToast(vendorName) {
             $.toast({
-                heading: 'Evaluations for vendor ' + vendorName + ' saved!',
+                heading: 'Evaluations for vendor ' + vendorName + ' submitted!',
                 showHideTransition: 'slide',
                 icon: 'success',
                 hideAfter: 1000,
@@ -746,6 +777,14 @@
                     $(array[i]).hide();
                 }
             }
+        }
+
+        function disableSubmitEvaluationsButton() {
+            $('#submitEvaluationsButton').prop('disabled', true);
+        }
+
+        function enableSubmitEvaluationsButton() {
+            $('#submitEvaluationsButton').prop('disabled', false);
         }
 
         $(document).ready(function () {
@@ -870,66 +909,142 @@
             @endforeach
             @endif
             @else
+            function checkEvaluationsForSubmit() {
+            @foreach($selectedVendors as $selectedVendor)
+                if($('#vendor{{$selectedVendor->id}}SolutionFit').val() == -1) {
+                    return disableSubmitEvaluationsButton();
+                }
+
+                if($('#vendor{{$selectedVendor->id}}Usability').val() == -1) {
+                    return disableSubmitEvaluationsButton();
+                }
+
+                if($('#vendor{{$selectedVendor->id}}Performance').val() == -1) {
+                    return disableSubmitEvaluationsButton();
+                }
+
+                if($('#vendor{{$selectedVendor->id}}LookFeel').val() == -1) {
+                    return disableSubmitEvaluationsButton();
+                }
+
+                if($('#vendor{{$selectedVendor->id}}Others').val() == -1) {
+                    return disableSubmitEvaluationsButton();
+                }
+            @endforeach
+                return enableSubmitEvaluationsButton();
+            }
+
+            $('#submitEvaluationsButton').click(function() {
+                $.when(
+                @foreach($selectedVendors as $selectedVendor)
+                @php
+                    $evaluation = \App\VendorUseCasesEvaluation::findByIdsAndType($currentUseCase->id, $user_id, $selectedVendor->id, 'accenture');
+                @endphp
+                $.post('/accenture/newProjectSetUp/submitUseCaseVendorEvaluation', {
+                    evaluationId: {{$evaluation->id}}
+                }).then(function () {
+                    showSubmitEvaluationToast('{{$selectedVendor->name}}');
+                }),
+                @endforeach
+                ).done(function(){
+                    return location.replace("{{route('accenture.useCasesSetUp', ['project' => $project])}}" + "??useCase={{$currentUseCase->id}}");
+                });
+            });
+
             @foreach($selectedVendors as $selectedVendor)
 
             $('#vendor{{$selectedVendor->id}}SolutionFit').change(function() {
+                if ($(this).val() === -1) {
+                    disableSubmitEvaluationsButton();
+                } else {
+                    checkEvaluationsForSubmit();
+                }
+
                 $.post('/accenture/newProjectSetUp/upsertEvaluationSolutionFit', {
                     useCaseId: {{$currentUseCase->id}},
                     userCredential: {{$user_id}},
                     vendorId: {{$selectedVendor->id}},
-                    value: $('#vendor{{$selectedVendor->id}}SolutionFit').val()
+                    value: $(this).val()
                 }).then(function () {
                     showSavedToast();
                 });
             });
+
             $('#vendor{{$selectedVendor->id}}Usability').change(function() {
+                if ($(this).val() === -1) {
+                    disableSubmitEvaluationsButton();
+                } else {
+                    checkEvaluationsForSubmit();
+                }
 
                 $.post('/accenture/newProjectSetUp/upsertEvaluationUsability', {
                     useCaseId: {{$currentUseCase->id}},
                     userCredential: {{$user_id}},
                     vendorId: {{$selectedVendor->id}},
-                    value: $('#vendor{{$selectedVendor->id}}Usability').val()
+                    value: $(this).val()
                 }).then(function () {
                     showSavedToast();
                 });
 
             });
+
             $('#vendor{{$selectedVendor->id}}Performance').change(function() {
+                if ($(this).val() === -1) {
+                    disableSubmitEvaluationsButton();
+                } else {
+                    checkEvaluationsForSubmit();
+                }
+
                 $.post('/accenture/newProjectSetUp/upsertEvaluationPerformance', {
                     useCaseId: {{$currentUseCase->id}},
                     userCredential: {{$user_id}},
                     vendorId: {{$selectedVendor->id}},
-                    value: $('#vendor{{$selectedVendor->id}}Performance').val()
+                    value: $(this).val()
                 }).then(function () {
                     showSavedToast();
                 });
             });
+
             $('#vendor{{$selectedVendor->id}}LookFeel').change(function() {
+                if ($(this).val() === -1) {
+                    disableSubmitEvaluationsButton();
+                } else {
+                    checkEvaluationsForSubmit();
+                }
+
                 $.post('/accenture/newProjectSetUp/upsertEvaluationLookFeel', {
                     useCaseId: {{$currentUseCase->id}},
                     userCredential: {{$user_id}},
                     vendorId: {{$selectedVendor->id}},
-                    value: $('#vendor{{$selectedVendor->id}}LookFeel').val()
+                    value: $(this).val()
                 }).then(function () {
                     showSavedToast();
                 });
             });
+
             $('#vendor{{$selectedVendor->id}}Others').change(function() {
+                if ($(this).val() === -1) {
+                    disableSubmitEvaluationsButton();
+                } else {
+                    checkEvaluationsForSubmit();
+                }
+
                 $.post('/accenture/newProjectSetUp/upsertEvaluationOthers', {
                     useCaseId: {{$currentUseCase->id}},
                     userCredential: {{$user_id}},
                     vendorId: {{$selectedVendor->id}},
-                    value: $('#vendor{{$selectedVendor->id}}Others').val()
+                    value: $(this).val()
                 }).then(function () {
                     showSavedToast();
                 });
             });
+
             $('#vendor{{$selectedVendor->id}}Comments').change(function() {
                 $.post('/accenture/newProjectSetUp/upsertEvaluationComments', {
                     useCaseId: {{$currentUseCase->id}},
                     userCredential: {{$user_id}},
                     vendorId: {{$selectedVendor->id}},
-                    value: $('#vendor{{$selectedVendor->id}}Comments').val()
+                    value: $(this).val()
                 }).then(function () {
                     showSavedToast();
                 });
@@ -949,6 +1064,7 @@
             $('#vendor{{$selectedVendor->id}}opened').hide();
             $('#vendorBody{{$selectedVendor->id}}').hide();
             @endforeach
+            checkEvaluationsForSubmit();
             @endif
             @if($currentUseCase ?? null)
             $('#useCaseName').val("{{$currentUseCase->name}}")
@@ -989,7 +1105,7 @@
     $('#accentureUsers').change(function () {
         $.post('/accenture/newProjectSetUp/upsertUseCaseAccentureUsers', {
             useCaseId: {{$currentUseCase->id}},
-            userList: encodeURIComponent($('#accentureUsers').val())
+            userList: encodeURIComponent($(this).val())
         }).then(function () {
             showSavedToast();
         });
@@ -998,7 +1114,7 @@
     $('#clientUsers').change(function () {
         $.post('/accenture/newProjectSetUp/upsertUseCaseClientUsers', {
             useCaseId: {{$currentUseCase->id}},
-            clientList: encodeURIComponent($('#clientUsers').val())
+            clientList: encodeURIComponent($(this).val())
         }).then(function () {
             showSavedToast();
         });

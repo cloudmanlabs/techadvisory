@@ -136,19 +136,17 @@ class ProjectController extends Controller
         return UseCase::find($useCase->id) ;
     }
 
-    private function createVendorEvaluationsIfNeeded($accessingClientCredentialsId, $useCases, $selectedVendors)
+    private function createVendorEvaluationsIfNeeded($accessingClientCredentialsId, $useCaseId, $selectedVendors)
     {
-        foreach ($useCases as $useCase) {
-            foreach ($selectedVendors as $selectedVendor) {
-                $vendorEvaluation = VendorUseCasesEvaluation::findByIdsAndType($useCase->id, $accessingClientCredentialsId, $selectedVendor->id, 'client');
-                if ($vendorEvaluation == null) {
-                    $vendorEvaluation = new VendorUseCasesEvaluation();
-                    $vendorEvaluation->use_case_id = $useCase->id;
-                    $vendorEvaluation->user_credential = $accessingClientCredentialsId;
-                    $vendorEvaluation->vendor_id = $selectedVendor->id;
-                    $vendorEvaluation->evaluation_type = 'client';
-                    $vendorEvaluation->save();
-                }
+        foreach ($selectedVendors as $selectedVendor) {
+            $vendorEvaluation = VendorUseCasesEvaluation::findByIdsAndType($useCaseId, $accessingClientCredentialsId, $selectedVendor->id, 'client');
+            if ($vendorEvaluation == null) {
+                $vendorEvaluation = new VendorUseCasesEvaluation();
+                $vendorEvaluation->use_case_id = $useCaseId;
+                $vendorEvaluation->user_credential = $accessingClientCredentialsId;
+                $vendorEvaluation->vendor_id = $selectedVendor->id;
+                $vendorEvaluation->evaluation_type = 'client';
+                $vendorEvaluation->save();
             }
         }
     }
@@ -198,39 +196,30 @@ class ProjectController extends Controller
             $useCaseTemplateId = $request->input('useCaseTemplate');
             $useCase = $this->createBaseUseCase($project->id, $useCaseTemplateId);
             $view['currentUseCase'] = $useCase;
-            $useCaseResponses = UseCaseQuestionResponse::getResponsesFromUseCase($useCase);
-            $view['useCaseResponses'] = $useCaseResponses;
-            $useCaseQuestions = $this->getQuestionsWithTypeFieldFilled($useCaseQuestions, $useCaseResponses);
             $useCases = $project->useCases()->get();
         } else {
             $useCaseNumber = $request->input('useCase');
             $useCase = $useCaseNumber ? UseCase::find($useCaseNumber) : UseCase::findByProject($project->id)->first();
-            if($useCase) {
-                if($useCaseNumber) {
-                    $view['currentUseCase'] = $useCase;
-                    $useCaseResponses = UseCaseQuestionResponse::getResponsesFromUseCase($useCase);
-                    $view['useCaseResponses'] = $useCaseResponses;
-                    $useCaseQuestions = $this->getQuestionsWithTypeFieldFilled($useCaseQuestions, $useCaseResponses);
-                } else {
-                    $view['currentUseCase'] = $useCase;
-                    $useCaseResponses = UseCaseQuestionResponse::getResponsesFromUseCase($useCase);
-                    $view['useCaseResponses'] = $useCaseResponses;
-                    $useCaseQuestions = $this->getQuestionsWithTypeFieldFilled($useCaseQuestions, $useCaseResponses);
+            $view['currentUseCase'] = $useCase;
+
+            if ($project->useCasesPhase === 'evaluation') {
+                $selectedClients = explode(',', urldecode($useCase->clientUsers));
+                $canEvaluateVendors = (array_search($accessingClientCredentialsId, $selectedClients) !== false) && $request->user()->isClient();
+                $invitedVendors = explode(',', urldecode($project->use_case_invited_vendors));
+                $selectedVendors = $project->vendorsApplied()->whereIn('id', $invitedVendors)->get();
+                $view['canEvaluateVendors'] = $canEvaluateVendors;
+                $view['selectedVendors'] = $selectedVendors;
+                if ($canEvaluateVendors) {
+                    $this->createVendorEvaluationsIfNeeded($accessingClientCredentialsId, $useCase->id, $selectedVendors);
                 }
 
-                if ($project->useCasesPhase === 'evaluation') {
-                    $selectedClients = explode(',', urldecode($useCase->clientUsers));
-                    $canEvaluateVendors = (array_search($accessingClientCredentialsId, $selectedClients) !== false) && $request->user()->isClient();
-                    $invitedVendors = explode(',', urldecode($project->use_case_invited_vendors));
-                    $selectedVendors = $project->vendorsApplied()->whereIn('id', $invitedVendors)->get();
-                    $view['canEvaluateVendors'] = $canEvaluateVendors;
-                    $view['selectedVendors'] = $selectedVendors;
-                    if ($canEvaluateVendors) {
-                        $this->createVendorEvaluationsIfNeeded($accessingClientCredentialsId, $useCases, $selectedVendors);
-                    }
-                }
+                $view['evaluationsSubmitted'] = VendorUseCasesEvaluation::evaluationsSubmitted($accessingClientCredentialsId, $useCase->id, $selectedVendors, 'client');
             }
         }
+
+        $useCaseResponses = UseCaseQuestionResponse::getResponsesFromUseCase($useCase);
+        $view['useCaseResponses'] = $useCaseResponses;
+        $useCaseQuestions = $this->getQuestionsWithTypeFieldFilled($useCaseQuestions, $useCaseResponses);
 
         $view['useCases'] = $useCases;
         $view['useCaseQuestions'] = $useCaseQuestions;
@@ -283,6 +272,26 @@ class ProjectController extends Controller
 
         $useCase->scoring_criteria = (float) $request->scoringCriteria;
         $useCase->save();
+
+        return \response()->json([
+            'status' => 200,
+            'message' => 'Success'
+        ]);
+    }
+
+    public function submitUseCaseVendorEvaluation(Request $request)
+    {
+        $request->validate([
+            'evaluationId' => 'required|exists:vendor_use_cases_evaluation,id|numeric'
+        ]);
+
+        $evaluation = VendorUseCasesEvaluation::find($request->evaluationId);
+        if ($evaluation == null) {
+            abort(404);
+        }
+
+        $evaluation->submitted = 'yes';
+        $evaluation->save();
 
         return \response()->json([
             'status' => 200,
