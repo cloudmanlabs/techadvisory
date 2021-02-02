@@ -9,10 +9,10 @@
 
     <div style="display: flex; flex-direction: row; justify-content: space-evenly; width: 100%">
         <div style="width: 50%; padding: 0 0.5rem">
-            <p>Title</p>
+            <p>Title *</p>
         </div>
         <div style="width: 50%; padding: 0 0.5rem">
-            <p>Monthly travel cost</p>
+            <p>Monthly travel cost *</p>
         </div>
     </div>
     <div id="travelCostContainer">
@@ -22,12 +22,12 @@
                     <input type="text" class="form-control travelTitleInput"
                            placeholder="Title"
                            value="{{$cost['title'] ?? ''}}"
-                           {{$disabled ? 'disabled' : ''}} min="0">
+                           {{$disabled ? 'disabled' : ''}} required>
                     <input type="number" class="form-control travelCostInput"
                            style="margin-left: 1rem"
                            placeholder="Monthly travel cost"
                            value="{{$cost['cost'] ?? ''}}"
-                           {{$disabled ? 'disabled' : ''}} min="0">
+                           {{$disabled ? 'disabled' : ''}} min="0" required>
                 </div>
             </div>
         @endforeach
