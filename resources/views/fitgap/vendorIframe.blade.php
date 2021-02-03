@@ -21,11 +21,11 @@
 </style>
 
 <body style="background-color: white !important;">
-<p><button id='download'>Export document</button></p>
+<p>
+    <button id='download'>Export document</button>
+</p>
 
 <div id="spreadsheet"></div>
-
-
 
 <script>
     $(function () {
@@ -57,20 +57,19 @@
     }
 
     var mySpreadsheet = jexcel(document.getElementById('spreadsheet'), {
-        url: "{{route('fitgapVendorJson', ['vendor' => $vendor, 'project' => $project])}}",
+        url: "{{ route('fitgapVendorJson', ['vendor' => $vendor, 'project' => $project]) }}",
         tableOverflow: false,
         contextMenu: false,
-        allowInsertColumn:false,
-        allowInsertRow:false,
-        allowManualInsertRow:false,
-        allowDeleteRow:false,
-        allowDeleteColumn:false,
+        allowInsertColumn: false,
+        allowInsertRow: false,
+        allowManualInsertRow: false,
+        allowDeleteRow: false,
+        allowDeleteColumn: false,
         columns: [
             {
-                type: 'text',
+                type: 'hidden',
                 title: 'ID',
-                readOnly: true,
-                width: 100
+                readOnly: true
             },
             {
                 type: 'text',
@@ -113,7 +112,6 @@
                     'Product partially supports the functionality',
                     'Product fully supports the functionality'
                 ],
-
                 @if($disabled)
                 readOnly: true,
                 @endif
@@ -123,21 +121,16 @@
                 title: 'Comments',
                 width: 200,
                 wordWrap: true,
-
                 @if($disabled)
                 readOnly: true,
                 @endif
             },
         ],
         onchange: function (instance, cell, x, y, value) {
-            @if(! $disabled)
+            @if(!$disabled)
             $.post("{{route('updateFitgapResponse', ['project' => $project, 'vendor' => $vendor])}}", {
                 data: mySpreadsheet.getRowData(y),
-            }).done(function () {
-                showSavedToast();
-            }).fail(function (jqXHR, textStatus, error) {
-                showErrorToast();
-            });
+            }).done(showSavedToast).fail(showErrorToast);
             @endif
         },
     });

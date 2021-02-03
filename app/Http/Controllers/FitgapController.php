@@ -20,7 +20,7 @@ class FitgapController extends Controller
     public function import5Columns(Request $request, Project $project)
     {
         $request->validate([
-            'excel' => 'required|file'
+            'excel' => 'required|file',
         ]);
 
         $collection = Excel::toCollection(new FitgapImport, $request->file('excel'));
@@ -37,7 +37,6 @@ class FitgapController extends Controller
         FitgapQuestion::deleteByProject($project->id);
 
         foreach ($rows->slice(1) as $key => $row) {
-
             $fitgapQuestion = new FitgapQuestion([
                 'position' => $key,
                 'project_id' => $project->id,
@@ -58,7 +57,7 @@ class FitgapController extends Controller
 
         return \response()->json([
             'status' => 200,
-            'message' => 'Success'
+            'message' => 'Success',
         ]);
     }
 
@@ -78,7 +77,6 @@ class FitgapController extends Controller
                 'Client' => $fitgapQuestion->client(),
                 'Business Opportunity' => $fitgapQuestion->businessOpportunity(),
             ];
-
         });
     }
 
@@ -86,7 +84,7 @@ class FitgapController extends Controller
     {
         $vendorApplication = VendorApplication::where([
             'project_id' => $project->id,
-            'vendor_id' => $vendor->id
+            'vendor_id' => $vendor->id,
         ])->first();
 
         if ($vendorApplication == null) {
@@ -98,6 +96,7 @@ class FitgapController extends Controller
 
         return $fitgapQuestions->map(function ($fitgapQuestion) use ($fitgapResponses) {
             $fitgapResponseFound = $fitgapResponses->where('fitgap_question_id', $fitgapQuestion->id)->first();
+
             return [
                 'ID' => $fitgapQuestion->id(),
                 'Type' => $fitgapQuestion->requirementType(),
@@ -109,14 +108,13 @@ class FitgapController extends Controller
                 'Comments' => $fitgapResponseFound ? $fitgapResponseFound->comments() : '',
             ];
         });
-
     }
 
     public function evaluationJson(User $vendor, Project $project)
     {
         $vendorApplication = VendorApplication::where([
             'project_id' => $project->id,
-            'vendor_id' => $vendor->id
+            'vendor_id' => $vendor->id,
         ])->first();
 
         if ($vendorApplication == null) {
@@ -128,6 +126,7 @@ class FitgapController extends Controller
 
         return $fitgapQuestions->map(function ($fitgapQuestion) use ($fitgapResponses) {
             $fitgapResponseFound = $fitgapResponses->where('fitgap_question_id', $fitgapQuestion->id)->first();
+
             return [
                 'ID' => $fitgapQuestion->id(),
                 'Type' => $fitgapQuestion->requirementType(),
@@ -199,14 +198,14 @@ class FitgapController extends Controller
 
         return \response()->json([
             'status' => 200,
-            'message' => 'Success'
+            'message' => 'Success',
         ]);
     }
 
     public function vendorJsonUpload(Request $request, User $vendor, Project $project)
     {
         $request->validate([
-            'data' => 'required|array'
+            'data' => 'required|array',
         ]);
 
         /*        $vendorApplication = VendorApplication::where([
@@ -246,7 +245,7 @@ class FitgapController extends Controller
 
         return \response()->json([
             'status' => 200,
-            'message' => 'Success'
+            'message' => 'Success',
         ]);
     }
 
@@ -255,7 +254,7 @@ class FitgapController extends Controller
         return 'Deprecated';
 
         $request->validate([
-            'data' => 'required|array'
+            'data' => 'required|array',
         ]);
 
         /*        $vendorApplication = VendorApplication::where([
@@ -278,7 +277,7 @@ class FitgapController extends Controller
 
         return \response()->json([
             'status' => 200,
-            'message' => 'Success'
+            'message' => 'Success',
         ]);
     }
 
@@ -309,7 +308,7 @@ class FitgapController extends Controller
 
             return \response()->json([
                 'status' => 200,
-                'message' => 'Update Success'
+                'message' => 'Update Success',
             ]);
         }
     }
@@ -338,9 +337,8 @@ class FitgapController extends Controller
 
             return \response()->json([
                 'status' => 200,
-                'data' => $fitgapQuestion
+                'data' => $fitgapQuestion,
             ]);
-
         }
     }
 
@@ -372,24 +370,24 @@ class FitgapController extends Controller
 
             return \response()->json([
                 'status' => 200,
-                'message' => 'Delete Success'
+                'message' => 'Delete Success',
             ]);
         }
     }
 
     public function moveFitgapQuestion(Request $request, Project $project)
     {
-
         // TODO Move to more convenient folder
         function moveElement($array, $from, $to)
         {
             $out = array_splice($array, $from, 1);
             array_splice($array, $to, 0, $out);
+
             return $array;
         }
 
-        $fitgapQuestionId = (int)$request->input('fitgap_question_id');
-        $to = (int)$request->input('to');
+        $fitgapQuestionId = (int) $request->input('fitgap_question_id');
+        $to = (int) $request->input('to');
 
         $fitgapQuestions = FitgapQuestion::findByProject($project->id)->all();
         $fitgapQuestionToMove = FitgapQuestion::find($fitgapQuestionId);
@@ -398,7 +396,7 @@ class FitgapController extends Controller
             abort(404);
         }
 
-        $from = (int)$fitgapQuestionToMove->position - 1;
+        $from = (int) $fitgapQuestionToMove->position - 1;
 
         // Reindexing logic, encapsulate in a proper way
         $fitgapQuestions = moveElement($fitgapQuestions, $from, $to);
@@ -406,11 +404,12 @@ class FitgapController extends Controller
             $fitgapQuestion->position = $index + 1;
             $fitgapQuestion->save();
         }
+
         // End reindexing logic
         return \response()->json([
             'status' => 200,
             'message' => 'Update Move Success',
-            'questions' => $fitgapQuestions
+            'questions' => $fitgapQuestions,
         ]);
     }
 
@@ -419,14 +418,13 @@ class FitgapController extends Controller
     public function updateFitgapResponse(Project $project, User $vendor)
     {
         $questionId = $_POST["data"][0];
-        //$vendor = auth()->user();
 
         if (($questionId == null) || $project == null || !$vendor->isVendor()) {
             return abort(404);
         } else {
             $vendorApplication = VendorApplication::where([
                 'project_id' => $project->id,
-                'vendor_id' => $vendor->id
+                'vendor_id' => $vendor->id,
             ])->first();
 
             $response = FitgapVendorResponse::findByFitgapQuestionFromTheApplication(
@@ -436,7 +434,6 @@ class FitgapController extends Controller
             $newComments = $_POST["data"][7];
 
             if ($response == null) {
-
                 // There is no answer yet.
                 $response = new FitgapVendorResponse([
                     'fitgap_question_id' => $questionId,
@@ -445,9 +442,7 @@ class FitgapController extends Controller
                     'comments' => $newComments,
                 ]);
                 $response->save();
-
             } else {
-
                 // Edit the current response.
                 $response->response = $newVendorResponse;
                 $response->comments = $newComments;
@@ -455,11 +450,10 @@ class FitgapController extends Controller
 
                 return \response()->json([
                     'status' => 200,
-                    'message' => 'Update Success'
+                    'message' => 'Update Success',
                 ]);
             }
         }
-
     }
 
     // Launch View Methods
@@ -468,7 +462,7 @@ class FitgapController extends Controller
         return view('fitgap.clientIframe', [
             'project' => $project,
             'disabled' => $request->disabled ?? false,
-            'isAccenture' => $request->isAccenture
+            'isAccenture' => $request->isAccenture,
         ]);
     }
 
@@ -476,8 +470,9 @@ class FitgapController extends Controller
     {
         $vendorApplication = VendorApplication::where([
             'project_id' => $project->id,
-            'vendor_id' => $vendor->id
+            'vendor_id' => $vendor->id,
         ])->first();
+
         if ($vendorApplication == null) {
             abort(404);
         }
@@ -493,8 +488,9 @@ class FitgapController extends Controller
     {
         $vendorApplication = VendorApplication::where([
             'project_id' => $project->id,
-            'vendor_id' => $vendor->id
+            'vendor_id' => $vendor->id,
         ])->first();
+
         if ($vendorApplication == null) {
             abort(404);
         }

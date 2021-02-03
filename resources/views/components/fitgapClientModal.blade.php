@@ -22,7 +22,7 @@
     <div class="modal fade fitgapClientModal" tabindex="-1" role="dialog" aria-labelledby="myExtraLargeModalLabel"
          aria-hidden="true">
         <div class="modal-dialog modal-xl" style="max-width: unset; margin: 30px">
-            <div class="modal-content">
+            <div class="modal-content" style="height: calc(100vh - 60px)">
                 <div class="modal-header">
                     <h5 class="modal-title" id="exampleModalLabel">Edit fitgap table</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -32,7 +32,7 @@
                 <div class="modal-body">
                     <iframe
                         src="{{route('fitgapClientIframe', ['project' => $project, 'disabled' => $disabled, 'isAccenture' => $isAccenture ])}}"
-                        style="width: 100%; min-height: 600px; border: none;"></iframe>
+                        style="width: 100%; height: 100%; border: none;"></iframe>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-primary btn-lg btn-icon-text" data-toggle="modal"
