@@ -1,6 +1,4 @@
-{{--
-    Component that contains the modal for the fitgap for vendors
---}}
+{{-- Component that contains the modal for the fitgap for vendors --}}
 
 @props(['project', 'vendor', 'disabled'])
 
@@ -17,7 +15,7 @@
             <polyline points="9 11 12 14 22 4"></polyline>
             <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path>
         </svg>
-        Complete Fit Gap table
+        Complete Fit Gap Table
     </button>
 
     <div class="modal fade bd-example-modal-xl" tabindex="-1" role="dialog" aria-labelledby="myExtraLargeModalLabel"

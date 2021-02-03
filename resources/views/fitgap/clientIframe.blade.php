@@ -21,7 +21,9 @@
 </style>
 
 <body style="background-color: white !important; overflow-x: scroll">
-<p><button id='download'>Export document</button></p>
+<p>
+    <button id='download'>Export document</button>
+</p>
 
 <div id="spreadsheet"></div>
 
@@ -65,7 +67,7 @@
     }
 
     var mySpreadsheet = jexcel(document.getElementById('spreadsheet'), {
-        url: "{{route('fitgapClientJson', ['project' => $project])}}",
+        url: "{{ route('fitgapClientJson', ['project' => $project]) }}",
         tableOverflow: false,
         contextMenu: false,
         allowInsertColumn: false,
@@ -75,7 +77,7 @@
         moveRow: true,
         columns: [
             {
-                type: 'text',
+                type: 'hidden',
                 title: 'ID',
                 readOnly: true,
                 width: 100,
@@ -130,7 +132,6 @@
                     'Required',
                     'Nice to have',
                 ],
-
                 @if($disabled)
                 readOnly: true,
                 @endif
@@ -140,7 +141,6 @@
                 title: 'Business Opportunity',
                 width: 210,
                 wordWrap: true,
-
                 @if($disabled || !$isAccenture)
                 readOnly: true,
                 @endif
@@ -148,53 +148,39 @@
         ],
         onchange: function (instance, cell, x, y, value) {
             @if(! $disabled)
-            $.post("{{route('updateFitgapQuestion')}}", {
+            $.post("{{ route('updateFitgapQuestion') }}", {
                 data: mySpreadsheet.getRowData(y),
                 position: y
-            }).done(function () {
-                showSavedToast();
-            }).fail(function (jqXHR, textStatus, error) {
-                showErrorToast();
-            });
+            }).done(showSavedToast).fail(showErrorToast);
             @endif
         },
         onbeforedeleterow: function (el, rowNumber, numRows, rowRecords) {
-            @if(! $disabled)
-            if (numRows > 1) return  showWarningToast("You can't delete several rows at the same time");
-            $.post("{{route('deleteFitgapQuestion',  ['project' => $project])}}", {
-                data:  mySpreadsheet.getRowData(rowNumber),
-            }).done(function () {
-                showSavedToast();
-            }).fail(function (jqXHR, textStatus, error) {
-                showErrorToast();
-            });
-            return true;
+            @if(!$disabled)
+            if (numRows > 1) {
+                showWarningToast("You can't delete several rows at the same time");
+            } else {
+                $.post("{{ route('deleteFitgapQuestion',  ['project' => $project]) }}", {
+                    data: mySpreadsheet.getRowData(rowNumber),
+                }).done(showSavedToast).fail(showErrorToast);
+            }
             @endif
         },
         oninsertrow: function (element, rowNumber, numRows, rowRecords) {
-            @if(! $disabled)
-            $.post("{{route('createFitgapQuestion', ['project' => $project])}}")
+            @if(!$disabled)
+            $.post("{{ route('createFitgapQuestion', ['project' => $project]) }}")
                 .done(function (response) {
                     mySpreadsheet.setValueFromCoords(0, rowNumber + 1, response.data.id, true);
-                }).fail(function (jqXHR, textStatus, error) {
-                showErrorToast();
-            });
+                }).fail(showErrorToast);
             @endif
         },
-        onmoverow: function(element, origin, destiny) {
-            @if(! $disabled)
-            $.post("{{route('moveFitgapQuestion', ['project' => $project])}}", {
-                fitgap_question_id:  mySpreadsheet.getRowData(destiny)[0],
+        onmoverow: function (element, origin, destiny) {
+            @if(!$disabled)
+            $.post("{{ route('moveFitgapQuestion', ['project' => $project]) }}", {
+                fitgap_question_id: mySpreadsheet.getRowData(destiny)[0],
                 to: destiny
-            })
-                .done(function () {
-                    showSavedToast();
-                }).fail(function (jqXHR, textStatus, error) {
-                showErrorToast();
-            });
+            }).done(showSavedToast).fail(showErrorToast);
             @endif
         }
-
     });
 
     document.getElementById('download').onclick = function () {
