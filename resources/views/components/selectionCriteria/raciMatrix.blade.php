@@ -5,7 +5,7 @@ $disabled = $disabled ?? false;
 @endphp
 
 <div class="form-group">
-    <label for="projectName">RACI Matrix *</label>
+    <label for="projectName">RACI Matrix</label>
 
     <div style="display: flex; flex-direction: row; justify-content: space-evenly; width: 100%">
         <div style="width: 25%; padding: 0 0.5rem">
