@@ -925,7 +925,7 @@
                     }).then(function () {
                         showSubmitEvaluationToast('{{$selectedVendor->name}}');
                     }),
-                @endforeach
+                    @endforeach
                 ).done(function(){
                     return location.replace("{{route('client.useCasesSetUp', ['project' => $project])}}" + "??useCase={{$currentUseCase->id}}");
                 });

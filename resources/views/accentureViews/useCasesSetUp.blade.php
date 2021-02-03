@@ -169,102 +169,157 @@
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                    @elseif($canEvaluateVendors)
+                                                    @else
                                                         <br>
-                                                        <table >
-                                                            @foreach($selectedVendors as $selectedVendor)
-                                                                @php
-                                                                    $evaluation = \App\VendorUseCasesEvaluation::findByIdsAndType($currentUseCase->id, $user_id, $selectedVendor->id, 'accenture');
-                                                                @endphp
-                                                                <tr>
-                                                                    <td>
-                                                                        <div class="row">
-                                                                            <div class="col-10">
-                                                                                <h6>
-                                                                                    {{$selectedVendor->name}}
-                                                                                </h6>
-                                                                            </div>
-                                                                            <div class="col-2">
-                                                                                <i class="fa fa-chevron-up" id="vendor{{$selectedVendor->id}}closed" style="float: right" aria-hidden="true"></i>
-                                                                                <i class="fa fa-chevron-down" id="vendor{{$selectedVendor->id}}opened" style="float: right" aria-hidden="true"></i>
-                                                                            </div>
-                                                                            <div id="vendorBody{{$selectedVendor->id}}" style="padding-top: 15px;padding-left: 25px;padding-right: 25px;">
-                                                                                <div class="row">
-                                                                                    <div class="col-6">
-                                                                                        <label for="vendor{{$selectedVendor->id}}SolutionFit">Solution Fit</label>
-                                                                                        <br>
-                                                                                    </div>
-                                                                                    <div class="col-6">
-                                                                                        <select id="vendor{{$selectedVendor->id}}SolutionFit"
-                                                                                                @if($evaluation->submitted === 'yes')
-                                                                                                disabled
+                                                        <div class="form-area area-evaluation">
+                                                            <h4>Submit Summary</h4>
+                                                            <br>
+                                                            <h5>Accenture users</h5>
+                                                            <br>
+                                                            <div class="row">
+                                                                <div class="col-6">
+                                                                    <label for="nonSubmittedUsers">Not submitted</label>
+                                                                    <select id="nonSubmittedUsers" multiple disabled>
+                                                                        @foreach ($evaluationNonSubmittedUsers as $evaluationNonSubmittedUser)
+                                                                            <option value="{{ $evaluationNonSubmittedUser->id }}">
+                                                                                {{ $evaluationNonSubmittedUser->name }}
+                                                                            </option>
+                                                                        @endforeach
+                                                                    </select>
+                                                                </div>
+                                                                <div class="col-6">
+                                                                    <label for="submittedUsers">Submitted</label>
+                                                                    <select id="submittedUsers" multiple disabled>
+                                                                        @foreach ($evaluationSubmittedUsers as $evaluationSubmittedUser)
+                                                                            <option value="{{ $evaluationSubmittedUser->id }}">
+                                                                                {{ $evaluationSubmittedUser->name }}
+                                                                            </option>
+                                                                        @endforeach
+                                                                    </select>
+                                                                </div>
+                                                            </div>
+                                                            <br>
+                                                            <h5>Clients</h5>
+                                                            <br>
+                                                            <div class="row">
+                                                                <div class="col-6">
+                                                                    <label for="nonSubmittedClients">Not submitted</label>
+                                                                    <select id="nonSubmittedClients" multiple disabled>
+                                                                        @foreach ($evaluationNonSubmittedClients as $evaluationNonSubmittedClient)
+                                                                            <option value="{{ $evaluationNonSubmittedClient->id }}">
+                                                                                {{ $evaluationNonSubmittedClient->name }}
+                                                                            </option>
+                                                                        @endforeach
+                                                                    </select>
+                                                                </div>
+                                                                <div class="col-6">
+                                                                    <label for="submittedClients">Submitted</label>
+                                                                    <select id="submittedClients" multiple disabled>
+                                                                        @foreach ($evaluationSubmittedClients as $evaluationSubmittedClient)
+                                                                            <option value="{{ $evaluationSubmittedClient->id }}">
+                                                                                {{ $evaluationSubmittedClient->name }}
+                                                                            </option>
+                                                                        @endforeach
+                                                                    </select>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        @if($canEvaluateVendors)
+                                                            <br>
+                                                            <table >
+                                                                @foreach($selectedVendors as $selectedVendor)
+                                                                    @php
+                                                                        $evaluation = \App\VendorUseCasesEvaluation::findByIdsAndType($currentUseCase->id, $user_id, $selectedVendor->id, 'accenture');
+                                                                    @endphp
+                                                                    <tr>
+                                                                        <td>
+                                                                            <div class="row">
+                                                                                <div class="col-10">
+                                                                                    <h6>
+                                                                                        {{$selectedVendor->name}}
+                                                                                    </h6>
+                                                                                </div>
+                                                                                <div class="col-2">
+                                                                                    <i class="fa fa-chevron-up" id="vendor{{$selectedVendor->id}}closed" style="float: right" aria-hidden="true"></i>
+                                                                                    <i class="fa fa-chevron-down" id="vendor{{$selectedVendor->id}}opened" style="float: right" aria-hidden="true"></i>
+                                                                                </div>
+                                                                                <div id="vendorBody{{$selectedVendor->id}}" style="padding-top: 15px;padding-left: 25px;padding-right: 25px;">
+                                                                                    <div class="row">
+                                                                                        <div class="col-6">
+                                                                                            <label for="vendor{{$selectedVendor->id}}SolutionFit">Solution Fit</label>
+                                                                                            <br>
+                                                                                        </div>
+                                                                                        <div class="col-6">
+                                                                                            <select id="vendor{{$selectedVendor->id}}SolutionFit"
+                                                                                                    @if($evaluation->submitted === 'yes')
+                                                                                                    disabled
                                                                                                 @endif
-                                                                                        >
-                                                                                            <x-options.vendorEvaluation :selected="$evaluation ? [$evaluation->solution_fit] : []"/>
-                                                                                        </select>
-                                                                                        <br>
-                                                                                    </div>
-                                                                                    <div class="col-6">
-                                                                                        <label for="vendor{{$selectedVendor->id}}Usability">Usability</label>
-                                                                                        <br>
-                                                                                    </div>
-                                                                                    <div class="col-6">
-                                                                                        <select id="vendor{{$selectedVendor->id}}Usability"
-                                                                                                @if($evaluation->submitted === 'yes')
-                                                                                                disabled
+                                                                                            >
+                                                                                                <x-options.vendorEvaluation :selected="$evaluation ? [$evaluation->solution_fit] : []"/>
+                                                                                            </select>
+                                                                                            <br>
+                                                                                        </div>
+                                                                                        <div class="col-6">
+                                                                                            <label for="vendor{{$selectedVendor->id}}Usability">Usability</label>
+                                                                                            <br>
+                                                                                        </div>
+                                                                                        <div class="col-6">
+                                                                                            <select id="vendor{{$selectedVendor->id}}Usability"
+                                                                                                    @if($evaluation->submitted === 'yes')
+                                                                                                    disabled
                                                                                                 @endif
-                                                                                        >
-                                                                                            <x-options.vendorEvaluation :selected="$evaluation ? [$evaluation->usability] : []"/>
-                                                                                        </select>
-                                                                                        <br>
-                                                                                    </div>
-                                                                                    <div class="col-6">
-                                                                                        <label for="vendor{{$selectedVendor->id}}Performance">Performance</label>
-                                                                                        <br>
-                                                                                    </div>
-                                                                                    <div class="col-6">
-                                                                                        <select id="vendor{{$selectedVendor->id}}Performance"
-                                                                                                @if($evaluation->submitted === 'yes')
-                                                                                                disabled
+                                                                                            >
+                                                                                                <x-options.vendorEvaluation :selected="$evaluation ? [$evaluation->usability] : []"/>
+                                                                                            </select>
+                                                                                            <br>
+                                                                                        </div>
+                                                                                        <div class="col-6">
+                                                                                            <label for="vendor{{$selectedVendor->id}}Performance">Performance</label>
+                                                                                            <br>
+                                                                                        </div>
+                                                                                        <div class="col-6">
+                                                                                            <select id="vendor{{$selectedVendor->id}}Performance"
+                                                                                                    @if($evaluation->submitted === 'yes')
+                                                                                                    disabled
                                                                                                 @endif
-                                                                                        >
-                                                                                            <x-options.vendorEvaluation :selected="$evaluation ? [$evaluation->performance] : []"/>
-                                                                                        </select>
-                                                                                        <br>
-                                                                                    </div>
-                                                                                    <div class="col-6">
-                                                                                        <label for="vendor{{$selectedVendor->id}}LookFeel">Look and Feel</label>
-                                                                                        <br>
-                                                                                    </div>
-                                                                                    <div class="col-6">
-                                                                                        <select id="vendor{{$selectedVendor->id}}LookFeel"
-                                                                                                @if($evaluation->submitted === 'yes')
-                                                                                                disabled
+                                                                                            >
+                                                                                                <x-options.vendorEvaluation :selected="$evaluation ? [$evaluation->performance] : []"/>
+                                                                                            </select>
+                                                                                            <br>
+                                                                                        </div>
+                                                                                        <div class="col-6">
+                                                                                            <label for="vendor{{$selectedVendor->id}}LookFeel">Look and Feel</label>
+                                                                                            <br>
+                                                                                        </div>
+                                                                                        <div class="col-6">
+                                                                                            <select id="vendor{{$selectedVendor->id}}LookFeel"
+                                                                                                    @if($evaluation->submitted === 'yes')
+                                                                                                    disabled
                                                                                                 @endif
-                                                                                        >
-                                                                                            <x-options.vendorEvaluation :selected="$evaluation ? [$evaluation->look_feel] : []"/>
-                                                                                        </select>
-                                                                                        <br>
-                                                                                    </div>
-                                                                                    <div class="col-6">
-                                                                                        <label for="vendor{{$selectedVendor->id}}Others">Others</label>
-                                                                                        <br>
-                                                                                    </div>
-                                                                                    <div class="col-6">
-                                                                                        <select id="vendor{{$selectedVendor->id}}Others"
-                                                                                                @if($evaluation->submitted === 'yes')
-                                                                                                disabled
+                                                                                            >
+                                                                                                <x-options.vendorEvaluation :selected="$evaluation ? [$evaluation->look_feel] : []"/>
+                                                                                            </select>
+                                                                                            <br>
+                                                                                        </div>
+                                                                                        <div class="col-6">
+                                                                                            <label for="vendor{{$selectedVendor->id}}Others">Others</label>
+                                                                                            <br>
+                                                                                        </div>
+                                                                                        <div class="col-6">
+                                                                                            <select id="vendor{{$selectedVendor->id}}Others"
+                                                                                                    @if($evaluation->submitted === 'yes')
+                                                                                                    disabled
                                                                                                 @endif
-                                                                                        >
-                                                                                            <x-options.vendorEvaluation :selected="$evaluation ? [$evaluation->others] : []"/>
-                                                                                        </select>
-                                                                                        <br>
-                                                                                    </div>
-                                                                                    <div class="col-6">
-                                                                                        <label for="vendor{{$selectedVendor->id}}Comments">Comments</label>
-                                                                                        <br>
-                                                                                    </div>
-                                                                                    <div class="col-6">
+                                                                                            >
+                                                                                                <x-options.vendorEvaluation :selected="$evaluation ? [$evaluation->others] : []"/>
+                                                                                            </select>
+                                                                                            <br>
+                                                                                        </div>
+                                                                                        <div class="col-6">
+                                                                                            <label for="vendor{{$selectedVendor->id}}Comments">Comments</label>
+                                                                                            <br>
+                                                                                        </div>
+                                                                                        <div class="col-6">
                                                                                         <textarea
                                                                                             class="form-control"
                                                                                             id="vendor{{$selectedVendor->id}}Comments"
@@ -274,22 +329,23 @@
                                                                                             disabled
                                                                                             @endif
                                                                                         >{{$evaluation->comments ?? null}}</textarea>
-                                                                                        <br>
+                                                                                            <br>
+                                                                                        </div>
                                                                                     </div>
                                                                                 </div>
                                                                             </div>
-                                                                        </div>
-                                                                    </td>
-                                                                </tr>
-                                                            @endforeach
-                                                        </table>
-                                                        <br>
-                                                        @if($evaluationsSubmitted === 'no')
-                                                        <button id="submitEvaluationsButton" class="btn btn-primary btn-right">
-                                                            Submit
-                                                        </button>
-                                                        @else
-                                                            <p class="btn-right" style="color: green">Evaluations Submitted!</p>
+                                                                        </td>
+                                                                    </tr>
+                                                                @endforeach
+                                                            </table>
+                                                            <br>
+                                                            @if($evaluationsSubmitted === 'no')
+                                                                <button id="submitEvaluationsButton" class="btn btn-primary btn-right">
+                                                                    Submit
+                                                                </button>
+                                                            @else
+                                                                <p class="btn-right" style="color: green">Evaluations Submitted!</p>
+                                                            @endif
                                                         @endif
                                                     @endif
                                                 </div>
@@ -787,6 +843,11 @@
             $('#submitEvaluationsButton').prop('disabled', false);
         }
 
+        function selectAll(id) {
+            $('#' + id + ' > option').prop('selected','selected');
+            $('#' + id).trigger('change');
+        }
+
         $(document).ready(function () {
             // $(".js-example-basic-single").select2();
             // $(".js-example-basic-multiple").select2();
@@ -909,6 +970,14 @@
             @endforeach
             @endif
             @else
+            $('#nonSubmittedUsers').select2();
+            selectAll('nonSubmittedUsers');
+            $('#submittedUsers').select2();
+            selectAll('submittedUsers');
+            $('#nonSubmittedClients').select2();
+            selectAll('nonSubmittedClients');
+            $('#submittedClients').select2();
+            selectAll('submittedClients');
             function checkEvaluationsForSubmit() {
             @foreach($selectedVendors as $selectedVendor)
                 if($('#vendor{{$selectedVendor->id}}SolutionFit').val() == -1) {

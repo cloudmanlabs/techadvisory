@@ -43,4 +43,14 @@ class VendorUseCasesEvaluation extends Model
 
         return 'yes';
     }
+
+    public static function getUserCredentialsByUseCaseAndSubmittingState($useCaseId, $userType, $submitted)
+    {
+        return VendorUseCasesEvaluation::select('user_credential')
+            ->where('use_case_id', '=', $useCaseId)
+            ->where('evaluation_type', '=', $userType)
+            ->where('submitted', '=', $submitted ? 'yes' : 'no')
+            ->distinct('user_credential')
+            ->get();
+    }
 }

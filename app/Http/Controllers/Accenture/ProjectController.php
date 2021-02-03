@@ -20,6 +20,7 @@ use App\UseCaseQuestionResponse;
 use App\UseCaseTemplate;
 use App\UseCaseTemplateQuestionResponse;
 use App\User;
+use App\UserCredential;
 use App\VendorApplication;
 use App\VendorUseCasesEvaluation;
 use Carbon\Carbon;
@@ -212,6 +213,27 @@ class ProjectController extends Controller
                 }
 
                 $view['evaluationsSubmitted'] = VendorUseCasesEvaluation::evaluationsSubmitted($accessingAccentureUserId, $useCase->id, $selectedVendors, 'accenture');
+                $evaluationSubmittedClients = VendorUseCasesEvaluation::getUserCredentialsByUseCaseAndSubmittingState($useCase->id, 'client', true);
+                foreach ($evaluationSubmittedClients as $key => $evaluationSubmittedClient) {
+                    $evaluationSubmittedClients[$key] = UserCredential::where('id', '=', $evaluationSubmittedClient->user_credential)->first();
+                }
+                $evaluationNonSubmittedClients = VendorUseCasesEvaluation::getUserCredentialsByUseCaseAndSubmittingState($useCase->id, 'client', false);
+                foreach ($evaluationNonSubmittedClients as $key => $evaluationNonSubmittedClient) {
+                    $evaluationNonSubmittedClients[$key] = UserCredential::where('id', '=', $evaluationNonSubmittedClients->user_credential)->first();
+                }
+                $view['evaluationSubmittedClients'] = $evaluationSubmittedClients;
+                $view['evaluationNonSubmittedClients'] = $evaluationNonSubmittedClients;
+
+                $evaluationSubmittedUsers = VendorUseCasesEvaluation::getUserCredentialsByUseCaseAndSubmittingState($useCase->id, 'accenture', true);
+                foreach ($evaluationSubmittedUsers as $key => $evaluationSubmittedUser) {
+                    $evaluationSubmittedUsers[$key] = User::where('id', '=', $evaluationSubmittedUser->user_credential)->first();
+                }
+                $evaluationNonSubmittedUsers = VendorUseCasesEvaluation::getUserCredentialsByUseCaseAndSubmittingState($useCase->id, 'accenture', false);
+                foreach ($evaluationNonSubmittedUsers as $key => $evaluationNonSubmittedUser) {
+                    $evaluationNonSubmittedUsers[$key] = User::where('id', '=', $evaluationNonSubmittedUser->user_credential)->first();
+                }
+                $view['evaluationSubmittedUsers'] = $evaluationSubmittedUsers;
+                $view['evaluationNonSubmittedUsers'] = $evaluationNonSubmittedUsers;
             }
         }
 
