@@ -45,6 +45,7 @@ prefix('accenture')
             Route::post('/newProjectSetUp/upsertEvaluationOthers', 'ProjectController@upsertEvaluationOthers');
             Route::post('/newProjectSetUp/upsertEvaluationComments', 'ProjectController@upsertEvaluationComments');
             Route::post('/newProjectSetUp/submitUseCaseVendorEvaluation', 'ProjectController@submitUseCaseVendorEvaluation');
+            Route::post('/newProjectSetUp/rollbackSubmitUseCaseVendorEvaluation', 'ProjectController@rollbackSubmitUseCaseVendorEvaluation');
             Route::post('/newProjectSetUp/updateInvitedVendors', 'ProjectController@updateInvitedVendors');
             Route::post('/newProjectSetUp/saveProjectScoringCriteria', 'ProjectController@saveProjectScoringCriteria');
             Route::post('/newProjectSetUp/saveUseCaseScoringCriteria', 'ProjectController@saveUseCaseScoringCriteria');

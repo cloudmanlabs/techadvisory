@@ -134,17 +134,19 @@ class ProjectController extends Controller
         return UseCase::find($useCase->id);
     }
 
-    private function createVendorEvaluationsIfNeeded($accessingAccentureUserId, $useCaseId, $selectedVendors)
+    private function createVendorEvaluationsIfNeeded($userCredentials, $useCaseId, $selectedVendors, $userType)
     {
-        foreach ($selectedVendors as $selectedVendor) {
-            $vendorEvaluation = VendorUseCasesEvaluation::findByIdsAndType($useCaseId, $accessingAccentureUserId, $selectedVendor->id, 'accenture');
-            if ($vendorEvaluation == null) {
-                $vendorEvaluation = new VendorUseCasesEvaluation();
-                $vendorEvaluation->use_case_id = $useCaseId;
-                $vendorEvaluation->user_credential = $accessingAccentureUserId;
-                $vendorEvaluation->vendor_id = $selectedVendor->id;
-                $vendorEvaluation->evaluation_type = 'accenture';
-                $vendorEvaluation->save();
+        foreach ($userCredentials as $userCredential) {
+            foreach ($selectedVendors as $selectedVendor) {
+                $vendorEvaluation = VendorUseCasesEvaluation::findByIdsAndType($useCaseId, $userCredential, $selectedVendor->id, $userType);
+                if ($vendorEvaluation == null) {
+                    $vendorEvaluation = new VendorUseCasesEvaluation();
+                    $vendorEvaluation->use_case_id = $useCaseId;
+                    $vendorEvaluation->user_credential = $userCredential;
+                    $vendorEvaluation->vendor_id = $selectedVendor->id;
+                    $vendorEvaluation->evaluation_type = $userType;
+                    $vendorEvaluation->save();
+                }
             }
         }
     }
@@ -203,14 +205,12 @@ class ProjectController extends Controller
 
             if ($project->useCasesPhase === 'evaluation') {
                 $selectedUsers = explode(',', urldecode($useCase->accentureUsers));
-                $canEvaluateVendors = (array_search($accessingAccentureUserId, $selectedUsers) !== false) && $request->user()->isAccenture();
+                $view['canEvaluateVendors'] = (array_search($accessingAccentureUserId, $selectedUsers) !== false) && $request->user()->isAccenture();
                 $invitedVendors = explode(',', urldecode($project->use_case_invited_vendors));
                 $selectedVendors = $project->vendorsApplied()->whereIn('id', $invitedVendors)->get();
-                $view['canEvaluateVendors'] = $canEvaluateVendors;
                 $view['selectedVendors'] = $selectedVendors;
-                if ($canEvaluateVendors) {
-                    $this->createVendorEvaluationsIfNeeded($accessingAccentureUserId, $useCase->id, $selectedVendors);
-                }
+                $this->createVendorEvaluationsIfNeeded(array_map('intval', explode(',', urldecode($useCase->accentureUsers))), $useCase->id, $selectedVendors, 'accenture');
+                $this->createVendorEvaluationsIfNeeded(array_map('intval', explode(',', urldecode($useCase->clientUsers))), $useCase->id, $selectedVendors, 'client');
 
                 $view['evaluationsSubmitted'] = VendorUseCasesEvaluation::evaluationsSubmitted($accessingAccentureUserId, $useCase->id, $selectedVendors, 'accenture');
                 $evaluationSubmittedClients = VendorUseCasesEvaluation::getUserCredentialsByUseCaseAndSubmittingState($useCase->id, 'client', true);
@@ -219,7 +219,7 @@ class ProjectController extends Controller
                 }
                 $evaluationNonSubmittedClients = VendorUseCasesEvaluation::getUserCredentialsByUseCaseAndSubmittingState($useCase->id, 'client', false);
                 foreach ($evaluationNonSubmittedClients as $key => $evaluationNonSubmittedClient) {
-                    $evaluationNonSubmittedClients[$key] = UserCredential::where('id', '=', $evaluationNonSubmittedClients->user_credential)->first();
+                    $evaluationNonSubmittedClients[$key] = UserCredential::where('id', '=', $evaluationNonSubmittedClient->user_credential)->first();
                 }
                 $view['evaluationSubmittedClients'] = $evaluationSubmittedClients;
                 $view['evaluationNonSubmittedClients'] = $evaluationNonSubmittedClients;
@@ -292,6 +292,32 @@ class ProjectController extends Controller
 
         $useCase->scoring_criteria = (float) $request->scoringCriteria;
         $useCase->save();
+
+        return \response()->json([
+            'status' => 200,
+            'message' => 'Success'
+        ]);
+    }
+
+    public function rollbackSubmitUseCaseVendorEvaluation(Request $request)
+    {
+        $request->validate([
+            'useCaseId' => 'required|exists:use_case,id|numeric',
+            'userCredential' => 'required|exists:users,id|numeric'
+        ]);
+
+        $evaluations = VendorUseCasesEvaluation::where('use_case_id', '=', $request->useCaseId)
+            ->where('user_credential', '=', $request->userCredential)
+            ->where('evaluation_type', '=', 'accenture')
+            ->get();
+        if ($evaluations == null) {
+            abort(404);
+        }
+
+        foreach($evaluations as $evaluation) {
+            $evaluation->submitted = 'no';
+            $evaluation->save();
+        }
 
         return \response()->json([
             'status' => 200,

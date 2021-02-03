@@ -279,6 +279,32 @@ class ProjectController extends Controller
         ]);
     }
 
+    public function rollbackSubmitUseCaseVendorEvaluation(Request $request)
+    {
+        $request->validate([
+            'useCaseId' => 'required|exists:use_case,id|numeric',
+            'userCredential' => 'required|exists:user_credentials,id|numeric'
+        ]);
+
+        $evaluations = VendorUseCasesEvaluation::where('use_case_id', '=', $request->useCaseId)
+            ->where('user_credential', '=', $request->userCredential)
+            ->where('evaluation_type', '=', 'client')
+            ->get();
+        if ($evaluations == null) {
+            abort(404);
+        }
+
+        foreach($evaluations as $evaluation) {
+            $evaluation->submitted = 'no';
+            $evaluation->save();
+        }
+
+        return \response()->json([
+            'status' => 200,
+            'message' => 'Success'
+        ]);
+    }
+
     public function submitUseCaseVendorEvaluation(Request $request)
     {
         $request->validate([

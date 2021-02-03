@@ -36,7 +36,7 @@
                                     <div style="display: flex; justify-content: space-between">
                                         <h3>Use Cases Evaluation</h3>
                                         <a class="btn btn-primary btn-lg btn-icon-text"
-                                           href="{{route('accenture.evaluationRollback', ['project' => $project])}}">Rollaback to SetUp</a>
+                                           href="{{route('accenture.evaluationRollback', ['project' => $project])}}">Rollback to Set up</a>
                                     </div>
                                 @else
                                     <h3>Use Cases Set up</h3>
@@ -344,7 +344,9 @@
                                                                     Submit
                                                                 </button>
                                                             @else
-                                                                <p class="btn-right" style="color: green">Evaluations Submitted!</p>
+                                                                <button id="rollbackSubmitButton" class="btn btn-primary btn-right">
+                                                                    Rollback Submit
+                                                                </button>
                                                             @endif
                                                         @endif
                                                     @endif
@@ -978,6 +980,7 @@
             selectAll('nonSubmittedClients');
             $('#submittedClients').select2();
             selectAll('submittedClients');
+
             function checkEvaluationsForSubmit() {
             @foreach($selectedVendors as $selectedVendor)
                 if($('#vendor{{$selectedVendor->id}}SolutionFit').val() == -1) {
@@ -1003,22 +1006,33 @@
                 return enableSubmitEvaluationsButton();
             }
 
+            @if($evaluationsSubmitted === 'no')
             $('#submitEvaluationsButton').click(function() {
                 $.when(
-                @foreach($selectedVendors as $selectedVendor)
-                @php
-                    $evaluation = \App\VendorUseCasesEvaluation::findByIdsAndType($currentUseCase->id, $user_id, $selectedVendor->id, 'accenture');
-                @endphp
-                $.post('/accenture/newProjectSetUp/submitUseCaseVendorEvaluation', {
-                    evaluationId: {{$evaluation->id}}
-                }).then(function () {
-                    showSubmitEvaluationToast('{{$selectedVendor->name}}');
-                }),
+                    @foreach($selectedVendors as $selectedVendor)
+                    @php
+                        $evaluation = \App\VendorUseCasesEvaluation::findByIdsAndType($currentUseCase->id, $user_id, $selectedVendor->id, 'accenture');
+                    @endphp
+                    $.post('/accenture/newProjectSetUp/submitUseCaseVendorEvaluation', {
+                        evaluationId: {{$evaluation->id}}
+                    }).then(function () {
+                        showSubmitEvaluationToast('{{$selectedVendor->name}}');
+                    }),
                 @endforeach
                 ).done(function(){
                     return location.replace("{{route('accenture.useCasesSetUp', ['project' => $project])}}" + "??useCase={{$currentUseCase->id}}");
                 });
             });
+            @else
+            $('#rollbackSubmitButton').click(function() {
+                $.post('/accenture/newProjectSetUp/rollbackSubmitUseCaseVendorEvaluation', {
+                    useCaseId: {{$currentUseCase->id}},
+                    userCredential: {{$user_id}}
+                }).then(function () {
+                    return location.replace("{{route('accenture.useCasesSetUp', ['project' => $project])}}" + "??useCase={{$currentUseCase->id}}");
+                });
+            });
+            @endif
 
             @foreach($selectedVendors as $selectedVendor)
 

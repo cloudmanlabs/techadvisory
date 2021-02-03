@@ -278,7 +278,9 @@
                                                                     Submit
                                                                 </button>
                                                             @else
-                                                                <p class="btn-right" style="color: green">Evaluations Submitted!</p>
+                                                                <button id="rollbackSubmitButton" class="btn btn-primary btn-right">
+                                                                    Rollback Submit
+                                                                </button>
                                                             @endif
                                                         @endif
                                                     </div>
@@ -889,6 +891,7 @@
             @endforeach
             @endif
             @else
+
             function checkEvaluationsForSubmit() {
                 @foreach($selectedVendors as $selectedVendor)
                 if($('#vendor{{$selectedVendor->id}}SolutionFit').val() == -1) {
@@ -914,6 +917,7 @@
                     return enableSubmitEvaluationsButton();
             }
 
+            @if($evaluationsSubmitted === 'no')
             $('#submitEvaluationsButton').click(function() {
                 $.when(
                     @foreach($selectedVendors as $selectedVendor)
@@ -930,6 +934,16 @@
                     return location.replace("{{route('client.useCasesSetUp', ['project' => $project])}}" + "??useCase={{$currentUseCase->id}}");
                 });
             });
+            @else
+            $('#rollbackSubmitButton').click(function() {
+                $.post('/client/newProjectSetUp/rollbackSubmitUseCaseVendorEvaluation', {
+                    useCaseId: {{$currentUseCase->id}},
+                    userCredential: {{$client_id}}
+                }).then(function () {
+                    return location.replace("{{route('client.useCasesSetUp', ['project' => $project])}}" + "??useCase={{$currentUseCase->id}}");
+                });
+            });
+            @endif
 
             @foreach($selectedVendors as $selectedVendor)
 
