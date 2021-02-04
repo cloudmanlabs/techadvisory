@@ -191,6 +191,8 @@ class Project extends Resource
 
             HasMany::make('Applied vendors', 'vendorApplications', 'App\Nova\VendorApplication'),
 
+            HasMany::make('Use Cases', 'useCases', 'App\Nova\UseCase'),
+
             (new Panel('Debug', [
                 Boolean::make('Has Value Targetting files in each', function(){
                     return $this->hasValueTargetingFilesInEach();
