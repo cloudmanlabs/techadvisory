@@ -298,8 +298,10 @@
                     var selectedIds = [
                         @if(is_array($subpracticesIDsToFilter))
                             @foreach($subpracticesIDsToFilter as $subpractice)
-                            '{{\App\Subpractice::find($subpractice)->id}}',
-                        @endforeach
+                                @if(($subId = \App\Subpractice::find($subpractice)))
+                                    '{{$subId->id}}',
+                                @endif
+                            @endforeach
                         @endif
                     ];
 
