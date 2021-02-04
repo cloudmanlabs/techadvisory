@@ -192,7 +192,8 @@ class ProjectController extends Controller
             'user_id' => $accessingAccentureUserId
         ];
 
-        if ($request->input('createUseCase')) {
+        error_log($useCases->count());
+        if ($request->input('createUseCase') || $useCases->count() === 0) {
             $useCaseTemplateId = $request->input('useCaseTemplate');
             $useCase = $this->createBaseUseCase($project->id, $useCaseTemplateId);
             $view['currentUseCase'] = $useCase;

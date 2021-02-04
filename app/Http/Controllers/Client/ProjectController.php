@@ -192,7 +192,7 @@ class ProjectController extends Controller
             'client_id' => $accessingClientCredentialsId
         ];
 
-        if ($request->input('createUseCase')) {
+        if ($request->input('createUseCase') || $useCases->count() === 0) {
             $useCaseTemplateId = $request->input('useCaseTemplate');
             $useCase = $this->createBaseUseCase($project->id, $useCaseTemplateId);
             $view['currentUseCase'] = $useCase;
