@@ -37,26 +37,6 @@ class UseCase extends Model
         return $this->hasMany(UseCaseQuestionResponse::class, 'use_case_id');
     }
 
-    public function id()
-    {
-        return $this->id;
-    }
-
-    public function name()
-    {
-        return $this->name;
-    }
-
-    public function description()
-    {
-        return $this->description;
-    }
-//
-//    public static function deleteByProject($projectId)
-//    {
-//        UseCase::where('project_id', '=', $projectId)->delete();
-//    }
-//
     public static function findByProject($projectId)
     {
         return UseCase::where('project_id', '=', $projectId)->get();

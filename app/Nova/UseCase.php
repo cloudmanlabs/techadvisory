@@ -18,105 +18,96 @@ use Laravel\Nova\Panel;
 
 class UseCase extends Resource
 {
-//    public static $displayInNavigation = false;
-//
-//    /**
-//     * The model the resource corresponds to.
-//     *
-//     * @var string
-//     */
-//    public static $model = 'App\UseCase';
-//
-//    /**
-//     * The single value that should be used to represent the resource when being displayed.
-//     *
-//     * @var string
-//     */
-//    public static $title = 'name';
-//
-//    /**
-//     * The columns that should be searched.
-//     *
-//     * @var array
-//     */
-//    public static $search = [
-//        'id', 'name', 'description'
-//    ];
-//
-//    /**
-//     * Get the fields displayed by the resource.
-//     *
-//     * @param  \Illuminate\Http\Request  $request
-//     * @return array
-//     */
-//    public function fields(Request $request)
-//    {
-//        return [
-//            ID::make()->sortable(),
-//
-//            Text::make('Name', 'name')
-//                ->rules('required')
-//                ->required(),
-//
-//            Text::make('Description', 'description')
-//                ->rules('required')
-//                ->required(),
-//
-//            BelongsTo::make('SC Capability (Practice)', 'practice', 'App\Nova\Practice')
-//                ->sortable(),
-//
-//            BelongsTo::make('Project', 'project', '\App\Nova\Project'),
-//
-//            HasMany::make('Use Case Questions', 'useCaseQuestions', 'App\Nova\UseCaseQuestionResponse'),
-//
-////            BelongsTo::make('Use Case Template', 'template', '\App\Nova\UseCaseTemplate'),
-////
-////            HasMany::make('Use Case Questions', 'useCaseQuestionsPivots', 'App\Nova\UseCaseQuestionUseCaseTemplatePivot'),
-////            HasMany::make('Use Case Responses', 'useCaseQuestions', 'App\Nova\UseCaseQuestionResponse'),
-//        ];
-//    }
-//
-//    /**
-//     * Get the cards available for the request.
-//     *
-//     * @param  \Illuminate\Http\Request  $request
-//     * @return array
-//     */
-//    public function cards(Request $request)
-//    {
-//        return [];
-//    }
-//
-//    /**
-//     * Get the filters available for the resource.
-//     *
-//     * @param  \Illuminate\Http\Request  $request
-//     * @return array
-//     */
-//    public function filters(Request $request)
-//    {
-//        return [];
-//    }
-//
-//    /**
-//     * Get the lenses available for the resource.
-//     *
-//     * @param  \Illuminate\Http\Request  $request
-//     * @return array
-//     */
-//    public function lenses(Request $request)
-//    {
-//        return [];
-//    }
-//
-//    /**
-//     * Get the actions available for the resource.
-//     *
-//     * @param  \Illuminate\Http\Request  $request
-//     * @return array
-//     */
-//    public function actions(Request $request)
-//    {
-//        return [];
-//    }
+    /**
+     * The model the resource corresponds to.
+     *
+     * @var string
+     */
+    public static $model = 'App\UseCase';
+
+    /**
+     * The single value that should be used to represent the resource when being displayed.
+     *
+     * @var string
+     */
+    public static $title = 'name';
+
+    /**
+     * The columns that should be searched.
+     *
+     * @var array
+     */
+    public static $search = [
+        'id', 'name', 'description'
+    ];
+
+    /**
+     * Get the fields displayed by the resource.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return array
+     */
+    public function fields(Request $request)
+    {
+        return [
+            ID::make()->sortable(),
+
+            Text::make('Name', 'name')
+                ->rules('required')
+                ->required(),
+
+            Text::make('Description', 'description')
+                ->rules('required')
+                ->required(),
+
+            BelongsTo::make('Project', 'project', '\App\Nova\Project'),
+
+            HasMany::make('Use Case Questions', 'useCaseQuestions', 'App\Nova\UseCaseQuestionResponse'),
+
+        ];
+    }
+
+    /**
+     * Get the cards available for the request.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return array
+     */
+    public function cards(Request $request)
+    {
+        return [];
+    }
+
+    /**
+     * Get the filters available for the resource.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return array
+     */
+    public function filters(Request $request)
+    {
+        return [];
+    }
+
+    /**
+     * Get the lenses available for the resource.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return array
+     */
+    public function lenses(Request $request)
+    {
+        return [];
+    }
+
+    /**
+     * Get the actions available for the resource.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return array
+     */
+    public function actions(Request $request)
+    {
+        return [];
+    }
 }

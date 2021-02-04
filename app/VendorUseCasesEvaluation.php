@@ -25,4 +25,32 @@ class VendorUseCasesEvaluation extends Model
             ->where('evaluation_type', '=', $evaluationType)
             ->first();
     }
+
+    public static function evaluationsSubmitted($userCredential, $useCaseId, $selectedVendors, $evaluationType)
+    {
+
+        foreach ($selectedVendors as $selectedVendor) {
+            $evaluation = VendorUseCasesEvaluation::where('use_case_id', '=', $useCaseId)
+                ->where('user_credential', '=', $userCredential)
+                ->where('vendor_id', '=', $selectedVendor->id)
+                ->where('evaluation_type', '=', $evaluationType)
+                ->first();
+
+            if ($evaluation->submitted === 'no') {
+                return 'no';
+            }
+        }
+
+        return 'yes';
+    }
+
+    public static function getUserCredentialsByUseCaseAndSubmittingState($useCaseId, $userType, $submitted)
+    {
+        return VendorUseCasesEvaluation::select('user_credential')
+            ->where('use_case_id', '=', $useCaseId)
+            ->where('evaluation_type', '=', $userType)
+            ->where('submitted', '=', $submitted ? 'yes' : 'no')
+            ->distinct('user_credential')
+            ->get();
+    }
 }

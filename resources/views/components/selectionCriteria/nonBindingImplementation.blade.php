@@ -8,21 +8,21 @@
     <label for="projectName">Overall Implementation cost</label>
     <div style="display: flex; flex-direction: row; justify-content: space-evenly; width: 100%">
         <div style="width: 50%; padding: 0 0.5rem">
-            <p>Min</p>
+            <p>Min *</p>
         </div>
         <div style="width: 50%; padding: 0 0.5rem">
-            <p>Max</p>
+            <p>Max *</p>
         </div>
     </div>
     <div style="display: flex; flex-direction: row">
         <input type="number" class="form-control nonBindingInput" placeholder="Min"
                data-changing="overallImplementationMin"
-               value="{{$vendorApplication->overallImplementationMin}}" min="0"
-               {{$disabled ? 'disabled' : ''}} min="0">
+               value="{{$vendorApplication->overallImplementationMin}}"
+               {{$disabled ? 'disabled' : ''}} min="0" required>
         <input style="margin-left: 1rem;" type="number" class="form-control nonBindingInput" placeholder="Max"
                data-changing="overallImplementationMax"
-               value="{{$vendorApplication->overallImplementationMax}}" min="0"
-               {{$disabled ? 'disabled' : ''}} min="0">
+               value="{{$vendorApplication->overallImplementationMax}}"
+               {{$disabled ? 'disabled' : ''}} min="0" required>
     </div>
 </div>
 
@@ -68,7 +68,7 @@
         <input style="margin-left: 1rem;" type="text" class="form-control nonBindingInput" placeholder="Comments"
                data-changing="travelCostNonBindingComments"
                value="{{$vendorApplication->travelCostNonBindingComments}}"
-               {{$disabled ? 'disabled' : ''}} min="0">
+               {{$disabled ? 'disabled' : ''}}>
     </div>
 </div>
 
@@ -91,11 +91,9 @@
         <input style="margin-left: 1rem;" type="text" class="form-control nonBindingInput" placeholder="Comments"
                data-changing="additionalCostNonBindingComments"
                value="{{$vendorApplication->additionalCostNonBindingComments}}"
-               {{$disabled ? 'disabled' : ''}} min="0">
+               {{$disabled ? 'disabled' : ''}}>
     </div>
 </div>
-
-
 
 @section('scripts')
     @parent

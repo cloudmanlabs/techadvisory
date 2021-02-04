@@ -269,8 +269,8 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
             UseCaseQuestion::class,
             UseCaseTemplate::class,
             UseCaseTemplateQuestionResponse::class,
-            //UseCase::class,
-            //UseCaseQuestionResponse::class,
+            UseCase::class,
+            UseCaseQuestionResponse::class,
 
             SecurityLog::class,
         );
