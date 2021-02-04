@@ -51,7 +51,7 @@ class UseCaseTemplate extends Resource
      */
     public function fields(Request $request)
     {
-        return [
+        $common = [
             ID::make()->sortable(),
 
             Text::make('Name', 'name')
@@ -65,10 +65,32 @@ class UseCaseTemplate extends Resource
             BelongsTo::make('SC Capability (Practice)', 'practice', 'App\Nova\Practice')
                 ->sortable(),
 
-            BelongsTo::make('Subpractices', 'subpractice', 'App\Nova\Subpractice'),
-
             HasMany::make('Use Case Questions', 'useCaseQuestions', 'App\Nova\UseCaseTemplateQuestionResponse'),
         ];
+
+        $other = [];
+
+        if ($request->editing && $request->editMode === 'update') {
+            $useCaseTemplateId = intval(explode('/', $request->fullUrl())[5]);
+            $useCaseTemplate = \App\UseCaseTemplate::find($useCaseTemplateId);
+            $filteredSubpractices = \App\Subpractice::where('practice_id', '=', $useCaseTemplate->practice_id)->get();
+            $options = [];
+
+            foreach ($filteredSubpractices as $filteredSubpractice) {
+                $options[$filteredSubpractice->id] = $filteredSubpractice->name;
+            }
+
+            array_push($other,
+                Select::make('Subpractice', 'subpractice_id')
+                    ->options($options)
+                    ->nullable()
+//                    ->hideFromIndex()
+                    ->displayUsingLabels()
+                    ->hideWhenCreating()
+            );
+        }
+
+        return array_merge($common, $other);
     }
 
     /**
