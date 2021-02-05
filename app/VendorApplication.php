@@ -1188,7 +1188,7 @@ class VendorApplication extends Model
                 return $query->whereHas('project.subpractices', function ($query) use ($subpracticesID) {
                     return $query->where(function ($query) use ($subpracticesID) {
                         foreach ($subpracticesID as $subPracticeId) {
-                            $query->where('subpractice_id', '=', $subPracticeId);
+                            $query->orWhere('subpractice_id', '=', $subPracticeId);
                         }
                     });
                 });
