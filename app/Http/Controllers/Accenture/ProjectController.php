@@ -192,7 +192,6 @@ class ProjectController extends Controller
             'user_id' => $accessingAccentureUserId
         ];
 
-        error_log($useCases->count());
         if ($request->input('createUseCase') || $useCases->count() === 0) {
             $useCaseTemplateId = $request->input('useCaseTemplate');
             $useCase = $this->createBaseUseCase($project->id, $useCaseTemplateId);
@@ -206,14 +205,18 @@ class ProjectController extends Controller
 
             if ($project->useCasesPhase === 'evaluation') {
                 $selectedUsers = explode(',', urldecode($useCase->accentureUsers));
-                $view['canEvaluateVendors'] = (array_search($accessingAccentureUserId, $selectedUsers) !== false) && $request->user()->isAccenture();
+                $canEvaluateVendors = (array_search($accessingAccentureUserId, $selectedUsers) !== false) && $request->user()->isAccenture();
+                $view['canEvaluateVendors'] = $canEvaluateVendors;
                 $invitedVendors = explode(',', urldecode($project->use_case_invited_vendors));
                 $selectedVendors = $project->vendorsApplied()->whereIn('id', $invitedVendors)->get();
                 $view['selectedVendors'] = $selectedVendors;
                 $this->createVendorEvaluationsIfNeeded(array_map('intval', explode(',', urldecode($useCase->accentureUsers))), $useCase->id, $selectedVendors, 'accenture');
                 $this->createVendorEvaluationsIfNeeded(array_map('intval', explode(',', urldecode($useCase->clientUsers))), $useCase->id, $selectedVendors, 'client');
 
-                $view['evaluationsSubmitted'] = VendorUseCasesEvaluation::evaluationsSubmitted($accessingAccentureUserId, $useCase->id, $selectedVendors, 'accenture');
+                if ($canEvaluateVendors) {
+                    $view['evaluationsSubmitted'] = VendorUseCasesEvaluation::evaluationsSubmitted($accessingAccentureUserId, $useCase->id, $selectedVendors, 'accenture');
+                }
+
                 $evaluationSubmittedClients = VendorUseCasesEvaluation::getUserCredentialsByUseCaseAndSubmittingState($useCase->id, 'client', true);
                 foreach ($evaluationSubmittedClients as $key => $evaluationSubmittedClient) {
                     $evaluationSubmittedClients[$key] = UserCredential::where('id', '=', $evaluationSubmittedClient->user_credential)->first();

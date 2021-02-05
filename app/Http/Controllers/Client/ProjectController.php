@@ -211,9 +211,8 @@ class ProjectController extends Controller
                 $view['selectedVendors'] = $selectedVendors;
                 if ($canEvaluateVendors) {
                     $this->createVendorEvaluationsIfNeeded($accessingClientCredentialsId, $useCase->id, $selectedVendors);
+                    $view['evaluationsSubmitted'] = VendorUseCasesEvaluation::evaluationsSubmitted($accessingClientCredentialsId, $useCase->id, $selectedVendors, 'client');
                 }
-
-                $view['evaluationsSubmitted'] = VendorUseCasesEvaluation::evaluationsSubmitted($accessingClientCredentialsId, $useCase->id, $selectedVendors, 'client');
             }
         }
 

@@ -1015,7 +1015,7 @@
             @endforeach
                 return enableSubmitEvaluationsButton();
             }
-
+            @if($canEvaluateVendors)
             @if($evaluationsSubmitted === 'no')
             $('#submitEvaluationsButton').click(function() {
                 $.when(
@@ -1158,6 +1158,7 @@
             $('#vendorBody{{$selectedVendor->id}}').hide();
             @endforeach
             checkEvaluationsForSubmit();
+            @endif
             @endif
             @if($currentUseCase ?? null)
             $('#useCaseName').val("{{$currentUseCase->name}}")
