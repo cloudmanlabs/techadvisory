@@ -76,7 +76,7 @@
                                                                 <select id="templateSelect">
                                                                     <option value="-1">-- Templates --</option>
                                                                     @foreach ($useCaseTemplates as $useCaseTemplate)
-                                                                        <option value="{{$useCaseTemplate->id}}">{{$useCaseTemplate->name}} - {{\App\Subpractice::find($useCaseTemplate->subpractice_id)->name}}</option>
+                                                                        <option value="{{$useCaseTemplate->id}}">{{$useCaseTemplate->name}}</option>
                                                                     @endforeach
                                                                 </select>
                                                             </li>
