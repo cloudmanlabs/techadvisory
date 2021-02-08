@@ -167,8 +167,9 @@ class ProjectController extends Controller
         $useCases = $project->useCases()->get();
 
         $projectPractice = $project->practice_id;
-        $useCaseTemplates = UseCaseTemplate::all()->filter(function($useCaseTemplate) use ($projectPractice) {
-            return $useCaseTemplate->practice_id == $projectPractice;
+        $projectSubpractices = $project->subpractices->pluck('id')->toArray();
+        $useCaseTemplates = UseCaseTemplate::all()->filter(function($useCaseTemplate) use ($projectPractice, $projectSubpractices) {
+            return $useCaseTemplate->practice_id == $projectPractice && in_array($useCaseTemplate->subpractice_id, $projectSubpractices);
         });
 
         $useCaseQuestions = UseCaseQuestion::all();
