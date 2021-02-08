@@ -121,6 +121,7 @@ class ProjectController extends Controller
             $useCase->name = $useCaseTemplate->name;
             $useCase->description = $useCaseTemplate->description;
             $useCase->project_id = $projectId;
+            $useCase->use_case_template_id = $useCaseTemplateId;
             $useCase->save();
 
             $useCaseTemplateResponses = UseCaseTemplateQuestionResponse::getResponsesFromUseCaseTemplate($useCaseTemplate);
@@ -214,6 +215,15 @@ class ProjectController extends Controller
                     $this->createVendorEvaluationsIfNeeded($accessingClientCredentialsId, $useCase->id, $selectedVendors);
                     $view['evaluationsSubmitted'] = VendorUseCasesEvaluation::evaluationsSubmitted($accessingClientCredentialsId, $useCase->id, $selectedVendors, 'client');
                 }
+            }
+        }
+
+        if ($useCase->use_case_template_id) {
+            $useCaseTemplate = UseCaseTemplate::find($useCase->use_case_template_id);
+            $useCaseTemplateQuestionsResponses = $useCaseTemplate->useCaseQuestions()->get();
+            $useCaseQuestions = [];
+            foreach ($useCaseTemplateQuestionsResponses as $useCaseTemplateQuestionsResponse) {
+                $useCaseQuestions[] = UseCaseQuestion::find($useCaseTemplateQuestionsResponse->use_case_questions_id);
             }
         }
 

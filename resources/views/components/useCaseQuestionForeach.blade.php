@@ -2,18 +2,7 @@
     Shows all the $questions, each with it's corresponding type
     --}}
 
-@props(['questions', 'class', 'disabled', 'required', 'fileUploadRoute', 'skipQuestionsInVendor', 'useCaseId'])
-
-@php
-    $skipQuestionsInVendor = $skipQuestionsInVendor ?? false;
-
-    //$questions = $questions ?? array();
-    $questions = $questions->filter(function($question) use ($skipQuestionsInVendor){
-        if(!$skipQuestionsInVendor) return true;
-
-        return $question->canVendorSee ?? true;
-    });
-@endphp
+@props(['questions', 'class', 'disabled', 'required', 'fileUploadRoute', 'useCaseId'])
 
 @foreach ($questions as $question)
     @switch($question->type)
