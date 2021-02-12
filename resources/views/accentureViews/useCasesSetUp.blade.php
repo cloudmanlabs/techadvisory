@@ -1028,9 +1028,16 @@
                     }).then(function () {
                         showSubmitEvaluationToast('{{$selectedVendor->name}}');
                     }),
-                @endforeach
+                    @endforeach
+                    {{--$.post('/accenture/newProjectSetUp/cacheUseCaseVendorEvaluation', {--}}
+                    {{--    useCaseId: {{$currentUseCase->id}}--}}
+                    {{--})--}}
                 ).done(function(){
-                    return location.replace("{{route('accenture.useCasesSetUp', ['project' => $project])}}" + "??useCase={{$currentUseCase->id}}");
+                    $.post('/accenture/newProjectSetUp/cacheProjectVendorEvaluation', {
+                        projectId: {{$project->id}}
+                    }).then(function () {
+                        return location.replace("{{route('accenture.useCasesSetUp', ['project' => $project])}}" + "??useCase={{$currentUseCase->id}}");
+                    });
                 });
             });
             @else

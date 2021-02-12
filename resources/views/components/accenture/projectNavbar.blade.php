@@ -137,14 +137,28 @@
             </div>
 
             @if($section == 'projectBenchmark')
+                <div class="profile-header">
+                    <div class="header-links">
+                        <ul class="links d-flex align-items-center mt-3 mt-md-0">
+                            <li class="header-link-item d-flex align-items-center {{$subsection == 'overall' ? 'active' : ''}}">
+                                <a class="pt-1px d-none d-md-block"
+                                   href="{{route('accenture.projectBenchmark', ['project' => $project])}}">Overall RFP</a>
+                            </li>
+                            @if($project->useCases !== 'no')
+                                <li class="header-link-item ml-3 pl-3 border-left d-flex align-items-center {{$subsection == 'useCasesOverall' ? 'active' : ''}}">
+                                    <a class="pt-1px d-none d-md-block"
+                                       href="{{route('accenture.projectRFPAndUseCasesBenchmark', ['project' => $project])}}">Overall RFP + Use Cases</a>
+                                </li>
+                            @endif
+                        </ul>
+                    </div>
+                </div>
+            @endif
+            @if($section == 'projectBenchmark')
             <div class="profile-header">
                 <div class="header-links">
                     <ul class="links d-flex align-items-center mt-3 mt-md-0">
-                        <li class="header-link-item d-flex align-items-center {{$subsection == 'overall' ? 'active' : ''}}">
-                            <a class="pt-1px d-none d-md-block"
-                                href="{{route('accenture.projectBenchmark', ['project' => $project])}}">Overall</a>
-                        </li>
-                        <li class="header-link-item ml-3 pl-3 border-left d-flex align-items-center {{$subsection == 'fitgap' ? 'active' : ''}}">
+                        <li class="header-link-item ml-3 pl-3 d-flex align-items-center {{$subsection == 'fitgap' ? 'active' : ''}}">
                             <a class="pt-1px d-none d-md-block"
                                 href="{{route('accenture.projectBenchmarkFitgap', ['project' => $project])}}">Fit Gap</a>
                         </li>
@@ -171,6 +185,12 @@
                                href="{{route('accenture.projectBenchmarkVendorComparison', ['project' => $project])}}">Vendor Comparison
                             </a>
                         </li>
+                        @if($project->useCases !== 'no')
+                        <li class="header-link-item ml-3 pl-3 border-left d-flex align-items-center {{$subsection == 'useCases' ? 'active' : ''}}">
+                            <a class="pt-1px d-none d-md-block"
+                               href="{{route('accenture.projectBenchmarkUseCases', ['project' => $project])}}">Use Cases</a>
+                        </li>
+                        @endif
                     </ul>
                 </div>
             </div>

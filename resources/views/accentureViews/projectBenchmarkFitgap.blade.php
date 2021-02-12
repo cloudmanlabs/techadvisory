@@ -30,7 +30,7 @@
                     <div class="col-lg-12 grid-margin stretch-card">
                         <div class="card">
                             <div class="card-body">
-                                <h3>Vendor Ranking by Fit Gap section</h3>
+                                <h3>Vendor Ranking by Use Case</h3>
                                 <p class="welcome_text extra-top-15px">
                                     {{nova_get_setting('accenture_projectBenchmarkFitgap_ranking') ?? ''}}
                                 </p>

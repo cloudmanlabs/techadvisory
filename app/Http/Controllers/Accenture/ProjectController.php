@@ -22,12 +22,15 @@ use App\UseCaseTemplateQuestionResponse;
 use App\User;
 use App\UserCredential;
 use App\VendorApplication;
+use App\VendorsProjectsAnalysis;
+use App\VendorsUseCasesAnalysis;
 use App\VendorUseCasesEvaluation;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Validation\Rule;
 use Maatwebsite\Excel\Facades\Excel;
+use stdClass;
 
 class ProjectController extends Controller
 {
@@ -202,8 +205,11 @@ class ProjectController extends Controller
         } else {
             $useCaseNumber = $request->input('useCase');
             $useCase = $useCaseNumber ? UseCase::find($useCaseNumber) : UseCase::findByProject($project->id)->first();
-            $view['currentUseCase'] = $useCase;
+            if (!$useCase) {
+                $useCase = UseCase::findByProject($project->id)->first();
+            }
 
+            $view['currentUseCase'] = $useCase;
 
             if ($project->useCasesPhase === 'evaluation') {
                 $selectedUsers = explode(',', urldecode($useCase->accentureUsers));
@@ -212,8 +218,8 @@ class ProjectController extends Controller
                 $invitedVendors = explode(',', urldecode($project->use_case_invited_vendors));
                 $selectedVendors = $project->vendorsApplied()->whereIn('id', $invitedVendors)->get();
                 $view['selectedVendors'] = $selectedVendors;
-                $this->createVendorEvaluationsIfNeeded(array_map('intval', explode(',', urldecode($useCase->accentureUsers))), $useCase->id, $selectedVendors, 'accenture');
-                $this->createVendorEvaluationsIfNeeded(array_map('intval', explode(',', urldecode($useCase->clientUsers))), $useCase->id, $selectedVendors, 'client');
+                $this->createVendorEvaluationsIfNeeded($useCase->accentureUsers ? array_map('intval', explode(',', urldecode($useCase->accentureUsers))) : [], $useCase->id, $selectedVendors, 'accenture');
+                $this->createVendorEvaluationsIfNeeded($useCase->clientUsers ? array_map('intval', explode(',', urldecode($useCase->clientUsers))) : [], $useCase->id, $selectedVendors, 'client');
 
                 if ($canEvaluateVendors) {
                     $view['evaluationsSubmitted'] = VendorUseCasesEvaluation::evaluationsSubmitted($accessingAccentureUserId, $useCase->id, $selectedVendors, 'accenture');
@@ -238,6 +244,7 @@ class ProjectController extends Controller
                 foreach ($evaluationNonSubmittedUsers as $key => $evaluationNonSubmittedUser) {
                     $evaluationNonSubmittedUsers[$key] = User::where('id', '=', $evaluationNonSubmittedUser->user_credential)->first();
                 }
+
                 $view['evaluationSubmittedUsers'] = $evaluationSubmittedUsers;
                 $view['evaluationNonSubmittedUsers'] = $evaluationNonSubmittedUsers;
             }
@@ -340,6 +347,133 @@ class ProjectController extends Controller
         ]);
     }
 
+    public static function calculateVendorProjectsAnalysisCacheByProjectAndSelectedUseCases($project, $selectedUseCases)
+    {
+        $groupedCachedEvaluations = VendorsUseCasesAnalysis::getGroupedByProjectAndVendor($project->id, $selectedUseCases);
+        $cacheByVendor = new stdClass();
+        foreach ($groupedCachedEvaluations as $vendor => $cachedEvaluations) {
+            $cache = new stdClass();
+            $cache->vendor_id = $vendor;
+            $cache->project_id = $project->id;
+
+            $cache->solution_fit = 0.0;
+            $cache->usability = 0.0;
+            $cache->performance = 0.0;
+            $cache->look_feel = 0.0;
+            $cache->others = 0.0;
+
+            foreach ($cachedEvaluations as $cachedEvaluation) {
+                $useCase = UseCase::find($cachedEvaluation->use_case_id);
+                $cache->solution_fit += ($cachedEvaluation->solution_fit * ($useCase->scoring_criteria / 100));
+                $cache->usability += ($cachedEvaluation->usability * ($useCase->scoring_criteria / 100));
+                $cache->performance += ($cachedEvaluation->performance * ($useCase->scoring_criteria / 100));
+                $cache->look_feel += ($cachedEvaluation->look_feel * ($useCase->scoring_criteria / 100));
+                $cache->others += ($cachedEvaluation->others * ($useCase->scoring_criteria / 100));
+            }
+
+            $cache->total = $cache->solution_fit
+                + $cache->usability
+                + $cache->performance
+                + $cache->look_feel
+                + $cache->others;
+
+            $cacheByVendor->{$vendor} = $cache;
+
+        }
+
+        return $cacheByVendor;
+    }
+
+
+    public function cacheProjectVendorEvaluation(Request $request)
+    {
+        $request->validate([
+            'projectId' => 'required|exists:projects,id|numeric'
+        ]);
+
+        $project = Project::find($request->projectId);
+        $groupedCachedEvaluations = VendorsUseCasesAnalysis::getGroupedByProjectAndVendor($request->projectId);
+        foreach ($groupedCachedEvaluations as $vendor => $cachedEvaluations) {
+            $cache = VendorsProjectsAnalysis::getByVendorAndProject($vendor, $request->projectId);
+            if ($cache == null) {
+                $cache = new VendorsProjectsAnalysis();
+                $cache->vendor_id = $vendor;
+                $cache->project_id = $request->projectId;
+            }
+
+            $solution_fit = 0.0;
+            $usability = 0.0;
+            $performance = 0.0;
+            $look_feel = 0.0;
+            $others = 0.0;
+            foreach ($cachedEvaluations as $cachedEvaluation) {
+                $useCase = UseCase::find($cachedEvaluation->use_case_id);
+                $solution_fit += ($cachedEvaluation->solution_fit * ($useCase->scoring_criteria / 100)/* * ($project->use_case_solution_fit / 100)*/);
+                $usability += ($cachedEvaluation->usability * ($useCase->scoring_criteria / 100)/* * ($project->use_case_usability / 100)*/);
+                $performance += ($cachedEvaluation->performance * ($useCase->scoring_criteria / 100)/* * ($project->use_case_performance / 100)*/);
+                $look_feel += ($cachedEvaluation->look_feel * ($useCase->scoring_criteria / 100)/* * ($project->use_case_look_feel / 100)*/);
+                $others += ($cachedEvaluation->others * ($useCase->scoring_criteria / 100)/* * ($project->use_case_others / 100)*/);
+            }
+
+            $cache->solution_fit = $solution_fit/* / count($cachedEvaluations)*/;
+            $cache->usability = $usability/* / count($cachedEvaluations)*/;
+            $cache->performance = $performance/* / count($cachedEvaluations)*/;
+            $cache->look_feel = $look_feel/* / count($cachedEvaluations)*/;
+            $cache->others = $others/* / count($cachedEvaluations)*/;
+
+            $cache->total = $cache->solution_fit
+                + $cache->usability
+                + $cache->performance
+                + $cache->look_feel
+                + $cache->others;
+
+            $cache->save();
+        }
+
+    }
+
+    private function cacheUseCaseVendorEvaluation($justSavedEvaluation)
+    {
+        $useCase = UseCase::find($justSavedEvaluation->use_case_id);
+        $project = Project::find($useCase->project_id);
+        $evaluations = VendorUseCasesEvaluation::getByVendorAndUseCase($justSavedEvaluation->vendor_id, $justSavedEvaluation->use_case_id);
+
+        $cache = VendorsUseCasesAnalysis::getByVendorUseCaseAndProject($justSavedEvaluation->vendor_id, $justSavedEvaluation->use_case_id, $useCase->project_id);
+        if ($cache == null) {
+            $cache = new VendorsUseCasesAnalysis();
+            $cache->vendor_id = $justSavedEvaluation->vendor_id;
+            $cache->use_case_id = $justSavedEvaluation->use_case_id;
+            $cache->project_id = $useCase->project_id;
+        }
+
+        $solution_fit = 0.0;
+        $usability = 0.0;
+        $performance = 0.0;
+        $look_feel = 0.0;
+        $others = 0.0;
+        foreach ($evaluations as $evaluation) {
+            $solution_fit += $evaluation->solution_fit;
+            $usability += $evaluation->usability;
+            $performance += $evaluation->performance;
+            $look_feel += $evaluation->look_feel;
+            $others += $evaluation->others;
+        }
+
+        $cache->solution_fit = (($solution_fit / count($evaluations)) * ($project->use_case_solution_fit / 100));
+        $cache->usability = (($usability / count($evaluations)) * ($project->use_case_usability / 100));
+        $cache->performance = (($performance / count($evaluations)) * ($project->use_case_performance / 100));
+        $cache->look_feel = (($look_feel / count($evaluations)) * ($project->use_case_look_feel / 100));
+        $cache->others = (($others / count($evaluations)) * ($project->use_case_others / 100));
+        $cache->total = ($cache->solution_fit
+            + $cache->usability
+            + $cache->performance
+            + $cache->look_feel
+            + $cache->others)/* * ($useCase->scoring_criteria / 100)*/;
+
+        $cache->save();
+
+    }
+
     public function submitUseCaseVendorEvaluation(Request $request)
     {
         $request->validate([
@@ -353,6 +487,8 @@ class ProjectController extends Controller
 
         $evaluation->submitted = 'yes';
         $evaluation->save();
+
+        $this->cacheUseCaseVendorEvaluation($evaluation);
 
         return \response()->json([
             'status' => 200,
@@ -1426,8 +1562,75 @@ class ProjectController extends Controller
                 ->sortByDesc(function (VendorApplication $application) {
                     return $application->totalScore();
                 }),
+            'subsection' => 'overall',
         ]);
     }
+
+    public function RFPAndUseCasesBenchmark(Request $request, Project $project)
+    {
+        SecurityLog::createLog('User with ID '. $request->user()->id .' accessed project benchmarks (+ Use Cases) of project with ID ' . $project->id  . ' and name ' . $project->name);
+
+        $applications = $project
+        ->vendorApplications
+        ->filter(function (VendorApplication $application) {
+            return $application->phase == 'submitted';
+        })
+        ->sortByDesc(function (VendorApplication $application) {
+            return $application->totalScore();
+        });
+
+        $projectUseCasesInfos = VendorsProjectsAnalysis::getByProject($project->id);
+        foreach ($applications as $key => $application) {
+            foreach ($projectUseCasesInfos as $projectUseCasesInfo) {
+                if ($application->vendor_id === $projectUseCasesInfo->vendor_id) {
+                    $applications[$key]->useCasesInfo = $projectUseCasesInfo;
+                    $applications[$key]->useCaseTotalScore = ($applications[$key]->totalScore() * ($project->use_case_rfp / 100)) + ($projectUseCasesInfo->total);
+                    break;
+                }
+            }
+        }
+
+
+        return view('accentureViews.projectBenchmark', [
+            'project' => $project,
+            'applications' => $applications,
+            'subsection' => 'useCasesOverall',
+        ]);
+    }
+
+    public function benchmarkUseCases(Request $request, Project $project)
+    {
+        $request->validate([
+            'useCases.*' => 'nullable|exists:use_case,id|numeric',
+        ]);
+
+        $useCases = UseCase::findByProject($project->id);
+        $vendorProjectsAnalysis = VendorsProjectsAnalysis::getVendorIndexedByProject($project->id);
+
+        if($request->useCases) {
+            $selectedUseCases = array_map('intval', explode(',', urldecode($request->useCases)));
+            $vendorProjectsAnalysis = $this->calculateVendorProjectsAnalysisCacheByProjectAndSelectedUseCases($project, $selectedUseCases);
+        }
+
+        foreach ($vendorProjectsAnalysis as $key => $vendorProjectAnalysis) {
+            $vendorName = (User::find($vendorProjectAnalysis->vendor_id))->name;
+            $vendorProjectsAnalysis->{$key}->vendorName =$vendorName;
+        }
+
+        SecurityLog::createLog('User accessed project Use Cases benchmarks of project with ID ' . $project->id  . ' and name ' . $project->name);
+
+        return view('accentureViews.projectBenchmarkUseCases', [
+            'project' => $project,
+            'useCases' => $useCases,
+            'vendorProjectsAnalysis' => $vendorProjectsAnalysis,
+            'selectedUseCases' => $request->useCases ?? '',
+            'applications' => $project->vendorApplications
+                ->filter(function (VendorApplication $application) {
+                    return $application->phase == 'submitted';
+                }),
+        ]);
+    }
+
 
     public function benchmarkFitgap(Project $project)
     {

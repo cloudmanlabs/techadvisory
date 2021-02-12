@@ -53,4 +53,12 @@ class VendorUseCasesEvaluation extends Model
             ->distinct('user_credential')
             ->get();
     }
+
+    public static function getByVendorAndUseCase($vendorId, $useCaseId)
+    {
+        return VendorUseCasesEvaluation::where('use_case_id', '=', $useCaseId)
+            ->where('vendor_id', '=', $vendorId)
+            ->where('submitted', '=', 'yes')
+            ->get();
+    }
 }
