@@ -1968,7 +1968,7 @@ class ProjectController extends Controller
             ->pluck('vendor.id')
             ->toArray();
 
-        $export = new AnalyticsExport($project, json_decode($request->vendors) ?? $allVendors);
+        $export = new AnalyticsExport($project, json_decode($request->vendors) ?? $allVendors, $request->includeUseCases ?? false);
 
         SecurityLog::createLog('User exported analytics for project with ID ' . $project->id  . ' and name ' . $project->name);
 

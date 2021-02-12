@@ -244,7 +244,11 @@
                     });
                 }
 
+                @if($subsection === 'useCasesOverall')
+                window.open(url + "?vendors=" + JSON.stringify(selectedVendors) + '&includeUseCases=1', '_blank')
+                @else
                 window.open(url + "?vendors=" + JSON.stringify(selectedVendors), '_blank')
+                @endif
             });
 
 
