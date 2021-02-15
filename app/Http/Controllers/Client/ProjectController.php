@@ -121,6 +121,7 @@ class ProjectController extends Controller
             $useCase->name = $useCaseTemplate->name;
             $useCase->description = $useCaseTemplate->description;
             $useCase->project_id = $projectId;
+            $useCase->use_case_template_id = $useCaseTemplateId;
             $useCase->save();
 
             $useCaseTemplateResponses = UseCaseTemplateQuestionResponse::getResponsesFromUseCaseTemplate($useCaseTemplate);
@@ -167,8 +168,9 @@ class ProjectController extends Controller
         $useCases = $project->useCases()->get();
 
         $projectPractice = $project->practice_id;
-        $useCaseTemplates = UseCaseTemplate::all()->filter(function($useCaseTemplate) use ($projectPractice) {
-            return $useCaseTemplate->practice_id == $projectPractice;
+        $projectSubpractices = $project->subpractices->pluck('id')->toArray();
+        $useCaseTemplates = UseCaseTemplate::all()->filter(function($useCaseTemplate) use ($projectPractice, $projectSubpractices) {
+            return $useCaseTemplate->practice_id == $projectPractice && in_array($useCaseTemplate->subpractice_id, $projectSubpractices);
         });
 
         $useCaseQuestions = UseCaseQuestion::all();
@@ -211,9 +213,17 @@ class ProjectController extends Controller
                 $view['selectedVendors'] = $selectedVendors;
                 if ($canEvaluateVendors) {
                     $this->createVendorEvaluationsIfNeeded($accessingClientCredentialsId, $useCase->id, $selectedVendors);
+                    $view['evaluationsSubmitted'] = VendorUseCasesEvaluation::evaluationsSubmitted($accessingClientCredentialsId, $useCase->id, $selectedVendors, 'client');
                 }
+            }
+        }
 
-                $view['evaluationsSubmitted'] = VendorUseCasesEvaluation::evaluationsSubmitted($accessingClientCredentialsId, $useCase->id, $selectedVendors, 'client');
+        if ($useCase->use_case_template_id) {
+            $useCaseTemplate = UseCaseTemplate::find($useCase->use_case_template_id);
+            $useCaseTemplateQuestionsResponses = $useCaseTemplate->useCaseQuestions()->get();
+            $useCaseQuestions = [];
+            foreach ($useCaseTemplateQuestionsResponses as $useCaseTemplateQuestionsResponse) {
+                $useCaseQuestions[] = UseCaseQuestion::find($useCaseTemplateQuestionsResponse->use_case_questions_id);
             }
         }
 

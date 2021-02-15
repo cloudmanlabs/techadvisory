@@ -70,7 +70,7 @@ class UseCaseTemplate extends Resource
 
         $other = [];
 
-        if ($request->editing && $request->editMode === 'update') {
+        if ($request->editing && $request->editMode === 'update' && intval(explode('/', $request->fullUrl())[4] === 'use-case-templates')) {
             $useCaseTemplateId = intval(explode('/', $request->fullUrl())[5]);
             $useCaseTemplate = \App\UseCaseTemplate::find($useCaseTemplateId);
             $filteredSubpractices = \App\Subpractice::where('practice_id', '=', $useCaseTemplate->practice_id)->get();

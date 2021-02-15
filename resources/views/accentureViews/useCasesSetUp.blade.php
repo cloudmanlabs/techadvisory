@@ -76,7 +76,7 @@
                                                                 <select id="templateSelect">
                                                                     <option value="-1">-- Templates --</option>
                                                                     @foreach ($useCaseTemplates as $useCaseTemplate)
-                                                                        <option value="{{$useCaseTemplate->id}}">{{$useCaseTemplate->name}} - {{\App\Subpractice::find($useCaseTemplate->subpractice_id)->name}}</option>
+                                                                        <option value="{{$useCaseTemplate->id}}">{{$useCaseTemplate->name}}</option>
                                                                     @endforeach
                                                                 </select>
                                                             </li>
@@ -1015,7 +1015,7 @@
             @endforeach
                 return enableSubmitEvaluationsButton();
             }
-
+            @if($canEvaluateVendors)
             @if($evaluationsSubmitted === 'no')
             $('#submitEvaluationsButton').click(function() {
                 $.when(
@@ -1028,9 +1028,16 @@
                     }).then(function () {
                         showSubmitEvaluationToast('{{$selectedVendor->name}}');
                     }),
-                @endforeach
+                    @endforeach
+                    {{--$.post('/accenture/newProjectSetUp/cacheUseCaseVendorEvaluation', {--}}
+                    {{--    useCaseId: {{$currentUseCase->id}}--}}
+                    {{--})--}}
                 ).done(function(){
-                    return location.replace("{{route('accenture.useCasesSetUp', ['project' => $project])}}" + "??useCase={{$currentUseCase->id}}");
+                    $.post('/accenture/newProjectSetUp/cacheProjectVendorEvaluation', {
+                        projectId: {{$project->id}}
+                    }).then(function () {
+                        return location.replace("{{route('accenture.useCasesSetUp', ['project' => $project])}}" + "??useCase={{$currentUseCase->id}}");
+                    });
                 });
             });
             @else
@@ -1158,6 +1165,7 @@
             $('#vendorBody{{$selectedVendor->id}}').hide();
             @endforeach
             checkEvaluationsForSubmit();
+            @endif
             @endif
             @if($currentUseCase ?? null)
             $('#useCaseName').val("{{$currentUseCase->name}}")

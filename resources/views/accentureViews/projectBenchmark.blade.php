@@ -7,7 +7,7 @@
         <div class="page-wrapper">
             <div class="page-content">
 
-                <x-accenture.projectNavbar section="projectBenchmark" subsection="overall" :project="$project"/>
+                <x-accenture.projectNavbar section="projectBenchmark" :subsection="$subsection" :project="$project"/>
 
                 <br>
                 <x-projectBenchmarkVendorFilter :applications="$applications"/>
@@ -37,7 +37,11 @@
                                             <tr class="filterByVendor"
                                                 data-vendor="{{optional($application->vendor)->name ?? '' ?? ''}}">
                                                 <th>{{optional($application->vendor)->name ?? '' ?? ''}}</th>
+                                                @if($application->useCasesInfo)
+                                                <td>{{number_format($application->useCaseTotalScore, 2)}}</td>
+                                                @else
                                                 <td>{{number_format($application->totalScore(), 2)}}</td>
+                                                @endif
                                             </tr>
                                         @endforeach
                                         </tbody>
@@ -106,11 +110,24 @@
                                                     data-vendor="{{optional($application->vendor)->name ?? ''}}">{{number_format($application->implementationScore(), 2 )}}</th>
                                             @endforeach
                                         </tr>
+                                        @if($application->useCasesInfo)
+                                        <tr>
+                                            <th>6.Use Cases</th>
+                                            @foreach ($applications as $application)
+                                                <th class="filterByVendor"
+                                                    data-vendor="{{optional($application->vendor)->name ?? ''}}">{{number_format($application->useCasesInfo->total, 2 )}}</th>
+                                            @endforeach
+                                        </tr>
+                                        @endif
                                         <tr class="table-dark">
                                             <th>OVERALL SCORE</th>
                                             @foreach ($applications as $application)
                                                 <th class="filterByVendor"
-                                                    data-vendor="{{optional($application->vendor)->name ?? ''}}">{{number_format($application->totalScore(), 2)}}</th>
+                                                @if($application->useCasesInfo)
+                                                data-vendor="{{optional($application->vendor)->name ?? ''}}">{{number_format($application->useCaseTotalScore, 2)}}</th>
+                                                @else
+                                                data-vendor="{{optional($application->vendor)->name ?? ''}}">{{number_format($application->totalScore(), 2)}}</th>
+                                                @endif
                                             @endforeach
                                         </tr>
                                         </tbody>
@@ -227,7 +244,11 @@
                     });
                 }
 
+                @if($subsection === 'useCasesOverall')
+                window.open(url + "?vendors=" + JSON.stringify(selectedVendors) + '&includeUseCases=1', '_blank')
+                @else
                 window.open(url + "?vendors=" + JSON.stringify(selectedVendors), '_blank')
+                @endif
             });
 
 
@@ -258,7 +279,10 @@
                             {{$application->vendorScore()}},
                             {{$application->experienceScore()}},
                             {{$application->innovationScore()}},
-                            {{$application->implementationScore()}}
+                            {{$application->implementationScore()}},
+                            @if($application->useCasesInfo)
+                            {{$application->useCasesInfo->total}}
+                            @endif
                         ]
                     },
                     @endforeach
@@ -278,7 +302,10 @@
                     "Vendor",
                     "Experience",
                     "Innovation",
-                    "Implementation and Commercials"
+                    "Implementation and Commercials",
+                    @if($subsection === 'useCasesOverall')
+                    "Use Cases"
+                    @endif
                 ]
             });
             radarChart.render();
@@ -311,6 +338,9 @@
                             {x: 'w3', y: {{$application->experienceScore()}} },
                             {x: 'w4', y: {{$application->innovationScore()}} },
                             {x: 'w5', y: {{$application->implementationScore()}} },
+                            @if($application->useCasesInfo)
+                            {x: 'w6', y: {{$application->useCasesInfo->total}} }
+                            @endif
                         ]
                     },
                     @endforeach
@@ -322,7 +352,10 @@
                         "Vendor",
                         "Experience",
                         "Innovation",
-                        "Implementation"
+                        "Implementation",
+                        @if($subsection === 'useCasesOverall')
+                        "Use Cases"
+                        @endif
                     ],
                     labels: {
                         style: {

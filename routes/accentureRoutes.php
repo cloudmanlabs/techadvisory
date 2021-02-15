@@ -46,6 +46,8 @@ prefix('accenture')
             Route::post('/newProjectSetUp/upsertEvaluationComments', 'ProjectController@upsertEvaluationComments');
             Route::post('/newProjectSetUp/submitUseCaseVendorEvaluation', 'ProjectController@submitUseCaseVendorEvaluation');
             Route::post('/newProjectSetUp/rollbackSubmitUseCaseVendorEvaluation', 'ProjectController@rollbackSubmitUseCaseVendorEvaluation');
+//            Route::post('/newProjectSetUp/cacheUseCaseVendorEvaluation', 'ProjectController@cacheUseCaseVendorEvaluation');
+            Route::post('/newProjectSetUp/cacheProjectVendorEvaluation', 'ProjectController@cacheProjectVendorEvaluation');
             Route::post('/newProjectSetUp/updateInvitedVendors', 'ProjectController@updateInvitedVendors');
             Route::post('/newProjectSetUp/saveProjectScoringCriteria', 'ProjectController@saveProjectScoringCriteria');
             Route::post('/newProjectSetUp/saveUseCaseScoringCriteria', 'ProjectController@saveUseCaseScoringCriteria');
@@ -144,6 +146,9 @@ prefix('accenture')
 
             Route::get('project/benchmark/{project}', 'ProjectController@benchmark')
                 ->name('projectBenchmark');
+            Route::get('project/RFPAndUseCasesBenchmark/{project}', 'ProjectController@RFPAndUseCasesBenchmark')
+                ->name('projectRFPAndUseCasesBenchmark');
+
             Route::get('project/benchmark/fitgap/{project}', 'ProjectController@benchmarkFitgap')
                 ->name('projectBenchmarkFitgap');
             Route::get('project/benchmark/vendor/{project}', 'ProjectController@benchmarkVendor')
@@ -156,6 +161,8 @@ prefix('accenture')
                 ->name('projectBenchmarkImplementation');
             Route::get('project/benchmark/vendorComparison/{project}', 'ProjectController@benchmarkVendorComparison')
                 ->name('projectBenchmarkVendorComparison');
+            Route::get('project/benchmark/usecases/{project}', 'ProjectController@benchmarkUseCases')
+                ->name('projectBenchmarkUseCases');
 
             Route::post('project/disqualifyVendor/{project}/{vendor}', 'ProjectController@disqualifyVendor')
                 ->name('project.disqualifyVendor');

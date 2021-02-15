@@ -53,4 +53,31 @@ class VendorUseCasesEvaluation extends Model
             ->distinct('user_credential')
             ->get();
     }
+
+    public static function getByVendorAndUseCase($vendorId, $useCaseId)
+    {
+        return VendorUseCasesEvaluation::where('use_case_id', '=', $useCaseId)
+            ->where('vendor_id', '=', $vendorId)
+            ->where('submitted', '=', 'yes')
+            ->get();
+    }
+
+    public static function getGroupedByUseCaseAndVendor($useCasesIds, $vendorIds)
+    {
+
+        $groupsByProject = VendorUseCasesEvaluation::whereIn('use_case_id', $useCasesIds)
+            ->whereIn('vendor_id', $vendorIds)
+            ->where('submitted', '=', 'yes')
+            ->orderBy('use_case_id', 'asc')
+            ->orderBy('user_credential', 'asc')
+            ->orderBy('vendor_id', 'asc')
+            ->get()
+            ->groupBy('use_case_id');
+
+        foreach ($groupsByProject as $key => $groupByProject) {
+            $grouped[$key] = $groupByProject->groupBy('user_credential');
+        }
+
+        return $grouped;
+    }
 }
