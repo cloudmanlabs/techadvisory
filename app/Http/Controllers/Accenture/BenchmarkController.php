@@ -43,8 +43,8 @@ class BenchmarkController extends Controller
                 return $count > 0;
             });     // Chart 2
         $clients = User::clientUsers()->get()
-            ->filter(function (User $client) {
-                return $client->projectsClientFilteredBenchmarkOverview() > 0;
+            ->filter(function (User $client) use ($regionsToFilter, $yearsToFilter) {
+                return $client->projectsClientFilteredBenchmarkOverview($regionsToFilter, $yearsToFilter) > 0;
             });     // Chart 3
         // Note: In the 3 previous cases, the filters are sended to the view in order to filter there, calling the models.
         $industries = Project::calculateProjectsPerIndustry($regionsToFilter, $yearsToFilter);     // Chart 4
