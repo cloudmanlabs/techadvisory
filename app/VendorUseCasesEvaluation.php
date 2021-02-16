@@ -74,6 +74,8 @@ class VendorUseCasesEvaluation extends Model
             ->get()
             ->groupBy('use_case_id');
 
+        $grouped = [];
+
         foreach ($groupsByProject as $key => $groupByProject) {
             $grouped[$key] = $groupByProject->groupBy('user_credential');
         }
