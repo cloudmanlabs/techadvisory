@@ -11,6 +11,8 @@ use App\Subpractice;
 use App\User;
 use App\VendorApplication;
 use App\VendorSolution;
+use App\VendorsProjectsAnalysis;
+use App\VendorUseCasesEvaluation;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 
@@ -245,6 +247,106 @@ class BenchmarkController extends Controller
         return View('accentureViews.benchmarkProjectResults', [
             'nav1' => 'projectResults',
             'nav2' => 'overall',
+
+
+            'practices' => $practices,
+            'subpractices' => $subpractices,
+            'years' => $years,
+            'industries' => $industries,
+            'regions' => $regions,
+
+            'totalVendors' => $totalVendors,
+            'totalClients' => $totalClients,
+            'totalProjects' => $totalProjects,
+            'totalSolutions' => $totalSolutions,
+
+            'vendors' => $vendors,
+            'vendorScores' => $vendorScores,
+
+            'practicesIDsToFilter' => $practicesIDsToFilter,
+            'subpracticesIDsToFilter' => $subpracticesIDsToFilter,
+            'yearsToFilter' => $yearsToFilter,
+            'industriesToFilter' => $industriesToFilter,
+            'regionsToFilter' => $regionsToFilter,
+        ]);
+    }
+
+    public function projectUseCasesResultsOverall(Request $request)
+    {
+        // Receive data.
+        $practicesIDsToFilter = $request->input('practices');
+        if ($practicesIDsToFilter) {
+            $practicesIDsToFilter = explode(',', $practicesIDsToFilter);
+        }
+
+        $subpracticesIDsToFilter = $request->input('subpractices');
+        if ($subpracticesIDsToFilter) {
+            $subpracticesIDsToFilter = explode(',', $subpracticesIDsToFilter);
+        }
+
+        $yearsToFilter = $request->input('years');
+        if ($yearsToFilter) {
+            $yearsToFilter = explode(',', $yearsToFilter);
+        }
+
+        $industriesToFilter = $request->input('industries');
+        if ($industriesToFilter) {
+            $industriesToFilter = explode(',', $industriesToFilter);
+
+        }
+
+        $regionsToFilter = $request->input('regions');
+        if ($regionsToFilter) {
+            $regionsToFilter = explode(',', $regionsToFilter);
+
+        }
+
+        // Data for charts. Applying Filters
+        $howManyVendorsToChart = 10;
+        // Chart 1
+        $vendorScores = VendorApplication::calculateBestVendorsProjectResultsFiltered($howManyVendorsToChart,
+            'totalScore', $practicesIDsToFilter, $subpracticesIDsToFilter,
+            $yearsToFilter, $industriesToFilter, $regionsToFilter);
+
+        // Chart 2 ( no project filter)
+        $vendors = VendorApplication::getVendorsFilteredForRankingChart($practicesIDsToFilter,
+            $subpracticesIDsToFilter, $yearsToFilter, $industriesToFilter, $regionsToFilter);
+
+        // Data for selects
+        $practices = Practice::all();
+        $subpractices = [];
+        $years = Project::calculateProjectsPerYears();
+        $industries = collect(config('arrays.industryExperience'));
+        $regions = collect(config('arrays.regions'));
+
+        // Data for informative panels (counts)
+        $totalVendors = VendorsProjectsAnalysis::numberOfVendorsEvaluated();
+
+        $totalClients = VendorUseCasesEvaluation::numberOfClientsThatEvaluatedVendors();
+
+        $totalProjects = VendorsProjectsAnalysis::numberOfProjectsWithVendorsEvaluated();
+
+        $vendors = VendorsProjectsAnalysis::vendorsEvaluated();
+
+        $vendorScores = [];
+        foreach ($vendors as $vendor) {
+            $cachedVendorEvaluations = VendorsProjectsAnalysis::getByVendor($vendor->id);
+            $vendorScores[$vendor->id] = 0.0;
+            foreach ($cachedVendorEvaluations as $cachedVendorEvaluation) {
+                $vendorScores[$vendor->id] += $cachedVendorEvaluation->total;
+            }
+
+            $vendorScores[$vendor->id] /= count($cachedVendorEvaluations);
+        }
+
+        $totalSolutions = 0;
+        foreach ($vendors as $vendor) {
+            $totalSolutions += $vendor->vendorSolutions->count();
+        }
+
+        return View('accentureViews.benchmarkUseCasesProjectResults', [
+            'nav1' => 'projectResults',
+            'nav2' => 'overallUseCases',
 
 
             'practices' => $practices,

@@ -220,6 +220,8 @@ prefix('accenture')
 
             Route::get('/benchmark/projectResults', 'BenchmarkController@projectResultsOverall')
                 ->name('benchmark.projectResults');
+            Route::get('/benchmark/projectResults/useCases', 'BenchmarkController@projectUseCasesResultsOverall')
+                ->name('benchmark.projectUseCasesResults');
             Route::get('/benchmark/projectResults/fitgap', 'BenchmarkController@projectResultsFitgap')
                 ->name('benchmark.projectResults.fitgap');
             Route::get('/benchmark/projectResults/vendor', 'BenchmarkController@projectResultsVendor')

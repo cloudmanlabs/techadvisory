@@ -49,4 +49,13 @@ class VendorsUseCasesAnalysis extends Model
 
         return $grouped;
     }
+
+    public static function numOfDifferentUSesCasesWithVendorEvaluated($vendorId)
+    {
+        return VendorsUseCasesAnalysis::select('use_case_id')
+        ->where('vendor_id', '=', $vendorId)
+        ->distinct('use_case_id')
+        ->get()
+        ->count();
+    }
 }

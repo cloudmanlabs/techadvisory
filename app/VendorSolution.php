@@ -31,4 +31,10 @@ class VendorSolution extends Model
     {
         return $this->belongsTo(Practice::class, 'practice_id');
     }
+
+    public static function getByProject($projectId)
+    {
+        return VendorsProjectsAnalysis::where('project_id', '=', $projectId)
+            ->get();
+    }
 }

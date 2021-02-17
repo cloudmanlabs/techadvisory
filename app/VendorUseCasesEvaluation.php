@@ -82,4 +82,14 @@ class VendorUseCasesEvaluation extends Model
 
         return $grouped;
     }
+
+    public static function numberOfClientsThatEvaluatedVendors()
+    {
+        return VendorUseCasesEvaluation::select('user_credential')
+            ->where('submitted', '=', 'yes')
+            ->where('evaluation_type', '=', 'client')
+            ->distinct('user_credential')
+            ->get()
+            ->count();
+    }
 }
