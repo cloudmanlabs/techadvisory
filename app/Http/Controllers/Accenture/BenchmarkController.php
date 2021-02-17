@@ -304,13 +304,13 @@ class BenchmarkController extends Controller
         // Data for charts. Applying Filters
         $howManyVendorsToChart = 10;
         // Chart 1
-        $vendorScores = VendorApplication::calculateBestVendorsProjectResultsFiltered($howManyVendorsToChart,
-            'totalScore', $practicesIDsToFilter, $subpracticesIDsToFilter,
-            $yearsToFilter, $industriesToFilter, $regionsToFilter);
-
-        // Chart 2 ( no project filter)
-        $vendors = VendorApplication::getVendorsFilteredForRankingChart($practicesIDsToFilter,
-            $subpracticesIDsToFilter, $yearsToFilter, $industriesToFilter, $regionsToFilter);
+//        $vendorScores = VendorApplication::calculateBestVendorsProjectResultsFiltered($howManyVendorsToChart,
+//            'totalScore', $practicesIDsToFilter, $subpracticesIDsToFilter,
+//            $yearsToFilter, $industriesToFilter, $regionsToFilter);
+//
+//        // Chart 2 ( no project filter)
+//        $vendors = VendorApplication::getVendorsFilteredForRankingChart($practicesIDsToFilter,
+//            $subpracticesIDsToFilter, $yearsToFilter, $industriesToFilter, $regionsToFilter);
 
         // Data for selects
         $practices = Practice::all();
@@ -344,7 +344,7 @@ class BenchmarkController extends Controller
             $totalSolutions += $vendor->vendorSolutions->count();
         }
 
-        return View('accentureViews.benchmarkUseCasesProjectResults', [
+        return View('accentureViews.benchmarkProjectResultsUseCasesOverall', [
             'nav1' => 'projectResults',
             'nav2' => 'overallUseCases',
 
@@ -441,6 +441,127 @@ class BenchmarkController extends Controller
             'vendorScoresFitgapTechnical' => $vendorScoresFitgapTechnical,
             'vendorScoresFitgapService' => $vendorScoresFitgapService,
             'vendorScoresFitgapOthers' => $vendorScoresFitgapOthers,
+
+            'practicesIDsToFilter' => $practicesIDsToFilter,
+            'subpracticesIDsToFilter' => $subpracticesIDsToFilter,
+            'yearsToFilter' => $yearsToFilter,
+            'industriesToFilter' => $industriesToFilter,
+            'regionsToFilter' => $regionsToFilter,
+        ]);
+    }
+
+    public function projectResultsUseCases(Request $request)
+    {
+        $practicesIDsToFilter = $request->input('practices');
+        if ($practicesIDsToFilter) {
+            $practicesIDsToFilter = explode(',', $practicesIDsToFilter);
+        }
+
+        $subpracticesIDsToFilter = $request->input('subpractices');
+        if ($subpracticesIDsToFilter) {
+            $subpracticesIDsToFilter = explode(',', $subpracticesIDsToFilter);
+        }
+
+        $yearsToFilter = $request->input('years');
+        if ($yearsToFilter) {
+            $yearsToFilter = explode(',', $yearsToFilter);
+        }
+
+        $industriesToFilter = $request->input('industries');
+        if ($industriesToFilter) {
+            $industriesToFilter = explode(',', $industriesToFilter);
+        }
+
+        $regionsToFilter = $request->input('regions');
+        if ($regionsToFilter) {
+            $regionsToFilter = explode(',', $regionsToFilter);
+        }
+
+        $howManyVendorsToFirstChart = 10;
+        $howManyVendorsToTheRestChart = 5;
+
+//        $vendorScoresFitgap = VendorApplication::calculateBestVendorsProjectResultsFiltered($howManyVendorsToFirstChart,
+//            'fitgapScore', $practicesIDsToFilter, $subpracticesIDsToFilter,
+//            $yearsToFilter, $industriesToFilter, $regionsToFilter);
+//
+//        $vendorScoresFitgapFunctional = VendorApplication::calculateBestVendorsProjectResultsFiltered($howManyVendorsToTheRestChart,
+//            'fitgapFunctionalScore', $practicesIDsToFilter, $subpracticesIDsToFilter,
+//            $yearsToFilter, $industriesToFilter, $regionsToFilter);
+//
+//        $vendorScoresFitgapTechnical = VendorApplication::calculateBestVendorsProjectResultsFiltered($howManyVendorsToTheRestChart,
+//            'fitgapTechnicalScore', $practicesIDsToFilter, $subpracticesIDsToFilter,
+//            $yearsToFilter, $industriesToFilter, $regionsToFilter);
+//
+//        $vendorScoresFitgapService = VendorApplication::calculateBestVendorsProjectResultsFiltered($howManyVendorsToTheRestChart,
+//            'fitgapServiceScore', $practicesIDsToFilter, $subpracticesIDsToFilter,
+//            $yearsToFilter, $industriesToFilter, $regionsToFilter);
+//
+//        $vendorScoresFitgapOthers = VendorApplication::calculateBestVendorsProjectResultsFiltered($howManyVendorsToTheRestChart,
+//            'fitgapOtherScore', $practicesIDsToFilter, $subpracticesIDsToFilter,
+//            $yearsToFilter, $industriesToFilter, $regionsToFilter);
+
+        $vendors = VendorsProjectsAnalysis::vendorsEvaluated();
+
+        $vendorScores = [];
+        $vendorScoresSolutionFit = [];
+        $vendorScoresUsability = [];
+        $vendorScoresPerformance = [];
+        $vendorScoresLookFeel = [];
+        $vendorScoresOthers = [];
+
+        foreach ($vendors as $vendor) {
+            $cachedVendorEvaluations = VendorsProjectsAnalysis::getByVendor($vendor->id);
+            $vendorScores[$vendor->id] = 0.0;
+            $vendorScoresSolutionFit[$vendor->id] = 0.0;
+            $vendorScoresUsability[$vendor->id] = 0.0;
+            $vendorScoresPerformance[$vendor->id] = 0.0;
+            $vendorScoresLookFeel[$vendor->id] = 0.0;
+            $vendorScoresOthers[$vendor->id] = 0.0;
+
+            foreach ($cachedVendorEvaluations as $cachedVendorEvaluation) {
+                $vendorScores[$vendor->id] += $cachedVendorEvaluation->total;
+                $vendorScoresSolutionFit[$vendor->id] += $cachedVendorEvaluation->solution_fit;
+                $vendorScoresUsability[$vendor->id] += $cachedVendorEvaluation->usability;
+                $vendorScoresPerformance[$vendor->id] += $cachedVendorEvaluation->performance;
+                $vendorScoresLookFeel[$vendor->id] += $cachedVendorEvaluation->look_feel;
+                $vendorScoresOthers[$vendor->id] += $cachedVendorEvaluation->others;
+            }
+
+            $vendorScores[$vendor->id] /= count($cachedVendorEvaluations);
+            $vendorScoresSolutionFit[$vendor->id] /= count($cachedVendorEvaluations);
+            $vendorScoresUsability[$vendor->id] /= count($cachedVendorEvaluations);
+            $vendorScoresPerformance[$vendor->id] /= count($cachedVendorEvaluations);
+            $vendorScoresLookFeel[$vendor->id] /= count($cachedVendorEvaluations);
+            $vendorScoresOthers[$vendor->id] /= count($cachedVendorEvaluations);
+        }
+
+        // Data for selects
+        $practices = Practice::all();
+        $years = Project::calculateProjectsPerYears();
+        $industries = collect(config('arrays.industryExperience'));
+        $regions = collect(config('arrays.regions'));
+
+        return View('accentureViews.benchmarkProjectResultsUseCases', [
+            'nav1' => 'projectResults',
+            'nav2' => 'useCases',
+
+            'practices' => $practices,
+            'years' => $years,
+            'industries' => $industries,
+            'regions' => $regions,
+
+            'vendorScores' => $vendorScores,
+            'vendorScoresSolutionFit' => $vendorScoresSolutionFit,
+            'vendorScoresUsability' => $vendorScoresUsability,
+            'vendorScoresPerformance' => $vendorScoresPerformance,
+            'vendorScoresLookFeel' => $vendorScoresLookFeel,
+            'vendorScoresOthers' => $vendorScoresOthers,
+
+//            'vendorScoresFitgap' => $vendorScoresFitgap,
+//            'vendorScoresFitgapFunctional' => $vendorScoresFitgapFunctional,
+//            'vendorScoresFitgapTechnical' => $vendorScoresFitgapTechnical,
+//            'vendorScoresFitgapService' => $vendorScoresFitgapService,
+//            'vendorScoresFitgapOthers' => $vendorScoresFitgapOthers,
 
             'practicesIDsToFilter' => $practicesIDsToFilter,
             'subpracticesIDsToFilter' => $subpracticesIDsToFilter,

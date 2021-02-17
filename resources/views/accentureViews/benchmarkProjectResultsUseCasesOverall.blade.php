@@ -197,17 +197,17 @@
                                         </div>
                                     </div>
 
-                                    <div class="row" id="chart2-row">
-                                        <div class="col-xl-12 grid-margin stretch-card">
-                                            <div class="card">
-                                                <div class="card-body">
-                                                    <h4>Vendor Performance Overview</h4>
-                                                    <br>
-                                                    <canvas id="vendor-performance-chart"></canvas>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
+{{--                                    <div class="row" id="chart2-row">--}}
+{{--                                        <div class="col-xl-12 grid-margin stretch-card">--}}
+{{--                                            <div class="card">--}}
+{{--                                                <div class="card-body">--}}
+{{--                                                    <h4>Vendor Performance Overview</h4>--}}
+{{--                                                    <br>--}}
+{{--                                                    <canvas id="vendor-performance-chart"></canvas>--}}
+{{--                                                </div>--}}
+{{--                                            </div>--}}
+{{--                                        </div>--}}
+{{--                                    </div>--}}
                                 </div>
                             </div>
                         </div>
@@ -280,7 +280,7 @@
                 + '&years=' + years
                 + '&industries=' + industries
                 + '&regions=' + regions;
-            location.replace(url);
+            // location.replace(url);
         });
 
         var overallChart = new Chart($('#overall-chart'), {
@@ -331,70 +331,69 @@
             "#f8ebff"
         ];
 
-        var vendorPerformance = new Chart($('#vendor-performance-chart'), {
-            type: 'bubble',
-            data: {
-                labels: "",
-                datasets: [
-                        @foreach($vendors as $vendor)
-                        @php
-                            // NOTE: We use 10 - val so we get the chart flipped horizontally
-                            $ranking = round(10 - $vendor->averageRanking(),2);
-                            $score = round($vendor->averageScore(),2) ?? 0;
+        {{--var vendorPerformance = new Chart($('#vendor-performance-chart'), {--}}
+        {{--    type: 'bubble',--}}
+        {{--    data: {--}}
+        {{--        labels: "",--}}
+        {{--        datasets: [--}}
+        {{--                @foreach($vendors as $vendor)--}}
+        {{--                @php--}}
+        {{--                    // NOTE: We use 10 - val so we get the chart flipped horizontally--}}
+        {{--                    $ranking = round(10 - $vendor->averageRanking(),2);--}}
+        {{--                    $score = round($vendor->averageScore(),2) ?? 0;--}}
 
-                        @endphp
-                    {
-                        label: ["{{$vendor->name}}"],
-                        backgroundColor: colors[{{$loop->index}} % 12],
-                        borderColor: colors[{{$loop->index}} % 12],
-                        data: [
-                            {
-                                x: {{ $ranking }},
-                                y: {{ $score }},
-                                r: {{ $ranking + $score * 3 }}
-                            }
-                        ],
-                        hidden: {{ $loop->index > 3 ? 'true' : 'false' }},
-                    },
-                @endforeach
-        ]
-        },
-        options: {
-            scales: {
-                yAxes: [{
-                    scaleLabel: {
-                        display: true,
-                        labelString: "Av. Score",
-                        fontSize: 17
-                    },
-                    ticks: {
-                        beginAtZero: false,
-                        min: 1,
-                        max: 10,
-                        fontSize: 17
-                    }
-                }],
-                    xAxes
-            :
-                [{
-                    scaleLabel: {
-                        display: true,
-                        labelString: "Av. Ranking",
-                        fontSize: 17
-                    },
-                    ticks: {
-                        beginAtZero: false,
-                        min: 1,
-                        max: 10,
-                        fontSize: 17,
-                        callback: function (tick, index, ticks) {
-                            return (11 - tick).toString();
-                        }
-                    }
-                }]
-            }
-        }
-        })
-        ;
+        {{--                @endphp--}}
+        {{--            {--}}
+        {{--                label: ["{{$vendor->name}}"],--}}
+        {{--                backgroundColor: colors[{{$loop->index}} % 12],--}}
+        {{--                borderColor: colors[{{$loop->index}} % 12],--}}
+        {{--                data: [--}}
+        {{--                    {--}}
+        {{--                        x: {{ $ranking }},--}}
+        {{--                        y: {{ $score }},--}}
+        {{--                        r: {{ $ranking + $score * 3 }}--}}
+        {{--                    }--}}
+        {{--                ],--}}
+        {{--                hidden: {{ $loop->index > 3 ? 'true' : 'false' }},--}}
+        {{--            },--}}
+        {{--        @endforeach--}}
+        {{--]--}}
+        {{--},--}}
+        {{--options: {--}}
+        {{--    scales: {--}}
+        {{--        yAxes: [{--}}
+        {{--            scaleLabel: {--}}
+        {{--                display: true,--}}
+        {{--                labelString: "Av. Score",--}}
+        {{--                fontSize: 17--}}
+        {{--            },--}}
+        {{--            ticks: {--}}
+        {{--                beginAtZero: false,--}}
+        {{--                min: 1,--}}
+        {{--                max: 10,--}}
+        {{--                fontSize: 17--}}
+        {{--            }--}}
+        {{--        }],--}}
+        {{--            xAxes--}}
+        {{--    :--}}
+        {{--        [{--}}
+        {{--            scaleLabel: {--}}
+        {{--                display: true,--}}
+        {{--                labelString: "Av. Ranking",--}}
+        {{--                fontSize: 17--}}
+        {{--            },--}}
+        {{--            ticks: {--}}
+        {{--                beginAtZero: false,--}}
+        {{--                min: 1,--}}
+        {{--                max: 10,--}}
+        {{--                fontSize: 17,--}}
+        {{--                callback: function (tick, index, ticks) {--}}
+        {{--                    return (11 - tick).toString();--}}
+        {{--                }--}}
+        {{--            }--}}
+        {{--        }]--}}
+        {{--    }--}}
+        {{--}--}}
+        {{--});--}}
     </script>
 @endsection

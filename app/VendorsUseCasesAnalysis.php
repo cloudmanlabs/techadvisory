@@ -58,4 +58,15 @@ class VendorsUseCasesAnalysis extends Model
         ->get()
         ->count();
     }
+
+    public static function numOfDifferentUSesCasesWithVendorEvaluatedByCriteria($vendorId, $criteria)
+    {
+        return VendorsUseCasesAnalysis::select('use_case_id')
+            ->leftJoin('projects as pr', 'project_id', '=', 'pr.id')
+            ->where('pr.use_case_'.$criteria, '>', 0.0)
+            ->where('vendor_id', '=', $vendorId)
+            ->distinct('use_case_id')
+            ->get()
+            ->count();
+    }
 }
