@@ -16,6 +16,11 @@ class AnalyticsExport implements WithMultipleSheets, WithStrictNullComparison
 {
     /** @var Project $project */
     private $project;
+    /**
+     * @var bool
+     */
+    private $includeUseCases;
+    private $vendorIds;
 
     public function __construct(Project $project, array $vendorIds, bool $includeUseCases = false)
     {

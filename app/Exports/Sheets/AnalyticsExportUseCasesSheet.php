@@ -39,17 +39,13 @@ class AnalyticsExportUseCasesSheet implements FromCollection, WithTitle
         }
 
         $useCaseIndexedEvaluations = VendorUseCasesEvaluation::getGroupedByUseCaseAndVendor($useCaseIds, $vendorIds);
-//        error_log('$indexedEvaluations: '.json_encode($useCaseIndexedEvaluations));
         $return = [];
 
         foreach ($useCaseIndexedEvaluations as $useCaseId => $userIndexedEvaluations) {
             $useCase = UseCase::find($useCaseId);
             foreach ($userIndexedEvaluations as $userCredentialId => $evaluations) {
                 foreach ($evaluations as $evaluation) {
-                    error_log('$userCredentialId: '.$userCredentialId);
-                    error_log('$evaluation->evaluation_type: '.$evaluation->evaluation_type);
                     $user = $evaluation->evaluation_type === 'client' ? UserCredential::find($userCredentialId) : User::find($userCredentialId);
-                    error_log('$user: '.json_encode($user));
                     $vendor = User::find($evaluation->vendor_id);
                     $return[] = [
                         'Use Case' => $useCase->name,

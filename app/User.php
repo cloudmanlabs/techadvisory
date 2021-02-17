@@ -109,7 +109,7 @@ class User extends Authenticatable
         if ($regions) {
             $query = $query->where(function ($query) use ($regions) {
                 for ($i = 0; $i < count($regions); $i++) {
-                    $query = $query->orWhere('regions', 'like', '%'.$regions[$i].'%');
+                    $query = $query->where('regions', 'like', '%'.$regions[$i].'%');
                 }
             });
         }

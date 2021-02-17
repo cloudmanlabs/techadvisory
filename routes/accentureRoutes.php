@@ -220,6 +220,8 @@ prefix('accenture')
 
             Route::get('/benchmark/projectResults', 'BenchmarkController@projectResultsOverall')
                 ->name('benchmark.projectResults');
+            Route::get('/benchmark/projectResults/useCasesOverall', 'BenchmarkController@projectUseCasesResultsOverall')
+                ->name('benchmark.projectUseCasesResults');
             Route::get('/benchmark/projectResults/fitgap', 'BenchmarkController@projectResultsFitgap')
                 ->name('benchmark.projectResults.fitgap');
             Route::get('/benchmark/projectResults/vendor', 'BenchmarkController@projectResultsVendor')
@@ -230,6 +232,8 @@ prefix('accenture')
                 ->name('benchmark.projectResults.innovation');
             Route::get('/benchmark/projectResults/implementation', 'BenchmarkController@projectResultsImplementation')
                 ->name('benchmark.projectResults.implementation');
+            Route::get('/benchmark/projectResults/useCases', 'BenchmarkController@projectResultsUseCases')
+                ->name('benchmark.projectResults.useCases');
 
             Route::get('/benchmark/customSearches/', 'BenchmarkController@customSearches')
                 ->name('benchmark.customSearches');

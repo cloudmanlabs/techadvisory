@@ -37,7 +37,7 @@
                                             <tr class="filterByVendor"
                                                 data-vendor="{{optional($application->vendor)->name ?? '' ?? ''}}">
                                                 <th>{{optional($application->vendor)->name ?? '' ?? ''}}</th>
-                                                @if($application->useCasesInfo)
+                                                @if($application->useCasesInfo ?? null)
                                                 <td>{{number_format($application->useCaseTotalScore, 2)}}</td>
                                                 @else
                                                 <td>{{number_format($application->totalScore(), 2)}}</td>
@@ -110,7 +110,7 @@
                                                     data-vendor="{{optional($application->vendor)->name ?? ''}}">{{number_format($application->implementationScore(), 2 )}}</th>
                                             @endforeach
                                         </tr>
-                                        @if($application->useCasesInfo)
+                                        @if($application->useCasesInfo ?? null)
                                         <tr>
                                             <th>6.Use Cases</th>
                                             @foreach ($applications as $application)
@@ -123,7 +123,7 @@
                                             <th>OVERALL SCORE</th>
                                             @foreach ($applications as $application)
                                                 <th class="filterByVendor"
-                                                @if($application->useCasesInfo)
+                                                @if($application->useCasesInfo ?? null)
                                                 data-vendor="{{optional($application->vendor)->name ?? ''}}">{{number_format($application->useCaseTotalScore, 2)}}</th>
                                                 @else
                                                 data-vendor="{{optional($application->vendor)->name ?? ''}}">{{number_format($application->totalScore(), 2)}}</th>
@@ -280,7 +280,7 @@
                             {{$application->experienceScore()}},
                             {{$application->innovationScore()}},
                             {{$application->implementationScore()}},
-                            @if($application->useCasesInfo)
+                            @if($application->useCasesInfo ?? null)
                             {{$application->useCasesInfo->total}}
                             @endif
                         ]
@@ -338,7 +338,7 @@
                             {x: 'w3', y: {{$application->experienceScore()}} },
                             {x: 'w4', y: {{$application->innovationScore()}} },
                             {x: 'w5', y: {{$application->implementationScore()}} },
-                            @if($application->useCasesInfo)
+                            @if($application->useCasesInfo ?? null)
                             {x: 'w6', y: {{$application->useCasesInfo->total}} }
                             @endif
                         ]

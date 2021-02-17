@@ -74,10 +74,22 @@ class VendorUseCasesEvaluation extends Model
             ->get()
             ->groupBy('use_case_id');
 
+        $grouped = [];
+
         foreach ($groupsByProject as $key => $groupByProject) {
             $grouped[$key] = $groupByProject->groupBy('user_credential');
         }
 
         return $grouped;
+    }
+
+    public static function numberOfClientsThatEvaluatedVendors()
+    {
+        return VendorUseCasesEvaluation::select('user_credential')
+            ->where('submitted', '=', 'yes')
+            ->where('evaluation_type', '=', 'client')
+            ->distinct('user_credential')
+            ->get()
+            ->count();
     }
 }

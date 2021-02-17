@@ -38,6 +38,12 @@ class VendorsProjectsAnalysis extends Model
             ->get();
     }
 
+    public static function getByVendor($vendorId)
+    {
+        return VendorsProjectsAnalysis::where('vendor_id', '=', $vendorId)
+            ->get();
+    }
+
     public static function getVendorIndexedByProject($projectId)
     {
         $analytics = VendorsProjectsAnalysis::where('project_id', '=', $projectId)
@@ -48,5 +54,37 @@ class VendorsProjectsAnalysis extends Model
         }
 
         return $indexed;
+    }
+
+    public static function vendorsEvaluated()
+    {
+        $vendorIds = VendorsProjectsAnalysis::select('vendor_id')
+            ->distinct('vendor_id')->get();
+
+        $vendors = [];
+        foreach ($vendorIds as $vendorId) {
+            $vendor = User::vendorUsers()->find($vendorId)->first();
+            if ($vendor != null) {
+                $vendors[] = $vendor;
+            }
+        }
+
+        return $vendors;
+    }
+
+    public static function numberOfProjectsWithVendorsEvaluated()
+    {
+        return VendorsProjectsAnalysis::select('project_id')
+            ->distinct('project_id')
+            ->get()
+            ->count();
+    }
+
+    public static function numberOfVendorsEvaluated()
+    {
+        return VendorsProjectsAnalysis::select('vendor_id')
+            ->distinct('vendor_id')
+            ->get()
+            ->count();
     }
 }
