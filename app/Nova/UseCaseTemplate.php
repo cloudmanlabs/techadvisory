@@ -65,7 +65,7 @@ class UseCaseTemplate extends Resource
             BelongsTo::make('SC Capability (Practice)', 'practice', 'App\Nova\Practice')
                 ->sortable(),
 
-            BelongsTo::make('SC Capability (Practice)', 'subpractice', 'App\Nova\Subpractice')
+            BelongsTo::make('Subpractice', 'subpractice', 'App\Nova\Subpractice')
                 ->sortable()
                 ->hideWhenCreating()
                 ->hideWhenUpdating(),
