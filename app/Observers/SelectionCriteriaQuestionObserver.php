@@ -17,14 +17,14 @@ class SelectionCriteriaQuestionObserver
         }
     }
 
-//    public function saving(SelectionCriteriaQuestion $question)
-//    {
-//        // Reset all responses with this question
-//        $responses = SelectionCriteriaQuestionResponse::where('question_id', $question->id)->get();
-//        foreach ($responses as $key => $response) {
-//            $response->response = null;
-//            $response->save();
-//        }
-//    }
+    public function saving(SelectionCriteriaQuestion $question)
+    {
+        // Reset all responses with this question
+        $responses = SelectionCriteriaQuestionResponse::where('question_id', $question->id)->get();
+        foreach ($responses as $key => $response) {
+            $response->response = null;
+            $response->save();
+        }
+    }
 
 }
