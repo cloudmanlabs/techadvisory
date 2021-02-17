@@ -8,17 +8,17 @@ use App\UseCaseTemplateQuestionResponse;
 
 class UseCaseQuestionObserver
 {
-    public function created(UseCaseQuestion $question)
-    {
-        // Add the question to all UseCaseTemplates by default
-        foreach (UseCaseTemplate::all() as $key => $useCaseTemplate) {
-            $response = new UseCaseTemplateQuestionResponse([
-                'use_case_questions_id' => $question->id,
-                'use_case_templates_id' => $useCaseTemplate->id,
-            ]);
-            $response->save();
-        }
-    }
+//    public function created(UseCaseQuestion $question)
+//    {
+//        // Add the question to all UseCaseTemplates by default
+//        foreach (UseCaseTemplate::all() as $key => $useCaseTemplate) {
+//            $response = new UseCaseTemplateQuestionResponse([
+//                'use_case_questions_id' => $question->id,
+//                'use_case_templates_id' => $useCaseTemplate->id,
+//            ]);
+//            $response->save();
+//        }
+//    }
 
     public function deleting(UseCaseQuestion $question)
     {
