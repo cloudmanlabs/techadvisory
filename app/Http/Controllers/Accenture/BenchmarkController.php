@@ -200,8 +200,8 @@ class BenchmarkController extends Controller
             $yearsToFilter, $industriesToFilter, $regionsToFilter);
 
         // Chart 2 ( no project filter)
-        $vendors = VendorApplication::getVendorsFilteredForRankingChart($practicesIDsToFilter,
-            $subpracticesIDsToFilter, $yearsToFilter, $industriesToFilter, $regionsToFilter);
+//        $vendors = VendorApplication::getVendorsFilteredForRankingChart($practicesIDsToFilter,
+//            $subpracticesIDsToFilter, $yearsToFilter, $industriesToFilter, $regionsToFilter);
 
         // Data for selects
         $practices = Practice::all();
