@@ -179,6 +179,11 @@ class VendorApplication extends Model
             return false;
         }
 
+        $fitgapQuestions = FitgapQuestion::findByProject($this->project_id);
+        if ($fitgapResponses->count() < $fitgapQuestions->count()) {
+            return false;
+        }
+
         foreach (($fitgapResponses ?? collect([])) as $key => $value) {
             if (empty($value->response()) || $value->response() == null || $value->response() == '') {
                 return false;
