@@ -88,21 +88,21 @@ class User extends Authenticatable
     }
 
 
-    public function projectsClientFilteredBenchmarkOverview($regions = [], $years = [])
+    public function projectsClientFilteredBenchmarkOverview($regions = [], $years = [], $industries = [])
     {
         $query = $this->hasMany(Project::class, 'client_id')
             ->select('id', 'regions', 'created_at', 'currentPhase')
             ->whereHas('vendorApplications', function (Builder $query) {
                 $query->where('phase', 'submitted');
             });
-        $query = $this->benchmarkOverviewFilters($query, $regions, $years);
+        $query = $this->benchmarkOverviewFilters($query, $regions, $years, $industries);
         $query = $query->count();
 
         return $query;
     }
 
     // Encapsulate the filters for graphics from view: Overview - general
-    private function benchmarkOverviewFilters($query, $regions = [], $years = [])
+    private function benchmarkOverviewFilters($query, $regions = [], $years = [], $industries = [])
     {
         $query = $query->where('currentPhase', '=', 'old');
 
@@ -118,6 +118,14 @@ class User extends Authenticatable
             $query = $query->where(function ($query) use ($years) {
                 for ($i = 0; $i < count($years); $i++) {
                     $query = $query->orWhere('created_at', 'like', '%'.$years[$i].'%');
+                }
+            });
+        }
+
+        if ($industries) {
+            $query = $query->where(function ($query) use ($industries) {
+                for ($i = 0; $i < count($industries); $i++) {
+                    $query = $query->orWhere('industry', '=', $industries[$i]);
                 }
             });
         }

@@ -1216,9 +1216,12 @@ class VendorApplication extends Model
                         }
                     });
                 });
-            })
-            ->get()
-            ->reduce(function ($scores, $vendorApplication) use ($functionNameForCalculateTheScores) {
+            });
+//        error_log('$vendorScores SQL: '.json_encode($vendorScores->toSql()));
+//        error_log('$vendorScores Bindings: '.json_encode($vendorScores->getBindings()));
+        $vendorScores = $vendorScores->get();
+//        error_log('$vendorScores: '.json_encode($vendorScores));
+        $vendorScores = $vendorScores->reduce(function ($scores, $vendorApplication) use ($functionNameForCalculateTheScores) {
                 $score = $vendorApplication->$functionNameForCalculateTheScores();
                 if (!array_key_exists($vendorApplication->vendor_id, $scores)) {
                     $scores[$vendorApplication->vendor_id] = [$score];

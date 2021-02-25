@@ -37,10 +37,10 @@ class BenchmarkController extends Controller
         // Data for graphics. Applying filters.
         $practices = Practice::all();                                                              // Chart 1
         $vendors = User::vendorUsers()->get()
-            ->filter(function (User $vendor) use ($practices) {
+            ->filter(function (User $vendor) use ($practices, $regionsToFilter, $yearsToFilter) {
                 $count = 0;
                 foreach ($practices as $practice) {
-                    $count += $practice->numberOfProjectsAnsweredByVendor($vendor);
+                    $count += $practice->numberOfProjectsAnsweredByVendor($vendor, $regionsToFilter, $yearsToFilter);
                 }
                 return $count > 0;
             });     // Chart 2
@@ -205,6 +205,7 @@ class BenchmarkController extends Controller
 
         // Data for selects
         $practices = Practice::all();
+        $filteredPractices = $practicesIDsToFilter ? Practice::whereIn('id', $practicesIDsToFilter)->get() : $practices;
         $subpractices = [];
         $years = Project::calculateProjectsPerYears();
         $industries = collect(config('arrays.industryExperience'));
@@ -212,29 +213,55 @@ class BenchmarkController extends Controller
 
         // Data for informative panels (counts)
         $totalVendors = User::vendorUsers()->get()
-            ->filter(function (User $vendor) use ($practices) {
+            ->filter(function (User $vendor) use ($filteredPractices, $regionsToFilter, $yearsToFilter, $industriesToFilter) {
                 $count = 0;
-                foreach ($practices as $practice) {
-                    $count += $practice->numberOfProjectsAnsweredByVendor($vendor);
+                foreach ($filteredPractices as $practice) {
+                    $count += $practice->numberOfProjectsAnsweredByVendor($vendor, $regionsToFilter, $yearsToFilter, $industriesToFilter);
                 }
                 return $count > 0;
             })->count();
 
         $totalClients = User::clientUsers()->get()
-            ->filter(function (User $client) {
-                return $client->projectsClientFilteredBenchmarkOverview() > 0;
+            ->filter(function (User $client) use ($regionsToFilter, $yearsToFilter, $industriesToFilter){
+                return $client->projectsClientFilteredBenchmarkOverview($regionsToFilter, $yearsToFilter, $industriesToFilter) > 0;
             })->count();
 
-        $totalProjects = Project::where('currentPhase', '=', 'old')
+        $totalProjectsQuery = Project::where('currentPhase', '=', 'old')
             ->whereHas('vendorApplications', function (Builder $query) {
                 $query->where('phase', 'submitted');
-            })
-            ->count();
+            });
+
+        if ($regionsToFilter) {
+            $totalProjectsQuery = $totalProjectsQuery->where(function ($totalProjectsQuery) use ($regionsToFilter) {
+                for ($i = 0; $i < count($regionsToFilter); $i++) {
+                    $totalProjectsQuery = $totalProjectsQuery->where('regions', 'like', '%' . $regionsToFilter[$i] . '%');
+                }
+            });
+        }
+
+        if ($yearsToFilter) {
+            $totalProjectsQuery = $totalProjectsQuery->where(function ($totalProjectsQuery) use ($yearsToFilter) {
+                for ($i = 0; $i < count($yearsToFilter); $i++) {
+                    $totalProjectsQuery = $totalProjectsQuery->orWhere('created_at', 'like', '%' . $yearsToFilter[$i] . '%');
+                }
+            });
+        }
+
+        if ($industriesToFilter) {
+            $totalProjectsQuery = $totalProjectsQuery->where(function ($totalProjectsQuery) use ($industriesToFilter) {
+                for ($i = 0; $i < count($industriesToFilter); $i++) {
+                    $totalProjectsQuery = $totalProjectsQuery->orWhere('industry', '=', $industriesToFilter[$i]);
+                }
+            });
+        }
+
+        $totalProjects = $totalProjectsQuery->count();
+
         $vendors = User::vendorUsers()->get()
-            ->filter(function (User $vendor) use ($practices) {
+            ->filter(function (User $vendor) use ($filteredPractices, $regionsToFilter, $yearsToFilter, $industriesToFilter) {
                 $count = 0;
-                foreach ($practices as $practice) {
-                    $count += $practice->numberOfProjectsAnsweredByVendor($vendor);
+                foreach ($filteredPractices as $practice) {
+                    $count += $practice->numberOfProjectsAnsweredByVendor($vendor, $regionsToFilter, $yearsToFilter, $industriesToFilter);
                 }
                 return $count > 0;
             });
@@ -301,32 +328,21 @@ class BenchmarkController extends Controller
 
         }
 
-        // Data for charts. Applying Filters
-        $howManyVendorsToChart = 10;
-        // Chart 1
-//        $vendorScores = VendorApplication::calculateBestVendorsProjectResultsFiltered($howManyVendorsToChart,
-//            'totalScore', $practicesIDsToFilter, $subpracticesIDsToFilter,
-//            $yearsToFilter, $industriesToFilter, $regionsToFilter);
-//
-//        // Chart 2 ( no project filter)
-//        $vendors = VendorApplication::getVendorsFilteredForRankingChart($practicesIDsToFilter,
-//            $subpracticesIDsToFilter, $yearsToFilter, $industriesToFilter, $regionsToFilter);
-
-        // Data for selects
         $practices = Practice::all();
+        $filteredPractices = $practicesIDsToFilter ? Practice::whereIn('id', $practicesIDsToFilter)->get() : $practices;
         $subpractices = [];
         $years = Project::calculateProjectsPerYears();
         $industries = collect(config('arrays.industryExperience'));
         $regions = collect(config('arrays.regions'));
 
         // Data for informative panels (counts)
-        $totalVendors = VendorsProjectsAnalysis::numberOfVendorsEvaluated();
+        $totalVendors = VendorsProjectsAnalysis::numberOfVendorsEvaluated($regionsToFilter, $yearsToFilter, $industriesToFilter, $practicesIDsToFilter);
 
-        $totalClients = VendorUseCasesEvaluation::numberOfClientsThatEvaluatedVendors();
+        $totalClients = VendorUseCasesEvaluation::numberOfClientsThatEvaluatedVendors($regionsToFilter, $yearsToFilter, $industriesToFilter, $practicesIDsToFilter);
 
-        $totalProjects = VendorsProjectsAnalysis::numberOfProjectsWithVendorsEvaluated();
+        $totalProjects = VendorsProjectsAnalysis::numberOfProjectsWithVendorsEvaluated($regionsToFilter, $yearsToFilter, $industriesToFilter, $practicesIDsToFilter);
 
-        $vendors = VendorsProjectsAnalysis::vendorsEvaluated();
+        $vendors = VendorsProjectsAnalysis::vendorsEvaluated($regionsToFilter, $yearsToFilter, $industriesToFilter, $practicesIDsToFilter);
 
         $vendorScores = [];
         foreach ($vendors as $vendor) {

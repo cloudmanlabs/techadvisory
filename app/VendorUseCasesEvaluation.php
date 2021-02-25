@@ -83,13 +83,46 @@ class VendorUseCasesEvaluation extends Model
         return $grouped;
     }
 
-    public static function numberOfClientsThatEvaluatedVendors()
+    public static function numberOfClientsThatEvaluatedVendors($regions = [], $years = [], $industries = [], $practices = [])
     {
-        return VendorUseCasesEvaluation::select('user_credential')
+        $query = VendorUseCasesEvaluation::select('user_credential')
             ->where('submitted', '=', 'yes')
             ->where('evaluation_type', '=', 'client')
             ->distinct('user_credential')
-            ->get()
-            ->count();
+            ->join('projects', 'vendors_use_cases_analysis.project_id', '=', 'projects.id');
+
+        if ($regions) {
+            $query = $query->where(function ($query) use ($regions) {
+                for ($i = 0; $i < count($regions); $i++) {
+                    $query = $query->where('projects.regions', 'like', '%' . $regions[$i] . '%');
+                }
+            });
+        }
+
+        if ($years) {
+            $query = $query->where(function ($query) use ($years) {
+                for ($i = 0; $i < count($years); $i++) {
+                    $query = $query->orWhere('projects.created_at', 'like', '%' . $years[$i] . '%');
+                }
+            });
+        }
+
+        if ($industries) {
+            $query = $query->where(function ($query) use ($industries) {
+                for ($i = 0; $i < count($industries); $i++) {
+                    $query = $query->orWhere('projects.industry', '=', $industries[$i]);
+                }
+            });
+        }
+
+        if ($practices) {
+            $query = $query->where(function ($query) use ($practices) {
+                for ($i = 0; $i < count($practices); $i++) {
+                    $query = $query->where('projects.practice_id', '=', $practices[$i]);
+                }
+            });
+        }
+
+        return $query->get()->count();
     }
 }

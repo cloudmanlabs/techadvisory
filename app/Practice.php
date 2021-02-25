@@ -82,7 +82,7 @@ class Practice extends Model
         return $average;
     }
 
-    public function numberOfProjectsAnsweredByVendor(User $vendor, $regions = [], $years = [])
+    public function numberOfProjectsAnsweredByVendor(User $vendor, $regions = [], $years = [], $industries = [])
     {
         $query = DB::table('users')
             ->select('projects.id')
@@ -109,6 +109,14 @@ class Practice extends Model
             $query = $query->where(function ($query) use ($years) {
                 for ($i = 0; $i < count($years); $i++) {
                     $query = $query->orWhere('projects.created_at', 'like', '%' . $years[$i] . '%');
+                }
+            });
+        }
+
+        if ($industries) {
+            $query = $query->where(function ($query) use ($industries) {
+                for ($i = 0; $i < count($industries); $i++) {
+                    $query = $query->orWhere('projects.industry', '=', $industries[$i]);
                 }
             });
         }
