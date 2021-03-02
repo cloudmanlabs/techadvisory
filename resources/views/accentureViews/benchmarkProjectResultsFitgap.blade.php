@@ -140,7 +140,7 @@
                                                         @foreach($vendorScoresFitgap as $vendorId => $vendorScore)
                                                             <tr>
                                                                 <td>{{ \App\User::find($vendorId)->name }}</td>
-                                                                <td>{{ \App\User::find($vendorId)->vendorAppliedProjectsFiltered($practicesIDsToFilter, $subpracticesIDsToFilter, $yearsToFilter, $industriesToFilter, $regionsToFilter) }}</td>
+                                                                <td>{{ \App\User::find($vendorId)->vendorAppliedProjectsFiltered($practicesIDsToFilter, $subpracticesIDsToFilter ?? [], $yearsToFilter, $industriesToFilter, $regionsToFilter) }}</td>
                                                                 <td>{{ $vendorScore }}</td>
                                                             </tr>
                                                         @endforeach
@@ -195,7 +195,7 @@
                                                         @foreach($vendorScoresFitgapFunctional as $key=>$vendorScore)
                                                             <tr>
                                                                 <td>{{\App\User::find($key)->name}}</td>
-                                                                <td>{{\App\User::find($key)->vendorAppliedProjectsFiltered($practicesIDsToFilter,$subpracticesIDsToFilter,$yearsToFilter,$industriesToFilter,$regionsToFilter)}}</td>
+                                                                <td>{{\App\User::find($key)->vendorAppliedProjectsFiltered($practicesIDsToFilter,$subpracticesIDsToFilter ?? [],$yearsToFilter,$industriesToFilter,$regionsToFilter)}}</td>
                                                                 <td>{{$vendorScore}}</td>
                                                             </tr>
                                                         @endforeach
@@ -233,7 +233,7 @@
                                                         @foreach($vendorScoresFitgapTechnical as $key=>$vendorScore)
                                                             <tr>
                                                                 <td>{{\App\User::find($key)->name}}</td>
-                                                                <td>{{\App\User::find($key)->vendorAppliedProjectsFiltered($practicesIDsToFilter,$subpracticesIDsToFilter,$yearsToFilter,$industriesToFilter,$regionsToFilter)}}</td>
+                                                                <td>{{\App\User::find($key)->vendorAppliedProjectsFiltered($practicesIDsToFilter,$subpracticesIDsToFilter ?? [],$yearsToFilter,$industriesToFilter,$regionsToFilter)}}</td>
                                                                 <td>{{$vendorScore}}</td>
                                                             </tr>
                                                         @endforeach
@@ -271,7 +271,7 @@
                                                         @foreach($vendorScoresFitgapService as $key=>$vendorScore)
                                                             <tr>
                                                                 <td>{{\App\User::find($key)->name}}</td>
-                                                                <td>{{\App\User::find($key)->vendorAppliedProjectsFiltered($practicesIDsToFilter,$subpracticesIDsToFilter,$yearsToFilter,$industriesToFilter,$regionsToFilter)}}</td>
+                                                                <td>{{\App\User::find($key)->vendorAppliedProjectsFiltered($practicesIDsToFilter,$subpracticesIDsToFilter ?? [],$yearsToFilter,$industriesToFilter,$regionsToFilter)}}</td>
                                                                 <td>{{$vendorScore}}</td>
                                                             </tr>
                                                         @endforeach
@@ -309,7 +309,7 @@
                                                         @foreach($vendorScoresFitgapOthers as $key=>$vendorScore)
                                                             <tr>
                                                                 <td>{{\App\User::find($key)->name}}</td>
-                                                                <td>{{\App\User::find($key)->vendorAppliedProjectsFiltered($practicesIDsToFilter,$subpracticesIDsToFilter,$yearsToFilter,$industriesToFilter,$regionsToFilter)}}</td>
+                                                                <td>{{\App\User::find($key)->vendorAppliedProjectsFiltered($practicesIDsToFilter,$subpracticesIDsToFilter ?? [],$yearsToFilter,$industriesToFilter,$regionsToFilter)}}</td>
                                                                 <td>{{$vendorScore}}</td>
                                                             </tr>
                                                         @endforeach

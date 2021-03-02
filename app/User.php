@@ -319,21 +319,21 @@ class User extends Authenticatable
         });
     }
 
-    public function vendorAppliedProjectsFiltered(
+    public function clientInProjectsWithApplicationAnsweredFiltered(
         $practicesID = [],
         $subpracticesID = [],
         $years = [],
         $industries = [],
         $regions = []
     ) {
+        $subpracticesID = $subpracticesID ?? [];
         $query = Project::distinct('projects.id')
             ->leftJoin('project_subpractice as sub', 'projects.id', '=', 'sub.project_id')
             ->where('currentPhase', '=', 'old')
+            ->where('client_id', '=', $this->id)
             ->whereHas('vendorApplications', function (Builder $query) {
-                $query
-                    ->where('vendor_id', '=', $this->id)
-                    ->where('phase', '=', 'submitted');
-            });;
+                $query->where('phase', '=', 'submitted');
+            });
 
         if ($practicesID) {
             $query = $query->where(function ($query) use ($practicesID) {
@@ -375,7 +375,95 @@ class User extends Authenticatable
             });
         }
 
-        return $query->count();
+        return $query->get()
+            ->filter(function($project) use ($subpracticesID) {
+                $projectSubpracticeIds = $project->subpractices->map(function($subpractice) {
+                    return $subpractice->id;
+                });
+
+                foreach ($subpracticesID as $subpracticeID) {
+                    if(!$projectSubpracticeIds->contains($subpracticeID)) {
+                        return false;
+                    }
+                }
+
+                return true;
+            })
+            ->count();
+    }
+
+    public function vendorAppliedProjectsFiltered(
+        $practicesID = [],
+        $subpracticesID = [],
+        $years = [],
+        $industries = [],
+        $regions = []
+    ) {
+        $subpracticesID = $subpracticesID ?? [];
+        $query = Project::distinct('projects.id')
+            ->leftJoin('project_subpractice as sub', 'projects.id', '=', 'sub.project_id')
+            ->where('currentPhase', '=', 'old')
+            ->whereHas('vendorApplications', function (Builder $query) {
+                $query
+                    ->where('vendor_id', '=', $this->id)
+                    ->where('phase', '=', 'submitted');
+            });
+
+        if ($practicesID) {
+            $query = $query->where(function ($query) use ($practicesID) {
+                foreach ($practicesID as $practiceID) {
+                    $query->orWhere('practice_id', '=', $practiceID);
+                }
+            });
+        }
+
+        if ($subpracticesID) {
+            $query = $query->where(function ($query) use ($subpracticesID) {
+                foreach ($subpracticesID as $subpracticeID) {
+                    $query->orWhere('sub.subpractice_id', '=', $subpracticeID);
+                }
+            });
+        }
+
+        if ($years) {
+            $query = $query->where(function ($query) use ($years) {
+                foreach ($years as $year) {
+                    $query->orWhere('projects.created_at', 'like', '%'.$year.'%');
+                }
+            });
+        }
+
+        if ($industries) {
+            $query = $query->where(function ($query) use ($industries) {
+                foreach ($industries as $industry) {
+                    $query->orWhere('industry', '=', $industry);
+                }
+            });
+        }
+
+        if ($regions) {
+            $query = $query->where(function ($query) use ($regions) {
+                foreach ($regions as $region) {
+                    $query->where('regions', 'like', '%'.$region.'%');
+                }
+            });
+        }
+
+        return $query->get()
+            ->filter(function($project) use ($subpracticesID) {
+                $projectSubpracticeIds = $project->subpractices->map(function($subpractice) {
+                    return $subpractice->id;
+                });
+
+                foreach ($subpracticesID as $subpracticeID) {
+                    if(!$projectSubpracticeIds->contains($subpracticeID)) {
+                        return false;
+                    }
+                }
+
+                return true;
+            })
+            ->count();
     }
 
 

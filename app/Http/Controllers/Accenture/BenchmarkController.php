@@ -196,7 +196,7 @@ class BenchmarkController extends Controller
         $howManyVendorsToChart = 10;
         // Chart 1
         $vendorScores = VendorApplication::calculateBestVendorsProjectResultsFiltered($howManyVendorsToChart,
-            'totalScore', $practicesIDsToFilter, $subpracticesIDsToFilter,
+            'totalScore', $practicesIDsToFilter, $subpracticesIDsToFilter ?? [],
             $yearsToFilter, $industriesToFilter, $regionsToFilter);
 
         // Chart 2 ( no project filter)
@@ -205,7 +205,6 @@ class BenchmarkController extends Controller
 
         // Data for selects
         $practices = Practice::all();
-        $filteredPractices = $practicesIDsToFilter ? Practice::whereIn('id', $practicesIDsToFilter)->get() : $practices;
         $subpractices = [];
         $years = Project::calculateProjectsPerYears();
         $industries = collect(config('arrays.industryExperience'));
@@ -213,17 +212,16 @@ class BenchmarkController extends Controller
 
         // Data for informative panels (counts)
         $totalVendors = User::vendorUsers()->get()
-            ->filter(function (User $vendor) use ($filteredPractices, $regionsToFilter, $yearsToFilter, $industriesToFilter) {
-                $count = 0;
-                foreach ($filteredPractices as $practice) {
-                    $count += $practice->numberOfProjectsAnsweredByVendor($vendor, $regionsToFilter, $yearsToFilter, $industriesToFilter);
-                }
+            ->filter(function (User $vendor) use ($regionsToFilter, $yearsToFilter, $industriesToFilter, $practicesIDsToFilter, $subpracticesIDsToFilter) {
+                $count = $vendor->vendorAppliedProjectsFiltered($practicesIDsToFilter, $subpracticesIDsToFilter ?? [], $yearsToFilter, $industriesToFilter, $regionsToFilter);
                 return $count > 0;
             })->count();
 
         $totalClients = User::clientUsers()->get()
-            ->filter(function (User $client) use ($regionsToFilter, $yearsToFilter, $industriesToFilter){
-                return $client->projectsClientFilteredBenchmarkOverview($regionsToFilter, $yearsToFilter, $industriesToFilter) > 0;
+            ->filter(function (User $client) use ($regionsToFilter, $yearsToFilter, $industriesToFilter, $practicesIDsToFilter, $subpracticesIDsToFilter){
+                $count = $client->clientInProjectsWithApplicationAnsweredFiltered($practicesIDsToFilter, $subpracticesIDsToFilter ?? [], $yearsToFilter, $industriesToFilter, $regionsToFilter);
+                return $count > 0;
+//                return $client->projectsClientFilteredBenchmarkOverview($regionsToFilter, $yearsToFilter, $industriesToFilter) > 0;
             })->count();
 
         $totalProjectsQuery = Project::where('currentPhase', '=', 'old')
@@ -258,11 +256,8 @@ class BenchmarkController extends Controller
         $totalProjects = $totalProjectsQuery->count();
 
         $vendors = User::vendorUsers()->get()
-            ->filter(function (User $vendor) use ($filteredPractices, $regionsToFilter, $yearsToFilter, $industriesToFilter) {
-                $count = 0;
-                foreach ($filteredPractices as $practice) {
-                    $count += $practice->numberOfProjectsAnsweredByVendor($vendor, $regionsToFilter, $yearsToFilter, $industriesToFilter);
-                }
+            ->filter(function (User $vendor) use ($regionsToFilter, $yearsToFilter, $industriesToFilter, $practicesIDsToFilter, $subpracticesIDsToFilter) {
+                $count = $vendor->vendorAppliedProjectsFiltered($practicesIDsToFilter, $subpracticesIDsToFilter ?? [], $yearsToFilter, $industriesToFilter, $regionsToFilter);
                 return $count > 0;
             });
 
@@ -418,23 +413,23 @@ class BenchmarkController extends Controller
         $howManyVendorsToTheRestChart = 5;
 
         $vendorScoresFitgap = VendorApplication::calculateBestVendorsProjectResultsFiltered($howManyVendorsToFirstChart,
-            'fitgapScore', $practicesIDsToFilter, $subpracticesIDsToFilter,
+            'fitgapScore', $practicesIDsToFilter, $subpracticesIDsToFilter ?? [],
             $yearsToFilter, $industriesToFilter, $regionsToFilter);
 
         $vendorScoresFitgapFunctional = VendorApplication::calculateBestVendorsProjectResultsFiltered($howManyVendorsToTheRestChart,
-            'fitgapFunctionalScore', $practicesIDsToFilter, $subpracticesIDsToFilter,
+            'fitgapFunctionalScore', $practicesIDsToFilter, $subpracticesIDsToFilter ?? [],
             $yearsToFilter, $industriesToFilter, $regionsToFilter);
 
         $vendorScoresFitgapTechnical = VendorApplication::calculateBestVendorsProjectResultsFiltered($howManyVendorsToTheRestChart,
-            'fitgapTechnicalScore', $practicesIDsToFilter, $subpracticesIDsToFilter,
+            'fitgapTechnicalScore', $practicesIDsToFilter, $subpracticesIDsToFilter ?? [],
             $yearsToFilter, $industriesToFilter, $regionsToFilter);
 
         $vendorScoresFitgapService = VendorApplication::calculateBestVendorsProjectResultsFiltered($howManyVendorsToTheRestChart,
-            'fitgapServiceScore', $practicesIDsToFilter, $subpracticesIDsToFilter,
+            'fitgapServiceScore', $practicesIDsToFilter, $subpracticesIDsToFilter ?? [],
             $yearsToFilter, $industriesToFilter, $regionsToFilter);
 
         $vendorScoresFitgapOthers = VendorApplication::calculateBestVendorsProjectResultsFiltered($howManyVendorsToTheRestChart,
-            'fitgapOtherScore', $practicesIDsToFilter, $subpracticesIDsToFilter,
+            'fitgapOtherScore', $practicesIDsToFilter, $subpracticesIDsToFilter ?? [],
             $yearsToFilter, $industriesToFilter, $regionsToFilter);
 
         // Data for selects
@@ -614,7 +609,7 @@ class BenchmarkController extends Controller
         // Data for charts
         $howManyVendorsToChart = 10;
         $vendorScoresVendor = VendorApplication::calculateBestVendorsProjectResultsFiltered($howManyVendorsToChart,
-            'vendorScore', $practicesIDsToFilter, $subpracticesIDsToFilter,
+            'vendorScore', $practicesIDsToFilter, $subpracticesIDsToFilter ?? [],
             $yearsToFilter, $industriesToFilter, $regionsToFilter);
 
         // Data for selects
@@ -671,7 +666,7 @@ class BenchmarkController extends Controller
         // Data for charts.
         $howManyVendorsToChart = 10;
         $vendorScoresExperience = VendorApplication::calculateBestVendorsProjectResultsFiltered($howManyVendorsToChart,
-            'experienceScore', $practicesIDsToFilter, $subpracticesIDsToFilter,
+            'experienceScore', $practicesIDsToFilter, $subpracticesIDsToFilter ?? [],
             $yearsToFilter, $industriesToFilter, $regionsToFilter);
 
         // Data for selects
@@ -729,7 +724,7 @@ class BenchmarkController extends Controller
         // Data for charts
         $howManyVendorsToChart = 10;
         $vendorScoresInnovation = VendorApplication::calculateBestVendorsProjectResultsFiltered($howManyVendorsToChart,
-            'innovationScore', $practicesIDsToFilter, $subpracticesIDsToFilter,
+            'innovationScore', $practicesIDsToFilter, $subpracticesIDsToFilter ?? [],
             $yearsToFilter, $industriesToFilter, $regionsToFilter);
 
         // Data for selects
@@ -788,13 +783,13 @@ class BenchmarkController extends Controller
         $howManyVendorsToOthersCharts = 5;
 
         $vendorScoresImplementation = VendorApplication::calculateBestVendorsProjectResultsFiltered($howManyVendorsToFirstChart,
-            'implementationScore', $practicesIDsToFilter, $subpracticesIDsToFilter,
+            'implementationScore', $practicesIDsToFilter, $subpracticesIDsToFilter ?? [],
             $yearsToFilter, $industriesToFilter, $regionsToFilter);
         $vendorScoresImplementationImplementation = VendorApplication::calculateBestVendorsProjectResultsFiltered($howManyVendorsToOthersCharts,
-            'implementationImplementationScore', $practicesIDsToFilter, $subpracticesIDsToFilter,
+            'implementationImplementationScore', $practicesIDsToFilter, $subpracticesIDsToFilter ?? [],
             $yearsToFilter, $industriesToFilter, $regionsToFilter);
         $vendorScoresImplementationRun = VendorApplication::calculateBestVendorsProjectResultsFiltered($howManyVendorsToOthersCharts,
-            'implementationRunScore', $practicesIDsToFilter, $subpracticesIDsToFilter,
+            'implementationRunScore', $practicesIDsToFilter, $subpracticesIDsToFilter ?? [],
             $yearsToFilter, $industriesToFilter, $regionsToFilter);
 
         // Data for selects

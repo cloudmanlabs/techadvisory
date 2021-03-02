@@ -1171,6 +1171,7 @@ class VendorApplication extends Model
         $industries = [],
         $regions = []
     ) {
+        $subpracticesID = $subpracticesID ?? [];
         $vendorScores = VendorApplication::query()
             ->with('project')
             ->where('vendor_applications.phase', '=', 'submitted')
@@ -1221,12 +1222,22 @@ class VendorApplication extends Model
                         }
                     });
                 });
-            });
-//        error_log('$vendorScores SQL: '.json_encode($vendorScores->toSql()));
-//        error_log('$vendorScores Bindings: '.json_encode($vendorScores->getBindings()));
-        $vendorScores = $vendorScores->get();
-//        error_log('$vendorScores: '.json_encode($vendorScores));
-        $vendorScores = $vendorScores->reduce(function ($scores, $vendorApplication) use ($functionNameForCalculateTheScores) {
+            })
+            ->get()
+            ->filter(function($vendorApplication) use ($subpracticesID) {
+                $vendorApplicationSubpracticeIds = $vendorApplication->project->subpractices->map(function($subpractice) {
+                    return $subpractice->id;
+                });
+
+                foreach ($subpracticesID as $subpracticeID) {
+                    if(!$vendorApplicationSubpracticeIds->contains($subpracticeID)) {
+                        return false;
+                    }
+                }
+
+                return true;
+            })
+            ->reduce(function ($scores, $vendorApplication) use ($functionNameForCalculateTheScores) {
                 $score = $vendorApplication->$functionNameForCalculateTheScores();
                 if (!array_key_exists($vendorApplication->vendor_id, $scores)) {
                     $scores[$vendorApplication->vendor_id] = [$score];

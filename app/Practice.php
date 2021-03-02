@@ -84,6 +84,9 @@ class Practice extends Model
 
     public function numberOfProjectsAnsweredByVendor(User $vendor, $regions = [], $years = [], $industries = [])
     {
+
+
+
         $query = DB::table('users')
             ->select('projects.id')
             ->join('vendor_applications', 'users.id', '=', 'vendor_applications.vendor_id')

@@ -89,7 +89,8 @@ class VendorUseCasesEvaluation extends Model
             ->where('submitted', '=', 'yes')
             ->where('evaluation_type', '=', 'client')
             ->distinct('user_credential')
-            ->join('projects', 'vendors_use_cases_analysis.project_id', '=', 'projects.id');
+            ->join('use_case', 'vendor_use_cases_evaluation.use_case_id', '=', 'use_case.id')
+            ->join('projects', 'use_case.project_id', '=', 'projects.id');
 
         if ($regions) {
             $query = $query->where(function ($query) use ($regions) {
