@@ -179,6 +179,11 @@ class VendorApplication extends Model
             return false;
         }
 
+        $fitgapQuestions = FitgapQuestion::findByProject($this->project_id);
+        if ($fitgapResponses->count() < $fitgapQuestions->count()) {
+            return false;
+        }
+
         foreach (($fitgapResponses ?? collect([])) as $key => $value) {
             if (empty($value->response()) || $value->response() == null || $value->response() == '') {
                 return false;
@@ -1166,6 +1171,7 @@ class VendorApplication extends Model
         $industries = [],
         $regions = []
     ) {
+        $subpracticesID = $subpracticesID ?? [];
         $vendorScores = VendorApplication::query()
             ->with('project')
             ->where('vendor_applications.phase', '=', 'submitted')
@@ -1218,6 +1224,19 @@ class VendorApplication extends Model
                 });
             })
             ->get()
+            ->filter(function($vendorApplication) use ($subpracticesID) {
+                $vendorApplicationSubpracticeIds = $vendorApplication->project->subpractices->map(function($subpractice) {
+                    return $subpractice->id;
+                });
+
+                foreach ($subpracticesID as $subpracticeID) {
+                    if(!$vendorApplicationSubpracticeIds->contains($subpracticeID)) {
+                        return false;
+                    }
+                }
+
+                return true;
+            })
             ->reduce(function ($scores, $vendorApplication) use ($functionNameForCalculateTheScores) {
                 $score = $vendorApplication->$functionNameForCalculateTheScores();
                 if (!array_key_exists($vendorApplication->vendor_id, $scores)) {

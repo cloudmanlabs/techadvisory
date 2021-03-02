@@ -226,8 +226,7 @@
                 ]
             },
         @endforeach
-        ]
-        },
+        ]},
         options: {
             scales: {
                 yAxes: [{

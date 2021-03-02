@@ -88,21 +88,21 @@ class User extends Authenticatable
     }
 
 
-    public function projectsClientFilteredBenchmarkOverview($regions = [], $years = [])
+    public function projectsClientFilteredBenchmarkOverview($regions = [], $years = [], $industries = [])
     {
         $query = $this->hasMany(Project::class, 'client_id')
             ->select('id', 'regions', 'created_at', 'currentPhase')
             ->whereHas('vendorApplications', function (Builder $query) {
                 $query->where('phase', 'submitted');
             });
-        $query = $this->benchmarkOverviewFilters($query, $regions, $years);
+        $query = $this->benchmarkOverviewFilters($query, $regions, $years, $industries);
         $query = $query->count();
 
         return $query;
     }
 
     // Encapsulate the filters for graphics from view: Overview - general
-    private function benchmarkOverviewFilters($query, $regions = [], $years = [])
+    private function benchmarkOverviewFilters($query, $regions = [], $years = [], $industries = [])
     {
         $query = $query->where('currentPhase', '=', 'old');
 
@@ -118,6 +118,14 @@ class User extends Authenticatable
             $query = $query->where(function ($query) use ($years) {
                 for ($i = 0; $i < count($years); $i++) {
                     $query = $query->orWhere('created_at', 'like', '%'.$years[$i].'%');
+                }
+            });
+        }
+
+        if ($industries) {
+            $query = $query->where(function ($query) use ($industries) {
+                for ($i = 0; $i < count($industries); $i++) {
+                    $query = $query->orWhere('industry', '=', $industries[$i]);
                 }
             });
         }
@@ -311,21 +319,21 @@ class User extends Authenticatable
         });
     }
 
-    public function vendorAppliedProjectsFiltered(
+    public function clientInProjectsWithApplicationAnsweredFiltered(
         $practicesID = [],
         $subpracticesID = [],
         $years = [],
         $industries = [],
         $regions = []
     ) {
+        $subpracticesID = $subpracticesID ?? [];
         $query = Project::distinct('projects.id')
             ->leftJoin('project_subpractice as sub', 'projects.id', '=', 'sub.project_id')
             ->where('currentPhase', '=', 'old')
+            ->where('client_id', '=', $this->id)
             ->whereHas('vendorApplications', function (Builder $query) {
-                $query
-                    ->where('vendor_id', '=', $this->id)
-                    ->where('phase', '=', 'submitted');
-            });;
+                $query->where('phase', '=', 'submitted');
+            });
 
         if ($practicesID) {
             $query = $query->where(function ($query) use ($practicesID) {
@@ -367,7 +375,95 @@ class User extends Authenticatable
             });
         }
 
-        return $query->count();
+        return $query->get()
+            ->filter(function($project) use ($subpracticesID) {
+                $projectSubpracticeIds = $project->subpractices->map(function($subpractice) {
+                    return $subpractice->id;
+                });
+
+                foreach ($subpracticesID as $subpracticeID) {
+                    if(!$projectSubpracticeIds->contains($subpracticeID)) {
+                        return false;
+                    }
+                }
+
+                return true;
+            })
+            ->count();
+    }
+
+    public function vendorAppliedProjectsFiltered(
+        $practicesID = [],
+        $subpracticesID = [],
+        $years = [],
+        $industries = [],
+        $regions = []
+    ) {
+        $subpracticesID = $subpracticesID ?? [];
+        $query = Project::distinct('projects.id')
+            ->leftJoin('project_subpractice as sub', 'projects.id', '=', 'sub.project_id')
+            ->where('currentPhase', '=', 'old')
+            ->whereHas('vendorApplications', function (Builder $query) {
+                $query
+                    ->where('vendor_id', '=', $this->id)
+                    ->where('phase', '=', 'submitted');
+            });
+
+        if ($practicesID) {
+            $query = $query->where(function ($query) use ($practicesID) {
+                foreach ($practicesID as $practiceID) {
+                    $query->orWhere('practice_id', '=', $practiceID);
+                }
+            });
+        }
+
+        if ($subpracticesID) {
+            $query = $query->where(function ($query) use ($subpracticesID) {
+                foreach ($subpracticesID as $subpracticeID) {
+                    $query->orWhere('sub.subpractice_id', '=', $subpracticeID);
+                }
+            });
+        }
+
+        if ($years) {
+            $query = $query->where(function ($query) use ($years) {
+                foreach ($years as $year) {
+                    $query->orWhere('projects.created_at', 'like', '%'.$year.'%');
+                }
+            });
+        }
+
+        if ($industries) {
+            $query = $query->where(function ($query) use ($industries) {
+                foreach ($industries as $industry) {
+                    $query->orWhere('industry', '=', $industry);
+                }
+            });
+        }
+
+        if ($regions) {
+            $query = $query->where(function ($query) use ($regions) {
+                foreach ($regions as $region) {
+                    $query->where('regions', 'like', '%'.$region.'%');
+                }
+            });
+        }
+
+        return $query->get()
+            ->filter(function($project) use ($subpracticesID) {
+                $projectSubpracticeIds = $project->subpractices->map(function($subpractice) {
+                    return $subpractice->id;
+                });
+
+                foreach ($subpracticesID as $subpracticeID) {
+                    if(!$projectSubpracticeIds->contains($subpracticeID)) {
+                        return false;
+                    }
+                }
+
+                return true;
+            })
+            ->count();
     }
 
 
