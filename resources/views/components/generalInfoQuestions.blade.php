@@ -114,19 +114,19 @@
     </select>
 </div>
 
-<div class="form-group">
-    <label for="useCasesSelect">Use Cases*</label>
-    <select class="form-control" id="useCasesSelect"
-            required
-        {{$disableSpecialQuestions ? 'disabled' : ''}}
-        {{$disabled ? 'disabled' : ''}}
-    >
-        <option disabled="">Please select an option</option>
-        <option value="yes_prep" @if($project->useCases === "yes_prep") selected @endif>Yes, Preparation Phase</option>
-        <option value="yes_open" @if($project->useCases === "yes_open") selected @endif>Yes, Open Phase</option>
-        <option value="no" @if($project->useCases === "no") selected @endif>No</option>
-    </select>
-</div>
+{{--<div class="form-group">--}}
+{{--    <label for="useCasesSelect">Use Cases*</label>--}}
+{{--    <select class="form-control" id="useCasesSelect"--}}
+{{--            required--}}
+{{--        {{$disableSpecialQuestions ? 'disabled' : ''}}--}}
+{{--        {{$disabled ? 'disabled' : ''}}--}}
+{{--    >--}}
+{{--        <option disabled="">Please select an option</option>--}}
+{{--        <option value="yes_prep" @if($project->useCases === "yes_prep") selected @endif>Yes, Preparation Phase</option>--}}
+{{--        <option value="yes_open" @if($project->useCases === "yes_open") selected @endif>Yes, Open Phase</option>--}}
+{{--        <option value="no" @if($project->useCases === "no") selected @endif>No</option>--}}
+{{--    </select>--}}
+{{--</div>--}}
 
 <div class="form-group">
     <label for="bindingOption">Binding/Non-binding*</label>

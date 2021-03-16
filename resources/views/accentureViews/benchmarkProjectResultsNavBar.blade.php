@@ -7,10 +7,10 @@
                         <a class=""
                            href="{{route('accenture.benchmark.projectResults')}}">Overall RFP</a>
                     </li>
-                    <li class="header-link-item ml-3 pl-3 border-left {{$nav2 == 'overallUseCases' ? 'active' : ''}}">
-                        <a class=""
-                           href="{{route('accenture.benchmark.projectUseCasesResults')}}">Overall Use Cases</a>
-                    </li>
+{{--                    <li class="header-link-item ml-3 pl-3 border-left {{$nav2 == 'overallUseCases' ? 'active' : ''}}">--}}
+{{--                        <a class=""--}}
+{{--                           href="{{route('accenture.benchmark.projectUseCasesResults')}}">Overall Use Cases</a>--}}
+{{--                    </li>--}}
                     <li class="header-link-item ml-3 pl-3 border-left {{$nav2 == 'fitgap' ? 'active' : ''}}">
                         <a class=""
                            href="{{route('accenture.benchmark.projectResults.fitgap')}}">Fitgap</a>
@@ -31,10 +31,10 @@
                         <a class=""
                            href="{{route('accenture.benchmark.projectResults.implementation')}}">Implementations & Commercials</a>
                     </li>
-                    <li class="header-link-item ml-3 pl-3 border-left {{$nav2 == 'useCases' ? 'active' : ''}}">
-                        <a class=""
-                           href="{{route('accenture.benchmark.projectResults.useCases')}}">Use Cases</a>
-                    </li>
+{{--                    <li class="header-link-item ml-3 pl-3 border-left {{$nav2 == 'useCases' ? 'active' : ''}}">--}}
+{{--                        <a class=""--}}
+{{--                           href="{{route('accenture.benchmark.projectResults.useCases')}}">Use Cases</a>--}}
+{{--                    </li>--}}
                 </ul>
             </div>
         </div>
