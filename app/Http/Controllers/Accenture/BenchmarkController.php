@@ -224,10 +224,14 @@ class BenchmarkController extends Controller
 //                return $client->projectsClientFilteredBenchmarkOverview($regionsToFilter, $yearsToFilter, $industriesToFilter) > 0;
             })->count();
 
-        $totalProjectsQuery = Project::where('currentPhase', '=', 'old')
+        $totalProjectsQuery = Project::select('projects.*')
+            ->where('currentPhase', '=', 'old')
+            ->leftJoin('project_subpractice as sub', 'projects.id', '=', 'sub.project_id')
             ->whereHas('vendorApplications', function (Builder $query) {
                 $query->where('phase', 'submitted');
             });
+
+        error_log('$totalProjectsQuery->get(): '.json_encode($totalProjectsQuery->get()));
 
         if ($regionsToFilter) {
             $totalProjectsQuery = $totalProjectsQuery->where(function ($totalProjectsQuery) use ($regionsToFilter) {
@@ -253,7 +257,36 @@ class BenchmarkController extends Controller
             });
         }
 
-        $totalProjects = $totalProjectsQuery->count();
+        if ($practicesIDsToFilter) {
+            $totalProjectsQuery = $totalProjectsQuery->where(function ($query) use ($practicesIDsToFilter) {
+                foreach ($practicesIDsToFilter as $practiceID) {
+                    $query->orWhere('practice_id', '=', $practiceID);
+                }
+            });
+        }
+
+        if ($subpracticesIDsToFilter) {
+            $totalProjectsQuery = $totalProjectsQuery->where(function ($query) use ($subpracticesIDsToFilter) {
+                foreach ($subpracticesIDsToFilter as $subpracticeID) {
+                    $query->orWhere('sub.subpractice_id', '=', $subpracticeID);
+                }
+            });
+        }
+
+        $totalProjects = $totalProjectsQuery->get()
+            ->filter(function($project) use ($subpracticesIDsToFilter) {
+                $projectSubpracticeIds = $project->subpractices->map(function($subpractice) {
+                    return $subpractice->id;
+                });
+
+                foreach ($subpracticesIDsToFilter as $subpracticeID) {
+                    if(!$projectSubpracticeIds->contains($subpracticeID)) {
+                        return false;
+                    }
+                }
+
+                return true;
+            })->count();
 
         $vendors = User::vendorUsers()->get()
             ->filter(function (User $vendor) use ($regionsToFilter, $yearsToFilter, $industriesToFilter, $practicesIDsToFilter, $subpracticesIDsToFilter) {
