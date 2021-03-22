@@ -231,8 +231,6 @@ class BenchmarkController extends Controller
                 $query->where('phase', 'submitted');
             });
 
-        error_log('$totalProjectsQuery->get(): '.json_encode($totalProjectsQuery->get()));
-
         if ($regionsToFilter) {
             $totalProjectsQuery = $totalProjectsQuery->where(function ($totalProjectsQuery) use ($regionsToFilter) {
                 for ($i = 0; $i < count($regionsToFilter); $i++) {
