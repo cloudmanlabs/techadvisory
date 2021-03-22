@@ -265,7 +265,7 @@ class BenchmarkController extends Controller
 
         if ($subpracticesIDsToFilter) {
             $totalProjectsQuery = $totalProjectsQuery->where(function ($query) use ($subpracticesIDsToFilter) {
-                foreach ($subpracticesIDsToFilter as $subpracticeID) {
+                foreach ($subpracticesIDsToFilter ?? [] as $subpracticeID) {
                     $query->orWhere('sub.subpractice_id', '=', $subpracticeID);
                 }
             });
@@ -277,7 +277,7 @@ class BenchmarkController extends Controller
                     return $subpractice->id;
                 });
 
-                foreach ($subpracticesIDsToFilter as $subpracticeID) {
+                foreach ($subpracticesIDsToFilter ?? [] as $subpracticeID) {
                     if(!$projectSubpracticeIds->contains($subpracticeID)) {
                         return false;
                     }
