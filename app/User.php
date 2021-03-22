@@ -400,7 +400,8 @@ class User extends Authenticatable
         $regions = []
     ) {
         $subpracticesID = $subpracticesID ?? [];
-        $query = Project::distinct('projects.id')
+        $query = Project::select('projects.id')
+            ->distinct('projects.id')
             ->leftJoin('project_subpractice as sub', 'projects.id', '=', 'sub.project_id')
             ->where('currentPhase', '=', 'old')
             ->whereHas('vendorApplications', function (Builder $query) {
