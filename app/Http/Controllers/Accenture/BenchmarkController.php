@@ -225,6 +225,7 @@ class BenchmarkController extends Controller
             })->count();
 
         $totalProjectsQuery = Project::select('projects.*')
+            ->distinct('projects.id')
             ->where('currentPhase', '=', 'old')
             ->leftJoin('project_subpractice as sub', 'projects.id', '=', 'sub.project_id')
             ->whereHas('vendorApplications', function (Builder $query) {
@@ -866,8 +867,9 @@ class BenchmarkController extends Controller
         $years = collect(range(2017, intval(date('Y'))));
 
         // Data to show and filter.
-        $projects = Project::all('id', 'name', 'practice_id', 'client_id',
-            'created_at', 'industry', 'regions', 'currentPhase');
+        $projects = Project::select('id', 'name', 'practice_id', 'client_id',
+            'created_at', 'industry', 'regions', 'currentPhase')
+            ->where('currentPhase', '=', 'old')->get();
 
         // By default CustomSearches shows Custom project searches (analytic by projects).
         return View('accentureViews.benchmarkCustomSearchesProject', [
