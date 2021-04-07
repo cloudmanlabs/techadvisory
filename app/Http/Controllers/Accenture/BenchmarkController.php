@@ -7,13 +7,13 @@ namespace App\Http\Controllers\Accenture;
 use App\Http\Controllers\Controller;
 use App\Practice;
 use App\Project;
+use App\Repository\BenchmarkAndAnalyticsRepository;
 use App\Subpractice;
 use App\User;
 use App\VendorApplication;
 use App\VendorSolution;
 use App\VendorsProjectsAnalysis;
 use App\VendorUseCasesEvaluation;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 
 class BenchmarkController extends Controller
@@ -164,164 +164,60 @@ class BenchmarkController extends Controller
 
     public function projectResultsOverall(Request $request)
     {
-        // Receive data.
-        $practicesIDsToFilter = $request->input('practices');
-        if ($practicesIDsToFilter) {
-            $practicesIDsToFilter = explode(',', $practicesIDsToFilter);
+        $practicesIds = $request->input('practices');
+        if ($practicesIds) {
+            $practicesIds = explode(',', $practicesIds);
         }
 
-        $subpracticesIDsToFilter = $request->input('subpractices');
-        if ($subpracticesIDsToFilter) {
-            $subpracticesIDsToFilter = explode(',', $subpracticesIDsToFilter);
+        $subpracticeIds = $request->input('subpractices');
+        if ($subpracticeIds) {
+            $subpracticeIds = explode(',', $subpracticeIds);
         }
 
-        $yearsToFilter = $request->input('years');
-        if ($yearsToFilter) {
-            $yearsToFilter = explode(',', $yearsToFilter);
+        $years = $request->input('years');
+        if ($years) {
+            $years = explode(',', $years);
         }
 
-        $industriesToFilter = $request->input('industries');
-        if ($industriesToFilter) {
-            $industriesToFilter = explode(',', $industriesToFilter);
-
-        }
-
-        $regionsToFilter = $request->input('regions');
-        if ($regionsToFilter) {
-            $regionsToFilter = explode(',', $regionsToFilter);
+        $industries = $request->input('industries');
+        if ($industries) {
+            $industries = explode(',', $industries);
 
         }
 
-        // Data for charts. Applying Filters
+        $regions = $request->input('regions');
+        if ($regions) {
+            $regions = explode(',', $regions);
+
+        }
+
         $howManyVendorsToChart = 10;
-        // Chart 1
         $vendorScores = VendorApplication::calculateBestVendorsProjectResultsFiltered($howManyVendorsToChart,
-            'totalScore', $practicesIDsToFilter, $subpracticesIDsToFilter ?? [],
-            $yearsToFilter, $industriesToFilter, $regionsToFilter);
-
-        // Chart 2 ( no project filter)
-//        $vendors = VendorApplication::getVendorsFilteredForRankingChart($practicesIDsToFilter,
-//            $subpracticesIDsToFilter, $yearsToFilter, $industriesToFilter, $regionsToFilter);
-
-        // Data for selects
-        $practices = Practice::all();
-        $subpractices = [];
-        $years = Project::calculateProjectsPerYears();
-        $industries = collect(config('arrays.industryExperience'));
-        $regions = collect(config('arrays.regions'));
-
-        // Data for informative panels (counts)
-        $totalVendors = User::vendorUsers()->get()
-            ->filter(function (User $vendor) use ($regionsToFilter, $yearsToFilter, $industriesToFilter, $practicesIDsToFilter, $subpracticesIDsToFilter) {
-                $count = $vendor->vendorAppliedProjectsFiltered($practicesIDsToFilter, $subpracticesIDsToFilter ?? [], $yearsToFilter, $industriesToFilter, $regionsToFilter);
-                return $count > 0;
-            })->count();
-
-        $totalClients = User::clientUsers()->get()
-            ->filter(function (User $client) use ($regionsToFilter, $yearsToFilter, $industriesToFilter, $practicesIDsToFilter, $subpracticesIDsToFilter){
-                $count = $client->clientInProjectsWithApplicationAnsweredFiltered($practicesIDsToFilter, $subpracticesIDsToFilter ?? [], $yearsToFilter, $industriesToFilter, $regionsToFilter);
-                return $count > 0;
-//                return $client->projectsClientFilteredBenchmarkOverview($regionsToFilter, $yearsToFilter, $industriesToFilter) > 0;
-            })->count();
-
-        $totalProjectsQuery = Project::select('projects.*')
-            ->distinct('projects.id')
-            ->where('currentPhase', '=', 'old')
-            ->leftJoin('project_subpractice as sub', 'projects.id', '=', 'sub.project_id')
-            ->whereHas('vendorApplications', function (Builder $query) {
-                $query->where('phase', 'submitted');
-            });
-
-        if ($regionsToFilter) {
-            $totalProjectsQuery = $totalProjectsQuery->where(function ($totalProjectsQuery) use ($regionsToFilter) {
-                for ($i = 0; $i < count($regionsToFilter); $i++) {
-                    $totalProjectsQuery = $totalProjectsQuery->where('regions', 'like', '%' . $regionsToFilter[$i] . '%');
-                }
-            });
-        }
-
-        if ($yearsToFilter) {
-            $totalProjectsQuery = $totalProjectsQuery->where(function ($totalProjectsQuery) use ($yearsToFilter) {
-                for ($i = 0; $i < count($yearsToFilter); $i++) {
-                    $totalProjectsQuery = $totalProjectsQuery->orWhere('created_at', 'like', '%' . $yearsToFilter[$i] . '%');
-                }
-            });
-        }
-
-        if ($industriesToFilter) {
-            $totalProjectsQuery = $totalProjectsQuery->where(function ($totalProjectsQuery) use ($industriesToFilter) {
-                for ($i = 0; $i < count($industriesToFilter); $i++) {
-                    $totalProjectsQuery = $totalProjectsQuery->orWhere('industry', '=', $industriesToFilter[$i]);
-                }
-            });
-        }
-
-        if ($practicesIDsToFilter) {
-            $totalProjectsQuery = $totalProjectsQuery->where(function ($query) use ($practicesIDsToFilter) {
-                foreach ($practicesIDsToFilter as $practiceID) {
-                    $query->orWhere('practice_id', '=', $practiceID);
-                }
-            });
-        }
-
-        if ($subpracticesIDsToFilter) {
-            $totalProjectsQuery = $totalProjectsQuery->where(function ($query) use ($subpracticesIDsToFilter) {
-                foreach ($subpracticesIDsToFilter ?? [] as $subpracticeID) {
-                    $query->orWhere('sub.subpractice_id', '=', $subpracticeID);
-                }
-            });
-        }
-
-        $totalProjects = $totalProjectsQuery->get()
-            ->filter(function($project) use ($subpracticesIDsToFilter) {
-                $projectSubpracticeIds = $project->subpractices->map(function($subpractice) {
-                    return $subpractice->id;
-                });
-
-                foreach ($subpracticesIDsToFilter ?? [] as $subpracticeID) {
-                    if(!$projectSubpracticeIds->contains($subpracticeID)) {
-                        return false;
-                    }
-                }
-
-                return true;
-            })->count();
-
-        $vendors = User::vendorUsers()->get()
-            ->filter(function (User $vendor) use ($regionsToFilter, $yearsToFilter, $industriesToFilter, $practicesIDsToFilter, $subpracticesIDsToFilter) {
-                $count = $vendor->vendorAppliedProjectsFiltered($practicesIDsToFilter, $subpracticesIDsToFilter ?? [], $yearsToFilter, $industriesToFilter, $regionsToFilter);
-                return $count > 0;
-            });
-
-        $totalSolutions = 0;
-        foreach ($vendors as $vendor) {
-            $totalSolutions += $vendor->vendorSolutions->count();
-        }
+            'totalScore', $practicesIds, $subpracticeIds ?? [],
+            $years, $industries, $regions);
 
         return View('accentureViews.benchmarkProjectResults', [
             'nav1' => 'projectResults',
             'nav2' => 'overall',
 
+            'practices' => Practice::all(),
+            'subpractices' => [],
+            'years' => BenchmarkAndAnalyticsRepository::yearsFilter(),
+            'industries' => collect(config('arrays.industryExperience')),
+            'regions' => collect(config('arrays.regions')),
 
-            'practices' => $practices,
-            'subpractices' => $subpractices,
-            'years' => $years,
-            'industries' => $industries,
-            'regions' => $regions,
+            'totalProjects' => BenchmarkAndAnalyticsRepository::overallTotalProjects($practicesIds, $subpracticeIds, $years, $industries, $regions),
+            'totalVendors' => BenchmarkAndAnalyticsRepository::overallTotalVendors($practicesIds, $subpracticeIds, $years, $industries, $regions),
+            'totalClients' => BenchmarkAndAnalyticsRepository::overallTotalClients($practicesIds, $subpracticeIds, $years, $industries, $regions),
+            'totalSolutions' => BenchmarkAndAnalyticsRepository::overallTotalSolutions($practicesIds, $subpracticeIds, $years, $industries, $regions),
 
-            'totalVendors' => $totalVendors,
-            'totalClients' => $totalClients,
-            'totalProjects' => $totalProjects,
-            'totalSolutions' => $totalSolutions,
-
-            'vendors' => $vendors,
             'vendorScores' => $vendorScores,
 
-            'practicesIDsToFilter' => $practicesIDsToFilter,
-            'subpracticesIDsToFilter' => $subpracticesIDsToFilter,
-            'yearsToFilter' => $yearsToFilter,
-            'industriesToFilter' => $industriesToFilter,
-            'regionsToFilter' => $regionsToFilter,
+            'practicesIDsToFilter' => $practicesIds,
+            'subpracticesIDsToFilter' => $subpracticeIds,
+            'yearsToFilter' => $years ?? [],
+            'industriesToFilter' => $industries ?? [],
+            'regionsToFilter' => $regions,
         ]);
     }
 
@@ -363,12 +259,9 @@ class BenchmarkController extends Controller
         $regions = collect(config('arrays.regions'));
 
         // Data for informative panels (counts)
-        $totalVendors = VendorsProjectsAnalysis::numberOfVendorsEvaluated($regionsToFilter, $yearsToFilter, $industriesToFilter, $practicesIDsToFilter);
-
         $totalClients = VendorUseCasesEvaluation::numberOfClientsThatEvaluatedVendors($regionsToFilter, $yearsToFilter, $industriesToFilter, $practicesIDsToFilter);
-
+        $totalVendors = VendorsProjectsAnalysis::numberOfVendorsEvaluated($regionsToFilter, $yearsToFilter, $industriesToFilter, $practicesIDsToFilter);
         $totalProjects = VendorsProjectsAnalysis::numberOfProjectsWithVendorsEvaluated($regionsToFilter, $yearsToFilter, $industriesToFilter, $practicesIDsToFilter);
-
         $vendors = VendorsProjectsAnalysis::vendorsEvaluated($regionsToFilter, $yearsToFilter, $industriesToFilter, $practicesIDsToFilter);
 
         $vendorScores = [];
@@ -890,33 +783,20 @@ class BenchmarkController extends Controller
 
     public function customSearchesVendor()
     {
-        // Data for populate the select options.
-        $segments = collect(['Megasuite', 'SCM suite', 'Specific solution']);
-        $practices = Practice::pluck('name')->toArray();
-        $regions = collect(config('arrays.regions'));
-        $industries = collect(config('arrays.industryExperience'));
-        $years = collect(range(2017, intval(date('Y'))));
-        $transportFlows = collect(config('arrays.transportFlows'));
-        $transportModes = collect(config('arrays.transportModes'));
-        $transportTypes = collect(config('arrays.transportTypes'));
-
-        // Data to show and filter.
-        $vendors = User::vendorUsers()->where('hasFinishedSetup', true)->get();
-
         return View('accentureViews.benchmarkCustomSearchesVendor', [
             'nav1' => 'custom',
             'nav2' => 'vendor',
 
-            'segments' => $segments,
-            'practices' => $practices,
-            'regions' => $regions,
-            'industries' => $industries,
-            'years' => $years,
-            'transportFlows' => $transportFlows,
-            'transportModes' => $transportModes,
-            'transportTypes' => $transportTypes,
+            'segments' => collect(['Megasuite', 'SCM suite', 'Specific solution']),
+            'regions' => collect(config('arrays.regions')),
+            'industries' => collect(config('arrays.industryExperience')),
+            'practices' => Practice::pluck('name')->toArray(),
 
-            'vendors' => $vendors,
+            'transportFlows' => collect(config('arrays.transportFlows')),
+            'transportModes' => collect(config('arrays.transportModes')),
+            'transportTypes' => collect(config('arrays.transportTypes')),
+
+            'vendors' => User::vendorUsers()->where('hasFinishedSetup', true)->get(),
         ]);
     }
 
