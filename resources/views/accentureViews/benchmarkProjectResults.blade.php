@@ -58,13 +58,12 @@
                                     <label for="years-select">Chose a Year</label>
                                     <select id="years-select" multiple>
                                         @foreach ($years as $year)
-                                            <option
-                                                value="{{$year->year}}"
+                                            <option value="{{$year}}"
                                             @if($yearsToFilter)
-                                                {{ in_array($year->year,$yearsToFilter)? 'selected="selected"' : ''}}
-                                                @endif
+                                                {{ in_array($year, $yearsToFilter)? 'selected="selected"' : ''}}
+                                            @endif
                                             >
-                                                {{$year->year}}
+                                                {{$year}}
                                             </option>
                                         @endforeach
                                     </select>
@@ -106,20 +105,18 @@
                                 </aside>
 
                                 <div id="charts-container" class="col-8 border-left">
-                                    <div class="row pl-3">
+                                    <div class="row pl-3 pb-4">
                                         <h3>Overall Results</h3>
-                                        <p class="welcome_text extra-top-15px">
-                                        </p>
                                     </div>
-                                    <br>
+
                                     <div id="information-panels">
                                         <div class="row justify-content-center" id="information-panels-row1">
                                             <div class="col-5 grid-margin stretch-card">
                                                 <div class="card">
                                                     <div class="card-body text-center">
-                                                        <h5>Total Clients</h5>
+                                                        <h5>Total Projects</h5>
                                                         <br>
-                                                        <h3>{{$totalClients}}</h3>
+                                                        <h3>{{$totalProjects}}</h3>
                                                     </div>
                                                 </div>
                                             </div>
@@ -137,9 +134,9 @@
                                             <div class="col-5 grid-margin stretch-card">
                                                 <div class="card">
                                                     <div class="card-body text-center">
-                                                        <h5>Total Projects</h5>
+                                                        <h5>Total Clients</h5>
                                                         <br>
-                                                        <h3>{{$totalProjects}}</h3>
+                                                        <h3>{{$totalClients}}</h3>
                                                     </div>
                                                 </div>
                                             </div>
@@ -196,18 +193,6 @@
                                             </div>
                                         </div>
                                     </div>
-
-{{--                                    <div class="row" id="chart2-row">--}}
-{{--                                        <div class="col-xl-12 grid-margin stretch-card">--}}
-{{--                                            <div class="card">--}}
-{{--                                                <div class="card-body">--}}
-{{--                                                    <h4>Vendor Performance Overview</h4>--}}
-{{--                                                    <br>--}}
-{{--                                                    <canvas id="vendor-performance-chart"></canvas>--}}
-{{--                                                </div>--}}
-{{--                                            </div>--}}
-{{--                                        </div>--}}
-{{--                                    </div>--}}
                                 </div>
                             </div>
                         </div>
@@ -222,7 +207,6 @@
 @section('scripts')
     @parent
     <script>
-
         $('#practices-select').select2({maximumSelectionLength: 1});
         $('#subpractices-select').select2();
         $('#years-select').select2();
@@ -315,86 +299,5 @@
                 }
             }
         );
-        //
-        // const colors = [
-        //     "#27003d",
-        //     "#410066",
-        //     "#5a008f",
-        //     "#7400b8",
-        //     "#8e00e0",
-        //     "#9b00f5",
-        //     "#a50aff",
-        //     "#c35cff",
-        //     "#d285ff",
-        //     "#e9c2ff",
-        //     "#f0d6ff",
-        //     "#f8ebff"
-        // ];
-
-        {{--var vendorPerformance = new Chart($('#vendor-performance-chart'), {--}}
-        {{--    type: 'bubble',--}}
-        {{--    data: {--}}
-        {{--        labels: "",--}}
-        {{--        datasets: [--}}
-        {{--                @foreach($vendors as $vendor)--}}
-        {{--                @php--}}
-        {{--                    // NOTE: We use 10 - val so we get the chart flipped horizontally--}}
-        {{--                    $ranking = round(10 - $vendor->averageRanking(),2);--}}
-        {{--                    $score = round($vendor->averageScore(),2) ?? 0;--}}
-
-        {{--                @endphp--}}
-        {{--            {--}}
-        {{--                label: ["{{$vendor->name}}"],--}}
-        {{--                backgroundColor: colors[{{$loop->index}} % 12],--}}
-        {{--                borderColor: colors[{{$loop->index}} % 12],--}}
-        {{--                data: [--}}
-        {{--                    {--}}
-        {{--                        x: {{ $ranking }},--}}
-        {{--                        y: {{ $score }},--}}
-        {{--                        r: {{ $ranking + $score * 3 }}--}}
-        {{--                    }--}}
-        {{--                ],--}}
-        {{--                hidden: {{ $loop->index > 3 ? 'true' : 'false' }},--}}
-        {{--            },--}}
-        {{--        @endforeach--}}
-        {{--]--}}
-        {{--},--}}
-        {{--options: {--}}
-        {{--    scales: {--}}
-        {{--        yAxes: [{--}}
-        {{--            scaleLabel: {--}}
-        {{--                display: true,--}}
-        {{--                labelString: "Av. Score",--}}
-        {{--                fontSize: 17--}}
-        {{--            },--}}
-        {{--            ticks: {--}}
-        {{--                beginAtZero: false,--}}
-        {{--                min: 1,--}}
-        {{--                max: 10,--}}
-        {{--                fontSize: 17--}}
-        {{--            }--}}
-        {{--        }],--}}
-        {{--            xAxes--}}
-        {{--    :--}}
-        {{--        [{--}}
-        {{--            scaleLabel: {--}}
-        {{--                display: true,--}}
-        {{--                labelString: "Av. Ranking",--}}
-        {{--                fontSize: 17--}}
-        {{--            },--}}
-        {{--            ticks: {--}}
-        {{--                beginAtZero: false,--}}
-        {{--                min: 1,--}}
-        {{--                max: 10,--}}
-        {{--                fontSize: 17,--}}
-        {{--                callback: function (tick, index, ticks) {--}}
-        {{--                    return (11 - tick).toString();--}}
-        {{--                }--}}
-        {{--            }--}}
-        {{--        }]--}}
-        {{--    }--}}
-        {{--}--}}
-        {{--})--}}
-        {{--;--}}
     </script>
 @endsection
