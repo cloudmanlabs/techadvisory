@@ -1,8 +1,6 @@
 <?php
 
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Route;
 
 
@@ -12,7 +10,7 @@ Route::prefix('client')
     ->group(function () {
         Route::get('/', function () {
             if (Auth::check()) {
-                if(auth()->user()->hasFinishedSetup){
+                if (auth()->user()->hasFinishedSetup) {
                     return redirect()->route('client.home');
                 } else {
                     return redirect()->route('client.firstLoginRegistration');
@@ -40,7 +38,7 @@ Route::prefix('client')
                     ->name('profile.submit');
             });
 
-            Route::middleware(['checkUserHasFinishedSetup'])->group(function(){
+            Route::middleware(['checkUserHasFinishedSetup'])->group(function () {
                 Route::get('home', 'HomeController@home')
                     ->name('home');
 
@@ -53,25 +51,38 @@ Route::prefix('client')
                     Route::get('newProjectSetUp/{project}/useCasesSetUp', 'ProjectController@useCasesSetUp')
                         ->name('useCasesSetUp');
 
-                    Route::post('/newProjectSetUp/upsertUseCaseAccentureUsers', 'ProjectController@upsertUseCaseAccentureUsers');
-                    Route::post('/newProjectSetUp/upsertUseCaseClientUsers', 'ProjectController@upsertUseCaseClientUsers');
+                    Route::post('/newProjectSetUp/upsertUseCaseAccentureUsers',
+                        'ProjectController@upsertUseCaseAccentureUsers');
+                    Route::post('/newProjectSetUp/upsertUseCaseClientUsers',
+                        'ProjectController@upsertUseCaseClientUsers');
                     Route::post('/newProjectSetUp/upsertUseCaseName', 'ProjectController@upsertUseCaseName');
-                    Route::post('/newProjectSetUp/upsertUseCaseDescription', 'ProjectController@upsertUseCaseDescription');
-                    Route::post('/newProjectSetUp/upsertEvaluationSolutionFit', 'ProjectController@upsertEvaluationSolutionFit');
-                    Route::post('/newProjectSetUp/upsertEvaluationUsability', 'ProjectController@upsertEvaluationUsability');
-                    Route::post('/newProjectSetUp/upsertEvaluationPerformance', 'ProjectController@upsertEvaluationPerformance');
-                    Route::post('/newProjectSetUp/upsertEvaluationLookFeel', 'ProjectController@upsertEvaluationLookFeel');
+                    Route::post('/newProjectSetUp/upsertUseCaseDescription',
+                        'ProjectController@upsertUseCaseDescription');
+                    Route::post('/newProjectSetUp/upsertEvaluationSolutionFit',
+                        'ProjectController@upsertEvaluationSolutionFit');
+                    Route::post('/newProjectSetUp/upsertEvaluationUsability',
+                        'ProjectController@upsertEvaluationUsability');
+                    Route::post('/newProjectSetUp/upsertEvaluationPerformance',
+                        'ProjectController@upsertEvaluationPerformance');
+                    Route::post('/newProjectSetUp/upsertEvaluationLookFeel',
+                        'ProjectController@upsertEvaluationLookFeel');
                     Route::post('/newProjectSetUp/upsertEvaluationOthers', 'ProjectController@upsertEvaluationOthers');
-                    Route::post('/newProjectSetUp/upsertEvaluationComments', 'ProjectController@upsertEvaluationComments');
-                    Route::post('/newProjectSetUp/submitUseCaseVendorEvaluation', 'ProjectController@submitUseCaseVendorEvaluation');
-                    Route::post('/newProjectSetUp/rollbackSubmitUseCaseVendorEvaluation', 'ProjectController@rollbackSubmitUseCaseVendorEvaluation');
+                    Route::post('/newProjectSetUp/upsertEvaluationComments',
+                        'ProjectController@upsertEvaluationComments');
+                    Route::post('/newProjectSetUp/submitUseCaseVendorEvaluation',
+                        'ProjectController@submitUseCaseVendorEvaluation');
+                    Route::post('/newProjectSetUp/rollbackSubmitUseCaseVendorEvaluation',
+                        'ProjectController@rollbackSubmitUseCaseVendorEvaluation');
                     Route::post('/newProjectSetUp/updateInvitedVendors', 'ProjectController@updateInvitedVendors');
-                    Route::post('/newProjectSetUp/saveProjectScoringCriteria', 'ProjectController@saveProjectScoringCriteria');
-                    Route::post('/newProjectSetUp/saveUseCaseScoringCriteria', 'ProjectController@saveUseCaseScoringCriteria');
+                    Route::post('/newProjectSetUp/saveProjectScoringCriteria',
+                        'ProjectController@saveProjectScoringCriteria');
+                    Route::post('/newProjectSetUp/saveUseCaseScoringCriteria',
+                        'ProjectController@saveUseCaseScoringCriteria');
                     Route::post('/newProjectSetUp/saveVendorEvaluation', 'ProjectController@saveVendorEvaluation');
                     Route::post('/newProjectSetUp/saveCaseUse', 'ProjectController@createCaseUse');
                     Route::post('/newProjectSetUp/changeProjectName', 'ProjectController@changeProjectName');
-                    Route::post('/newProjectSetUp/changeProjectHasValueTargeting', 'ProjectController@changeProjectHasValueTargeting');
+                    Route::post('/newProjectSetUp/changeProjectHasValueTargeting',
+                        'ProjectController@changeProjectHasValueTargeting');
                     Route::post('/newProjectSetUp/changeProjectHasOrals', 'ProjectController@changeProjectHasOrals');
                     Route::post('/newProjectSetUp/changeProjectIsBinding', 'ProjectController@changeProjectIsBinding');
                     Route::post('/newProjectSetUp/changePractice', 'ProjectController@changePractice');
@@ -111,14 +122,18 @@ Route::prefix('client')
                         ->name('projectBenchmarkExperience');
                     Route::get('project/benchmark/innovation/{project}', 'ProjectController@benchmarkInnovation')
                         ->name('projectBenchmarkInnovation');
-                    Route::get('project/benchmark/implementation/{project}', 'ProjectController@benchmarkImplementation')
+                    Route::get('project/benchmark/implementation/{project}',
+                        'ProjectController@benchmarkImplementation')
                         ->name('projectBenchmarkImplementation');
-                    Route::get('project/benchmark/vendorComparison/{project}', 'ProjectController@benchmarkVendorComparison')
+                    Route::get('project/benchmark/vendorComparison/{project}',
+                        'ProjectController@benchmarkVendorComparison')
                         ->name('projectBenchmarkVendorComparison');
 
-                    Route::get('/project/vendorProposal/view/{project}/{vendor}', 'ProjectController@vendorProposalView')
+                    Route::get('/project/vendorProposal/view/{project}/{vendor}',
+                        'ProjectController@vendorProposalView')
                         ->name('viewVendorProposal');
-                    Route::get('/project/vendorProposal/download/{project}/{vendor}', 'ProjectController@downloadVendorProposal')
+                    Route::get('/project/vendorProposal/download/{project}/{vendor}',
+                        'ProjectController@downloadVendorProposal')
                         ->name('downloadVendorProposal');
 
                     Route::get('/exportAnalytics/{project}', 'ProjectController@exportAnalytics')

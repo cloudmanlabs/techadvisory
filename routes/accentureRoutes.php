@@ -34,20 +34,26 @@ prefix('accenture')
                 ->name('useCasesSetUp');
 
             // This started as just a couple fields,  but has been growing over time. I'd refactor it to be a single route or something, but it's a bit late now
-            Route::post('/newProjectSetUp/upsertUseCaseAccentureUsers', 'ProjectController@upsertUseCaseAccentureUsers');
+            Route::post('/newProjectSetUp/upsertUseCaseAccentureUsers',
+                'ProjectController@upsertUseCaseAccentureUsers');
             Route::post('/newProjectSetUp/upsertUseCaseClientUsers', 'ProjectController@upsertUseCaseClientUsers');
             Route::post('/newProjectSetUp/upsertUseCaseName', 'ProjectController@upsertUseCaseName');
             Route::post('/newProjectSetUp/upsertUseCaseDescription', 'ProjectController@upsertUseCaseDescription');
-            Route::post('/newProjectSetUp/upsertEvaluationSolutionFit', 'ProjectController@upsertEvaluationSolutionFit');
+            Route::post('/newProjectSetUp/upsertEvaluationSolutionFit',
+                'ProjectController@upsertEvaluationSolutionFit');
             Route::post('/newProjectSetUp/upsertEvaluationUsability', 'ProjectController@upsertEvaluationUsability');
-            Route::post('/newProjectSetUp/upsertEvaluationPerformance', 'ProjectController@upsertEvaluationPerformance');
+            Route::post('/newProjectSetUp/upsertEvaluationPerformance',
+                'ProjectController@upsertEvaluationPerformance');
             Route::post('/newProjectSetUp/upsertEvaluationLookFeel', 'ProjectController@upsertEvaluationLookFeel');
             Route::post('/newProjectSetUp/upsertEvaluationOthers', 'ProjectController@upsertEvaluationOthers');
             Route::post('/newProjectSetUp/upsertEvaluationComments', 'ProjectController@upsertEvaluationComments');
-            Route::post('/newProjectSetUp/submitUseCaseVendorEvaluation', 'ProjectController@submitUseCaseVendorEvaluation');
-            Route::post('/newProjectSetUp/rollbackSubmitUseCaseVendorEvaluation', 'ProjectController@rollbackSubmitUseCaseVendorEvaluation');
+            Route::post('/newProjectSetUp/submitUseCaseVendorEvaluation',
+                'ProjectController@submitUseCaseVendorEvaluation');
+            Route::post('/newProjectSetUp/rollbackSubmitUseCaseVendorEvaluation',
+                'ProjectController@rollbackSubmitUseCaseVendorEvaluation');
 //            Route::post('/newProjectSetUp/cacheUseCaseVendorEvaluation', 'ProjectController@cacheUseCaseVendorEvaluation');
-            Route::post('/newProjectSetUp/cacheProjectVendorEvaluation', 'ProjectController@cacheProjectVendorEvaluation');
+            Route::post('/newProjectSetUp/cacheProjectVendorEvaluation',
+                'ProjectController@cacheProjectVendorEvaluation');
             Route::post('/newProjectSetUp/updateInvitedVendors', 'ProjectController@updateInvitedVendors');
             Route::post('/newProjectSetUp/saveProjectScoringCriteria', 'ProjectController@saveProjectScoringCriteria');
             Route::post('/newProjectSetUp/saveUseCaseScoringCriteria', 'ProjectController@saveUseCaseScoringCriteria');
@@ -56,7 +62,8 @@ prefix('accenture')
             Route::post('/newProjectSetUp/changeProjectName', 'ProjectController@changeProjectName');
             Route::post('/newProjectSetUp/changeProjectOwner', 'ProjectController@changeProjectOwner');
             Route::post('/newProjectSetUp/changeProjectClient', 'ProjectController@changeProjectClient');
-            Route::post('/newProjectSetUp/changeProjectHasValueTargeting', 'ProjectController@changeProjectHasValueTargeting');
+            Route::post('/newProjectSetUp/changeProjectHasValueTargeting',
+                'ProjectController@changeProjectHasValueTargeting');
             Route::post('/newProjectSetUp/changeProjectHasOrals', 'ProjectController@changeProjectHasOrals');
             Route::post('/newProjectSetUp/changeProjectUseCases', 'ProjectController@changeProjectUseCases');
             Route::post('/newProjectSetUp/changeProjectIsBinding', 'ProjectController@changeProjectIsBinding');
@@ -76,7 +83,8 @@ prefix('accenture')
             Route::post('/newProjectSetUp/setStep4Submitted', 'ProjectController@setStep4Submitted');
             Route::post('/newProjectSetUp/publishProject', 'ProjectController@publishProject');
             Route::post('/newProjectSetUp/publishUseCases', 'ProjectController@publishUseCases');
-            Route::post('/newProjectSetUp/togglePublishProjectAnalytics', 'ProjectController@togglePublishProjectAnalytics');
+            Route::post('/newProjectSetUp/togglePublishProjectAnalytics',
+                'ProjectController@togglePublishProjectAnalytics');
             Route::post('/newProjectSetUp/updateVendors', 'ProjectController@updateVendors');
             Route::post('/newProjectSetUp/updateScoringValues', 'ProjectController@updateScoringValues');
             Route::post('/newProjectSetUp/changeWeights', 'ProjectController@changeWeights');
@@ -98,7 +106,8 @@ prefix('accenture')
             Route::post('clientProfileEdit/changeResponse', 'ClientVendorListController@changeClientProfileResponse');
             Route::post('clientProfileEdit/changeName', 'ClientVendorListController@changeClientName');
             Route::post('clientProfileEdit/changeEmail', 'ClientVendorListController@changeClientEmail');
-            Route::post('clientProfileEdit/createFirstCredential', 'ClientVendorListController@createFirstClientCredential');
+            Route::post('clientProfileEdit/createFirstCredential',
+                'ClientVendorListController@createFirstClientCredential');
             Route::get('clientProfileView/{client}', 'ClientVendorListController@clientProfileView')
                 ->name('clientProfileView');
 
@@ -111,7 +120,8 @@ prefix('accenture')
             Route::post('vendorProfileEdit/changeResponse', 'ClientVendorListController@changeVendorProfileResponse');
             Route::post('vendorProfileEdit/changeName', 'ClientVendorListController@changeVendorName');
             Route::post('vendorProfileEdit/changeEmail', 'ClientVendorListController@changeVendorEmail');
-            Route::post('vendorProfileEdit/createFirstCredential', 'ClientVendorListController@createFirstVendorCredential');
+            Route::post('vendorProfileEdit/createFirstCredential',
+                'ClientVendorListController@createFirstVendorCredential');
             Route::get('vendorProfileView/{vendor}', 'ClientVendorListController@vendorProfileView')
                 ->name('vendorProfileView');
             Route::get('vendorValidateResponses/{vendor}', 'ClientVendorListController@vendorValidateResponses')
@@ -179,11 +189,13 @@ prefix('accenture')
                 ->name('viewVendorProposal');
             Route::get('/project/vendorProposal/edit/{project}/{vendor}', 'ProjectController@vendorProposalEdit')
                 ->name('editVendorProposal');
-            Route::get('/project/vendorProposal/evaluate/{project}/{vendor}', 'ProjectController@vendorProposalEvaluation')
+            Route::get('/project/vendorProposal/evaluate/{project}/{vendor}',
+                'ProjectController@vendorProposalEvaluation')
                 ->name('viewVendorProposalEvaluation');
             Route::post('project/submitEvaluation/{project}/{vendor}', 'ProjectController@submitEvaluation')
                 ->name('project.submitEvaluation');
-            Route::get('/project/vendorProposal/download/{project}/{vendor}', 'ProjectController@downloadVendorProposal')
+            Route::get('/project/vendorProposal/download/{project}/{vendor}',
+                'ProjectController@downloadVendorProposal')
                 ->name('downloadVendorProposal');
 
             Route::get('analysis/project/vendor', 'AnalysisController@projectVendor')
@@ -208,7 +220,8 @@ prefix('accenture')
                 ->name('project.vendorApplyRollback');
 
             Route::get('/analysis/vendor/custom/getScopes/{practice}', 'AnalysisController@getScopesfromPractice');
-            Route::get('/analysis/vendor/custom/getSubpractices/{practice}', 'AnalysisController@getSubpracticesfromPractice');
+            Route::get('/analysis/vendor/custom/getSubpractices/{practice}',
+                'AnalysisController@getSubpracticesfromPractice');
             Route::get('/analysis/vendor/custom/getResponses', 'AnalysisController@getResponsesFromScope');
 
             Route::get('/benchmark/overview/', 'BenchmarkController@overviewGeneral')
@@ -241,8 +254,9 @@ prefix('accenture')
             Route::get('/benchmark/customSearches/vendor', 'BenchmarkController@customSearchesVendor')
                 ->name('benchmark.customSearches.vendor');
 
-            Route::get('/benchmark/projectResults/getSubpractices/{practice}', 'BenchmarkController@getSubpracticesfromPractice');
-            Route::get('/benchmark/customSearches/getSubpractices/{practice}', 'BenchmarkController@getSubpracticesfromPracticeName');
-
+            Route::get('/benchmark/projectResults/getSubpractices/{practice}',
+                'BenchmarkController@getSubpracticesfromPractice');
+            Route::get('/benchmark/customSearches/getSubpractices/{practice}',
+                'BenchmarkController@getSubpracticesfromPracticeName');
         });
     });
