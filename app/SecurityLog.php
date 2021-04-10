@@ -30,7 +30,7 @@ class SecurityLog extends Model
         $log .= $text;
 
         if ($data) {
-            $log .= ' '.serialize($data);
+            $log .= ' '.json_encode($data);
         }
 
         (new self([

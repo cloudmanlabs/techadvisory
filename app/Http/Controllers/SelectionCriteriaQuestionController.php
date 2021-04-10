@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\SecurityLog;
 use App\SelectionCriteriaQuestionResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -26,17 +27,8 @@ class SelectionCriteriaQuestionController extends Controller
         }
         $answer->save();
 
-        // $existingApplication = VendorApplication::where([
-        //     'project_id' => $answer->project->id,
-        //     'vendor_id' => $answer->vendor->id
-        // ])->first();
-        // if ($existingApplication) {
-        //     if($existingApplication->checkIfAllSelectionCriteriaQuestionsWereAnswered()){
-        //         $existingApplication->setPendingEvaluation();
-        //     } else {
-        //         $existingApplication->setApplicating();
-        //     }
-        // }
+        SecurityLog::createLog('Response changed', 'Selection Criteria',
+            ['changing' => $request->changing, 'value' => $request->value]);
 
         return response()->json([
             'status' => 200,
@@ -61,6 +53,9 @@ class SelectionCriteriaQuestionController extends Controller
         $answer->response = $path;
         $answer->save();
 
+        SecurityLog::createLog('File uploaded', 'Selection Criteria',
+            ['changing' => $request->changing, 'value' => $request->value]);
+
         return response()->json([
             'status' => 200,
             'message' => 'nma',
@@ -81,6 +76,9 @@ class SelectionCriteriaQuestionController extends Controller
 
         $answer->score = $request->value;
         $answer->save();
+
+        SecurityLog::createLog('Score changed', 'Selection Criteria',
+            ['changing' => $request->changing, 'value' => $request->value]);
 
         return response()->json([
             'status' => 200,

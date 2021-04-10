@@ -28,7 +28,8 @@ class ProjectController extends Controller
 
         $clients = User::clientUsers()->get();
 
-        SecurityLog::createLog('User accessed project with ID '.$project->id.' and name '.$project->name);
+        SecurityLog::createLog('Vendor accessed project', 'Projects',
+            ['projectId' => $project->id, 'projectName' => $project->name]);
 
         return view('vendorViews.previewProject', [
             'project' => $project,
@@ -137,7 +138,8 @@ class ProjectController extends Controller
             });
 
 
-        SecurityLog::createLog('User accessed project with ID '.$project->id.' and name '.$project->name);
+        SecurityLog::createLog('Vendor accessed preview project apply', 'Projects',
+            ['projectId' => $project->id, 'projectName' => $project->name]);
 
         return view('vendorViews.previewProjectApply', [
             'project' => $project,
@@ -161,11 +163,15 @@ class ProjectController extends Controller
         $application = VendorApplication::where('vendor_id', auth()->id())
             ->where('project_id', $project->id)
             ->first();
+
         if ($application == null) {
             abort(404);
         }
 
         $application->setRejected();
+
+        SecurityLog::createLog('Vendor rejected', 'Projects',
+            ['projectId' => $project->id, 'projectName' => $project->name]);
 
         return redirect()->route('vendor.home');
     }
@@ -181,6 +187,9 @@ class ProjectController extends Controller
 
         $application->setApplicating();
 
+        SecurityLog::createLog('Vendor accepted', 'Projects',
+            ['projectId' => $project->id, 'projectName' => $project->name]);
+
         return redirect()->route('vendor.home');
     }
 
@@ -194,6 +203,9 @@ class ProjectController extends Controller
         }
 
         $application->setPendingEvaluation();
+
+        SecurityLog::createLog('Vendor submitted application', 'Projects',
+            ['projectId' => $project->id, 'projectName' => $project->name]);
 
         return response()->json([
             'status' => 200,
@@ -213,7 +225,8 @@ class ProjectController extends Controller
             return $el->shouldShow;
         });
 
-        SecurityLog::createLog('User accessed project with ID '.$project->id.' and name '.$project->name);
+        SecurityLog::createLog('Vendor created evaluation', 'Projects',
+            ['projectId' => $project->id, 'projectName' => $project->name]);
 
         return view('vendorViews.newApplication', [
             'project' => $project,
@@ -378,7 +391,8 @@ class ProjectController extends Controller
         $this->replaceResponses($innovationSustainabilityQuestions,
             $selectionCriteriaQuestionsResponsesFromSimilarProject);
 
-        SecurityLog::createLog('User accessed project with ID '.$project->id.' and name '.$project->name);
+        SecurityLog::createLog('Vendor applied to project', 'Projects',
+            ['projectId' => $project->id, 'projectName' => $project->name]);
 
         return view('vendorViews.newApplicationApply', [
             'project' => $project,
@@ -414,7 +428,8 @@ class ProjectController extends Controller
             abort(404);
         }
 
-        SecurityLog::createLog('User accessed project with ID '.$project->id.' and name '.$project->name);
+        SecurityLog::createLog('Vendor accessed project orals', 'Projects',
+            ['projectId' => $project->id, 'projectName' => $project->name]);
 
         return view('vendorViews.newApplicationOrals', [
             'project' => $project,
@@ -511,7 +526,8 @@ class ProjectController extends Controller
             return $question->originalQuestion->page == 'implementation_run';
         });
 
-        SecurityLog::createLog('User accessed project with ID '.$project->id.' and name '.$project->name);
+        SecurityLog::createLog('Vendor accessed submitted application', 'Projects',
+            ['projectId' => $project->id, 'projectName' => $project->name]);
 
         return view('vendorViews.submittedApplication', [
             'project' => $project,

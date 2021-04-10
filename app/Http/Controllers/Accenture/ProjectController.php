@@ -36,7 +36,8 @@ class ProjectController extends Controller
         $project = new Project();
         $project->save();
 
-        SecurityLog::createLog('User created project with ID '.$project->id.' and name '.$project->name);
+        SecurityLog::createLog('Accenture created project', 'Project',
+            ['projectId' => $project->id, 'projectName' => $project->name]);
 
         return redirect()->route('accenture.newProjectSetUp', ['project' => $project, 'firstTime' => true]);
     }
@@ -67,7 +68,8 @@ class ProjectController extends Controller
 
         $allOwners = Owner::get();
 
-        SecurityLog::createLog('User accessed project with ID '.$project->id.' and name '.$project->name);
+        SecurityLog::createLog('Accenture accessed new project setup', 'Project',
+            ['projectId' => $project->id, 'projectName' => $project->name]);
 
         return view('accentureViews.newProjectSetUp', [
             'firstTime' => $request->firstTime ?? false,
@@ -96,7 +98,7 @@ class ProjectController extends Controller
         $project->useCasesPhase = 'setup';
         $project->save();
 
-        SecurityLog::createLog('Rollback evaluation', 'Use cases', ['projectId' => $project->id]);
+        SecurityLog::createLog('Accenture rollback evaluation', 'Use cases', ['projectId' => $project->id]);
 
         return redirect()->route('accenture.projectUseCasesSetUp', ['project' => $project]);
     }
@@ -191,19 +193,15 @@ class ProjectController extends Controller
         $canEvaluateVendors = false;
 
         $selectedVendors = array();
-        SecurityLog::createLog('Accessed project use cases setup', 'Use cases', ['projectId' => $project->id]);
+        SecurityLog::createLog('Accenture accessed project use cases setup', 'Use cases',
+            ['projectId' => $project->id]);
 
         $view = [
             'project' => $project,
-
             'clients' => $clients,
-
             'accentureUsers' => $accentureUsers,
-
             'appliedVendors' => $appliedVendors,
-
             'useCaseTemplates' => $useCaseTemplates,
-
             'user_id' => $accessingAccentureUserId,
         ];
 
@@ -317,6 +315,8 @@ class ProjectController extends Controller
         $project->use_case_others = $request->others;
         $project->save();
 
+        SecurityLog::createLog('Accenture save scoring criteria', 'Project', ['projectId' => $request->project_id]);
+
         return \response()->json([
             'status' => 200,
             'message' => 'Success',
@@ -338,7 +338,8 @@ class ProjectController extends Controller
         $useCase->scoring_criteria = (float) $request->scoringCriteria;
         $useCase->save();
 
-        SecurityLog::createLog('Saved use cases scoring criteria', 'Use cases', ['useCaseId' => $request->useCaseId]);
+        SecurityLog::createLog('Accenture saved use cases scoring criteria', 'Use cases',
+            ['useCaseId' => $request->useCaseId]);
 
         return \response()->json([
             'status' => 200,
@@ -366,7 +367,8 @@ class ProjectController extends Controller
             $evaluation->save();
         }
 
-        SecurityLog::createLog('Rollback submitted use case', 'Use cases', ['useCaseId' => $request->useCaseId]);
+        SecurityLog::createLog('Accenture rollback submitted use case', 'Use cases',
+            ['useCaseId' => $request->useCaseId]);
 
         return \response()->json([
             'status' => 200,
@@ -523,7 +525,7 @@ class ProjectController extends Controller
 
         $this->cacheUseCaseVendorEvaluation($evaluation);
 
-        SecurityLog::createLog('Submitted use case vendor evaluation', 'Use cases',
+        SecurityLog::createLog('Accenture submitted use case vendor evaluation', 'Use cases',
             ['useCaseId' => $request->useCaseId]);
 
         return \response()->json([
@@ -550,6 +552,13 @@ class ProjectController extends Controller
         $vendorEvaluation->solution_fit = $request->value != -1 ? $request->value : null;
         $vendorEvaluation->save();
 
+        SecurityLog::createLog('Accenture save evaluation solution fit', 'Use Cases', [
+            'useCaseId' => $request->useCaseId,
+            'userCredential' => $request->userCredential,
+            'vendorId' => $request->vendorId,
+            'value' => $request->value,
+        ]);
+
         return \response()->json([
             'status' => 200,
             'message' => 'Success',
@@ -573,6 +582,13 @@ class ProjectController extends Controller
 
         $vendorEvaluation->usability = $request->value != -1 ? $request->value : null;
         $vendorEvaluation->save();
+
+        SecurityLog::createLog('Accenture save evaluation usability', 'Use Cases', [
+            'useCaseId' => $request->useCaseId,
+            'userCredential' => $request->userCredential,
+            'vendorId' => $request->vendorId,
+            'value' => $request->value,
+        ]);
 
         return \response()->json([
             'status' => 200,
@@ -598,6 +614,13 @@ class ProjectController extends Controller
         $vendorEvaluation->performance = $request->value != -1 ? $request->value : null;
         $vendorEvaluation->save();
 
+        SecurityLog::createLog('Accenture save evaluation performance', 'Use Cases', [
+            'useCaseId' => $request->useCaseId,
+            'userCredential' => $request->userCredential,
+            'vendorId' => $request->vendorId,
+            'value' => $request->value,
+        ]);
+
         return \response()->json([
             'status' => 200,
             'message' => 'Success',
@@ -621,6 +644,13 @@ class ProjectController extends Controller
 
         $vendorEvaluation->look_feel = $request->value != -1 ? $request->value : null;
         $vendorEvaluation->save();
+
+        SecurityLog::createLog('Accenture save evaluation look and feel', 'Use Cases', [
+            'useCaseId' => $request->useCaseId,
+            'userCredential' => $request->userCredential,
+            'vendorId' => $request->vendorId,
+            'value' => $request->value,
+        ]);
 
         return \response()->json([
             'status' => 200,
@@ -646,6 +676,13 @@ class ProjectController extends Controller
         $vendorEvaluation->others = $request->value != -1 ? $request->value : null;
         $vendorEvaluation->save();
 
+        SecurityLog::createLog('Accenture save evaluation others', 'Use Cases', [
+            'useCaseId' => $request->useCaseId,
+            'userCredential' => $request->userCredential,
+            'vendorId' => $request->vendorId,
+            'value' => $request->value,
+        ]);
+
         return \response()->json([
             'status' => 200,
             'message' => 'Success',
@@ -670,6 +707,13 @@ class ProjectController extends Controller
         $vendorEvaluation->comments = $request->value;
         $vendorEvaluation->save();
 
+        SecurityLog::createLog('Accenture save evaluation comments', 'Use Cases', [
+            'useCaseId' => $request->useCaseId,
+            'userCredential' => $request->userCredential,
+            'vendorId' => $request->vendorId,
+            'value' => $request->value,
+        ]);
+
         return \response()->json([
             'status' => 200,
             'message' => 'Success',
@@ -691,7 +735,10 @@ class ProjectController extends Controller
         $useCase->accentureUsers = $request->userList;
         $useCase->save();
 
-        SecurityLog::createLog('Saved use case', 'Use cases', ['useCaseId' => $useCase->id]);
+        SecurityLog::createLog('Accenture save accenture users', 'Use Cases', [
+            'useCaseId' => $request->useCaseId,
+            'userList' => $request->userList,
+        ]);
 
         return \response()->json([
             'status' => 200,
@@ -714,7 +761,10 @@ class ProjectController extends Controller
         $useCase->clientUsers = $request->clientList;
         $useCase->save();
 
-        SecurityLog::createLog('Saved use case client', 'Use cases', ['useCaseId' => $useCase->id]);
+        SecurityLog::createLog('Accenture save client users', 'Use Cases', [
+            'useCaseId' => $request->useCaseId,
+            'clientList' => $request->clientList,
+        ]);
 
         return \response()->json([
             'status' => 200,
@@ -737,7 +787,10 @@ class ProjectController extends Controller
         $useCase->name = $request->newName;
         $useCase->save();
 
-        SecurityLog::createLog('Saved use case name', 'Use cases', ['useCaseId' => $useCase->id]);
+        SecurityLog::createLog('Accenture save use case name', 'Use Cases', [
+            'useCaseId' => $request->useCaseId,
+            'name' => $request->newName,
+        ]);
 
         return \response()->json([
             'status' => 200,
@@ -760,7 +813,10 @@ class ProjectController extends Controller
         $useCase->description = $request->newDescription;
         $useCase->save();
 
-        SecurityLog::createLog('Saved use case description', 'Use cases', ['useCaseId' => $useCase->id]);
+        SecurityLog::createLog('Accenture save use case description', 'Use Cases', [
+            'useCaseId' => $request->useCaseId,
+            'description' => $request->newDescription,
+        ]);
 
         return \response()->json([
             'status' => 200,
@@ -783,6 +839,11 @@ class ProjectController extends Controller
         $project->use_case_invited_vendors = $request->vendorList;
         $project->save();
 
+        SecurityLog::createLog('Accenture save invited vendors', 'Project', [
+            'project_id' => $request->project_id,
+            'vendorList' => $request->vendorList,
+        ]);
+
         return \response()->json([
             'status' => 200,
             'message' => 'Success',
@@ -803,6 +864,11 @@ class ProjectController extends Controller
 
         $project->name = $request->newName;
         $project->save();
+
+        SecurityLog::createLog('Accenture changed project name', 'Project', [
+            'project_id' => $request->project_id,
+            'name' => $request->newName,
+        ]);
 
         return \response()->json([
             'status' => 200,
@@ -825,6 +891,11 @@ class ProjectController extends Controller
         $project->owner_id = $request->owner_id;
         $project->save();
 
+        SecurityLog::createLog('Accenture changed project owner', 'Project', [
+            'project_id' => $request->project_id,
+            'ownerId' => $request->owner_id,
+        ]);
+
         return \response()->json([
             'status' => 200,
             'message' => 'Success',
@@ -845,6 +916,11 @@ class ProjectController extends Controller
 
         $project->client_id = $request->client_id;
         $project->save();
+
+        SecurityLog::createLog('Accenture changed project client', 'Project', [
+            'project_id' => $request->project_id,
+            'clientId' => $request->client_id,
+        ]);
 
         return \response()->json([
             'status' => 200,
@@ -867,6 +943,11 @@ class ProjectController extends Controller
         $project->hasValueTargeting = $request->value === 'yes';
         $project->save();
 
+        SecurityLog::createLog('Accenture changed project has value targeting', 'Project', [
+            'project_id' => $request->project_id,
+            'value' => $request->value,
+        ]);
+
         return \response()->json([
             'status' => 200,
             'message' => 'Success',
@@ -887,6 +968,11 @@ class ProjectController extends Controller
 
         $project->hasOrals = $request->value === 'yes';
         $project->save();
+
+        SecurityLog::createLog('Accenture changed project has orals', 'Project', [
+            'project_id' => $request->project_id,
+            'value' => $request->value,
+        ]);
 
         return \response()->json([
             'status' => 200,
@@ -933,6 +1019,11 @@ class ProjectController extends Controller
         $project->isBinding = $request->value === 'yes';
         $project->save();
 
+        SecurityLog::createLog('Accenture changed project is binding', 'Project', [
+            'project_id' => $request->project_id,
+            'value' => $request->value,
+        ]);
+
         return \response()->json([
             'status' => 200,
             'message' => 'Success',
@@ -959,6 +1050,11 @@ class ProjectController extends Controller
         $project->practice_id = $request->practice_id;
         $project->save();
 
+        SecurityLog::createLog('Accenture changed practice', 'Project', [
+            'project_id' => $request->project_id,
+            'practice_id' => $request->practice_id,
+        ]);
+
         return \response()->json([
             'status' => 200,
             'message' => 'Success',
@@ -979,6 +1075,11 @@ class ProjectController extends Controller
 
         $project->subpractices()->sync($request->subpractices);
         $project->save();
+
+        SecurityLog::createLog('Accenture changed subpractice', 'Project', [
+            'project_id' => $request->project_id,
+            'subpractices' => $request->subpractices,
+        ]);
 
         return \response()->json([
             'status' => 200,
@@ -1001,6 +1102,11 @@ class ProjectController extends Controller
         $project->industry = $request->value;
         $project->save();
 
+        SecurityLog::createLog('Accenture changed industry', 'Project', [
+            'project_id' => $request->project_id,
+            'value' => $request->value,
+        ]);
+
         return \response()->json([
             'status' => 200,
             'message' => 'Success',
@@ -1021,6 +1127,11 @@ class ProjectController extends Controller
 
         $project->regions = $request->value;
         $project->save();
+
+        SecurityLog::createLog('Accenture changed regions', 'Project', [
+            'project_id' => $request->project_id,
+            'value' => $request->value,
+        ]);
 
         return \response()->json([
             'status' => 200,
@@ -1043,6 +1154,11 @@ class ProjectController extends Controller
         $project->projectType = $request->value;
         $project->save();
 
+        SecurityLog::createLog('Accenture changed project type', 'Project', [
+            'project_id' => $request->project_id,
+            'value' => $request->value,
+        ]);
+
         return \response()->json([
             'status' => 200,
             'message' => 'Success',
@@ -1063,6 +1179,11 @@ class ProjectController extends Controller
 
         $project->currency = $request->value;
         $project->save();
+
+        SecurityLog::createLog('Accenture changed currency', 'Project', [
+            'project_id' => $request->project_id,
+            'value' => $request->value,
+        ]);
 
         return \response()->json([
             'status' => 200,
@@ -1085,6 +1206,11 @@ class ProjectController extends Controller
         $project->deadline = Carbon::createFromFormat('m/d/Y', $request->value)->toDateTimeString();
         $project->save();
 
+        SecurityLog::createLog('Accenture changed deadline', 'Project', [
+            'project_id' => $request->project_id,
+            'value' => $request->value,
+        ]);
+
         return \response()->json([
             'status' => 200,
             'message' => 'Success',
@@ -1106,6 +1232,11 @@ class ProjectController extends Controller
         $project->rfpOtherInfo = $request->value;
         $project->save();
 
+        SecurityLog::createLog('Accenture changed RFP other info', 'Project', [
+            'project_id' => $request->project_id,
+            'value' => $request->value,
+        ]);
+
         return \response()->json([
             'status' => 200,
             'message' => 'Success',
@@ -1125,6 +1256,10 @@ class ProjectController extends Controller
 
         $project->step3SubmittedAccenture = true;
         $project->save();
+
+        SecurityLog::createLog('Accenture submitted step 3', 'Project', [
+            'project_id' => $request->project_id,
+        ]);
 
         return \response()->json([
             'status' => 200,
@@ -1146,6 +1281,10 @@ class ProjectController extends Controller
         $project->step4SubmittedAccenture = true;
         $project->save();
 
+        SecurityLog::createLog('Accenture submitted step 4', 'Project', [
+            'project_id' => $request->project_id,
+        ]);
+
         return \response()->json([
             'status' => 200,
             'message' => 'Success',
@@ -1164,6 +1303,10 @@ class ProjectController extends Controller
         }
 
         $project->publish();
+
+        SecurityLog::createLog('Accenture published project', 'Project', [
+            'project_id' => $request->project_id,
+        ]);
 
         return \response()->json([
             'status' => 200,
@@ -1184,7 +1327,7 @@ class ProjectController extends Controller
 
         $project->setInEvaluationPhase();
 
-        SecurityLog::createLog('Published use case', 'Use cases', ['projectId' => $request->project_id]);
+        SecurityLog::createLog('Accenture published use case', 'Use cases', ['projectId' => $request->project_id]);
 
         return \response()->json([
             'status' => 200,
@@ -1196,12 +1339,16 @@ class ProjectController extends Controller
     {
         $project->markCompleted();
 
+        SecurityLog::createLog('Accenture marked project completed', 'Project', ['projectId' => $project->id]);
+
         return redirect()->route('accenture.home');
     }
 
     public function moveToOpen(Project $project)
     {
         $project->publish();
+
+        SecurityLog::createLog('Accenture move project to open', 'Project', ['projectId' => $project->id]);
 
         return redirect()->route('accenture.home');
     }
@@ -1218,6 +1365,9 @@ class ProjectController extends Controller
 
         $project->publishedAnalytics = !$project->publishedAnalytics;
         $project->save();
+
+        SecurityLog::createLog('Accenture publish project analytics', 'Project',
+            ['projectId' => $project->id, 'publishedAnalytics' => $project->publishedAnalytics]);
 
         return \response()->json([
             'status' => 200,
@@ -1266,6 +1416,9 @@ class ProjectController extends Controller
             $vendor->applyToProject($project);
         }
 
+        SecurityLog::createLog('Accenture updated vendors', 'Project',
+            ['projectId' => $project->id, 'vendorList' => $request->vendorList]);
+
         return \response()->json([
             'status' => 200,
             'message' => 'Success',
@@ -1291,6 +1444,9 @@ class ProjectController extends Controller
 
         $project->scoringValues = $values;
         $project->save();
+
+        SecurityLog::createLog('Accenture updated scoring values', 'Project',
+            ['projectId' => $project->id, 'values' => $request->values]);
 
         return \response()->json([
             'status' => 200,
@@ -1332,6 +1488,9 @@ class ProjectController extends Controller
         $project->{$request->changing} = $request->value;
         $project->save();
 
+        SecurityLog::createLog('Accenture changed weights', 'Project',
+            ['projectId' => $project->id, 'changing' => $request->changing]);
+
         return \response()->json([
             'status' => 200,
             'message' => 'Success',
@@ -1354,6 +1513,9 @@ class ProjectController extends Controller
         $project->oralsLocation = $request->location;
         $project->save();
 
+        SecurityLog::createLog('Accenture changed orals location', 'Project',
+            ['projectId' => $project->id, 'location' => $request->location]);
+
         return \response()->json([
             'status' => 200,
             'message' => 'Success',
@@ -1374,6 +1536,9 @@ class ProjectController extends Controller
 
         $project->oralsFromDate = Carbon::createFromFormat('m/d/Y', $request->value)->toDateTimeString();
         $project->save();
+
+        SecurityLog::createLog('Accenture changed orals from date', 'Project',
+            ['projectId' => $project->id, 'value' => $request->value]);
 
         return \response()->json([
             'status' => 200,
@@ -1396,6 +1561,9 @@ class ProjectController extends Controller
         $project->oralsToDate = Carbon::createFromFormat('m/d/Y', $request->value)->toDateTimeString();
         $project->save();
 
+        SecurityLog::createLog('Accenture changed orals to date', 'Project',
+            ['projectId' => $project->id, 'value' => $request->value]);
+
         return \response()->json([
             'status' => 200,
             'message' => 'Success',
@@ -1412,7 +1580,8 @@ class ProjectController extends Controller
         $disqualifiedVendors = $project->vendorsApplied(['disqualified'])->get();
         $rejectedVendors = $project->vendorsApplied(['rejected'])->get();
 
-        SecurityLog::createLog('User accessed project with ID '.$project->id.' and name '.$project->name);
+        SecurityLog::createLog('Accenture accessed project home', 'Project',
+            ['projectId' => $project->id, 'projectName' => $project->name]);
 
         return view('accentureViews.projectHome', [
             'project' => $project,
@@ -1437,6 +1606,9 @@ class ProjectController extends Controller
 
         $application->setDisqualified();
 
+        SecurityLog::createLog('Accenture disqualify vendor', 'Project',
+            ['projectId' => $project->id, 'vendorId' => $vendor->id]);
+
         return redirect()->route('accenture.projectHome', ['project' => $project]);
     }
 
@@ -1445,11 +1617,15 @@ class ProjectController extends Controller
         $application = VendorApplication::where('vendor_id', $vendor->id)
             ->where('project_id', $project->id)
             ->first();
+
         if ($application == null) {
             abort(404);
         }
 
         $application->setSubmitted();
+
+        SecurityLog::createLog('Accenture release response', 'Project',
+            ['projectId' => $project->id, 'vendorId' => $vendor->id]);
 
         return redirect()->route('accenture.projectHome', ['project' => $project]);
     }
@@ -1464,6 +1640,9 @@ class ProjectController extends Controller
         }
 
         $application->setEvaluated();
+
+        SecurityLog::createLog('Accenture submit evaluation', 'Project',
+            ['projectId' => $project->id, 'vendorId' => $vendor->id]);
 
         return redirect()->route('accenture.projectHome', ['project' => $project]);
     }
@@ -1501,7 +1680,8 @@ class ProjectController extends Controller
 
         $allOwners = Owner::get();
 
-        SecurityLog::createLog('User accessed project with ID '.$project->id.' and name '.$project->name);
+        SecurityLog::createLog('Accenture accessed view project', 'Project',
+            ['projectId' => $project->id, 'projectName' => $project->name]);
 
         return view('accentureViews.projectView', [
             'project' => $project,
@@ -1558,7 +1738,8 @@ class ProjectController extends Controller
 
         $allOwners = Owner::get();
 
-        SecurityLog::createLog('User accessed project with ID '.$project->id.' and name '.$project->name);
+        SecurityLog::createLog('Accenture edit project', 'Project',
+            ['projectId' => $project->id, 'projectName' => $project->name]);
 
         return view('accentureViews.projectEdit', [
             'project' => $project,
@@ -1589,7 +1770,8 @@ class ProjectController extends Controller
             abort(404);
         }
 
-        SecurityLog::createLog('User accessed project with ID '.$project->id.' and name '.$project->name);
+        SecurityLog::createLog('Accenture accessed value targeting', 'Project',
+            ['projectId' => $project->id, 'projectName' => $project->name]);
 
         return view('accentureViews.projectValueTargeting', [
             'project' => $project,
@@ -1602,7 +1784,8 @@ class ProjectController extends Controller
             abort(404);
         }
 
-        SecurityLog::createLog('User accessed project with ID '.$project->id.' and name '.$project->name);
+        SecurityLog::createLog('Accenture accessed orals', 'Project',
+            ['projectId' => $project->id, 'projectName' => $project->name]);
 
         return view('accentureViews.projectOrals', [
             'project' => $project,
@@ -1612,7 +1795,8 @@ class ProjectController extends Controller
 
     public function conclusions(Project $project)
     {
-        SecurityLog::createLog('User accessed project with ID '.$project->id.' and name '.$project->name);
+        SecurityLog::createLog('Accenture accessed conclusions', 'Project',
+            ['projectId' => $project->id, 'projectName' => $project->name]);
 
         return view('accentureViews.projectConclusions', [
             'project' => $project,
@@ -1621,7 +1805,8 @@ class ProjectController extends Controller
 
     public function benchmark(Project $project)
     {
-        SecurityLog::createLog('User accessed project benchmarks of project with ID '.$project->id.' and name '.$project->name);
+        SecurityLog::createLog('Accenture accessed benchmark', 'Project',
+            ['projectId' => $project->id, 'projectName' => $project->name]);
 
         return view('accentureViews.projectBenchmark', [
             'project' => $project,
@@ -1659,6 +1844,9 @@ class ProjectController extends Controller
             }
         }
 
+        SecurityLog::createLog('Accenture accessed RFP and Use Cases benchmark', 'Project',
+            ['projectId' => $project->id, 'projectName' => $project->name]);
+
         return view('accentureViews.projectBenchmark', [
             'project' => $project,
             'applications' => $applications,
@@ -1686,6 +1874,9 @@ class ProjectController extends Controller
             $vendorProjectsAnalysis->{$key}->vendorName = $vendorName;
         }
 
+        SecurityLog::createLog('Accenture accessed Use Cases benchmark', 'Use Cases',
+            ['projectId' => $project->id, 'projectName' => $project->name]);
+
         return view('accentureViews.projectBenchmarkUseCases', [
             'project' => $project,
             'useCases' => $useCases,
@@ -1701,7 +1892,8 @@ class ProjectController extends Controller
 
     public function benchmarkFitgap(Project $project)
     {
-        SecurityLog::createLog('User accessed project benchmarks of project with ID '.$project->id.' and name '.$project->name);
+        SecurityLog::createLog('Accenture accessed FitGap benchmark', 'Project',
+            ['projectId' => $project->id, 'projectName' => $project->name]);
 
         return view('accentureViews.projectBenchmarkFitgap', [
             'project' => $project,
@@ -1714,7 +1906,8 @@ class ProjectController extends Controller
 
     public function benchmarkVendor(Project $project)
     {
-        SecurityLog::createLog('User accessed project benchmarks of project with ID '.$project->id.' and name '.$project->name);
+        SecurityLog::createLog('Accenture accessed vendor benchmark', 'Project',
+            ['projectId' => $project->id, 'projectName' => $project->name]);
 
         return view('accentureViews.projectBenchmarkVendor', [
             'project' => $project,
@@ -1727,7 +1920,8 @@ class ProjectController extends Controller
 
     public function benchmarkExperience(Project $project)
     {
-        SecurityLog::createLog('User accessed project benchmarks of project with ID '.$project->id.' and name '.$project->name);
+        SecurityLog::createLog('Accenture accessed expresience benchmark', 'Project',
+            ['projectId' => $project->id, 'projectName' => $project->name]);
 
         return view('accentureViews.projectBenchmarkExperience', [
             'project' => $project,
@@ -1740,6 +1934,9 @@ class ProjectController extends Controller
 
     public function benchmarkInnovation(Project $project)
     {
+        SecurityLog::createLog('Accenture accessed innovation benchmark', 'Project',
+            ['projectId' => $project->id, 'projectName' => $project->name]);
+
         return view('accentureViews.projectBenchmarkInnovation', [
             'project' => $project,
             'applications' => $project
@@ -1755,7 +1952,8 @@ class ProjectController extends Controller
 
     public function benchmarkImplementation(Project $project)
     {
-        SecurityLog::createLog('User accessed project benchmarks of project with ID '.$project->id.' and name '.$project->name);
+        SecurityLog::createLog('Accenture accessed implementation benchmark', 'Project',
+            ['projectId' => $project->id, 'projectName' => $project->name]);
 
         return view('accentureViews.projectBenchmarkImplementation', [
             'project' => $project,
@@ -1773,6 +1971,9 @@ class ProjectController extends Controller
         if (!empty($vendor)) {
             $vendorName = User::find($vendor)->name;
         }
+
+        SecurityLog::createLog('Accenture accessed vendor comparison benchmark', 'Project',
+            ['projectId' => $project->id, 'projectName' => $project->name]);
 
         return view('accentureViews.projectBenchmarkVendorComparison', [
             'project' => $project,
@@ -1962,7 +2163,8 @@ class ProjectController extends Controller
             abort(404);
         }
 
-        SecurityLog::createLog('User viewed vendor proposal for vendor with ID '.$vendor->id.' in project with ID '.$project->id.' and name '.$project->name);
+        SecurityLog::createLog('Accenture accessed vendor proposal view', 'Project',
+            ['projectId' => $project->id, 'vendorId' => $vendor->id]);
 
         return view('accentureViews.viewVendorProposal',
             $this->arrayOfSelectionCriteriaResponsesQuestionsByPractice($project, $vendor, $application));
@@ -1973,11 +2175,13 @@ class ProjectController extends Controller
         $application = VendorApplication::where('vendor_id', $vendor->id)
             ->where('project_id', $project->id)
             ->first();
+
         if ($application == null) {
             abort(404);
         }
 
-        SecurityLog::createLog('User viewed vendor proposal for vendor with ID '.$vendor->id.' in project with ID '.$project->id.' and name '.$project->name);
+        SecurityLog::createLog('Accenture accessed vendor proposal edit', 'Project',
+            ['projectId' => $project->id, 'vendorId' => $vendor->id]);
 
         return view('accentureViews.editVendorProposal',
             $this->arrayOfSelectionCriteriaResponsesQuestionsByPractice($project, $vendor, $application));
@@ -1988,11 +2192,13 @@ class ProjectController extends Controller
         $application = VendorApplication::where('vendor_id', $vendor->id)
             ->where('project_id', $project->id)
             ->first();
+
         if ($application == null) {
             abort(404);
         }
 
-        SecurityLog::createLog('User viewed vendor proposal for vendor with ID '.$vendor->id.' in project with ID '.$project->id.' and name '.$project->name);
+        SecurityLog::createLog('Accenture accessed vendor proposal evaluation', 'Project',
+            ['projectId' => $project->id, 'vendorId' => $vendor->id]);
 
         return view('accentureViews.viewVendorProposalEvaluation',
             $this->arrayOfSelectionCriteriaResponsesQuestionsByPractice($project, $vendor, $application));
@@ -2037,13 +2243,15 @@ class ProjectController extends Controller
         $application = VendorApplication::where('vendor_id', $vendor->id)
             ->where('project_id', $project->id)
             ->first();
+
         if ($application == null) {
             abort(404);
         }
 
         $export = new VendorResponsesExport($application);
 
-        SecurityLog::createLog('User downloaded vendor proposal for vendor with ID '.$vendor->id.' in project with ID '.$project->id.' and name '.$project->name);
+        SecurityLog::createLog('Accenture accessed download vendor proposal', 'Project',
+            ['projectId' => $project->id, 'vendorId' => $vendor->id]);
 
         return Excel::download($export, 'responses.xlsx');
     }
@@ -2061,7 +2269,8 @@ class ProjectController extends Controller
         $export = new AnalyticsExport($project, json_decode($request->vendors) ?? $allVendors,
             $request->includeUseCases ?? false);
 
-        SecurityLog::createLog('User exported analytics for project with ID '.$project->id.' and name '.$project->name);
+        SecurityLog::createLog('Accenture accessed export analytics', 'Project',
+            ['projectId' => $project->id, 'projectName' => $project->name]);
 
         return Excel::download($export, 'responses.xlsx');
     }
@@ -2081,6 +2290,9 @@ class ProjectController extends Controller
         $project->step3SubmittedAccenture = false;
         $project->save();
 
+        SecurityLog::createLog('Accenture rollback to step 1', 'Project',
+            ['projectId' => $project->id, 'projectName' => $project->name]);
+
         return \response()->json([
             'status' => 200,
             'message' => 'Success',
@@ -2095,12 +2307,16 @@ class ProjectController extends Controller
         ]);
 
         $project = Project::find($request->project_id);
+
         if ($project == null) {
             abort(404);
         }
 
         $project->step3SubmittedClient = false;
         $project->save();
+
+        SecurityLog::createLog('Accenture rollback to step 2', 'Project',
+            ['projectId' => $project->id, 'projectName' => $project->name]);
 
         return \response()->json([
             'status' => 200,
@@ -2116,12 +2332,16 @@ class ProjectController extends Controller
         ]);
 
         $project = Project::find($request->project_id);
+
         if ($project == null) {
             abort(404);
         }
 
         $project->step4SubmittedAccenture = false;
         $project->save();
+
+        SecurityLog::createLog('Accenture rollback to step 3', 'Project',
+            ['projectId' => $project->id, 'projectName' => $project->name]);
 
         return \response()->json([
             'status' => 200,
@@ -2137,12 +2357,16 @@ class ProjectController extends Controller
         ]);
 
         $project = Project::find($request->project_id);
+
         if ($project == null) {
             abort(404);
         }
 
         $project->step4SubmittedClient = false;
         $project->save();
+
+        SecurityLog::createLog('Accenture rollback to step 4', 'Project',
+            ['projectId' => $project->id, 'projectName' => $project->name]);
 
         return \response()->json([
             'status' => 200,
@@ -2158,8 +2382,9 @@ class ProjectController extends Controller
 
         $application->doRollback()->save();
 
+        SecurityLog::createLog('Accenture rollback vendor apply', 'Project',
+            ['projectId' => $project->id, 'vendorId' => $vendor->id]);
+
         return redirect()->route('accenture.projectHome', ['project' => $project]);
     }
-
-    /* ************************************************************************************************************* */
 }
