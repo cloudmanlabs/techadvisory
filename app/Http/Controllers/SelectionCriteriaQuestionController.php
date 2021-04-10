@@ -3,9 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\SelectionCriteriaQuestionResponse;
-use App\VendorApplication;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 
 class SelectionCriteriaQuestionController extends Controller
@@ -42,7 +40,7 @@ class SelectionCriteriaQuestionController extends Controller
 
         return response()->json([
             'status' => 200,
-            'message' => 'nma'
+            'message' => 'nma',
         ]);
     }
 
@@ -65,7 +63,7 @@ class SelectionCriteriaQuestionController extends Controller
 
         return response()->json([
             'status' => 200,
-            'message' => 'nma'
+            'message' => 'nma',
         ]);
     }
 
@@ -86,7 +84,7 @@ class SelectionCriteriaQuestionController extends Controller
 
         return response()->json([
             'status' => 200,
-            'message' => 'nma'
+            'message' => 'nma',
         ]);
     }
 }

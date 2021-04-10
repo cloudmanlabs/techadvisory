@@ -23,7 +23,7 @@ class FitgapTest extends TestCase
                 'Level 2' => 'hye',
                 'Level 3' => 'hye',
                 'Requirement' => 'hye',
-            ]
+            ],
         ];
 
         $project->save();
@@ -42,7 +42,7 @@ class FitgapTest extends TestCase
             [
                 'Client' => 'Must',
                 'Business Opportunity' => 'Yes',
-            ]
+            ],
         ];
 
         $project->save();
@@ -56,15 +56,15 @@ class FitgapTest extends TestCase
     public function testCanSetVendorColumnsInVendorApplication()
     {
         $project = factory(Project::class)->create([
-            'fitgap5Columns' =>  [
+            'fitgap5Columns' => [
                 [
                     'Requirement Type' => 'yeeeeee',
                     'Level 1' => 'hye',
                     'Level 2' => 'hye',
                     'Level 3' => 'hye',
                     'Requirement' => 'hye',
-                ]
-            ]
+                ],
+            ],
         ]);
 
         /** @var User $vendor */
@@ -81,7 +81,7 @@ class FitgapTest extends TestCase
             [
                 'Vendor Response' => 'Project fully supports the functionality',
                 'Comments' => 'Heeloooo',
-            ]
+            ],
         ];
         $application->save();
 
@@ -89,12 +89,9 @@ class FitgapTest extends TestCase
         $this->assertNotNull($application->fitgapVendorColumns);
         $this->assertIsArray($application->fitgapVendorColumns);
 
-        $this->assertEquals('Project fully supports the functionality', $application->fitgapVendorColumns[0]['Vendor Response']);
+        $this->assertEquals('Project fully supports the functionality',
+            $application->fitgapVendorColumns[0]['Vendor Response']);
     }
-
-
-
-
 
 
     public function testCanGetClientFitgapJson()
@@ -107,14 +104,14 @@ class FitgapTest extends TestCase
                     'Level 2' => 'hye',
                     'Level 3' => 'hye',
                     'Requirement' => 'hye',
-                ]
+                ],
             ],
             'fitgapClientColumns' => [
                 [
                     'Client' => 'Must',
                     'Business Opportunity' => 'Yes',
-                ]
-            ]
+                ],
+            ],
         ]);
 
         /** @var User $accenture */
@@ -133,7 +130,7 @@ class FitgapTest extends TestCase
                     'Requirement' => 'hye',
                     'Client' => 'Must',
                     'Business Opportunity' => 'Yes',
-                ]
+                ],
             ]);
     }
 
@@ -147,8 +144,8 @@ class FitgapTest extends TestCase
                     'Level 2' => 'hye',
                     'Level 3' => 'hye',
                     'Requirement' => 'hye',
-                ]
-            ]
+                ],
+            ],
         ]);
 
         /** @var User $vendor */
@@ -159,7 +156,7 @@ class FitgapTest extends TestCase
             [
                 'Vendor Response' => 'responseee',
                 'Comments' => 'this is a comnment',
-            ]
+            ],
         ];
         $application->save();
 
@@ -177,7 +174,7 @@ class FitgapTest extends TestCase
                     'Requirement' => 'hye',
                     'Vendor Response' => 'responseee',
                     'Comments' => 'this is a comnment',
-                ]
+                ],
             ]);
     }
 
@@ -191,8 +188,8 @@ class FitgapTest extends TestCase
                     'Level 2' => 'hye',
                     'Level 3' => 'hye',
                     'Requirement' => 'hye',
-                ]
-            ]
+                ],
+            ],
         ]);
 
         /** @var User $accenture */
@@ -215,169 +212,10 @@ class FitgapTest extends TestCase
                     'Client' => '',
                     'Business Opportunity' => '',
                     'Vendor Response' => '',
-                    'Comments' => ''
-                ]
-            ]);
-    }
-
-
-
-
-
-
-    public function testCanChangeClientFitgapInProject()
-    {
-        $project = factory(Project::class)->create([
-            'fitgap5Columns' => [
-                [
-                    'Requirement Type' => 'yeeeeee',
-                    'Level 1' => 'hye',
-                    'Level 2' => 'hye',
-                    'Level 3' => 'hye',
-                    'Requirement' => 'hye',
+                    'Comments' => '',
                 ],
-                [
-                    'Requirement Type' => 'asdf',
-                    'Level 1' => 'hye',
-                    'Level 2' => 'hye',
-                    'Level 3' => 'hye',
-                    'Requirement' => 'hye',
-                ]
-            ],
-            'fitgapClientColumns' => [
-                [
-                    'Client' => '',
-                    'Business Opportunity' => '',
-                ],
-                [
-                    'Client' => '',
-                    'Business Opportunity' => '',
-                ]
-            ]
-        ]);
-
-        /** @var User $accenture */
-        $accenture = factory(User::class)->states(['accenture'])->create();
-
-
-        $response = $this->actingAs($accenture)
-            ->post(route('fitgapClientJsonUpload', ['project' => $project]), [
-                'data' => [
-                    [
-                        'Requirement Type' => 'yeeeeee',
-                        'Level 1' => 'hye',
-                        'Level 2' => 'hye',
-                        'Level 3' => 'hye',
-                        'Requirement' => 'hye',
-                        'Client' => 'Must test string',
-                        'Business Opportunity' => 'Yes yes yes',
-                    ],
-                    [
-                        'Requirement Type' => 'asdf',
-                        'Level 1' => 'hye',
-                        'Level 2' => 'hye',
-                        'Level 3' => 'hye',
-                        'Requirement' => 'hye',
-                        'Client' => 'Must test string',
-                        'Business Opportunity' => 'no no no',
-                    ]
-                ]
             ]);
-
-        $response->assertOk();
-
-        $project->refresh();
-        $this->assertEquals('Must test string', $project->fitgapClientColumns[0]['Client']);
-        $this->assertEquals('Yes yes yes', $project->fitgapClientColumns[0]['Business Opportunity']);
-        $this->assertEquals('no no no', $project->fitgapClientColumns[1]['Business Opportunity']);
-
     }
-
-    public function testCanChangeVendorFitgapInVendorApplication()
-    {
-        $project = factory(Project::class)->create([
-            'fitgap5Columns' => [
-                [
-                    'Requirement Type' => 'yeeeeee',
-                    'Level 1' => 'hye',
-                    'Level 2' => 'hye',
-                    'Level 3' => 'hye',
-                    'Requirement' => 'hye',
-                ]
-            ]
-        ]);
-        /** @var User $vendor */
-        $vendor = factory(User::class)->states(['vendor', 'finishedSetup'])->create();
-        $application = $vendor->applyToProject($project);
-
-        $response = $this->actingAs($vendor)
-            ->post(route('fitgapVendorJsonUpload', ['vendor' => $vendor, 'project' => $project]), [
-                'data' => [
-                    [
-                        'Requirement Type' => 'yeeeeee',
-                        'Level 1' => 'hye',
-                        'Level 2' => 'hye',
-                        'Level 3' => 'hye',
-                        'Requirement' => 'hye',
-                        'Vendor Response' => 'Hello',
-                        'Comments' => 'Bye',
-                    ]
-                ]
-            ]);
-
-        $response->assertOk();
-
-        $application->refresh();
-        $this->assertEquals('Hello', $application->fitgapVendorColumns[0]['Vendor Response']);
-        $this->assertEquals('Bye', $application->fitgapVendorColumns[0]['Comments']);
-    }
-
-    // Fitgap autocalculates the score now
-    public function testCanChangeFitgapEvaluationInVendorApplication()
-    {
-        // $project = factory(Project::class)->create([
-        //     'fitgap5Columns' => [
-        //         [
-        //             'Requirement Type' => 'yeeeeee',
-        //             'Level 1' => 'hye',
-        //             'Level 2' => 'hye',
-        //             'Level 3' => 'hye',
-        //             'Requirement' => 'hye',
-        //         ]
-        //     ]
-        // ]);
-        // /** @var User $vendor */
-        // $vendor = factory(User::class)->states(['vendor', 'finishedSetup'])->create();
-        // $application = $vendor->applyToProject($project);
-
-        // $response = $this->actingAs($vendor)
-        //     ->post(route('fitgapEvaluationJsonUpload', ['vendor' => $vendor, 'project' => $project]), [
-        //         'data' => [
-        //             [
-        //                 'Requirement Type' => 'yeeeeee',
-        //                 'Level 1' => 'hye',
-        //                 'Level 2' => 'hye',
-        //                 'Level 3' => 'hye',
-        //                 'Requirement' => 'hye',
-        //                 'Vendor Response' => 'Hello',
-        //                 'Comments' => 'Bye',
-        //                 'Score' => 31
-        //             ]
-        //         ]
-        //     ]);
-
-        // $response->assertOk();
-
-        // $application->refresh();
-        // $this->assertEquals(31, $application->fitgapVendorScores[0]);
-    }
-
-
-
-
-
-
-
 
     public function testCanGetClientFitgapIframe()
     {
@@ -437,9 +275,6 @@ class FitgapTest extends TestCase
     }
 
 
-
-
-
     public function testAddingMoreRowsToThe5ColsDoesntBreakTheClientGets()
     {
         $project = factory(Project::class)->create([
@@ -457,7 +292,7 @@ class FitgapTest extends TestCase
                     'Level 2' => 'xzcv',
                     'Level 3' => 'qwre',
                     'Requirement' => 'okk',
-                ]
+                ],
             ],
             'fitgapClientColumns' => [
                 [
@@ -467,8 +302,8 @@ class FitgapTest extends TestCase
                 [
                     'Client' => 'Must',
                     'Business Opportunity' => 'No',
-                ]
-            ]
+                ],
+            ],
         ]);
 
 
@@ -493,7 +328,7 @@ class FitgapTest extends TestCase
                 'Level 2' => 'pljknm',
                 'Level 3' => 'qwre',
                 'Requirement' => 'bvgt',
-            ]
+            ],
         ];
         $project->save();
 
@@ -532,7 +367,7 @@ class FitgapTest extends TestCase
                     'Requirement' => 'bvgt',
                     'Client' => '',
                     'Business Opportunity' => '',
-                ]
+                ],
             ]);
     }
 }

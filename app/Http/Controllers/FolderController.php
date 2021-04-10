@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use Guimcaballero\LaravelFolders\Models\Folder;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 
 class FolderController extends Controller
@@ -13,12 +12,12 @@ class FolderController extends Controller
     {
         $request->validate([
             'folder_id' => 'required|numeric',
-            'files' => 'required'
+            'files' => 'required',
         ]);
 
         /** @var Folder $folder */
         $folder = Folder::find($request->folder_id);
-        if($folder == null){
+        if ($folder == null) {
             abort(404);
         }
 
@@ -31,7 +30,7 @@ class FolderController extends Controller
     {
         $request->validate([
             'folder_id' => 'required|numeric',
-            'file' => 'required'
+            'file' => 'required',
         ]);
 
         /** @var Folder $folder */
@@ -50,15 +49,17 @@ class FolderController extends Controller
         $files = $folder->getListOfFiles();
 
         // Delete and create folder to remove all existing files
-        Storage::disk('public')->deleteDirectory('/previewImages/' . $folder->name);
-        Storage::disk('public')->makeDirectory('/previewImages/' . $folder->name);
+        Storage::disk('public')->deleteDirectory('/previewImages/'.$folder->name);
+        Storage::disk('public')->makeDirectory('/previewImages/'.$folder->name);
 
         foreach ($files as $key => $file) {
             // Check if file is pdf
             $fileName = escapeshellarg(basename($file));
             $extension = pathinfo($file, PATHINFO_EXTENSION);
 
-            if ($extension != 'pdf') continue;
+            if ($extension != 'pdf') {
+                continue;
+            }
 
             $escapedFile = escapeshellarg($file);
             $filepath = base_path("storage/app/public/$escapedFile");
@@ -91,7 +92,7 @@ class FolderController extends Controller
     {
         $request->validate([
             'folder_id' => 'required|numeric',
-            'file' => 'required'
+            'file' => 'required',
         ]);
 
         /** @var Folder $folder */

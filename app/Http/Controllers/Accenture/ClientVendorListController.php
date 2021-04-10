@@ -24,7 +24,7 @@ class ClientVendorListController extends Controller
         $client = new User([
             'userType' => 'client',
             'name' => 'New client',
-            'email' => Str::random() . '@example.com',
+            'email' => Str::random().'@example.com',
             'password' => Hash::make('password') // Doesn't matter because login with this email is turned off
         ]);
         $client->save();
@@ -36,13 +36,13 @@ class ClientVendorListController extends Controller
     public function clientList()
     {
         return view('accentureViews.clientList', [
-            'clients' => User::clientUsers()->get()
+            'clients' => User::clientUsers()->get(),
         ]);
     }
 
     public function clientProfileView(User $client)
     {
-        SecurityLog::createLog('User viewed Client with ID ' . $client->id);
+        SecurityLog::createLog('User viewed Client with ID '.$client->id);
 
         return view('accentureViews.clientProfileView', [
             'client' => $client,
@@ -52,13 +52,13 @@ class ClientVendorListController extends Controller
 
     public function clientProfileEdit(Request $request, User $client)
     {
-        SecurityLog::createLog('User viewed Client with ID ' . $client->id);
+        SecurityLog::createLog('User viewed Client with ID '.$client->id);
 
         return view('accentureViews.clientProfileEdit', [
             'client' => $client,
             'questions' => $client->clientProfileQuestions,
 
-            'firstTime' => $request->firstTime ?? false
+            'firstTime' => $request->firstTime ?? false,
         ]);
     }
 
@@ -83,7 +83,7 @@ class ClientVendorListController extends Controller
 
         return response()->json([
             'status' => 200,
-            'message' => 'nma'
+            'message' => 'nma',
         ]);
     }
 
@@ -95,7 +95,7 @@ class ClientVendorListController extends Controller
         ]);
 
         $client = User::find($request->client_id);
-        if ($client == null || ! $client->isClient()) {
+        if ($client == null || !$client->isClient()) {
             abort(404);
         }
 
@@ -104,7 +104,7 @@ class ClientVendorListController extends Controller
 
         return response()->json([
             'status' => 200,
-            'message' => 'nma'
+            'message' => 'nma',
         ]);
     }
 
@@ -116,7 +116,7 @@ class ClientVendorListController extends Controller
         ]);
 
         $client = User::find($request->client_id);
-        if ($client == null || ! $client->isClient()) {
+        if ($client == null || !$client->isClient()) {
             abort(404);
         }
 
@@ -125,7 +125,7 @@ class ClientVendorListController extends Controller
 
         return response()->json([
             'status' => 200,
-            'message' => 'nma'
+            'message' => 'nma',
         ]);
     }
 
@@ -138,22 +138,21 @@ class ClientVendorListController extends Controller
         ]);
 
         $client = User::find($request->client_id);
-        if ($client == null || ! $client->isClient()) {
+        if ($client == null || !$client->isClient()) {
             abort(404);
         }
 
         $credential = new UserCredential([
             'email' => $request->email,
-            'name' => $request->name
+            'name' => $request->name,
         ]);
         $client->credentials()->save($credential);
 
         return response()->json([
             'status' => 200,
-            'message' => 'nma'
+            'message' => 'nma',
         ]);
     }
-
 
 
     public function createVendorPost(Request $request)
@@ -161,8 +160,8 @@ class ClientVendorListController extends Controller
         $vendor = new User([
             'userType' => 'vendor',
             'name' => 'New client',
-            'email' => Str::random() . '@example.com',
-            'password' => Hash::make('password')
+            'email' => Str::random().'@example.com',
+            'password' => Hash::make('password'),
         ]);
         $vendor->save();
 
@@ -175,7 +174,7 @@ class ClientVendorListController extends Controller
         return view('accentureViews.vendorList', [
             'vendors' => User::vendorUsers()->where('hasFinishedSetup', true)->get(),
             'vendorsPendingValidation' => User::vendorUsers()->where('hasFinishedSetup', false)->get(),
-            'vendorSolutions' => VendorSolution::all()
+            'vendorSolutions' => VendorSolution::all(),
         ]);
     }
 
@@ -191,7 +190,7 @@ class ClientVendorListController extends Controller
             return $question->originalQuestion->page == 'legal';
         });
 
-        SecurityLog::createLog('User viewed Vendor with ID ' . $vendor->id);
+        SecurityLog::createLog('User viewed Vendor with ID '.$vendor->id);
 
         return view('accentureViews.vendorProfileView', [
             'vendor' => $vendor,
@@ -213,7 +212,7 @@ class ClientVendorListController extends Controller
             return $question->originalQuestion->page == 'legal';
         });
 
-        SecurityLog::createLog('User viewed Vendor with ID ' . $vendor->id);
+        SecurityLog::createLog('User viewed Vendor with ID '.$vendor->id);
 
         return view('accentureViews.vendorProfileEdit', [
             'vendor' => $vendor,
@@ -221,7 +220,7 @@ class ClientVendorListController extends Controller
             'economicQuestions' => $economicQuestions,
             'legalQuestions' => $legalQuestions,
 
-            'firstTime' => $request->firstTime ?? false
+            'firstTime' => $request->firstTime ?? false,
         ]);
     }
 
@@ -246,7 +245,7 @@ class ClientVendorListController extends Controller
 
         return response()->json([
             'status' => 200,
-            'message' => 'nma'
+            'message' => 'nma',
         ]);
     }
 
@@ -267,9 +266,10 @@ class ClientVendorListController extends Controller
 
         return response()->json([
             'status' => 200,
-            'message' => 'nma'
+            'message' => 'nma',
         ]);
     }
+
     public function changeVendorEmail(Request $request)
     {
         $request->validate([
@@ -287,7 +287,7 @@ class ClientVendorListController extends Controller
 
         return response()->json([
             'status' => 200,
-            'message' => 'nma'
+            'message' => 'nma',
         ]);
     }
 
@@ -306,13 +306,13 @@ class ClientVendorListController extends Controller
 
         $credential = new UserCredential([
             'email' => $request->email,
-            'name' => $request->name
+            'name' => $request->name,
         ]);
         $vendor->credentials()->save($credential);
 
         return response()->json([
             'status' => 200,
-            'message' => 'nma'
+            'message' => 'nma',
         ]);
     }
 
@@ -363,26 +363,23 @@ class ClientVendorListController extends Controller
     }
 
 
-
-
-
     public function vendorSolution(VendorSolution $solution)
     {
-        SecurityLog::createLog('User viewed Solution with ID ' . $solution->id);
+        SecurityLog::createLog('User viewed Solution with ID '.$solution->id);
 
         return view('accentureViews.vendorSolution', [
             'solution' => $solution,
-            'questions' => $solution->questions
+            'questions' => $solution->questions,
         ]);
     }
 
     public function vendorSolutionEdit(VendorSolution $solution)
     {
-        SecurityLog::createLog('User viewed Solution with ID ' . $solution->id);
+        SecurityLog::createLog('User viewed Solution with ID '.$solution->id);
 
         return view('accentureViews.vendorSolutionEdit', [
             'solution' => $solution,
-            'questions' => $solution->questions
+            'questions' => $solution->questions,
         ]);
     }
 
@@ -391,7 +388,7 @@ class ClientVendorListController extends Controller
     {
         $request->validate([
             'solution_id' => 'required|numeric',
-            'newName' => 'required|string'
+            'newName' => 'required|string',
         ]);
 
         $solution = VendorSolution::find($request->solution_id);
@@ -404,7 +401,7 @@ class ClientVendorListController extends Controller
 
         return \response()->json([
             'status' => 200,
-            'message' => 'Success'
+            'message' => 'Success',
         ]);
     }
 
@@ -412,7 +409,7 @@ class ClientVendorListController extends Controller
     {
         $request->validate([
             'solution_id' => 'required|numeric',
-            'practice_id' => 'required|numeric'
+            'practice_id' => 'required|numeric',
         ]);
 
         $solution = VendorSolution::find($request->solution_id);
@@ -430,7 +427,7 @@ class ClientVendorListController extends Controller
 
         return \response()->json([
             'status' => 200,
-            'message' => 'Success'
+            'message' => 'Success',
         ]);
     }
 
@@ -455,14 +452,9 @@ class ClientVendorListController extends Controller
 
         return response()->json([
             'status' => 200,
-            'message' => 'nma'
+            'message' => 'nma',
         ]);
     }
-
-
-
-
-
 
 
     public function exportCredentials(User $user)

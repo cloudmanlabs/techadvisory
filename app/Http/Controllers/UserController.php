@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\User;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 
 class UserController extends Controller
@@ -26,13 +25,13 @@ class UserController extends Controller
     {
         $request->validate([
             'image' => 'required|file',
-            'user_id' => 'required|numeric'
+            'user_id' => 'required|numeric',
         ]);
 
         $path = Storage::disk('public')->putFile('logos', $request->image);
 
         $user = User::find($request->user_id);
-        if($user == null){
+        if ($user == null) {
             abort(404);
         }
 

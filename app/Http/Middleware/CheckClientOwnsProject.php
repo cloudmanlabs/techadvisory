@@ -20,13 +20,13 @@ class CheckClientOwnsProject
         if ($request->project && $request->project->client_id != auth()->user()->id) {
             abort(404);
         }
-        if($request->project_id){
+        if ($request->project_id) {
             $project = Project::find($request->project_id);
-            if($project == null){
+            if ($project == null) {
                 Log::debug('Project doesn\'t exist');
                 abort(404);
             }
-            if($project->client_id != auth()->user()->id) {
+            if ($project->client_id != auth()->user()->id) {
                 abort(404);
             }
         }

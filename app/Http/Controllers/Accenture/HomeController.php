@@ -2,19 +2,15 @@
 
 namespace App\Http\Controllers\Accenture;
 
-use App\Owner;
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Practice;
 use App\Project;
 use App\User;
-use Illuminate\Support\Facades\Log;
 
 class HomeController extends Controller
 {
     public function home()
     {
-
         if (empty(auth()->user()->organization())) {
             // No Organization filter
             $openProjects = Project::openProjects();

@@ -15,7 +15,7 @@ class CheckClient
      */
     public function handle($request, Closure $next)
     {
-        if ( ! $request->user()->isClient()) {
+        if (!$request->user()->isClient()) {
             return redirect()->route('welcome');
         }
 

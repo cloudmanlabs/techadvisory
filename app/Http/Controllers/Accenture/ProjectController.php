@@ -11,9 +11,6 @@ use App\Owner;
 use App\Practice;
 use App\Project;
 use App\SecurityLog;
-use App\SelectionCriteriaQuestion;
-use App\SelectionCriteriaQuestionResponse;
-use App\Subpractice;
 use App\UseCase;
 use App\UseCaseQuestion;
 use App\UseCaseQuestionResponse;
@@ -39,7 +36,8 @@ class ProjectController extends Controller
         $project = new Project();
         $project->save();
 
-        SecurityLog::createLog('User created project with ID ' . $project->id . ' and name ' . $project->name);
+        SecurityLog::createLog('User created project with ID '.$project->id.' and name '.$project->name);
+
         return redirect()->route('accenture.newProjectSetUp', ['project' => $project, 'firstTime' => true]);
     }
 
@@ -53,17 +51,23 @@ class ProjectController extends Controller
 
         $experienceQuestions = $project->selectionCriteriaQuestionsOriginals()->where('page', 'experience');
 
-        $innovationDigitalEnablersQuestions = $project->selectionCriteriaQuestionsOriginals()->where('page', 'innovation_digitalEnablers');
-        $innovationAlliancesQuestions = $project->selectionCriteriaQuestionsOriginals()->where('page', 'innovation_alliances');
-        $innovationProductQuestions = $project->selectionCriteriaQuestionsOriginals()->where('page', 'innovation_product');
-        $innovationSustainabilityQuestions = $project->selectionCriteriaQuestionsOriginals()->where('page', 'innovation_sustainability');
+        $innovationDigitalEnablersQuestions = $project->selectionCriteriaQuestionsOriginals()->where('page',
+            'innovation_digitalEnablers');
+        $innovationAlliancesQuestions = $project->selectionCriteriaQuestionsOriginals()->where('page',
+            'innovation_alliances');
+        $innovationProductQuestions = $project->selectionCriteriaQuestionsOriginals()->where('page',
+            'innovation_product');
+        $innovationSustainabilityQuestions = $project->selectionCriteriaQuestionsOriginals()->where('page',
+            'innovation_sustainability');
 
-        $implementationImplementationQuestions = $project->selectionCriteriaQuestionsOriginals()->where('page', 'implementation_implementation');
-        $implementationRunQuestions = $project->selectionCriteriaQuestionsOriginals()->where('page', 'implementation_run');
+        $implementationImplementationQuestions = $project->selectionCriteriaQuestionsOriginals()->where('page',
+            'implementation_implementation');
+        $implementationRunQuestions = $project->selectionCriteriaQuestionsOriginals()->where('page',
+            'implementation_run');
 
         $allOwners = Owner::get();
 
-        SecurityLog::createLog('User accessed project with ID ' . $project->id . ' and name ' . $project->name);
+        SecurityLog::createLog('User accessed project with ID '.$project->id.' and name '.$project->name);
 
         return view('accentureViews.newProjectSetUp', [
             'firstTime' => $request->firstTime ?? false,
@@ -92,13 +96,14 @@ class ProjectController extends Controller
         $project->useCasesPhase = 'setup';
         $project->save();
 
-        SecurityLog::createLog('User with ID '. $request->user()->id .' rolled back evaluation of use cases of project ' . $project->id . ' with name: ' . $project->name);
+        SecurityLog::createLog('Rollback evaluation', 'Use cases', ['projectId' => $project->id]);
+
         return redirect()->route('accenture.projectUseCasesSetUp', ['project' => $project]);
     }
 
     private function getQuestionsWithTypeFieldFilled($questions, $responses)
     {
-        foreach($questions as $questionKey => $questionValue) {
+        foreach ($questions as $questionKey => $questionValue) {
             if ($questionValue->type === 'file') {
                 foreach ($responses as $responseKey => $responseValue) {
                     if ($responseValue->use_case_questions_id === $questionValue->id) {
@@ -142,7 +147,8 @@ class ProjectController extends Controller
     {
         foreach ($userCredentials as $userCredential) {
             foreach ($selectedVendors as $selectedVendor) {
-                $vendorEvaluation = VendorUseCasesEvaluation::findByIdsAndType($useCaseId, $userCredential, $selectedVendor->id, $userType);
+                $vendorEvaluation = VendorUseCasesEvaluation::findByIdsAndType($useCaseId, $userCredential,
+                    $selectedVendor->id, $userType);
                 if ($vendorEvaluation == null) {
                     $vendorEvaluation = new VendorUseCasesEvaluation();
                     $vendorEvaluation->use_case_id = $useCaseId;
@@ -161,7 +167,7 @@ class ProjectController extends Controller
         $clients = $client->credentials()->get();
 
         $projectOwner = $project->owner_id;
-        $accentureUsers = User::accentureUsers()->get()->filter(function($user) use ($projectOwner) {
+        $accentureUsers = User::accentureUsers()->get()->filter(function ($user) use ($projectOwner) {
             return $user->owner_id == $projectOwner || $user->owner_id == 0 || $user->owner_id == null;
         });
 
@@ -172,8 +178,12 @@ class ProjectController extends Controller
 
         $projectPractice = $project->practice_id;
         $projectSubpractices = $project->subpractices->pluck('id')->toArray();
-        $useCaseTemplates = UseCaseTemplate::all()->filter(function($useCaseTemplate) use ($projectPractice, $projectSubpractices) {
-            return $useCaseTemplate->practice_id == $projectPractice && in_array($useCaseTemplate->subpractice_id, $projectSubpractices);
+        $useCaseTemplates = UseCaseTemplate::all()->filter(function ($useCaseTemplate) use (
+            $projectPractice,
+            $projectSubpractices
+        ) {
+            return $useCaseTemplate->practice_id == $projectPractice && in_array($useCaseTemplate->subpractice_id,
+                    $projectSubpractices);
         });
 
         $useCaseQuestions = UseCaseQuestion::all();
@@ -181,7 +191,7 @@ class ProjectController extends Controller
         $canEvaluateVendors = false;
 
         $selectedVendors = array();
-        SecurityLog::createLog('User accessed project Use Cases setup with ID ' . $project->id  . ' and name ' . $project->name);
+        SecurityLog::createLog('Accessed project use cases setup', 'Use cases', ['projectId' => $project->id]);
 
         $view = [
             'project' => $project,
@@ -194,7 +204,7 @@ class ProjectController extends Controller
 
             'useCaseTemplates' => $useCaseTemplates,
 
-            'user_id' => $accessingAccentureUserId
+            'user_id' => $accessingAccentureUserId,
         ];
 
         if ($request->input('createUseCase') || $useCases->count() === 0) {
@@ -213,36 +223,49 @@ class ProjectController extends Controller
 
             if ($project->useCasesPhase === 'evaluation') {
                 $selectedUsers = explode(',', urldecode($useCase->accentureUsers));
-                $canEvaluateVendors = (array_search($accessingAccentureUserId, $selectedUsers) !== false) && $request->user()->isAccenture();
+                $canEvaluateVendors = (array_search($accessingAccentureUserId,
+                            $selectedUsers) !== false) && $request->user()->isAccenture();
                 $view['canEvaluateVendors'] = $canEvaluateVendors;
                 $invitedVendors = explode(',', urldecode($project->use_case_invited_vendors));
                 $selectedVendors = $project->vendorsApplied()->whereIn('id', $invitedVendors)->get();
                 $view['selectedVendors'] = $selectedVendors;
-                $this->createVendorEvaluationsIfNeeded($useCase->accentureUsers ? array_map('intval', explode(',', urldecode($useCase->accentureUsers))) : [], $useCase->id, $selectedVendors, 'accenture');
-                $this->createVendorEvaluationsIfNeeded($useCase->clientUsers ? array_map('intval', explode(',', urldecode($useCase->clientUsers))) : [], $useCase->id, $selectedVendors, 'client');
+                $this->createVendorEvaluationsIfNeeded($useCase->accentureUsers ? array_map('intval',
+                    explode(',', urldecode($useCase->accentureUsers))) : [], $useCase->id, $selectedVendors,
+                    'accenture');
+                $this->createVendorEvaluationsIfNeeded($useCase->clientUsers ? array_map('intval',
+                    explode(',', urldecode($useCase->clientUsers))) : [], $useCase->id, $selectedVendors, 'client');
 
                 if ($canEvaluateVendors) {
-                    $view['evaluationsSubmitted'] = VendorUseCasesEvaluation::evaluationsSubmitted($accessingAccentureUserId, $useCase->id, $selectedVendors, 'accenture');
+                    $view['evaluationsSubmitted'] = VendorUseCasesEvaluation::evaluationsSubmitted($accessingAccentureUserId,
+                        $useCase->id, $selectedVendors, 'accenture');
                 }
 
-                $evaluationSubmittedClients = VendorUseCasesEvaluation::getUserCredentialsByUseCaseAndSubmittingState($useCase->id, 'client', true);
+                $evaluationSubmittedClients = VendorUseCasesEvaluation::getUserCredentialsByUseCaseAndSubmittingState($useCase->id,
+                    'client', true);
                 foreach ($evaluationSubmittedClients as $key => $evaluationSubmittedClient) {
-                    $evaluationSubmittedClients[$key] = UserCredential::where('id', '=', $evaluationSubmittedClient->user_credential)->first();
+                    $evaluationSubmittedClients[$key] = UserCredential::where('id', '=',
+                        $evaluationSubmittedClient->user_credential)->first();
                 }
-                $evaluationNonSubmittedClients = VendorUseCasesEvaluation::getUserCredentialsByUseCaseAndSubmittingState($useCase->id, 'client', false);
+                $evaluationNonSubmittedClients = VendorUseCasesEvaluation::getUserCredentialsByUseCaseAndSubmittingState($useCase->id,
+                    'client', false);
                 foreach ($evaluationNonSubmittedClients as $key => $evaluationNonSubmittedClient) {
-                    $evaluationNonSubmittedClients[$key] = UserCredential::where('id', '=', $evaluationNonSubmittedClient->user_credential)->first();
+                    $evaluationNonSubmittedClients[$key] = UserCredential::where('id', '=',
+                        $evaluationNonSubmittedClient->user_credential)->first();
                 }
                 $view['evaluationSubmittedClients'] = $evaluationSubmittedClients;
                 $view['evaluationNonSubmittedClients'] = $evaluationNonSubmittedClients;
 
-                $evaluationSubmittedUsers = VendorUseCasesEvaluation::getUserCredentialsByUseCaseAndSubmittingState($useCase->id, 'accenture', true);
+                $evaluationSubmittedUsers = VendorUseCasesEvaluation::getUserCredentialsByUseCaseAndSubmittingState($useCase->id,
+                    'accenture', true);
                 foreach ($evaluationSubmittedUsers as $key => $evaluationSubmittedUser) {
-                    $evaluationSubmittedUsers[$key] = User::where('id', '=', $evaluationSubmittedUser->user_credential)->first();
+                    $evaluationSubmittedUsers[$key] = User::where('id', '=',
+                        $evaluationSubmittedUser->user_credential)->first();
                 }
-                $evaluationNonSubmittedUsers = VendorUseCasesEvaluation::getUserCredentialsByUseCaseAndSubmittingState($useCase->id, 'accenture', false);
+                $evaluationNonSubmittedUsers = VendorUseCasesEvaluation::getUserCredentialsByUseCaseAndSubmittingState($useCase->id,
+                    'accenture', false);
                 foreach ($evaluationNonSubmittedUsers as $key => $evaluationNonSubmittedUser) {
-                    $evaluationNonSubmittedUsers[$key] = User::where('id', '=', $evaluationNonSubmittedUser->user_credential)->first();
+                    $evaluationNonSubmittedUsers[$key] = User::where('id', '=',
+                        $evaluationNonSubmittedUser->user_credential)->first();
                 }
 
                 $view['evaluationSubmittedUsers'] = $evaluationSubmittedUsers;
@@ -278,7 +301,7 @@ class ProjectController extends Controller
             'usability' => 'required|numeric',
             'performance' => 'required|numeric',
             'lookFeel' => 'required|numeric',
-            'others' => 'required|numeric'
+            'others' => 'required|numeric',
         ]);
 
         $project = Project::find($request->project_id);
@@ -296,7 +319,7 @@ class ProjectController extends Controller
 
         return \response()->json([
             'status' => 200,
-            'message' => 'Success'
+            'message' => 'Success',
         ]);
     }
 
@@ -304,7 +327,7 @@ class ProjectController extends Controller
     {
         $request->validate([
             'useCaseId' => 'required|exists:use_case,id|numeric',
-            'scoringCriteria' => 'required|numeric'
+            'scoringCriteria' => 'required|numeric',
         ]);
 
         $useCase = UseCase::find($request->useCaseId);
@@ -315,9 +338,11 @@ class ProjectController extends Controller
         $useCase->scoring_criteria = (float) $request->scoringCriteria;
         $useCase->save();
 
+        SecurityLog::createLog('Saved use cases scoring criteria', 'Use cases', ['useCaseId' => $request->useCaseId]);
+
         return \response()->json([
             'status' => 200,
-            'message' => 'Success'
+            'message' => 'Success',
         ]);
     }
 
@@ -325,7 +350,7 @@ class ProjectController extends Controller
     {
         $request->validate([
             'useCaseId' => 'required|exists:use_case,id|numeric',
-            'userCredential' => 'required|exists:users,id|numeric'
+            'userCredential' => 'required|exists:users,id|numeric',
         ]);
 
         $evaluations = VendorUseCasesEvaluation::where('use_case_id', '=', $request->useCaseId)
@@ -336,20 +361,23 @@ class ProjectController extends Controller
             abort(404);
         }
 
-        foreach($evaluations as $evaluation) {
+        foreach ($evaluations as $evaluation) {
             $evaluation->submitted = 'no';
             $evaluation->save();
         }
 
+        SecurityLog::createLog('Rollback submitted use case', 'Use cases', ['useCaseId' => $request->useCaseId]);
+
         return \response()->json([
             'status' => 200,
-            'message' => 'Success'
+            'message' => 'Success',
         ]);
     }
 
     public static function calculateVendorProjectsAnalysisCacheByProjectAndSelectedUseCases($project, $selectedUseCases)
     {
-        $groupedCachedEvaluations = VendorsUseCasesAnalysis::getGroupedByProjectAndVendor($project->id, $selectedUseCases);
+        $groupedCachedEvaluations = VendorsUseCasesAnalysis::getGroupedByProjectAndVendor($project->id,
+            $selectedUseCases);
         $cacheByVendor = new stdClass();
         foreach ($groupedCachedEvaluations as $vendor => $cachedEvaluations) {
             $cache = new stdClass();
@@ -378,7 +406,6 @@ class ProjectController extends Controller
                 + $cache->others;
 
             $cacheByVendor->{$vendor} = $cache;
-
         }
 
         return $cacheByVendor;
@@ -388,7 +415,7 @@ class ProjectController extends Controller
     public function cacheProjectVendorEvaluation(Request $request)
     {
         $request->validate([
-            'projectId' => 'required|exists:projects,id|numeric'
+            'projectId' => 'required|exists:projects,id|numeric',
         ]);
 
         $project = Project::find($request->projectId);
@@ -415,11 +442,16 @@ class ProjectController extends Controller
                 $others += ($cachedEvaluation->others * ($useCase->scoring_criteria / 100)/* * ($project->use_case_others / 100)*/);
             }
 
-            $cache->solution_fit = $solution_fit/* / count($cachedEvaluations)*/;
-            $cache->usability = $usability/* / count($cachedEvaluations)*/;
-            $cache->performance = $performance/* / count($cachedEvaluations)*/;
-            $cache->look_feel = $look_feel/* / count($cachedEvaluations)*/;
-            $cache->others = $others/* / count($cachedEvaluations)*/;
+            $cache->solution_fit = $solution_fit/* / count($cachedEvaluations)*/
+            ;
+            $cache->usability = $usability/* / count($cachedEvaluations)*/
+            ;
+            $cache->performance = $performance/* / count($cachedEvaluations)*/
+            ;
+            $cache->look_feel = $look_feel/* / count($cachedEvaluations)*/
+            ;
+            $cache->others = $others/* / count($cachedEvaluations)*/
+            ;
 
             $cache->total = $cache->solution_fit
                 + $cache->usability
@@ -429,16 +461,17 @@ class ProjectController extends Controller
 
             $cache->save();
         }
-
     }
 
     private function cacheUseCaseVendorEvaluation($justSavedEvaluation)
     {
         $useCase = UseCase::find($justSavedEvaluation->use_case_id);
         $project = Project::find($useCase->project_id);
-        $evaluations = VendorUseCasesEvaluation::getByVendorAndUseCase($justSavedEvaluation->vendor_id, $justSavedEvaluation->use_case_id);
+        $evaluations = VendorUseCasesEvaluation::getByVendorAndUseCase($justSavedEvaluation->vendor_id,
+            $justSavedEvaluation->use_case_id);
 
-        $cache = VendorsUseCasesAnalysis::getByVendorUseCaseAndProject($justSavedEvaluation->vendor_id, $justSavedEvaluation->use_case_id, $useCase->project_id);
+        $cache = VendorsUseCasesAnalysis::getByVendorUseCaseAndProject($justSavedEvaluation->vendor_id,
+            $justSavedEvaluation->use_case_id, $useCase->project_id);
         if ($cache == null) {
             $cache = new VendorsUseCasesAnalysis();
             $cache->vendor_id = $justSavedEvaluation->vendor_id;
@@ -468,16 +501,16 @@ class ProjectController extends Controller
             + $cache->usability
             + $cache->performance
             + $cache->look_feel
-            + $cache->others)/* * ($useCase->scoring_criteria / 100)*/;
+            + $cache->others)/* * ($useCase->scoring_criteria / 100)*/
+        ;
 
         $cache->save();
-
     }
 
     public function submitUseCaseVendorEvaluation(Request $request)
     {
         $request->validate([
-            'evaluationId' => 'required|exists:vendor_use_cases_evaluation,id|numeric'
+            'evaluationId' => 'required|exists:vendor_use_cases_evaluation,id|numeric',
         ]);
 
         $evaluation = VendorUseCasesEvaluation::find($request->evaluationId);
@@ -490,9 +523,12 @@ class ProjectController extends Controller
 
         $this->cacheUseCaseVendorEvaluation($evaluation);
 
+        SecurityLog::createLog('Submitted use case vendor evaluation', 'Use cases',
+            ['useCaseId' => $request->useCaseId]);
+
         return \response()->json([
             'status' => 200,
-            'message' => 'Success'
+            'message' => 'Success',
         ]);
     }
 
@@ -502,10 +538,11 @@ class ProjectController extends Controller
             'useCaseId' => 'required|exists:use_case,id|numeric',
             'userCredential' => 'required|exists:users,id|numeric',
             'vendorId' => 'required|exists:users,id|numeric',
-            'value' => 'required|string'
+            'value' => 'required|string',
         ]);
 
-        $vendorEvaluation = VendorUseCasesEvaluation::findByIdsAndType($request->useCaseId, $request->userCredential, $request->vendorId, 'accenture');
+        $vendorEvaluation = VendorUseCasesEvaluation::findByIdsAndType($request->useCaseId, $request->userCredential,
+            $request->vendorId, 'accenture');
         if ($vendorEvaluation == null) {
             abort(404);
         }
@@ -515,7 +552,7 @@ class ProjectController extends Controller
 
         return \response()->json([
             'status' => 200,
-            'message' => 'Success'
+            'message' => 'Success',
         ]);
     }
 
@@ -525,10 +562,11 @@ class ProjectController extends Controller
             'useCaseId' => 'required|exists:use_case,id|numeric',
             'userCredential' => 'required|exists:users,id|numeric',
             'vendorId' => 'required|exists:users,id|numeric',
-            'value' => 'required|string'
+            'value' => 'required|string',
         ]);
 
-        $vendorEvaluation = VendorUseCasesEvaluation::findByIdsAndType($request->useCaseId, $request->userCredential, $request->vendorId, 'accenture');
+        $vendorEvaluation = VendorUseCasesEvaluation::findByIdsAndType($request->useCaseId, $request->userCredential,
+            $request->vendorId, 'accenture');
         if ($vendorEvaluation == null) {
             abort(404);
         }
@@ -538,7 +576,7 @@ class ProjectController extends Controller
 
         return \response()->json([
             'status' => 200,
-            'message' => 'Success'
+            'message' => 'Success',
         ]);
     }
 
@@ -548,10 +586,11 @@ class ProjectController extends Controller
             'useCaseId' => 'required|exists:use_case,id|numeric',
             'userCredential' => 'required|exists:users,id|numeric',
             'vendorId' => 'required|exists:users,id|numeric',
-            'value' => 'required|string'
+            'value' => 'required|string',
         ]);
 
-        $vendorEvaluation = VendorUseCasesEvaluation::findByIdsAndType($request->useCaseId, $request->userCredential, $request->vendorId, 'accenture');
+        $vendorEvaluation = VendorUseCasesEvaluation::findByIdsAndType($request->useCaseId, $request->userCredential,
+            $request->vendorId, 'accenture');
         if ($vendorEvaluation == null) {
             abort(404);
         }
@@ -561,7 +600,7 @@ class ProjectController extends Controller
 
         return \response()->json([
             'status' => 200,
-            'message' => 'Success'
+            'message' => 'Success',
         ]);
     }
 
@@ -571,10 +610,11 @@ class ProjectController extends Controller
             'useCaseId' => 'required|exists:use_case,id|numeric',
             'userCredential' => 'required|exists:users,id|numeric',
             'vendorId' => 'required|exists:users,id|numeric',
-            'value' => 'required|string'
+            'value' => 'required|string',
         ]);
 
-        $vendorEvaluation = VendorUseCasesEvaluation::findByIdsAndType($request->useCaseId, $request->userCredential, $request->vendorId, 'accenture');
+        $vendorEvaluation = VendorUseCasesEvaluation::findByIdsAndType($request->useCaseId, $request->userCredential,
+            $request->vendorId, 'accenture');
         if ($vendorEvaluation == null) {
             abort(404);
         }
@@ -584,7 +624,7 @@ class ProjectController extends Controller
 
         return \response()->json([
             'status' => 200,
-            'message' => 'Success'
+            'message' => 'Success',
         ]);
     }
 
@@ -594,10 +634,11 @@ class ProjectController extends Controller
             'useCaseId' => 'required|exists:use_case,id|numeric',
             'userCredential' => 'required|exists:users,id|numeric',
             'vendorId' => 'required|exists:users,id|numeric',
-            'value' => 'required|string'
+            'value' => 'required|string',
         ]);
 
-        $vendorEvaluation = VendorUseCasesEvaluation::findByIdsAndType($request->useCaseId, $request->userCredential, $request->vendorId, 'accenture');
+        $vendorEvaluation = VendorUseCasesEvaluation::findByIdsAndType($request->useCaseId, $request->userCredential,
+            $request->vendorId, 'accenture');
         if ($vendorEvaluation == null) {
             abort(404);
         }
@@ -607,7 +648,7 @@ class ProjectController extends Controller
 
         return \response()->json([
             'status' => 200,
-            'message' => 'Success'
+            'message' => 'Success',
         ]);
     }
 
@@ -617,10 +658,11 @@ class ProjectController extends Controller
             'useCaseId' => 'required|exists:use_case,id|numeric',
             'userCredential' => 'required|exists:users,id|numeric',
             'vendorId' => 'required|exists:users,id|numeric',
-            'value' => 'nullable|string'
+            'value' => 'nullable|string',
         ]);
 
-        $vendorEvaluation = VendorUseCasesEvaluation::findByIdsAndType($request->useCaseId, $request->userCredential, $request->vendorId, 'accenture');
+        $vendorEvaluation = VendorUseCasesEvaluation::findByIdsAndType($request->useCaseId, $request->userCredential,
+            $request->vendorId, 'accenture');
         if ($vendorEvaluation == null) {
             abort(404);
         }
@@ -630,7 +672,7 @@ class ProjectController extends Controller
 
         return \response()->json([
             'status' => 200,
-            'message' => 'Success'
+            'message' => 'Success',
         ]);
     }
 
@@ -638,7 +680,7 @@ class ProjectController extends Controller
     {
         $request->validate([
             'useCaseId' => 'required|exists:use_case,id|numeric',
-            'userList.*' => 'required|exists:users,id|numeric'
+            'userList.*' => 'required|exists:users,id|numeric',
         ]);
 
         $useCase = UseCase::find($request->useCaseId);
@@ -649,9 +691,11 @@ class ProjectController extends Controller
         $useCase->accentureUsers = $request->userList;
         $useCase->save();
 
+        SecurityLog::createLog('Saved use case', 'Use cases', ['useCaseId' => $useCase->id]);
+
         return \response()->json([
             'status' => 200,
-            'message' => 'Success'
+            'message' => 'Success',
         ]);
     }
 
@@ -659,7 +703,7 @@ class ProjectController extends Controller
     {
         $request->validate([
             'useCaseId' => 'required|exists:use_case,id|numeric',
-            'clientList.*' => 'required|exists:users,id|numeric'
+            'clientList.*' => 'required|exists:users,id|numeric',
         ]);
 
         $useCase = UseCase::find($request->useCaseId);
@@ -670,9 +714,11 @@ class ProjectController extends Controller
         $useCase->clientUsers = $request->clientList;
         $useCase->save();
 
+        SecurityLog::createLog('Saved use case client', 'Use cases', ['useCaseId' => $useCase->id]);
+
         return \response()->json([
             'status' => 200,
-            'message' => 'Success'
+            'message' => 'Success',
         ]);
     }
 
@@ -680,7 +726,7 @@ class ProjectController extends Controller
     {
         $request->validate([
             'useCaseId' => 'required|exists:use_case,id|numeric',
-            'newName' => 'required|string'
+            'newName' => 'required|string',
         ]);
 
         $useCase = UseCase::find($request->useCaseId);
@@ -691,9 +737,11 @@ class ProjectController extends Controller
         $useCase->name = $request->newName;
         $useCase->save();
 
+        SecurityLog::createLog('Saved use case name', 'Use cases', ['useCaseId' => $useCase->id]);
+
         return \response()->json([
             'status' => 200,
-            'message' => 'Success'
+            'message' => 'Success',
         ]);
     }
 
@@ -701,7 +749,7 @@ class ProjectController extends Controller
     {
         $request->validate([
             'useCaseId' => 'required|exists:use_case,id|numeric',
-            'newDescription' => 'required|string'
+            'newDescription' => 'required|string',
         ]);
 
         $useCase = UseCase::find($request->useCaseId);
@@ -712,9 +760,11 @@ class ProjectController extends Controller
         $useCase->description = $request->newDescription;
         $useCase->save();
 
+        SecurityLog::createLog('Saved use case description', 'Use cases', ['useCaseId' => $useCase->id]);
+
         return \response()->json([
             'status' => 200,
-            'message' => 'Success'
+            'message' => 'Success',
         ]);
     }
 
@@ -722,7 +772,7 @@ class ProjectController extends Controller
     {
         $request->validate([
             'project_id' => 'required|numeric',
-            'vendorList.*' => 'required|exists:users,id|numeric'
+            'vendorList.*' => 'required|exists:users,id|numeric',
         ]);
 
         $project = Project::find($request->project_id);
@@ -735,7 +785,7 @@ class ProjectController extends Controller
 
         return \response()->json([
             'status' => 200,
-            'message' => 'Success'
+            'message' => 'Success',
         ]);
     }
 
@@ -743,7 +793,7 @@ class ProjectController extends Controller
     {
         $request->validate([
             'project_id' => 'required|numeric',
-            'newName' => 'required|string'
+            'newName' => 'required|string',
         ]);
 
         $project = Project::find($request->project_id);
@@ -756,7 +806,7 @@ class ProjectController extends Controller
 
         return \response()->json([
             'status' => 200,
-            'message' => 'Success'
+            'message' => 'Success',
         ]);
     }
 
@@ -764,7 +814,7 @@ class ProjectController extends Controller
     {
         $request->validate([
             'project_id' => 'required|numeric',
-            'owner_id' => 'required|string'
+            'owner_id' => 'required|string',
         ]);
 
         $project = Project::find($request->project_id);
@@ -777,7 +827,7 @@ class ProjectController extends Controller
 
         return \response()->json([
             'status' => 200,
-            'message' => 'Success'
+            'message' => 'Success',
         ]);
     }
 
@@ -785,7 +835,7 @@ class ProjectController extends Controller
     {
         $request->validate([
             'project_id' => 'required|numeric',
-            'client_id' => 'required|numeric'
+            'client_id' => 'required|numeric',
         ]);
 
         $project = Project::find($request->project_id);
@@ -798,7 +848,7 @@ class ProjectController extends Controller
 
         return \response()->json([
             'status' => 200,
-            'message' => 'Success'
+            'message' => 'Success',
         ]);
     }
 
@@ -806,7 +856,7 @@ class ProjectController extends Controller
     {
         $request->validate([
             'project_id' => 'required|numeric',
-            'value' => 'required|string'
+            'value' => 'required|string',
         ]);
 
         $project = Project::find($request->project_id);
@@ -819,7 +869,7 @@ class ProjectController extends Controller
 
         return \response()->json([
             'status' => 200,
-            'message' => 'Success'
+            'message' => 'Success',
         ]);
     }
 
@@ -827,7 +877,7 @@ class ProjectController extends Controller
     {
         $request->validate([
             'project_id' => 'required|numeric',
-            'value' => 'required|string'
+            'value' => 'required|string',
         ]);
 
         $project = Project::find($request->project_id);
@@ -840,7 +890,7 @@ class ProjectController extends Controller
 
         return \response()->json([
             'status' => 200,
-            'message' => 'Success'
+            'message' => 'Success',
         ]);
     }
 
@@ -848,7 +898,7 @@ class ProjectController extends Controller
     {
         $request->validate([
             'project_id' => 'required|numeric',
-            'value' => 'required|string'
+            'value' => 'required|string',
         ]);
 
         $project = Project::find($request->project_id);
@@ -859,9 +909,12 @@ class ProjectController extends Controller
         $project->useCases = $request->value;
         $project->save();
 
+        SecurityLog::createLog('Changed project use cases', 'Use cases',
+            ['projectId' => $request->project_id, 'value' => $request->value]);
+
         return \response()->json([
             'status' => 200,
-            'message' => 'Success'
+            'message' => 'Success',
         ]);
     }
 
@@ -869,7 +922,7 @@ class ProjectController extends Controller
     {
         $request->validate([
             'project_id' => 'required|numeric',
-            'value' => 'required|string'
+            'value' => 'required|string',
         ]);
 
         $project = Project::find($request->project_id);
@@ -882,7 +935,7 @@ class ProjectController extends Controller
 
         return \response()->json([
             'status' => 200,
-            'message' => 'Success'
+            'message' => 'Success',
         ]);
     }
 
@@ -890,7 +943,7 @@ class ProjectController extends Controller
     {
         $request->validate([
             'project_id' => 'required|numeric',
-            'practice_id' => 'required|numeric'
+            'practice_id' => 'required|numeric',
         ]);
 
         $project = Project::find($request->project_id);
@@ -908,7 +961,7 @@ class ProjectController extends Controller
 
         return \response()->json([
             'status' => 200,
-            'message' => 'Success'
+            'message' => 'Success',
         ]);
     }
 
@@ -916,7 +969,7 @@ class ProjectController extends Controller
     {
         $request->validate([
             'project_id' => 'required|numeric',
-            'subpractices' => 'required|array'
+            'subpractices' => 'required|array',
         ]);
 
         $project = Project::find($request->project_id);
@@ -929,7 +982,7 @@ class ProjectController extends Controller
 
         return \response()->json([
             'status' => 200,
-            'message' => 'Success'
+            'message' => 'Success',
         ]);
     }
 
@@ -937,7 +990,7 @@ class ProjectController extends Controller
     {
         $request->validate([
             'project_id' => 'required|numeric',
-            'value' => 'required|string'
+            'value' => 'required|string',
         ]);
 
         $project = Project::find($request->project_id);
@@ -950,7 +1003,7 @@ class ProjectController extends Controller
 
         return \response()->json([
             'status' => 200,
-            'message' => 'Success'
+            'message' => 'Success',
         ]);
     }
 
@@ -958,7 +1011,7 @@ class ProjectController extends Controller
     {
         $request->validate([
             'project_id' => 'required|numeric',
-            'value' => 'required|array'
+            'value' => 'required|array',
         ]);
 
         $project = Project::find($request->project_id);
@@ -971,7 +1024,7 @@ class ProjectController extends Controller
 
         return \response()->json([
             'status' => 200,
-            'message' => 'Success'
+            'message' => 'Success',
         ]);
     }
 
@@ -979,7 +1032,7 @@ class ProjectController extends Controller
     {
         $request->validate([
             'project_id' => 'required|numeric',
-            'value' => 'required|string'
+            'value' => 'required|string',
         ]);
 
         $project = Project::find($request->project_id);
@@ -992,7 +1045,7 @@ class ProjectController extends Controller
 
         return \response()->json([
             'status' => 200,
-            'message' => 'Success'
+            'message' => 'Success',
         ]);
     }
 
@@ -1000,7 +1053,7 @@ class ProjectController extends Controller
     {
         $request->validate([
             'project_id' => 'required|numeric',
-            'value' => 'required|string'
+            'value' => 'required|string',
         ]);
 
         $project = Project::find($request->project_id);
@@ -1013,7 +1066,7 @@ class ProjectController extends Controller
 
         return \response()->json([
             'status' => 200,
-            'message' => 'Success'
+            'message' => 'Success',
         ]);
     }
 
@@ -1021,7 +1074,7 @@ class ProjectController extends Controller
     {
         $request->validate([
             'project_id' => 'required|numeric',
-            'value' => 'required|string'
+            'value' => 'required|string',
         ]);
 
         $project = Project::find($request->project_id);
@@ -1034,7 +1087,7 @@ class ProjectController extends Controller
 
         return \response()->json([
             'status' => 200,
-            'message' => 'Success'
+            'message' => 'Success',
         ]);
     }
 
@@ -1042,7 +1095,7 @@ class ProjectController extends Controller
     {
         $request->validate([
             'project_id' => 'required|numeric',
-            'value' => 'required|string'
+            'value' => 'required|string',
         ]);
 
         $project = Project::find($request->project_id);
@@ -1055,7 +1108,7 @@ class ProjectController extends Controller
 
         return \response()->json([
             'status' => 200,
-            'message' => 'Success'
+            'message' => 'Success',
         ]);
     }
 
@@ -1075,7 +1128,7 @@ class ProjectController extends Controller
 
         return \response()->json([
             'status' => 200,
-            'message' => 'Success'
+            'message' => 'Success',
         ]);
     }
 
@@ -1095,7 +1148,7 @@ class ProjectController extends Controller
 
         return \response()->json([
             'status' => 200,
-            'message' => 'Success'
+            'message' => 'Success',
         ]);
     }
 
@@ -1114,7 +1167,7 @@ class ProjectController extends Controller
 
         return \response()->json([
             'status' => 200,
-            'message' => 'Success'
+            'message' => 'Success',
         ]);
     }
 
@@ -1131,9 +1184,11 @@ class ProjectController extends Controller
 
         $project->setInEvaluationPhase();
 
+        SecurityLog::createLog('Published use case', 'Use cases', ['projectId' => $request->project_id]);
+
         return \response()->json([
             'status' => 200,
-            'message' => 'Success'
+            'message' => 'Success',
         ]);
     }
 
@@ -1166,7 +1221,7 @@ class ProjectController extends Controller
 
         return \response()->json([
             'status' => 200,
-            'message' => 'Success'
+            'message' => 'Success',
         ]);
     }
 
@@ -1174,7 +1229,7 @@ class ProjectController extends Controller
     {
         $request->validate([
             'project_id' => 'required|numeric',
-            'vendorList' => 'required|array'
+            'vendorList' => 'required|array',
         ]);
 
         /** @var Project $project */
@@ -1188,11 +1243,13 @@ class ProjectController extends Controller
         $removedVendors = array_diff($currentVendors, $request->vendorList);
         foreach ($removedVendors as $key => $vendor_id) {
             $vendor = User::find($vendor_id);
-            if ($vendor == null) continue;
+            if ($vendor == null) {
+                continue;
+            }
 
             $application = VendorApplication::where([
                 'project_id' => $project->id,
-                'vendor_id' => $vendor->id
+                'vendor_id' => $vendor->id,
             ])->first();
             if ($application != null) {
                 $application->delete();
@@ -1202,14 +1259,16 @@ class ProjectController extends Controller
         $addedVendors = array_diff($request->vendorList, $currentVendors);
         foreach ($addedVendors as $key => $vendor_id) {
             $vendor = User::find($vendor_id);
-            if ($vendor == null || !$vendor->isVendor() || !$vendor->hasFinishedSetup) continue;
+            if ($vendor == null || !$vendor->isVendor() || !$vendor->hasFinishedSetup) {
+                continue;
+            }
 
             $vendor->applyToProject($project);
         }
 
         return \response()->json([
             'status' => 200,
-            'message' => 'Success'
+            'message' => 'Success',
         ]);
     }
 
@@ -1217,7 +1276,7 @@ class ProjectController extends Controller
     {
         $request->validate([
             'project_id' => 'required|numeric',
-            'values' => 'required|array'
+            'values' => 'required|array',
         ]);
 
         $project = Project::find($request->project_id);
@@ -1235,7 +1294,7 @@ class ProjectController extends Controller
 
         return \response()->json([
             'status' => 200,
-            'message' => 'Success'
+            'message' => 'Success',
         ]);
     }
 
@@ -1260,9 +1319,9 @@ class ProjectController extends Controller
                     'fitgapOthersWeight',
                     'implementationImplementationWeight',
                     'implementationRunWeight',
-                ])
+                ]),
             ],
-            'value' => 'required|numeric'
+            'value' => 'required|numeric',
         ]);
 
         $project = Project::find($request->project_id);
@@ -1275,7 +1334,7 @@ class ProjectController extends Controller
 
         return \response()->json([
             'status' => 200,
-            'message' => 'Success'
+            'message' => 'Success',
         ]);
     }
 
@@ -1284,7 +1343,7 @@ class ProjectController extends Controller
     {
         $request->validate([
             'project_id' => 'required|numeric',
-            'location' => 'required|string'
+            'location' => 'required|string',
         ]);
 
         $project = Project::find($request->project_id);
@@ -1297,7 +1356,7 @@ class ProjectController extends Controller
 
         return \response()->json([
             'status' => 200,
-            'message' => 'Success'
+            'message' => 'Success',
         ]);
     }
 
@@ -1305,7 +1364,7 @@ class ProjectController extends Controller
     {
         $request->validate([
             'project_id' => 'required|numeric',
-            'value' => 'required|string'
+            'value' => 'required|string',
         ]);
 
         $project = Project::find($request->project_id);
@@ -1318,7 +1377,7 @@ class ProjectController extends Controller
 
         return \response()->json([
             'status' => 200,
-            'message' => 'Success'
+            'message' => 'Success',
         ]);
     }
 
@@ -1326,7 +1385,7 @@ class ProjectController extends Controller
     {
         $request->validate([
             'project_id' => 'required|numeric',
-            'value' => 'required|string'
+            'value' => 'required|string',
         ]);
 
         $project = Project::find($request->project_id);
@@ -1339,7 +1398,7 @@ class ProjectController extends Controller
 
         return \response()->json([
             'status' => 200,
-            'message' => 'Success'
+            'message' => 'Success',
         ]);
     }
 
@@ -1353,7 +1412,7 @@ class ProjectController extends Controller
         $disqualifiedVendors = $project->vendorsApplied(['disqualified'])->get();
         $rejectedVendors = $project->vendorsApplied(['rejected'])->get();
 
-        SecurityLog::createLog('User accessed project with ID ' . $project->id  . ' and name ' . $project->name);
+        SecurityLog::createLog('User accessed project with ID '.$project->id.' and name '.$project->name);
 
         return view('accentureViews.projectHome', [
             'project' => $project,
@@ -1426,17 +1485,23 @@ class ProjectController extends Controller
 
         $experienceQuestions = $project->selectionCriteriaQuestionsOriginals()->where('page', 'experience');
 
-        $innovationDigitalEnablersQuestions = $project->selectionCriteriaQuestionsOriginals()->where('page', 'innovation_digitalEnablers');
-        $innovationAlliancesQuestions = $project->selectionCriteriaQuestionsOriginals()->where('page', 'innovation_alliances');
-        $innovationProductQuestions = $project->selectionCriteriaQuestionsOriginals()->where('page', 'innovation_product');
-        $innovationSustainabilityQuestions = $project->selectionCriteriaQuestionsOriginals()->where('page', 'innovation_sustainability');
+        $innovationDigitalEnablersQuestions = $project->selectionCriteriaQuestionsOriginals()->where('page',
+            'innovation_digitalEnablers');
+        $innovationAlliancesQuestions = $project->selectionCriteriaQuestionsOriginals()->where('page',
+            'innovation_alliances');
+        $innovationProductQuestions = $project->selectionCriteriaQuestionsOriginals()->where('page',
+            'innovation_product');
+        $innovationSustainabilityQuestions = $project->selectionCriteriaQuestionsOriginals()->where('page',
+            'innovation_sustainability');
 
-        $implementationImplementationQuestions = $project->selectionCriteriaQuestionsOriginals()->where('page', 'implementation_implementation');
-        $implementationRunQuestions = $project->selectionCriteriaQuestionsOriginals()->where('page', 'implementation_run');
+        $implementationImplementationQuestions = $project->selectionCriteriaQuestionsOriginals()->where('page',
+            'implementation_implementation');
+        $implementationRunQuestions = $project->selectionCriteriaQuestionsOriginals()->where('page',
+            'implementation_run');
 
         $allOwners = Owner::get();
 
-        SecurityLog::createLog('User accessed project with ID ' . $project->id  . ' and name ' . $project->name);
+        SecurityLog::createLog('User accessed project with ID '.$project->id.' and name '.$project->name);
 
         return view('accentureViews.projectView', [
             'project' => $project,
@@ -1477,17 +1542,23 @@ class ProjectController extends Controller
 
         $experienceQuestions = $project->selectionCriteriaQuestionsOriginals()->where('page', 'experience');
 
-        $innovationDigitalEnablersQuestions = $project->selectionCriteriaQuestionsOriginals()->where('page', 'innovation_digitalEnablers');
-        $innovationAlliancesQuestions = $project->selectionCriteriaQuestionsOriginals()->where('page', 'innovation_alliances');
-        $innovationProductQuestions = $project->selectionCriteriaQuestionsOriginals()->where('page', 'innovation_product');
-        $innovationSustainabilityQuestions = $project->selectionCriteriaQuestionsOriginals()->where('page', 'innovation_sustainability');
+        $innovationDigitalEnablersQuestions = $project->selectionCriteriaQuestionsOriginals()->where('page',
+            'innovation_digitalEnablers');
+        $innovationAlliancesQuestions = $project->selectionCriteriaQuestionsOriginals()->where('page',
+            'innovation_alliances');
+        $innovationProductQuestions = $project->selectionCriteriaQuestionsOriginals()->where('page',
+            'innovation_product');
+        $innovationSustainabilityQuestions = $project->selectionCriteriaQuestionsOriginals()->where('page',
+            'innovation_sustainability');
 
-        $implementationImplementationQuestions = $project->selectionCriteriaQuestionsOriginals()->where('page', 'implementation_implementation');
-        $implementationRunQuestions = $project->selectionCriteriaQuestionsOriginals()->where('page', 'implementation_run');
+        $implementationImplementationQuestions = $project->selectionCriteriaQuestionsOriginals()->where('page',
+            'implementation_implementation');
+        $implementationRunQuestions = $project->selectionCriteriaQuestionsOriginals()->where('page',
+            'implementation_run');
 
         $allOwners = Owner::get();
 
-        SecurityLog::createLog('User accessed project with ID ' . $project->id  . ' and name ' . $project->name);
+        SecurityLog::createLog('User accessed project with ID '.$project->id.' and name '.$project->name);
 
         return view('accentureViews.projectEdit', [
             'project' => $project,
@@ -1518,10 +1589,10 @@ class ProjectController extends Controller
             abort(404);
         }
 
-        SecurityLog::createLog('User accessed project with ID ' . $project->id  . ' and name ' . $project->name);
+        SecurityLog::createLog('User accessed project with ID '.$project->id.' and name '.$project->name);
 
         return view('accentureViews.projectValueTargeting', [
-            'project' => $project
+            'project' => $project,
         ]);
     }
 
@@ -1531,7 +1602,7 @@ class ProjectController extends Controller
             abort(404);
         }
 
-        SecurityLog::createLog('User accessed project with ID ' . $project->id  . ' and name ' . $project->name);
+        SecurityLog::createLog('User accessed project with ID '.$project->id.' and name '.$project->name);
 
         return view('accentureViews.projectOrals', [
             'project' => $project,
@@ -1541,16 +1612,16 @@ class ProjectController extends Controller
 
     public function conclusions(Project $project)
     {
-        SecurityLog::createLog('User accessed project with ID ' . $project->id  . ' and name ' . $project->name);
+        SecurityLog::createLog('User accessed project with ID '.$project->id.' and name '.$project->name);
 
         return view('accentureViews.projectConclusions', [
-            'project' => $project
+            'project' => $project,
         ]);
     }
 
     public function benchmark(Project $project)
     {
-        SecurityLog::createLog('User accessed project benchmarks of project with ID ' . $project->id  . ' and name ' . $project->name);
+        SecurityLog::createLog('User accessed project benchmarks of project with ID '.$project->id.' and name '.$project->name);
 
         return view('accentureViews.projectBenchmark', [
             'project' => $project,
@@ -1568,16 +1639,14 @@ class ProjectController extends Controller
 
     public function RFPAndUseCasesBenchmark(Request $request, Project $project)
     {
-        SecurityLog::createLog('User with ID '. $request->user()->id .' accessed project benchmarks (+ Use Cases) of project with ID ' . $project->id  . ' and name ' . $project->name);
-
         $applications = $project
-        ->vendorApplications
-        ->filter(function (VendorApplication $application) {
-            return $application->phase == 'submitted';
-        })
-        ->sortByDesc(function (VendorApplication $application) {
-            return $application->totalScore();
-        });
+            ->vendorApplications
+            ->filter(function (VendorApplication $application) {
+                return $application->phase == 'submitted';
+            })
+            ->sortByDesc(function (VendorApplication $application) {
+                return $application->totalScore();
+            });
 
         $projectUseCasesInfos = VendorsProjectsAnalysis::getByProject($project->id);
         foreach ($applications as $key => $application) {
@@ -1589,7 +1658,6 @@ class ProjectController extends Controller
                 }
             }
         }
-
 
         return view('accentureViews.projectBenchmark', [
             'project' => $project,
@@ -1607,17 +1675,16 @@ class ProjectController extends Controller
         $useCases = UseCase::findByProject($project->id);
         $vendorProjectsAnalysis = VendorsProjectsAnalysis::getVendorIndexedByProject($project->id);
 
-        if($request->useCases) {
+        if ($request->useCases) {
             $selectedUseCases = array_map('intval', explode(',', urldecode($request->useCases)));
-            $vendorProjectsAnalysis = $this->calculateVendorProjectsAnalysisCacheByProjectAndSelectedUseCases($project, $selectedUseCases);
+            $vendorProjectsAnalysis = $this->calculateVendorProjectsAnalysisCacheByProjectAndSelectedUseCases($project,
+                $selectedUseCases);
         }
 
         foreach ($vendorProjectsAnalysis as $key => $vendorProjectAnalysis) {
             $vendorName = (User::find($vendorProjectAnalysis->vendor_id))->name;
-            $vendorProjectsAnalysis->{$key}->vendorName =$vendorName;
+            $vendorProjectsAnalysis->{$key}->vendorName = $vendorName;
         }
-
-        SecurityLog::createLog('User accessed project Use Cases benchmarks of project with ID ' . $project->id  . ' and name ' . $project->name);
 
         return view('accentureViews.projectBenchmarkUseCases', [
             'project' => $project,
@@ -1634,7 +1701,7 @@ class ProjectController extends Controller
 
     public function benchmarkFitgap(Project $project)
     {
-        SecurityLog::createLog('User accessed project benchmarks of project with ID ' . $project->id  . ' and name ' . $project->name);
+        SecurityLog::createLog('User accessed project benchmarks of project with ID '.$project->id.' and name '.$project->name);
 
         return view('accentureViews.projectBenchmarkFitgap', [
             'project' => $project,
@@ -1647,7 +1714,7 @@ class ProjectController extends Controller
 
     public function benchmarkVendor(Project $project)
     {
-        SecurityLog::createLog('User accessed project benchmarks of project with ID ' . $project->id  . ' and name ' . $project->name);
+        SecurityLog::createLog('User accessed project benchmarks of project with ID '.$project->id.' and name '.$project->name);
 
         return view('accentureViews.projectBenchmarkVendor', [
             'project' => $project,
@@ -1660,7 +1727,7 @@ class ProjectController extends Controller
 
     public function benchmarkExperience(Project $project)
     {
-        SecurityLog::createLog('User accessed project benchmarks of project with ID ' . $project->id  . ' and name ' . $project->name);
+        SecurityLog::createLog('User accessed project benchmarks of project with ID '.$project->id.' and name '.$project->name);
 
         return view('accentureViews.projectBenchmarkExperience', [
             'project' => $project,
@@ -1688,7 +1755,7 @@ class ProjectController extends Controller
 
     public function benchmarkImplementation(Project $project)
     {
-        SecurityLog::createLog('User accessed project benchmarks of project with ID ' . $project->id  . ' and name ' . $project->name);
+        SecurityLog::createLog('User accessed project benchmarks of project with ID '.$project->id.' and name '.$project->name);
 
         return view('accentureViews.projectBenchmarkImplementation', [
             'project' => $project,
@@ -1706,6 +1773,7 @@ class ProjectController extends Controller
         if (!empty($vendor)) {
             $vendorName = User::find($vendor)->name;
         }
+
         return view('accentureViews.projectBenchmarkVendorComparison', [
             'project' => $project,
             'applications' => $project->vendorApplications
@@ -1722,32 +1790,49 @@ class ProjectController extends Controller
         $fitgapQuestions = $project->selectionCriteriaQuestionsForVendor($vendor)->get()->filter(function ($question) {
             return $question->originalQuestion->page == 'fitgap';
         });
-        $vendorCorporateQuestions = $project->selectionCriteriaQuestionsForVendor($vendor)->get()->filter(function ($question) {
+        $vendorCorporateQuestions = $project->selectionCriteriaQuestionsForVendor($vendor)->get()->filter(function (
+            $question
+        ) {
             return $question->originalQuestion->page == 'vendor_corporate';
         });
-        $vendorMarketQuestions = $project->selectionCriteriaQuestionsForVendor($vendor)->get()->filter(function ($question) {
+        $vendorMarketQuestions = $project->selectionCriteriaQuestionsForVendor($vendor)->get()->filter(function (
+            $question
+        ) {
             return $question->originalQuestion->page == 'vendor_market';
         });
-        $experienceQuestions = $project->selectionCriteriaQuestionsForVendor($vendor)->get()->filter(function ($question) {
+        $experienceQuestions = $project->selectionCriteriaQuestionsForVendor($vendor)->get()->filter(function ($question
+        ) {
             return $question->originalQuestion->page == 'experience';
         });
-        $innovationDigitalEnablersQuestions = $project->selectionCriteriaQuestionsForVendor($vendor)->get()->filter(function ($question) {
+        $innovationDigitalEnablersQuestions = $project->selectionCriteriaQuestionsForVendor($vendor)->get()->filter(function (
+            $question
+        ) {
             return $question->originalQuestion->page == 'innovation_digitalEnablers';
         });
-        $innovationAlliancesQuestions = $project->selectionCriteriaQuestionsForVendor($vendor)->get()->filter(function ($question) {
+        $innovationAlliancesQuestions = $project->selectionCriteriaQuestionsForVendor($vendor)->get()->filter(function (
+            $question
+        ) {
             return $question->originalQuestion->page == 'innovation_alliances';
         });
-        $innovationProductQuestions = $project->selectionCriteriaQuestionsForVendor($vendor)->get()->filter(function ($question) {
+        $innovationProductQuestions = $project->selectionCriteriaQuestionsForVendor($vendor)->get()->filter(function (
+            $question
+        ) {
             return $question->originalQuestion->page == 'innovation_product';
         });
-        $innovationSustainabilityQuestions = $project->selectionCriteriaQuestionsForVendor($vendor)->get()->filter(function ($question) {
+        $innovationSustainabilityQuestions = $project->selectionCriteriaQuestionsForVendor($vendor)->get()->filter(function (
+            $question
+        ) {
             return $question->originalQuestion->page == 'innovation_sustainability';
         });
 
-        $implementationImplementationQuestions = $project->selectionCriteriaQuestionsForVendor($vendor)->get()->filter(function ($question) {
+        $implementationImplementationQuestions = $project->selectionCriteriaQuestionsForVendor($vendor)->get()->filter(function (
+            $question
+        ) {
             return $question->originalQuestion->page == 'implementation_implementation';
         });
-        $implementationRunQuestions = $project->selectionCriteriaQuestionsForVendor($vendor)->get()->filter(function ($question) {
+        $implementationRunQuestions = $project->selectionCriteriaQuestionsForVendor($vendor)->get()->filter(function (
+            $question
+        ) {
             return $question->originalQuestion->page == 'implementation_run';
         });
 
@@ -1769,9 +1854,11 @@ class ProjectController extends Controller
         ];
     }
 
-    function arrayOfSelectionCriteriaResponsesQuestionsByPractice(Project $project, User $vendor, VendorApplication $application = null)
-    {
-
+    function arrayOfSelectionCriteriaResponsesQuestionsByPractice(
+        Project $project,
+        User $vendor,
+        VendorApplication $application = null
+    ) {
         $fitgapQuestions = $project->selectionCriteriaQuestionsForVendor($vendor)->get()
             ->filter(function ($question) {
                 return $question->originalQuestion->page == 'fitgap';
@@ -1875,9 +1962,10 @@ class ProjectController extends Controller
             abort(404);
         }
 
-        SecurityLog::createLog('User viewed vendor proposal for vendor with ID ' . $vendor->id . ' in project with ID ' . $project->id  . ' and name ' . $project->name);
+        SecurityLog::createLog('User viewed vendor proposal for vendor with ID '.$vendor->id.' in project with ID '.$project->id.' and name '.$project->name);
 
-        return view('accentureViews.viewVendorProposal', $this->arrayOfSelectionCriteriaResponsesQuestionsByPractice($project, $vendor, $application));
+        return view('accentureViews.viewVendorProposal',
+            $this->arrayOfSelectionCriteriaResponsesQuestionsByPractice($project, $vendor, $application));
     }
 
     public function vendorProposalEdit(Project $project, User $vendor)
@@ -1889,9 +1977,10 @@ class ProjectController extends Controller
             abort(404);
         }
 
-        SecurityLog::createLog('User viewed vendor proposal for vendor with ID ' . $vendor->id . ' in project with ID ' . $project->id  . ' and name ' . $project->name);
+        SecurityLog::createLog('User viewed vendor proposal for vendor with ID '.$vendor->id.' in project with ID '.$project->id.' and name '.$project->name);
 
-        return view('accentureViews.editVendorProposal', $this->arrayOfSelectionCriteriaResponsesQuestionsByPractice($project, $vendor, $application));
+        return view('accentureViews.editVendorProposal',
+            $this->arrayOfSelectionCriteriaResponsesQuestionsByPractice($project, $vendor, $application));
     }
 
     public function vendorProposalEvaluation(Project $project, User $vendor)
@@ -1903,9 +1992,10 @@ class ProjectController extends Controller
             abort(404);
         }
 
-        SecurityLog::createLog('User viewed vendor proposal for vendor with ID ' . $vendor->id . ' in project with ID ' . $project->id  . ' and name ' . $project->name);
+        SecurityLog::createLog('User viewed vendor proposal for vendor with ID '.$vendor->id.' in project with ID '.$project->id.' and name '.$project->name);
 
-        return view('accentureViews.viewVendorProposalEvaluation', $this->arrayOfSelectionCriteriaResponsesQuestionsByPractice($project, $vendor, $application));
+        return view('accentureViews.viewVendorProposalEvaluation',
+            $this->arrayOfSelectionCriteriaResponsesQuestionsByPractice($project, $vendor, $application));
     }
 
     public function filterQuestionsResponsesByPractice($responses)
@@ -1953,7 +2043,7 @@ class ProjectController extends Controller
 
         $export = new VendorResponsesExport($application);
 
-        SecurityLog::createLog('User downloaded vendor proposal for vendor with ID ' . $vendor->id . ' in project with ID ' . $project->id  . ' and name ' . $project->name);
+        SecurityLog::createLog('User downloaded vendor proposal for vendor with ID '.$vendor->id.' in project with ID '.$project->id.' and name '.$project->name);
 
         return Excel::download($export, 'responses.xlsx');
     }
@@ -1968,9 +2058,10 @@ class ProjectController extends Controller
             ->pluck('vendor.id')
             ->toArray();
 
-        $export = new AnalyticsExport($project, json_decode($request->vendors) ?? $allVendors, $request->includeUseCases ?? false);
+        $export = new AnalyticsExport($project, json_decode($request->vendors) ?? $allVendors,
+            $request->includeUseCases ?? false);
 
-        SecurityLog::createLog('User exported analytics for project with ID ' . $project->id  . ' and name ' . $project->name);
+        SecurityLog::createLog('User exported analytics for project with ID '.$project->id.' and name '.$project->name);
 
         return Excel::download($export, 'responses.xlsx');
     }
@@ -1992,7 +2083,7 @@ class ProjectController extends Controller
 
         return \response()->json([
             'status' => 200,
-            'message' => 'Success'
+            'message' => 'Success',
         ]);
     }
 
@@ -2013,7 +2104,7 @@ class ProjectController extends Controller
 
         return \response()->json([
             'status' => 200,
-            'message' => 'Success'
+            'message' => 'Success',
         ]);
     }
 
@@ -2034,7 +2125,7 @@ class ProjectController extends Controller
 
         return \response()->json([
             'status' => 200,
-            'message' => 'Success'
+            'message' => 'Success',
         ]);
     }
 
@@ -2055,7 +2146,7 @@ class ProjectController extends Controller
 
         return \response()->json([
             'status' => 200,
-            'message' => 'Success'
+            'message' => 'Success',
         ]);
     }
 

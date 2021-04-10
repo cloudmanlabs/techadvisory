@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use _HumbugBoxe251c92b00d9\Nette\Neon\Exception;
 use App\FitgapQuestion;
 use App\FitgapVendorResponse;
 use App\Imports\FitgapImport;
@@ -11,12 +10,10 @@ use App\SecurityLog;
 use App\User;
 use App\VendorApplication;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
 use Maatwebsite\Excel\Facades\Excel;
 
 class FitgapController extends Controller
 {
-    // Import method
     public function import5Columns(Request $request, Project $project)
     {
         $request->validate([
@@ -32,7 +29,6 @@ class FitgapController extends Controller
                 unset($rows[$key]);
             }
         }
-
 
         FitgapQuestion::deleteByProject($project->id);
 
@@ -55,16 +51,19 @@ class FitgapController extends Controller
         $project->hasUploadedFitgap = true;
         $project->save();
 
+        SecurityLog::createLog('Excel imported to project', 'FitGap', ['projectId' => $project->id]);
+
         return \response()->json([
             'status' => 200,
             'message' => 'Success',
         ]);
     }
 
-    // Generate table methods.
     public function clientJson(Project $project)
     {
         $fitgapQuestions = FitgapQuestion::findByProject($project->id);
+
+        SecurityLog::createLog('Viewed', 'FitGap', ['projectId' => $project->id]);
 
         return $fitgapQuestions->map(function ($fitgapQuestion) {
             return [
@@ -93,6 +92,8 @@ class FitgapController extends Controller
 
         $fitgapQuestions = FitgapQuestion::findByProject($project->id);
         $fitgapResponses = FitgapVendorResponse::findByVendorApplication($vendorApplication->id);
+
+        SecurityLog::createLog('Viewed', 'FitGap', ['projectId' => $project->id]);
 
         return $fitgapQuestions->map(function ($fitgapQuestion) use ($fitgapResponses) {
             $fitgapResponseFound = $fitgapResponses->where('fitgap_question_id', $fitgapQuestion->id)->first();
@@ -124,6 +125,8 @@ class FitgapController extends Controller
         $fitgapQuestions = FitgapQuestion::findByProject($project->id);
         $fitgapResponses = FitgapVendorResponse::findByVendorApplication($vendorApplication->id);
 
+        SecurityLog::createLog('Viewed', 'FitGap', ['projectId' => $project->id]);
+
         return $fitgapQuestions->map(function ($fitgapQuestion) use ($fitgapResponses) {
             $fitgapResponseFound = $fitgapResponses->where('fitgap_question_id', $fitgapQuestion->id)->first();
 
@@ -142,146 +145,6 @@ class FitgapController extends Controller
         });
     }
 
-    // Old methods for update
-    public function clientJsonUpload(Request $request, Project $project)
-    {
-        /*        $request->validate([
-                    'data' => 'required|array'
-                ]);
-
-                // The data array contains all the columns, cause what is that the jexcel json exporter gives us
-                // We get only the two columns that matter here and save them
-
-                // Parse stuff here
-                $result5Cols = [];
-                $resultClient = [];
-                foreach ($request->data as $key => $row) {
-                    if ($row['Requirement Type'] == null || $row['Requirement Type'] == "") continue;
-
-                    $result5Cols[] = [
-                        'Requirement Type' => $row['Requirement Type'],
-                        'Level 1' => $row['Level 1'],
-                        'Level 2' => $row['Level 2'],
-                        'Level 3' => $row['Level 3'],
-                        'Requirement' => $row['Requirement'],
-                    ];
-                    $resultClient[] = [
-                        'Client' => $row['Client'],
-                        'Business Opportunity' => $row['Business Opportunity'],
-                        'Requirement Client Response' => $row['Requirement'],
-                    ];
-
-                    // Check if the value has changed. If it has, reset the vendor responses
-                    if (
-                        $row['Requirement Type'] != $project->fitgap5Columns[$key]['Requirement Type']
-                        || $row['Level 1'] != $project->fitgap5Columns[$key]['Level 1']
-                        || $row['Level 2'] != $project->fitgap5Columns[$key]['Level 2']
-                        || $row['Level 3'] != $project->fitgap5Columns[$key]['Level 3']
-                        || $row['Requirement'] != $project->fitgap5Columns[$key]['Requirement']
-                    ) {
-                        foreach ($project->vendorApplications as $key1 => $application) {
-                            $fitgapVendorColumns = $application->fitgapVendorColumns;
-
-                            $fitgapVendorColumns[$key]['Vendor Response'] = '';
-                            $fitgapVendorColumns[$key]['Comments'] = '';
-
-                            $application->fitgapVendorColumns = $fitgapVendorColumns;
-                            $application->save();
-                        }
-                    }
-                }
-
-                $project->fitgapClientColumns = $resultClient;
-                $project->fitgap5Columns = $result5Cols;
-                $project->save();
-        */
-
-        return \response()->json([
-            'status' => 200,
-            'message' => 'Success',
-        ]);
-    }
-
-    public function vendorJsonUpload(Request $request, User $vendor, Project $project)
-    {
-        $request->validate([
-            'data' => 'required|array',
-        ]);
-
-        /*        $vendorApplication = VendorApplication::where([
-                    'project_id' => $project->id,
-                    'vendor_id' => $vendor->id
-                ])->first();
-
-                if ($vendorApplication == null) {
-                    abort(404);
-                }
-
-                // Parse stuff here
-                $result = [];
-                foreach ($request->data as $key => $row) {
-
-                    $result[] = [
-                        'Vendor Response' => $row['Vendor Response'],
-                        'Comments' => $row['Comments'],
-                        'Requirement Response' => $row['Requirement'],
-                    ];
-                }
-
-                SecurityLog::createLog('Vendor edited fitgap in Project with ID ' . $project->id);
-
-                $vendorApplication->fitgapVendorColumnsOld10 = $vendorApplication->fitgapVendorColumnsOld9;
-                $vendorApplication->fitgapVendorColumnsOld9 = $vendorApplication->fitgapVendorColumnsOld8;
-                $vendorApplication->fitgapVendorColumnsOld8 = $vendorApplication->fitgapVendorColumnsOld7;
-                $vendorApplication->fitgapVendorColumnsOld7 = $vendorApplication->fitgapVendorColumnsOld6;
-                $vendorApplication->fitgapVendorColumnsOld6 = $vendorApplication->fitgapVendorColumnsOld5;
-                $vendorApplication->fitgapVendorColumnsOld5 = $vendorApplication->fitgapVendorColumnsOld4;
-                $vendorApplication->fitgapVendorColumnsOld4 = $vendorApplication->fitgapVendorColumnsOld3;
-                $vendorApplication->fitgapVendorColumnsOld3 = $vendorApplication->fitgapVendorColumnsOld2;
-                $vendorApplication->fitgapVendorColumnsOld2 = $vendorApplication->fitgapVendorColumnsOld;
-                $vendorApplication->fitgapVendorColumnsOld = $vendorApplication->fitgapVendorColumns;
-                $vendorApplication->fitgapVendorColumns = $result;
-                $vendorApplication->save();*/
-
-        return \response()->json([
-            'status' => 200,
-            'message' => 'Success',
-        ]);
-    }
-
-    public function evaluationJsonUpload(Request $request, User $vendor, Project $project)
-    {
-        return 'Deprecated';
-
-        $request->validate([
-            'data' => 'required|array',
-        ]);
-
-        /*        $vendorApplication = VendorApplication::where([
-                    'project_id' => $project->id,
-                    'vendor_id' => $vendor->id
-                ])->first();
-
-                if ($vendorApplication == null) {
-                    abort(404);
-                }
-
-                // Parse stuff here
-                $result = [];
-                foreach ($request->data as $key => $row) {
-                    $result[] = $row['Score'];
-                }
-
-                $vendorApplication->fitgapVendorScores = $result;
-                $vendorApplication->save();*/
-
-        return \response()->json([
-            'status' => 200,
-            'message' => 'Success',
-        ]);
-    }
-
-    // New methods for update, create and delete Fitgap Questions
     public function updateFitgapQuestion()
     {
         $id = $_POST["data"][0];
@@ -294,52 +157,58 @@ class FitgapController extends Controller
         $newBusinessOpportunity = $_POST["data"][7];
 
         $question = FitgapQuestion::find($id);
+
         if ($question == null) {
             abort(404);
-        } else {
-            $question->requirement_type = $newRequirement_type;
-            $question->level_1 = $newLevel1;
-            $question->level_2 = $newLevel2;
-            $question->level_3 = $newLevel3;
-            $question->requirement = $newRequirement;
-            $question->client = $newClient;
-            $question->business_opportunity = $newBusinessOpportunity;
-            $question->save();
-
-            return \response()->json([
-                'status' => 200,
-                'message' => 'Update Success',
-            ]);
         }
+
+        $question->requirement_type = $newRequirement_type;
+        $question->level_1 = $newLevel1;
+        $question->level_2 = $newLevel2;
+        $question->level_3 = $newLevel3;
+        $question->requirement = $newRequirement;
+        $question->client = $newClient;
+        $question->business_opportunity = $newBusinessOpportunity;
+        $question->save();
+
+        SecurityLog::createLog('Question updated', 'FitGap', ['questionId' => $id]);
+
+        return \response()->json([
+            'status' => 200,
+            'message' => 'Update Success',
+        ]);
     }
 
     public function createFitgapQuestion(Project $project)
     {
         if ($project == null) {
             abort(404);
-        } else {
-            // Add the question at last position of the project..
-            $lastQuestion = FitgapQuestion::findByProject($project->id)->last();
-            $newPosition = $lastQuestion->position + 1;
-
-            $fitgapQuestion = new FitgapQuestion([
-                'position' => $newPosition,
-                'project_id' => $project->id,
-                'requirement_type' => '',
-                'level_1' => '',
-                'level_2' => '',
-                'level_3' => '',
-                'requirement' => '',
-                'client' => '',
-                'business_opportunity' => '',
-            ]);
-            $fitgapQuestion->save();
-
-            return \response()->json([
-                'status' => 200,
-                'data' => $fitgapQuestion,
-            ]);
         }
+
+        // Add the question at last position of the project..
+        $lastQuestion = FitgapQuestion::findByProject($project->id)->last();
+        $newPosition = $lastQuestion->position + 1;
+
+        $fitgapQuestion = new FitgapQuestion([
+            'position' => $newPosition,
+            'project_id' => $project->id,
+            'requirement_type' => '',
+            'level_1' => '',
+            'level_2' => '',
+            'level_3' => '',
+            'requirement' => '',
+            'client' => '',
+            'business_opportunity' => '',
+        ]);
+
+        $fitgapQuestion->save();
+
+        SecurityLog::createLog('Question created', 'FitGap', ['projectId' => $project->id]);
+
+        return \response()->json([
+            'status' => 200,
+            'data' => $fitgapQuestion,
+        ]);
     }
 
     public function deleteFitgapQuestion(Project $project)
@@ -347,32 +216,35 @@ class FitgapController extends Controller
         $id = $_POST["data"][0];
 
         $question = FitgapQuestion::find($id);
+
         if ($question == null) {
             abort(404);
-        } else {
-            $questionPosition = $question->position;
-            $questionsToUpdate = FitgapQuestion::findByProject($project->id)
-                ->where('position', '>', $questionPosition);
-
-            // update the positions
-            foreach ($questionsToUpdate as $questionUpdate) {
-                $questionUpdate->position = $questionUpdate->position - 1;
-                $questionUpdate->save();
-            }
-
-            // delete the responses
-            $responsesTodelete = FitgapVendorResponse::findByQuestion($question->id);
-            foreach ($responsesTodelete as $response) {
-                $response->delete();
-            }
-
-            $question->delete();
-
-            return \response()->json([
-                'status' => 200,
-                'message' => 'Delete Success',
-            ]);
         }
+
+        $questionPosition = $question->position;
+        $questionsToUpdate = FitgapQuestion::findByProject($project->id)
+            ->where('position', '>', $questionPosition);
+
+        // update the positions
+        foreach ($questionsToUpdate as $questionUpdate) {
+            $questionUpdate->position = $questionUpdate->position - 1;
+            $questionUpdate->save();
+        }
+
+        // delete the responses
+        $responsesTodelete = FitgapVendorResponse::findByQuestion($question->id);
+        foreach ($responsesTodelete as $response) {
+            $response->delete();
+        }
+
+        $question->delete();
+
+        SecurityLog::createLog('Question deleted', 'FitGap', ['questionId' => $id]);
+
+        return \response()->json([
+            'status' => 200,
+            'message' => 'Delete Success',
+        ]);
     }
 
     public function moveFitgapQuestion(Request $request, Project $project)
@@ -405,6 +277,8 @@ class FitgapController extends Controller
             $fitgapQuestion->save();
         }
 
+        SecurityLog::createLog('Question moved', 'FitGap', ['questionId' => $fitgapQuestionId]);
+
         // End reindexing logic
         return \response()->json([
             'status' => 200,
@@ -413,50 +287,48 @@ class FitgapController extends Controller
         ]);
     }
 
-    // New methods for update Fitgap Responses
-
     public function updateFitgapResponse(Project $project, User $vendor)
     {
         $questionId = $_POST["data"][0];
 
         if (($questionId == null) || $project == null || !$vendor->isVendor()) {
             return abort(404);
-        } else {
-            $vendorApplication = VendorApplication::where([
-                'project_id' => $project->id,
-                'vendor_id' => $vendor->id,
-            ])->first();
-
-            $response = FitgapVendorResponse::findByFitgapQuestionFromTheApplication(
-                $vendorApplication->id, $questionId);
-
-            $newVendorResponse = $_POST["data"][6];
-            $newComments = $_POST["data"][7];
-
-            if ($response == null) {
-                // There is no answer yet.
-                $response = new FitgapVendorResponse([
-                    'fitgap_question_id' => $questionId,
-                    'vendor_application_id' => $vendorApplication->id,
-                    'response' => $newVendorResponse,
-                    'comments' => $newComments,
-                ]);
-                $response->save();
-            } else {
-                // Edit the current response.
-                $response->response = $newVendorResponse;
-                $response->comments = $newComments;
-                $response->save();
-
-                return \response()->json([
-                    'status' => 200,
-                    'message' => 'Update Success',
-                ]);
-            }
         }
+
+        $vendorApplication = VendorApplication::where([
+            'project_id' => $project->id,
+            'vendor_id' => $vendor->id,
+        ])->first();
+
+        $response = FitgapVendorResponse::findByFitgapQuestionFromTheApplication($vendorApplication->id, $questionId);
+
+        $newVendorResponse = $_POST["data"][6];
+        $newComments = $_POST["data"][7];
+
+        if ($response == null) {
+            // There is no answer yet.
+            $response = new FitgapVendorResponse([
+                'fitgap_question_id' => $questionId,
+                'vendor_application_id' => $vendorApplication->id,
+                'response' => $newVendorResponse,
+                'comments' => $newComments,
+            ]);
+            $response->save();
+        } else {
+            // Edit the current response.
+            $response->response = $newVendorResponse;
+            $response->comments = $newComments;
+            $response->save();
+        }
+
+        SecurityLog::createLog('Response updated', 'FitGap', ['responseId' => $response->id]);
+
+        return \response()->json([
+            'status' => 200,
+            'message' => 'Update Success',
+        ]);
     }
 
-    // Launch View Methods
     public function clientIframe(Request $request, Project $project)
     {
         return view('fitgap.clientIframe', [

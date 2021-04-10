@@ -34,13 +34,13 @@ class ProfileController extends Controller
     {
         $vendor = auth()->user();
 
-        $generalQuestions = $vendor->vendorProfileQuestions->filter(function($question){
+        $generalQuestions = $vendor->vendorProfileQuestions->filter(function ($question) {
             return $question->originalQuestion->page == 'general';
         });
-        $economicQuestions = $vendor->vendorProfileQuestions->filter(function($question){
+        $economicQuestions = $vendor->vendorProfileQuestions->filter(function ($question) {
             return $question->originalQuestion->page == 'economic';
         });
-        $legalQuestions = $vendor->vendorProfileQuestions->filter(function($question){
+        $legalQuestions = $vendor->vendorProfileQuestions->filter(function ($question) {
             return $question->originalQuestion->page == 'legal';
         });
 
@@ -77,7 +77,7 @@ class ProfileController extends Controller
 
         return response()->json([
             'status' => 200,
-            'message' => 'nma'
+            'message' => 'nma',
         ]);
     }
 

@@ -42,6 +42,7 @@ class BenchmarkController extends Controller
                 foreach ($practices as $practice) {
                     $count += $practice->numberOfProjectsAnsweredByVendor($vendor, $regionsToFilter, $yearsToFilter);
                 }
+
                 return $count > 0;
             });     // Chart 2
         $clients = User::clientUsers()->get()
@@ -125,11 +126,13 @@ class BenchmarkController extends Controller
         // Data for graphs.
         // Chart 1
         $practices = Practice::all()->map(function (Practice $practice) {
-            return (object)[
+            return (object) [
                 'name' => $practice->name,
                 'count' => VendorSolution::all()
                     ->filter(function (VendorSolution $solution) use ($practice) {
-                        if ($solution->practice == null) return false;
+                        if ($solution->practice == null) {
+                            return false;
+                        }
 
                         return $solution->practice->is($practice);
                     })
@@ -142,7 +145,7 @@ class BenchmarkController extends Controller
 
         // Chart 3
         $regions = collect(config('arrays.regions'))->map(function ($region) {
-            return (object)[
+            return (object) [
                 'name' => $region,
                 'count' => User::vendorUsers()->get()->filter(function (User $vendor) use ($region) {
                     return in_array($region, json_decode($vendor->getVendorResponse('vendorRegions')) ?? []);
@@ -182,13 +185,11 @@ class BenchmarkController extends Controller
         $industries = $request->input('industries');
         if ($industries) {
             $industries = explode(',', $industries);
-
         }
 
         $regions = $request->input('regions');
         if ($regions) {
             $regions = explode(',', $regions);
-
         }
 
         $howManyVendorsToChart = 10;
@@ -206,10 +207,14 @@ class BenchmarkController extends Controller
             'industries' => collect(config('arrays.industryExperience')),
             'regions' => collect(config('arrays.regions')),
 
-            'totalProjects' => BenchmarkAndAnalyticsRepository::overallTotalProjects($practicesIds, $subpracticeIds, $years, $industries, $regions),
-            'totalVendors' => BenchmarkAndAnalyticsRepository::overallTotalVendors($practicesIds, $subpracticeIds, $years, $industries, $regions),
-            'totalClients' => BenchmarkAndAnalyticsRepository::overallTotalClients($practicesIds, $subpracticeIds, $years, $industries, $regions),
-            'totalSolutions' => BenchmarkAndAnalyticsRepository::overallTotalSolutions($practicesIds, $subpracticeIds, $years, $industries, $regions),
+            'totalProjects' => BenchmarkAndAnalyticsRepository::overallTotalProjects($practicesIds, $subpracticeIds,
+                $years, $industries, $regions),
+            'totalVendors' => BenchmarkAndAnalyticsRepository::overallTotalVendors($practicesIds, $subpracticeIds,
+                $years, $industries, $regions),
+            'totalClients' => BenchmarkAndAnalyticsRepository::overallTotalClients($practicesIds, $subpracticeIds,
+                $years, $industries, $regions),
+            'totalSolutions' => BenchmarkAndAnalyticsRepository::overallTotalSolutions($practicesIds, $subpracticeIds,
+                $years, $industries, $regions),
 
             'vendorScores' => $vendorScores,
 
@@ -242,13 +247,11 @@ class BenchmarkController extends Controller
         $industriesToFilter = $request->input('industries');
         if ($industriesToFilter) {
             $industriesToFilter = explode(',', $industriesToFilter);
-
         }
 
         $regionsToFilter = $request->input('regions');
         if ($regionsToFilter) {
             $regionsToFilter = explode(',', $regionsToFilter);
-
         }
 
         $practices = Practice::all();
@@ -259,10 +262,14 @@ class BenchmarkController extends Controller
         $regions = collect(config('arrays.regions'));
 
         // Data for informative panels (counts)
-        $totalClients = VendorUseCasesEvaluation::numberOfClientsThatEvaluatedVendors($regionsToFilter, $yearsToFilter, $industriesToFilter, $practicesIDsToFilter);
-        $totalVendors = VendorsProjectsAnalysis::numberOfVendorsEvaluated($regionsToFilter, $yearsToFilter, $industriesToFilter, $practicesIDsToFilter);
-        $totalProjects = VendorsProjectsAnalysis::numberOfProjectsWithVendorsEvaluated($regionsToFilter, $yearsToFilter, $industriesToFilter, $practicesIDsToFilter);
-        $vendors = VendorsProjectsAnalysis::vendorsEvaluated($regionsToFilter, $yearsToFilter, $industriesToFilter, $practicesIDsToFilter);
+        $totalClients = VendorUseCasesEvaluation::numberOfClientsThatEvaluatedVendors($regionsToFilter, $yearsToFilter,
+            $industriesToFilter, $practicesIDsToFilter);
+        $totalVendors = VendorsProjectsAnalysis::numberOfVendorsEvaluated($regionsToFilter, $yearsToFilter,
+            $industriesToFilter, $practicesIDsToFilter);
+        $totalProjects = VendorsProjectsAnalysis::numberOfProjectsWithVendorsEvaluated($regionsToFilter, $yearsToFilter,
+            $industriesToFilter, $practicesIDsToFilter);
+        $vendors = VendorsProjectsAnalysis::vendorsEvaluated($regionsToFilter, $yearsToFilter, $industriesToFilter,
+            $practicesIDsToFilter);
 
         $vendorScores = [];
         foreach ($vendors as $vendor) {
@@ -809,21 +816,24 @@ class BenchmarkController extends Controller
         return \response()->json([
             'status' => 200,
             'subpractices' => $subpractices,
-            'message' => 'Success'
+            'message' => 'Success',
         ]);
     }
+
     public function getSubpracticesfromPracticeName(string $practiceName)
     {
-        $practice = Practice::where('name',$practiceName)->first();
+        $practice = Practice::where('name', $practiceName)->first();
 
         $subpractices = [];
-        if(!empty($practice)) $subpractices = Subpractice::where('practice_id', $practice->id)->pluck('name')->toArray();
+        if (!empty($practice)) {
+            $subpractices = Subpractice::where('practice_id', $practice->id)->pluck('name')->toArray();
+        }
 
 
         return \response()->json([
             'status' => 200,
             'subpractices' => $subpractices,
-            'message' => 'Success'
+            'message' => 'Success',
         ]);
     }
 

@@ -2,13 +2,10 @@
 
 namespace App\Http\Controllers\Accenture;
 
-use App\Exports\VendorResponsesExport;
 use App\Http\Controllers\Controller;
 use App\VendorApplication;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
-use Maatwebsite\Excel\Facades\Excel;
 
 class VendorApplicationController extends Controller
 {
@@ -62,7 +59,7 @@ class VendorApplicationController extends Controller
 
         return \response()->json([
             'status' => 200,
-            'message' => 'Success'
+            'message' => 'Success',
         ]);
     }
 
@@ -84,7 +81,7 @@ class VendorApplicationController extends Controller
 
         return \response()->json([
             'status' => 200,
-            'message' => 'Success'
+            'message' => 'Success',
         ]);
     }
 
@@ -105,7 +102,7 @@ class VendorApplicationController extends Controller
 
         return \response()->json([
             'status' => 200,
-            'message' => 'Success'
+            'message' => 'Success',
         ]);
     }
 
@@ -126,7 +123,7 @@ class VendorApplicationController extends Controller
 
         return \response()->json([
             'status' => 200,
-            'message' => 'Success'
+            'message' => 'Success',
         ]);
     }
 
@@ -147,7 +144,7 @@ class VendorApplicationController extends Controller
 
         return \response()->json([
             'status' => 200,
-            'message' => 'Success'
+            'message' => 'Success',
         ]);
     }
 
@@ -168,7 +165,7 @@ class VendorApplicationController extends Controller
 
         return \response()->json([
             'status' => 200,
-            'message' => 'Success'
+            'message' => 'Success',
         ]);
     }
 
@@ -177,7 +174,7 @@ class VendorApplicationController extends Controller
         $request->validate([
             'changing' => 'required|numeric',
             'value' => 'array',
-            'year0' => 'numeric'
+            'year0' => 'numeric',
         ]);
 
         $application = VendorApplication::find($request->changing);
@@ -192,7 +189,7 @@ class VendorApplicationController extends Controller
 
         return \response()->json([
             'status' => 200,
-            'message' => 'Success'
+            'message' => 'Success',
         ]);
     }
 
@@ -227,7 +224,7 @@ class VendorApplicationController extends Controller
             abort(404);
         }
 
-        if(!in_array($request->changing, $availableFields)){
+        if (!in_array($request->changing, $availableFields)) {
             abort(404);
         }
 
@@ -236,7 +233,7 @@ class VendorApplicationController extends Controller
 
         return \response()->json([
             'status' => 200,
-            'message' => 'Success'
+            'message' => 'Success',
         ]);
     }
 
@@ -244,7 +241,7 @@ class VendorApplicationController extends Controller
     {
         $request->validate([
             'image' => 'required|file',
-            'changing' => 'required|string'
+            'changing' => 'required|string',
         ]);
 
         $availableFields = [
@@ -268,7 +265,7 @@ class VendorApplicationController extends Controller
 
         return \response()->json([
             'status' => 200,
-            'message' => 'Success'
+            'message' => 'Success',
         ]);
     }
 
@@ -305,7 +302,7 @@ class VendorApplicationController extends Controller
 
         return \response()->json([
             'status' => 200,
-            'message' => 'Success'
+            'message' => 'Success',
         ]);
     }
 }

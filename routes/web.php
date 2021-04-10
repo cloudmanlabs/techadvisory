@@ -99,12 +99,6 @@ Route::middleware(['auth'])->group(function () {
     Route::get('fitgapEvaluationJson/{vendor}/{project}', 'FitgapController@evaluationJson')
         ->name('fitgapEvaluationJson');
 
-    Route::post('fitgapClientJson/{project}', 'FitgapController@clientJsonUpload')
-        ->name('fitgapClientJsonUpload');
-    Route::post('fitgapVendorJson/{vendor}/{project}', 'FitgapController@vendorJsonUpload')
-        ->name('fitgapVendorJsonUpload');
-    Route::post('fitgapEvaluationJson/{vendor}/{project}', 'FitgapController@evaluationJsonUpload')
-        ->name('fitgapEvaluationJsonUpload');
 
     Route::get('fitgapClientIframe/{project}', 'FitgapController@clientIframe')
         ->name('fitgapClientIframe');
