@@ -15,7 +15,7 @@ class CheckVendor
      */
     public function handle($request, Closure $next)
     {
-        if ( ! $request->user()->isVendor()) {
+        if (!$request->user()->isVendor()) {
             return redirect()->route('welcome');
         }
 

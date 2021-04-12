@@ -2,11 +2,9 @@
 
 namespace App\Http\Controllers\Client;
 
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Practice;
 use App\Project;
-use App\User;
 
 class HomeController extends Controller
 {
@@ -16,7 +14,8 @@ class HomeController extends Controller
 
         // Get projects
         $openProjects = Project::openProjects()->where('client_id', $clientId);
-        $preparationProjects = Project::preparationProjects()->where('client_id', $clientId)->filter(function ($project) {
+        $preparationProjects = Project::preparationProjects()->where('client_id', $clientId)->filter(function ($project
+        ) {
             return $project->step3SubmittedAccenture;
         });
         $oldProjects = Project::oldProjects()->where('client_id', $clientId);

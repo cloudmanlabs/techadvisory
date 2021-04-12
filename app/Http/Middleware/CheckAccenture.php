@@ -15,7 +15,7 @@ class CheckAccenture
      */
     public function handle($request, Closure $next)
     {
-        if ( ! $request->user()->isAccenture()) {
+        if (!$request->user()->isAccenture()) {
             return redirect()->route('welcome');
         }
 

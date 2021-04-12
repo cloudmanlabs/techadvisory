@@ -27,7 +27,7 @@ class SizingQuestionController extends Controller
 
         return response()->json([
             'status' => 200,
-            'message' => 'nma'
+            'message' => 'nma',
         ]);
     }
 

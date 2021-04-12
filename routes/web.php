@@ -1,14 +1,8 @@
 <?php
 
-use App\Project;
 use App\SecurityLog;
-use App\SelectionCriteriaQuestionResponse;
-use App\User;
-use App\VendorApplication;
-use Guimcaballero\LaravelFolders\Models\Folder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -38,6 +32,7 @@ Route::post('logout', function (Request $request) {
 
     Auth::logout();
     $request->session()->invalidate();
+
     return redirect()->route('welcome');
 })->name('logout');
 
@@ -59,7 +54,6 @@ Route::post('enterEmail', 'CredentialController@enterEmailPost')
 
 
 Route::middleware(['auth'])->group(function () {
-
     Route::post('/useCaseQuestionResponse/upsertResponse', 'UseCaseQuestionResponseController@upsertResponse');
     Route::post('/useCaseQuestionResponse/uploadFile', 'UseCaseQuestionResponseController@uploadFile');
     Route::post('/generalInfoQuestion/changeResponse', 'GeneralInfoQuestionController@changeResponse');
@@ -74,10 +68,14 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/vendorApplication/updateRaci', 'Accenture\VendorApplicationController@updateRaci');
     Route::post('/vendorApplication/updateStaffingCost', 'Accenture\VendorApplicationController@updateStaffingCost');
     Route::post('/vendorApplication/updateTravelCost', 'Accenture\VendorApplicationController@updateTravelCost');
-    Route::post('/vendorApplication/updateAdditionalCost', 'Accenture\VendorApplicationController@updateAdditionalCost');
-    Route::post('/vendorApplication/updateNonBindingImplementation', 'Accenture\VendorApplicationController@updateNonBindingImplementation');
-    Route::post('/vendorApplication/updateEstimate5Years', 'Accenture\VendorApplicationController@updateEstimate5Years');
-    Route::post('/vendorApplication/updateImplementationScores', 'Accenture\VendorApplicationController@updateImplementationScores');
+    Route::post('/vendorApplication/updateAdditionalCost',
+        'Accenture\VendorApplicationController@updateAdditionalCost');
+    Route::post('/vendorApplication/updateNonBindingImplementation',
+        'Accenture\VendorApplicationController@updateNonBindingImplementation');
+    Route::post('/vendorApplication/updateEstimate5Years',
+        'Accenture\VendorApplicationController@updateEstimate5Years');
+    Route::post('/vendorApplication/updateImplementationScores',
+        'Accenture\VendorApplicationController@updateImplementationScores');
     Route::post('/vendorApplication/updateRunFile', 'Accenture\VendorApplicationController@updateRunFile');
 
     Route::post('/user/changeLogo', 'UserController@changeLogo');
@@ -99,12 +97,6 @@ Route::middleware(['auth'])->group(function () {
     Route::get('fitgapEvaluationJson/{vendor}/{project}', 'FitgapController@evaluationJson')
         ->name('fitgapEvaluationJson');
 
-    Route::post('fitgapClientJson/{project}', 'FitgapController@clientJsonUpload')
-        ->name('fitgapClientJsonUpload');
-    Route::post('fitgapVendorJson/{vendor}/{project}', 'FitgapController@vendorJsonUpload')
-        ->name('fitgapVendorJsonUpload');
-    Route::post('fitgapEvaluationJson/{vendor}/{project}', 'FitgapController@evaluationJsonUpload')
-        ->name('fitgapEvaluationJsonUpload');
 
     Route::get('fitgapClientIframe/{project}', 'FitgapController@clientIframe')
         ->name('fitgapClientIframe');

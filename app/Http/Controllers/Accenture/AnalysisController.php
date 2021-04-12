@@ -9,9 +9,6 @@ use App\Subpractice;
 use App\User;
 use App\VendorSolution;
 use App\VendorSolutionQuestion;
-use App\VendorSolutionQuestionResponse;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
 
 class AnalysisController extends Controller
 {
@@ -19,7 +16,7 @@ class AnalysisController extends Controller
     {
         return view('accentureViews.analysisProjectVendor', [
             'practices' => Practice::all(),
-            'vendors' => User::vendorUsers()->where('hasFinishedSetup', true)->get()
+            'vendors' => User::vendorUsers()->where('hasFinishedSetup', true)->get(),
         ]);
     }
 
@@ -31,24 +28,24 @@ class AnalysisController extends Controller
 
             'industries' => collect(config('arrays.industryExperience'))
                 ->map(function ($industry) {
-                    return (object)[
+                    return (object) [
                         'name' => $industry,
                         'projectCount' => Project::all()
                             ->filter(function (Project $project) use ($industry) {
                                 return $project->industry == $industry;
                             })
-                            ->count()
+                            ->count(),
                     ];
                 }),
             'regions' => collect(config('arrays.regions'))
                 ->map(function ($region) {
-                    return (object)[
+                    return (object) [
                         'name' => $region,
                         'projectCount' => Project::all()
                             ->filter(function ($project) use ($region) {
                                 return in_array($region, $project->regions ?? []);
                             })
-                            ->count()
+                            ->count(),
                     ];
                 }),
         ]);
@@ -62,7 +59,7 @@ class AnalysisController extends Controller
         return view('accentureViews.analysisProjectHistorical', [
             'practices' => Practice::all(),
             'years' => collect(range(2017, intval(date('Y'))))->map(function ($year) {
-                return (object)[
+                return (object) [
                     'year' => $year,
                     'projectCount' => Project::all()->filter(function ($project) use ($year) {
                         return $project->created_at->year == $year;
@@ -70,7 +67,7 @@ class AnalysisController extends Controller
                 ];
             }),
             'industries' => collect(config('arrays.industryExperience'))->map(function ($industry) {
-                return (object)[
+                return (object) [
                     'name' => $industry,
                     'projectCounts' => collect(range(2017, intval(date('Y'))))->map(function ($year) use ($industry) {
                         return Project::all()->filter(function ($project) use ($year, $industry) {
@@ -80,7 +77,7 @@ class AnalysisController extends Controller
                 ];
             }),
             'regions' => collect(config('arrays.regions'))->map(function ($region) {
-                return (object)[
+                return (object) [
                     'name' => $region,
                     'projectCounts' => collect(range(2017, intval(date('Y'))))->map(function ($year) use ($region) {
                         return Project::all()->filter(function ($project) use ($year, $region) {
@@ -112,11 +109,13 @@ class AnalysisController extends Controller
     {
         return view('accentureViews.analysisVendorGraphs', [
             'practices' => Practice::all()->map(function (Practice $practice) {
-                return (object)[
+                return (object) [
                     'name' => $practice->name,
                     'count' => VendorSolution::all()
                         ->filter(function (VendorSolution $solution) use ($practice) {
-                            if ($solution->practice == null) return false;
+                            if ($solution->practice == null) {
+                                return false;
+                            }
 
                             return $solution->practice->is($practice);
                         })
@@ -124,7 +123,7 @@ class AnalysisController extends Controller
                 ];
             }),
             'industries' => collect(config('arrays.industryExperience'))->map(function ($industry) {
-                return (object)[
+                return (object) [
                     'name' => $industry,
                     'count' => User::vendorUsers()->get()->filter(function (User $vendor) use ($industry) {
                         return $vendor->getVendorResponse('vendorIndustry') == $industry;
@@ -132,7 +131,7 @@ class AnalysisController extends Controller
                 ];
             }),
             'regions' => collect(config('arrays.regions'))->map(function ($region) {
-                return (object)[
+                return (object) [
                     'name' => $region,
                     'count' => User::vendorUsers()->get()->filter(function (User $vendor) use ($region) {
                         return in_array($region, json_decode($vendor->getVendorResponse('vendorRegions')) ?? []);
@@ -164,6 +163,7 @@ class AnalysisController extends Controller
             'transportTypes' => $transportTypes,
         ]);
     }
+
     // Move this to Custom Searches
     public function getScopesfromPractice(string $practiceName)
     {
@@ -173,9 +173,10 @@ class AnalysisController extends Controller
         return \response()->json([
             'status' => 200,
             'scopes' => $scopes,
-            'message' => 'Success'
+            'message' => 'Success',
         ]);
     }
+
     // Move this to Custom Searches
     public function getSubpracticesfromPractice(string $practiceName)
     {
@@ -185,7 +186,7 @@ class AnalysisController extends Controller
         return \response()->json([
             'status' => 200,
             'subpractices' => $subpractices,
-            'message' => 'Success'
+            'message' => 'Success',
         ]);
     }
 }

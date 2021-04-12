@@ -11,7 +11,7 @@ class CredentialController extends Controller
     public function changePassword($token)
     {
         $credential = UserCredential::where("passwordChangeToken", $token)->first();
-        if($credential == null){
+        if ($credential == null) {
             return view('credentials.changePasswordError');
         }
 
@@ -28,7 +28,7 @@ class CredentialController extends Controller
         }
 
         $request->validate([
-            'password' => 'required|confirmed|string|min:8'
+            'password' => 'required|confirmed|string|min:8',
         ]);
 
         $credential->password = Hash::make($request->password);
@@ -46,7 +46,7 @@ class CredentialController extends Controller
     public function enterEmailPost(Request $request)
     {
         $request->validate([
-            'email' => 'required|string'
+            'email' => 'required|string',
         ]);
 
         /** @var UserCredential $credential */

@@ -3,6 +3,7 @@
 
 namespace App\Http\Controllers;
 
+use App\SecurityLog;
 use App\UseCaseQuestion;
 use App\UseCaseQuestionResponse;
 use Illuminate\Http\Request;
@@ -34,9 +35,12 @@ class UseCaseQuestionResponseController extends Controller
         }
         $answer->save();
 
+        SecurityLog::createLog('Saved response', 'Use Cases',
+            ['useCaseId' => $request->useCase, 'changing' => $request->changing]);
+
         return response()->json([
             'status' => 200,
-            'message' => 'Success'
+            'message' => 'Success',
         ]);
     }
 
@@ -62,9 +66,12 @@ class UseCaseQuestionResponseController extends Controller
         $answer->response = $path;
         $answer->save();
 
+        SecurityLog::createLog('Uploaded file for response', 'Use Cases',
+            ['useCaseId' => $request->useCase, 'changing' => $request->changing, 'value' => $request->value]);
+
         return response()->json([
             'status' => 200,
-            'message' => 'Success'
+            'message' => 'Success',
         ]);
     }
 }

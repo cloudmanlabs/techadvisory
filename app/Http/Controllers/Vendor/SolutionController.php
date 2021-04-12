@@ -7,14 +7,13 @@ use App\Practice;
 use App\VendorSolution;
 use App\VendorSolutionQuestionResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
 
 class SolutionController extends Controller
 {
     public function solutionHome()
     {
-        return view('vendorViews.solutionsHome',[
-            'solutions' => auth()->user()->vendorSolutions
+        return view('vendorViews.solutionsHome', [
+            'solutions' => auth()->user()->vendorSolutions,
         ]);
     }
 
@@ -22,7 +21,7 @@ class SolutionController extends Controller
     {
         $solution = new VendorSolution([
             'vendor_id' => auth()->id(),
-            'name' => 'New solution'
+            'name' => 'New solution',
         ]);
         $solution->save();
 
@@ -35,7 +34,7 @@ class SolutionController extends Controller
             'solution' => $solution,
             'questions' => $solution->questions,
 
-            'firstTime' => $request->firstTime ?? false
+            'firstTime' => $request->firstTime ?? false,
         ]);
     }
 
@@ -43,7 +42,7 @@ class SolutionController extends Controller
     {
         return view('vendorViews.solutionEdit', [
             'solution' => $solution,
-            'questions' => $solution->questions
+            'questions' => $solution->questions,
         ]);
     }
 
@@ -51,7 +50,7 @@ class SolutionController extends Controller
     {
         $request->validate([
             'solution_id' => 'required|numeric',
-            'newName' => 'required|string'
+            'newName' => 'required|string',
         ]);
 
         $solution = VendorSolution::find($request->solution_id);
@@ -64,7 +63,7 @@ class SolutionController extends Controller
 
         return \response()->json([
             'status' => 200,
-            'message' => 'Success'
+            'message' => 'Success',
         ]);
     }
 
@@ -72,7 +71,7 @@ class SolutionController extends Controller
     {
         $request->validate([
             'solution_id' => 'required|numeric',
-            'practice_id' => 'required|numeric'
+            'practice_id' => 'required|numeric',
         ]);
 
         $solution = VendorSolution::find($request->solution_id);
@@ -90,7 +89,7 @@ class SolutionController extends Controller
 
         return \response()->json([
             'status' => 200,
-            'message' => 'Success'
+            'message' => 'Success',
         ]);
     }
 
@@ -118,7 +117,7 @@ class SolutionController extends Controller
 
         return response()->json([
             'status' => 200,
-            'message' => 'nma'
+            'message' => 'nma',
         ]);
     }
 }
