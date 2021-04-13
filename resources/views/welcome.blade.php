@@ -1,4 +1,4 @@
-@extends('vendorViews.layouts.app')
+@extends('layouts.base')
 
 @section('content')
 <div class="main-wrapper" style="margin-top: 10vh;">

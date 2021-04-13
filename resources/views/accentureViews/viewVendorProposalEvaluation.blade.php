@@ -1,4 +1,4 @@
-@extends('accentureViews.layouts.forms')
+@extends('layouts.base')
 
 @section('content')
     <div class="main-wrapper">
@@ -144,22 +144,11 @@
 
             for (let i = 0; i < array.length; i++) {
                 if (!$(array[i]).is(':hasValue') || $(array[i]).hasClass('invalid')) {
-                    console.log(array[i])
                     return false
                 }
             }
 
             return true
-        }
-
-        function showSavedToast() {
-            $.toast({
-                heading: 'Saved!',
-                showHideTransition: 'slide',
-                icon: 'success',
-                hideAfter: 1000,
-                position: 'bottom-right'
-            })
         }
 
         function updateSubmitButton() {
@@ -171,22 +160,17 @@
             }
         }
 
-
         $(document).ready(function () {
-            $('.selectionCriteriaQuestion .evalDiv input')
-                .change(function (e) {
-                    score = $(this).val();
-                    $.post('/selectionCriteriaQuestion/changeScore', {
-                        changing: $(this).data('changingid'),
-                        value: limitScoreValue(score),
-                    })
-
+            $('.selectionCriteriaQuestion .evalDiv input').change(function (e) {
+                score = $(this).val();
+                $.post('/selectionCriteriaQuestion/changeScore', {
+                    changing: $(this).data('changingid'),
+                    value: limitScoreValue(score),
+                }).done(function () {
                     showSavedToast();
                     updateSubmitButton();
-                });
-
-            $(".js-example-basic-single").select2();
-            $(".js-example-basic-multiple").select2();
+                }).fail(handleAjaxError)
+            });
 
             $('.datepicker').each(function () {
                 var date = new Date($(this).data('initialvalue'));
@@ -217,7 +201,8 @@
         function updateTotalImplementation() {
             let total = 0;
 
-            let cost = $('#travelCostContainer').children()
+            let cost = $('#travelCostContainer')
+                .children()
                 .map(function () {
                     return $(this).children().get(0)
                 })
@@ -226,11 +211,13 @@
                         title: $(this).children('.travelTitleInput').val(),
                         cost: $(this).children('.travelCostInput').val(),
                     }
-                }).toArray();
+                })
+                .toArray();
 
             total += cost.map((el) => +el.cost).reduce((a, b) => a + b, 0)
 
-            cost = $('#staffingCostContainer').children()
+            cost = $('#staffingCostContainer')
+                .children()
                 .map(function () {
                     return $(this).children().get(0)
                 })
@@ -241,11 +228,13 @@
                         rate: $(this).children('.staffingCostRateInput').val(),
                         cost: $(this).children('.staffingCostCostInput').val(),
                     }
-                }).toArray();
+                })
+                .toArray();
 
             total += cost.map((el) => +el.cost).reduce((a, b) => a + b, 0)
 
-            cost = $('#additionalCostContainer').children()
+            cost = $('#additionalCostContainer')
+                .children()
                 .map(function () {
                     return $(this).children().get(0)
                 })
@@ -254,11 +243,10 @@
                         title: $(this).children('.additionalTitleInput').val(),
                         cost: $(this).children('.additionalCostInput').val(),
                     }
-                }).toArray();
+                })
+                .toArray();
 
             total += cost.map((el) => +el.cost).reduce((a, b) => a + b, 0)
-
-            console.log(total)
 
             $('#overallImplementationCost').html(total);
         }

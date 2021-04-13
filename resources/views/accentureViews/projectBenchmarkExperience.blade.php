@@ -1,4 +1,4 @@
-@extends('accentureViews.layouts.benchmark')
+@extends('layouts.base')
 
 @php
     //NOTE This is basically to have the table ordered when the scores are random

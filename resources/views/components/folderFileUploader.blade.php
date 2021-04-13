@@ -109,11 +109,10 @@
                     $.post('/folder/removeFile',{
                         file: file.name,
                         folder_id: {{$folder->id}}
-                    })
+                    }).fail(handleAjaxError)
                 });
                 this.on("addedfile", function(file) {
                     $(file.previewElement).click(function(){
-                        console.log(file.name)
                         window.open('/storage/folders/{{$folder->name}}/'+file.name, '_blank');
                     })
                 });
@@ -127,7 +126,7 @@
             $.post('/folder/removeFile',{
                 file: $(this).data('dz-remove'),
                 folder_id: {{$folder->id}}
-            })
+            }).fail(handleAjaxError)
         })
 
         $('#{{$folder->name}} .dz-preview').click(function(){

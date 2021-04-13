@@ -103,7 +103,8 @@
             }
 
             function updateAdditionalCost() {
-                const cost = $('#additionalCostContainer').children()
+                const cost = $('#additionalCostContainer')
+                    .children()
                     .map(function () {
                         return $(this).children().get(0)
                     })
@@ -112,16 +113,20 @@
                             title: $(this).children('.additionalTitleInput').val(),
                             cost: $(this).children('.additionalCostInput').val(),
                         }
-                    }).toArray();
+                    })
+                    .toArray();
+
                 updateTotalAdditionalCost();
+
                 $.post('/vendorApplication/updateAdditionalCost', {
                     changing: {{$vendorApplication->id}},
                     value: cost
-                })
-                showSavedToast();
-                if (updateSubmitButton) {
-                    updateSubmitButton();
-                }
+                }).done(function () {
+                    showSavedToast();
+                    if (updateSubmitButton) {
+                        updateSubmitButton();
+                    }
+                }).fail(handleAjaxError)
             }
 
             setAdditionalCostEditListener();
@@ -131,8 +136,7 @@
                     application_id: {{$vendorApplication->id}},
                     changing: 'additionalCostScore',
                     value: $(this).val()
-                })
-                showSavedToast();
+                }).done(showSavedToast).fail(handleAjaxError)
             })
         });
     </script>

@@ -1,4 +1,5 @@
-@extends('accentureViews.layouts.benchmark')
+@extends('layouts.base')
+
 @php
     // Common view functions
     // Values for best from vendors

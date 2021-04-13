@@ -68,7 +68,7 @@
         <input style="margin-left: 1rem;" type="text" class="form-control nonBindingInput" placeholder="Comments"
                data-changing="travelCostNonBindingComments"
                value="{{$vendorApplication->travelCostNonBindingComments}}"
-               {{$disabled ? 'disabled' : ''}}>
+            {{$disabled ? 'disabled' : ''}}>
     </div>
 </div>
 
@@ -91,7 +91,7 @@
         <input style="margin-left: 1rem;" type="text" class="form-control nonBindingInput" placeholder="Comments"
                data-changing="additionalCostNonBindingComments"
                value="{{$vendorApplication->additionalCostNonBindingComments}}"
-               {{$disabled ? 'disabled' : ''}}>
+            {{$disabled ? 'disabled' : ''}}>
     </div>
 </div>
 
@@ -104,56 +104,59 @@
                     changing: $(this).data('changing'),
                     application_id: {{$vendorApplication->id}},
                     value: $(this).val()
-                })
-
-                showSavedToast();
-                updateSubmitButton();
+                }).done(function () {
+                    showSavedToast();
+                    updateSubmitButton();
+                }).fail(handleAjaxError)
             });
-
 
             $('#overallCostScore').change(function () {
                 $.post('/vendorApplication/updateImplementationScores', {
                     application_id: {{$vendorApplication->id}},
                     changing: 'overallCostScore',
                     value: $(this).val()
-                })
-                showSavedToast();
-                if (updateSubmitButton) {
-                    updateSubmitButton();
-                }
+                }).done(function () {
+                    showSavedToast();
+                    if (updateSubmitButton) {
+                        updateSubmitButton();
+                    }
+                }).fail(handleAjaxError)
             })
             $('#staffingCostScore').change(function () {
                 $.post('/vendorApplication/updateImplementationScores', {
                     application_id: {{$vendorApplication->id}},
                     changing: 'staffingCostScore',
                     value: $(this).val()
-                })
-                showSavedToast();
-                if (updateSubmitButton) {
-                    updateSubmitButton();
-                }
+                }).done(function () {
+                    showSavedToast();
+                    if (updateSubmitButton) {
+                        updateSubmitButton();
+                    }
+                }).fail(handleAjaxError)
             })
             $('#travelCostScore').change(function () {
                 $.post('/vendorApplication/updateImplementationScores', {
                     application_id: {{$vendorApplication->id}},
                     changing: 'travelCostScore',
                     value: $(this).val()
-                })
-                showSavedToast();
-                if (updateSubmitButton) {
-                    updateSubmitButton();
-                }
+                }).done(function () {
+                    showSavedToast();
+                    if (updateSubmitButton) {
+                        updateSubmitButton();
+                    }
+                }).fail(handleAjaxError)
             })
             $('#additionalCostScore').change(function () {
                 $.post('/vendorApplication/updateImplementationScores', {
                     application_id: {{$vendorApplication->id}},
                     changing: 'additionalCostScore',
                     value: $(this).val()
-                })
-                showSavedToast();
-                if (updateSubmitButton) {
-                    updateSubmitButton();
-                }
+                }).done(function () {
+                    showSavedToast();
+                    if (updateSubmitButton) {
+                        updateSubmitButton();
+                    }
+                }).fail(handleAjaxError)
             })
         });
     </script>

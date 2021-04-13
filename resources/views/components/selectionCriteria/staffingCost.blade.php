@@ -165,12 +165,12 @@
                 $.post('/vendorApplication/updateStaffingCost', {
                     changing: {{$vendorApplication->id}},
                     value: cost
-                })
-
-                showSavedToast();
-                if (updateSubmitButton) {
-                    updateSubmitButton();
-                }
+                }).done(function () {
+                    showSavedToast();
+                    if (updateSubmitButton) {
+                        updateSubmitButton();
+                    }
+                }).fail(handleAjaxError)
             }
 
             setStaffingCostEditListener();
@@ -181,11 +181,12 @@
                     application_id: {{$vendorApplication->id}},
                     changing: 'staffingCostScore',
                     value: $(this).val()
-                })
-                showSavedToast();
-                if (updateSubmitButton) {
-                    updateSubmitButton();
-                }
+                }).done(function () {
+                    showSavedToast();
+                    if (updateSubmitButton) {
+                        updateSubmitButton();
+                    }
+                }).fail(handleAjaxError)
             })
         });
     </script>

@@ -313,7 +313,7 @@
             project_id: '{{$project->id}}',
             changing,
             value
-        })
+        }).fail(handleAjaxError)
     }
 
 </script>

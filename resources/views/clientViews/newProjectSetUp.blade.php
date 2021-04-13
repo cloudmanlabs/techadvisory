@@ -1,4 +1,4 @@
-@extends('clientViews.layouts.forms')
+@extends('layouts.base')
 
 @section('content')
     <div class="main-wrapper">
@@ -292,9 +292,7 @@
             if (array.length == 0) return true;
 
             for (let i = 0; i < array.length; i++) {
-                console.log(array[i])
                 if (!$(array[i]).is(':hasValue') || $(array[i]).hasClass('invalid')) {
-                    console.log(array[i])
                     return false
                 }
             }
@@ -320,16 +318,6 @@
                 $('#step3Submit').attr('disabled', false)
                 $('#wizard_client_newProjectSetUp-next').removeClass('disabled')
             }
-        }
-
-        function showSavedToast() {
-            $.toast({
-                heading: 'Saved!',
-                showHideTransition: 'slide',
-                icon: 'success',
-                hideAfter: 1000,
-                position: 'bottom-right'
-            })
         }
 
         var currentPracticeId = {{$project->practice->id ?? -1}};
@@ -440,10 +428,10 @@
                 $.post('/client/newProjectSetUp/changeProjectName', {
                     project_id: '{{$project->id}}',
                     newName: value
-                })
-
-                showSavedToast();
-                updateSubmitStep3();
+                }).done(function () {
+                    showSavedToast();
+                    updateSubmitStep3();
+                }).fail(handleAjaxError)
             });
 
             $('#valueTargeting').change(function (e) {
@@ -451,10 +439,10 @@
                 $.post('/client/newProjectSetUp/changeProjectHasValueTargeting', {
                     project_id: '{{$project->id}}',
                     value: value
-                })
-
-                showSavedToast();
-                updateSubmitStep3();
+                }).done(function () {
+                    showSavedToast();
+                    updateSubmitStep3();
+                }).fail(handleAjaxError)
             });
 
             $('#oralsSelect').change(function (e) {
@@ -462,10 +450,10 @@
                 $.post('/client/newProjectSetUp/changeProjectHasOrals', {
                     project_id: '{{$project->id}}',
                     value: value
-                })
-
-                showSavedToast();
-                updateSubmitStep3();
+                }).done(function () {
+                    showSavedToast();
+                    updateSubmitStep3();
+                }).fail(handleAjaxError)
             });
 
             $('#bindingOption').change(function (e) {
@@ -473,10 +461,10 @@
                 $.post('/client/newProjectSetUp/changeProjectIsBinding', {
                     project_id: '{{$project->id}}',
                     value: value
-                })
-
-                showSavedToast();
-                updateSubmitStep3();
+                }).done(function () {
+                    showSavedToast();
+                    updateSubmitStep3();
+                }).fail(handleAjaxError)
             });
 
             $('#practiceSelect').change(function (e) {
@@ -485,13 +473,13 @@
                 $.post('/client/newProjectSetUp/changePractice', {
                     project_id: '{{$project->id}}',
                     practice_id: value
-                })
+                }).done(function () {
+                    showSavedToast();
+                    updateSubmitStep3();
 
-                showSavedToast();
-                updateSubmitStep3();
-
-                updateShownQuestionsAccordingToPractice();
-                updateShownSubpracticeOptionsAccordingToPractice(true);
+                    updateShownQuestionsAccordingToPractice();
+                    updateShownSubpracticeOptionsAccordingToPractice(true);
+                }).fail(handleAjaxError)
             });
 
             $('#subpracticeSelect').change(function (e) {
@@ -499,112 +487,90 @@
                 $.post('/client/newProjectSetUp/changeSubpractice', {
                     project_id: '{{$project->id}}',
                     subpractices: value
-                })
-
-                showSavedToast();
-                updateSubmitStep3();
+                }).done(function () {
+                    showSavedToast();
+                    updateSubmitStep3();
+                }).fail(handleAjaxError)
             });
             $('#industrySelect').change(function (e) {
                 var value = $(this).val();
                 $.post('/client/newProjectSetUp/changeIndustry', {
                     project_id: '{{$project->id}}',
                     value: value
-                })
-
-                showSavedToast();
-                updateSubmitStep3();
+                }).done(function () {
+                    showSavedToast();
+                    updateSubmitStep3();
+                }).fail(handleAjaxError)
             });
             $('#regionSelect').change(function (e) {
                 var value = $(this).val();
                 $.post('/client/newProjectSetUp/changeRegions', {
                     project_id: '{{$project->id}}',
                     value: value
-                })
-
-                showSavedToast();
-                updateSubmitStep3();
+                }).done(function () {
+                    showSavedToast();
+                    updateSubmitStep3();
+                }).fail(handleAjaxError)
             });
             $('#projectType').change(function (e) {
                 var value = $(this).val();
                 $.post('/client/newProjectSetUp/changeProjectType', {
                     project_id: '{{$project->id}}',
                     value: value
-                })
-
-                showSavedToast();
-                updateSubmitStep3();
+                }).done(function () {
+                    showSavedToast();
+                    updateSubmitStep3();
+                }).fail(handleAjaxError)
             });
             $('#currencySelect').change(function (e) {
                 var value = $(this).val();
                 $.post('/client/newProjectSetUp/changeCurrency', {
                     project_id: '{{$project->id}}',
                     value: value
-                })
-
-                showSavedToast();
-                updateSubmitStep3();
+                }).done(function () {
+                    showSavedToast();
+                    updateSubmitStep3();
+                }).fail(handleAjaxError)
             });
             $('#deadline').change(function (e) {
                 var value = $(this).val();
                 $.post('/client/newProjectSetUp/changeDeadline', {
                     project_id: '{{$project->id}}',
                     value: value
-                })
-
-                showSavedToast();
-                updateSubmitStep3();
+                }).done(function () {
+                    showSavedToast();
+                    updateSubmitStep3();
+                }).fail(handleAjaxError)
             });
             $('#rfpOtherInfo').change(function (e) {
                 var value = $(this).val();
                 $.post('/client/newProjectSetUp/changeRFPOtherInfo', {
                     project_id: '{{$project->id}}',
                     value: value
-                })
-
-                showSavedToast();
+                }).done(function () {
+                    showSavedToast();
+                }).fail(handleAjaxError)
             });
 
             $('#step3Submit').click(function () {
                 $.post('/client/newProjectSetUp/setStep3Submitted', {
                     project_id: '{{$project->id}}',
-                })
-
-
-                $.toast({
-                    heading: 'Submitted!',
-                    showHideTransition: 'slide',
-                    icon: 'success',
-                    hideAfter: 1000,
-                    position: 'bottom-right'
-                })
-                location.reload();
-
-                $(this).attr('disabled', true);
-                $(this).html('Submitted')
+                }).done(function () {
+                    location.reload();
+                }).fail(handleAjaxError)
             });
 
             $('#step4Submit').click(function () {
+                $(this).attr('disabled', true);
                 $.post('/client/newProjectSetUp/setStep4Submitted', {
                     project_id: '{{$project->id}}',
                 }).done(function () {
-                    // Reload the page so the fields are disabled
                     location.reload();
+                }).fail(function () {
+                    $(this).attr('disabled', false);
+                    $('#step4SubmitModal').modal('hide');
+                    handleAjaxError()
                 })
-
-                $.toast({
-                    heading: 'Submitted!',
-                    showHideTransition: 'slide',
-                    icon: 'success',
-                    hideAfter: 1000,
-                    position: 'bottom-right'
-                })
-
-                $(this).attr('disabled', true);
-                $(this).html('Submitted')
-
-                $('#step4SubmitButton').attr('disabled', true);
-                $('#step4SubmitButton').html('Submitted');
-                $('#step4SubmitModal').modal('hide');
             });
 
             // On change for the rest
@@ -621,10 +587,10 @@
                     $.post('/generalInfoQuestion/changeResponse', {
                         changing: $(this).data('changing'),
                         value: value
-                    })
-
-                    showSavedToast();
-                    updateSubmitStep3();
+                    }).done(function () {
+                        showSavedToast();
+                        updateSubmitStep3();
+                    }).fail(handleAjaxError)
                 });
 
             $('.sizingQuestion input,.sizingQuestion textarea,.sizingQuestion select')
@@ -640,14 +606,11 @@
                     $.post('/sizingQuestion/changeResponse', {
                         changing: $(this).data('changing'),
                         value: value
-                    })
-
-                    showSavedToast();
-                    updateSubmitStep3();
+                    }).done(function () {
+                        showSavedToast();
+                        updateSubmitStep3();
+                    }).fail(handleAjaxError)
                 });
-
-            $(".js-example-basic-single").select2();
-            $(".js-example-basic-multiple").select2();
 
             $('.datepicker').each(function () {
                 var date = new Date($(this).data('initialvalue'));
@@ -680,7 +643,6 @@
                     data: formData,
                     processData: false,
                     contentType: false,
-
                     success: function () {
                         $("iframe").each(function () {
                             $(this).attr("src", function (index, attr) {
@@ -689,7 +651,8 @@
                         })
                         showSavedToast();
                         location.reload()
-                    }
+                    },
+                    error: handleAjaxError
                 });
             });
 

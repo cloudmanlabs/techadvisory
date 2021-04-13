@@ -1,4 +1,4 @@
-@extends('vendorViews.layouts.forms')
+@extends('layouts.base')
 
 @section('content')
     <div class="main-wrapper">
@@ -83,7 +83,6 @@
 
         for (let i = 0; i < array.length; i++) {
             if(!$(array[i]).is(':hasValue') || $(array[i]).hasClass('invalid')){
-                console.log(array[i])
                 return false
             }
         }
@@ -124,27 +123,16 @@
         });
     }
 
-    function showSavedToast()
-    {
-        $.toast({
-            heading: 'Saved!',
-            showHideTransition: 'slide',
-            icon: 'success',
-            hideAfter: 1000,
-            position: 'bottom-right'
-        })
-    }
-
     $(document).ready(function() {
         $('#solutionName').change(function (e) {
             var value = $(this).val();
             $.post('/vendors/solution/changeName', {
                 solution_id: '{{$solution->id}}',
                 newName: value
-            })
-
-            updateSubmitButton();
-            showSavedToast();
+            }).done(function () {
+                updateSubmitButton();
+                showSavedToast();
+            }).fail(handleAjaxError)
         });
 
         $('#practiceSelect').change(function (e) {
@@ -153,13 +141,12 @@
             $.post('/vendors/solution/changePractice', {
                 solution_id: '{{$solution->id}}',
                 practice_id: value
-            })
-
-            showSavedToast();
-            updateSubmitButton();
-            updateShownQuestionsAccordingToPractice();
+            }).done(function () {
+                showSavedToast();
+                updateSubmitButton();
+                updateShownQuestionsAccordingToPractice();
+            }).fail(handleAjaxError)
         });
-
 
         $('.solutionQuestion input,.solutionQuestion textarea,.solutionQuestion select')
             .filter(function(el) {
@@ -174,14 +161,11 @@
                 $.post('/vendors/solution/changeResponse', {
                     changing: $(this).data('changing'),
                     value: value
-                })
-
-                updateSubmitButton();
-                showSavedToast();
+                }).done(function () {
+                    updateSubmitButton();
+                    showSavedToast();
+                }).fail(handleAjaxError)
             });
-
-        $(".js-example-basic-single").select2();
-        $(".js-example-basic-multiple").select2();
 
         $('.datepicker').each(function(){
             var date = new Date($(this).data('initialvalue'));

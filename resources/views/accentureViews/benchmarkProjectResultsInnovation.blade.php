@@ -1,4 +1,5 @@
-@extends('accentureViews.layouts.benchmark')
+@extends('layouts.base')
+
 <div class="main-wrapper">
     <x-accenture.navbar activeSection="benchmark"/>
     <div class="page-wrapper">

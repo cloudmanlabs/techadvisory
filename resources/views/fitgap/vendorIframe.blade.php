@@ -36,26 +36,6 @@
         });
     });
 
-    function showSavedToast() {
-        $.toast({
-            heading: 'Saved!',
-            showHideTransition: 'slide',
-            icon: 'success',
-            hideAfter: 1000,
-            position: 'bottom-right'
-        })
-    }
-
-    function showErrorToast() {
-        $.toast({
-            heading: 'Error!',
-            showHideTransition: 'slide',
-            icon: 'error',
-            hideAfter: 1000,
-            position: 'bottom-right'
-        })
-    }
-
     var mySpreadsheet = jexcel(document.getElementById('spreadsheet'), {
         url: "{{ route('fitgapVendorJson', ['vendor' => $vendor, 'project' => $project]) }}",
         tableOverflow: false,
@@ -130,7 +110,7 @@
             @if(!$disabled)
             $.post("{{route('updateFitgapResponse', ['project' => $project, 'vendor' => $vendor])}}", {
                 data: mySpreadsheet.getRowData(y),
-            }).done(showSavedToast).fail(showErrorToast);
+            }).done(showSavedToast).fail(handleAjaxError);
             @endif
         },
     });

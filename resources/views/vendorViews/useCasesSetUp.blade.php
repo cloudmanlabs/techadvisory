@@ -1,4 +1,4 @@
-@extends('vendorViews.layouts.forms')
+@extends('layouts.base')
 
 @php
     $useCaseId = ($currentUseCase ?? null) ?$currentUseCase->id : null;
@@ -240,10 +240,6 @@
         }
 
         $(document).ready(function () {
-
-            $(".js-example-basic-single").select2();
-            $(".js-example-basic-multiple").select2();
-
             disableQuestionsByPractice();
             @if($currentUseCase ?? null)
             $('#useCaseName').val("{{$currentUseCase->name}}")

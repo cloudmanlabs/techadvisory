@@ -1,8 +1,8 @@
-@extends('accentureViews.layouts.forms')
+@extends('layouts.base')
 
 @section('content')
     <div class="main-wrapper">
-        <x-accenture.navbar activeSection="sections" />
+        <x-accenture.navbar activeSection="sections"/>
 
         <div class="page-wrapper">
             <div class="page-content">
@@ -13,7 +13,7 @@
                                 <div style="display: flex; justify-content: space-between">
                                     <h3>Complete the Profile</h3>
                                     <a id="submitButton" class="btn btn-primary btn-lg btn-icon-text"
-                                        href="{{route('accenture.clientProfileView', ['client' => $client])}}">Save</a>
+                                       href="{{route('accenture.clientProfileView', ['client' => $client])}}">Save</a>
                                 </div>
 
 
@@ -25,24 +25,28 @@
 
                                 <div class="form-group">
                                     <label for="clientNameInput">Client company name*</label>
-                                    <input class="form-control" id="clientNameInput" value="{{$firstTime ? '' : $client->name}}" type="text" required>
+                                    <input class="form-control" id="clientNameInput"
+                                           value="{{$firstTime ? '' : $client->name}}" type="text" required>
                                 </div>
 
                                 <div class="form-group">
                                     <label for="clientEmailInput">Client company contact email*</label>
-                                    <input class="form-control" id="clientEmailInput" value="{{$firstTime ? '' : $client->email}}" type="text">
+                                    <input class="form-control" id="clientEmailInput"
+                                           value="{{$firstTime ? '' : $client->email}}" type="text">
                                 </div>
 
                                 @if(!$client->credentials->first())
                                     <div class="form-group">
                                         <label for="clientFirstEmailInput">First user email*</label>
-                                        <input class="form-control" id="clientFirstEmailInput" value="{{optional($client->credentials->first())->email}}" type="text"
-                                            required>
+                                        <input class="form-control" id="clientFirstEmailInput"
+                                               value="{{optional($client->credentials->first())->email}}" type="text"
+                                               required>
                                     </div>
                                     <div class="form-group">
                                         <label for="clientFirstNameInput">First user name*</label>
-                                        <input class="form-control" id="clientFirstNameInput" value="{{optional($client->credentials->first())->name}}"
-                                            type="text" required>
+                                        <input class="form-control" id="clientFirstNameInput"
+                                               value="{{optional($client->credentials->first())->name}}"
+                                               type="text" required>
                                     </div>
 
                                     <button class="btn btn-primary btn-lg" id="createFirstCredential">
@@ -138,7 +142,8 @@
                                     </select>
                                 </div>
                                 <br>
-                                <x-questionForeach :questions="$questions" :class="'profileQuestion'" :disabled="false" :required="true" />
+                                <x-questionForeach :questions="$questions" :class="'profileQuestion'" :disabled="false"
+                                                   :required="true"/>
 
                                 <br>
                                 <div class="form-group">
@@ -147,26 +152,29 @@
 
                                     <div class="input-group col-xs-12">
                                         <input id="fileNameInput" disabled class="form-control file-upload-info"
-                                            value="{{$client->logo ? 'logo.jpg' : 'No file selected'}}" type="text">
+                                               value="{{$client->logo ? 'logo.jpg' : 'No file selected'}}" type="text">
                                         <span class="input-group-append">
                                             <button class="file-upload-browse btn btn-primary" type="button">
                                                 <span class="input-group-append"
-                                                    id="logoUploadButton">{{$client->logo ? 'Replace file' : 'Select file'}}</span>
+                                                      id="logoUploadButton">{{$client->logo ? 'Replace file' : 'Select file'}}</span>
                                             </button>
                                         </span>
                                     </div>
                                 </div>
 
                                 <p style="font-size: 12px">
-                                    Do not include personal, sensitive data, personal data relating to criminal convictions and offences or financial data
-                                    in this free form text field or upload screen shots containing personal data, unless you are consenting and assuming
-                                    responsibility for the processing of this personal data (either your personal data or the personal data of others) by
+                                    Do not include personal, sensitive data, personal data relating to criminal
+                                    convictions and offences or financial data
+                                    in this free form text field or upload screen shots containing personal data, unless
+                                    you are consenting and assuming
+                                    responsibility for the processing of this personal data (either your personal data
+                                    or the personal data of others) by
                                     Accenture.
                                 </p>
 
                                 <br>
 
-                                <x-folderFileUploader :folder="$client->profileFolder" :timeout="1000" />
+                                <x-folderFileUploader :folder="$client->profileFolder" :timeout="1000"/>
 
                                 <br>
                             </div>
@@ -175,183 +183,165 @@
                 </div>
             </div>
 
-            <x-footer />
+            <x-footer/>
         </div>
     </div>
 @endsection
 
 @section('head')
-@parent
+    @parent
 
-<style>
-    select.form-control {
-        color: #495057;
-    }
+    <style>
+        select.form-control {
+            color: #495057;
+        }
 
-    .select2-results__options .select2-results__option[aria-disabled=true] {
-        display: none;
-    }
-</style>
+        .select2-results__options .select2-results__option[aria-disabled=true] {
+            display: none;
+        }
+    </style>
 @endsection
 
 
 @section('scripts')
-@parent
-<script>
-    window.history.pushState({}, document.title, window.location.pathname);
+    @parent
+    <script>
+        window.history.pushState({}, document.title, window.location.pathname);
 
-    jQuery.expr[':'].hasValue = function(el,index,match) {
-        return el.value != "";
-    };
+        jQuery.expr[':'].hasValue = function (el, index, match) {
+            return el.value != "";
+        };
 
-    /**
-     *  Returns false if any field is empty
-     */
-    function checkIfAllRequiredsAreFilled(){
-        let array = $('input,textarea,select').filter('[required]').toArray();
-		if(array.length == 0) return true;
+        /**
+         *  Returns false if any field is empty
+         */
+        function checkIfAllRequiredsAreFilled() {
+            let array = $('input,textarea,select').filter('[required]').toArray();
+            if (array.length === 0) return true;
 
-        for (let i = 0; i < array.length; i++) {
-            if(!$(array[i]).is(':hasValue') || $(array[i]).hasClass('invalid')){
-                console.log(array[i])
-                return false
+            for (let i = 0; i < array.length; i++) {
+                if (!$(array[i]).is(':hasValue') || $(array[i]).hasClass('invalid')) {
+                    return false
+                }
+            }
+
+            return true
+        }
+
+        function checkIfAllRequiredsInThisPageAreFilled() {
+            let array = $('input,textarea,select').filter('[required]:visible').toArray();
+            if (array.length == 0) return true;
+
+            return array.reduce(function (prev, current) {
+                return !prev ? false : $(current).is(':hasValue')
+            }, true)
+        }
+
+        function updateSubmitButton() {
+            // If we filled all the fields, remove the disabled from the button.
+            if (checkIfAllRequiredsAreFilled()) {
+                $('#submitButton').removeClass('disabled')
+            } else {
+                $('#submitButton').addClass('disabled')
             }
         }
 
-        return true
-    }
-
-    function checkIfAllRequiredsInThisPageAreFilled(){
-        let array = $('input,textarea,select').filter('[required]:visible').toArray();
-        if(array.length == 0) return true;
-
-        return array.reduce(function(prev, current) {
-            return !prev ? false : $(current).is(':hasValue')
-        }, true)
-    }
-
-    function updateSubmitButton()
-    {
-        // If we filled all the fields, remove the disabled from the button.
-        if(checkIfAllRequiredsAreFilled()){
-            $('#submitButton').removeClass('disabled')
-        } else {
-            $('#submitButton').addClass('disabled')
-        }
-    }
-
-    function showSavedToast()
-    {
-        $.toast({
-            heading: 'Saved!',
-            showHideTransition: 'slide',
-            icon: 'success',
-            hideAfter: 1000,
-            position: 'bottom-right'
-        })
-    }
-
-    $(document).ready(function() {
-        $('.profileQuestion input,.profileQuestion textarea,.profileQuestion select')
-            .filter(function(el) {
-                return $( this ).data('changing') !== undefined
-            })
-            .change(function (e) {
-                var value = $(this).val();
-                if($.isArray(value) && value.length == 0 && $(this).attr('multiple') !== undefined){
-                    value = '[]'
-                }
-
-                $.post('/accenture/clientProfileEdit/changeResponse', {
-                    changing: $(this).data('changing'),
-                    value: value
+        $(document).ready(function () {
+            $('.profileQuestion input,.profileQuestion textarea,.profileQuestion select')
+                .filter(function (el) {
+                    return $(this).data('changing') !== undefined
                 })
+                .change(function (e) {
+                    var value = $(this).val();
+                    if ($.isArray(value) && value.length == 0 && $(this).attr('multiple') !== undefined) {
+                        value = '[]'
+                    }
 
-                showSavedToast();
-                updateSubmitButton();
+                    $.post('/accenture/clientProfileEdit/changeResponse', {
+                        changing: $(this).data('changing'),
+                        value: value
+                    }).done(function () {
+                        showSavedToast();
+                        updateSubmitButton();
+                    }).fail(handleAjaxError)
+                });
+
+            $('#clientNameInput')
+                .change(function (e) {
+                    var value = $(this).val();
+                    $.post('/accenture/clientProfileEdit/changeName', {
+                        client_id: {{$client->id}},
+                        value: value
+                    }).done(function () {
+                        showSavedToast();
+                        updateSubmitButton();
+                    }).fail(handleAjaxError)
+                });
+
+            $('#clientEmailInput')
+                .change(function (e) {
+                    var value = $(this).val();
+                    $.post('/accenture/clientProfileEdit/changeEmail', {
+                        client_id: {{$client->id}},
+                        value: value
+                    }).done(function () {
+                        showSavedToast();
+                        updateSubmitButton();
+                    }).fail(handleAjaxError)
+                });
+
+            $('#createFirstCredential')
+                .click(function (e) {
+                    var email = $('#clientFirstEmailInput').val();
+                    var name = $('#clientFirstNameInput').val();
+                    $.post('/accenture/clientProfileEdit/createFirstCredential', {
+                        client_id: {{$client->id}},
+                        email: email,
+                        name: name
+                    }).done(function () {
+                        showSavedToast();
+                        updateSubmitButton();
+                    }).fail(handleAjaxError)
+
+                    $(this).attr('disabled', true);
+                });
+
+            $('.datepicker').each(function () {
+                var date = new Date($(this).data('initialvalue'));
+
+                $(this).datepicker({
+                    format: "mm/dd/yyyy",
+                    todayHighlight: true,
+                    autoclose: true,
+                    startDate: "+0d"
+                });
+                $(this).datepicker('setDate', date);
             });
 
-        $('#clientNameInput')
-            .change(function (e) {
-                var value = $(this).val();
-                $.post('/accenture/clientProfileEdit/changeName', {
-                    client_id: {{$client->id}},
-                    value: value
-                })
-
-                showSavedToast();
-                updateSubmitButton();
+            $('.file-upload-browse').on('click', function (e) {
+                $("#logoInput").trigger('click');
             });
 
-        $('#clientEmailInput')
-            .change(function (e) {
-                var value = $(this).val();
-                $.post('/accenture/clientProfileEdit/changeEmail', {
-                    client_id: {{$client->id}},
-                    value: value
-                })
+            $("#logoInput").change(function () {
+                var fileName = $(this).val().split('\\').pop();
 
-                showSavedToast();
-                updateSubmitButton();
+                $("#fileNameInput").val(fileName);
+                $('#logoUploadButton').html('Replace file')
+
+
+                var formData = new FormData();
+                formData.append('user_id', '{{$client->id}}')
+                formData.append('image', $(this).get(0).files[0]);
+                $.ajax({
+                    url: "/accenture/changeSomeoneElsesLogo",
+                    type: "POST",
+                    data: formData,
+                    processData: false,
+                    contentType: false,
+                }).done(showSavedToast).fail(handleAjaxError)
             });
 
-        $('#createFirstCredential')
-            .click(function (e) {
-                var email = $('#clientFirstEmailInput').val();
-                var name = $('#clientFirstNameInput').val();
-                $.post('/accenture/clientProfileEdit/createFirstCredential', {
-                    client_id: {{$client->id}},
-                    email: email,
-                    name: name
-                })
-
-                showSavedToast();
-                updateSubmitButton();
-
-                $(this).attr('disabled', true);
-            });
-
-        $(".js-example-basic-single").select2();
-        $(".js-example-basic-multiple").select2();
-
-        $('.datepicker').each(function(){
-            var date = new Date($(this).data('initialvalue'));
-
-            $(this).datepicker({
-                format: "mm/dd/yyyy",
-                todayHighlight: true,
-                autoclose: true,
-                startDate: "+0d"
-            });
-            $(this).datepicker('setDate', date);
+            updateSubmitButton();
         });
-
-        $('.file-upload-browse').on('click', function(e) {
-            $("#logoInput").trigger('click');
-        });
-
-        $("#logoInput").change(function (){
-            var fileName = $(this).val().split('\\').pop();;
-
-            $("#fileNameInput").val(fileName);
-            $('#logoUploadButton').html('Replace file')
-
-
-            var formData = new FormData();
-            formData.append('user_id', '{{$client->id}}')
-            formData.append('image', $(this).get(0).files[0]);
-            $.ajax({
-                url : "/accenture/changeSomeoneElsesLogo",
-                type: "POST",
-                data : formData,
-                processData: false,
-                contentType: false,
-            });
-
-            showSavedToast();
-        });
-
-        updateSubmitButton();
-    });
-</script>
+    </script>
 @endsection

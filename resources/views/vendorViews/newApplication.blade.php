@@ -1,4 +1,4 @@
-@extends('vendorViews.layouts.forms')
+@extends('layouts.base')
 
 @section('content')
     <div class="main-wrapper">
@@ -99,9 +99,6 @@
                 window.location.replace("/vendors/home");
             }
         });
-
-        $(".js-example-basic-single").select2();
-        $(".js-example-basic-multiple").select2();
 
         $('.datepicker').each(function(){
             var date = new Date($(this).data('initialvalue'));

@@ -1,4 +1,4 @@
-@extends('accentureViews.layouts.forms')
+@extends('layouts.base')
 
 @section('content')
     <div class="main-wrapper">
@@ -188,7 +188,6 @@
                 </div>
             </div>
 
-
             <x-footer/>
         </div>
     </div>
@@ -223,9 +222,9 @@
         };
 
         if ('{{ $project->useCases }}' === 'no') {
-            $('#useCaseMenuOption').attr('style','display:none !important');//.css('display', 'none!important');
+            $('#useCaseMenuOption').attr('style', 'display:none !important');//.css('display', 'none!important');
         } else {
-            $('#useCaseMenuOption').attr('style','display:inherit !important');//.css('display', 'inherit!important');
+            $('#useCaseMenuOption').attr('style', 'display:inherit !important');//.css('display', 'inherit!important');
         }
 
         /**
@@ -239,11 +238,10 @@
                     const practiceId = $(el).parent('.questionDiv').data('practice');
                     return practiceId == currentPracticeId || practiceId == "";
                 });
-            if (array.length == 0) return true;
+            if (array.length === 0) return true;
 
             for (let i = 0; i < array.length; i++) {
                 if (!$(array[i]).is(':hasValue') || $(array[i]).hasClass('invalid')) {
-                    console.log(array[i])
                     return false
                 }
             }
@@ -268,16 +266,6 @@
             } else {
                 $('#submitSizingInfo').attr('disabled', false)
             }
-        }
-
-        function showSavedToast() {
-            $.toast({
-                heading: 'Saved!',
-                showHideTransition: 'slide',
-                icon: 'success',
-                hideAfter: 1000,
-                position: 'bottom-right'
-            })
         }
 
         var currentPracticeId = {{$project->practice->id ?? -1}};
@@ -366,32 +354,32 @@
                 $.post('/accenture/newProjectSetUp/changeProjectName', {
                     project_id: '{{$project->id}}',
                     newName: value
-                })
-
-                showSavedToast();
-                updateSubmitButton();
+                }).done(function () {
+                    showSavedToast()
+                    updateSubmitButton()
+                }).fail(handleAjaxError)
             });
+
             $('#ownerSelect').change(function (e) {
                 var value = $(this).val();
                 $.post('/accenture/newProjectSetUp/changeProjectOwner', {
                     project_id: '{{$project->id}}',
                     owner_id: value
-                })
-
-                showSavedToast();
-                updateSubmitStep3();
+                }).done(function () {
+                    showSavedToast()
+                    updateSubmitStep3()
+                }).fail(handleAjaxError)
             });
-
 
             $('#chooseClientSelect').change(function (e) {
                 var value = $(this).val();
                 $.post('/accenture/newProjectSetUp/changeProjectClient', {
                     project_id: '{{$project->id}}',
                     client_id: value
-                })
-
-                showSavedToast();
-                updateSubmitButton();
+                }).done(function () {
+                    showSavedToast()
+                    updateSubmitButton()
+                }).fail(handleAjaxError)
             });
 
             $('#valueTargeting').change(function (e) {
@@ -399,10 +387,10 @@
                 $.post('/accenture/newProjectSetUp/changeProjectHasValueTargeting', {
                     project_id: '{{$project->id}}',
                     value
-                })
-
-                showSavedToast();
-                updateSubmitButton();
+                }).done(function () {
+                    showSavedToast()
+                    updateSubmitButton()
+                }).fail(handleAjaxError)
             });
 
             $('#oralsSelect').change(function (e) {
@@ -410,26 +398,26 @@
                 $.post('/accenture/newProjectSetUp/changeProjectHasOrals', {
                     project_id: '{{$project->id}}',
                     value: value
-                })
-
-                showSavedToast();
-                updateSubmitButton();
+                }).done(function () {
+                    showSavedToast()
+                    updateSubmitButton()
+                }).fail(handleAjaxError)
             });
 
             $('#useCasesSelect').change(function (e) {
                 var value = $(this).val();
                 if (value === 'no') {
-                    $('#useCaseMenuOption').attr('style','display:none !important');//.css('display', 'none!important');
-                } else  {
-                    $('#useCaseMenuOption').attr('style','display:inherit !important');//.css('display', 'inherit!important');
+                    $('#useCaseMenuOption').attr('style', 'display:none !important');//.css('display', 'none!important');
+                } else {
+                    $('#useCaseMenuOption').attr('style', 'display:inherit !important');//.css('display', 'inherit!important');
                 }
                 $.post('/accenture/newProjectSetUp/changeProjectUseCases', {
                     project_id: '{{$project->id}}',
                     value: value
-                })
-
-                showSavedToast();
-                updateSubmitStep3();
+                }).done(function () {
+                    showSavedToast()
+                    updateSubmitStep3()
+                }).fail(handleAjaxError)
             });
 
             $('#bindingOption').change(function (e) {
@@ -437,10 +425,10 @@
                 $.post('/accenture/newProjectSetUp/changeProjectIsBinding', {
                     project_id: '{{$project->id}}',
                     value: value
-                })
-
-                showSavedToast();
-                updateSubmitButton();
+                }).done(function () {
+                    showSavedToast()
+                    updateSubmitButton()
+                }).fail(handleAjaxError)
             });
 
             $('#practiceSelect').change(function (e) {
@@ -449,13 +437,13 @@
                 $.post('/accenture/newProjectSetUp/changePractice', {
                     project_id: '{{$project->id}}',
                     practice_id: value
-                })
+                }).done(function () {
+                    showSavedToast();
+                    updateSubmitButton();
 
-                showSavedToast();
-                updateSubmitButton();
-
-                updateShownQuestionsAccordingToPractice();
-                updateShownSubpracticeOptionsAccordingToPractice(true);
+                    updateShownQuestionsAccordingToPractice();
+                    updateShownSubpracticeOptionsAccordingToPractice(true);
+                }).fail(handleAjaxError)
             });
 
             $('#subpracticeSelect').change(function (e) {
@@ -463,10 +451,10 @@
                 $.post('/accenture/newProjectSetUp/changeSubpractice', {
                     project_id: '{{$project->id}}',
                     subpractices: value
-                })
-
-                showSavedToast();
-                updateSubmitButton();
+                }).done(function () {
+                    showSavedToast();
+                    updateSubmitButton();
+                }).fail(handleAjaxError)
             });
 
             $('#industrySelect').change(function (e) {
@@ -474,59 +462,63 @@
                 $.post('/accenture/newProjectSetUp/changeIndustry', {
                     project_id: '{{$project->id}}',
                     value: value
-                })
-
-                showSavedToast();
-                updateSubmitButton();
+                }).done(function () {
+                    showSavedToast();
+                    updateSubmitButton();
+                }).fail(handleAjaxError)
             });
             $('#regionSelect').change(function (e) {
                 var value = $(this).val();
                 $.post('/accenture/newProjectSetUp/changeRegions', {
                     project_id: '{{$project->id}}',
                     value: value
-                })
-
-                showSavedToast();
-                updateSubmitButton();
+                }).done(function () {
+                    showSavedToast();
+                    updateSubmitButton();
+                }).fail(handleAjaxError)
             });
+
             $('#projectType').change(function (e) {
                 var value = $(this).val();
                 $.post('/accenture/newProjectSetUp/changeProjectType', {
                     project_id: '{{$project->id}}',
                     value: value
-                })
-
-                showSavedToast();
-                updateSubmitButton();
+                }).done(function () {
+                    showSavedToast();
+                    updateSubmitButton();
+                }).fail(handleAjaxError)
             });
+
             $('#currencySelect').change(function (e) {
                 var value = $(this).val();
                 $.post('/accenture/newProjectSetUp/changeCurrency', {
                     project_id: '{{$project->id}}',
                     value: value
-                })
-
-                showSavedToast();
-                updateSubmitStep3();
+                }).done(function () {
+                    showSavedToast();
+                    updateSubmitStep3();
+                }).fail(handleAjaxError)
             });
+
             $('#deadline').change(function (e) {
                 var value = $(this).val();
                 $.post('/accenture/newProjectSetUp/changeDeadline', {
                     project_id: '{{$project->id}}',
                     value: value
-                })
-
-                showSavedToast();
-                updateSubmitButton();
+                }).done(function () {
+                    showSavedToast();
+                    updateSubmitButton();
+                }).fail(handleAjaxError)
             });
+
             $('#rfpOtherInfo').change(function (e) {
                 var value = $(this).val();
                 $.post('/accenture/newProjectSetUp/changeRFPOtherInfo', {
                     project_id: '{{$project->id}}',
                     value: value
-                })
-
-                showSavedToast();
+                }).done(function () {
+                    showSavedToast();
+                }).fail(handleAjaxError)
             });
 
             $('#saveVendorsButton').click(function () {
@@ -539,8 +531,6 @@
                 ]
 
                 const listOfVendors = $('#vendorSelection').val();
-                console.log(listOfVendors)
-                console.log(submittedVendors)
 
                 function intersect(a, b) {
                     var t;
@@ -564,14 +554,12 @@
                 $.post('/accenture/newProjectSetUp/updateVendors', {
                     project_id: '{{$project->id}}',
                     vendorList: $('#vendorSelection').val()
-                })
-
-                showSavedToast();
+                }).done(function () {
+                    showSavedToast();
+                }).fail(handleAjaxError)
             });
 
-
             // On change for the rest
-
             $('.generalQuestion input,.generalQuestion textarea,.generalQuestion select')
                 .filter(function (el) {
                     return $(this).data('changing') !== undefined
@@ -585,10 +573,10 @@
                     $.post('/generalInfoQuestion/changeResponse', {
                         changing: $(this).data('changing'),
                         value: value
-                    })
-
-                    showSavedToast();
-                    updateSubmitButton();
+                    }).done(function () {
+                        showSavedToast();
+                        updateSubmitButton();
+                    }).fail(handleAjaxError)
                 });
 
             $('.sizingQuestion input,.sizingQuestion textarea,.sizingQuestion select')
@@ -604,10 +592,10 @@
                     $.post('/sizingQuestion/changeResponse', {
                         changing: $(this).data('changing'),
                         value: value
-                    })
-
-                    showSavedToast();
-                    updateSubmitButton();
+                    }).done(function () {
+                        showSavedToast();
+                        updateSubmitButton();
+                    }).fail(handleAjaxError)
                 });
 
             $('.sizingQuestion .checkboxesDiv input')
@@ -615,14 +603,11 @@
                     $.post('/sizingQuestion/setShouldShow', {
                         changing: $(this).data('changingid'),
                         value: $(this).prop("checked")
-                    })
-
-                    showSavedToast();
-                    updateSubmitButton();
+                    }).done(function () {
+                        showSavedToast();
+                        updateSubmitButton();
+                    }).fail(handleAjaxError)
                 });
-
-            $(".js-example-basic-single").select2();
-            $(".js-example-basic-multiple").select2();
 
             $('.datepicker').each(function () {
                 var date = new Date($(this).data('initialvalue'));
@@ -643,7 +628,6 @@
 
             $("#fitgapUpload").change(function () {
                 var fileName = $(this).val().split('\\').pop();
-                ;
 
                 $("#fileNameInput").val(fileName);
 
@@ -655,17 +639,10 @@
                     data: formData,
                     processData: false,
                     contentType: false,
-
                     success: function () {
-                        $("iframe").each(function () {
-                            $(this).attr("src", function (index, attr) {
-                                return attr;
-                            });
-                        })
-                        showSavedToast();
-
-                        location.reload();
-                    }
+                        location.reload()
+                    },
+                    error: handleAjaxError
                 });
             });
 

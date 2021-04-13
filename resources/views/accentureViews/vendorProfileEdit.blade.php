@@ -1,4 +1,4 @@
-@extends('accentureViews.layouts.forms')
+@extends('layouts.base')
 
 @section('content')
     <div class="main-wrapper">
@@ -168,7 +168,6 @@
 
         for (let i = 0; i < array.length; i++) {
             if(!$(array[i]).is(':hasValue') || $(array[i]).hasClass('invalid')){
-                console.log(array[i])
                 return false
             }
         }
@@ -195,17 +194,6 @@
         }
     }
 
-    function showSavedToast()
-    {
-        $.toast({
-            heading: 'Saved!',
-            showHideTransition: 'slide',
-            icon: 'success',
-            hideAfter: 1000,
-            position: 'bottom-right'
-        })
-    }
-
     $(document).ready(function() {
         $('.profileQuestion input,.profileQuestion textarea,.profileQuestion select')
             .filter(function(el) {
@@ -220,10 +208,10 @@
                 $.post('/accenture/vendorProfileEdit/changeResponse', {
                     changing: $(this).data('changing'),
                     value: value
-                })
-
-                showSavedToast();
-                updateSubmitButton();
+                }).done(function () {
+                    showSavedToast()
+                    updateSubmitButton()
+                }).fail(handleAjaxError)
             });
 
         $('#vendorNameInput')
@@ -232,10 +220,10 @@
                 $.post('/accenture/vendorProfileEdit/changeName', {
                     vendor_id: {{$vendor->id}},
                     value: value
-                })
-
-                showSavedToast();
-                updateSubmitButton();
+                }).done(function () {
+                    showSavedToast()
+                    updateSubmitButton()
+                }).fail(handleAjaxError)
             });
 
         $('#vendorEmailInput')
@@ -244,31 +232,29 @@
                 $.post('/accenture/vendorProfileEdit/changeEmail', {
                     vendor_id: {{$vendor->id}},
                     value: value
-                })
-
-                showSavedToast();
-                updateSubmitButton();
+                }).done(function () {
+                    showSavedToast()
+                    updateSubmitButton()
+                }).fail(handleAjaxError)
             });
-
 
         $('#createFirstCredential')
             .click(function (e) {
+                $(this).attr('disabled', true);
                 var email = $('#vendorFirstEmailInput').val();
                 var name = $('#vendorFirstNameInput').val();
                 $.post('/accenture/vendorProfileEdit/createFirstCredential', {
                     vendor_id: {{$vendor->id}},
                     email: email,
                     name: name
+                }).done(function () {
+                    showSavedToast()
+                    updateSubmitButton()
+                }).fail(function () {
+                    $(this).attr('disabled', false);
+                    handleAjaxError()
                 })
-
-                showSavedToast();
-                updateSubmitButton();
-
-                $(this).attr('disabled', true);
             });
-
-        $(".js-example-basic-single").select2();
-        $(".js-example-basic-multiple").select2();
 
         $('.datepicker').each(function(){
             var date = new Date($(this).data('initialvalue'));
@@ -302,9 +288,9 @@
                 data : formData,
                 processData: false,
                 contentType: false,
+                success: showSavedToast,
+                error: handleAjaxError
             });
-
-            showSavedToast();
         });
 
         updateSubmitButton();

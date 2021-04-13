@@ -1,4 +1,4 @@
-@extends('clientViews.layouts.benchmark')
+@extends('layouts.base')
 
 @section('content')
     <div class="main-wrapper">
@@ -208,8 +208,6 @@
                     return $(el).data('vendorId')
                 });
             }
-
-            console.log(selectedVendors)
 
             window.open(url + "?vendors=" + JSON.stringify(selectedVendors), '_blank')
         });
