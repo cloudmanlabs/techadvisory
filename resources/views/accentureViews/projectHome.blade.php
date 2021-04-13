@@ -1,4 +1,5 @@
-@extends('accentureViews.layouts.app')
+@extends('layouts.base')
+
 @section('head')
     @parent
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css"
@@ -359,26 +360,10 @@
             $.post('/accenture/ProjectController/setStep1Rollback', {
                 project_id: '{{$project->id}}',
             }).done(function () {
-                $(this).html('Rollback Completed')
-                $.toast({
-                    heading: 'Rollback completed!',
-                    showHideTransition: 'slide',
-                    icon: 'success',
-                    hideAfter: 1000,
-                    position: 'bottom-right'
-                })
-                setTimeout(function () {
-                    location.reload();
-                }, 1000);
+                location.reload();
             }).fail(function () {
                 $(this).attr('disabled', false);
-                $.toast({
-                    heading: 'Rollback failed!',
-                    showHideTransition: 'slide',
-                    icon: 'error',
-                    hideAfter: 3000,
-                    position: 'bottom-right'
-                })
+                handleAjaxError()
             })
         });
 
@@ -388,26 +373,10 @@
             $.post('/accenture/ProjectController/setStep2Rollback', {
                 project_id: '{{$project->id}}',
             }).done(function () {
-                $(this).html('Rollback Completed')
-                $.toast({
-                    heading: 'Rollback completed!',
-                    showHideTransition: 'slide',
-                    icon: 'success',
-                    hideAfter: 1000,
-                    position: 'bottom-right'
-                })
-                setTimeout(function () {
-                    location.reload();
-                }, 1000);
+                location.reload();
             }).fail(function () {
                 $(this).attr('disabled', false);
-                $.toast({
-                    heading: 'Rollback failed!',
-                    showHideTransition: 'slide',
-                    icon: 'error',
-                    hideAfter: 3000,
-                    position: 'bottom-right'
-                })
+                handleAjaxError()
             })
         });
 
@@ -418,26 +387,10 @@
             $.post('/accenture/ProjectController/setStep3Rollback', {
                 project_id: '{{$project->id}}',
             }).done(function () {
-                $(this).html('Rollback Completed')
-                $.toast({
-                    heading: 'Rollback completed!',
-                    showHideTransition: 'slide',
-                    icon: 'success',
-                    hideAfter: 1000,
-                    position: 'bottom-right'
-                })
-                setTimeout(function () {
-                    location.reload();
-                }, 1000);
+                location.reload();
             }).fail(function () {
                 $(this).attr('disabled', false);
-                $.toast({
-                    heading: 'Rollback failed!',
-                    showHideTransition: 'slide',
-                    icon: 'error',
-                    hideAfter: 3000,
-                    position: 'bottom-right'
-                })
+                handleAjaxError()
             })
         });
 
@@ -448,29 +401,12 @@
             $.post('/accenture/ProjectController/setStep4Rollback', {
                 project_id: '{{$project->id}}',
             }).done(function () {
-                $(this).html('Rollback Completed')
-                $.toast({
-                    heading: 'Rollback completed!',
-                    showHideTransition: 'slide',
-                    icon: 'success',
-                    hideAfter: 1000,
-                    position: 'bottom-right'
-                })
-                setTimeout(function () {
-                    location.reload();
-                }, 1000);
+                location.reload();
             }).fail(function () {
                 $(this).attr('disabled', false);
-                $.toast({
-                    heading: 'Rollback failed!',
-                    showHideTransition: 'slide',
-                    icon: 'error',
-                    hideAfter: 3000,
-                    position: 'bottom-right'
-                })
+                handleAjaxError()
             })
         });
-
     </script>
 @endsection
 

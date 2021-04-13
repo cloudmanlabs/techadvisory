@@ -1,9 +1,6 @@
-@extends('accentureViews.layouts.benchmark')
+@extends('layouts.base')
 
-@php
-@endphp
 @section('content')
-
     <div class="main-wrapper">
         <x-accenture.navbar activeSection="benchmark"/>
         <div class="page-wrapper">

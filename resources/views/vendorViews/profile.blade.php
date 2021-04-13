@@ -1,4 +1,4 @@
-@extends('vendorViews.layouts.forms')
+@extends('layouts.base')
 
 @section('content')
     <div class="main-wrapper">
@@ -110,9 +110,6 @@
 @parent
 <script>
     $(document).ready(function() {
-        $(".js-example-basic-single").select2();
-        $(".js-example-basic-multiple").select2();
-
         $('.datepicker').each(function(){
             var date = new Date($(this).data('initialvalue'));
 

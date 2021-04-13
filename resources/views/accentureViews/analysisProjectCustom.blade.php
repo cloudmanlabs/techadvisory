@@ -1,4 +1,4 @@
-@extends('accentureViews.layouts.benchmark')
+@extends('layouts.base')
 
 @section('content')
 <div class="main-wrapper">
@@ -187,8 +187,6 @@
                 const selectedRegions = getSelectedFrom('regionSelect')
                 const selectedPhases = getSelectedFrom('phaseSelect')
                 const searchBox = $('#searchBox').val().toLocaleLowerCase();
-
-                console.log(searchBox)
 
                 // Add a display none to the one which don't have this tags
                 $('#projectContainer').children().each(function () {

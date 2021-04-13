@@ -50,7 +50,6 @@
 <script>
     $(document).ready(function() {
         $('#button-{{$identifier}}').on('click', function(e) {
-            console.log('hey')
             $("#file-{{$identifier}}").trigger('click');
         });
 
@@ -75,6 +74,7 @@
                 data : formData,
                 processData: false,
                 contentType: false,
+                error: handleAjaxError
             });
         });
     });

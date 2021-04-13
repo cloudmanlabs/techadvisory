@@ -1,4 +1,4 @@
-@extends('vendorViews.layouts.forms')
+@extends('layouts.base')
 
 @section('content')
     <div class="main-wrapper">
@@ -364,26 +364,6 @@
             }
         }
 
-        function showSavedToast() {
-            $.toast({
-                heading: 'Saved!',
-                showHideTransition: 'slide',
-                icon: 'success',
-                hideAfter: 1000,
-                position: 'bottom-right'
-            })
-        }
-
-        function showErrorToast() {
-            $.toast({
-                heading: 'Error!',
-                showHideTransition: 'slide',
-                icon: 'error',
-                hideAfter: 1000,
-                position: 'bottom-right'
-            })
-        }
-
         $(document).ready(function () {
             $('.selectionCriteriaQuestion input,.selectionCriteriaQuestion textarea,.selectionCriteriaQuestion select')
                 .filter(function (el) {
@@ -402,15 +382,8 @@
                     }).done(function () {
                         showSavedToast();
                         updateSubmitButton();
-                        console.log("success", value, changing);
-                    }).fail(function () {
-                        console.log("error", value, changing);
-                        showErrorToast();
-                    });
+                    }).fail(handleAjaxError)
                 });
-
-            $(".js-example-basic-single").select2();
-            $(".js-example-basic-multiple").select2();
 
             $('.datepicker').each(function () {
                 var date = new Date($(this).data('initialvalue'));
@@ -425,23 +398,19 @@
             });
 
             $('#submitButton').click(function () {
-                $.post('{{route("vendor.application.setSubmitted", ["project" => $project])}}')
-                    .done(function () {
-                        setTimeout(function () {
-                            window.location.replace("/vendors/home");
-                        }, 300);
-                        $.toast({
-                            heading: 'Submitted!',
-                            showHideTransition: 'slide',
-                            icon: 'success',
-                            hideAfter: 1000,
-                            position: 'bottom-right'
-                        })
-                        $('#submitModal').modal('hide')
-                    }).fail(function () {
-                    console.log("error", value, changing);
-                    showErrorToast();
-                });
+                $.post('{{route("vendor.application.setSubmitted", ["project" => $project])}}').done(function () {
+                    $('#submitModal').modal('hide')
+                    $.toast({
+                        heading: 'Submitted!',
+                        showHideTransition: 'slide',
+                        icon: 'success',
+                        hideAfter: 1000,
+                        position: 'bottom-right'
+                    })
+                    setTimeout(function () {
+                        location.replace("/vendors/home");
+                    }, 1000);
+                }).fail(handleAjaxError)
             });
 
             updateSubmitButton();

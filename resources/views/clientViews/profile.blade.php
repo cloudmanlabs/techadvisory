@@ -1,4 +1,4 @@
-@extends('clientViews.layouts.forms')
+@extends('layouts.base')
 
 @section('content')
     <div class="main-wrapper">

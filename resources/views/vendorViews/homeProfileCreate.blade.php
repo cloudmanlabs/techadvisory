@@ -1,4 +1,4 @@
-@extends('vendorViews.layouts.forms')
+@extends('layouts.base')
 
 @section('content')
     <div class="main-wrapper">
@@ -128,7 +128,6 @@
 
         for (let i = 0; i < array.length; i++) {
             if(!$(array[i]).is(':hasValue') || $(array[i]).hasClass('invalid')){
-                console.log(array[i])
                 return false
             }
         }
@@ -155,17 +154,6 @@
         }
     }
 
-    function showSavedToast()
-    {
-        $.toast({
-            heading: 'Saved!',
-            showHideTransition: 'slide',
-            icon: 'success',
-            hideAfter: 1000,
-            position: 'bottom-right'
-        })
-    }
-
     $(document).ready(function() {
         $("#wizard_vendor_profile_create_here").steps({
             headerTag: "h2",
@@ -190,14 +178,11 @@
                 $.post('/vendors/profile/changeResponse', {
                     changing: $(this).data('changing'),
                     value: value
-                })
-
-                showSavedToast();
-                updateSubmitButton();
+                }).done(function () {
+                    showSavedToast();
+                    updateSubmitButton();
+                }).fail(handleAjaxError)
             });
-
-        $(".js-example-basic-single").select2();
-        $(".js-example-basic-multiple").select2();
 
         $('.datepicker').each(function(){
             var date = new Date($(this).data('initialvalue'));

@@ -71,9 +71,7 @@ $disabled = $disabled ?? false;
                 changing: $(this).data('changing'),
                 application_id: {{$vendorApplication->id}},
                 value: $(this).val()
-            })
-
-            showSavedToast();
+            }).done(showSavedToast).fail(handleAjaxError)
         });
 
         $('#pricingModelUploadButtonButton').on('click', function(e) {
@@ -96,9 +94,9 @@ $disabled = $disabled ?? false;
                 data : formData,
                 processData: false,
                 contentType: false,
+                success: showSavedToast,
+                error: handleAjaxError
             });
-
-            showSavedToast();
         });
     });
 </script>

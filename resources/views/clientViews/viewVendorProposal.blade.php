@@ -1,4 +1,4 @@
-@extends('clientViews.layouts.forms')
+@extends('layouts.base')
 
 @section('content')
 <div class="main-wrapper">
@@ -194,9 +194,6 @@
 @parent
 <script>
     $(document).ready(function() {
-        $(".js-example-basic-single").select2();
-        $(".js-example-basic-multiple").select2();
-
         $('.datepicker').each(function(){
             var date = new Date($(this).data('initialvalue'));
 
@@ -252,8 +249,6 @@
             }).toArray();
 
         total += cost.map((el) => +el.cost).reduce((a, b) => a + b, 0)
-
-        console.log(total)
 
         $('#overallImplementationCost').html(total);
     }

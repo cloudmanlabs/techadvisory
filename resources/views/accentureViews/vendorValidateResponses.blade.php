@@ -1,8 +1,8 @@
-@extends('accentureViews.layouts.forms')
+@extends('layouts.base')
 
 @section('content')
     <div class="main-wrapper">
-        <x-accenture.navbar activeSection="sections" />
+        <x-accenture.navbar activeSection="sections"/>
 
         <div class="page-wrapper">
             <div class="page-content">
@@ -22,16 +22,18 @@
                                     <section>
                                         <div class="form-group">
                                             <label for="exampleInputText1">Vendor company name*</label>
-                                            <input class="form-control" id="exampleInputText1" placeholder="Enter Name" type="text" value="{{$vendor->name}}"
-                                                disabled>
+                                            <input class="form-control" id="exampleInputText1" placeholder="Enter Name"
+                                                   type="text" value="{{$vendor->name}}"
+                                                   disabled>
                                         </div>
                                         <div class="form-group">
                                             <label for="exampleInputText1">Vendor company contact email</label>
-                                            <input class="form-control" id="exampleInputText1" placeholder="Enter E-mail" type="email"
-                                                value="{{$vendor->email}}" disabled>
+                                            <input class="form-control" id="exampleInputText1"
+                                                   placeholder="Enter E-mail" type="email"
+                                                   value="{{$vendor->email}}" disabled>
                                         </div>
 
-                                        <!-- <div class="form-group">
+                                    <!-- <div class="form-group">
                                             <label for="vendorRoleInput">Vendor company contact role</label>
                                             <input class="form-control" id="vendorRoleInput" placeholder="Enter Role"
                                                 type="text"
@@ -39,7 +41,7 @@
                                                  >
                                         </div> -->
 
-                                        <!-- <div class="form-group">
+                                    <!-- <div class="form-group">
                                             <label for="vendorAddressInput">Company address</label>
                                             <input class="form-control" id="vendorAddressInput" placeholder="Enter Address"
                                                 type="text"
@@ -50,29 +52,40 @@
                                         <br>
                                         <div class="form-group">
                                             <label>Logo</label>
-                                            <img src="{{url($vendor->logo ? ('/storage/' . $vendor->logo) : '/assets/images/user.png')}}" alt=""
+                                            <img
+                                                src="{{url($vendor->logo ? ('/storage/' . $vendor->logo) : '/assets/images/user.png')}}"
+                                                alt=""
                                                 style="max-height: 5rem">
                                         </div>
 
 
-                                        <x-questionForeachWithActivate :questions="$generalQuestions" :class="'profileQuestion'" :disabled="true" :required="false" />
+                                        <x-questionForeachWithActivate :questions="$generalQuestions"
+                                                                       :class="'profileQuestion'" :disabled="true"
+                                                                       :required="false"/>
                                     </section>
 
                                     <h2>Company information</h2>
                                     <section>
-                                       <x-questionForeachWithActivate :questions="$economicQuestions" :class="'profileQuestion'" :disabled="true" :required="false" />
+                                        <x-questionForeachWithActivate :questions="$economicQuestions"
+                                                                       :class="'profileQuestion'" :disabled="true"
+                                                                       :required="false"/>
                                     </section>
 
                                     <h2>Economic information</h2>
                                     <section>
-                                        <x-questionForeachWithActivate :questions="$legalQuestions" :class="'profileQuestion'" :disabled="true" :required="false" />
+                                        <x-questionForeachWithActivate :questions="$legalQuestions"
+                                                                       :class="'profileQuestion'" :disabled="true"
+                                                                       :required="false"/>
 
                                         <br><br>
                                         <div>
-                                            <form action="{{route('accenture.submitVendor', ['vendor' => $vendor])}}" method="post">
+                                            <form action="{{route('accenture.submitVendor', ['vendor' => $vendor])}}"
+                                                  method="post">
                                                 @csrf
-                                                <button class="btn btn-primary btn-lg btn-icon-text" id="submitButton" type="submit">
-                                                    <i class="btn-icon-prepend" data-feather="check-square"></i> Submit validation
+                                                <button class="btn btn-primary btn-lg btn-icon-text" id="submitButton"
+                                                        type="submit">
+                                                    <i class="btn-icon-prepend" data-feather="check-square"></i> Submit
+                                                    validation
                                                 </button>
                                             </form>
                                         </div>
@@ -80,7 +93,8 @@
                                     </section>
                                 </div>
                                 <div>
-                                    <x-folderFileUploader :folder="$vendor->profileFolder" :disabled="true" :timeout="1000"/>
+                                    <x-folderFileUploader :folder="$vendor->profileFolder" :disabled="true"
+                                                          :timeout="1000"/>
                                 </div>
                             </div>
                         </div>
@@ -88,7 +102,7 @@
                 </div>
             </div>
 
-            <x-footer />
+            <x-footer/>
         </div>
     </div>
 @endsection
@@ -99,61 +113,44 @@
 @endsection
 
 @section('scripts')
-@parent
-<script src="{{url('assets/js/select2.js')}}"></script>
-<script>
-    function showSavedToast()
-    {
-        $.toast({
-            heading: 'Saved!',
-            showHideTransition: 'slide',
-            icon: 'success',
-            hideAfter: 1000,
-            position: 'bottom-right'
-        })
-    }
+    @parent
+    <script src="{{url('assets/js/select2.js')}}"></script>
+    <script>
+        function checkIfAllEvalsAreFilled() {
+            let array = $('.checkboxesDiv input').toArray();
 
-    function checkIfAllEvalsAreFilled(){
-        let array = $('.checkboxesDiv input')
-            .toArray();
+            if (array.length === 0) return true;
 
-		if(array.length == 0) return true;
+            for (let i = 0; i < array.length; i++) {
+                if (!$(array[i]).prop('checked')) {
+                    return false
+                }
+            }
 
-        for (let i = 0; i < array.length; i++) {
-            if(!$(array[i]).prop('checked')){
-                console.log(array[i], $(array[i]).prop('checked'))
-                return false
+            return true
+        }
+
+        function updateSubmitButton() {
+            // If we filled all the fields, remove the disabled from the button.
+            if (checkIfAllEvalsAreFilled()) {
+                $('#submitButton').attr('disabled', false)
             } else {
-                console.log(array[i], $(array[i]).prop('checked'))
+                $('#submitButton').attr('disabled', true)
             }
         }
 
-        return true
-    }
-
-    function updateSubmitButton()
-    {
-        // If we filled all the fields, remove the disabled from the button.
-        if(checkIfAllEvalsAreFilled()){
-            $('#submitButton').attr('disabled', false)
-        } else {
-            $('#submitButton').attr('disabled', true)
-        }
-    }
-
-    $(document).ready(function() {
-        $('.profileQuestion .checkboxesDiv input')
-            .change(function (e) {
+        $(document).ready(function () {
+            $('.profileQuestion .checkboxesDiv input').change(function (e) {
                 $.post('/accenture/vendorValidateResponses/setValidated/{{$vendor->id}}', {
                     changing: $(this).data('changingid'),
                     value: $(this).prop("checked")
-                })
+                }).done(function () {
+                    updateSubmitButton()
+                    showSavedToast()
+                }).fail(handleAjaxError)
+            })
 
-                updateSubmitButton();
-                showSavedToast();
-            });
-
-        updateSubmitButton();
-    });
-</script>
+            updateSubmitButton();
+        });
+    </script>
 @endsection

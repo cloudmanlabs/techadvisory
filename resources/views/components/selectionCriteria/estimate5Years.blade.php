@@ -71,12 +71,12 @@
                     changing: {{$vendorApplication->id}},
                     value: cost,
                     year0: 0
-                })
-
-                showSavedToast();
-                if (updateSubmitButton) {
-                    updateSubmitButton();
-                }
+                }).done(function () {
+                    showSavedToast();
+                    if (updateSubmitButton) {
+                        updateSubmitButton();
+                    }
+                }).fail(handleAjaxError)
             }
 
             setEstimate5YearsEditListener();
@@ -88,8 +88,7 @@
                     application_id: {{$vendorApplication->id}},
                     changing: 'estimate5YearsScore',
                     value: $(this).val()
-                })
-                showSavedToast();
+                }).done(showSavedToast).fail(handleAjaxError)
             })
         });
     </script>

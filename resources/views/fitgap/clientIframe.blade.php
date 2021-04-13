@@ -36,26 +36,6 @@
         });
     });
 
-    function showSavedToast() {
-        $.toast({
-            heading: 'Saved!',
-            showHideTransition: 'slide',
-            icon: 'success',
-            hideAfter: 1000,
-            position: 'bottom-right'
-        })
-    }
-
-    function showErrorToast() {
-        $.toast({
-            heading: 'Error!',
-            showHideTransition: 'slide',
-            icon: 'error',
-            hideAfter: 1000,
-            position: 'bottom-right'
-        })
-    }
-
     function showWarningToast(msg) {
         $.toast({
             heading: msg,
@@ -151,7 +131,7 @@
             $.post("{{ route('updateFitgapQuestion') }}", {
                 data: mySpreadsheet.getRowData(y),
                 position: y
-            }).done(showSavedToast).fail(showErrorToast);
+            }).done(showSavedToast).fail(handleAjaxError)
             @endif
         },
         onbeforedeleterow: function (el, rowNumber, numRows, rowRecords) {
@@ -161,7 +141,7 @@
             } else {
                 $.post("{{ route('deleteFitgapQuestion',  ['project' => $project]) }}", {
                     data: mySpreadsheet.getRowData(rowNumber),
-                }).done(showSavedToast).fail(showErrorToast);
+                }).done(showSavedToast).fail(handleAjaxError);
             }
             @endif
         },
@@ -170,7 +150,7 @@
             $.post("{{ route('createFitgapQuestion', ['project' => $project]) }}")
                 .done(function (response) {
                     mySpreadsheet.setValueFromCoords(0, rowNumber + 1, response.data.id, true);
-                }).fail(showErrorToast);
+                }).fail(handleAjaxError);
             @endif
         },
         onmoverow: function (element, origin, destiny) {
@@ -178,7 +158,7 @@
             $.post("{{ route('moveFitgapQuestion', ['project' => $project]) }}", {
                 fitgap_question_id: mySpreadsheet.getRowData(destiny)[0],
                 to: destiny
-            }).done(showSavedToast).fail(showErrorToast);
+            }).done(showSavedToast).fail(handleAjaxError);
             @endif
         }
     });

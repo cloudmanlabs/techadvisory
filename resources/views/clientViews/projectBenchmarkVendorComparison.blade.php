@@ -1,4 +1,4 @@
-@extends('clientViews.layouts.benchmark')
+@extends('layouts.base')
 
 @php
     // Values for Best Possible

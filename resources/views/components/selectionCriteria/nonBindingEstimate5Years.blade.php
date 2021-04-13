@@ -100,12 +100,12 @@
                     changing: {{$vendorApplication->id}},
                     value: cost,
                     year0: $('#estimate5YearsYear0Cost').val()
-                })
-
-                showSavedToast();
-                if (updateSubmitButton) {
-                    updateSubmitButton();
-                }
+                }).done(function () {
+                    showSavedToast();
+                    if (updateSubmitButton) {
+                        updateSubmitButton();
+                    }
+                }).fail(handleAjaxError)
             }
 
             setEstimate5YearsEditListener();
@@ -117,22 +117,20 @@
                     changing: $(this).data('changing'),
                     application_id: {{$vendorApplication->id}},
                     value: $(this).val()
-                })
-
-                showSavedToast();
-                if (updateSubmitButton) {
-                    updateSubmitButton();
-                }
+                }).done(function () {
+                    showSavedToast();
+                    if (updateSubmitButton) {
+                        updateSubmitButton();
+                    }
+                }).fail(handleAjaxError)
             });
-
 
             $('#nonBindingEstimate5YearsScore').change(function () {
                 $.post('/vendorApplication/updateImplementationScores', {
                     application_id: {{$vendorApplication->id}},
                     changing: 'nonBindingEstimate5YearsScore',
                     value: $(this).val()
-                })
-                showSavedToast();
+                }).done(showSavedToast).fail(handleAjaxError)
             })
         });
     </script>

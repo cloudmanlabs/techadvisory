@@ -24,11 +24,12 @@
                 $.post('/vendorApplication/updateSolutionsUsed', {
                     changing: {{$vendorApplication->id}},
                     value: $(this).val()
-                })
-                showSavedToast();
-                if (updateSubmitButton) {
-                    updateSubmitButton();
-                }
+                }).done(function () {
+                    showSavedToast();
+                    if (updateSubmitButton) {
+                        updateSubmitButton();
+                    }
+                }).fail(handleAjaxError)
             })
         });
     </script>

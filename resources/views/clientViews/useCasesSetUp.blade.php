@@ -1,4 +1,4 @@
-@extends('clientViews.layouts.forms')
+@extends('layouts.base')
 
 @php
     $useCaseTemplates = $useCaseTemplates ?? array();
@@ -684,7 +684,6 @@
 
             for (let i = 0; i < array.length; i++) {
                 if (!$(array[i]).is(':hasValue') || $(array[i]).hasClass('invalid')) {
-                    console.log(array[i])
                     return false
                 }
             }
@@ -694,7 +693,6 @@
 
         function checkIfInvitedVendorsIsFilled() {
             if (!$('#invitedVendors').is(':hasValue') || $('#invitedVendors').hasClass('invalid')) {
-                console.log($('#invitedVendors'))
                 return false
             }
 
@@ -711,22 +709,11 @@
 
             for (let i = 0; i < array.length; i++) {
                 if (!$(array[i]).is(':hasValue') || $(array[i]).hasClass('invalid')) {
-                    console.log(array[i])
                     return false
                 }
             }
 
             return true
-        }
-
-        function showSavedToast() {
-            $.toast({
-                heading: 'Saved!',
-                showHideTransition: 'slide',
-                icon: 'success',
-                hideAfter: 1000,
-                position: 'bottom-right'
-            })
         }
 
         function showSubmitEvaluationToast(vendorName) {
@@ -780,9 +767,6 @@
         }
 
         $(document).ready(function () {
-            // $(".js-example-basic-single").select2();
-            // $(".js-example-basic-multiple").select2();
-
             @if($project->useCasesPhase !== 'evaluation')
             $("#wizard_accenture_useCasesSetUp").steps({
                 headerTag: "h2",
@@ -831,6 +815,8 @@
                 };
 
                 $.post('/client/newProjectSetUp/saveUseCaseScoringCriteria', useCaseBody{{$useCase->id}})
+                    .done(showSavedToast)
+                    .fail(handleAjaxError)
                 @endforeach
 
                 var body = {
@@ -844,9 +830,8 @@
                 };
 
                 $.post('/client/newProjectSetUp/saveProjectScoringCriteria', body)
-                    .then(function () {
-                        showSavedToast();
-                    });
+                    .done(showSavedToast)
+                    .fail(handleAjaxError)
             });
 
             @if ($project->currentPhase === 'open')
@@ -864,11 +849,9 @@
 
                 $.post('/client/newProjectSetUp/publishUseCases', {
                     project_id: '{{$project->id}}',
-                })
-                    .then(function () {
-                        showPublishedToast();
-                        location.reload();
-                    });
+                }).done(function () {
+                    location.reload();
+                }).fail(handleAjaxError)
             });
             @endif
 
@@ -890,15 +873,12 @@
                 $.post('/client/newProjectSetUp/updateInvitedVendors', {
                     project_id: '{{$project->id}}',
                     vendorList: encodeURIComponent($(this).val())
-                })
-
-                showSavedToast();
+                }).done(function () {
+                    showSavedToast();
+                }).fail(handleAjaxError)
             });
 
             @if($appliedVendors)
-            @foreach($appliedVendors as $appliedVendor)
-            console.log('{{$appliedVendor->id}}' + ' : ' + '{{$appliedVendor->name}}');
-            @endforeach
             @endif
             @else
 
@@ -937,9 +917,9 @@
                     @endphp
                     $.post('/client/newProjectSetUp/submitUseCaseVendorEvaluation', {
                         evaluationId: {{$evaluation->id}}
-                    }).then(function () {
+                    }).done(function () {
                         showSubmitEvaluationToast('{{$selectedVendor->name}}');
-                    }),
+                    }).fail(handleAjaxError),
                     @endforeach
                 ).done(function(){
                     return location.replace("{{route('client.useCasesSetUp', ['project' => $project])}}" + "??useCase={{$currentUseCase->id}}");
@@ -950,9 +930,9 @@
                 $.post('/client/newProjectSetUp/rollbackSubmitUseCaseVendorEvaluation', {
                     useCaseId: {{$currentUseCase->id}},
                     userCredential: {{$client_id}}
-                }).then(function () {
-                    return location.replace("{{route('client.useCasesSetUp', ['project' => $project])}}" + "??useCase={{$currentUseCase->id}}");
-                });
+                }).done(function () {
+                    location.replace("{{route('client.useCasesSetUp', ['project' => $project])}}" + "??useCase={{$currentUseCase->id}}");
+                }).fail(handleAjaxError)
             });
             @endif
 
@@ -970,9 +950,9 @@
                     userCredential: {{$client_id}},
                     vendorId: {{$selectedVendor->id}},
                     value: $(this).val()
-                }).then(function () {
-                    showSavedToast();
-                });
+                }).done(function () {
+                    showSavedToast()
+                }).fail(handleAjaxError)
             });
 
             $('#vendor{{$selectedVendor->id}}Usability').change(function() {
@@ -987,10 +967,9 @@
                     userCredential: {{$client_id}},
                     vendorId: {{$selectedVendor->id}},
                     value: $(this).val()
-                }).then(function () {
-                    showSavedToast();
-                });
-
+                }).done(function () {
+                    showSavedToast()
+                }).fail(handleAjaxError)
             });
 
             $('#vendor{{$selectedVendor->id}}Performance').change(function() {
@@ -1005,9 +984,9 @@
                     userCredential: {{$client_id}},
                     vendorId: {{$selectedVendor->id}},
                     value: $(this).val()
-                }).then(function () {
-                    showSavedToast();
-                });
+                }).done(function () {
+                    showSavedToast()
+                }).fail(handleAjaxError)
             });
 
             $('#vendor{{$selectedVendor->id}}LookFeel').change(function() {
@@ -1022,9 +1001,9 @@
                     userCredential: {{$client_id}},
                     vendorId: {{$selectedVendor->id}},
                     value: $(this).val()
-                }).then(function () {
-                    showSavedToast();
-                });
+                }).done(function () {
+                    showSavedToast()
+                }).fail(handleAjaxError)
             });
 
             $('#vendor{{$selectedVendor->id}}Others').change(function() {
@@ -1039,9 +1018,9 @@
                     userCredential: {{$client_id}},
                     vendorId: {{$selectedVendor->id}},
                     value: $(this).val()
-                }).then(function () {
-                    showSavedToast();
-                });
+                }).done(function () {
+                    showSavedToast()
+                }).fail(handleAjaxError)
             });
 
             $('#vendor{{$selectedVendor->id}}Comments').change(function() {
@@ -1050,9 +1029,9 @@
                     userCredential: {{$client_id}},
                     vendorId: {{$selectedVendor->id}},
                     value: $(this).val()
-                }).then(function () {
-                    showSavedToast();
-                });
+                }).done(function () {
+                    showSavedToast()
+                }).fail(handleAjaxError)
             });
 
             $('#vendor{{$selectedVendor->id}}closed').click(function() {
@@ -1112,18 +1091,18 @@
                 $.post('/client/newProjectSetUp/upsertUseCaseAccentureUsers', {
                     useCaseId: {{$currentUseCase->id}},
                     userList: encodeURIComponent($(this).val())
-                }).then(function () {
-                    showSavedToast();
-                });
+                }).done(function () {
+                    showSavedToast()
+                }).fail(handleAjaxError)
             });
 
             $('#clientUsers').change(function () {
                 $.post('/client/newProjectSetUp/upsertUseCaseClientUsers', {
                     useCaseId: {{$currentUseCase->id}},
                     clientList: encodeURIComponent($(this).val())
-                }).then(function () {
-                    showSavedToast();
-                });
+                }).done(function () {
+                    showSavedToast()
+                }).fail(handleAjaxError)
             });
 
             $('#useCaseName').change(function (e) {
@@ -1131,11 +1110,11 @@
                 $.post('/client/newProjectSetUp/upsertUseCaseName', {
                     useCaseId: {{$currentUseCase->id}},
                     newName: value
-                }).then(function () {
+                }).done(function () {
                     $('#useCaseSelection{{$currentUseCase->id}}').text(value);
                     $("label[for='scoringCriteria{{$currentUseCase->id}}']").text(value + '*');
                     showSavedToast();
-                });
+                }).fail(handleAjaxError)
             });
 
             $('#useCaseDescription').change(function (e) {
@@ -1143,9 +1122,9 @@
                 $.post('/client/newProjectSetUp/upsertUseCaseDescription', {
                     useCaseId: {{$currentUseCase->id}},
                     newDescription: value
-                }).then(function () {
+                }).done(function () {
                     showSavedToast();
-                });
+                }).fail(handleAjaxError)
             });
 
             setTimeout(function(){
@@ -1166,11 +1145,10 @@
                             useCase: {{$currentUseCase->id}},
                         }).done(function() {
                             showSavedQuestionToast(value);
-                            console.log("success", value, changing);
                             $('#errorrQuestion' + changing).hide();
                         }).fail(function() {
-                            console.log("error", value, changing);
                             $('#errorrQuestion' + changing).show();
+                            handleAjaxError()
                         });
                     });
             }, 1000);

@@ -1,4 +1,4 @@
-@extends('accentureViews.layouts.forms')
+@extends('layouts.base')
 
 @section('content')
     <div class="main-wrapper">
@@ -49,7 +49,7 @@
                                             <label for="vendorRoleInput">Vendor company contact role</label>
                                             <input class="form-control" id="vendorRoleInput" placeholder="Enter Role"
                                                 type="text"
-                                                value="{{$vendor->role}}" 
+                                                value="{{$vendor->role}}"
                                                  >
                                         </div> -->
 
@@ -57,7 +57,7 @@
                                             <label for="vendorAddressInput">Company address</label>
                                             <input class="form-control" id="vendorAddressInput" placeholder="Enter Address"
                                                 type="text"
-                                                value="{{$vendor->address}}" 
+                                                value="{{$vendor->address}}"
                                                 disabled>
                                         </div> -->
 

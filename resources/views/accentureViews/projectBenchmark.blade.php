@@ -1,4 +1,4 @@
-@extends('accentureViews.layouts.benchmark')
+@extends('layouts.base')
 
 @section('content')
     <div class="main-wrapper">
@@ -223,9 +223,9 @@
         function togglePublishAnalytics() {
             $.post('/accenture/newProjectSetUp/togglePublishProjectAnalytics', {
                 project_id: '{{$project->id}}',
-            }).then(function () {
-                location.reload();
-            });
+            }).done(function () {
+                location.reload()
+            }).fail(handleAjaxError)
         }
 
         $(document).ready(function () {

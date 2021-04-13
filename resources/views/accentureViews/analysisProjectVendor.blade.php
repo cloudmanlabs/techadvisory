@@ -1,4 +1,4 @@
-@extends('accentureViews.layouts.benchmark')
+@extends('layouts.base')
 
 @section('content')
 <div class="main-wrapper">
