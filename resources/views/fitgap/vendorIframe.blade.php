@@ -110,7 +110,7 @@
             @if(!$disabled)
             $.post("{{route('updateFitgapResponse', ['project' => $project, 'vendor' => $vendor])}}", {
                 data: mySpreadsheet.getRowData(y),
-            }).done(showSavedToast).fail(handleAjaxError);
+            }).done(window.parent.showSavedToast).fail(window.parent.handleAjaxError);
             @endif
         },
     });
