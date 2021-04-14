@@ -2,10 +2,7 @@
 
 namespace App\Repository;
 
-use App\VendorApplication;
 use Illuminate\Support\Facades\DB;
-
-use function foo\func;
 
 class BenchmarkAndAnalyticsRepository
 {
@@ -64,7 +61,7 @@ class BenchmarkAndAnalyticsRepository
             ->where('va.phase', 'submitted')
             ->select('va.solutionsUsed')
             ->when(!empty($subpracticeIds), function ($query) use ($subpracticeIds) {
-                $query->groupBy('p.id', 'va.solutionsUsed');
+                $query->groupBy('va.solutionsUsed');
 
                 return $query;
             })
@@ -92,7 +89,8 @@ class BenchmarkAndAnalyticsRepository
                 $query->leftJoin('project_subpractice as ps', 'p.id', '=', 'ps.project_id');
                 $query->whereIn('ps.subpractice_id', $subpracticeIds);
                 $query->groupBy('p.id');
-                $query->havingRaw('group_concat(`ps`.`subpractice_id` order by `ps`.`subpractice_id` asc) = \''.$commaSeparatedSubpractices.'\'');
+                $query->havingRaw('group_concat(distinct `ps`.`subpractice_id` order by `ps`.`subpractice_id` asc) = ?',
+                    [$commaSeparatedSubpractices]);
 
                 return $query;
             })
