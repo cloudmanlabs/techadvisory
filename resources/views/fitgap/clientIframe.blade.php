@@ -131,7 +131,7 @@
             $.post("{{ route('updateFitgapQuestion') }}", {
                 data: mySpreadsheet.getRowData(y),
                 position: y
-            }).done(showSavedToast).fail(handleAjaxError)
+            }).done(window.parent.showSavedToast).fail(window.parent.handleAjaxError)
             @endif
         },
         onbeforedeleterow: function (el, rowNumber, numRows, rowRecords) {
@@ -141,7 +141,7 @@
             } else {
                 $.post("{{ route('deleteFitgapQuestion',  ['project' => $project]) }}", {
                     data: mySpreadsheet.getRowData(rowNumber),
-                }).done(showSavedToast).fail(handleAjaxError);
+                }).done(window.parent.showSavedToast).fail(window.parent.handleAjaxError);
             }
             @endif
         },
@@ -150,7 +150,7 @@
             $.post("{{ route('createFitgapQuestion', ['project' => $project]) }}")
                 .done(function (response) {
                     mySpreadsheet.setValueFromCoords(0, rowNumber + 1, response.data.id, true);
-                }).fail(handleAjaxError);
+                }).fail(window.parent.handleAjaxError);
             @endif
         },
         onmoverow: function (element, origin, destiny) {
@@ -158,7 +158,7 @@
             $.post("{{ route('moveFitgapQuestion', ['project' => $project]) }}", {
                 fitgap_question_id: mySpreadsheet.getRowData(destiny)[0],
                 to: destiny
-            }).done(showSavedToast).fail(handleAjaxError);
+            }).done(window.parent.showSavedToast).fail(window.parent.handleAjaxError);
             @endif
         }
     });
