@@ -91,6 +91,7 @@ class Project extends Model
     ];
 
     public $attributes = [
+        'timezone' => 'UTC',
         'currency' => 'USD',
 
         'fitgapWeightMust' => 10,

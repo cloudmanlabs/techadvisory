@@ -5,29 +5,32 @@
         <div class="card">
             <div class="card-body">
                 <h3>Project deadline</h3>
-                {{-- So the addHours is an amazing hack because they want it shown in Finnish time --}}
-                <h5>{{$project->deadline->addHours(1)->format('F j Y, \a\t H:i')}} - GMT +2</h5>
+                <h5>
+                    {{$project->deadline->setTimezone($project->timezone)->format('F j Y, \a\t H:i')}}
+                    - {{ $project->timezone }}
+                </h5>
                 <br>
 
                 @if ($project->deadline != null && !$project->deadline->isPast())
                     <div class="card" style="margin-bottom: 30px;">
                         <div class="card-body">
                             <div style="text-align: center;">
-                                <div id="clockdiv" data-enddate="{{$project->deadline->format('F j Y H:i')}}">
+                                <div id="clockdiv"
+                                     data-enddate="{{$project->deadline->setTimezone($project->timezone)->format('c')}}">
                                     <div>
-                                        <span class="days">{{$project->deadline->days()}}</span>
+                                        <span class="days"></span>
                                         <div class="smalltext">Days</div>
                                     </div>
                                     <div>
-                                        <span class="hours">05</span>
+                                        <span class="hours"></span>
                                         <div class="smalltext">Hours</div>
                                     </div>
                                     <div>
-                                        <span class="minutes">47</span>
+                                        <span class="minutes"></span>
                                         <div class="smalltext">Minutes</div>
                                     </div>
                                     <div>
-                                        <span class="seconds">19</span>
+                                        <span class="seconds"></span>
                                         <div class="smalltext">Seconds</div>
                                     </div>
                                 </div>

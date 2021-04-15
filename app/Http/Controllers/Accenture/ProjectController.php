@@ -1191,6 +1191,44 @@ class ProjectController extends Controller
         ]);
     }
 
+    public function changeTimezone(Request $request)
+    {
+        $request->validate([
+            'project_id' => 'required|numeric',
+            'timezone' => 'required|string',
+            'deadline' => 'string',
+        ]);
+
+        $project = Project::find($request->project_id);
+        if ($project == null) {
+            abort(404);
+        }
+
+        $project->timezone = $request->timezone;
+
+        if ($request->deadline) {
+            $project->deadline = Carbon::createFromFormat('m/d/Y', $request->deadline, $request->timezone)
+                ->setHour(0)
+                ->setMinute(0)
+                ->setSecond(0)
+                ->setTimezone('UTC')
+                ->toDateTimeString();
+        }
+
+        $project->save();
+
+        SecurityLog::createLog('Accenture changed timezone', 'Project', [
+            'project_id' => $request->project_id,
+            'deadline' => $request->deadline,
+            'timezone' => $request->timezone,
+        ]);
+
+        return \response()->json([
+            'status' => 200,
+            'message' => 'Success',
+        ]);
+    }
+
     public function changeDeadline(Request $request)
     {
         $request->validate([
@@ -1203,7 +1241,12 @@ class ProjectController extends Controller
             abort(404);
         }
 
-        $project->deadline = Carbon::createFromFormat('m/d/Y', $request->value)->toDateTimeString();
+        $project->deadline = Carbon::createFromFormat('m/d/Y', $request->value, $project->timezone)
+            ->setHour(0)
+            ->setMinute(0)
+            ->setSecond(0)
+            ->setTimezone('UTC')
+            ->toDateTimeString();
         $project->save();
 
         SecurityLog::createLog('Accenture changed deadline', 'Project', [

@@ -231,6 +231,10 @@
 
 <h4>1.4. Timeline</h4>
 <br>
+<div class="form-group">
+    <label for="timezone">Timezone*</label>
+    {!! Timezonelist::create('timezone', $project->timezone, 'id=timezone class=form-control') !!}
+</div>
 
 <div class="form-group">
     <label for="deadline">Tentative date for Vendor Response completion*</label>

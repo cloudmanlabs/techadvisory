@@ -500,6 +500,18 @@
                 }).fail(handleAjaxError)
             });
 
+            $('#timezone').change(function (e) {
+                var value = $(this).val();
+                $.post('/accenture/newProjectSetUp/changeTimezone', {
+                    project_id: '{{$project->id}}',
+                    timezone: value,
+                    deadline: $('#deadline').val() || undefined
+                }).done(function () {
+                    showSavedToast();
+                    updateSubmitButton();
+                }).fail(handleAjaxError)
+            });
+
             $('#deadline').change(function (e) {
                 var value = $(this).val();
                 $.post('/accenture/newProjectSetUp/changeDeadline', {
