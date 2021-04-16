@@ -45,6 +45,16 @@
             })
         }
 
+        function showDataUpdatedToast() {
+            $.toast({
+                heading: 'Data updated from the server',
+                showHideTransition: 'slide',
+                icon: 'warning',
+                hideAfter: 3000,
+                position: 'bottom-right'
+            })
+        }
+
         const mySpreadsheet = jexcel(document.getElementById('spreadsheet'), {
             url: "{{ route('fitgapClientJson', ['project' => $project]) }}",
             tableOverflow: false,
@@ -125,48 +135,69 @@
                     @endif
                 },
             ],
+            @if(!$disabled)
             onchange: function (instance, cell, x, y, value) {
-                @if(!$disabled)
                 $.post("{{ route('updateFitgapQuestion') }}", {
                     data: mySpreadsheet.getRowData(y),
                     position: y
-                }).done(window.parent.showSavedToast).fail(window.parent.handleAjaxError)
-                @endif
+                }).fail(window.parent.handleAjaxError)
             },
             onbeforedeleterow: function (el, rowNumber, numRows, rowRecords) {
-                @if(!$disabled)
                 if (numRows > 1) {
                     showWarningToast("You can't delete several rows at the same time");
                 } else {
                     $.post("{{ route('deleteFitgapQuestion',  ['project' => $project]) }}", {
                         data: mySpreadsheet.getRowData(rowNumber),
-                    }).done(window.parent.showSavedToast).fail(window.parent.handleAjaxError);
+                    }).fail(window.parent.handleAjaxError);
                 }
-                @endif
             },
             oninsertrow: function (element, rowNumber, numRows, rowRecords) {
-                @if(!$disabled)
                 $.post("{{ route('createFitgapQuestion', ['project' => $project]) }}")
                     .done(function (response) {
                         mySpreadsheet.setValueFromCoords(0, rowNumber + 1, response.data.id, true);
                     }).fail(window.parent.handleAjaxError);
-                @endif
             },
             onmoverow: function (element, origin, destiny) {
-                @if(!$disabled)
                 $.post("{{ route('moveFitgapQuestion', ['project' => $project]) }}", {
                     fitgap_question_id: mySpreadsheet.getRowData(destiny)[0],
                     to: destiny
-                }).done(window.parent.showSavedToast).fail(window.parent.handleAjaxError);
-                @endif
+                }).fail(window.parent.handleAjaxError);
             }
+            @endif
         });
+
+        var columnMapping = {
+            0: 'ID',
+            1: 'Type',
+            2: 'Level 1',
+            3: 'Level 2',
+            4: 'Level 3',
+            5: 'Requirement',
+            6: 'Client',
+            7: 'Business Opportunity'
+        }
 
         setInterval(function () {
             $.get("{{ route('fitgapClientJson', ['project' => $project]) }}")
                 .done(function (response) {
-                    // console.log(response)
-                    mySpreadsheet.setData(response)
+                    var currentData = mySpreadsheet.getData();
+                    var serverData = response;
+                    var hasBeenUpdated = false;
+                    if (currentData.length !== serverData.length) {
+                        mySpreadsheet.setData(response);
+                        hasBeenUpdated = true;
+                    } else {
+                        for (var row = 0; row < currentData.length; row++) {
+                            for (var column = 0; column <= 7; column++) {
+                                if (currentData[row][column] !== serverData[row][columnMapping[column]]) {
+                                    mySpreadsheet.setValueFromCoords(column, row, serverData[row][columnMapping[column]], true);
+                                    hasBeenUpdated = true;
+                                }
+                            }
+                        }
+                    }
+
+                    if (hasBeenUpdated) showDataUpdatedToast();
                 })
         }, 3000)
 
