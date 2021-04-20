@@ -36,6 +36,16 @@
         });
     });
 
+    function showDataUpdatedToast() {
+        $.toast({
+            heading: 'Data updated from the server',
+            showHideTransition: 'slide',
+            icon: 'warning',
+            hideAfter: 3000,
+            position: 'bottom-right'
+        })
+    }
+
     var mySpreadsheet = jexcel(document.getElementById('spreadsheet'), {
         url: "{{ route('fitgapVendorJson', ['vendor' => $vendor, 'project' => $project]) }}",
         tableOverflow: false,
@@ -84,7 +94,7 @@
             },
             {
                 type: 'dropdown',
-                title: 'Vendor Response',
+                title: 'Vendor response',
                 width: 200,
                 source: [
                     'Product does not support the functionality',
@@ -106,14 +116,49 @@
                 @endif
             },
         ],
+        @if(!$disabled)
         onchange: function (instance, cell, x, y, value) {
-            @if(!$disabled)
             $.post("{{route('updateFitgapResponse', ['project' => $project, 'vendor' => $vendor])}}", {
                 data: mySpreadsheet.getRowData(y),
-            }).done(window.parent.showSavedToast).fail(window.parent.handleAjaxError);
-            @endif
+            }).fail(window.parent.handleAjaxError);
         },
+        @endif
     });
+
+    var columnMapping = {
+        0: 'ID',
+        1: 'Type',
+        2: 'Level 1',
+        3: 'Level 2',
+        4: 'Level 3',
+        5: 'Requirement',
+        6: 'Vendor response',
+        7: 'Comments'
+    }
+
+    setInterval(function () {
+        $.get("{{ route('fitgapVendorJson', ['vendor' => $vendor, 'project' => $project]) }}")
+            .done(function (response) {
+                var currentData = mySpreadsheet.getData();
+                var serverData = response;
+                var hasBeenUpdated = false;
+                if (currentData.length !== serverData.length) {
+                    mySpreadsheet.setData(response);
+                    hasBeenUpdated = true;
+                } else {
+                    for (var row = 0; row < currentData.length; row++) {
+                        for (var column = 0; column <= 7; column++) {
+                            if (currentData[row][column] !== serverData[row][columnMapping[column]]) {
+                                mySpreadsheet.setValueFromCoords(column, row, serverData[row][columnMapping[column]], true);
+                                hasBeenUpdated = true;
+                            }
+                        }
+                    }
+                }
+
+                if (hasBeenUpdated) showDataUpdatedToast();
+            })
+    }, 3000)
 
     document.getElementById('download').onclick = function () {
         mySpreadsheet.download();
