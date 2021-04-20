@@ -24,7 +24,12 @@ class ProjectObserver
         }
 
         if ($project->deadline == null) {
-            $project->deadline = Carbon::now()->addYear();
+            $project->deadline = Carbon::now($project->timezone)
+                ->addYear()
+                ->setHour(0)
+                ->setMinute(0)
+                ->setSecond(0)
+                ->setTimezone('UTC');
         }
 
         /*// Default fitgap

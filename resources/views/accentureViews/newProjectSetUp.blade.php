@@ -701,6 +701,18 @@
                 }).fail(handleAjaxError)
             });
 
+            $('#timezone').change(function () {
+                var value = $(this).val();
+                $.post('/accenture/newProjectSetUp/changeTimezone', {
+                    project_id: '{{$project->id}}',
+                    timezone: value,
+                    deadline: $('#deadline').val() || undefined
+                }).done(function () {
+                    showSavedToast();
+                    updateSubmitStep3();
+                }).fail(handleAjaxError)
+            });
+
             $('#deadline').change(function (e) {
                 var value = $(this).val();
                 $.post('/accenture/newProjectSetUp/changeDeadline', {
