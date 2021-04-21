@@ -25,14 +25,13 @@ class UserCredential extends Model
     public $guarded = [];
 
     protected $casts = [
-        'hidden' => 'boolean'
+        'hidden' => 'boolean',
     ];
 
     public function user()
     {
         return $this->belongsTo(User::class, 'user_id');
     }
-
 
 
     /**
@@ -62,9 +61,9 @@ class UserCredential extends Model
      *
      * @return \Illuminate\Contracts\Routing\UrlGenerator|string
      */
-    public function passwordChangeLink(){
-        $token = $this->passwordChangeToken;
-        return url("/changePassword/{$token}");
+    public function passwordChangeLink()
+    {
+        return !empty($this->passwordChangeToken) ? url("/changePassword/{$this->passwordChangeToken}") : '';
     }
 
     /**
