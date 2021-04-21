@@ -63,6 +63,12 @@ class FitgapVendorResponse extends Model
         return FitgapVendorResponse::where('vendor_application_id', '=', $vendorApplicationId)->get();
     }
 
+    public static function countEmptyByVendorApplication($vendorApplicationId){
+        return FitgapVendorResponse::where('vendor_application_id', '=', $vendorApplicationId)
+            ->where('response', '=', '')
+            ->count();
+    }
+
     public static function findByQuestion($questionId){
         return FitgapVendorResponse::where('fitgap_question_id', '=', $questionId)->get();
     }

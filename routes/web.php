@@ -117,5 +117,8 @@ Route::middleware(['auth'])->group(function () {
     Route::post('updateFitgapResponse/{project}/{vendor}', 'FitgapController@updateFitgapResponse')
         ->name('updateFitgapResponse');
 
+    Route::get('fitgap/{vendorApplication}/vendor-responses/has-unanswered', 'FitgapController@hasUnansweredVendorResponses')
+        ->name('fitgapHasUnansweredVendorResponses');
+
     Route::get('security/logs/export', 'SecurityLogController@exportAll');
 });

@@ -46,7 +46,8 @@
                                         <h4>Questions</h4>
                                         <br>
                                         <x-questionForeach :questions="$fitgapQuestions"
-                                                           :class="'selectionCriteriaQuestion'" :disabled="false"
+                                                           :class="'selectionCriteriaQuestion'"
+                                                           :disabled="false"
                                                            :required="false"/>
                                     </section>
 
@@ -76,7 +77,8 @@
                                         </p>
                                         <br>
                                         <x-questionForeach :questions="$vendorMarketQuestions"
-                                                           :class="'selectionCriteriaQuestion'" :disabled="false"
+                                                           :class="'selectionCriteriaQuestion'"
+                                                           :disabled="false"
                                                            :required="false"/>
                                     </section>
 
@@ -94,7 +96,8 @@
                                         </p>
                                         <br>
                                         <x-questionForeach :questions="$experienceQuestions"
-                                                           :class="'selectionCriteriaQuestion'" :disabled="false"
+                                                           :class="'selectionCriteriaQuestion'"
+                                                           :disabled="false"
                                                            :required="false"/>
 
                                         {{-- <x-folderFileUploader :folder="$vendorApplication->experienceFolder" :timeout="1000" /> --}}
@@ -114,7 +117,8 @@
                                         </p>
                                         <br>
                                         <x-questionForeach :questions="$innovationDigitalEnablersQuestions"
-                                                           :class="'selectionCriteriaQuestion'" :disabled="false"
+                                                           :class="'selectionCriteriaQuestion'"
+                                                           :disabled="false"
                                                            :required="false"/>
 
                                         <h4>Alliances</h4>
@@ -124,7 +128,8 @@
                                         </p>
                                         <br>
                                         <x-questionForeach :questions="$innovationAlliancesQuestions"
-                                                           :class="'selectionCriteriaQuestion'" :disabled="false"
+                                                           :class="'selectionCriteriaQuestion'"
+                                                           :disabled="false"
                                                            :required="false"/>
 
                                         <h4>Product</h4>
@@ -134,7 +139,8 @@
                                         </p>
                                         <br>
                                         <x-questionForeach :questions="$innovationProductQuestions"
-                                                           :class="'selectionCriteriaQuestion'" :disabled="false"
+                                                           :class="'selectionCriteriaQuestion'"
+                                                           :disabled="false"
                                                            :required="false"/>
 
                                         <h4>Sustainability</h4>
@@ -144,7 +150,8 @@
                                         </p>
                                         <br>
                                         <x-questionForeach :questions="$innovationSustainabilityQuestions"
-                                                           :class="'selectionCriteriaQuestion'" :disabled="false"
+                                                           :class="'selectionCriteriaQuestion'"
+                                                           :disabled="false"
                                                            :required="false"/>
                                     </section>
 
@@ -183,7 +190,8 @@
 
                                         <x-questionForeach :questions="$implementationImplementationQuestions"
                                                            :class="'selectionCriteriaQuestion'"
-                                                           :disabled="false" :required="false"/>
+                                                           :disabled="false"
+                                                           :required="false"/>
 
                                         <br><br>
 
@@ -227,7 +235,8 @@
                                             </p>
                                         @else
                                             <x-selectionCriteria.nonBindingImplementation
-                                                :vendorApplication="$vendorApplication" :evaluate="false"/>
+                                                :vendorApplication="$vendorApplication"
+                                                :evaluate="false"/>
                                         @endif
 
                                         <br>
@@ -238,11 +247,13 @@
                                         <br>
 
                                         <x-selectionCriteria.pricingModel :vendorApplication="$vendorApplication"
-                                                                          :disabled="false" :evaluate="false"/>
+                                                                          :disabled="false"
+                                                                          :evaluate="false"/>
 
                                         <x-questionForeach :questions="$implementationRunQuestions"
                                                            :class="'selectionCriteriaQuestion'"
-                                                           :disabled="false" :required="false"/>
+                                                           :disabled="false"
+                                                           :required="false"/>
 
                                         <br><br>
 
@@ -251,17 +262,19 @@
                                                                                 :evaluate="false"/>
                                         @else
                                             <x-selectionCriteria.nonBindingEstimate5Years
-                                                :vendorApplication="$vendorApplication" :evaluate="false"/>
+                                                :vendorApplication="$vendorApplication"
+                                                :evaluate="false"/>
                                         @endif
 
                                         <x-selectionCriteria.detailedBreakdown :vendorApplication="$vendorApplication"
-                                                                               :disabled="false" :evaluate="false"/>
+                                                                               :disabled="false"
+                                                                               :evaluate="false"/>
 
                                         <br><br>
 
                                         <p class="welcome_text extra-top-15px" style="color:red">
-                                            Submit button will only be activated once all questions with an "*" are
-                                            replied.
+                                            Submit button will only be activated once all questions with an "*" and all
+                                            requirements in FitGap are replied.
                                         </p>
 
                                         <button
@@ -283,7 +296,8 @@
                                                     </div>
                                                     <div class="modal-footer">
                                                         <button type="button" class="btn btn-secondary"
-                                                                data-dismiss="modal">Cancel
+                                                                data-dismiss="modal">
+                                                            Cancel
                                                         </button>
                                                         <button id="submitButton" type="button" class="btn btn-primary">
                                                             Submit
@@ -292,8 +306,8 @@
                                                 </div>
                                             </div>
                                         </div>
-
-                                        <br><br>
+                                        <br>
+                                        <br>
                                     </section>
                                 </div>
                             </div>
@@ -355,16 +369,28 @@
             }, true)
         }
 
+        function checkIfAllRequiredsInFitgapAreFilled(cb) {
+            $.get('/fitgap/{{ $vendorApplication->id }}/vendor-responses/has-unanswered').done(function (response) {
+                return cb(!response.message)
+            }).fail(handleAjaxError)
+        }
+
         function updateSubmitButton() {
             // If we filled all the fields, remove the disabled from the button.
             if (checkIfAllRequiredsAreFilled()) {
-                $('#finalSubmitButton').attr('disabled', false)
+                checkIfAllRequiredsInFitgapAreFilled(function (filled) {
+                    $('#finalSubmitButton').attr('disabled', !filled)
+                })
             } else {
                 $('#finalSubmitButton').attr('disabled', true)
             }
         }
 
         $(document).ready(function () {
+            $('#fitgapVendorModal').on('hidden.bs.modal', function (event) {
+                updateSubmitButton();
+            })
+
             $('.selectionCriteriaQuestion input,.selectionCriteriaQuestion textarea,.selectionCriteriaQuestion select')
                 .filter(function (el) {
                     return $(this).data('changing') !== undefined

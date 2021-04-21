@@ -373,4 +373,14 @@ class FitgapController extends Controller
             'disabled' => $request->disabled ?? false,
         ]);
     }
+
+    public function hasUnansweredVendorResponses(VendorApplication $vendorApplication)
+    {
+        $emptyResponses = FitgapVendorResponse::countEmptyByVendorApplication($vendorApplication->id);
+
+        return \response()->json([
+            'status' => 200,
+            'message' => $emptyResponses > 0,
+        ]);
+    }
 }

@@ -18,7 +18,8 @@
         Complete Fit Gap Table
     </button>
 
-    <div class="modal fade bd-example-modal-xl" tabindex="-1" role="dialog" aria-labelledby="myExtraLargeModalLabel"
+    <div id="fitgapVendorModal" class="modal fade bd-example-modal-xl" tabindex="-1" role="dialog"
+         aria-labelledby="myExtraLargeModalLabel"
          aria-hidden="true">
         <div class="modal-dialog modal-xl" style="max-width: unset; margin: 30px">
             <div class="modal-content" style="height: calc(100vh - 60px)">
