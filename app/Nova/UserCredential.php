@@ -3,18 +3,11 @@
 namespace App\Nova;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
 use Laravel\Nova\Fields\BelongsTo;
-use Laravel\Nova\Fields\BelongsToMany;
 use Laravel\Nova\Fields\Boolean;
-use Laravel\Nova\Fields\HasMany;
-use Laravel\Nova\Fields\HasOne;
 use Laravel\Nova\Fields\ID;
-use Laravel\Nova\Fields\Password;
-use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
-use Laravel\Nova\Panel;
 
 class UserCredential extends Resource
 {
@@ -43,7 +36,7 @@ class UserCredential extends Resource
      * @var array
      */
     public static $search = [
-        'email', 'passwordChangeToken'
+        'email', 'passwordChangeToken',
     ];
 
     /**
@@ -65,14 +58,11 @@ class UserCredential extends Resource
                 ->sortable()
                 ->rules('required', 'email', 'max:254'),
 
-            Boolean::make('Hidden', 'hidden')
-                ->canSee(function(){
-                    return auth()->user()->isAdmin();
-                }),
-            Text::make('Token', 'passwordChangeToken')
-                ->canSee(function(){
-                    return auth()->user()->isAdmin();
-                }),
+            Boolean::make('Hidden', 'hidden'),
+
+            Text::make('Change password link', function () {
+                return $this->passwordChangeLink();
+            }),
 
             BelongsTo::make('User', 'user'),
 
@@ -85,7 +75,7 @@ class UserCredential extends Resource
 
     public static function indexQuery(NovaRequest $request, $query)
     {
-        if(auth()->user()->isAdmin()){
+        if (auth()->user()->isAdmin()) {
             return $query;
         } else {
             return $query->where('hidden', false);
@@ -94,8 +84,8 @@ class UserCredential extends Resource
 
     public static function relatableUsers(NovaRequest $request, $query)
     {
-        if($request->viaResource == 'clients'){
-            if($request->viaRelationship == 'credentials'){
+        if ($request->viaResource == 'clients') {
+            if ($request->viaRelationship == 'credentials') {
                 return $query->where('id', $request->viaResourceId);
             } else {
                 return $query->whereIn('userType', \App\User::clientTypes);
