@@ -13,6 +13,7 @@ use App\UseCaseQuestionResponse;
 use App\User;
 use App\VendorApplication;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class ProjectController extends Controller
 {
@@ -178,14 +179,17 @@ class ProjectController extends Controller
 
     public function setAccepted(Request $request, Project $project)
     {
-        $application = VendorApplication::where('vendor_id', auth()->id())
+        $vendor = Auth::user();
+        $application = VendorApplication::where('vendor_id', $vendor->id)
             ->where('project_id', $project->id)
             ->first();
+
         if ($application == null) {
             abort(404);
         }
 
         $application->setApplicating();
+        $this->replaceResponsesWithRecommendations($project, $vendor);
 
         SecurityLog::createLog('Vendor accepted', 'Projects',
             ['projectId' => $project->id, 'projectName' => $project->name]);
@@ -293,103 +297,41 @@ class ProjectController extends Controller
     {
         /** @var User $vendor */
         $vendor = auth()->user();
+
         if (!$vendor->hasAppliedToProject($project)) {
             abort(404);
         }
 
-        $vendorApplication = \App\VendorApplication::where('project_id', $project->id)->where('vendor_id',
-            $vendor->id)->first();
+        $vendorApplication = \App\VendorApplication::where('project_id', $project->id)
+            ->where('vendor_id', $vendor->id)
+            ->first();
+
         if ($vendorApplication->phase != 'applicating') {
             abort(404);
         }
 
-        $fitgapQuestions = $project->selectionCriteriaQuestionsForVendor($vendor)->get()->filter(function ($question) {
-            return $question->originalQuestion->page == 'fitgap';
-        });
+        $fitgapQuestions = $project->getFitGapQuestions($vendor);
+        $vendorCorporateQuestions = $project->getVendorCorporateQuestions($vendor);
+        $vendorMarketQuestions = $project->getVendorMarketQuestions($vendor);
+        $experienceQuestions = $project->getExperienceQuestions($vendor);
+        $innovationDigitalEnablersQuestions = $project->getInnovationDigitalEnablersQuestions($vendor);
+        $innovationAlliancesQuestions = $project->getInnovationAlliancesQuestions($vendor);
+        $innovationProductQuestions = $project->getInnovationProductQuestions($vendor);
+        $innovationSustainabilityQuestions = $project->getInnovationSustainabilityQuestions($vendor);
+        $implementationImplementationQuestions = $project->getImplementationImplementationQuestions($vendor);
+        $implementationRunQuestions = $project->getImplementationRunQuestions($vendor);
 
-        $practiceOfTheProject = $project->practice_id;
-
-        $vendorCorporateQuestions = $project->selectionCriteriaQuestionsForVendor($vendor)
-            ->whereHas('originalQuestion', function ($query) use ($practiceOfTheProject) {
-                $query->where('practice_id', '=', $practiceOfTheProject)
-                    ->orWhere('practice_id', '=', null);
-            })->get()
-            ->filter(function ($question) {
-                return $question->originalQuestion->page == 'vendor_corporate';
-            });
-
-        $vendorMarketQuestions = $project->selectionCriteriaQuestionsForVendor($vendor)
-            ->whereHas('originalQuestion', function ($query) use ($practiceOfTheProject) {
-                $query->where('practice_id', '=', $practiceOfTheProject)
-                    ->orWhere('practice_id', '=', null);
-            })->get()
-            ->filter(function ($question) {
-                return $question->originalQuestion->page == 'vendor_market';
-            });
-        $experienceQuestions = $project->selectionCriteriaQuestionsForVendor($vendor)
-            ->whereHas('originalQuestion', function ($query) use ($practiceOfTheProject) {
-                $query->where('practice_id', '=', $practiceOfTheProject)
-                    ->orWhere('practice_id', '=', null);
-            })->get()
-            ->filter(function ($question) {
-                return $question->originalQuestion->page == 'experience';
-            });
-        $innovationDigitalEnablersQuestions = $project->selectionCriteriaQuestionsForVendor($vendor)
-            ->whereHas('originalQuestion', function ($query) use ($practiceOfTheProject) {
-                $query->where('practice_id', '=', $practiceOfTheProject)
-                    ->orWhere('practice_id', '=', null);
-            })->get()
-            ->filter(function ($question) {
-                return $question->originalQuestion->page == 'innovation_digitalEnablers';
-            });
-        $innovationAlliancesQuestions = $project->selectionCriteriaQuestionsForVendor($vendor)
-            ->whereHas('originalQuestion', function ($query) use ($practiceOfTheProject) {
-                $query->where('practice_id', '=', $practiceOfTheProject)
-                    ->orWhere('practice_id', '=', null);
-            })->get()
-            ->filter(function ($question) {
-                return $question->originalQuestion->page == 'innovation_alliances';
-            });
-        $innovationProductQuestions = $project->selectionCriteriaQuestionsForVendor($vendor)
-            ->whereHas('originalQuestion', function ($query) use ($practiceOfTheProject) {
-                $query->where('practice_id', '=', $practiceOfTheProject)
-                    ->orWhere('practice_id', '=', null);
-            })->get()
-            ->filter(function ($question) {
-                return $question->originalQuestion->page == 'innovation_product';
-            });
-        $innovationSustainabilityQuestions = $project->selectionCriteriaQuestionsForVendor($vendor)
-            ->whereHas('originalQuestion', function ($query) use ($practiceOfTheProject) {
-                $query->where('practice_id', '=', $practiceOfTheProject)
-                    ->orWhere('practice_id', '=', null);
-            })->get()
-            ->filter(function ($question) {
-                return $question->originalQuestion->page == 'innovation_sustainability';
-            });
-
-
-        $implementationImplementationQuestions = $project->selectionCriteriaQuestionsForVendor($vendor)->get()->filter(function (
-            $question
-        ) {
-            return $question->originalQuestion->page == 'implementation_implementation';
-        });
-        $implementationRunQuestions = $project->selectionCriteriaQuestionsForVendor($vendor)->get()->filter(function (
-            $question
-        ) {
-            return $question->originalQuestion->page == 'implementation_run';
-        });
-
-        $selectionCriteriaQuestionsResponsesFromSimilarProject = SelectionCriteriaQuestionResponse::getResponsesFromSimilarProject($vendor,
-            $project);
-        $this->replaceResponses($vendorCorporateQuestions, $selectionCriteriaQuestionsResponsesFromSimilarProject);
-        $this->replaceResponses($vendorMarketQuestions, $selectionCriteriaQuestionsResponsesFromSimilarProject);
-        $this->replaceResponses($experienceQuestions, $selectionCriteriaQuestionsResponsesFromSimilarProject);
-        $this->replaceResponses($innovationDigitalEnablersQuestions,
-            $selectionCriteriaQuestionsResponsesFromSimilarProject);
-        $this->replaceResponses($innovationAlliancesQuestions, $selectionCriteriaQuestionsResponsesFromSimilarProject);
-        $this->replaceResponses($innovationProductQuestions, $selectionCriteriaQuestionsResponsesFromSimilarProject);
-        $this->replaceResponses($innovationSustainabilityQuestions,
-            $selectionCriteriaQuestionsResponsesFromSimilarProject);
+//        $selectionCriteriaQuestionsResponsesFromSimilarProject = SelectionCriteriaQuestionResponse::getResponsesFromSimilarProject($vendor,
+//            $project);
+//        $this->replaceResponses($vendorCorporateQuestions, $selectionCriteriaQuestionsResponsesFromSimilarProject);
+//        $this->replaceResponses($vendorMarketQuestions, $selectionCriteriaQuestionsResponsesFromSimilarProject);
+//        $this->replaceResponses($experienceQuestions, $selectionCriteriaQuestionsResponsesFromSimilarProject);
+//        $this->replaceResponses($innovationDigitalEnablersQuestions,
+//            $selectionCriteriaQuestionsResponsesFromSimilarProject);
+//        $this->replaceResponses($innovationAlliancesQuestions, $selectionCriteriaQuestionsResponsesFromSimilarProject);
+//        $this->replaceResponses($innovationProductQuestions, $selectionCriteriaQuestionsResponsesFromSimilarProject);
+//        $this->replaceResponses($innovationSustainabilityQuestions,
+//            $selectionCriteriaQuestionsResponsesFromSimilarProject);
 
         SecurityLog::createLog('Vendor applied to project', 'Projects',
             ['projectId' => $project->id, 'projectName' => $project->name]);
@@ -545,6 +487,27 @@ class ProjectController extends Controller
         ]);
     }
 
+    private function replaceResponsesWithRecommendations(Project $project, User $vendor)
+    {
+        $vendorCorporateQuestions = $project->getVendorCorporateQuestions($vendor);
+        $vendorMarketQuestions = $project->getVendorMarketQuestions($vendor);
+        $experienceQuestions = $project->getExperienceQuestions($vendor);
+        $innovationDigitalEnablersQuestions = $project->getInnovationDigitalEnablersQuestions($vendor);
+        $innovationAlliancesQuestions = $project->getInnovationAlliancesQuestions($vendor);
+        $innovationProductQuestions = $project->getInnovationProductQuestions($vendor);
+        $innovationSustainabilityQuestions = $project->getInnovationSustainabilityQuestions($vendor);
+
+        $similarResponses = SelectionCriteriaQuestionResponse::getResponsesFromSimilarProject($vendor, $project);
+        $this->replaceResponses($vendorCorporateQuestions, $similarResponses);
+        $this->replaceResponses($vendorMarketQuestions, $similarResponses);
+        $this->replaceResponses($experienceQuestions, $similarResponses);
+        $this->replaceResponses($innovationDigitalEnablersQuestions, $similarResponses);
+        $this->replaceResponses($innovationAlliancesQuestions, $similarResponses);
+        $this->replaceResponses($innovationProductQuestions, $similarResponses);
+        $this->replaceResponses($innovationSustainabilityQuestions, $similarResponses);
+    }
+
+
     private function replaceResponses($currentResponses, $similarResponses)
     {
         // Replace answers for Page Vendor Corporate
@@ -553,6 +516,7 @@ class ProjectController extends Controller
                 foreach ($similarResponses as $similarResponse) {
                     if ($currentResponse->question_id == $similarResponse->question_id) {
                         $currentResponse->response = $similarResponse->response;
+                        $currentResponse->save();
                     }
                 }
             }
