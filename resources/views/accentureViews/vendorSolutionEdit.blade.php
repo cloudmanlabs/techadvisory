@@ -143,17 +143,23 @@
         });
 
         $('.solutionQuestion input,.solutionQuestion textarea,.solutionQuestion select')
-            .filter(function(el) {
-                return $( this ).data('changing') !== undefined
+            .filter(function() {
+                return $(this).data('changing') !== undefined
             })
-            .change(function (e) {
-                var value = $(this).val();
-                if($.isArray(value) && value.length == 0 && $(this).attr('multiple') !== undefined){
+            .change(function () {
+                var $input = $(this)
+                var value = $input.val();
+
+                if($.isArray(value) && value.length === 0 && $input.attr('multiple') !== undefined) {
                     value = '[]'
                 }
 
+                if($input.prop('required') && !value) {
+                    return
+                }
+
                 $.post('/accenture/vendorSolution/changeResponse', {
-                    changing: $(this).data('changing'),
+                    changing: $input.data('changing'),
                     value: value
                 }).done(function () {
                     showSavedToast();
