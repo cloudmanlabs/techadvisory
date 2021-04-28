@@ -3,7 +3,7 @@ $(function() {
 
   // Mouse speed chart start
   var mrefreshinterval = 500; // update display every 500ms
-  var lastmousex=-1; 
+  var lastmousex=-1;
   var lastmousey=-1;
   var lastmousetime;
   var mousetravel = 0;
@@ -33,7 +33,7 @@ $(function() {
       setTimeout(mdraw, mrefreshinterval);
   }
   // We could use setInterval instead, but I prefer to do it this way
-  setTimeout(mdraw, mrefreshinterval); 
+  setTimeout(mdraw, mrefreshinterval);
   // Mouse speed chart start
 
 

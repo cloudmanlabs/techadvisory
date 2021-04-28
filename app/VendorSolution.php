@@ -32,6 +32,11 @@ class VendorSolution extends Model
         return $this->belongsTo(Practice::class, 'practice_id');
     }
 
+    public function subpractices()
+    {
+        return $this->belongsToMany(Subpractice::class);
+    }
+
     public static function getByProject($projectId)
     {
         return VendorsProjectsAnalysis::where('project_id', '=', $projectId)

@@ -137,6 +137,7 @@ prefix('accenture')
             Route::post('vendorSolution/changeResponse', 'ClientVendorListController@changeSolutionResponse');
             Route::post('vendorSolution/changeName', 'ClientVendorListController@changeSolutionName');
             Route::post('vendorSolution/changePractice', 'ClientVendorListController@changeSolutionPractice');
+            Route::post('vendorSolution/changeSubpractice', 'ClientVendorListController@changeSolutionSubpractice');
 
             Route::get('project/home/{project}', 'ProjectController@home')
                 ->name('projectHome');

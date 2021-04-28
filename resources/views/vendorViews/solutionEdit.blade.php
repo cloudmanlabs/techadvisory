@@ -33,6 +33,21 @@
                                     </select>
                                 </div>
 
+                                <div class="form-group">
+                                    <label for="subpracticeSelect">TMS Capabilities (Subpractice)*</label>
+                                    <select
+                                        class="js-example-basic-multiple w-100"
+                                        id="subpracticeSelect"
+                                        multiple="multiple"
+                                        required
+                                    >
+                                        @php
+                                            $select = $solution->subpractices()->pluck('subpractices.id')->toArray();
+                                        @endphp
+                                        <x-options.subpractices :selected="$select"/>
+                                    </select>
+                                </div>
+
                                 <x-questionForeach :questions="$questions" :class="'solutionQuestion'" :disabled="false" :required="true" />
 
                                 <x-folderFileUploader :folder="$solution->folder" :timeout="1000"/>
@@ -123,6 +138,24 @@
         });
     }
 
+    function updateShownSubpracticeOptionsAccordingToPractice(removeCurrentSelection) {
+        // Deselect the current subpractice
+        if (removeCurrentSelection) {
+            $('#subpracticeSelect').val([]);
+            $('#subpracticeSelect').trigger('change');
+        }
+
+        $('#subpracticeSelect').children().each(function () {
+            let practiceId = $(this).data('practiceid');
+
+            if (practiceId == currentPracticeId) {
+                $(this).attr('disabled', false);
+            } else {
+                $(this).attr('disabled', true);
+            }
+        })
+    }
+
     $(document).ready(function() {
         $('#solutionName').change(function (e) {
             var value = $(this).val();
@@ -145,7 +178,21 @@
                 showSavedToast();
                 updateSubmitButton();
                 updateShownQuestionsAccordingToPractice();
+                updateShownSubpracticeOptionsAccordingToPractice(true);
             }).fail(handleAjaxError)
+        });
+
+        $('#subpracticeSelect').change(function (e) {
+            var value = $(this).val();
+            if (value && (value.length > 0)) {
+              $.post('/vendors/solution/changeSubpractice', {
+                  solution_id: '{{$solution->id}}',
+                  subpractices: value
+              }).done(function () {
+                  showSavedToast();
+                  updateSubmitButton();
+              }).fail(handleAjaxError)
+            }
         });
 
         $('.solutionQuestion input,.solutionQuestion textarea,.solutionQuestion select')
@@ -181,6 +228,7 @@
 
         updateSubmitButton();
         updateShownQuestionsAccordingToPractice();
+        updateShownSubpracticeOptionsAccordingToPractice(false);
     });
 </script>
 @endsection
