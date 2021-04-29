@@ -39,6 +39,21 @@
                                     </select>
                                 </div>
 
+                                <div class="form-group">
+                                    <label for="subpracticeSelect">TMS Capabilities (Subpractice)*</label>
+                                    <select
+                                        class="js-example-basic-multiple w-100"
+                                        id="subpracticeSelect"
+                                        multiple="multiple"
+                                        disabled
+                                    >
+                                        @php
+                                            $select = $solution->subpractices()->pluck('subpractices.id')->toArray();
+                                        @endphp
+                                        <x-options.subpractices :selected="$select"/>
+                                    </select>
+                                </div>
+
 
                                 <x-questionForeach :questions="$questions" :class="'solutionQuestion'" :disabled="true" :required="false" />
 

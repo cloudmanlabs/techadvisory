@@ -431,6 +431,27 @@ class ClientVendorListController extends Controller
         ]);
     }
 
+    public function changeSolutionSubpractice(Request $request)
+    {
+        $request->validate([
+            'solution_id' => 'required|numeric',
+            'subpractices' => 'required|array',
+        ]);
+
+        $solution = VendorSolution::find($request->solution_id);
+        if ($solution == null) {
+            abort(404);
+        }
+
+        $solution->subpractices()->sync($request->subpractices);
+        $solution->save();
+
+        return \response()->json([
+            'status' => 200,
+            'message' => 'Success',
+        ]);
+    }
+
     public function changeSolutionResponse(Request $request)
     {
         $request->validate([
