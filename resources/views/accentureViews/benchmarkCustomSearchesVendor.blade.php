@@ -1,6 +1,11 @@
 @extends('layouts.base')
 
 @section('content')
+    <style type="text/css">
+      .select2.select2-container.select2-container--default {
+          width: 100% !important;
+      }
+    </style>
     <div class="main-wrapper">
         <x-accenture.navbar activeSection="benchmark"/>
         <div class="page-wrapper">
@@ -89,39 +94,40 @@
                                                 <select id="practiceSelect" class="w-100">
                                                     <option value="null">-- Select a Practice --</option>
                                                     @foreach ($practices as $practice)
-                                                        <option>{{$practice}}</option>
+                                                        <option data-id="{{$allPractices->where('name', $practice)->first()->id}}" value="{{$practice}}">{{$practice}}</option>
                                                     @endforeach
                                                 </select>
                                             </div>
-{{--                                            <div id="subpracticesContainer" class="media-body" style="padding: 20px;">--}}
-{{--                                                <p id="subpracticesText" class="welcome_text">Subpractices</p>--}}
-{{--                                                <select id="selectSubpractices" class="w-100" multiple="multiple">--}}
-{{--                                                </select>--}}
-{{--                                            </div>--}}
-{{--                                            <div id="scopesDiv" class="media-body" style="padding: 20px;">--}}
-{{--                                                <p class="welcome_text">Please choose the Scope you'd like to see:</p>--}}
-{{--                                                <br>--}}
-{{--                                                <div id="TransportScope" class="form-group">--}}
-{{--                                                    <p id="Transport1" class="welcome_text">Transport Flows</p>--}}
-{{--                                                    <select id="selectTransport1" class="w-100" multiple="multiple">--}}
-{{--                                                        @foreach ($transportFlows as $transportFlow)--}}
-{{--                                                            <option>{{$transportFlow}}</option>--}}
-{{--                                                        @endforeach--}}
-{{--                                                    </select>--}}
-{{--                                                    <p id="Transport2" class="welcome_text">Transport Mode</p>--}}
-{{--                                                    <select id="selectTransport2" class="w-100" multiple="multiple">--}}
-{{--                                                        @foreach ($transportModes as $transportMode)--}}
-{{--                                                            <option>{{$transportMode}}</option>--}}
-{{--                                                        @endforeach--}}
-{{--                                                    </select>--}}
-{{--                                                    <p id="Transport3" class="welcome_text">Transport Type</p>--}}
-{{--                                                    <select id="selectTransport3" class="w-100" multiple="multiple">--}}
-{{--                                                        @foreach ($transportTypes as $transportType)--}}
-{{--                                                            <option>{{$transportType}}</option>--}}
-{{--                                                        @endforeach--}}
-{{--                                                    </select>--}}
-{{--                                                </div>--}}
-{{--                                            </div>--}}
+                                            <div class="media-body" style="padding: 20px;">
+                                                <p class="welcome_text">
+                                                    Please choose the TMS Capabilities (Subpractices) you'd like to see:
+                                                </p>
+                                                <select id="subpracticeSelect" class="w-100" multiple="multiple">
+                                                    @foreach ($subpractices as $subpractice)
+                                                        <option>{{$subpractice}}</option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+
+                                            <div id="scopesDiv" class="media-body" style="padding: 20px;">
+                                                <p class="welcome_text">Please choose the Scope you'd like to see:</p>
+                                                <br>
+                                                @foreach ($questions as $question)
+                                                    <div class="form-group questionDiv" data-practice="{{$question->practice->id ?? ''}}" style="display: none;">
+                                                      <label>{{$question->label}}</label>
+                                                      <select
+                                                        class="js-example-basic-multiple w-100"
+                                                        data-changing="{{$question->id}}"
+                                                        multiple="multiple"
+                                                        id="{{str_replace(' ', '', $question->label)}}"
+                                                        >
+                                                          @foreach ($question->optionList() as $option)
+                                                          <option value="{{$option}}">{{$option}}</option>
+                                                          @endforeach
+                                                      </select>
+                                                    </div>
+                                                @endforeach
+                                            </div>
                                         </div>
                                         <br>
                                         <h3 style="color: #A12BFE">Search Results</h3>
@@ -135,10 +141,8 @@
                                                      data-id="{{$vendor->id}}"
                                                      data-segment="{{$vendor->getVendorResponse('vendorSegment') ?? 'No Segment'}}"
                                                      data-practice="{{json_encode($vendor->vendorSolutionsPractices()->pluck('name')->toArray() ?? [])}}"
-{{--                                                     data-subpractices="{{json_encode($vendor->vendorAppliedSubpractices() ?? [])}}"--}}
-{{--                                                     data-transportflow="{{implode(', ', json_decode($vendor->getVendorResponsesFromScope(9)) ?? ['No TF'])}}"--}}
-{{--                                                     data-transportmode="{{implode(', ', json_decode($vendor->getVendorResponsesFromScope(10)) ?? ['No TM'])}}"--}}
-{{--                                                     data-transporttype="{{implode(', ', json_decode($vendor->getVendorResponsesFromScope(11)) ?? ['No TT'])}}"--}}
+                                                     data-subpractices="{{json_encode($vendor->vendorSolutionsSubpracticesNames() ?? [])}}"
+                                                     data-responses="{{json_encode($vendor->getVendorResponsesNames() ?? [])}}"
                                                      {{-- data-manufacturing="{{json_encode($vendor->getVendorResponsesFromScope(5) ?? '')}}"--}}
                                                      data-industry="{{implode(', ', json_decode($vendor->getIndustryFromVendor()) ?? ['No Industry'])}}"
                                                      data-regions="{{$vendor->getVendorResponse('vendorRegions') ?? '[No Region]'}}"
@@ -181,38 +185,42 @@
             const $regionSelector = $('#regionSelect');
             const $industrySelector = $('#industriesSelect');
             const $practiceSelector = $('#practiceSelect');
-            // const $subPracticeSelector = $('#selectSubpractices');
-            // const $transport1Selector = $('#selectTransport1');
-            // const $transport2Selector = $('#selectTransport2');
-            // const $transport3Selector = $('#selectTransport3');
+            const $subPracticeSelector = $('#subpracticeSelect');
+            @foreach ($questions as $question)
+            const $questionSelector{{str_replace(' ', '', $question->label)}} = $('#{{str_replace(' ', '', $question->label)}}');
+            @endforeach
 
             const $vendorsContainer = $('#vendorsContainer');
 
-            // $practiceSelector.change(function () {
-            //     const selectedPractice = $(this).val();
-            //     $subPracticeSelector.empty();
-            //     if (selectedPractice && !selectedPractice.includes('Practice')) {
-            //         $.get("/accenture/analysis/vendor/custom/getSubpractices/" + selectedPractice, function (data) {
-            //             if (data) {
-            //                 const $dropdown = $subPracticeSelector;
-            //                 const subpractices = data.subpractices;
-            //                 $.each(subpractices, function () {
-            //                     $dropdown.append($("<option />").val(this.name).text(this.name));
-            //                 });
-            //             }
-            //         });
-            //     }
-            // });
+            function updateShownQuestionsAccordingToPractice(currentPracticeId) {
+                $('.questionDiv').each(function () {
+                    let practiceId = $(this).data('practice');
+
+                    if (practiceId == currentPracticeId || practiceId == "") {
+                        $(this).css('display', 'block')
+                    } else {
+                        $(this).css('display', 'none')
+                    }
+                });
+            }
+
+            function checkResponses(selectedQuestions, responses) {
+              if (filterMultipleAND(selectedQuestions, responses)) {
+                return true;
+              } else {
+                return false;
+              }
+            }
 
             function updateVendors() {
                 const selectedSegment = $segmentSelector.val();
                 const selectedRegions = $regionSelector.val();
                 const selectedIndustries = $industrySelector.val();
                 const selectedPractices = $practiceSelector.val();
-                // const selectedSubpractices = $subPracticeSelector.val();
-                // const selectedTransportFlow = $transport1Selector.val();
-                // const selectedTransportMode = $transport2Selector.val();
-                // const selectedTransportType = $transport3Selector.val();
+                const selectedSubpractices = $subPracticeSelector.val();
+                @foreach ($questions as $question)
+                const selectedQuestions{{str_replace(' ', '', $question->label)}} = $questionSelector{{str_replace(' ', '', $question->label)}}.val();
+                @endforeach
 
                 // Add a display none to the one which don't have this tags
                 $vendorsContainer.children().each(function () {
@@ -220,17 +228,18 @@
                     const regions = $(this).data('regions');
                     const industries = $(this).data('industry');
                     const practice = $(this).data('practice');
-                    // const subpractices = $(this).data('subpractices');
-                    // const transportFlow = $(this).data('transportflow');
-                    // const transportMode = $(this).data('transportmode');
-                    // const transportType = $(this).data('transporttype');
+                    const subpractices = $(this).data('subpractices');
+                    const responses = $(this).data('responses');
 
                     if (
                         (selectedSegment === 'null' ? true : segment.includes(selectedSegment) === true)
                         && (filterMultipleAND(selectedRegions, regions))
                         && (filterMultipleAND(selectedIndustries, industries))
                         && (selectedPractices === 'null' ? true : practice.includes(selectedPractices) === true)
-                        // && (filterMultipleAND(selectedSubpractices, subpractices))
+                        && (filterMultipleAND(selectedSubpractices, subpractices))
+                        @foreach ($questions as $question)
+                        &&  checkResponses(selectedQuestions{{str_replace(' ', '', $question->label)}}, responses)
+                        @endforeach
                         // && (filterMultipleAND(selectedTransportFlow, transportFlow))
                         // && (filterMultipleAND(selectedTransportMode, transportMode))
                         // && (filterMultipleAND(selectedTransportType, transportType))
@@ -246,11 +255,39 @@
                 return arrayOptions.length > 0 ? R.all(R.flip(R.includes)(arrayToSearch))(arrayOptions) : true;
             }
 
+            $('#practiceSelect').change(function () {
+                chargeSubpracticesFromPractice();
+                updateShownQuestionsAccordingToPractice($('#practiceSelect').find(':selected').data('id'));
+            });
+
+            function chargeSubpracticesFromPractice() {
+                $('#subpracticeSelect').empty();
+
+                var selectedPractices = $('#practiceSelect').val();
+                $.get("/accenture/benchmark/customSearches/getSubpractices/"
+                    + selectedPractices, function (data) {
+
+                    var $dropdown = $("#subpracticeSelect");
+                    var subpractices = data.subpractices;
+                    $.each(subpractices, function () {
+                        var option = $("<option />").val(this).text(this);
+                        $dropdown.append(option);
+                    });
+                    //$dropdown.append($("<option />").val('No Subpractice').text('No Subpractice'));
+                });
+            }
+
             $segmentSelector.on('change', updateVendors);
             $regionSelector.select2().on('change', updateVendors);
             $industrySelector.select2().on('change', updateVendors);
             $practiceSelector.on('change', updateVendors);
-            // $subPracticeSelector.select2().on('change', updateVendors);
+            $('#subpracticeSelect').select2();
+            $('#subpracticeSelect').on('change', function (e) {
+                updateVendors();
+            });
+            @foreach ($questions as $question)
+            $questionSelector{{str_replace(' ', '', $question->label)}}.select2().on('change', updateVendors);
+            @endforeach
             // $transport1Selector.select2().on('change', updateVendors);
             // $transport2Selector.select2().on('change', updateVendors);
             // $transport3Selector.select2().on('change', updateVendors);
