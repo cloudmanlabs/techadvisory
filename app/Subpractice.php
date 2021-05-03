@@ -17,4 +17,9 @@ class Subpractice extends Model
     {
         return $this->belongsTo(Practice::class);
     }
+
+    public function solutions()
+    {
+        return $this->belongsToMany(VendorSolution::class);
+    }
 }

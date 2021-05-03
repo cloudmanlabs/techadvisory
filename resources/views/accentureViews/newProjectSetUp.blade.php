@@ -648,13 +648,15 @@
 
             $('#subpracticeSelect').change(function (e) {
                 var value = $(this).val();
-                $.post('/accenture/newProjectSetUp/changeSubpractice', {
-                    project_id: '{{$project->id}}',
-                    subpractices: value
-                }).done(function () {
-                    showSavedToast();
-                    updateSubmitStep3();
-                }).fail(handleAjaxError)
+                if (value && (value.length > 0)) {
+                    $.post('/accenture/newProjectSetUp/changeSubpractice', {
+                        project_id: '{{$project->id}}',
+                        subpractices: value
+                    }).done(function () {
+                        showSavedToast();
+                        updateSubmitStep3();
+                    }).fail(handleAjaxError)
+                }
             });
 
             $('#industrySelect').change(function (e) {

@@ -12,6 +12,7 @@ use App\Subpractice;
 use App\User;
 use App\VendorApplication;
 use App\VendorSolution;
+use App\VendorSolutionQuestion;
 use App\VendorsProjectsAnalysis;
 use App\VendorUseCasesEvaluation;
 use Illuminate\Http\Request;
@@ -797,7 +798,10 @@ class BenchmarkController extends Controller
             'segments' => collect(['Megasuite', 'SCM suite', 'Specific solution']),
             'regions' => collect(config('arrays.regions')),
             'industries' => collect(config('arrays.industryExperience')),
+            'allPractices' => Practice::all(),
             'practices' => Practice::pluck('name')->toArray(),
+            'subpractices' => [],
+            'questions' => VendorSolutionQuestion::whereNotNull('practice_id')->get(),
 
             'transportFlows' => collect(config('arrays.transportFlows')),
             'transportModes' => collect(config('arrays.transportModes')),

@@ -10,6 +10,7 @@ use Illuminate\Notifications\Notifiable;
 use \Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Log;
 use Laravel\Nova\Fields\Boolean;
+use Illuminate\Support\Collection;
 
 /**
  * @property string $userType Should be one of [admin, accenture, accentureAdmin, client, vendor]
@@ -175,6 +176,74 @@ class User extends Authenticatable
         }
 
         return implode(', ', $practices->pluck('name')->toArray());
+    }
+
+    public function vendorSolutionsSubpractices()
+    {
+        return $this->vendorSolutions
+            ->map(function (VendorSolution $sol) {
+                return $sol->subpractices;
+            })
+            ->filter(function ($smth) {
+                return $smth != null;
+            })
+            ->values();
+    }
+
+    public function vendorSolutionsSubpracticesNames(): string
+    {
+        $origins = $this->vendorSolutionsSubpractices();
+
+        $subpractices_collection = new Collection();
+
+        foreach ($origins as $origin) {
+          $subpractices_collection = $subpractices_collection->merge($origin);
+        }
+
+        $subpractice_objects = [];
+        foreach($subpractices_collection as $element) {
+            $hash = $element['id'];
+            $subpractice_objects[$hash] = $element;
+        }
+        $subpractice_objects = array_values($subpractice_objects);
+
+        if (count($subpractice_objects) == 0) {
+            return 'None';
+        }
+
+        $subpractices = [];
+
+        foreach ($subpractice_objects as $object) {
+          array_push($subpractices, $object->name);
+        }
+
+        return implode(', ', array_unique($subpractices));
+    }
+
+    public function getVendorResponsesNames(): string
+    {
+        $solutions = $this->vendorSolutions;
+
+        $all_responses = [];
+
+        foreach ($solutions as $solution) {
+            $questions = $solution->questions;
+            foreach ($questions as $question) {
+                if ($question->originalQuestion->practice_id != null && $question->response != null) {
+                    $response = str_replace( array('[', ']', '"'), '', $question->response);
+                    $response = explode(',', $response);
+                    foreach ($response as $r) {
+                      array_push($all_responses, $r);
+                    }
+                }
+            }
+        }
+
+        if (count($all_responses) == 0) {
+            return 'None';
+        }
+
+        return implode(", ", array_unique($all_responses));
     }
 
     /**
