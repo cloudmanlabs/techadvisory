@@ -42,7 +42,7 @@
 
                                 <div style="float: right; margin-top: 20px;">
                                     <a id="saveButton" class="btn btn-primary btn-lg btn-icon-text"
-                                        href="{{route('vendor.solutions')}}"><i class="btn-icon-prepend"
+                                        href="{{route('accenture.vendorList')}}"><i class="btn-icon-prepend"
                                             data-feather="check-square"></i>Save</a>
                                 </div>
                             </div>
