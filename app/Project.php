@@ -62,6 +62,7 @@ use Illuminate\Support\Collection;
  *
  * @property string $useCases
  * @property string $useCasesPhase
+ * @property string $fitgapLevelWeights
  */
 class Project extends Model
 {
@@ -286,6 +287,11 @@ class Project extends Model
     public function useCases()
     {
         return $this->hasMany(UseCase::class, 'project_id');
+    }
+
+    public function fitgapLevelWeights()
+    {
+        return $this->hasMany(FitgapLevelWeight::class, 'project_id');
     }
 
     /**

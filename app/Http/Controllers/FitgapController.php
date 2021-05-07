@@ -8,6 +8,7 @@ use App\Imports\FitgapImport;
 use App\Project;
 use App\SecurityLog;
 use App\User;
+use App\FitgapLevelWeight;
 use App\VendorApplication;
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
@@ -30,8 +31,13 @@ class FitgapController extends Controller
             }
         }
 
-        FitgapQuestion::deleteByProject($project->id);
+        foreach ($project->fitgapLevelWeights() as $el) {
+          $el->delete();
+        }
 
+        FitgapQuestion::deleteByProject($project->id);
+        FitgapLevelWeight::deleteByProject($project->id);
+        $level1s = [];
         foreach ($rows->slice(1) as $key => $row) {
             $fitgapQuestion = new FitgapQuestion([
                 'position' => $key,
@@ -46,10 +52,15 @@ class FitgapController extends Controller
             ]);
 
             $fitgapQuestion->save();
+            array_push($level1s, $row[1]);
         }
 
         $project->hasUploadedFitgap = true;
         $project->save();
+        $level1s = array_unique($level1s);
+        foreach ($level1s as $el) {
+          FitgapLevelWeight::create(['project_id' => $project->id, 'name' => $el]);
+        }
 
         SecurityLog::createLog('Excel imported to project', 'FitGap', ['projectId' => $project->id]);
 

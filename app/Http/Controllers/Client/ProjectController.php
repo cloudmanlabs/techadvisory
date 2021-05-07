@@ -1106,6 +1106,37 @@ class ProjectController extends Controller
         ]);
     }
 
+    public function changeFitgapWeights(Request $request)
+    {
+        $request->validate([
+            'project_id' => 'required|numeric',
+            'changing' => [
+                'required',
+                'string'
+            ],
+            'value' => 'required|numeric',
+        ]);
+
+        $project = Project::find($request->project_id);
+        if ($project == null) {
+            abort(404);
+        }
+
+        if ($project->fitgapLevelWeights()->where('name', $request->changing) == null) {
+          abort(404);
+        }
+
+        $project->fitgapLevelWeights()->where('name', $request->changing)->update(['weight' => $request->value]);
+
+        SecurityLog::createLog('Accenture changed weights', 'Project',
+            ['projectId' => $project->id, 'changing' => $request->changing]);
+
+        return \response()->json([
+            'status' => 200,
+            'message' => 'Success',
+        ]);
+    }
+
     public function changeWeights(Request $request)
     {
         $request->validate([

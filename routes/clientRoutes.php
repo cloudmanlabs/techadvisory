@@ -98,6 +98,7 @@ Route::prefix('client')
                     Route::post('/newProjectSetUp/publishUseCases', 'ProjectController@publishUseCases');
                     Route::post('/newProjectSetUp/updateScoringValues', 'ProjectController@updateScoringValues');
                     Route::post('/newProjectSetUp/changeWeights', 'ProjectController@changeWeights');
+                    Route::post('/newProjectSetUp/changeFitgapWeights', 'ProjectController@changeFitgapWeights');
 
                     Route::get('project/home/{project}', 'ProjectController@home')
                         ->name('projectHome');
