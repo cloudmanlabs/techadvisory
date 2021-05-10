@@ -36,7 +36,7 @@
                                         <aside id="filters-container" class="col-4">
                                             <h3>Filters</h3>
                                             <br>
-                                            <label for="year-select">Chose a Year</label>
+                                            <label for="year-select">Choose a Year</label>
                                             <select id="year-select" multiple>
                                                 @foreach ($years as $year)
                                                     <option
@@ -51,7 +51,7 @@
                                             </select>
                                             <br>
                                             <br>
-                                            <label for="region-select">Chose a Region</label>
+                                            <label for="region-select">Choose a Region</label>
                                             <select id="region-select" multiple>
                                                 @foreach ($regions as $region)
                                                     <option

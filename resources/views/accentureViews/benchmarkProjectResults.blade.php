@@ -34,7 +34,7 @@
                                 <aside id="filters-container" class="col-4">
                                     <h3>Filters</h3>
                                     <br>
-                                    <label for="practices-select">Chose a Practice</label>
+                                    <label for="practices-select">Choose a Practice</label>
                                     <select id="practices-select" multiple>
                                         @foreach ($practices as $practice)
                                             <option
@@ -50,13 +50,13 @@
                                     <br>
                                     <br>
                                     <div id="subpractices-container">
-                                        <label for="subpractices-select">Chose a Subpractice</label>
+                                        <label for="subpractices-select">Choose a Subpractice</label>
                                         <select id="subpractices-select" multiple>
                                         </select>
                                         <br>
                                         <br>
                                     </div>
-                                    <label for="years-select">Chose a Year</label>
+                                    <label for="years-select">Choose a Year</label>
                                     <select id="years-select" multiple>
                                         @foreach ($years as $year)
                                             <option value="{{$year}}"
@@ -70,7 +70,7 @@
                                     </select>
                                     <br>
                                     <br>
-                                    <label for="industries-select">Chose a Industry</label>
+                                    <label for="industries-select">Choose a Industry</label>
                                     <select id="industries-select" multiple>
                                         @foreach($industries as $industry)
                                             <option
@@ -85,7 +85,7 @@
                                     </select>
                                     <br>
                                     <br>
-                                    <label for="regions-select">Chose a Region</label>
+                                    <label for="regions-select">Choose a Region</label>
                                     <select id="regions-select" multiple>
                                         @foreach ($regions as $region)
                                             <option
