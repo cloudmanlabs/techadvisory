@@ -1791,7 +1791,7 @@ class ProjectController extends Controller
             return $el->shouldShow;
         });
 
-        $fitgapQuestions = $fitgapQuestions = FitgapQuestion::findByProject($project->id);
+        $fitgapQuestions = $project->selectionCriteriaQuestionsOriginals()->where('page', 'fitgap');
         $useCases = $project->useCases()->where('page', 'usecase');
 
         $vendorCorporateQuestions = $project->selectionCriteriaQuestionsOriginals()->where('page', 'vendor_corporate');
