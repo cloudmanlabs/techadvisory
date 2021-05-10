@@ -102,57 +102,57 @@ $(function() {
         });
     }
 
-    if ($("#chartjsBar3").length) {
-        new Chart($("#chartjsBar3"), {
-            type: "bar",
-            data: {
-                labels: [
-                    "Chemical",
-                    "Energy",
-                    "Automative",
-                    "Consumer goods & services",
-                    "Retail"
-                ],
-                datasets: [
-                    {
-                        label: "",
-                        backgroundColor: [
-                            "#27003d",
-                            "#5a008f",
-                            "#8e00e0",
-                            "#a50aff",
-                            "#d285ff",
-                            "#e9c2ff",
-                            "#f8ebff"
-                        ],
-                        data: [1, 2, 1, 5, 2]
-                    }
-                ]
-            },
-            options: {
-                legend: { display: false },
-                scales: {
-                    yAxes: [
-                        {
-                            ticks: {
-                                beginAtZero: true,
-                                max: 7,
-                                fontSize: 17
-                            }
-                        }
-                    ],
-                    xAxes: [
-                        {
-                            ticks: {
-                                stacked: true,
-                                fontSize: 17
-                            }
-                        }
-                    ]
-                }
-            }
-        });
-    }
+    // if ($("#chartjsBar3").length) {
+    //     new Chart($("#chartjsBar3"), {
+    //         type: "bar",
+    //         data: {
+    //             labels: [
+    //                 "Chemical",
+    //                 "Energy",
+    //                 "Automative",
+    //                 "Consumer goods & services",
+    //                 "Retail"
+    //             ],
+    //             datasets: [
+    //                 {
+    //                     label: "",
+    //                     backgroundColor: [
+    //                         "#27003d",
+    //                         "#5a008f",
+    //                         "#8e00e0",
+    //                         "#a50aff",
+    //                         "#d285ff",
+    //                         "#e9c2ff",
+    //                         "#f8ebff"
+    //                     ],
+    //                     data: [1, 2, 1, 5, 2]
+    //                 }
+    //             ]
+    //         },
+    //         options: {
+    //             legend: { display: false },
+    //             scales: {
+    //                 yAxes: [
+    //                     {
+    //                         ticks: {
+    //                             beginAtZero: true,
+    //                             max: 7,
+    //                             fontSize: 17
+    //                         }
+    //                     }
+    //                 ],
+    //                 xAxes: [
+    //                     {
+    //                         ticks: {
+    //                             stacked: true,
+    //                             fontSize: 17
+    //                         }
+    //                     }
+    //                 ]
+    //             }
+    //         }
+    //     });
+    // }
 
     if ($("#chartjsBar4").length) {
         new Chart($("#chartjsBar4"), {

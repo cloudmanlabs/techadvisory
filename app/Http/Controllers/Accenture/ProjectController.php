@@ -1732,7 +1732,7 @@ class ProjectController extends Controller
             return $el->shouldShow;
         });
 
-        $fitgapQuestions = FitgapQuestion::findByProject($project->id);
+        $fitgapQuestions = $project->selectionCriteriaQuestionsOriginals()->where('page', 'fitgap');
         $useCases = $project->useCases()->where('page', 'usecase');
 
 
@@ -1978,6 +1978,7 @@ class ProjectController extends Controller
                 ->filter(function (VendorApplication $application) {
                     return $application->phase == 'submitted';
                 }),
+            'level1s' => $project->getFitGapLevel1()
         ]);
     }
 

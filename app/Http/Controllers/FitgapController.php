@@ -183,17 +183,9 @@ class FitgapController extends Controller
         $question->business_opportunity = $newBusinessOpportunity;
         $question->save();
 
+        $existingLevel1Weights = $project->getFitGapLevel1Weights();
+        $level1Questions = $project->getFitGapLevel1();
         if ($newLevel1) {
-          $existingLevel1Weights = [];
-          foreach ($project->fitgapLevelWeights as $el) {
-            array_push($existingLevel1Weights, $el->name);
-          }
-          $existingLevel1Weights = array_unique($existingLevel1Weights);
-          $level1Questions = [];
-          foreach ($project->fitgapQuestions as $el1) {
-            array_push($level1Questions, $el1->level_1);
-          }
-          $level1Questions = array_unique($level1Questions);
           if (!in_array($newLevel1, $existingLevel1Weights)) {
             FitgapLevelWeight::create(['project_id' => $project->id, 'name' => $newLevel1]);
           } else {
@@ -208,16 +200,6 @@ class FitgapController extends Controller
             }
           }
         } else {
-          $existingLevel1Weights = [];
-          foreach ($project->fitgapLevelWeights as $el) {
-            array_push($existingLevel1Weights, $el->name);
-          }
-          $existingLevel1Weights = array_unique($existingLevel1Weights);
-          $level1Questions = [];
-          foreach ($project->fitgapQuestions as $el1) {
-            array_push($level1Questions, $el1->level_1);
-          }
-          $level1Questions = array_unique($level1Questions);
           foreach ($existingLevel1Weights as $el2) {
             if (!in_array($el2, $level1Questions)) {
               $el3 = FitgapLevelWeight::where('name', $el2)->first();
@@ -296,6 +278,19 @@ class FitgapController extends Controller
         }
 
         $question->delete();
+
+        $existingLevel1Weights = $project->getFitGapLevel1Weights();
+        $level1Questions = $project->getFitGapLevel1();
+
+        foreach ($existingLevel1Weights as $el2) {
+          if (!in_array($el2, $level1Questions)) {
+            $el3 = FitgapLevelWeight::where('name', $el2)->first();
+            if ($el3->weight > 0) {
+              $project->fitgapLevelWeights->where('name', '!=', $el2)->first()->update(['weight' => $project->fitgapLevelWeights->where('name', '!=', $el2)->first()->weight+$el3->weight ]);
+            }
+            FitgapLevelWeight::where('project_id', $project->id)->where('name', $el2)->first()->delete();
+          }
+        }
 
         SecurityLog::createLog('Question deleted', 'FitGap', ['questionId' => $id]);
 

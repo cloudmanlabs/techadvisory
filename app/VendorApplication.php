@@ -358,19 +358,31 @@ class VendorApplication extends Model
     public function fitgapScore()
     {
         $score = 0;
+        $level1s = $this->project->fitgapLevelWeights;
+        $score_arr = [];
         if (!empty($this->project)) {
-            $functionalScore = $this->fitgapFunctionalScore();
-            $technicalScore = $this->fitgapTechnicalScore();
-            $serviceScore = $this->fitgapServiceScore();
-            $otherScore = $this->fitgapOtherScore();
+            foreach ($level1s as $key => $el) {
+              array_push($score_arr, (($el->weight * $this->fitgapLevelScore($el->name))/100));
+            }
+            $score = array_sum($score_arr);
 
-            $score = (($this->project->fitgapFunctionalWeight ?? 60) / 100) * $functionalScore +
-                (($this->project->fitgapTechnicalWeight ?? 20) / 100) * $technicalScore +
-                (($this->project->fitgapServiceWeight ?? 10) / 100) * $serviceScore +
-                (($this->project->fitgapOthersWeight ?? 10) / 100) * $otherScore;
+            // $functionalScore = $this->fitgapFunctionalScore();
+            // $technicalScore = $this->fitgapTechnicalScore();
+            // $serviceScore = $this->fitgapServiceScore();
+            // $otherScore = $this->fitgapOtherScore();
+
+            // $score = (($this->project->fitgapFunctionalWeight ?? 60) / 100) * $functionalScore +
+            //     (($this->project->fitgapTechnicalWeight ?? 20) / 100) * $technicalScore +
+            //     (($this->project->fitgapServiceWeight ?? 10) / 100) * $serviceScore +
+            //     (($this->project->fitgapOthersWeight ?? 10) / 100) * $otherScore;
         }
 
         return $score;
+    }
+
+    public function fitgapLevelScore($level)
+    {
+        return $this->averageScoreOfLevel1($level);
     }
 
     public function fitgapFunctionalScore()
@@ -401,6 +413,46 @@ class VendorApplication extends Model
             $fitgapQuestions = FitgapQuestion::query()
                 ->where('project_id', '=', $this->project_id)
                 ->where('requirement_type', '=', $type)
+                ->get();
+
+            $scores = [];
+            $maxScores = [];
+            if (!empty($fitgapQuestions)) {
+                foreach ($fitgapQuestions as $fitgapQuestion) {
+                    $fitgapQuestionResponse = FitgapVendorResponse::findByFitgapQuestionFromTheApplication(
+                        $this->id,
+                        $fitgapQuestion->id
+                    );
+                    $multiplier = $this->getClientMultiplierInRow($fitgapQuestion);
+                    $scores[] = $this->getScoreFromResponse($fitgapQuestionResponse) * $multiplier;
+                    $maxScores[] = ($this->project->fitgapWeightFullySupports ?? 3) * $multiplier;
+                }
+
+                if (count($scores) == 0 || count($maxScores) == 0) {
+                    $score = 0;
+                }
+
+                $num = array_sum($scores);
+                $denom = array_sum($maxScores);
+
+                if ($denom == 0) {
+                    $score = 0;
+                } else {
+                    $score = 10 * ($num / $denom);
+                }
+            }
+        }
+
+        return $score;
+    }
+
+    function averageScoreOfLevel1(string $level): float
+    {
+        $score = 0;
+        if (!empty($this->project)) {
+            $fitgapQuestions = FitgapQuestion::query()
+                ->where('project_id', '=', $this->project_id)
+                ->where('level_1', '=', $level)
                 ->get();
 
             $scores = [];
