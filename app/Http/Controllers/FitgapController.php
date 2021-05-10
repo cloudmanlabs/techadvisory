@@ -31,9 +31,9 @@ class FitgapController extends Controller
             }
         }
 
-        foreach ($project->fitgapLevelWeights() as $el) {
-          $el->delete();
-        }
+        // foreach ($project->fitgapLevelWeights() as $el) {
+        //   $el->delete();
+        // }
 
         FitgapQuestion::deleteByProject($project->id);
         FitgapLevelWeight::deleteByProject($project->id);
@@ -168,6 +168,7 @@ class FitgapController extends Controller
         $newBusinessOpportunity = $_POST["data"][7];
 
         $question = FitgapQuestion::find($id);
+        $project = Project::find($question->project_id);
 
         if ($question == null) {
             abort(404);
@@ -181,6 +182,52 @@ class FitgapController extends Controller
         $question->client = $newClient;
         $question->business_opportunity = $newBusinessOpportunity;
         $question->save();
+
+        if ($newLevel1) {
+          $existingLevel1Weights = [];
+          foreach ($project->fitgapLevelWeights as $el) {
+            array_push($existingLevel1Weights, $el->name);
+          }
+          $existingLevel1Weights = array_unique($existingLevel1Weights);
+          $level1Questions = [];
+          foreach ($project->fitgapQuestions as $el1) {
+            array_push($level1Questions, $el1->level_1);
+          }
+          $level1Questions = array_unique($level1Questions);
+          if (!in_array($newLevel1, $existingLevel1Weights)) {
+            FitgapLevelWeight::create(['project_id' => $project->id, 'name' => $newLevel1]);
+          } else {
+            foreach ($existingLevel1Weights as $el2) {
+              if (!in_array($el2, $level1Questions)) {
+                $el3 = FitgapLevelWeight::where('name', $el2)->first();
+                if ($el3->weight > 0) {
+                  $project->fitgapLevelWeights->where('name', '!=', $el2)->first()->update(['weight' => $project->fitgapLevelWeights->where('name', '!=', $el2)->first()->weight+$el3->weight ]);
+                }
+                FitgapLevelWeight::where('project_id', $project->id)->where('name', $el2)->first()->delete();
+              }
+            }
+          }
+        } else {
+          $existingLevel1Weights = [];
+          foreach ($project->fitgapLevelWeights as $el) {
+            array_push($existingLevel1Weights, $el->name);
+          }
+          $existingLevel1Weights = array_unique($existingLevel1Weights);
+          $level1Questions = [];
+          foreach ($project->fitgapQuestions as $el1) {
+            array_push($level1Questions, $el1->level_1);
+          }
+          $level1Questions = array_unique($level1Questions);
+          foreach ($existingLevel1Weights as $el2) {
+            if (!in_array($el2, $level1Questions)) {
+              $el3 = FitgapLevelWeight::where('name', $el2)->first();
+              if ($el3->weight > 0) {
+                $project->fitgapLevelWeights->where('name', '!=', $el2)->first()->update(['weight' => $project->fitgapLevelWeights->where('name', '!=', $el2)->first()->weight+$el3->weight ]);
+              }
+              FitgapLevelWeight::where('project_id', $project->id)->where('name', $el2)->first()->delete();
+            }
+          }
+        }
 
         SecurityLog::createLog('Question updated', 'FitGap', ['questionId' => $id]);
 
