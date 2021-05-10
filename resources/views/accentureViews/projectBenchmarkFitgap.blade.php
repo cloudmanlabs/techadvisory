@@ -9,6 +9,7 @@
         ];
     })
     ->sortByDesc('score');
+    $colors = ["#27003d", "#410066", "#5a008f", "#7400b8", "#8e00e0", "#9b00f5", "#a50aff", "#c35cff", "#d285ff", "#e9c2ff", "#f0d6ff", "#f8ebff"];
 @endphp
 
 @section('content')
@@ -93,54 +94,37 @@
                                     <div class="col-xl-12 grid-margin stretch-card">
                                         <div class="card">
                                             <div class="card-body">
-                                                <h4>DETAILED FIT GAP SCORE PER REQUIREMENT TYPE</h4>
+                                                <h4>DETAILED FIT GAP SCORE PER LEVEL 1</h4>
                                                 <br>
                                                 <div class="media-body" style="padding: 20px;">
                                                     <p class="welcome_text">
-                                                        Below is the FitGap vendor score breakdown across the requirement types.
+                                                        Below is the FitGap vendor score breakdown across the level 1.
                                                     </p>
-                                                    <select id="requirementSelect" class="w-100" multiple="multiple" required>
-                                                        <option>Functional</option>
-                                                        <option>Technical</option>
-                                                        <option>Service</option>
-                                                        <option>Others</option>
+                                                    <select id="levelSelect" class="w-100" multiple="multiple" required>
+                                                        @foreach ($level1s as $level1)
+                                                        <option>{{$level1}}</option>
+                                                        @endforeach
                                                     </select>
                                                 </div>
                                                 <div class="table-responsive">
                                                     <table class="table table-hover">
                                                         <thead>
                                                             <tr class="table-dark">
-                                                                <th>Requirement type</th>
+                                                                <th>Level 1</th>
                                                                 @foreach ($applications as $application)
                                                                 <th class="filterByVendor" data-vendor="{{$application->vendor->name}}">{{$application->vendor->name}}</th>
                                                                 @endforeach
                                                             </tr>
                                                         </thead>
                                                         <tbody>
-                                                            <tr class="filterByRequirement" data-requirement="Functional">
-                                                                <th class="table-dark">Functional</th>
+                                                            @foreach ($level1s as $level1)
+                                                            <tr class="filterByLevel" data-level="{{$level1}}">
+                                                                <th class="table-dark">{{$level1}}</th>
                                                                 @foreach ($applications as $application)
-                                                                <td class="filterByVendor" data-vendor="{{$application->vendor->name}}">{{number_format($application->fitgapFunctionalScore(), 2)}}</td>
+                                                                <td class="filterByVendor" data-vendor="{{$application->vendor->name}}">{{number_format($application->fitgapLevelScore($level1), 2)}}</td>
                                                                 @endforeach
                                                             </tr>
-                                                            <tr class="filterByRequirement" data-requirement="Technical">
-                                                                <th class="table-dark">Technical</th>
-                                                                @foreach ($applications as $application)
-                                                                <td class="filterByVendor" data-vendor="{{$application->vendor->name}}">{{number_format($application->fitgapTechnicalScore(), 2)}}</td>
-                                                                @endforeach
-                                                            </tr>
-                                                            <tr class="filterByRequirement" data-requirement="Service">
-                                                                <th class="table-dark">Service</th>
-                                                                @foreach ($applications as $application)
-                                                                <td class="filterByVendor" data-vendor="{{$application->vendor->name}}">{{number_format($application->fitgapServiceScore(), 2)}}</td>
-                                                                @endforeach
-                                                            </tr>
-                                                            <tr class="filterByRequirement" data-requirement="Others">
-                                                                <th class="table-dark">Others</th>
-                                                                @foreach ($applications as $application)
-                                                                <td class="filterByVendor" data-vendor="{{$application->vendor->name}}">{{number_format($application->fitgapOtherScore(), 2)}}</td>
-                                                                @endforeach
-                                                            </tr>
+                                                            @endforeach
                                                         </tbody>
                                                     </table>
                                                 </div>
@@ -175,22 +159,22 @@
 @parent
 <script>
 $(function () {
-    function filterRequirements() {
+    function filterLevels() {
         // Get all selected practices. If there are none, get all of them
-        var selectedRequirements = $('#requirementSelect').select2('data').map(function(el) {
+        var selectedLevels = $('#levelSelect').select2('data').map(function(el) {
             return el.text
         });
-        if(selectedRequirements.length == 0){
-            selectedRequirements = $('#requirementSelect').children().toArray().map(function(el) {
+        if(selectedLevels.length == 0){
+            selectedLevels = $('#levelSelect').children().toArray().map(function(el) {
                 return el.innerHTML
             });
         }
 
         // Add a display none to the one which don't have this tags
-        $('.filterByRequirement').each(function () {
-            const requirement = $(this).data('requirement');
+        $('.filterByLevel').each(function () {
+            const level = $(this).data('level');
 
-            if ($.inArray(requirement, selectedRequirements) !== -1) {
+            if ($.inArray(level, selectedLevels) !== -1) {
                 $(this).css('display', '')
             } else {
                 $(this).css('display', 'none')
@@ -198,11 +182,11 @@ $(function () {
         });
     }
 
-    $('#requirementSelect').select2();
-    $('#requirementSelect').on('change', function (e) {
-        filterRequirements();
+    $('#levelSelect').select2();
+    $('#levelSelect').on('change', function (e) {
+        filterLevels();
     });
-    filterRequirements();
+    filterLevels();
 
 
 
@@ -213,7 +197,6 @@ $(function () {
 
   // COMPLETE: ["#27003d","#410066","#5a008f", "#7400b8","#8e00e0","#9b00f5","#a50aff","#c35cff","#d285ff","#e9c2ff","#f0d6ff","#f8ebff"],
   // SIMPLIFIED: ["#27003d","#5a008f","#8e00e0","#a50aff","#d285ff","#e9c2ff","#f8ebff"],
-
     new Chart($("#fitgapScoreGraph"), {
       type: 'bar',
       data: {
@@ -263,46 +246,18 @@ $(function () {
             @endforeach
         ],
         datasets: [
-          {
-            label: "Functional",
-            backgroundColor: ["#27003d", "#27003d", "#27003d", "#27003d", "#27003d", "#27003d", "#27003d"],
-            data: [
-                @foreach ($applications as $obj)
-                {{$obj->fitgapFunctionalScore() * ($project->fitgapFunctionalWeight ?? 60) / 100}},
-                @endforeach
-            ],
-            stack: 'Stack 0'
-          },
-          {
-            label: "Technical",
-            backgroundColor: ["#5a008f", "#5a008f", "#5a008f", "#5a008f", "#5a008f", "#5a008f", "#5a008f"],
-            data: [
-                @foreach ($applications as $obj)
-                {{$obj->fitgapTechnicalScore() * ($project->fitgapTechnicalWeight ?? 20) / 100}},
-                @endforeach
-            ],
-            stack: 'Stack 0'
-          },
-          {
-            label: "Service",
-            backgroundColor: ["#8e00e0", "#8e00e0", "#8e00e0", "#8e00e0", "#8e00e0", "#8e00e0", "#8e00e0"],
-            data: [
-                @foreach ($applications as $obj)
-                {{$obj->fitgapServiceScore() * ($project->fitgapServiceWeight ?? 10) / 100}},
-                @endforeach
-            ],
-            stack: 'Stack 0'
-          },
-          {
-            label: "Others",
-            backgroundColor: ["#a50aff", "#a50aff", "#a50aff", "#a50aff", "#a50aff", "#a50aff", "#a50aff"],
-            data: [
-                @foreach ($applications as $obj)
-                {{$obj->fitgapOtherScore() * ($project->fitgapOthersWeight ?? 10) / 100}},
-                @endforeach
-            ],
-            stack: 'Stack 0'
-          }
+          @foreach ($level1s as $key => $el)
+              {
+                label: '{{$el}}',
+                backgroundColor: ['{{$colors[$key]}}', '{{$colors[$key]}}', '{{$colors[$key]}}', '{{$colors[$key]}}', '{{$colors[$key]}}', '{{$colors[$key]}}', '{{$colors[$key]}}'],
+                data: [
+                    @foreach ($applications as $obj)
+                    {{(($obj->fitgapLevelScore($el)) * ($project->getLevelWeight($el))/100)}},
+                    @endforeach
+                ],
+                stack: 'Stack 0'
+              },
+          @endforeach
         ]
       },
       options: {

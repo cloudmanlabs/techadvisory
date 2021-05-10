@@ -62,6 +62,7 @@ use Illuminate\Support\Collection;
  *
  * @property string $useCases
  * @property string $useCasesPhase
+ * @property string $fitgapLevelWeights
  */
 class Project extends Model
 {
@@ -286,6 +287,11 @@ class Project extends Model
     public function useCases()
     {
         return $this->hasMany(UseCase::class, 'project_id');
+    }
+
+    public function fitgapLevelWeights()
+    {
+        return $this->hasMany(FitgapLevelWeight::class, 'project_id');
     }
 
     /**
@@ -926,5 +932,33 @@ class Project extends Model
             ->filter(function ($question) {
                 return $question->originalQuestion->page == 'fitgap';
             });
+    }
+
+    public function getFitGapLevel1() {
+
+        $level1s = [];
+        foreach ($this->fitgapQuestions as $el) {
+            array_push($level1s, $el->level_1);
+        }
+        $level1s = array_values(array_unique(array_filter($level1s)));
+
+        return $level1s;
+    }
+
+
+    public function getFitGapLevel1Weights()
+    {
+        $weights = [];
+        foreach ($this->fitgapLevelWeights as $el) {
+            array_push($weights, $el->name);
+        }
+        $weights = array_unique($weights);
+
+        return $weights;
+    }
+
+    public function getLevelWeight($level)
+    {
+        return $this->fitgapLevelWeights->where('name', $level)->first()->weight;
     }
 }

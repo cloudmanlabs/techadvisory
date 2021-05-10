@@ -71,9 +71,7 @@
                                                     <h4>Questions</h4>
                                                     <br>
                                                     @foreach ($fitgapQuestions as $question)
-                                                        <h6>
-                                                            {{$question->requirement}}
-                                                        </h6>
+                                                        <h6 style="margin-bottom: 1rem">{{$question->label}}</h6>
                                                     @endforeach
                                                 @endif
                                             </div>

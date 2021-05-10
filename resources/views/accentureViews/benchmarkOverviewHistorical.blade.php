@@ -36,7 +36,7 @@
                                             <h3>Filters</h3>
                                             <br>
                                             <br>
-                                            <label for="industries-select">Chose a Industry</label>
+                                            <label for="industries-select">Choose a Industry</label>
                                             <select id="industries-select" multiple>
                                                 @foreach($industries as $industry)
                                                     <option
@@ -51,7 +51,7 @@
                                             </select>
                                             <br>
                                             <br>
-                                            <label for="regions-select">Chose a region</label>
+                                            <label for="regions-select">Choose a region</label>
                                             <select id="regions-select" multiple>
                                                 @foreach ($regions as $region)
                                                     <option

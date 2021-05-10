@@ -8,6 +8,6 @@
         showErrorToast()
         setTimeout(function () {
             location.reload();
-        }, 2000)
+        }, 200000)
     }
 })(jQuery);

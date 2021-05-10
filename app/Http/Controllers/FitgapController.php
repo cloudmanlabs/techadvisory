@@ -8,6 +8,7 @@ use App\Imports\FitgapImport;
 use App\Project;
 use App\SecurityLog;
 use App\User;
+use App\FitgapLevelWeight;
 use App\VendorApplication;
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
@@ -30,8 +31,13 @@ class FitgapController extends Controller
             }
         }
 
-        FitgapQuestion::deleteByProject($project->id);
+        // foreach ($project->fitgapLevelWeights() as $el) {
+        //   $el->delete();
+        // }
 
+        FitgapQuestion::deleteByProject($project->id);
+        FitgapLevelWeight::deleteByProject($project->id);
+        $level1s = [];
         foreach ($rows->slice(1) as $key => $row) {
             $fitgapQuestion = new FitgapQuestion([
                 'position' => $key,
@@ -46,10 +52,15 @@ class FitgapController extends Controller
             ]);
 
             $fitgapQuestion->save();
+            array_push($level1s, $row[1]);
         }
 
         $project->hasUploadedFitgap = true;
         $project->save();
+        $level1s = array_unique($level1s);
+        foreach ($level1s as $el) {
+          FitgapLevelWeight::create(['project_id' => $project->id, 'name' => $el]);
+        }
 
         SecurityLog::createLog('Excel imported to project', 'FitGap', ['projectId' => $project->id]);
 
@@ -157,6 +168,7 @@ class FitgapController extends Controller
         $newBusinessOpportunity = $_POST["data"][7];
 
         $question = FitgapQuestion::find($id);
+        $project = Project::find($question->project_id);
 
         if ($question == null) {
             abort(404);
@@ -170,6 +182,34 @@ class FitgapController extends Controller
         $question->client = $newClient;
         $question->business_opportunity = $newBusinessOpportunity;
         $question->save();
+
+        $existingLevel1Weights = $project->getFitGapLevel1Weights();
+        $level1Questions = $project->getFitGapLevel1();
+        if ($newLevel1) {
+          if (!in_array($newLevel1, $existingLevel1Weights)) {
+            FitgapLevelWeight::create(['project_id' => $project->id, 'name' => $newLevel1]);
+          } else {
+            foreach ($existingLevel1Weights as $el2) {
+              if (!in_array($el2, $level1Questions)) {
+                $el3 = FitgapLevelWeight::where('name', $el2)->first();
+                if ($el3->weight > 0) {
+                  $project->fitgapLevelWeights->where('name', '!=', $el2)->first()->update(['weight' => $project->fitgapLevelWeights->where('name', '!=', $el2)->first()->weight+$el3->weight ]);
+                }
+                FitgapLevelWeight::where('project_id', $project->id)->where('name', $el2)->first()->delete();
+              }
+            }
+          }
+        } else {
+          foreach ($existingLevel1Weights as $el2) {
+            if (!in_array($el2, $level1Questions)) {
+              $el3 = FitgapLevelWeight::where('name', $el2)->first();
+              if ($el3->weight > 0) {
+                $project->fitgapLevelWeights->where('name', '!=', $el2)->first()->update(['weight' => $project->fitgapLevelWeights->where('name', '!=', $el2)->first()->weight+$el3->weight ]);
+              }
+              FitgapLevelWeight::where('project_id', $project->id)->where('name', $el2)->first()->delete();
+            }
+          }
+        }
 
         SecurityLog::createLog('Question updated', 'FitGap', ['questionId' => $id]);
 
@@ -238,6 +278,19 @@ class FitgapController extends Controller
         }
 
         $question->delete();
+
+        $existingLevel1Weights = $project->getFitGapLevel1Weights();
+        $level1Questions = $project->getFitGapLevel1();
+
+        foreach ($existingLevel1Weights as $el2) {
+          if (!in_array($el2, $level1Questions)) {
+            $el3 = FitgapLevelWeight::where('name', $el2)->first();
+            if ($el3->weight > 0) {
+              $project->fitgapLevelWeights->where('name', '!=', $el2)->first()->update(['weight' => $project->fitgapLevelWeights->where('name', '!=', $el2)->first()->weight+$el3->weight ]);
+            }
+            FitgapLevelWeight::where('project_id', $project->id)->where('name', $el2)->first()->delete();
+          }
+        }
 
         SecurityLog::createLog('Question deleted', 'FitGap', ['questionId' => $id]);
 

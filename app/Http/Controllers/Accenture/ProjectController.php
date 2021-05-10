@@ -68,6 +68,8 @@ class ProjectController extends Controller
 
         $allOwners = Owner::get();
 
+        $level1s = $project->fitgapLevelWeights()->get();
+
         SecurityLog::createLog('Accenture accessed new project setup', 'Project',
             ['projectId' => $project->id, 'projectName' => $project->name]);
 
@@ -90,6 +92,7 @@ class ProjectController extends Controller
             'implementationImplementationQuestions' => $implementationImplementationQuestions,
             'implementationRunQuestions' => $implementationRunQuestions,
             'allOwners' => $allOwners,
+            'level1s' => $level1s
         ]);
     }
 
@@ -1497,6 +1500,37 @@ class ProjectController extends Controller
         ]);
     }
 
+    public function changeFitgapWeights(Request $request)
+    {
+        $request->validate([
+            'project_id' => 'required|numeric',
+            'changing' => [
+                'required',
+                'string'
+            ],
+            'value' => 'required|numeric',
+        ]);
+
+        $project = Project::find($request->project_id);
+        if ($project == null) {
+            abort(404);
+        }
+
+        if ($project->fitgapLevelWeights()->where('name', $request->changing) == null) {
+          abort(404);
+        }
+
+        $project->fitgapLevelWeights()->where('name', $request->changing)->update(['weight' => $request->value]);
+
+        SecurityLog::createLog('Accenture changed weights', 'Project',
+            ['projectId' => $project->id, 'changing' => $request->changing]);
+
+        return \response()->json([
+            'status' => 200,
+            'message' => 'Success',
+        ]);
+    }
+
     public function changeWeights(Request $request)
     {
         $request->validate([
@@ -1698,7 +1732,7 @@ class ProjectController extends Controller
             return $el->shouldShow;
         });
 
-        $fitgapQuestions = FitgapQuestion::findByProject($project->id);
+        $fitgapQuestions = $project->selectionCriteriaQuestionsOriginals()->where('page', 'fitgap');
         $useCases = $project->useCases()->where('page', 'usecase');
 
 
@@ -1757,7 +1791,7 @@ class ProjectController extends Controller
             return $el->shouldShow;
         });
 
-        $fitgapQuestions = $fitgapQuestions = FitgapQuestion::findByProject($project->id);
+        $fitgapQuestions = $project->selectionCriteriaQuestionsOriginals()->where('page', 'fitgap');
         $useCases = $project->useCases()->where('page', 'usecase');
 
         $vendorCorporateQuestions = $project->selectionCriteriaQuestionsOriginals()->where('page', 'vendor_corporate');
@@ -1944,6 +1978,7 @@ class ProjectController extends Controller
                 ->filter(function (VendorApplication $application) {
                     return $application->phase == 'submitted';
                 }),
+            'level1s' => $project->getFitGapLevel1()
         ]);
     }
 
