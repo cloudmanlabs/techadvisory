@@ -410,7 +410,7 @@
                                                     </div>
                                                     <div class="col-3">
                                                         <div class="brd-left">
-                                                            <p class="text-center">60%</p>
+                                                            <p id="use-cases-sum" class="text-center"></p>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -847,6 +847,15 @@
             $('#' + id).trigger('change');
         }
 
+        function setUseCasesSum() {
+            var useCaseRFP = $('#useCaseRFP').val();
+            if (!useCaseRFP) {
+                $('#use-cases-sum').text('')
+            } else {
+                $('#use-cases-sum').text((100 - parseFloat(useCaseRFP)) + '%')
+            }
+        }
+
         $(document).ready(function () {
             @if($project->useCasesPhase != 'evaluation')
             $("#wizard_accenture_useCasesSetUp").steps({
@@ -911,7 +920,10 @@
                 };
 
                 $.post('/accenture/newProjectSetUp/saveProjectScoringCriteria', body)
-                    .done(showSavedToast)
+                    .done(function () {
+                        setUseCasesSum()
+                        showSavedToast()
+                    })
                     .fail(handleAjaxError)
             });
 
@@ -1240,6 +1252,7 @@
     $('#errorPublish').hide();
     $('#errorScoringCriteria').hide();
     disableQuestionsByPractice();
+    setUseCasesSum();
 });
 </script>
 @endsection
