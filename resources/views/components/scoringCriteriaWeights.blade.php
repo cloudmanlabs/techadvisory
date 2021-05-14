@@ -65,36 +65,36 @@
     </div>--}}
 
     <div class="table-responsive">
-                <table class="table table-striped">
-                    <thead>
-                        <tr>
-                            <th>Selection Criteria</th>
-                            <th>Year Cost Vendor</th>
-                            <th>Total percentage</th>
-                        </tr>
-                    </thead>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Selection Criteria</th>
+                    <th>Year Cost Vendor</th>
+                    <th>Total percentage</th>
+                </tr>
+            </thead>
 
-                    <tbody>
-                        @foreach($level1s as $key => $el)
-                          <tr>
-                              <td>{{$key+1}}. {{$el->name}}*</td>
-                              <td>
-                                  <ul id="{{$el->name}}Bricks" class="brickList">
-                                      @for ($i = 0; $i < $weightValues[$key]; $i++)
-                                      <li data-id="{{$weightDataId++}}">
-                                          5%
-                                      </li>
-                                      @endfor
-                                  </ul>
-                              </td>
-                              <td id="{{$el->name}}Total">
-                                  {{$weightValues[$key] * 5}}%
-                              </td>
-                          </tr>
-                        @endforeach
-                    </tbody>
-                </table>
-            </div>
+            <tbody>
+                @foreach($level1s as $key => $el)
+                  <tr>
+                      <td>{{$key+1}}. {{$el->name}}*</td>
+                      <td>
+                          <ul id="{{$el->name}}Bricks" class="brickList">
+                              @for ($i = 0; $i < $weightValues[$key]; $i++)
+                              <li data-id="{{$weightDataId++}}">
+                                  5%
+                              </li>
+                              @endfor
+                          </ul>
+                      </td>
+                      <td id="{{$el->name}}Total">
+                          {{$weightValues[$key] * 5}}%
+                      </td>
+                  </tr>
+                @endforeach
+            </tbody>
+        </table>
+    </div>
 </div>
 
 <div>
