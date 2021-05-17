@@ -14,7 +14,7 @@ use phpDocumentor\Reflection\Types\Integer;
  *
  * @property string $name
  *
- * @property string $project
+ * @property int $project
  *
  */
 

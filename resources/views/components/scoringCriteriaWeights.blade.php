@@ -6,21 +6,12 @@
 
 @php
 
-    $level1s = $project->fitgapLevelWeights()->get();
-    $weightValues = [];
-    if ($project->fitgapLevelWeights()->sum('weight') == 0) {
-      foreach ($level1s as $key => $level) {
-        if ($key == 0) {
-          array_push($weightValues, 20);
-        } else {
-          array_push($weightValues, 0);
-        }
-      }
-    } else {
-      foreach ($level1s as $key => $level) {
-        array_push($weightValues, $level->weight / 5);
-      }
-    }
+    $weightValues = [
+        isset($project->fitgapFunctionalWeight) ? $project->fitgapFunctionalWeight / 5 : 5,
+        isset($project->fitgapTechnicalWeight) ? $project->fitgapTechnicalWeight / 5 : 5,
+        isset($project->fitgapServiceWeight) ? $project->fitgapServiceWeight / 5 : 5,
+        isset($project->fitgapOthersWeight) ? $project->fitgapOthersWeight / 5 : 5
+    ];
 
     $weightDataId = 0;
 
@@ -41,60 +32,86 @@
         please specify a percentage. To do so, drag and drop the building blocks.
     </p>
     <br>
-    {{--<div class="form-area">
-        <div class="row">
-            @foreach($level1s as $el)
-                <div class="col-6">
-                    <label for="useCaseSolutionFit">{{ $el -> name }}*</label>
-                    <br>
-                </div>
-                <div class="col-3">
-                    <div class="input-group">
-                        <input type="number" max="100" accuracy="2" min="0"
-                               style="text-align:left;" class="form-control"
-                               id="useCaseSolutionFit" placeholder="20"
-                               required>
-                        <div class="input-group-append simulateInputBox">
-                            <span class="input-group-text simulateInput">%</span>
-                        </div>
-                    </div>
-                    <br>
-                </div>
-            @endforeach
-        </div>
-    </div>--}}
+
 
     <div class="table-responsive">
-                <table class="table table-striped">
-                    <thead>
-                        <tr>
-                            <th>Selection Criteria</th>
-                            <th>Year Cost Vendor</th>
-                            <th>Total percentage</th>
-                        </tr>
-                    </thead>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Selection Criteria</th>
+                    <th>Year Cost Vendor</th>
+                    <th>Total percentage</th>
+                </tr>
+            </thead>
 
-                    <tbody>
-                        @foreach($level1s as $key => $el)
-                          <tr>
-                              <td>{{$key+1}}. {{$el->name}}*</td>
-                              <td>
-                                  <ul id="{{$el->name}}Bricks" class="brickList">
-                                      @for ($i = 0; $i < $weightValues[$key]; $i++)
-                                      <li data-id="{{$weightDataId++}}">
-                                          5%
-                                      </li>
-                                      @endfor
-                                  </ul>
-                              </td>
-                              <td id="{{$el->name}}Total">
-                                  {{$weightValues[$key] * 5}}%
-                              </td>
-                          </tr>
-                        @endforeach
-                    </tbody>
-                </table>
-            </div>
+            <tbody>
+                <tr>
+                    <td>1. Functional*</td>
+                    <td>
+                        <ul id="functionalBricks" class="brickList">
+                            @for ($i = 0; $i < $weightValues[0]; $i++)
+                            <li data-id="{{$weightDataId++}}">
+                                5%
+                            </li>
+                            @endfor
+                        </ul>
+                    </td>
+                    <td id="functionalTotal">
+                        {{$weightValues[0] * 5}}%
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>2. Technical*</td>
+                    <td>
+                        <ul id="technicalBricks" class="brickList">
+                            @for ($i = 0; $i < $weightValues[1]; $i++)
+                            <li data-id="{{$weightDataId++}}">
+                                5%
+                            </li>
+                            @endfor
+                        </ul>
+                    </td>
+                    <td id="technicalTotal">
+                        {{$weightValues[1] * 5}}%
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>3. Service*</td>
+                    <td>
+                        <ul id="serviceBricks" class="brickList">
+                            @for ($i = 0; $i < $weightValues[2]; $i++)
+                            <li data-id="{{$weightDataId++}}">
+                                5%
+                            </li>
+                            @endfor
+                        </ul>
+                    </td>
+                    <td id="serviceTotal">
+                        {{$weightValues[2] * 5}}%
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>4. Others*</td>
+                    <td>
+                        <ul id="othersBricks" class="brickList">
+                            @for ($i = 0; $i < $weightValues[3]; $i++)
+                            <li data-id="{{$weightDataId++}}">
+                                5%
+                            </li>
+                            @endfor
+                        </ul>
+                    </td>
+                    <td id="othersTotal">
+                        {{$weightValues[3] * 5}}%
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
 </div>
 
 <div>
@@ -164,25 +181,54 @@
     }, 3000);
 
     function weightSetUp() {
-        @foreach($level1s as $key => $el)
-          var {{$el->name}}Bricks = document.getElementById("{{$el->name}}Bricks");
-        @endforeach
+        var functionalBricks = document.getElementById("functionalBricks");
+        var technicalBricks = document.getElementById("technicalBricks");
+        var serviceBricks = document.getElementById("serviceBricks");
+        var othersBricks = document.getElementById("othersBricks");
 
         var detailImplementationBricks = document.getElementById("detailImplementationBricks");
         var runBricks = document.getElementById("runBricks");
 
-        @foreach($level1s as $key => $el)
-          sortable{{$el->name}} = new Sortable({{$el->name}}Bricks, {
-              group: {
-                  name: "shared"
-              },
-              animation: 150,
-              ghostClass: "sortable-ghost",
-              onEnd: function() {
-                  updateFitGapWeights(true);
-              }
-          });
-        @endforeach
+        sortableFunctional = new Sortable(functionalBricks, {
+            group: {
+                name: "shared"
+            },
+            animation: 150,
+            ghostClass: "sortable-ghost",
+            onEnd: function() {
+                updateFitGapWeights(true);
+            }
+        });
+        sortableTechnical = new Sortable(technicalBricks, {
+            group: {
+                name: "shared"
+            },
+            animation: 150,
+            ghostClass: "sortable-ghost",
+            onEnd: function() {
+                updateFitGapWeights(true);
+            }
+        });
+        sortableService = new Sortable(serviceBricks, {
+            group: {
+                name: "shared"
+            },
+            animation: 150,
+            ghostClass: "sortable-ghost",
+            onEnd: function() {
+                updateFitGapWeights(true);
+            }
+        });
+        sortableOthers = new Sortable(othersBricks, {
+            group: {
+                name: "shared"
+            },
+            animation: 150,
+            ghostClass: "sortable-ghost",
+            onEnd: function() {
+                updateFitGapWeights(true);
+            }
+        });
 
         sortableDetailImplementation = new Sortable(detailImplementationBricks, {
             group: {
@@ -208,12 +254,22 @@
     }
 
     function updateFitGapWeights(showToast){
-        @foreach($level1s as $key => $el)
-          var {{$el->name}}Bricks = document.getElementById("{{$el->name}}Bricks");
-          document.getElementById("{{$el->name}}Total").innerHTML =
-              {{$el->name}}Bricks.childElementCount * 5 + "%";
-          updateFitgapWeight('{{$el->name}}', {{$el->name}}Bricks.childElementCount * 5);
-        @endforeach
+       var functionalBricks = document.getElementById("functionalBricks");
+        var technicalBricks = document.getElementById("technicalBricks");
+        var serviceBricks = document.getElementById("serviceBricks");
+        var othersBricks = document.getElementById("othersBricks");
+        document.getElementById("functionalTotal").innerHTML =
+            functionalBricks.childElementCount * 5 + "%";
+        document.getElementById("technicalTotal").innerHTML =
+            technicalBricks.childElementCount * 5 + "%";
+        document.getElementById("serviceTotal").innerHTML =
+            serviceBricks.childElementCount * 5 + "%";
+        document.getElementById("othersTotal").innerHTML =
+            othersBricks.childElementCount * 5 + "%";
+        updateWeight('fitgapFunctionalWeight', functionalBricks.childElementCount * 5);
+        updateWeight('fitgapTechnicalWeight', technicalBricks.childElementCount * 5);
+        updateWeight('fitgapServiceWeight', serviceBricks.childElementCount * 5);
+        updateWeight('fitgapOthersWeight', othersBricks.childElementCount * 5);
 
         if(showToast){
             $.toast({
@@ -257,13 +313,6 @@
         }).fail(handleAjaxError)
     }
 
-    function updateFitgapWeight(changing, value) {
-        $.post('/{{$isClient ? "client" : "accenture"}}/newProjectSetUp/changeFitgapWeights', {
-            project_id: '{{$project->id}}',
-            changing,
-            value
-        }).fail(handleAjaxError)
-    }
 
 </script>
 @endsection
