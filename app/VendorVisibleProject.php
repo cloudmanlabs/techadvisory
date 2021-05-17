@@ -7,30 +7,27 @@ use Illuminate\Support\Collection;
 use phpDocumentor\Reflection\Types\Integer;
 
 /**
- * Class fitgapLevelWeight
+ * Class vendorVisibleProject
  * @package App
  *
  * @property int $id
- *
- * @property string $name
- *
- * @property int $project
- *
+ * @property int $user_credential_id
+ * @property int $project_id
  */
 
-class FitgapLevelWeight extends Model
+class VendorVisibleProject extends Model
 {
     public $guarded = [];
 
-    protected $table = 'fitgap_level_weights';
+    protected $table = 'vendor_visible_projects';
 
     public function project()
     {
         return $this->belongsTo(Project::class, 'project_id');
     }
 
-    public static function deleteByProject($projectId)
+    public function userCredential()
     {
-        FitgapLevelWeight::where('project_id', '=', $projectId)->delete();
+        return $this->belongsTo(UserCredential::class, 'user_credential_id');
     }
 }

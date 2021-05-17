@@ -22,6 +22,7 @@
         "maatwebsite/excel": "^3.1",
         "optimistdigital/nova-settings": "^2.5",
         "outhebox/nova-hidden-field": "^1.0",
+        "silvanite/novafieldcheckboxes": "^1.2",
         "spatie/nova-tail-tool": "^3.0",
         "wehaa/custom-links": "^0.1.1"
     },

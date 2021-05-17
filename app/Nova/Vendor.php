@@ -76,21 +76,21 @@ class Vendor extends Resource
 
 
             // This sets the correct value for userType
-            HiddenField::make('userType')
-                ->hideFromIndex()
-                ->hideFromDetail()
-                ->default('vendor'),
+            // HiddenField::make('userType')
+            //     ->hideFromIndex()
+            //     ->hideFromDetail()
+            //     ->default('vendor'),
 
 
-            HiddenField::make('password')
-                ->onlyOnForms()
-                ->hideWhenUpdating()
-                ->default('password'),
+            // HiddenField::make('password')
+            //     ->onlyOnForms()
+            //     ->hideWhenUpdating()
+            //     ->default('password'),
 
-            HiddenField::make('email')
-                ->onlyOnForms()
-                ->hideWhenUpdating()
-                ->default(Str::random() . '@example.com'),
+            // HiddenField::make('email')
+            //     ->onlyOnForms()
+            //     ->hideWhenUpdating()
+            //     ->default(Str::random() . '@example.com'),
 
             HasMany::make('Other Login Credentials', 'credentials', \App\Nova\UserCredential::class),
 

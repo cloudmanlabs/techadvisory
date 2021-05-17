@@ -76,19 +76,19 @@ class Client extends Resource
             HasMany::make('Projects', 'projectsClient', \App\Nova\Project::class),
 
             // This sets the correct value for userType
-            HiddenField::make('userType')
-                ->onlyOnForms()
-                ->default('client'),
+            // HiddenField::make('userType')
+            //     ->onlyOnForms()
+            //     ->default('client'),
 
-            HiddenField::make('password')
-                ->onlyOnForms()
-                ->hideWhenUpdating()
-                ->default('password'),
+            // HiddenField::make('password')
+            //     ->onlyOnForms()
+            //     ->hideWhenUpdating()
+            //     ->default('password'),
 
-            HiddenField::make('email')
-                ->onlyOnForms()
-                ->hideWhenUpdating()
-                ->default(Str::random() . '@example.com'),
+            // HiddenField::make('email')
+            //     ->onlyOnForms()
+            //     ->hideWhenUpdating()
+            //     ->default(Str::random() . '@example.com'),
 
             HasMany::make('Other Login Credentials', 'credentials', \App\Nova\UserCredential::class),
 

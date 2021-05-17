@@ -12,6 +12,7 @@ class HomeController extends Controller
     {
         /** @var User $vendor */
         $vendor = auth()->user();
+        $credential_id = session('credential_id');
 
         $practices = Practice::all()->pluck('name');
 
@@ -30,6 +31,7 @@ class HomeController extends Controller
 
         return view('vendorViews.home', [
             'practices' => $practices,
+            'credential_id' => $credential_id,
 
             'invitationProjects' => $invitationProjects,
             'startedProjects' => $startedProjects,
