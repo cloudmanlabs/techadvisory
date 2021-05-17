@@ -122,6 +122,7 @@ prefix('accenture')
             Route::post('vendorProfileEdit/changeResponse', 'ClientVendorListController@changeVendorProfileResponse');
             Route::post('vendorProfileEdit/changeName', 'ClientVendorListController@changeVendorName');
             Route::post('vendorProfileEdit/changeEmail', 'ClientVendorListController@changeVendorEmail');
+            Route::post('vendorProfileEdit/changeAccentureCCEmail', 'ClientVendorListController@changeAccentureCCEmail');
             Route::post('vendorProfileEdit/createFirstCredential',
                 'ClientVendorListController@createFirstVendorCredential');
             Route::get('vendorProfileView/{vendor}', 'ClientVendorListController@vendorProfileView')
