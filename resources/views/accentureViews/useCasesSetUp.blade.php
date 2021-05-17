@@ -109,6 +109,7 @@
                                                                         id="useCaseName"
                                                                         data-changing="name"
                                                                         placeholder="Use case name"
+                                                                        value="{{$currentUseCase->name}}"
                                                                         @if($project->useCasesPhase === 'evaluation')
                                                                         disabled
                                                                         @endif
@@ -129,7 +130,7 @@
                                                                     @if($project->useCasesPhase === 'evaluation')
                                                                     disabled
                                                                     @endif
-                                                                    required>
+                                                                    required>{{$currentUseCase->description}}
                                                                 </textarea>
                                                                 </div>
                                                             </div>
@@ -1017,20 +1018,18 @@
                     @endphp
                     $.post('/accenture/newProjectSetUp/submitUseCaseVendorEvaluation', {
                         evaluationId: {{$evaluation->id}}
-                    }).done(function () {
-                        showSubmitEvaluationToast('{{$selectedVendor->name}}');
-                    }).fail(handleAjaxError)
+                    }),
                     @endforeach
                     {{--$.post('/accenture/newProjectSetUp/cacheUseCaseVendorEvaluation', {--}}
                     {{--    useCaseId: {{$currentUseCase->id}}--}}
                     {{--})--}}
-                ).done(function(){
+                ).done(function () {
                     $.post('/accenture/newProjectSetUp/cacheProjectVendorEvaluation', {
                         projectId: {{$project->id}}
                     }).done(function () {
                         location.replace("{{route('accenture.useCasesSetUp', ['project' => $project])}}" + "??useCase={{$currentUseCase->id}}")
                     }).fail(handleAjaxError)
-                });
+                }).fail(handleAjaxError);
             });
             @else
             $('#rollbackSubmitButton').click(function() {
@@ -1244,15 +1243,20 @@
                 })
             });
     }, 1000);
-
     @endif
-    @foreach ($useCaseQuestions as $question)
-    $('#errorrQuestion' + '{{$question->id}}').hide();
-    @endforeach
-    $('#errorPublish').hide();
-    $('#errorScoringCriteria').hide();
+
     disableQuestionsByPractice();
     setUseCasesSum();
 });
+</script>
+
+<script>
+    $(document).ready(function () {
+        @foreach ($useCaseQuestions as $question)
+        $('#errorrQuestion' + '{{$question->id}}').hide();
+        @endforeach
+        $('#errorPublish').hide();
+        $('#errorScoringCriteria').hide();
+    })
 </script>
 @endsection
