@@ -109,6 +109,7 @@
                                                                         id="useCaseName"
                                                                         data-changing="name"
                                                                         placeholder="Use case name"
+                                                                        value="{{$currentUseCase->name}}"
                                                                         @if($project->useCasesPhase === 'evaluation')
                                                                         disabled
                                                                         @endif
@@ -129,7 +130,7 @@
                                                                     @if($project->useCasesPhase === 'evaluation')
                                                                     disabled
                                                                     @endif
-                                                                    required>
+                                                                    required>{{$currentUseCase->description}}
                                                                 </textarea>
                                                                 </div>
                                                             </div>
@@ -410,7 +411,7 @@
                                                     </div>
                                                     <div class="col-3">
                                                         <div class="brd-left">
-                                                            <p class="text-center">60%</p>
+                                                            <p id="use-cases-sum" class="text-center"></p>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -847,6 +848,15 @@
             $('#' + id).trigger('change');
         }
 
+        function setUseCasesSum() {
+            var useCaseRFP = $('#useCaseRFP').val();
+            if (!useCaseRFP) {
+                $('#use-cases-sum').text('')
+            } else {
+                $('#use-cases-sum').text((100 - parseFloat(useCaseRFP)) + '%')
+            }
+        }
+
         $(document).ready(function () {
             @if($project->useCasesPhase != 'evaluation')
             $("#wizard_accenture_useCasesSetUp").steps({
@@ -911,7 +921,10 @@
                 };
 
                 $.post('/accenture/newProjectSetUp/saveProjectScoringCriteria', body)
-                    .done(showSavedToast)
+                    .done(function () {
+                        setUseCasesSum()
+                        showSavedToast()
+                    })
                     .fail(handleAjaxError)
             });
 
@@ -1005,20 +1018,18 @@
                     @endphp
                     $.post('/accenture/newProjectSetUp/submitUseCaseVendorEvaluation', {
                         evaluationId: {{$evaluation->id}}
-                    }).done(function () {
-                        showSubmitEvaluationToast('{{$selectedVendor->name}}');
-                    }).fail(handleAjaxError)
+                    }),
                     @endforeach
                     {{--$.post('/accenture/newProjectSetUp/cacheUseCaseVendorEvaluation', {--}}
                     {{--    useCaseId: {{$currentUseCase->id}}--}}
                     {{--})--}}
-                ).done(function(){
+                ).done(function () {
                     $.post('/accenture/newProjectSetUp/cacheProjectVendorEvaluation', {
                         projectId: {{$project->id}}
                     }).done(function () {
                         location.replace("{{route('accenture.useCasesSetUp', ['project' => $project])}}" + "??useCase={{$currentUseCase->id}}")
                     }).fail(handleAjaxError)
-                });
+                }).fail(handleAjaxError);
             });
             @else
             $('#rollbackSubmitButton').click(function() {
@@ -1232,14 +1243,20 @@
                 })
             });
     }, 1000);
-
     @endif
-    @foreach ($useCaseQuestions as $question)
-    $('#errorrQuestion' + '{{$question->id}}').hide();
-    @endforeach
-    $('#errorPublish').hide();
-    $('#errorScoringCriteria').hide();
+
     disableQuestionsByPractice();
+    setUseCasesSum();
 });
+</script>
+
+<script>
+    $(document).ready(function () {
+        @foreach ($useCaseQuestions as $question)
+        $('#errorrQuestion' + '{{$question->id}}').hide();
+        @endforeach
+        $('#errorPublish').hide();
+        $('#errorScoringCriteria').hide();
+    })
 </script>
 @endsection
