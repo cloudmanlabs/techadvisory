@@ -51,7 +51,6 @@ class UserCredential extends Resource
      */
     public function fields(Request $request)
     {
-        if ($request->viaResource == 'vendors') {
           return [
               ID::make()->sortable(),
 
@@ -78,11 +77,7 @@ class UserCredential extends Resource
                   ])
                   ->displayUsingLabels(),
 
-              Checkboxes::make('Projects')
-                ->options(User::find($request->viaResourceId)->vendorAppliedProjects()->get()->pluck('name', 'id')->toArray())
-                ->withoutTypeCasting(),
-
-              // HasMany::make('Vendor Visible Projects', 'vendorVisibleProjects', \App\Nova\VendorVisibleProject::class),
+              HasMany::make('Visible Projects', 'visibleProjects', \App\Nova\VisibleProject::class),
 
 
               // Password::make('Password')
@@ -90,33 +85,7 @@ class UserCredential extends Resource
               //     ->creationRules('required', 'string', 'min:8')
               //     ->updateRules('nullable', 'string', 'min:8'),
           ];
-        } else {
-          return [
-              ID::make()->sortable(),
 
-              Text::make('Name')
-                  ->sortable()
-                  ->rules('required', 'max:255'),
-
-              Text::make('Email')
-                  ->sortable()
-                  ->rules('required', 'email', 'max:254'),
-
-              Boolean::make('Hidden', 'hidden'),
-
-              Text::make('Change password link', function () {
-                  return $this->passwordChangeLink();
-              }),
-
-              BelongsTo::make('User', 'user'),
-
-              // Password::make('Password')
-              //     ->onlyOnForms()
-              //     ->creationRules('required', 'string', 'min:8')
-              //     ->updateRules('nullable', 'string', 'min:8'),
-          ];
-
-        }
     }
 
     public static function indexQuery(NovaRequest $request, $query)

@@ -7,7 +7,7 @@ use Illuminate\Support\Collection;
 use phpDocumentor\Reflection\Types\Integer;
 
 /**
- * Class vendorVisibleProject
+ * Class visibleProject
  * @package App
  *
  * @property int $id
@@ -15,11 +15,11 @@ use phpDocumentor\Reflection\Types\Integer;
  * @property int $project_id
  */
 
-class VendorVisibleProject extends Model
+class VisibleProject extends Model
 {
     public $guarded = [];
 
-    protected $table = 'vendor_visible_projects';
+    protected $table = 'visible_projects';
 
     public function project()
     {

@@ -39,7 +39,7 @@
 
                             <div class="dropdown-body">
                                 <ul class="profile-nav p-0 pt-3">
-                                    @if(auth()->user()->hasFinishedSetup)
+                                    @if(auth()->user()->hasFinishedSetup && (\App\UserCredential::find(session('credential_id'))->vendor_user_type == 1))
                                     <li class="nav-item" style="display: flex; justify-content: center">
                                         <a class="nav-link" href="{{route('vendor.profile')}}">
                                             <span>My Profile</span>

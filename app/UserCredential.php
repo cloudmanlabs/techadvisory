@@ -33,9 +33,9 @@ class UserCredential extends Model
         return $this->belongsTo(User::class, 'user_id');
     }
 
-    public function vendorVisibleProjects()
+    public function visibleProjects()
     {
-        return $this->hasMany(VendorVisibleProject::class, 'user_credential_id');
+        return $this->hasMany(VisibleProject::class, 'user_credential_id');
     }
 
 

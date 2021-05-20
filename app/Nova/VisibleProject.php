@@ -2,6 +2,7 @@
 
 namespace App\Nova;
 
+use App\UserCredential;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Laravel\Nova\Fields\BelongsTo;
@@ -16,14 +17,15 @@ use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Panel;
 
-class VendorVisibleProject extends Resource
+class VisibleProject extends Resource
 {
+    public static $displayInNavigation = false;
     /**
      * The model the resource corresponds to.
      *
      * @var string
      */
-    public static $model = 'App\VendorVisibleProject';
+    public static $model = 'App\VisibleProject';
 
     /**
      * The single value that should be used to represent the resource when being displayed.
@@ -55,6 +57,16 @@ class VendorVisibleProject extends Resource
             BelongsTo::make('Credential', 'userCredential', 'App\Nova\UserCredential'),
                 // ->hideWhenUpdating(),
         ];
+    }
+
+    public static function relatableProjects(NovaRequest $request, $query)
+    {
+        if ($request->viaResource) {
+            $projects = UserCredential::find($request->viaResourceId)->user->vendorAppliedProjects()->pluck('id');
+            return $query->whereIn('id', $projects);
+        } else {
+            return $query;
+        }
     }
 
     /**
