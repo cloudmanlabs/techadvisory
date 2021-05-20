@@ -4,10 +4,14 @@ namespace App\Nova;
 
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\BelongsTo;
+use Laravel\Nova\Fields\HasMany;
 use Laravel\Nova\Fields\Boolean;
 use Laravel\Nova\Fields\ID;
+use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
+use Silvanite\NovaFieldCheckboxes\Checkboxes;
+use App\User;
 
 class UserCredential extends Resource
 {
@@ -47,30 +51,42 @@ class UserCredential extends Resource
      */
     public function fields(Request $request)
     {
-        return [
-            ID::make()->sortable(),
+          return [
+              ID::make()->sortable(),
 
-            Text::make('Name')
-                ->sortable()
-                ->rules('required', 'max:255'),
+              Text::make('Name')
+                  ->sortable()
+                  ->rules('required', 'max:255'),
 
-            Text::make('Email')
-                ->sortable()
-                ->rules('required', 'email', 'max:254'),
+              Text::make('Email')
+                  ->sortable()
+                  ->rules('required', 'email', 'max:254'),
 
-//            Boolean::make('Hidden', 'hidden'),
 
-            Text::make('Change password link', function () {
-                return $this->passwordChangeLink();
-            }),
+              Boolean::make('Hidden', 'hidden'),
 
-            BelongsTo::make('User', 'user'),
+              Text::make('Change password link', function () {
+                  return $this->passwordChangeLink();
+              }),
 
-            // Password::make('Password')
-            //     ->onlyOnForms()
-            //     ->creationRules('required', 'string', 'min:8')
-            //     ->updateRules('nullable', 'string', 'min:8'),
-        ];
+              BelongsTo::make('User', 'user'),
+
+              Select::make('Vendor user type', 'vendor_user_type')
+                  ->options([
+                      '1' => 'Internal User',
+                      '2' => 'External User'
+                  ])
+                  ->displayUsingLabels(),
+
+              HasMany::make('Visible Projects', 'visibleProjects', \App\Nova\VisibleProject::class),
+
+
+              // Password::make('Password')
+              //     ->onlyOnForms()
+              //     ->creationRules('required', 'string', 'min:8')
+              //     ->updateRules('nullable', 'string', 'min:8'),
+          ];
+
     }
 
     public static function indexQuery(NovaRequest $request, $query)

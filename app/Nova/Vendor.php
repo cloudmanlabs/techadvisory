@@ -72,9 +72,6 @@ class Vendor extends Resource
                 ->hideFromIndex()
                 ->asHtml(),
 
-
-
-
             // This sets the correct value for userType
             HiddenField::make('userType')
                 ->hideFromIndex()

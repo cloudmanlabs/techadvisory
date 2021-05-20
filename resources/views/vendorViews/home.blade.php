@@ -71,6 +71,7 @@
 
                                 <div id="invitationPhaseContainer">
                                     @foreach ($invitationProjects as $project)
+                                      @if ((\App\UserCredential::find(session('credential_id'))->vendor_user_type == 1) || ((\App\UserCredential::find(session('credential_id'))->vendor_user_type == 2) && in_array($project->id, $visibleProjects)))
                                         <div class="card" style="margin-bottom: 30px;"
                                              data-practice="{{$project->practice->name}}"
                                              data-name="{{$project->name}}"
@@ -114,6 +115,7 @@
                                                 </div>
                                             </div>
                                         </div>
+                                      @endif
                                     @endforeach
                                 </div>
                             </div>
@@ -136,6 +138,7 @@
 
                                 <div id="startedPhaseContainer">
                                     @foreach ($startedProjects as $project)
+                                      @if ((\App\UserCredential::find(session('credential_id'))->vendor_user_type == 1) || ((\App\UserCredential::find(session('credential_id'))->vendor_user_type == 2) && in_array($project->id, $visibleProjects)))
                                         <div class="card" style="margin-bottom: 30px;"
                                              data-practice="{{$project->practice->name}}"
                                              data-name="{{$project->name}}"
@@ -158,6 +161,7 @@
                                                 <x-applicationProgressBar :application="$vendorApplication"/>
                                             </div>
                                         </div>
+                                      @endif
                                     @endforeach
                                 </div>
                             </div>
@@ -180,6 +184,7 @@
 
                                 <div id="submittedPhaseContainer">
                                     @foreach ($submittedProjects as $project)
+                                      @if ((\App\UserCredential::find(session('credential_id'))->vendor_user_type == 1) || ((\App\UserCredential::find(session('credential_id'))->vendor_user_type == 2) && in_array($project->id, $visibleProjects)))
                                         <div class="card" style="margin-bottom: 30px;"
                                              data-practice="{{$project->practice->name}}"
                                              data-name="{{$project->name}}"
@@ -203,6 +208,7 @@
                                                 <x-applicationProgressBar :application="$vendorApplication"/>
                                             </div>
                                         </div>
+                                      @endif
                                     @endforeach
                                 </div>
                             </div>
@@ -223,6 +229,7 @@
                                 <br>
                                 <div id="rejectedPhaseContainer">
                                     @foreach ($rejectedProjects as $project)
+                                      @if ((\App\UserCredential::find(session('credential_id'))->vendor_user_type == 1) || ((\App\UserCredential::find(session('credential_id'))->vendor_user_type == 2) && in_array($project->id, $visibleProjects)))
                                         <div class="card" style="margin-bottom: 30px;"
                                              data-practice="{{$project->practice->name}}"
                                              data-name="{{$project->name}}"
@@ -234,6 +241,7 @@
                                                 </div>
                                             </div>
                                         </div>
+                                      @endif
                                     @endforeach
                                 </div>
                             </div>

@@ -25,6 +25,7 @@ use App\Nova\{GeneralInfoQuestion,
     VendorSolution,
     VendorSolutionQuestion,
     VendorSolutionQuestionResponse,
+    VisibleProject,
     SelectionCriteriaQuestion,
     SelectionCriteriaQuestionProjectPivot,
     SelectionCriteriaQuestionResponse,
@@ -265,6 +266,8 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
 
             VendorSolutionQuestion::class,
             VendorSolutionQuestionResponse::class,
+
+            VisibleProject::class,
 
             UseCaseQuestion::class,
             UseCaseTemplate::class,

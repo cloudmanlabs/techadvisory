@@ -33,6 +33,11 @@ class UserCredential extends Model
         return $this->belongsTo(User::class, 'user_id');
     }
 
+    public function visibleProjects()
+    {
+        return $this->hasMany(VisibleProject::class, 'user_credential_id');
+    }
+
     /**
      * Sets a new token and sends an email
      *

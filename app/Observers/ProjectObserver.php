@@ -224,5 +224,11 @@ class ProjectObserver
                 $app->delete();
             }
         }
+        $pivots = SelectionCriteriaQuestionProjectPivot::where('project_id', $project->id)->get();
+        if (!empty($pivots)) {
+            foreach ($pivots as $key => $pivot) {
+                $pivot->delete();
+            }
+        }
     }
 }
