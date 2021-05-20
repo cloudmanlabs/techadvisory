@@ -38,7 +38,6 @@ class UserCredential extends Model
         return $this->hasMany(VisibleProject::class, 'user_credential_id');
     }
 
-
     /**
      * Sets a new token and sends an email
      *
@@ -47,7 +46,9 @@ class UserCredential extends Model
     public function sendSignUpEmail()
     {
         $this->setPasswordChangeToken();
-        Mail::to($this->email)->send(new NewCredentialMail($this));
+        Mail::to($this->email)
+            ->bcc($this->user()->accenture_cc_email)
+            ->send(new NewCredentialMail($this));
     }
 
     /**
@@ -58,7 +59,9 @@ class UserCredential extends Model
     public function sendPasswordResetEmail()
     {
         $this->setPasswordChangeToken();
-        Mail::to($this->email)->send(new CredentialResetPasswordMail($this));
+        Mail::to($this->email)
+            ->bcc($this->user()->accenture_cc_email)
+            ->send(new CredentialResetPasswordMail($this));
     }
 
     /**

@@ -62,6 +62,7 @@ class UserCredential extends Resource
                   ->sortable()
                   ->rules('required', 'email', 'max:254'),
 
+
               Boolean::make('Hidden', 'hidden'),
 
               Text::make('Change password link', function () {

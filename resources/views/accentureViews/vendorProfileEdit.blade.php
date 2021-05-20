@@ -44,6 +44,13 @@
                                                  >
                                         </div>
 
+                                        <div class="form-group">
+                                            <label for="accentureCCEmail">Resend credentials to this email (Accenture)</label>
+                                            <input class="form-control" id="accentureCCEmail" placeholder="example@accenture.com"
+                                                   type="email"
+                                                   value="{{$vendor->accenture_cc_email}}">
+                                        </div>
+
                                         <!-- <div class="form-group">
                                             <label for="vendorRoleInput">Vendor company contact role</label>
                                             <input class="form-control" id="vendorRoleInput" placeholder="Enter Role"
@@ -230,6 +237,18 @@
             .change(function (e) {
                 var value = $(this).val();
                 $.post('/accenture/vendorProfileEdit/changeEmail', {
+                    vendor_id: {{$vendor->id}},
+                    value: value
+                }).done(function () {
+                    showSavedToast()
+                    updateSubmitButton()
+                }).fail(handleAjaxError)
+            });
+
+        $('#accentureCCEmail')
+            .change(function (e) {
+                var value = $(this).val();
+                $.post('/accenture/vendorProfileEdit/changeAccentureCCEmail', {
                     vendor_id: {{$vendor->id}},
                     value: value
                 }).done(function () {

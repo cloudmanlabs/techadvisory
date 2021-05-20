@@ -37,12 +37,22 @@
                                                 value="{{$vendor->name}}"
                                                 disabled>
                                         </div>
+
                                         <div class="form-group">
                                             <label for="exampleInputText1">Vendor company contact email</label>
                                             <input class="form-control" id="exampleInputText1" placeholder="Enter E-mail"
                                                 type="email"
                                                 value="{{$vendor->email}}"
                                                 disabled>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="accentureCCEmail">Resend credentials to this email (Accenture)</label>
+                                            <input id="accentureCCEmail"
+                                                   class="form-control"
+                                                   type="email"
+                                                   value="{{$vendor->accenture_cc_email}}"
+                                                   disabled>
                                         </div>
 
                                         <!-- <div class="form-group">

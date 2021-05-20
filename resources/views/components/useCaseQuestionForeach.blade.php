@@ -75,7 +75,7 @@
                     id="useCaseQuestion{{$question->id}}"
                 >
                     @php
-                    $selectedOptions = json_decode($question->response ?? '[]');
+                    $selectedOptions = $question->response ?? [];
                     @endphp
 
                     @if ($question->presetOption == 'countries')
@@ -184,6 +184,5 @@
             </div>
             @break
         @default
-
     @endswitch
 @endforeach

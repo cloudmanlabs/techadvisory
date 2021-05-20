@@ -10,6 +10,6 @@ class UserCredentialObserver
 {
     public function created(UserCredential $credential)
     {
-        // $credential->sendSignUpEmail();
+        $credential->sendSignUpEmail();
     }
 }

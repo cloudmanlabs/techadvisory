@@ -106,14 +106,18 @@ class ProjectController extends Controller
         return redirect()->route('accenture.projectUseCasesSetUp', ['project' => $project]);
     }
 
-    private function getQuestionsWithTypeFieldFilled($questions, $responses)
+    private function getQuestionsWithResponse($questions, $responses)
     {
-        foreach ($questions as $questionKey => $questionValue) {
-            if ($questionValue->type === 'file') {
-                foreach ($responses as $responseKey => $responseValue) {
-                    if ($responseValue->use_case_questions_id === $questionValue->id) {
-                        $questions[$questionKey]['response'] = $responseValue->response;
+        foreach ($responses as $response) {
+            foreach ($questions as &$question) {
+                if ($question->id === $response->use_case_questions_id) {
+                    $question->response = urldecode($response->response);
+                    if ($question->type === 'selectMultiple') {
+                        $question->response = explode(',', urldecode($response->response));
+                    } else {
+                        $question->response = urldecode($response->response);
                     }
+                    break;
                 }
             }
         }
@@ -285,7 +289,7 @@ class ProjectController extends Controller
 
         $useCaseResponses = UseCaseQuestionResponse::getResponsesFromUseCase($useCase);
         $view['useCaseResponses'] = $useCaseResponses;
-        $useCaseQuestions = $this->getQuestionsWithTypeFieldFilled($useCaseQuestions, $useCaseResponses);
+        $useCaseQuestions = $this->getQuestionsWithResponse($useCaseQuestions, $useCaseResponses);
 
         $view['useCases'] = $useCases;
         $view['useCaseQuestions'] = $useCaseQuestions;

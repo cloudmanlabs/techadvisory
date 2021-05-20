@@ -219,7 +219,6 @@ class ClientVendorListController extends Controller
             'generalQuestions' => $generalQuestions,
             'economicQuestions' => $economicQuestions,
             'legalQuestions' => $legalQuestions,
-
             'firstTime' => $request->firstTime ?? false,
         ]);
     }
@@ -283,6 +282,27 @@ class ClientVendorListController extends Controller
         }
 
         $client->email = $request->value;
+        $client->save();
+
+        return response()->json([
+            'status' => 200,
+            'message' => 'nma',
+        ]);
+    }
+
+    public function changeAccentureCCEmail(Request $request)
+    {
+        $request->validate([
+            'vendor_id' => 'required|numeric',
+            'value' => 'required',
+        ]);
+
+        $client = User::find($request->vendor_id);
+        if ($client == null || !$client->isVendor()) {
+            abort(404);
+        }
+
+        $client->accenture_cc_email = $request->value;
         $client->save();
 
         return response()->json([
