@@ -358,23 +358,23 @@ class VendorApplication extends Model
     public function fitgapScore()
     {
         $score = 0;
-        // $level1s = $this->project->fitgapLevelWeights;
-        // $score_arr = [];
+        $level1s = $this->project->fitgapLevelWeights;
+        $score_arr = [];
         if (!empty($this->project)) {
-            // foreach ($level1s as $key => $el) {
-            //   array_push($score_arr, (($el->weight * $this->fitgapLevelScore($el->name))/100));
-            // }
-            // $score = array_sum($score_arr);
+            foreach ($level1s as $key => $el) {
+              array_push($score_arr, (($el->weight * $this->fitgapLevelScore($el->name))/100));
+            }
+            $score = array_sum($score_arr);
 
-            $functionalScore = $this->fitgapFunctionalScore();
-            $technicalScore = $this->fitgapTechnicalScore();
-            $serviceScore = $this->fitgapServiceScore();
-            $otherScore = $this->fitgapOtherScore();
+            // $functionalScore = $this->fitgapFunctionalScore();
+            // $technicalScore = $this->fitgapTechnicalScore();
+            // $serviceScore = $this->fitgapServiceScore();
+            // $otherScore = $this->fitgapOtherScore();
 
-            $score = (($this->project->fitgapFunctionalWeight ?? 60) / 100) * $functionalScore +
-                (($this->project->fitgapTechnicalWeight ?? 20) / 100) * $technicalScore +
-                (($this->project->fitgapServiceWeight ?? 10) / 100) * $serviceScore +
-                (($this->project->fitgapOthersWeight ?? 10) / 100) * $otherScore;
+            // $score = (($this->project->fitgapFunctionalWeight ?? 60) / 100) * $functionalScore +
+            //     (($this->project->fitgapTechnicalWeight ?? 20) / 100) * $technicalScore +
+            //     (($this->project->fitgapServiceWeight ?? 10) / 100) * $serviceScore +
+            //     (($this->project->fitgapOthersWeight ?? 10) / 100) * $otherScore;
         }
 
         return $score;
