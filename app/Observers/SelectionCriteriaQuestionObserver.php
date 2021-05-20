@@ -5,7 +5,6 @@ namespace App\Observers;
 use App\SelectionCriteriaQuestion;
 use App\SelectionCriteriaQuestionProjectPivot;
 use App\SelectionCriteriaQuestionResponse;
-use App\SelectionCriteriaQuestionProjectPivot;
 use Illuminate\Support\Facades\Log;
 
 class SelectionCriteriaQuestionObserver
