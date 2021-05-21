@@ -78,17 +78,17 @@ class Client extends Resource
             // This sets the correct value for userType
             HiddenField::make('userType')
                 ->onlyOnForms()
-                ->default('client'),
+                ->defaultValue('client'),
 
             HiddenField::make('password')
                 ->onlyOnForms()
                 ->hideWhenUpdating()
-                ->default('password'),
+                ->defaultValue('password'),
 
             HiddenField::make('email')
                 ->onlyOnForms()
                 ->hideWhenUpdating()
-                ->default(Str::random() . '@example.com'),
+                ->defaultValue(Str::random() . '@example.com'),
 
             HasMany::make('Other Login Credentials', 'credentials', \App\Nova\UserCredential::class),
 
