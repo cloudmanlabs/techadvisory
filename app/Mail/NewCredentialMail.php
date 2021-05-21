@@ -42,7 +42,7 @@ class NewCredentialMail extends Mailable
         $subject = $this->isVendor ? nova_get_setting('email_subject_newCredential_vendor') : nova_get_setting('email_subject_newCredential_client');
         $subject = $subject ?? 'Welcome to TechAdvisory platform!';
 
-        return $this->view('emails.newCredentialMail', [
+        return $this->from('mail@mg.techadvisory.ideafoster.com')->view('emails.newCredentialMail', [
             'text' => $text,
             'link' => $this->credential->passwordChangeLink(),
         ])
