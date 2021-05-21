@@ -41,7 +41,7 @@ class ProjectInvitationEmail extends Mailable
      */
     public function build()
     {
-        return $this->view('emails.reinvitationEmail', [
+        return $this->from('mail@mg.techadvisory.ideafoster.com')->view('emails.reinvitationEmail', [
             'text' => $this->text
         ]);
     }

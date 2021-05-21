@@ -46,9 +46,14 @@ class UserCredential extends Model
     public function sendSignUpEmail()
     {
         $this->setPasswordChangeToken();
-        Mail::to($this->email)
-            ->bcc($this->user()->accenture_cc_email)
-            ->send(new NewCredentialMail($this));
+        if ($this->user->accenture_cc_email) {
+            Mail::to($this->email)
+                ->bcc($this->user->accenture_cc_email)
+                ->send(new NewCredentialMail($this));
+        } else {
+            Mail::to($this->email)
+                ->send(new NewCredentialMail($this));
+        }
     }
 
     /**
@@ -59,9 +64,14 @@ class UserCredential extends Model
     public function sendPasswordResetEmail()
     {
         $this->setPasswordChangeToken();
-        Mail::to($this->email)
-            ->bcc($this->user()->accenture_cc_email)
-            ->send(new CredentialResetPasswordMail($this));
+        if ($this->user->accenture_cc_email) {
+            Mail::to($this->email)
+                ->bcc($this->user->accenture_cc_email)
+                ->send(new NewCredentialMail($this));
+        } else {
+            Mail::to($this->email)
+                ->send(new NewCredentialMail($this));
+        }
     }
 
     /**

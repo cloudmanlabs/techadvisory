@@ -42,7 +42,7 @@ class CredentialResetPasswordMail extends Mailable
         $subject = $this->isVendor ? nova_get_setting('email_subject_credentialResetPassword_vendor') : nova_get_setting('email_subject_credentialResetPassword_client');
         $subject = $subject ?? 'TechAdvisory: Password reset';
 
-        return $this->view('emails.newCredentialMail', [
+        return $this->from('mail@mg.techadvisory.ideafoster.com')->view('emails.newCredentialMail', [
             'text' => $text,
             'link' => $this->credential->passwordChangeLink(),
         ])
