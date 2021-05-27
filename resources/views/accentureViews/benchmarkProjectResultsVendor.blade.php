@@ -33,7 +33,7 @@
                                 <aside id="filters-container" class="col-4">
                                     <h3>Filters</h3>
                                     <br>
-                                    <label for="practices-select">Choose a Practice</label>
+                                    <label for="practices-select">Choose a SC Capability (Practice)</label>
                                     <select id="practices-select" multiple>
                                         @foreach ($practices as $practice)
                                             <option
@@ -55,7 +55,7 @@
                                         <br>
                                         <br>
                                     </div>
-                                    <label for="years-select">Choose a Year</label>
+                                    <label for="years-select">Choose creation year</label>
                                     <select id="years-select" multiple>
                                         @foreach ($years as $year)
                                             <option
@@ -70,7 +70,7 @@
                                     </select>
                                     <br>
                                     <br>
-                                    <label for="industries-select">Choose a Industry</label>
+                                    <label for="industries-select">Choose an industry</label>
                                     <select id="industries-select" multiple>
                                         @foreach($industries as $industry)
                                             <option
@@ -85,7 +85,7 @@
                                     </select>
                                     <br>
                                     <br>
-                                    <label for="regions-select">Choose a Region</label>
+                                    <label for="regions-select">Choose a region</label>
                                     <select id="regions-select" multiple>
                                         @foreach ($regions as $region)
                                             <option
@@ -128,13 +128,13 @@
                                         <div class="col-xl-12 grid-margin stretch-card">
                                             <div class="card">
                                                 <div class="card-body">
-                                                    <h5>Number of projects</h5>
+                                                    <h5>Number of projects of the best {{count($vendorScoresVendor)}} vendors by vendor score</h5>
                                                     <table class="table">
                                                         <thead>
                                                         <tr>
                                                             <th scope="col">Vendor name</th>
                                                             <th scope="col">Projects applied</th>
-                                                            <th scope="col">Scores</th>
+                                                            <th scope="col">Average score</th>
                                                         </tr>
                                                         </thead>
                                                         <tbody>

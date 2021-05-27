@@ -40,7 +40,7 @@
                                     <div id="filterContainer">
                                         <div class="media-body" style="padding: 20px;">
                                             <p class="welcome_text">
-                                                Please choose the Project's Name you'd like to see:
+                                                Please, choose the Project's Name you'd like to see:
                                             </p>
                                             <div class="input-group">
                                                 <input type="text" class="form-control" id="searchBox">
@@ -49,7 +49,7 @@
 
                                         <div class="media-body" style="padding: 20px;">
                                             <p class="welcome_text">
-                                                Please choose the SC Capability (Practice) you'd like to see:
+                                                Please, choose the SC Capability (Practice) you'd like to see:
                                             </p>
                                             <select id="practiceSelect" class="w-100">
                                                 <option value="null">-- Select a Practice --</option>
@@ -62,7 +62,7 @@
 
                                         <div class="media-body" style="padding: 20px;">
                                             <p class="welcome_text">
-                                                Please choose the Subpractices you'd like to see:
+                                                Please, choose the Subpractices you'd like to see:
                                             </p>
                                             <select id="subpracticeSelect" class="w-100" multiple="multiple">
                                                 @foreach ($subpractices as $subpractice)
@@ -73,7 +73,7 @@
 
                                         <div class="media-body" style="padding: 20px;">
                                             <p class="welcome_text">
-                                                Please choose the Clients you'd like to see:
+                                                Please, choose the Clients you'd like to see:
                                             </p>
                                             <select id="clientSelect" class="w-100">
                                                 <option value="null">-- Select a Client --</option>
@@ -86,7 +86,7 @@
 
                                         <div class="media-body" style="padding: 20px;">
                                             <p class="welcome_text">
-                                                Please choose the Years you'd like to see:
+                                                Please, choose the Creation Years you'd like to see:
                                             </p>
                                             <select id="yearSelect" class="w-100" multiple="multiple">
                                                 @foreach ($years as $year)
@@ -97,7 +97,7 @@
 
                                         <div class="media-body" style="padding: 20px;">
                                             <p class="welcome_text">
-                                                Please choose the Regions you'd like to see:
+                                                Please, choose the Regions you'd like to see:
                                             </p>
                                             <select id="regionSelect" class="w-100" multiple="multiple">
                                                 @foreach ($regions as $region)
@@ -109,7 +109,7 @@
 
                                         <div class="media-body" style="padding: 20px;">
                                             <p class="welcome_text">
-                                                Please choose the Industries you'd like to see:
+                                                Please, choose the Industries you'd like to see:
                                             </p>
                                             <select id="industrySelect" class="w-100">
                                                 <option value="null">-- Select a Industry --</option>

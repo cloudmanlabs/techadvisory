@@ -36,7 +36,7 @@
                                 <aside id="filters-container" class="col-4">
                                     <h3>Filters</h3>
                                     <br>
-                                    <label for="practices-select">Choose a Practice</label>
+                                    <label for="practices-select">Choose a SC Capability (Practice)</label>
                                     <select id="practices-select" multiple>
                                         @foreach ($practices as $practice)
                                             <option value="{{$practice->id}}"
@@ -57,7 +57,7 @@
                                         <br>
                                         <br>
                                     </div>
-                                    <label for="years-select">Choose a Year</label>
+                                    <label for="years-select">Choose creation year</label>
                                     <select id="years-select" multiple>
                                         @foreach ($years as $year)
                                             <option value="{{$year->year}}"
@@ -71,7 +71,7 @@
                                     </select>
                                     <br>
                                     <br>
-                                    <label for="industries-select">Choose a Industry</label>
+                                    <label for="industries-select">Choose an industry</label>
                                     <select id="industries-select" multiple>
                                         @foreach($industries as $industry)
                                             <option value="{{$industry}}"
@@ -85,7 +85,7 @@
                                     </select>
                                     <br>
                                     <br>
-                                    <label for="regions-select">Choose a Region</label>
+                                    <label for="regions-select">Choose a region</label>
                                     <select id="regions-select" multiple>
                                         @foreach ($regions as $region)
                                             <option value="{{$region}}"
@@ -127,13 +127,13 @@
                                         <div class="col-xl-12 grid-margin stretch-card">
                                             <div class="card">
                                                 <div class="card-body">
-                                                    <h5>Number of projects</h5>
+                                                    <h5>Number of projects of the best {{count($vendorScoresFitgap)}} vendors by overall fitgap score</h5>
                                                     <table class="table">
                                                         <thead>
                                                         <tr>
                                                             <th scope="col">Vendor name</th>
                                                             <th scope="col">Projects applied</th>
-                                                            <th scope="col">Score</th>
+                                                            <th scope="col">Average score</th>
                                                         </tr>
                                                         </thead>
                                                         <tbody>
@@ -172,8 +172,7 @@
                                         <div class="col-xl-6 grid-margin stretch-card">
                                             <div class="card">
                                                 <div class="card-body">
-                                                    <h6>Best {{count($vendorScoresFitgapFunctional)}} Vendors Fitgap
-                                                        Functional Score</h6>
+                                                    <h6>Best {{count($vendorScoresFitgapFunctional)}} Vendors By Fitgap Functional Score</h6>
                                                     <br><br>
                                                     <canvas id="best-fitgap-functional-chart"></canvas>
                                                 </div>
@@ -182,13 +181,13 @@
                                         <div class="col-xl-6 grid-margin stretch-card">
                                             <div class="card">
                                                 <div class="card-body">
-                                                    <h5>Number of projects</h5>
+                                                    <h5>Number of projects of the best {{count($vendorScoresFitgapFunctional)}} vendors by fitgap functional score</h5>
                                                     <table class="table">
                                                         <thead>
                                                         <tr>
                                                             <th scope="col">Vendor name</th>
                                                             <th scope="col">Projects applied</th>
-                                                            <th scope="col">Score</th>
+                                                            <th scope="col">Average score</th>
                                                         </tr>
                                                         </thead>
                                                         <tbody>
@@ -210,8 +209,7 @@
                                         <div class="col-xl-6 grid-margin stretch-card">
                                             <div class="card">
                                                 <div class="card-body">
-                                                    <h6>Best {{count($vendorScoresFitgapTechnical)}} Vendors Fitgap
-                                                        Technical Score</h6>
+                                                    <h6>Best {{count($vendorScoresFitgapTechnical)}} Vendors By Fitgap Technical Score</h6>
                                                     <br><br>
                                                     <canvas id="best-fitgap-technical-chart"></canvas>
                                                 </div>
@@ -220,13 +218,13 @@
                                         <div class="col-xl-6 grid-margin stretch-card">
                                             <div class="card">
                                                 <div class="card-body">
-                                                    <h5>Number of projects</h5>
+                                                    <h5>Number of projects of the best {{count($vendorScoresFitgapTechnical)}} vendors by fitgap technical score</h5>
                                                     <table class="table">
                                                         <thead>
                                                         <tr>
                                                             <th scope="col">Vendor name</th>
                                                             <th scope="col">Projects applied</th>
-                                                            <th scope="col">Score</th>
+                                                            <th scope="col">Average score</th>
                                                         </tr>
                                                         </thead>
                                                         <tbody>
@@ -248,8 +246,7 @@
                                         <div class="col-xl-6 grid-margin stretch-card">
                                             <div class="card">
                                                 <div class="card-body">
-                                                    <h6>Best {{count($vendorScoresFitgapService)}} Vendors Fitgap
-                                                        Service Score</h6>
+                                                    <h6>Best {{count($vendorScoresFitgapService)}} Vendors By Fitgap Service Score</h6>
                                                     <br><br>
                                                     <canvas id="best-fitgap-services-chart"></canvas>
                                                 </div>
@@ -258,13 +255,13 @@
                                         <div class="col-xl-6 grid-margin stretch-card">
                                             <div class="card">
                                                 <div class="card-body">
-                                                    <h5>Number of projects</h5>
+                                                    <h5>Number of projects of the best 5 vendors by fitgap service score</h5>
                                                     <table class="table">
                                                         <thead>
                                                         <tr>
                                                             <th scope="col">Vendor name</th>
                                                             <th scope="col">Projects applied</th>
-                                                            <th scope="col">Scores</th>
+                                                            <th scope="col">Average score</th>
                                                         </tr>
                                                         </thead>
                                                         <tbody>
@@ -286,8 +283,7 @@
                                         <div class="col-xl-6 grid-margin stretch-card">
                                             <div class="card">
                                                 <div class="card-body">
-                                                    <h6>Best {{count($vendorScoresFitgapOthers)}} Vendors Fitgap
-                                                        Others Score</h6>
+                                                    <h6>Best {{count($vendorScoresFitgapOthers)}} Vendors By Fitgap Others Score</h6>
                                                     <br><br>
                                                     <canvas id="best-fitgap-others-chart"></canvas>
                                                 </div>
@@ -296,13 +292,13 @@
                                         <div class="col-xl-6 grid-margin stretch-card">
                                             <div class="card">
                                                 <div class="card-body">
-                                                    <h5>Number of projects</h5>
+                                                    <h5>Number of projects of the best {{count($vendorScoresFitgapOthers)}} vendors by fitgap others score</h5>
                                                     <table class="table">
                                                         <thead>
                                                         <tr>
                                                             <th scope="col">Vendor name</th>
                                                             <th scope="col">Projects applied</th>
-                                                            <th scope="col">Scores</th>
+                                                            <th scope="col">Average score</th>
                                                         </tr>
                                                         </thead>
                                                         <tbody>

@@ -33,7 +33,7 @@
                                 <aside id="filters-container" class="col-4">
                                     <h3>Filters</h3>
                                     <br>
-                                    <label for="practices-select">Choose a Practice</label>
+                                    <label for="practices-select">Choose a SC Capability (Practice)</label>
                                     <select id="practices-select" multiple>
                                         @foreach ($practices as $practice)
                                             <option
@@ -55,7 +55,7 @@
                                         <br>
                                         <br>
                                     </div>
-                                    <label for="years-select">Choose a Year</label>
+                                    <label for="years-select">Choose creation year</label>
                                     <select id="years-select" multiple>
                                         @foreach ($years as $year)
                                             <option
@@ -70,7 +70,7 @@
                                     </select>
                                     <br>
                                     <br>
-                                    <label for="industries-select">Choose a Industry</label>
+                                    <label for="industries-select">Choose an industry</label>
                                     <select id="industries-select" multiple>
                                         @foreach($industries as $industry)
                                             <option
@@ -85,7 +85,7 @@
                                     </select>
                                     <br>
                                     <br>
-                                    <label for="regions-select">Choose a Region</label>
+                                    <label for="regions-select">Choose a region</label>
                                     <select id="regions-select" multiple>
                                         @foreach ($regions as $region)
                                             <option
@@ -107,7 +107,7 @@
 
                                 <div id="charts-container" class="col-8 border-left">
                                     <div class="row pl-3">
-                                        <h3>Implementation & Comercials Overall Results</h3>
+                                        <h3>Implementation and Commercials Overall Results</h3>
                                         <p class="welcome_text extra-top-15px">
                                         </p>
                                     </div>
@@ -117,8 +117,7 @@
                                         <div class="col-xl-12 grid-margin stretch-card">
                                             <div class="card">
                                                 <div class="card-body">
-                                                    <h4>Best {{count($vendorScoresImplementation)}} Vendors By
-                                                        Implementation & Commercials Score</h4>
+                                                    <h4>Best {{count($vendorScoresImplementation)}} Vendors By Implementation and Commercials Score</h4>
                                                     <br><br>
                                                     <canvas id="best-implementation-chart"></canvas>
                                                 </div>
@@ -129,13 +128,13 @@
                                         <div class="col-xl-12 grid-margin stretch-card">
                                             <div class="card">
                                                 <div class="card-body">
-                                                    <h5>Number of projects</h5>
+                                                    <h5>Number of projects of the best {{count($vendorScoresImplementation)}} vendors by implementation and commercials score</h5>
                                                     <table class="table">
                                                         <thead>
                                                         <tr>
                                                             <th scope="col">Vendor name</th>
                                                             <th scope="col">Projects applied</th>
-                                                            <th scope="col">Scores</th>
+                                                            <th scope="col">Average score</th>
                                                         </tr>
                                                         </thead>
                                                         <tbody>
@@ -167,7 +166,7 @@
 
                                 <div id="charts-container" class="col-12 border-left">
                                     <div class="row pl-3">
-                                        <h3>Implementation & Comercials Specific Results</h3>
+                                        <h3>Implementation and Commercials Specific Results</h3>
                                         <p class="welcome_text extra-top-15px">
                                         </p>
                                     </div>
@@ -188,13 +187,13 @@
                                         <div class="col-xl-6 grid-margin stretch-card">
                                             <div class="card">
                                                 <div class="card-body">
-                                                    <h5>Number of projects</h5>
+                                                    <h5>Number of projects of the best {{count($vendorScoresImplementationImplementation)}} vendors by implementation score</h5>
                                                     <table class="table">
                                                         <thead>
                                                         <tr>
                                                             <th scope="col">Vendor name</th>
                                                             <th scope="col">Projects applied</th>
-                                                            <th scope="col">Score</th>
+                                                            <th scope="col">Average score</th>
                                                         </tr>
                                                         </thead>
                                                         <tbody>
@@ -226,13 +225,13 @@
                                         <div class="col-xl-6 grid-margin stretch-card">
                                             <div class="card">
                                                 <div class="card-body">
-                                                    <h5>Number of projects</h5>
+                                                    <h5>Number of projects of the best {{count($vendorScoresImplementationRun)}} vendors by run score</h5>
                                                     <table class="table">
                                                         <thead>
                                                         <tr>
                                                             <th scope="col">Vendor name</th>
                                                             <th scope="col">Projects applied</th>
-                                                            <th scope="col">Score</th>
+                                                            <th scope="col">Average score</th>
                                                         </tr>
                                                         </thead>
                                                         <tbody>
