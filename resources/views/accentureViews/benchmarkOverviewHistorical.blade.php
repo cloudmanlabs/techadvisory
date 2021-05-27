@@ -36,7 +36,7 @@
                                             <h3>Filters</h3>
                                             <br>
                                             <br>
-                                            <label for="industries-select">Choose a Industry</label>
+                                            <label for="industries-select">Choose an industry</label>
                                             <select id="industries-select" multiple>
                                                 @foreach($industries as $industry)
                                                     <option
@@ -82,7 +82,7 @@
                                                 <div class="col-xl-12 grid-margin stretch-card">
                                                     <div class="card">
                                                         <div class="card-body">
-                                                            <h4>TOTAL</h4>
+                                                            <h4>NUMBER OF PROJECTS PER SC CAPABILITY (PRACTICE) AND CREATION YEAR</h4>
                                                             <br><br>
                                                             <canvas id="projects-by-year-chart"></canvas>
                                                         </div>

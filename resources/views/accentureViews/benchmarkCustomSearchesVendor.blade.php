@@ -49,7 +49,7 @@
                                             <br>
                                             <div class="media-body" style="padding: 20px;">
                                                 <p class="welcome_text">
-                                                    Please choose the Vendor Segments you'd like to see:
+                                                    Please, choose the Vendor Segments you'd like to see:
                                                 </p>
                                                 <select id="segmentSelect" class="w-100">
                                                     <option selected="true" value="null">Choose a option</option>
@@ -61,7 +61,7 @@
                                             </div>
                                             <div class="media-body" style="padding: 20px; ">
                                                 <p class="welcome_text">
-                                                    Please choose the Regions you'd like to see:
+                                                    Please, choose the Regions you'd like to see:
                                                 </p>
                                                 <select id="regionSelect" class="w-100" multiple="multiple">
                                                     @foreach ($regions as $region)
@@ -73,7 +73,7 @@
 
                                             <div class="media-body" style="padding: 20px;">
                                                 <p class="welcome_text">
-                                                    Please choose the Industries you'd like to see:
+                                                    Please, choose the Industries you'd like to see:
                                                 </p>
                                                 <select id="industriesSelect" class="w-100" multiple="multiple">
                                                     @foreach ($industries as $industry)
@@ -89,7 +89,7 @@
                                             <br>
                                             <div class="media-body" style="padding: 20px;">
                                                 <p class="welcome_text">
-                                                    Please choose the SC Capability (Practice) you'd like to see:
+                                                    Please, choose the SC Capability (Practice) you'd like to see:
                                                 </p>
                                                 <select id="practiceSelect" class="w-100">
                                                     <option value="null">-- Select a Practice --</option>
@@ -100,7 +100,7 @@
                                             </div>
                                             <div class="media-body" style="padding: 20px;">
                                                 <p class="welcome_text">
-                                                    Please choose the TMS Capabilities (Subpractices) you'd like to see:
+                                                    Please, choose the Subpractices you'd like to see:
                                                 </p>
                                                 <select id="subpracticeSelect" class="w-100" multiple="multiple">
                                                     @foreach ($subpractices as $subpractice)
@@ -109,8 +109,8 @@
                                                 </select>
                                             </div>
 
-                                            <div id="scopesDiv" class="media-body" style="padding: 20px;">
-                                                <p class="welcome_text">Please choose the Scope you'd like to see:</p>
+                                            <div id="scopesDiv" class="media-body" style="padding: 20px; display: none;">
+                                                <p class="welcome_text">Please, choose the Scope you'd like to see:</p>
                                                 <br>
                                                 @foreach ($questions as $question)
                                                     <div class="form-group questionDiv" data-practice="{{$question->practice->id ?? ''}}" style="display: none;">
@@ -221,6 +221,11 @@
                 @foreach ($questions as $question)
                 const selectedQuestions{{str_replace(' ', '', $question->label)}} = $questionSelector{{str_replace(' ', '', $question->label)}}.val();
                 @endforeach
+                if (selectedPractices != 'null') {
+                  document.getElementById('scopesDiv').style.display = 'block';
+                } else {
+                  document.getElementById('scopesDiv').style.display = 'none';
+                }
 
                 // Add a display none to the one which don't have this tags
                 $vendorsContainer.children().each(function () {

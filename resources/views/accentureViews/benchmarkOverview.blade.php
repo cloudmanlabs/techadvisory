@@ -36,7 +36,7 @@
                                         <aside id="filters-container" class="col-4">
                                             <h3>Filters</h3>
                                             <br>
-                                            <label for="year-select">Choose a Year</label>
+                                            <label for="year-select">Choose creation year</label>
                                             <select id="year-select" multiple>
                                                 @foreach ($years as $year)
                                                     <option
@@ -94,7 +94,7 @@
                                                 <div class="col-xl-12 grid-margin stretch-card">
                                                     <div class="card">
                                                         <div class="card-body">
-                                                            <h4>PROJECTS ANSWERED BY VENDOR</h4>
+                                                            <h4>NUMBER OF PROJECTS ANSWERED BY VENDOR PER SC CAPABILITY (PRACTICE)</h4>
                                                             <br><br>
                                                             <canvas id="response-per-vendor-chart"></canvas>
                                                         </div>
@@ -105,7 +105,7 @@
                                                 <div class="col-xl-12 grid-margin stretch-card">
                                                     <div class="card">
                                                         <div class="card-body">
-                                                            <h4># PROJECTS PER SC CAPABILITY (PRACTICE)</h4>
+                                                            <h4>NUMBER OF PROJECTS PER SC CAPABILITY (PRACTICE)</h4>
                                                             <br><br>
                                                             <canvas id="projects-per-practice-chart"></canvas>
                                                         </div>
@@ -116,7 +116,7 @@
                                                 <div class="col-xl-12 grid-margin stretch-card">
                                                     <div class="card">
                                                         <div class="card-body">
-                                                            <h4># PROJECTS PER CLIENT</h4>
+                                                            <h4>NUMBER OF PROJECTS PER CLIENT</h4>
                                                             <br><br>
                                                             <canvas id="projects-per-client-chart"></canvas>
                                                         </div>
@@ -127,7 +127,7 @@
                                                 <div class="col-xl-12 grid-margin stretch-card">
                                                     <div class="card">
                                                         <div class="card-body">
-                                                            <h4># PROJECTS PER INDUSTRY</h4>
+                                                            <h4>NUMBER OF PROJECTS PER INDUSTRY</h4>
                                                             <br><br>
                                                             <canvas id="projects-per-industry-chart"></canvas>
                                                         </div>
