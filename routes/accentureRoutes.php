@@ -51,6 +51,8 @@ prefix('accenture')
                 'ProjectController@submitUseCaseVendorEvaluation');
             Route::post('/newProjectSetUp/rollbackSubmitUseCaseVendorEvaluation',
                 'ProjectController@rollbackSubmitUseCaseVendorEvaluation');
+            Route::post('/newProjectSetUp/rollbackClientSubmitUseCaseVendorEvaluation',
+                'ProjectController@rollbackClientSubmitUseCaseVendorEvaluation');
 //            Route::post('/newProjectSetUp/cacheUseCaseVendorEvaluation', 'ProjectController@cacheUseCaseVendorEvaluation');
             Route::post('/newProjectSetUp/cacheProjectVendorEvaluation',
                 'ProjectController@cacheProjectVendorEvaluation');

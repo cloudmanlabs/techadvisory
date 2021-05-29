@@ -71,7 +71,7 @@ class UserCredential extends Resource
 
               BelongsTo::make('User', 'user'),
 
-              Select::make('Vendor user type', 'vendor_user_type')
+              Select::make('User type', 'vendor_user_type')
                   ->options([
                       '1' => 'Internal User',
                       '2' => 'External User'
