@@ -40,6 +40,7 @@
             <div class="page-content">
                 <x-accenture.projectNavbar section="projectHome" :project="$project"/>
                 <br>
+                <h3 class="p-3">RFP</h3>
                 <div class="row">
                     <div class="col-lg-12 grid-margin stretch-card">
                         <div class="card">
@@ -341,6 +342,71 @@
                         </div>
                     </div>
                 </div>
+                <h3 class="p-3">USE CASES</h3>
+                <div class="row">
+                    <div class="col-lg-12 grid-margin stretch-card">
+                        <div class="card">
+                            <div class="card-body">
+                                <h3>Vendors invited</h3>
+                                <p class="welcome_text extra-top-15px">
+                                    {{nova_get_setting('accenture_projectHome_invited') ?? ''}}
+                                </p>
+                                <br>
+                                <br>
+                                @if (sizeof($useCaseInvitedVendors) > 0)
+                                @foreach ($useCaseInvitedVendors as $vendor)
+                                    <h4>{{$vendor->name}}</h4>
+                                @endforeach
+                                @endif
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-12 grid-margin stretch-card">
+                        <div class="card">
+                            <div class="card-body">
+                                <h3>User's validation</h3>
+                                <p class="welcome_text extra-top-15px">
+                                    {{nova_get_setting('accenture_projectHome_invited') ?? ''}}
+                                </p>
+                                <br>
+                                <br>
+                                @foreach ($useCases as $useCase)
+                                    <div class="d-flex mb-3" id="use_case_{{$useCase->id}}" style="cursor: pointer;">
+                                        <h4 id="{{$useCase->id}}_toggle">+</h4><h4 class="ml-3">{{$useCase->name}}</h4><h4 class="ml-5"><small>{{\App\UseCase::usersSubmittedPercentage($useCase->id)}}% completado</small></h4>
+                                    </div>
+                                    <div class="m-4" id="use_case_detail_{{$useCase->id}}" style="display: none;">
+                                        @foreach ($useCase->users($useCase->id) as $user)
+                                            <div class="d-flex m-5">
+                                                <h4>{{\App\User::find($user)->name}}</h4>
+                                                @if(\App\VendorUseCasesEvaluation::evaluationsSubmitted($user,$useCase->id, $project->vendorsApplied()->whereIn('id', explode(',', urldecode($project->use_case_invited_vendors)))->get(), 'accenture') === 'no')
+                                                    <h4 class="text-muted ml-5"><small>Pending Submit</small></h4>
+                                                @else
+                                                    <button id="rollbackSubmitButton_user_{{$useCase->id}}" class="btn btn-primary btn-right ml-5">
+                                                        Rollback Submit
+                                                    </button>
+                                                @endif
+                                            </div>
+                                        @endforeach
+                                        @foreach ($useCase->clients($useCase->id) as $client)
+                                            <div class="d-flex m-5">
+                                                <h4>{{\App\UserCredential::find($client)->name}}</h4>
+                                                @if(\App\VendorUseCasesEvaluation::evaluationsSubmitted($client,$useCase->id, $project->vendorsApplied()->whereIn('id', explode(',', urldecode($project->use_case_invited_vendors)))->get(), 'client') === 'no')
+                                                    <h4 class="text-muted ml-5"><small>Pending Submit</small></h4>
+                                                @else
+                                                    <button id="rollbackSubmitButton_client_{{$useCase->id}}" class="btn btn-primary btn-right ml-5">
+                                                        Rollback Submit
+                                                    </button>
+                                                @endif
+                                            </div>
+                                        @endforeach
+                                    </div>
+                                @endforeach
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
                 <x-deadline :project="$project"/>
             </div>
@@ -407,6 +473,41 @@
                 handleAjaxError()
             })
         });
+        @foreach ($useCases as $useCase)
+            document.getElementById('use_case_{{$useCase->id}}').addEventListener('click', (e) => {
+                if (document.getElementById('use_case_detail_{{$useCase->id}}').style.display == 'block') {
+                    document.getElementById('use_case_detail_{{$useCase->id}}').style.display = 'none';
+                    document.getElementById('{{$useCase->id}}_toggle').innerHTML = '+';
+                } else {
+                    document.getElementById('use_case_detail_{{$useCase->id}}').style.display = 'block';
+                    document.getElementById('{{$useCase->id}}_toggle').innerHTML = '-';
+                }
+            });
+            @foreach ($useCase->users($useCase->id) as $user)
+                @if(\App\VendorUseCasesEvaluation::evaluationsSubmitted($user,$useCase->id, $project->vendorsApplied()->whereIn('id', explode(',', urldecode($project->use_case_invited_vendors)))->get(), 'accenture') === 'yes')
+                    document.getElementById('rollbackSubmitButton_user_{{$useCase->id}}').addEventListener('click', (e) => {
+                        $.post('/accenture/newProjectSetUp/rollbackSubmitUseCaseVendorEvaluation', {
+                            useCaseId: {{$useCase->id}},
+                            userCredential: {{$user}}
+                        }).done(function () {
+                            location.replace("{{route('accenture.projectHome', ['project' => $project])}}")
+                        }).fail(handleAjaxError)
+                    });
+                @endif
+            @endforeach
+            @foreach ($useCase->clients($useCase->id) as $client)
+                @if(\App\VendorUseCasesEvaluation::evaluationsSubmitted($client,$useCase->id, $project->vendorsApplied()->whereIn('id', explode(',', urldecode($project->use_case_invited_vendors)))->get(), 'client') === 'yes')
+                    document.getElementById('rollbackSubmitButton_client_{{$useCase->id}}').addEventListener('click', (e) => {
+                        $.post('/accenture/newProjectSetUp/rollbackClientSubmitUseCaseVendorEvaluation', {
+                            useCaseId: {{$useCase->id}},
+                            userCredential: {{$client}}
+                        }).done(function () {
+                            location.replace("{{route('accenture.projectHome', ['project' => $project])}}")
+                        }).fail(handleAjaxError)
+                    });
+                @endif
+            @endforeach
+        @endforeach
     </script>
 @endsection
 

@@ -383,6 +383,35 @@ class ProjectController extends Controller
         ]);
     }
 
+    public function rollbackClientSubmitUseCaseVendorEvaluation(Request $request)
+    {
+        $request->validate([
+            'useCaseId' => 'required|exists:use_case,id|numeric',
+            'userCredential' => 'required|exists:user_credentials,id|numeric',
+        ]);
+
+        $evaluations = VendorUseCasesEvaluation::where('use_case_id', '=', $request->useCaseId)
+            ->where('user_credential', '=', $request->userCredential)
+            ->where('evaluation_type', '=', 'client')
+            ->get();
+        if ($evaluations == null) {
+            abort(404);
+        }
+
+        foreach ($evaluations as $evaluation) {
+            $evaluation->submitted = 'no';
+            $evaluation->save();
+        }
+
+        SecurityLog::createLog('Accenture rollback client submitted use case', 'Use cases',
+            ['useCaseId' => $request->useCaseId]);
+
+        return \response()->json([
+            'status' => 200,
+            'message' => 'Success',
+        ]);
+    }
+
     public static function calculateVendorProjectsAnalysisCacheByProjectAndSelectedUseCases($project, $selectedUseCases)
     {
         $groupedCachedEvaluations = VendorsUseCasesAnalysis::getGroupedByProjectAndVendor($project->id,
@@ -1660,6 +1689,14 @@ class ProjectController extends Controller
         $submittedVendors = $project->vendorsApplied(['submitted'])->get();
         $disqualifiedVendors = $project->vendorsApplied(['disqualified'])->get();
         $rejectedVendors = $project->vendorsApplied(['rejected'])->get();
+        $useCaseInvitedVendorsIds = array_map('intval', explode(',', urldecode($project->use_case_invited_vendors)));
+        $useCaseInvitedVendors = [];
+        foreach ($useCaseInvitedVendorsIds as $vendor) {
+          if ($vendor != 0) {
+            array_push($useCaseInvitedVendors, User::find($vendor));
+          }
+        }
+        $useCases = $project->useCases()->get();
 
         SecurityLog::createLog('Accenture accessed project home', 'Project',
             ['projectId' => $project->id, 'projectName' => $project->name]);
@@ -1673,6 +1710,8 @@ class ProjectController extends Controller
             'submittedVendors' => $submittedVendors,
             'disqualifiedVendors' => $disqualifiedVendors,
             'rejectedVendors' => $rejectedVendors,
+            'useCaseInvitedVendors' => $useCaseInvitedVendors,
+            'useCases' => $useCases
         ]);
     }
 

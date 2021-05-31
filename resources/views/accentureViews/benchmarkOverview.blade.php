@@ -51,7 +51,7 @@
                                             </select>
                                             <br>
                                             <br>
-                                            <label for="region-select">Choose a Region</label>
+                                            <label for="region-select">Choose a region</label>
                                             <select id="region-select" multiple>
                                                 @foreach ($regions as $region)
                                                     <option

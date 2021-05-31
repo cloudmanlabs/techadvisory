@@ -46,4 +46,21 @@ class UseCase extends Model
     {
         return UseCase::where('id', '=', $userCaseId);
     }
+
+    public static function clients($userCaseId)
+    {
+        return VendorUseCasesEvaluation::where('use_case_id', '=', $userCaseId)->where('evaluation_type', '=', 'client')->pluck('user_credential')->unique();
+    }
+
+    public static function users($userCaseId)
+    {
+        return VendorUseCasesEvaluation::where('use_case_id', '=', $userCaseId)->where('evaluation_type', '=', 'accenture')->pluck('user_credential')->unique();
+    }
+
+    public static function usersSubmittedPercentage($userCaseId)
+    {
+        $all = count(VendorUseCasesEvaluation::where('use_case_id', '=', $userCaseId)->pluck('user_credential')->unique());
+        $submitted = count(VendorUseCasesEvaluation::where('use_case_id', '=', $userCaseId)->where('submitted', '=', 'yes')->pluck('user_credential')->unique());
+        return round(($submitted / $all) *100, 2);
+    }
 }
