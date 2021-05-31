@@ -353,9 +353,11 @@
                                 </p>
                                 <br>
                                 <br>
+                                @if (sizeof($useCaseInvitedVendors) > 0)
                                 @foreach ($useCaseInvitedVendors as $vendor)
                                     <h4>{{$vendor->name}}</h4>
                                 @endforeach
+                                @endif
                             </div>
                         </div>
                     </div>
@@ -372,7 +374,7 @@
                                 <br>
                                 @foreach ($useCases as $useCase)
                                     <div class="d-flex mb-3" id="use_case_{{$useCase->id}}" style="cursor: pointer;">
-                                        <h4 id="{{$useCase->id}}_toggle">+</h4><h4 class="ml-3">{{$useCase->name}}</h4><h4 class="ml-5"><small>20% completado</small></h4>
+                                        <h4 id="{{$useCase->id}}_toggle">+</h4><h4 class="ml-3">{{$useCase->name}}</h4><h4 class="ml-5"><small>{{\App\UseCase::usersSubmittedPercentage($useCase->id)}}% completado</small></h4>
                                     </div>
                                     <div class="m-4" id="use_case_detail_{{$useCase->id}}" style="display: none;">
                                         @foreach ($useCase->users($useCase->id) as $user)

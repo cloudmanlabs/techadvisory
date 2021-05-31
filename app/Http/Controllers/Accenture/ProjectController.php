@@ -1692,7 +1692,9 @@ class ProjectController extends Controller
         $useCaseInvitedVendorsIds = array_map('intval', explode(',', urldecode($project->use_case_invited_vendors)));
         $useCaseInvitedVendors = [];
         foreach ($useCaseInvitedVendorsIds as $vendor) {
-          array_push($useCaseInvitedVendors, Project::find($vendor));
+          if ($vendor != 0) {
+            array_push($useCaseInvitedVendors, User::find($vendor));
+          }
         }
         $useCases = $project->useCases()->get();
 
