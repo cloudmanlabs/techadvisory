@@ -374,9 +374,13 @@
                                 <br>
                                 @foreach ($useCases as $useCase)
                                     <div class="d-flex mb-3" id="use_case_{{$useCase->id}}" style="cursor: pointer;">
-                                        <h4 id="{{$useCase->id}}_toggle">+</h4><h4 class="ml-3">{{$useCase->name}}</h4><h4 class="ml-5"><small>{{\App\UseCase::usersSubmittedPercentage($useCase->id)}}% completado</small></h4>
+                                        <h4 id="{{$useCase->id}}_toggle">+</h4><h4 class="ml-3">{{$useCase->name}}</h4>
+                                        @if(count(VendorUseCasesEvaluation::where('use_case_id', '=', $userCaseId)->pluck('user_credential')->unique()) > 0)
+                                        <h4 class="ml-5"><small>{{\App\UseCase::usersSubmittedPercentage($useCase->id)}}% completado</small></h4>
+                                        @endif
                                     </div>
                                     <div class="m-4" id="use_case_detail_{{$useCase->id}}" style="display: none;">
+                                        @if(count($useCase->users($useCase->id)) > 0)
                                         @foreach ($useCase->users($useCase->id) as $user)
                                             <div class="d-flex m-5">
                                                 <h4>{{\App\User::find($user)->name}}</h4>
@@ -389,6 +393,8 @@
                                                 @endif
                                             </div>
                                         @endforeach
+                                        @endif
+                                        @if(count($useCase->clients($useCase->id)) > 0)
                                         @foreach ($useCase->clients($useCase->id) as $client)
                                             <div class="d-flex m-5">
                                                 <h4>{{\App\UserCredential::find($client)->name}}</h4>
@@ -401,6 +407,7 @@
                                                 @endif
                                             </div>
                                         @endforeach
+                                        @endif
                                     </div>
                                 @endforeach
                             </div>
@@ -483,6 +490,7 @@
                     document.getElementById('{{$useCase->id}}_toggle').innerHTML = '-';
                 }
             });
+            @if(count($useCase->users($useCase->id)) > 0)
             @foreach ($useCase->users($useCase->id) as $user)
                 @if(\App\VendorUseCasesEvaluation::evaluationsSubmitted($user,$useCase->id, $project->vendorsApplied()->whereIn('id', explode(',', urldecode($project->use_case_invited_vendors)))->get(), 'accenture') === 'yes')
                     document.getElementById('rollbackSubmitButton_user_{{$useCase->id}}').addEventListener('click', (e) => {
@@ -495,6 +503,8 @@
                     });
                 @endif
             @endforeach
+            @endif
+            @if(count($useCase->clients($useCase->id)) > 0)
             @foreach ($useCase->clients($useCase->id) as $client)
                 @if(\App\VendorUseCasesEvaluation::evaluationsSubmitted($client,$useCase->id, $project->vendorsApplied()->whereIn('id', explode(',', urldecode($project->use_case_invited_vendors)))->get(), 'client') === 'yes')
                     document.getElementById('rollbackSubmitButton_client_{{$useCase->id}}').addEventListener('click', (e) => {
@@ -507,8 +517,7 @@
                     });
                 @endif
             @endforeach
+            @endif
         @endforeach
     </script>
 @endsection
-
-
