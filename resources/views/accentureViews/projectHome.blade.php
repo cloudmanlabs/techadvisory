@@ -375,7 +375,7 @@
                                 @foreach ($useCases as $useCase)
                                     <div class="d-flex mb-3" id="use_case_{{$useCase->id}}" style="cursor: pointer;">
                                         <h4 id="{{$useCase->id}}_toggle">+</h4><h4 class="ml-3">{{$useCase->name}}</h4>
-                                        @if(count(VendorUseCasesEvaluation::where('use_case_id', '=', $userCaseId)->pluck('user_credential')->unique()) > 0)
+                                        @if(count(\App\VendorUseCasesEvaluation::where('use_case_id', '=', $useCase->id)->pluck('user_credential')->unique()) > 0)
                                         <h4 class="ml-5"><small>{{\App\UseCase::usersSubmittedPercentage($useCase->id)}}% completado</small></h4>
                                         @endif
                                     </div>
