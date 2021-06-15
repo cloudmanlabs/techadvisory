@@ -2,21 +2,12 @@
 
 @php
 
-    $level1s = $project->fitgapLevelWeights()->get();
-    $weightValues = [];
-    if ($project->fitgapLevelWeights()->sum('weight') == 0) {
-      foreach ($level1s as $key => $level) {
-        if ($key == 0) {
-          array_push($weightValues, 20);
-        } else {
-          array_push($weightValues, 0);
-        }
-      }
-    } else {
-      foreach ($level1s as $key => $level) {
-        array_push($weightValues, $level->weight / 5);
-      }
-    }
+    $weightValues = [
+        isset($project->fitgapFunctionalWeight) ? $project->fitgapFunctionalWeight / 5 : 5,
+        isset($project->fitgapTechnicalWeight) ? $project->fitgapTechnicalWeight / 5 : 5,
+        isset($project->fitgapServiceWeight) ? $project->fitgapServiceWeight / 5 : 5,
+        isset($project->fitgapOthersWeight) ? $project->fitgapOthersWeight / 5 : 5
+    ];
 
     $weightDataId = 0;
 
@@ -48,23 +39,69 @@
             </thead>
 
             <tbody>
-                @foreach($level1s as $key => $el)
-                  <tr>
-                      <td>{{$key+1}}. {{$el->name}}*</td>
-                      <td>
-                          <ul id="{{$el->name}}Bricks" class="brickList">
-                              @for ($i = 0; $i < $weightValues[$key]; $i++)
-                              <li data-id="{{$weightDataId++}}">
-                                  5%
-                              </li>
-                              @endfor
-                          </ul>
-                      </td>
-                      <td id="{{$el->name}}Total">
-                          {{$weightValues[$key] * 5}}%
-                      </td>
-                  </tr>
-                @endforeach
+                <tr>
+                    <td>1. Functional*</td>
+                    <td>
+                        <ul id="functionalBricks" class="brickList">
+                            @for ($i = 0; $i < $weightValues[0]; $i++)
+                            <li data-id="{{$weightDataId++}}" style="cursor: default">
+                                5%
+                            </li>
+                            @endfor
+                        </ul>
+                    </td>
+                    <td id="functionalTotal">
+                        {{$weightValues[0] * 5}}%
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>2. Technical*</td>
+                    <td>
+                        <ul id="technicalBricks" class="brickList">
+                            @for ($i = 0; $i < $weightValues[1]; $i++)
+                            <li data-id="{{$weightDataId++}}" style="cursor: default">
+                                5%
+                            </li>
+                            @endfor
+                        </ul>
+                    </td>
+                    <td id="technicalTotal">
+                        {{$weightValues[1] * 5}}%
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>3. Service*</td>
+                    <td>
+                        <ul id="serviceBricks" class="brickList">
+                            @for ($i = 0; $i < $weightValues[2]; $i++)
+                            <li data-id="{{$weightDataId++}}" style="cursor: default">
+                                5%
+                            </li>
+                            @endfor
+                        </ul>
+                    </td>
+                    <td id="serviceTotal">
+                        {{$weightValues[2] * 5}}%
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>4. Others*</td>
+                    <td>
+                        <ul id="othersBricks" class="brickList">
+                            @for ($i = 0; $i < $weightValues[3]; $i++)
+                            <li data-id="{{$weightDataId++}}" style="cursor: default">
+                                5%
+                            </li>
+                            @endfor
+                        </ul>
+                    </td>
+                    <td id="othersTotal">
+                        {{$weightValues[3] * 5}}%
+                    </td>
+                </tr>
             </tbody>
         </table>
     </div>

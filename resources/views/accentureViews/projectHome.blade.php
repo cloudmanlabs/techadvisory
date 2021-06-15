@@ -40,7 +40,7 @@
             <div class="page-content">
                 <x-accenture.projectNavbar section="projectHome" :project="$project"/>
                 <br>
-                <h3 class="p-3">RFP</h3>
+                {{-- <h3 class="p-3">RFP</h3> --}}
                 <div class="row">
                     <div class="col-lg-12 grid-margin stretch-card">
                         <div class="card">
@@ -342,8 +342,8 @@
                         </div>
                     </div>
                 </div>
-                <h3 class="p-3">USE CASES</h3>
-                <div class="row">
+                {{-- <h3 class="p-3">USE CASES</h3> --}}
+                {{-- <div class="row">
                     <div class="col-lg-12 grid-margin stretch-card">
                         <div class="card">
                             <div class="card-body">
@@ -361,8 +361,8 @@
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="row">
+                </div> --}}
+                {{--<div class="row">
                     <div class="col-lg-12 grid-margin stretch-card">
                         <div class="card">
                             <div class="card-body">
@@ -413,7 +413,7 @@
                             </div>
                         </div>
                     </div>
-                </div>
+                </div>--}}
 
                 <x-deadline :project="$project"/>
             </div>
@@ -480,44 +480,5 @@
                 handleAjaxError()
             })
         });
-        @foreach ($useCases as $useCase)
-            document.getElementById('use_case_{{$useCase->id}}').addEventListener('click', (e) => {
-                if (document.getElementById('use_case_detail_{{$useCase->id}}').style.display == 'block') {
-                    document.getElementById('use_case_detail_{{$useCase->id}}').style.display = 'none';
-                    document.getElementById('{{$useCase->id}}_toggle').innerHTML = '+';
-                } else {
-                    document.getElementById('use_case_detail_{{$useCase->id}}').style.display = 'block';
-                    document.getElementById('{{$useCase->id}}_toggle').innerHTML = '-';
-                }
-            });
-            @if(count($useCase->users($useCase->id)) > 0)
-            @foreach ($useCase->users($useCase->id) as $user)
-                @if(\App\VendorUseCasesEvaluation::evaluationsSubmitted($user,$useCase->id, $project->vendorsApplied()->whereIn('id', explode(',', urldecode($project->use_case_invited_vendors)))->get(), 'accenture') === 'yes')
-                    document.getElementById('rollbackSubmitButton_user_{{$useCase->id}}').addEventListener('click', (e) => {
-                        $.post('/accenture/newProjectSetUp/rollbackSubmitUseCaseVendorEvaluation', {
-                            useCaseId: {{$useCase->id}},
-                            userCredential: {{$user}}
-                        }).done(function () {
-                            location.replace("{{route('accenture.projectHome', ['project' => $project])}}")
-                        }).fail(handleAjaxError)
-                    });
-                @endif
-            @endforeach
-            @endif
-            @if(count($useCase->clients($useCase->id)) > 0)
-            @foreach ($useCase->clients($useCase->id) as $client)
-                @if(\App\VendorUseCasesEvaluation::evaluationsSubmitted($client,$useCase->id, $project->vendorsApplied()->whereIn('id', explode(',', urldecode($project->use_case_invited_vendors)))->get(), 'client') === 'yes')
-                    document.getElementById('rollbackSubmitButton_client_{{$useCase->id}}').addEventListener('click', (e) => {
-                        $.post('/accenture/newProjectSetUp/rollbackClientSubmitUseCaseVendorEvaluation', {
-                            useCaseId: {{$useCase->id}},
-                            userCredential: {{$client}}
-                        }).done(function () {
-                            location.replace("{{route('accenture.projectHome', ['project' => $project])}}")
-                        }).fail(handleAjaxError)
-                    });
-                @endif
-            @endforeach
-            @endif
-        @endforeach
     </script>
 @endsection
